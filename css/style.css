@@ -1264,12 +1264,22 @@ img {
 
 .testimonial-card {
   min-height: 300px;
-  display: flex;
-  flex-direction: column;
   border: 1px solid var(--border);
   border-radius: var(--radius-medium);
-  padding: 27px;
+  padding: 0;
   background: var(--surface);
+  overflow: hidden;
+}.testimonial-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.45s ease;
+}
+
+.testimonial-card:hover .testimonial-image {
+  transform: scale(1.03);
 }
 
 .testimonial-stars {
@@ -3314,8 +3324,6 @@ video {
    FONDO ANIMADO PREMIUM DE CRECIMIENTO
 ================================================== */
 
-/* FONDO ANIMADO PREMIUM */
-
 #growth-canvas {
   position: absolute;
   inset: 0;
@@ -3323,21 +3331,15 @@ video {
   width: 100%;
   height: 100%;
 
-  display: block;
-
   z-index: 2;
   pointer-events: none;
 
-  opacity: 0.46;
+  opacity: 0.10;
   mix-blend-mode: screen;
-}
-
-.page-background {
+}.page-background {
   position: fixed;
   inset: 0;
-
   z-index: -1;
-
   overflow: hidden;
   pointer-events: none;
 }
@@ -3348,14 +3350,16 @@ video {
   z-index: 1;
 }
 
+/* En celular, más suave */
 @media (max-width: 650px) {
   #growth-canvas {
-    opacity: 0.26;
+    opacity: 0.06;
   }
 }
 
+/* Reduce movimiento si el dispositivo lo solicita */
 @media (prefers-reduced-motion: reduce) {
   #growth-canvas {
-    opacity: 0.22;
+    display: none;
   }
 }
