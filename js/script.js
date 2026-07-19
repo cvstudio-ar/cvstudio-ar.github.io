@@ -162,4 +162,50 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeMenu();
   }
+});/* PORTFOLIO LIGHTBOX */
+
+const portfolioButtons = document.querySelectorAll(".portfolio-button");
+const portfolioLightbox = document.querySelector("#portfolio-lightbox");
+const lightboxImage = document.querySelector(".lightbox-image");
+const lightboxTitle = document.querySelector(".lightbox-title");
+const lightboxClose = document.querySelector(".lightbox-close");
+
+portfolioButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!portfolioLightbox) return;
+
+    lightboxImage.src = button.dataset.image;
+    lightboxImage.alt = button.dataset.title;
+    lightboxTitle.textContent = button.dataset.title;
+
+    portfolioLightbox.classList.add("is-open");
+    portfolioLightbox.setAttribute("aria-hidden", "false");
+    document.body.classList.add("menu-open");
+  });
+});
+
+function closePortfolioLightbox() {
+  if (!portfolioLightbox) return;
+
+  portfolioLightbox.classList.remove("is-open");
+  portfolioLightbox.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("menu-open");
+}
+
+if (lightboxClose) {
+  lightboxClose.addEventListener("click", closePortfolioLightbox);
+}
+
+if (portfolioLightbox) {
+  portfolioLightbox.addEventListener("click", (event) => {
+    if (event.target === portfolioLightbox) {
+      closePortfolioLightbox();
+    }
+  });
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closePortfolioLightbox();
+  }
 });
