@@ -3220,4 +3220,94 @@ video {
     right: auto !important;
     margin-left: 12px;
   }
+}/* FONDO ANIMADO SUAVE TIPO GRÁFICA */
+
+.page-background::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(111, 92, 255, 0.025) 45%,
+      rgba(43, 220, 200, 0.035) 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 80px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.014) 0,
+      rgba(255, 255, 255, 0.014) 1px,
+      transparent 1px,
+      transparent 70px
+    );
+
+  opacity: 0.75;
+}
+
+/* Líneas curvas en movimiento */
+.page-background::before {
+  content: "";
+  position: fixed;
+  width: 140%;
+  height: 140%;
+  left: -20%;
+  top: -20%;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(111, 92, 255, 0.12),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(43, 220, 200, 0.1),
+      transparent 30%
+    );
+
+  filter: blur(35px);
+  animation: backgroundMarketMove 18s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundMarketMove {
+  0% {
+    transform: translate3d(-2%, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(2%, -1%, 0) scale(1.03);
+  }
+
+  100% {
+    transform: translate3d(0, 2%, 0) scale(1.01);
+  }
+}/* Evita movimiento excesivo en celular */
+@media (max-width: 650px) {
+  .page-background::before {
+    animation-duration: 28s;
+    opacity: 0.5;
+  }
+
+  .page-background::after {
+    opacity: 0.45;
+  }
+}
+
+/* Respeta usuarios con animaciones reducidas */
+@media (prefers-reduced-motion: reduce) {
+  .page-background::before {
+    animation: none;
+  }
 }
