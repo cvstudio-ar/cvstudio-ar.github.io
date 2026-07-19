@@ -2345,4 +2345,68 @@ img {
 
 .project-card:hover .project-image {
   transform: scale(1.05);
+}/* CORRECCIÓN DEFINITIVA DE ICONOS DE CONTACTO */
+
+.contact-option {
+  display: grid !important;
+  grid-template-columns: 38px minmax(0, 1fr) 18px !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-height: 66px !important;
+  padding: 10px 12px !important;
+}
+
+.contact-option .contact-icon {
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+
+  display: grid !important;
+  place-items: center !important;
+  overflow: hidden !important;
+  border-radius: 11px !important;
+  flex: none !important;
+}
+
+.contact-option .contact-icon svg {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+
+  display: block !important;
+  position: static !important;
+  transform: none !important;
+}
+
+.contact-option .contact-icon svg path {
+  transform: none !important;
+}
+
+.contact-option-text {
+  min-width: 0 !important;
+}
+
+.contact-option-text small {
+  font-size: 8px !important;
+}
+
+.contact-option-text strong {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+.contact-arrow {
+  font-size: 13px !important;
+}
+
+@media (max-width: 650px) {
+  .contact-option {
+    grid-template-columns: 36px minmax(0, 1fr) 18px !important;
+  }
 }
