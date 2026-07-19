@@ -2878,4 +2878,95 @@ video {
 .project-flyer + .project-content h3 {
   margin: 0 !important;
   line-height: 1.1 !important;
+}/* FLYER CON EL MISMO ESTILO DE CV Y LOGO */
+
+.project-card:has(.project-flyer) {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-large);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+}
+
+.project-flyer {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  aspect-ratio: 16 / 10 !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+  background: #0f172a !important;
+}
+
+.project-flyer .project-image {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: none !important;
+  transition: transform 0.4s ease !important;
+}
+
+.project-card:hover .project-flyer .project-image {
+  transform: scale(1.025) !important;
+}
+
+.project-flyer .project-category {
+  position: absolute !important;
+  top: 18px !important;
+  left: 18px !important;
+  bottom: auto !important;
+  z-index: 3 !important;
+}
+
+.project-flyer + .project-content {
+  position: static !important;
+  width: 100% !important;
+  min-height: 112px !important;
+  margin: 0 !important;
+  padding: 24px 28px !important;
+  background: var(--surface) !important;
+  border-top: 1px solid var(--border) !important;
+  display: grid !important;
+  align-items: center !important;
+  z-index: 1 !important;
+}
+
+.project-flyer + .project-content > div {
+  width: 100% !important;
+}
+
+.project-flyer + .project-content span {
+  display: block !important;
+  margin-bottom: 8px !important;
+}
+
+.project-flyer + .project-content h3 {
+  margin: 0 !important;
+  font-size: 24px !important;
+  line-height: 1.1 !important;
+}
+
+@media (max-width: 900px) {
+  .project-flyer {
+    aspect-ratio: 4 / 3 !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .project-flyer {
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  .project-flyer + .project-content {
+    min-height: 96px !important;
+    padding: 20px 22px !important;
+  }
+
+  .project-flyer + .project-content h3 {
+    font-size: 21px !important;
+  }
 }
