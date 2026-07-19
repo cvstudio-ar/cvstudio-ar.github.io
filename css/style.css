@@ -2417,4 +2417,359 @@ img {
 
 .project-card:hover .logo-image{
     transform:scale(1.03);
+}/* ==================================================
+   CORRECCIÓN RESPONSIVE DEFINITIVA PARA CELULARES
+================================================== */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+/* TABLET Y CELULAR */
+@media (max-width: 900px) {
+
+  /* Encabezado */
+  .header-container {
+    width: min(calc(100% - 32px), var(--container));
+    min-height: 72px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .menu-button {
+    display: grid !important;
+    place-items: center;
+    position: relative;
+    z-index: 1002;
+  }
+
+  .navigation {
+    position: fixed !important;
+    top: 72px;
+    left: 16px;
+    right: 16px;
+
+    width: auto !important;
+    max-height: calc(100vh - 92px);
+
+    display: none !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 4px !important;
+
+    padding: 18px;
+    overflow-y: auto;
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: rgba(11, 16, 32, 0.98);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(18px);
+
+    z-index: 1000;
+  }
+
+  .navigation.is-open {
+    display: flex !important;
+  }
+
+  .navigation a {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 12px;
+  }
+
+  .header-button {
+    display: none !important;
+  }
+
+  /* Portada */
+  .hero {
+    min-height: auto !important;
+    padding: 110px 0 70px !important;
+  }
+
+  .hero-container {
+    width: min(calc(100% - 32px), var(--container));
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+
+  .hero-content,
+  .hero-visual {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .hero-content h1 {
+    max-width: 100% !important;
+    font-size: clamp(44px, 11vw, 70px) !important;
+    line-height: 0.98 !important;
+    overflow-wrap: break-word;
+  }
+
+  .hero-description {
+    max-width: 100% !important;
+    font-size: 17px !important;
+    line-height: 1.7 !important;
+  }
+
+  .hero-actions {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .hero-actions .button {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center;
+  }
+
+  .hero-features {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .hero-visual {
+    display: block !important;
+    min-height: auto !important;
+  }
+
+  .featured-card {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  .floating-badge,
+  .visual-orbit {
+    display: none !important;
+  }
+
+  .format-list > div {
+    grid-template-columns: 85px minmax(0, 1fr) !important;
+    gap: 14px !important;
+  }
+
+  .format-list span {
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  /* Títulos de secciones */
+  .section {
+    padding: 78px 0 !important;
+  }
+
+  .section-container,
+  .contact-card,
+  .footer-container,
+  .footer-bottom {
+    width: min(calc(100% - 32px), var(--container)) !important;
+  }
+
+  .section-heading {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+  }
+
+  .section-heading h2,
+  .benefits-content h2,
+  .faq-introduction h2,
+  .contact-content h2 {
+    max-width: 100% !important;
+    font-size: clamp(36px, 9vw, 58px) !important;
+    line-height: 1.02 !important;
+    overflow-wrap: break-word;
+  }
+
+  .section-heading > p {
+    max-width: 100% !important;
+  }
+
+  /* Servicios */
+  .services-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .service-card {
+    min-height: auto !important;
+    padding: 28px !important;
+  }
+
+  /* Portfolio */
+  .portfolio-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .project-large {
+    grid-row: auto !important;
+  }
+
+  .project-preview,
+  .project-large .project-preview {
+    width: 100% !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .project-image,
+  .logo-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .project-content {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Estadísticas, proceso y beneficios */
+  .statistics-grid,
+  .benefits-container,
+  .benefits-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .process-item {
+    grid-template-columns: 54px minmax(0, 1fr) !important;
+    gap: 18px !important;
+  }
+
+  /* Preguntas */
+  .faq-container {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  /* Contacto */
+  .contact-card {
+    grid-template-columns: 1fr !important;
+    gap: 36px !important;
+    padding: 30px 22px !important;
+  }
+
+  .contact-options {
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-option {
+    width: 100% !important;
+    min-width: 0 !important;
+    grid-template-columns: 38px minmax(0, 1fr) 18px !important;
+  }
+
+  .contact-option-text strong {
+    overflow-wrap: anywhere;
+  }
+
+  /* Pie */
+  .footer-container {
+    grid-template-columns: 1fr !important;
+    gap: 38px !important;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 28px !important;
+  }
+
+  .footer-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+}
+
+/* CELULARES PEQUEÑOS */
+@media (max-width: 520px) {
+
+  .header-container,
+  .hero-container,
+  .section-container,
+  .contact-card,
+  .footer-container,
+  .footer-bottom {
+    width: min(calc(100% - 24px), var(--container)) !important;
+  }
+
+  .logo {
+    font-size: 22px !important;
+  }
+
+  .hero {
+    padding-top: 96px !important;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(40px, 12vw, 56px) !important;
+  }
+
+  .featured-card {
+    padding: 26px 20px !important;
+    border-radius: 22px !important;
+  }
+
+  .featured-card h2 {
+    font-size: 34px !important;
+  }
+
+  .format-list > div {
+    grid-template-columns: 72px minmax(0, 1fr) !important;
+  }
+
+  .category-track {
+    width: max-content;
+  }
+
+  .service-card,
+  .benefit-card,
+  .testimonial-card {
+    padding: 24px !important;
+  }
+
+  .project-preview,
+  .project-large .project-preview {
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  .project-content {
+    padding: 22px !important;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr !important;
+  }
+
+  .floating-whatsapp {
+    right: 14px !important;
+    bottom: 14px !important;
+  }
+
+  .floating-whatsapp .whatsapp-text {
+    display: none !important;
+  }
 }
