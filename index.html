@@ -2,6 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0"
@@ -9,8 +10,10 @@
 
     <meta
       name="description"
-      content="CVStudio Argentina: diseño de currículums profesionales, cartas de presentación, logos, flyers, banners, reels y contenido para redes sociales."
+      content="CVStudio Argentina: currículums profesionales, cartas de presentación, CV Web, logos, flyers, banners, reels y contenido para redes sociales."
     />
+
+    <meta name="theme-color" content="#0d1524" />
 
     <title>CVStudio Argentina | Diseño profesional</title>
 
@@ -18,32 +21,35 @@
   </head>
 
   <body>
+    <!-- ENCABEZADO -->
     <header class="header">
-      <a href="#" class="logo">
+      <a href="#inicio" class="logo" aria-label="Ir al inicio">
         <span>CV</span>Studio
       </a>
 
-<button
-  class="menu-button"
-  type="button"
-  aria-label="Abrir menú"
-  aria-expanded="false"
->
-  <span></span>
-  <span></span>
-  <span></span>
-</button>
+      <button
+        class="menu-button"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="main-navigation"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-      <nav class="navigation">
+      <nav class="navigation" id="main-navigation">
         <a href="#inicio">Inicio</a>
         <a href="#servicios">Servicios</a>
+        <a href="#portfolio">Portfolio</a>
         <a href="#proceso">Cómo trabajamos</a>
         <a href="#contacto">Contacto</a>
       </nav>
 
       <a
         class="header-button"
-        href="https://wa.me/5492964652318"
+        href="https://wa.me/5492964652318?text=Hola%20CVStudio,%20quiero%20solicitar%20un%20presupuesto."
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -52,6 +58,7 @@
     </header>
 
     <main>
+      <!-- PORTADA -->
       <section class="hero" id="inicio">
         <div class="hero-content">
           <span class="eyebrow">DISEÑO DIGITAL PROFESIONAL</span>
@@ -89,7 +96,7 @@
           </div>
         </div>
 
-        <div class="hero-card">
+        <article class="hero-card">
           <div class="card-label">SERVICIO DESTACADO</div>
 
           <h2>CV Profesional</h2>
@@ -123,13 +130,16 @@
           >
             Consultar servicio →
           </a>
-        </div>
+        </article>
       </section>
 
-      <section class="services" id="servicios">
+      <!-- SERVICIOS -->
+      <section class="services reveal" id="servicios">
         <div class="section-heading">
           <span>NUESTROS SERVICIOS</span>
+
           <h2>Todo lo que necesitás para potenciar tu imagen</h2>
+
           <p>
             Soluciones visuales para personas, emprendimientos y negocios.
           </p>
@@ -149,8 +159,8 @@
             <span class="service-number">02</span>
             <h3>Actualización de CV</h3>
             <p>
-              Renovamos contenido, estructura y diseño de currículums
-              antiguos.
+              Renovamos el contenido, la estructura y el diseño de
+              currículums antiguos.
             </p>
           </article>
 
@@ -166,8 +176,8 @@
             <span class="service-number">04</span>
             <h3>CV Web y QR</h3>
             <p>
-              Una versión online del currículum con enlace personalizado y
-              código QR.
+              Versión online del currículum con enlace personalizado,
+              descarga en PDF y código QR.
             </p>
           </article>
 
@@ -191,70 +201,72 @@
         </div>
       </section>
 
+      <!-- PORTFOLIO -->
       <section class="portfolio reveal" id="portfolio">
-  <div class="section-heading">
-    <span>TRABAJOS REALIZADOS</span>
+        <div class="section-heading">
+          <span>TRABAJOS REALIZADOS</span>
 
-    <h2>Diseños creados para destacar y comunicar mejor</h2>
+          <h2>Diseños creados para destacar y comunicar mejor</h2>
 
-    <p>
-      Una selección de currículums, identidades visuales y contenido digital
-      desarrollado por CVStudio Argentina.
-    </p>
-  </div>
+          <p>
+            Una selección de currículums, identidades visuales y contenido
+            digital desarrollado por CVStudio Argentina.
+          </p>
+        </div>
 
-  <div class="portfolio-grid">
-    <article class="portfolio-card portfolio-featured">
-      <div class="portfolio-placeholder">
-        <span>CV</span>
-      </div>
+        <div class="portfolio-grid">
+          <article class="portfolio-card portfolio-featured">
+            <div class="portfolio-placeholder portfolio-cv">
+              <span>CV</span>
+            </div>
 
-      <div class="portfolio-information">
-        <span>CURRÍCULUM PROFESIONAL</span>
-        <h3>Diseño moderno y personalizado</h3>
-        <p>
-          Estructura clara, perfil profesional y presentación preparada para
-          postulaciones laborales.
-        </p>
-      </div>
-    </article>
+            <div class="portfolio-information">
+              <span>CURRÍCULUM PROFESIONAL</span>
+              <h3>Diseño moderno y personalizado</h3>
+              <p>
+                Estructura clara, perfil profesional y presentación
+                preparada para postulaciones laborales.
+              </p>
+            </div>
+          </article>
 
-    <article class="portfolio-card">
-      <div class="portfolio-placeholder">
-        <span>LOGO</span>
-      </div>
+          <article class="portfolio-card">
+            <div class="portfolio-placeholder portfolio-logo">
+              <span>LOGO</span>
+            </div>
 
-      <div class="portfolio-information">
-        <span>IDENTIDAD VISUAL</span>
-        <h3>Logos para marcas</h3>
-      </div>
-    </article>
+            <div class="portfolio-information">
+              <span>IDENTIDAD VISUAL</span>
+              <h3>Logos para marcas</h3>
+            </div>
+          </article>
 
-    <article class="portfolio-card">
-      <div class="portfolio-placeholder">
-        <span>FLYER</span>
-      </div>
+          <article class="portfolio-card">
+            <div class="portfolio-placeholder portfolio-flyer">
+              <span>FLYER</span>
+            </div>
 
-      <div class="portfolio-information">
-        <span>PUBLICIDAD DIGITAL</span>
-        <h3>Flyers promocionales</h3>
-      </div>
-    </article>
+            <div class="portfolio-information">
+              <span>PUBLICIDAD DIGITAL</span>
+              <h3>Flyers promocionales</h3>
+            </div>
+          </article>
 
-    <article class="portfolio-card">
-      <div class="portfolio-placeholder">
-        <span>REDES</span>
-      </div>
+          <article class="portfolio-card">
+            <div class="portfolio-placeholder portfolio-social">
+              <span>REDES</span>
+            </div>
 
-      <div class="portfolio-information">
-        <span>CONTENIDO DIGITAL</span>
-        <h3>Diseños para redes sociales</h3>
-      </div>
-    </article>
-  </div>
-</section>
+            <div class="portfolio-information">
+              <span>CONTENIDO DIGITAL</span>
+              <h3>Diseños para redes sociales</h3>
+            </div>
+          </article>
+        </div>
+      </section>
 
-      <section class="process" id="proceso">
+      <!-- PROCESO -->
+      <section class="process reveal" id="proceso">
         <div class="section-heading">
           <span>PROCESO DE TRABAJO</span>
           <h2>Simple, rápido y personalizado</h2>
@@ -264,30 +276,39 @@
           <article>
             <strong>01</strong>
             <h3>Nos contactás</h3>
-            <p>Nos contás qué servicio necesitás y cuál es tu objetivo.</p>
+            <p>
+              Nos contás qué servicio necesitás y cuál es tu objetivo.
+            </p>
           </article>
 
           <article>
             <strong>02</strong>
             <h3>Enviás la información</h3>
-            <p>Recibimos tus datos, textos, imágenes o archivos anteriores.</p>
+            <p>
+              Recibimos tus datos, textos, imágenes o archivos anteriores.
+            </p>
           </article>
 
           <article>
             <strong>03</strong>
             <h3>Diseñamos</h3>
-            <p>Desarrollamos una propuesta profesional y personalizada.</p>
+            <p>
+              Desarrollamos una propuesta profesional y personalizada.
+            </p>
           </article>
 
           <article>
             <strong>04</strong>
             <h3>Recibís tus archivos</h3>
-            <p>Entregamos todo organizado y listo para publicar o enviar.</p>
+            <p>
+              Entregamos todo organizado y listo para publicar o enviar.
+            </p>
           </article>
         </div>
       </section>
 
-      <section class="contact" id="contacto">
+      <!-- CONTACTO -->
+      <section class="contact reveal" id="contacto">
         <div>
           <span>¿EMPEZAMOS?</span>
           <h2>Transformemos tu idea en una imagen profesional.</h2>
@@ -303,22 +324,28 @@
       </section>
     </main>
 
+    <!-- PIE DE PÁGINA -->
     <footer>
-      <a href="#" class="logo"><span>CV</span>Studio</a>
+      <a href="#inicio" class="logo">
+        <span>CV</span>Studio
+      </a>
 
       <p>Diseño profesional para personas, marcas y negocios.</p>
 
-      <p>© 2026 CVStudio Argentina</p>
+      <p>© <span id="current-year"></span> CVStudio Argentina</p>
     </footer>
 
+    <!-- BOTÓN FLOTANTE -->
     <a
       class="floating-whatsapp"
-      href="https://wa.me/5492964652318"
+      href="https://wa.me/5492964652318?text=Hola%20CVStudio,%20quiero%20hacer%20una%20consulta."
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
     >
       WhatsApp
     </a>
+
+    <script src="js/script.js"></script>
   </body>
 </html>
