@@ -3168,4 +3168,31 @@ video {
   .project-social + .project-content h3 {
     font-size: 20px !important;
   }
+}...
+}
+
+ /* AQUÍ PEGÁS EL CÓDIGO NUEVO */
+
+.project-picture{
+    width:100%;
+    height:100%;
+    display:block;
+}
+
+.project-picture img{
+    width:100%;
+    height:100%;
+}
+
+@media (max-width:650px){
+
+.project-cv{
+    aspect-ratio:0.72;
+}
+
+.project-cv .project-image{
+    object-fit:contain !important;
+    object-position:center top !important;
+}
+
 }
