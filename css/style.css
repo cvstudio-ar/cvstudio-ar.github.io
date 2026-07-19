@@ -3382,4 +3382,42 @@ video {
   #growth-canvas {
     display: none;
   }
+}/* =========================================
+   CORRECCIÓN DEFINITIVA TESTIMONIOS MÓVIL
+========================================= */
+
+@media (max-width: 650px) {
+  .testimonials-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    width: 100% !important;
+  }
+
+  .testimonial-card {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 3 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    overflow: hidden !important;
+    border-radius: 24px !important;
+  }
+
+  .testimonial-card .testimonial-image {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: inherit !important;
+  }
 }
