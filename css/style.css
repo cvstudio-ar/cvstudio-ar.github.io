@@ -3168,8 +3168,8 @@ video {
   .project-social + .project-content h3 {
     font-size: 20px !important;
   }
-}...
 }
+
 
  /* AQUÍ PEGÁS EL CÓDIGO NUEVO */
 
@@ -3195,4 +3195,29 @@ video {
     object-position:center top !important;
 }
 
+}/* CORRECCIÓN DE ETIQUETAS FLOTANTES EN PC */
+@media (min-width: 901px) {
+  .hero-visual {
+    position: relative;
+    padding-bottom: 95px;
+  }
+
+  .floating-badge {
+    top: auto !important;
+    bottom: 10px !important;
+    transform: none !important;
+    z-index: 4;
+  }
+
+  .badge-one {
+    right: 50% !important;
+    left: auto !important;
+    margin-right: 12px;
+  }
+
+  .badge-two {
+    left: 50% !important;
+    right: auto !important;
+    margin-left: 12px;
+  }
 }
