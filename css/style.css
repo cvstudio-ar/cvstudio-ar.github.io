@@ -3310,4 +3310,46 @@ video {
   .page-background::before {
     animation: none;
   }
+}/* ==================================================
+   FONDO ANIMADO PREMIUM DE CRECIMIENTO
+================================================== */
+
+#growth-canvas {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 2;
+  pointer-events: none;
+
+  opacity: 0.75;
+  mix-blend-mode: screen;
+}.page-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.background-light,
+.background-grid {
+  position: absolute;
+  z-index: 1;
+}
+
+/* En celular, más suave */
+@media (max-width: 650px) {
+  #growth-canvas {
+    opacity: 0.16;
+  }
+}
+
+/* Reduce movimiento si el dispositivo lo solicita */
+@media (prefers-reduced-motion: reduce) {
+  #growth-canvas {
+    display: none;
+  }
 }
