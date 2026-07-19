@@ -212,31 +212,36 @@ document.addEventListener("keydown", (event) => {
    GRÁFICA ANIMADA DE CRECIMIENTO
 ================================================== */
 
+/* =========================================================
+   FONDO PREMIUM ANIMADO — CRECIMIENTO Y RESULTADOS
+========================================================= */
+
 (() => {
   const canvas = document.getElementById("growth-canvas");
 
   if (!canvas) return;
 
-  const context = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d");
 
-  if (!context) return;
+  if (!ctx) return;
 
-  let width = 0;
-  let height = 0;
-  let animationFrame = 0;
-  let time = 0;
-
-  const reduceMotion = window.matchMedia(
+  const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
-  if (reduceMotion) return;
+  let width = 0;
+  let height = 0;
+  let pixelRatio = 1;
+  let animationFrame = null;
+  let time = 0;
+
+  const isMobile = () => window.innerWidth <= 650;
 
   function resizeCanvas() {
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-
     width = window.innerWidth;
     height = window.innerHeight;
+
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
 
     canvas.width = Math.floor(width * pixelRatio);
     canvas.height = Math.floor(height * pixelRatio);
@@ -244,123 +249,187 @@ document.addEventListener("keydown", (event) => {
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
   }
 
   function drawGrid() {
-    const gridSize = width < 650 ? 70 : 90;
+    const gridSize = isMobile() ? 72 : 88;
 
-    context.save();
-    context.strokeStyle = "rgba(255, 255, 255, 0.025)";
-    context.lineWidth = 1;
+    ctx.save();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "rgba(255,255,255,0.018)";
 
     for (let x = 0; x <= width; x += gridSize) {
-      context.beginPath();
-      context.moveTo(x, 0);
-      context.lineTo(x, height);
-      context.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
     }
 
     for (let y = 0; y <= height; y += gridSize) {
-      context.beginPath();
-      context.moveTo(0, y);
-      context.lineTo(width, y);
-      context.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
     }
 
-    context.restore();
+    ctx.restore();
   }
 
-  function createPoints() {
-    const numberOfPoints = width < 650 ? 8 : 13;
+  function buildGrowthPoints(config) {
+    const total = isMobile() ? 8 : 14;
     const points = [];
 
-    for (let index = 0; index < numberOfPoints; index += 1) {
-      const progress = index / (numberOfPoints - 1);
+    for (let index = 0; index < total; index += 1) {
+      const progress = index / (total - 1);
 
       const x = progress * width;
 
-      const baseY =
-        height * 0.82 -
-        progress * height * 0.54;
+      const upwardTrend =
+        height * config.startHeight -
+        progress * height * config.growth;
 
       const wave =
-        Math.sin(progress * 8 + time * 0.012) * 22 +
-        Math.cos(progress * 5 + time * 0.008) * 12;
+        Math.sin(
+          progress * config.frequency +
+          time * config.speed +
+          config.phase
+        ) * config.amplitude;
+
+      const secondaryWave =
+        Math.cos(
+          progress * (config.frequency * 0.55) +
+          time * (config.speed * 0.65)
+        ) * (config.amplitude * 0.35);
 
       points.push({
         x,
-        y: baseY + wave
+        y: upwardTrend + wave + secondaryWave
       });
     }
 
     return points;
   }
 
-  function drawArea(points) {
-    const gradient = context.createLinearGradient(
+  function drawArea(points, colorStart, colorEnd) {
+    const gradient = ctx.createLinearGradient(
       0,
-      height * 0.25,
+      height * 0.2,
       0,
       height
     );
 
-    gradient.addColorStop(0, "rgba(117, 100, 255, 0.16)");
-    gradient.addColorStop(0.55, "rgba(43, 220, 200, 0.06)");
-    gradient.addColorStop(1, "rgba(11, 16, 32, 0)");
+    gradient.addColorStop(0, colorStart);
+    gradient.addColorStop(1, colorEnd);
 
-    context.save();
-    context.beginPath();
-    context.moveTo(points[0].x, height);
+    ctx.save();
+    ctx.beginPath();
+
+    ctx.moveTo(points[0].x, height);
 
     points.forEach((point) => {
-      context.lineTo(point.x, point.y);
+      ctx.lineTo(point.x, point.y);
     });
 
-    context.lineTo(points[points.length - 1].x, height);
-    context.closePath();
+    ctx.lineTo(points[points.length - 1].x, height);
+    ctx.closePath();
 
-    context.fillStyle = gradient;
-    context.fill();
-    context.restore();
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawSmoothLine(
+    points,
+    colorStart,
+    colorMiddle,
+    colorEnd,
+    lineWidth,
+    glowColor
+  ) {
+    const gradient = ctx.createLinearGradient(0, 0, width, 0);
+
+    gradient.addColorStop(0, colorStart);
+    gradient.addColorStop(0.55, colorMiddle);
+    gradient.addColorStop(1, colorEnd);
+
+    ctx.save();
+    ctx.beginPath();
+
+    points.forEach((point, index) => {
+      if (index === 0) {
+        ctx.moveTo(point.x, point.y);
+        return;
+      }
+
+      const previous = points[index - 1];
+
+      const controlX = (previous.x + point.x) / 2;
+
+      ctx.bezierCurveTo(
+        controlX,
+        previous.y,
+        controlX,
+        point.y,
+        point.x,
+        point.y
+      );
+    });
+
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    ctx.shadowColor = glowColor;
+    ctx.shadowBlur = isMobile() ? 2 : 4;
+
+    ctx.stroke();
+    ctx.restore();
   }
 
   function drawBars(points) {
-    context.save();
+    ctx.save();
+
+    const barWidth = isMobile() ? 10 : 14;
 
     points.forEach((point, index) => {
       if (index % 2 !== 0) return;
 
       const pulse =
-        0.82 +
-        Math.sin(time * 0.018 + index) * 0.08;
+        0.88 +
+        Math.sin(time * 0.016 + index * 0.8) * 0.09;
 
-      const barWidth = width < 650 ? 12 : 18;
       const barHeight = Math.max(
-        35,
-        (height - point.y) * 0.45 * pulse
+        32,
+        (height - point.y) * 0.34 * pulse
       );
 
-      const gradient = context.createLinearGradient(
+      const gradient = ctx.createLinearGradient(
         0,
-        point.y,
+        height - barHeight,
         0,
-        point.y + barHeight
+        height
       );
 
       gradient.addColorStop(
         0,
-        "rgba(43, 220, 200, 0.18)"
+        "rgba(43,220,200,0.10)"
+      );
+
+      gradient.addColorStop(
+        0.5,
+        "rgba(117,100,255,0.055)"
       );
 
       gradient.addColorStop(
         1,
-        "rgba(117, 100, 255, 0.025)"
+        "rgba(117,100,255,0)"
       );
 
-      context.fillStyle = gradient;
+      ctx.fillStyle = gradient;
 
-      context.fillRect(
+      ctx.fillRect(
         point.x - barWidth / 2,
         height - barHeight,
         barWidth,
@@ -368,124 +437,238 @@ document.addEventListener("keydown", (event) => {
       );
     });
 
-    context.restore();
+    ctx.restore();
   }
 
-  function drawLine(points) {
-    const gradient = context.createLinearGradient(
-      0,
-      height,
-      width,
-      0
-    );
+  function drawMovingParticles(points, color, offset) {
+    const totalParticles = isMobile() ? 2 : 4;
 
-    gradient.addColorStop(0, "#7564ff");
-    gradient.addColorStop(0.55, "#9a84ff");
-    gradient.addColorStop(1, "#2bdcc8");
+    ctx.save();
 
-    context.save();
+    for (let index = 0; index < totalParticles; index += 1) {
+      const progress =
+        (
+          time * 0.0018 +
+          index / totalParticles +
+          offset
+        ) % 1;
 
-    context.beginPath();
-
-    points.forEach((point, index) => {
-      if (index === 0) {
-        context.moveTo(point.x, point.y);
-      } else {
-        context.lineTo(point.x, point.y);
-      }
-    });
-
-    context.strokeStyle = gradient;
-    context.lineWidth = width < 650 ? 2.5 : 3;
-    context.lineJoin = "round";
-    context.lineCap = "round";
-
-    context.shadowColor = "rgba(117, 100, 255, 0.35)";
-    context.shadowBlur = 12;
-
-    context.stroke();
-    context.restore();
-  }
-
-  function drawPoints(points) {
-    context.save();
-
-    points.forEach((point, index) => {
-      if (index % 2 !== 0) return;
-
-      const pulse =
-        1 +
-        Math.sin(time * 0.03 + index) * 0.25;
-
-      context.beginPath();
-
-      context.arc(
-        point.x,
-        point.y,
-        3.5 * pulse,
-        0,
-        Math.PI * 2
+      const scaled = progress * (points.length - 1);
+      const pointIndex = Math.floor(scaled);
+      const nextIndex = Math.min(
+        pointIndex + 1,
+        points.length - 1
       );
 
-      context.fillStyle =
-        "rgba(43, 220, 200, 0.72)";
+      const localProgress = scaled - pointIndex;
 
-      context.shadowColor =
-        "rgba(43, 220, 200, 0.45)";
+      const current = points[pointIndex];
+      const next = points[nextIndex];
 
-      context.shadowBlur = 10;
-      context.fill();
-    });
+      const x =
+        current.x +
+        (next.x - current.x) * localProgress;
 
-    context.restore();
+      const y =
+        current.y +
+        (next.y - current.y) * localProgress;
+
+      ctx.beginPath();
+      ctx.arc(x, y, isMobile() ? 2 : 2.6, 0, Math.PI * 2);
+
+      ctx.fillStyle = color;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 5;
+
+      ctx.fill();
+    }
+
+    ctx.restore();
   }
 
-  function drawArrow(points) {
-    const lastPoint = points[points.length - 1];
+  function drawTrendArrow(points) {
+    const last = points[points.length - 1];
 
-    context.save();
+    ctx.save();
 
-    context.translate(lastPoint.x - 18, lastPoint.y + 8);
-    context.rotate(-0.65);
+    ctx.translate(last.x - 10, last.y + 3);
+    ctx.rotate(-0.55);
 
-    context.beginPath();
-    context.moveTo(0, -8);
-    context.lineTo(18, 0);
-    context.lineTo(0, 8);
-    context.closePath();
+    ctx.beginPath();
+    ctx.moveTo(0, -6);
+    ctx.lineTo(15, 0);
+    ctx.lineTo(0, 6);
+    ctx.closePath();
 
-    context.fillStyle = "rgba(43, 220, 200, 0.65)";
-    context.shadowColor = "rgba(43, 220, 200, 0.35)";
-    context.shadowBlur = 12;
-    context.fill();
+    ctx.fillStyle = "rgba(43,220,200,0.26)";
+    ctx.shadowColor = "rgba(43,220,200,0.15)";
+    ctx.shadowBlur = 3;
 
-    context.restore();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawBackgroundGlow() {
+    const glow = ctx.createRadialGradient(
+      width * 0.75,
+      height * 0.55,
+      0,
+      width * 0.75,
+      height * 0.55,
+      width * 0.55
+    );
+
+    glow.addColorStop(
+      0,
+      "rgba(43,220,200,0.035)"
+    );
+
+    glow.addColorStop(
+      0.45,
+      "rgba(117,100,255,0.025)"
+    );
+
+    glow.addColorStop(
+      1,
+      "rgba(11,16,32,0)"
+    );
+
+    ctx.save();
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, width, height);
+    ctx.restore();
   }
 
   function animate() {
-    context.clearRect(0, 0, width, height);
+    ctx.clearRect(0, 0, width, height);
 
+    drawBackgroundGlow();
     drawGrid();
 
-    const points = createPoints();
+    const mainLine = buildGrowthPoints({
+      startHeight: 0.82,
+      growth: 0.55,
+      frequency: 8,
+      amplitude: isMobile() ? 10 : 17,
+      speed: 0.009,
+      phase: 0
+    });
 
-    drawBars(points);
-    drawArea(points);
-    drawLine(points);
-    drawPoints(points);
-    drawArrow(points);
+    const secondaryLine = buildGrowthPoints({
+      startHeight: 0.9,
+      growth: 0.4,
+      frequency: 7,
+      amplitude: isMobile() ? 7 : 12,
+      speed: 0.007,
+      phase: 1.8
+    });
+
+    const tertiaryLine = buildGrowthPoints({
+      startHeight: 0.74,
+      growth: 0.3,
+      frequency: 9,
+      amplitude: isMobile() ? 5 : 9,
+      speed: 0.006,
+      phase: 3.1
+    });
+
+    drawBars(mainLine);
+
+    drawArea(
+      mainLine,
+      "rgba(117,100,255,0.045)",
+      "rgba(11,16,32,0)"
+    );
+
+    drawSmoothLine(
+      secondaryLine,
+      "rgba(117,100,255,0.08)",
+      "rgba(154,132,255,0.10)",
+      "rgba(43,220,200,0.08)",
+      isMobile() ? 0.7 : 1,
+      "rgba(117,100,255,0.08)"
+    );
+
+    drawSmoothLine(
+      tertiaryLine,
+      "rgba(43,220,200,0.045)",
+      "rgba(117,100,255,0.06)",
+      "rgba(43,220,200,0.07)",
+      isMobile() ? 0.6 : 0.85,
+      "rgba(43,220,200,0.06)"
+    );
+
+    drawSmoothLine(
+      mainLine,
+      "rgba(117,100,255,0.16)",
+      "rgba(154,132,255,0.20)",
+      "rgba(43,220,200,0.17)",
+      isMobile() ? 1.15 : 1.7,
+      "rgba(117,100,255,0.12)"
+    );
+
+    drawMovingParticles(
+      mainLine,
+      "rgba(43,220,200,0.35)",
+      0
+    );
+
+    drawMovingParticles(
+      secondaryLine,
+      "rgba(154,132,255,0.24)",
+      0.35
+    );
+
+    drawTrendArrow(mainLine);
 
     time += 1;
 
     animationFrame = window.requestAnimationFrame(animate);
   }
 
-  resizeCanvas();
-  animate();
+  function startAnimation() {
+    resizeCanvas();
+
+    if (reducedMotion) {
+      drawBackgroundGlow();
+      drawGrid();
+
+      const staticLine = buildGrowthPoints({
+        startHeight: 0.82,
+        growth: 0.55,
+        frequency: 8,
+        amplitude: 12,
+        speed: 0,
+        phase: 0
+      });
+
+      drawBars(staticLine);
+
+      drawSmoothLine(
+        staticLine,
+        "rgba(117,100,255,0.14)",
+        "rgba(154,132,255,0.18)",
+        "rgba(43,220,200,0.15)",
+        1.5,
+        "rgba(117,100,255,0.08)"
+      );
+
+      return;
+    }
+
+    animate();
+  }
 
   window.addEventListener("resize", resizeCanvas);
 
-  window.addEventListener("beforeunload", () => {
-    window.cancelAnimationFrame(animationFrame);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      window.cancelAnimationFrame(animationFrame);
+      return;
+    }
+
+    animationFrame = window.requestAnimationFrame(animate);
   });
+
+  startAnimation();
 })();
