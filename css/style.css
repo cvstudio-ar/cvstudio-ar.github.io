@@ -2969,4 +2969,128 @@ video {
   .project-flyer + .project-content h3 {
     font-size: 21px !important;
   }
+}/* ==================================================
+   TARJETA FLYERS — DISEÑO LIMPIO Y DEFINITIVO
+================================================== */
+
+.project-card:has(.project-flyer) {
+  display: grid !important;
+  grid-template-rows: 210px 92px !important;
+  overflow: hidden !important;
+  border-radius: var(--radius-large) !important;
+  background: var(--surface) !important;
+}
+
+/* Zona de imagen */
+.project-flyer {
+  position: relative !important;
+  width: 100% !important;
+  height: 210px !important;
+  min-height: 210px !important;
+  aspect-ratio: auto !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  display: block !important;
+  overflow: hidden !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #0d1324 !important;
+  transform: none !important;
+  line-height: 0 !important;
+}
+
+/* Imagen encerrada dentro del recuadro */
+.project-flyer .project-image {
+  position: absolute !important;
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center 48% !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+
+  transform: none !important;
+  transition: transform 0.4s ease !important;
+}
+
+.project-card:has(.project-flyer):hover
+.project-flyer .project-image {
+  transform: scale(1.025) !important;
+}
+
+/* Etiqueta sobre la imagen */
+.project-flyer .project-category {
+  position: absolute !important;
+  top: 16px !important;
+  left: 16px !important;
+  bottom: auto !important;
+  z-index: 3 !important;
+  line-height: 1 !important;
+}
+
+/* Texto inferior */
+.project-flyer + .project-content {
+  position: static !important;
+  width: 100% !important;
+  height: 92px !important;
+  min-height: 92px !important;
+
+  margin: 0 !important;
+  padding: 18px 22px !important;
+
+  display: flex !important;
+  align-items: center !important;
+
+  background: var(--surface) !important;
+  border-top: 1px solid var(--border) !important;
+  transform: none !important;
+  z-index: 1 !important;
+}
+
+.project-flyer + .project-content > div {
+  width: 100% !important;
+}
+
+.project-flyer + .project-content span {
+  display: block !important;
+  margin: 0 0 6px !important;
+  line-height: 1.1 !important;
+}
+
+.project-flyer + .project-content h3 {
+  margin: 0 !important;
+  font-size: 22px !important;
+  line-height: 1.1 !important;
+}
+
+/* Celulares */
+@media (max-width: 650px) {
+  .project-card:has(.project-flyer) {
+    grid-template-rows: 200px 88px !important;
+  }
+
+  .project-flyer {
+    height: 200px !important;
+    min-height: 200px !important;
+  }
+
+  .project-flyer + .project-content {
+    height: 88px !important;
+    min-height: 88px !important;
+    padding: 17px 20px !important;
+  }
+
+  .project-flyer + .project-content h3 {
+    font-size: 20px !important;
+  }
 }
