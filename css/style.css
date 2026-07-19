@@ -2805,14 +2805,6 @@ video {
   transform: scale(1.025);
 }
 
-.project-flyer + .project-content {
-  position: relative;
-  min-height: 88px;
-  padding: 22px 28px;
-  background: var(--surface);
-  z-index: 2;
-}
-
 .project-flyer + .project-content h3 {
   margin: 5px 0 0;
   line-height: 1.15;
@@ -2822,4 +2814,68 @@ video {
   top: 18px;
   left: 18px;
   bottom: auto;
+}/* TARJETA FLYERS - AJUSTE LIMPIO */
+
+.project-card:has(.project-flyer) {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-flyer {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+  background: #111827 !important;
+  position: relative !important;
+}
+
+.project-flyer .project-image {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  transform: none !important;
+}
+
+.project-card:hover .project-flyer .project-image {
+  transform: scale(1.02) !important;
+}
+
+.project-flyer .project-category {
+  top: 18px !important;
+  left: 18px !important;
+  bottom: auto !important;
+  z-index: 2 !important;
+}
+
+.project-flyer + .project-content {
+  position: static !important;
+  width: 100% !important;
+  min-height: 96px !important;
+  padding: 22px 28px !important;
+  margin: 0 !important;
+  background: var(--surface) !important;
+  display: flex !important;
+  align-items: center !important;
+  border-top: 1px solid var(--border) !important;
+  z-index: 1 !important;
+}
+
+.project-flyer + .project-content > div {
+  width: 100% !important;
+}
+
+.project-flyer + .project-content span {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.project-flyer + .project-content h3 {
+  margin: 0 !important;
+  line-height: 1.1 !important;
 }
