@@ -671,4 +671,43 @@ document.addEventListener("keydown", (event) => {
   });
 
   startAnimation();
-})();
+})();/* =====================================================
+   HERO VIDEO
+===================================================== */
+
+const heroVideo = document.querySelector(".hero-video");
+const soundButton = document.querySelector(".hero-sound-button");
+const soundIcon = document.querySelector(".sound-icon");
+const soundText = document.querySelector(".sound-text");
+
+if (heroVideo && soundButton) {
+
+    soundButton.addEventListener("click", async () => {
+
+        heroVideo.muted = !heroVideo.muted;
+
+        if(heroVideo.muted){
+
+            soundIcon.textContent="🔇";
+            soundText.textContent="Activar sonido";
+
+        }else{
+
+            soundIcon.textContent="🔊";
+            soundText.textContent="Silenciar";
+
+            try{
+
+                await heroVideo.play();
+
+            }catch(e){
+
+                console.log(e);
+
+            }
+
+        }
+
+    });
+
+}
