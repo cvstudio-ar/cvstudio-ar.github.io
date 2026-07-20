@@ -1,6 +1,33 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap");
 
-:root {
+:root {/* ===============================
+   IDENTIDAD VISUAL CVSTUDIO
+================================ */
+
+--cv-yellow: #f5b800;
+--cv-yellow-soft: #ffd75a;
+--cv-yellow-glow: rgba(245, 184, 0, 0.24);
+
+--cv-bg: #080b16;
+--cv-surface: rgba(14, 18, 34, 0.78);
+--cv-surface-strong: rgba(18, 22, 40, 0.96);
+
+--cv-border: rgba(255, 255, 255, 0.10);
+--cv-border-yellow: rgba(245, 184, 0, 0.34);
+
+--cv-radius-sm: 14px;
+--cv-radius-md: 20px;
+--cv-radius-lg: 28px;
+
+--cv-shadow-card:
+  0 18px 50px rgba(0, 0, 0, 0.34);
+
+--cv-shadow-premium:
+  0 24px 70px rgba(0, 0, 0, 0.46),
+  0 0 34px rgba(245, 184, 0, 0.10);
+
+--cv-transition:
+  220ms cubic-bezier(0.2, 0.8, 0.2, 1);
   --background: #0b1020;
   --background-light: #11182a;
   --surface: rgba(255, 255, 255, 0.065);
@@ -45,7 +72,17 @@ html {
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  background: var(--background);
+
+  background-color: var(--background);
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+
+  background-size:
+    64px 64px,
+    64px 64px;
+
   color: var(--text);
   font-family: "Inter", sans-serif;
   line-height: 1.6;
@@ -147,9 +184,33 @@ img {
 
 /* ELEMENTOS COMUNES */
 
-.section {
-  position: relative;
-  padding: 115px 0;
+.section{
+    position:relative;
+    padding:115px 0;
+    overflow:hidden;
+    isolation:isolate;
+}
+
+.section::before{
+
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background-image:
+
+    radial-gradient(circle at 18% 22%,
+    rgba(255,196,0,.08) 0,
+    transparent 140px),
+
+    radial-gradient(circle at 82% 78%,
+    rgba(80,160,255,.05) 0,
+    transparent 220px);
+
+    pointer-events:none;
+
+    z-index:0;
+opacity:.9;
 }
 
 .section-container,
@@ -3602,4 +3663,194 @@ margin-top:25px;
       0 22px 50px rgba(0, 0, 0, 0.45),
       0 0 24px rgba(128, 105, 255, 0.1);
   }
+}/* =========================================
+   SISTEMA DE BOTONES CVSTUDIO
+========================================= */
+
+.button,
+.header-button,
+.featured-link,
+.hero-sound-button {
+  border-radius: 999px;
+  font-weight: 800;
+  transition:
+    transform var(--cv-transition),
+    box-shadow var(--cv-transition),
+    border-color var(--cv-transition),
+    background var(--cv-transition),
+    color var(--cv-transition);
+}
+
+.button:hover,
+.header-button:hover,
+.featured-link:hover {
+  transform: translateY(-2px);
+}
+
+.button-primary,
+.header-button {
+  color: #111;
+  background:
+    linear-gradient(
+      135deg,
+      var(--cv-yellow-soft),
+      var(--cv-yellow)
+    );
+  border: 1px solid rgba(255, 225, 120, 0.65);
+  box-shadow:
+    0 12px 30px rgba(245, 184, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+}
+
+.button-primary:hover,
+.header-button:hover {
+  box-shadow:
+    0 16px 38px rgba(245, 184, 0, 0.32),
+    0 0 26px rgba(245, 184, 0, 0.16);
+}
+
+.button-secondary {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--cv-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.button-secondary:hover {
+  border-color: var(--cv-border-yellow);
+  background: rgba(245, 184, 0, 0.07);
+}/* =========================================
+   SISTEMA DE TARJETAS CVSTUDIO
+========================================= */
+
+.service-card,
+.portfolio-card,
+.testimonial-card,
+.process-card,
+.contact-card,
+.featured-card {
+  border-radius: var(--cv-radius-lg);
+  border: 1px solid var(--cv-border);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.022)
+    ),
+    var(--cv-surface);
+  box-shadow: var(--cv-shadow-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  transition:
+    transform var(--cv-transition),
+    border-color var(--cv-transition),
+    box-shadow var(--cv-transition),
+    background var(--cv-transition);
+}
+
+.service-card:hover,
+.portfolio-card:hover,
+.testimonial-card:hover,
+.process-card:hover,
+.contact-card:hover,
+.featured-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--cv-border-yellow);
+  box-shadow: var(--cv-shadow-premium);
+}/* =========================================
+   DETALLES DE MARCA
+========================================= */
+
+.section-kicker,
+.eyebrow,
+.featured-label,
+.category-label {
+  color: var(--cv-yellow-soft);
+}
+
+.eyebrow-dot,
+.feature-check,
+.status-dot {
+  background: var(--cv-yellow);
+  box-shadow: 0 0 16px var(--cv-yellow-glow);
+}
+
+.section-heading h2 span,
+.hero-content h1 span,
+.accent-text {
+  color: var(--cv-yellow-soft);
+  text-shadow:
+    0 0 24px rgba(245, 184, 0, 0.10);
+}/* =========================================
+   MARCOS VISUALES
+========================================= */
+
+.hero-video-wrapper,
+.portfolio-image,
+.testimonial-image,
+.mockup-frame {
+  border: 1px solid var(--cv-border-yellow);
+  box-shadow: var(--cv-shadow-premium);
+}
+
+.hero-video-wrapper::before,
+.portfolio-card::before,
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 20%,
+      rgba(255, 220, 100, 0.10) 50%,
+      transparent 80%
+    );
+  transform: translateX(-100%);
+  transition:
+    transform 650ms ease,
+    opacity 250ms ease;
+}
+
+.hero-video-wrapper:hover::before,
+.portfolio-card:hover::before,
+.service-card:hover::before {
+  opacity: 1;
+  transform: translateX(100%);
+}.portfolio-card,
+.service-card {
+  position: relative;
+  overflow: hidden;
+
+}.section-title::after{
+
+content:"";
+
+display:block;
+
+margin-top:14px;
+
+width:64px;
+
+height:3px;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#FFD54A,
+
+transparent
+
+);
+
+border-radius:999px;
+
 }
