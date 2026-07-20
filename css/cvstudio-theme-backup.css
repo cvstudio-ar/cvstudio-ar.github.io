@@ -598,8 +598,53 @@ body::selection{
     opacity:.25;
 
 }/* ==================================================
-   FONDO MAESTRO CVSTUDIO
+   FONDO MAESTRO CVSTUDIO — CORRECCIÓN DEFINITIVA
 ================================================== */
+
+.page-background {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+
+  background-image: url("../assets/background/cvstudio-master-v2.svg") !important;
+  background-position: center top !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+
+  opacity: 1 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.page-background::after {
+    display: none !important;
+}
+
+header,
+main,
+footer,
+.whatsapp-float {
+  position: relative;
+  z-index: 1;
+}.page-background{
+    position:fixed !important;
+    inset:0 !important;
+    z-index:0 !important;
+    pointer-events:none !important;
+}
+
+header,
+main,
+footer,
+.whatsapp-float{
+    position:relative !important;
+    z-index:1 !important;
+}/* ==================================================
+   FONDO MAESTRO V2 — ACTIVACIÓN FINAL
+================================================== */
+
+/* FONDO MAESTRO V2 — APLICACIÓN DIRECTA */
 
 html,
 body {
@@ -607,20 +652,42 @@ body {
 }
 
 body {
-    background-color: #08111d;
-    background-image: url("../assets/background/cvstudio-master-v3.svg");
-    background-position: center top;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-color: #08111d !important;
+
+    background-image: url("../assets/background/cvstudio-master-v3.svg") !important;
+    background-position: center top !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
 }
 
-/* Desactiva el sistema de fondo anterior */
-.page-background {
-    display: none;
+/* Apagamos todas las capas antiguas */
+body::before,
+body::after,
+.page-background,
+.page-background::before,
+.page-background::after {
+    display: none !important;
 }
 
-/* Permite que el fondo maestro se vea detrás del contenido */
+/* Dejamos transparentes las áreas grandes */
+main,
+.hero,
+.section {
+    background-color: transparent !important;
+}/* ==================================================
+   MOSTRAR FONDO MAESTRO V3
+================================================== */
+
+body {
+    background:
+        url("../assets/background/cvstudio-master-v3.svg")
+        center top / cover
+        fixed
+        no-repeat !important;
+}
+
+/* Elimina los fondos antiguos que están encima */
 main,
 .hero,
 .section,
@@ -630,14 +697,14 @@ main,
 .faq,
 .testimonials,
 .contact {
-    background: transparent;
+    background: transparent !important;
 }
 
-/* Mantiene el contenido por encima */
+/* Conserva el contenido por encima */
 header,
 main,
 footer,
 .whatsapp-float {
-    position: relative;
-    z-index: 1;
+    position: relative !important;
+    z-index: 2 !important;
 }
