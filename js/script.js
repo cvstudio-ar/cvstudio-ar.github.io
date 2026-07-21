@@ -709,5 +709,4 @@ if (heroVideo && soundButton) {
         }
 
     });
-
-}
+    }

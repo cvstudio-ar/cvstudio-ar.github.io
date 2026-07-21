@@ -1,0 +1,302 @@
+/* =====================================================
+   CVSTUDIO — BENEFICIOS PREMIUM
+===================================================== */
+
+.section.benefits {
+  position: relative;
+  overflow: hidden;
+  padding: 130px 0;
+}
+
+.section.benefits .benefits-container {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.35fr);
+  gap: 70px;
+  align-items: center;
+}
+
+/* BLOQUE DE TEXTO */
+
+.section.benefits .benefits-content {
+  position: relative;
+  z-index: 2;
+}
+
+.section.benefits .benefits-content h2 {
+  max-width: 620px;
+}
+
+.section.benefits .benefits-content p {
+  max-width: 560px;
+  margin-top: 24px;
+}
+
+.section.benefits .benefits-content .button {
+  margin-top: 30px;
+  box-shadow:
+    0 16px 42px rgba(255, 213, 74, 0.16),
+    0 0 34px rgba(255, 213, 74, 0.08);
+}
+
+/* GRILLA */
+
+.section.benefits .benefits-grid {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+
+  perspective: 1400px;
+}
+
+/* TARJETAS */
+
+.section.benefits .benefit-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  min-height: 220px;
+  padding: 34px 26px 28px;
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 26px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(34, 48, 70, 0.88),
+      rgba(20, 31, 50, 0.94) 50%,
+      rgba(8, 15, 29, 0.98)
+    );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 24px 65px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  transform: translateZ(0);
+
+  transition:
+    transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* REFLEJO SUPERIOR */
+
+.section.benefits .benefit-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  z-index: 4;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    rgba(159, 133, 255, 0.6),
+    transparent
+  );
+
+  opacity: 0.72;
+}
+
+/* GLOW INTERIOR */
+
+.section.benefits .benefit-card::after {
+  content: "";
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  top: -145px;
+  right: -110px;
+  z-index: -1;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(159, 133, 255, 0.18),
+    transparent 68%
+  );
+
+  filter: blur(14px);
+  opacity: 0;
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s ease;
+}
+
+/* NÚMERO */
+
+.section.benefits .benefit-card > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 48px;
+  height: 38px;
+  padding: 0 13px;
+
+  border: 1px solid rgba(159, 133, 255, 0.34);
+  border-radius: 999px;
+
+  color: #b7a5ff;
+  font-size: 0.84rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(159, 133, 255, 0.16),
+      rgba(159, 133, 255, 0.025)
+    ),
+    rgba(8, 14, 27, 0.82);
+
+  box-shadow:
+    0 9px 24px rgba(0, 0, 0, 0.24),
+    0 0 22px rgba(159, 133, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* TEXTO */
+
+.section.benefits .benefit-card h3 {
+  margin: 54px 0 12px;
+
+  color: #ffffff;
+  font-size: clamp(1.35rem, 1.7vw, 1.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.section.benefits .benefit-card p {
+  margin: 0;
+
+  color: rgba(224, 231, 245, 0.7);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+/* HOVER */
+
+@media (hover: hover) {
+  .section.benefits .benefit-card:hover {
+    transform:
+      perspective(1400px)
+      translateY(-12px)
+      rotateX(1.5deg)
+      scale(1.015);
+
+    border-color: rgba(159, 133, 255, 0.48);
+
+    box-shadow:
+      0 38px 90px rgba(0, 0, 0, 0.42),
+      0 0 42px rgba(159, 133, 255, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.11);
+  }
+
+  .section.benefits .benefit-card:hover::after {
+    opacity: 1;
+    transform: translate(-28px, 30px) scale(1.12);
+  }
+
+  .section.benefits .benefit-card:hover h3 {
+    color: #b7a5ff;
+    transform: translateX(4px);
+  }
+}
+
+/* ANIMACIÓN ESCALONADA */
+
+.section.benefits .benefit-card {
+  animation: benefitCardIn 0.7s ease both;
+}
+
+.section.benefits .benefit-card:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.section.benefits .benefit-card:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.section.benefits .benefit-card:nth-child(3) {
+  animation-delay: 0.19s;
+}
+
+.section.benefits .benefit-card:nth-child(4) {
+  animation-delay: 0.26s;
+}
+
+@keyframes benefitCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* TABLET */
+
+@media (max-width: 980px) {
+  .section.benefits {
+    padding: 105px 0;
+  }
+
+  .section.benefits .benefits-container {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .section.benefits .benefits-content {
+    max-width: 720px;
+  }
+}
+
+/* CELULAR */
+
+@media (max-width: 620px) {
+  .section.benefits {
+    padding: 82px 0;
+  }
+
+  .section.benefits .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .section.benefits .benefit-card {
+    min-height: auto;
+    padding: 28px 22px 25px;
+    border-radius: 22px;
+  }
+
+  .section.benefits .benefit-card h3 {
+    margin-top: 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section.benefits .benefit-card {
+    animation: none;
+    transition: none;
+  }
+}

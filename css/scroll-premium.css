@@ -1,0 +1,84 @@
+/* =====================================================
+   CVSTUDIO — REVEAL PREMIUM AL HACER SCROLL
+===================================================== */
+
+/* Solo ocultamos elementos cuando JavaScript está activo */
+html.scroll-ready .reveal {
+  --reveal-delay: 0ms;
+  --reveal-x: 0px;
+  --reveal-y: 34px;
+
+  opacity: 0;
+  filter: blur(7px);
+
+  transform:
+    translate3d(var(--reveal-x), var(--reveal-y), 0)
+    scale(0.985);
+
+  transition:
+    opacity 0.8s ease var(--reveal-delay),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay),
+    filter 0.75s ease var(--reveal-delay);
+
+  will-change: opacity, transform, filter;
+}
+
+html.scroll-ready .reveal.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Direcciones alternadas en tarjetas */
+html.scroll-ready #proceso .process-item:nth-child(1),
+html.scroll-ready .benefit-card:nth-child(1) {
+  --reveal-x: -34px;
+  --reveal-y: 18px;
+}
+
+html.scroll-ready #proceso .process-item:nth-child(2),
+html.scroll-ready .benefit-card:nth-child(2) {
+  --reveal-x: 0px;
+  --reveal-y: 34px;
+}
+
+html.scroll-ready #proceso .process-item:nth-child(3),
+html.scroll-ready .benefit-card:nth-child(3) {
+  --reveal-x: 0px;
+  --reveal-y: 34px;
+}
+
+html.scroll-ready #proceso .process-item:nth-child(4),
+html.scroll-ready .benefit-card:nth-child(4) {
+  --reveal-x: 34px;
+  --reveal-y: 18px;
+}
+
+/* Portfolio: aparición más cinematográfica */
+html.scroll-ready .project-card.reveal {
+  --reveal-y: 44px;
+  transform:
+    translate3d(var(--reveal-x), var(--reveal-y), 0)
+    scale(0.965);
+}
+
+html.scroll-ready .project-card.reveal.is-visible {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Evita que el hover choque con la animación inicial */
+html.scroll-ready .reveal:not(.is-visible) {
+  pointer-events: none;
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  html.scroll-ready .reveal,
+  html.scroll-ready .reveal.is-visible {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+    pointer-events: auto !important;
+  }
+}
