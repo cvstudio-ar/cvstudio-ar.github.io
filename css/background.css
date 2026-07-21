@@ -120,4 +120,13 @@ header,main,footer,.whatsapp-float{
   .faq::after,.testimonials::after,.contact::after{
     width:150px;height:110px;opacity:.12;
   }
+}@media (max-width: 700px) {
+  .background-light,
+  .background-grid {
+    opacity: 0.35 !important;
+  }
+
+  #growth-canvas {
+    display: none !important;
+  }
 }

@@ -252,4 +252,55 @@
   .hero-video-wrapper img {
     animation: none !important;
   }
+}/* =====================================================
+   OPTIMIZACIÓN MÓVIL — MENOS EFECTOS PESADOS
+===================================================== */
+
+@media (max-width: 700px) {
+
+  /* Quitar flotación y glow del video */
+  .hero-video-wrapper::after {
+    display: none !important;
+  }
+
+  .hero-video-wrapper video,
+  .hero-video-wrapper img {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Quitar elevaciones y escalados */
+  .project-card:hover,
+  .process-item:hover,
+  .benefit-card:hover,
+  .header-button:hover,
+  .button:hover,
+  .contact-button:hover {
+    transform: none !important;
+  }
+
+  /* Reducir filtros costosos */
+  .project-card .project-image,
+  .reveal,
+  .reveal-left,
+  .reveal-right {
+    filter: none !important;
+  }
+
+  /* Sin brillos animados en botones */
+  .header-button::before,
+  .button::before,
+  .contact-button::before {
+    display: none !important;
+  }
+
+  /* Transiciones más cortas */
+  .project-card,
+  .process-item,
+  .benefit-card,
+  .faq-item,
+  .contact-trust,
+  .project-card .project-image {
+    transition-duration: 0.2s !important;
+  }
 }
