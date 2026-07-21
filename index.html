@@ -30,8 +30,32 @@
     />
     <meta property="og:type" content="website" />
 
-    <title>CVStudio Argentina | Diseño profesional</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <title>CVStudio Argentina | Diseño de CV, Logos, Flyers, Reels y Redes Sociales</title>
+    <meta
+name="description"
+content="CVStudio Argentina. Diseño profesional de Curriculum Vitae, Logos, Flyers, Banners, Reels, Redes Sociales y Branding. Entregas rápidas, atención personalizada y diseños modernos.">
+<meta
+name="keywords"
+content="CV, curriculum, curriculum vitae, diseño CV, logo, logos, flyer, flyers, banners, reels, instagram, redes sociales, diseño gráfico, CVStudio Argentina">
+<meta
+    name="keywords"
+    content="CV, curriculum, curriculum vitae, diseño CV, logo, logos, flyer, flyers, banners, reels, instagram, redes sociales, diseño gráfico, CVStudio Argentina" />
+
+<meta
+    name="robots"
+    content="index,follow,max-image-preview:large" />
+
+<link
+    rel="canonical"
+    href="https://cvstudio-ar.github.io/" />
+
+<link
+    rel="preload"
+    href="assets/images/hero-poster.png"
+    as="image"
+    fetchpriority="high" />
+
+<link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cvstudio-theme.css">
     <link rel="stylesheet" href="css/background.css">
     <link rel="stylesheet" href="css/header-premium.css">
@@ -40,9 +64,10 @@
     <link rel="stylesheet" href="css/process-premium.css">
     <link rel="stylesheet" href="css/benefits-premium.css">
     <link rel="stylesheet" href="css/interactions-premium.css">
-    <script src="js/interactions-premium.js"></script>
+    <link rel="stylesheet" href="css/microanimations-premium.css">
+    <script src="js/interactions-premium.js" defer></script>
     <link rel="stylesheet" href="css/scroll-premium.css">
-    <script src="js/scroll-premium.js"></script>
+    <script src="js/scroll-premium.js" defer></script>
    
   </head>
 
@@ -336,7 +361,7 @@
             </p>
           </div>
 
-          <div class="portfolio-grid">
+          <div class="portfolio-grid reveal-group">
             <article class="project-card project-large reveal">
               <div class="project-preview project-cv">
 <div class="project-preview project-cv">
@@ -351,7 +376,8 @@
             src="assets/images/cv-profesional.png"
             alt="CV Profesional"
             class="project-image"
-            loading="lazy">
+            loading="lazy"
+            decoding="async">
 
     </picture>
 
@@ -383,6 +409,7 @@
       alt="Diseño profesional de logo e identidad visual"
       class="project-image"
       loading="lazy"
+      decoding="async"
     />
 
     <span class="project-category">
@@ -407,6 +434,7 @@
         alt="Flyers Profesionales"
         class="project-image"
         loading="lazy"
+        decoding="async"
     />
 
     <span class="project-category">
@@ -431,6 +459,7 @@
         alt="Redes Sociales"
         class="project-image"
         loading="lazy"
+        decoding="async"
     />
 
     <span class="project-category">
@@ -455,22 +484,22 @@
         <div class="section-container">
           <div class="statistics-grid reveal">
             <article>
-              <strong>4–8</strong>
+              <strong class="stat-number" data-count="4-8">4–8</strong>
               <span>Horas estimadas de entrega</span>
             </article>
 
             <article>
-              <strong>100%</strong>
+              <strong class="stat-number" data-count="100">100%</strong>
               <span>Diseños personalizados</span>
             </article>
 
             <article>
-              <strong>3</strong>
-              <span>Formatos: PDF, JPG y Web</span>
+              <strong class="stat-number" data-count="6">6+</strong>
+              <span>Formatos: PDF, JPG, MP4, Web, QR y más</span>
             </article>
 
             <article>
-              <strong>1 a 1</strong>
+              <strong class="stat-number" data-count="1">1 a 1</strong>
               <span>Atención personalizada</span>
             </article>
           </div>
@@ -640,6 +669,7 @@
         alt="Testimonio CV Profesional"
         class="testimonial-image"
         loading="lazy"
+        decoding="async"
     >
 
 </article>
@@ -651,6 +681,7 @@
         alt="Testimonio Diseño para Redes"
         class="testimonial-image"
         loading="lazy"
+        decoding="async"
     >
 
 </article>
@@ -661,6 +692,7 @@
         alt="Testimonio Actualización de CV"
         class="testimonial-image"
         loading="lazy"
+        decoding="async"
     >
 
 </article>
@@ -810,70 +842,72 @@
 </section>
 
     <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-container">
-        <div class="footer-brand">
-          <a href="#inicio" class="logo">
-            <span class="logo-symbol">CV</span>
-            <span class="logo-name">Studio</span>
-          </a>
+ <footer class="footer">
+  <div class="footer-container">
 
-          <p>
-            Diseño profesional para personas, marcas y negocios.
-          </p>
-        </div>
+    <div class="footer-brand">
+      <a href="#inicio" class="footer-logo">
+        <span class="logo-symbol">CV</span>
+        <span class="logo-name">Studio</span>
+      </a>
 
-        <div class="footer-links">
-          <div>
-            <strong>Navegación</strong>
-            <a href="#servicios">Servicios</a>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#proceso">Proceso</a>
-          </div>
+      <p>
+        Diseño profesional para personas, marcas y negocios.
+      </p>
+    </div>
 
-          <div>
-  <strong>Contacto</strong>
+    <nav class="footer-column" aria-label="Navegación del pie de página">
+      <h3>Navegación</h3>
 
-  <a
-    href="https://wa.me/5492964652318"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    WhatsApp
-  </a>
+      <a href="#servicios">Servicios</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#proceso">Proceso</a>
+      <a href="#preguntas">Preguntas</a>
+    </nav>
 
-  <a href="mailto:cvstudioargentina@gmail.com">
-    Email
-  </a>
+    <div class="footer-column footer-contact">
+      <h3>Contacto</h3>
 
-  <a
-    href="https://www.instagram.com/cvstudio.ar/?hl=es-es"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Instagram · cvstudio.ar
-  </a>
+      <a
+        href="https://wa.me/5492964652318"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="footer-social-icon" aria-hidden="true">W</span>
+        <span>WhatsApp</span>
+      </a>
 
-  <a
-    href="https://www.facebook.com/profile.php?id=61591787648939"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    Facebook · cvstudio.ar
-  </a>
-</div>
-        </div>
-      </div>
+      <a href="mailto:cvstudioargentina@gmail.com">
+        <span class="footer-social-icon" aria-hidden="true">✉</span>
+        <span>Email</span>
+      </a>
 
-      <div class="footer-bottom">
-        <p>
-          © <span id="current-year"></span> CVStudio Argentina. Todos los
-          derechos reservados.
-        </p>
+      <a
+        href="https://www.instagram.com/cvstudio.ar/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="footer-social-icon" aria-hidden="true">◎</span>
+        <span>Instagram</span>
+      </a>
 
-        <a href="#inicio">Volver arriba ↑</a>
-      </div>
-    </footer>
+      <a
+        href="https://www.facebook.com/cv.studio.ar"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="footer-social-icon" aria-hidden="true">f</span>
+        <span>Facebook</span>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 CVStudio. Todos los derechos reservados.</span>
+    <span>Diseñado con dedicación en Argentina.</span>
+  </div>
+</footer>
 
     <!-- WHATSAPP FLOTANTE -->
     <a

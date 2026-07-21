@@ -119,4 +119,44 @@
   .floating-whatsapp {
     transition: none !important;
   }
+}/*==================================================
+ BOTONES PREMIUM
+==================================================*/
+
+.btn-primary,
+.hero-cta,
+.contact-btn,
+button,
+a.button {
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        box-shadow .35s ease,
+        filter .35s ease,
+        background .35s ease;
+}
+
+.btn-primary:hover,
+.hero-cta:hover,
+.contact-btn:hover,
+button:hover,
+a.button:hover{
+
+    transform:translateY(-4px) scale(1.02);
+
+    filter:brightness(1.04);
+
+    box-shadow:
+        0 12px 35px rgba(255,208,70,.35),
+        0 0 45px rgba(255,208,70,.18);
+
+}
+
+.btn-primary:active,
+.hero-cta:active,
+.contact-btn:active,
+button:active,
+a.button:active{
+
+    transform:translateY(-1px) scale(.99);
+
 }

@@ -493,7 +493,9 @@
 .hero-video-wrapper {
   max-width: 560px !important;
   justify-self: end !important;
+  transform: translateY(-120px) !important;
 }
+
 
 .hero-description {
   margin-top: 24px !important;
