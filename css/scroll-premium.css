@@ -177,4 +177,16 @@ html.scroll-ready .reveal-right.is-visible {
   html.scroll-ready .reveal-right.is-visible {
     transform: translateY(0);
   }
+}@media (max-width: 700px) {
+  html.scroll-ready .reveal,
+  html.scroll-ready .reveal-left,
+  html.scroll-ready .reveal-right,
+  html.scroll-ready .reveal.is-visible,
+  html.scroll-ready .reveal-left.is-visible,
+  html.scroll-ready .reveal-right.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
 }

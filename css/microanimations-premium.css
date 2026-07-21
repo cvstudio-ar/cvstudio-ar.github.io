@@ -303,4 +303,81 @@
   .project-card .project-image {
     transition-duration: 0.2s !important;
   }
+}/* =====================================================
+   OPTIMIZACIÓN DE RENDIMIENTO EN CELULAR
+===================================================== */
+
+@media (max-width: 700px) {
+
+  /* Desactivar animaciones continuas */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.25s !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  /* Evitar filtros pesados */
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .project-card,
+  .service-card,
+  .process-item,
+  .benefit-card,
+  .contact-card,
+  .hero-video-wrapper {
+    filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Quitar efectos 3D y movimientos hover */
+  .hero-video-wrapper,
+  .hero-video-wrapper:hover,
+  .project-card:hover,
+  .service-card:hover,
+  .process-item:hover,
+  .benefit-card:hover,
+  .button:hover,
+  .header-button:hover {
+    transform: none !important;
+  }
+
+  /* Reducir sombras grandes */
+  .hero-video-wrapper,
+  .project-card,
+  .service-card,
+  .process-item,
+  .benefit-card,
+  .contact-card,
+  .faq-item {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  /* Desactivar destellos decorativos */
+  .hero-video-wrapper::before,
+  .hero-video-wrapper::after,
+  .project-card::before,
+  .service-card::before,
+  .button::before,
+  .header-button::before {
+    display: none !important;
+  }
+
+  /* Transiciones más livianas */
+  .project-card,
+  .service-card,
+  .process-item,
+  .benefit-card,
+  .faq-item,
+  .contact-card,
+  .button,
+  .header-button {
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease !important;
+  }
 }

@@ -676,8 +676,18 @@ document.addEventListener("keydown", (event) => {
 ===================================================== */
 
 const heroVideo = document.querySelector(".hero-video");
-const heroVideoSource = heroVideo?.querySelector("source");
+const heroVideoSource = heroVideo?.querySelector("source[data-src]");
+const heroVideoPlayButton = document.querySelector(".hero-video-play");
 const mobilePerformanceMode = window.matchMedia("(max-width: 700px)").matches;
+
+function loadHeroVideo() {
+  if (!heroVideo || !heroVideoSource) return;
+
+  if (!heroVideoSource.src) {
+    heroVideoSource.src = heroVideoSource.dataset.src;
+    heroVideo.load();
+  }
+}
 
 if (heroVideo && heroVideoSource) {
   if (mobilePerformanceMode) {
@@ -685,22 +695,25 @@ if (heroVideo && heroVideoSource) {
     heroVideo.removeAttribute("autoplay");
     heroVideo.preload = "none";
     heroVideo.poster = "assets/images/hero-poster.webp";
-
-    heroVideoSource.removeAttribute("src");
-    heroVideoSource.removeAttribute("data-src");
-
-    heroVideo.load();
   } else {
-    const videoPath =
-      heroVideoSource.dataset.src ||
-      "assets/video/hero-cvstudio.mp4";
-
-    heroVideoSource.src = videoPath;
-    heroVideo.load();
+    loadHeroVideo();
 
     heroVideo.play().catch(() => {});
   }
 }
+
+heroVideoPlayButton?.addEventListener("click", async () => {
+  loadHeroVideo();
+
+  try {
+    heroVideo.muted = false;
+    await heroVideo.play();
+
+    heroVideoPlayButton.classList.add("is-hidden");
+  } catch (error) {
+    console.log(error);
+  }
+});
 const soundButton = document.querySelector(".hero-sound-button");
 const soundIcon = document.querySelector(".sound-icon");
 const soundText = document.querySelector(".sound-text");

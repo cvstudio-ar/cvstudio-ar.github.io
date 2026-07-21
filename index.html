@@ -65,10 +65,17 @@ content="CV, curriculum, curriculum vitae, diseño CV, logo, logos, flyer, flyer
     <link rel="stylesheet" href="css/benefits-premium.css">
     <link rel="stylesheet" href="css/interactions-premium.css">
     <link rel="stylesheet" href="css/microanimations-premium.css">
+    <link rel="stylesheet" href="css/base-v3.css">
+<link rel="stylesheet" href="css/layout-v3.css">
+<link rel="stylesheet" href="css/hero-v3.css">
+<link rel="stylesheet" href="css/components-v3.css">
+<link rel="stylesheet" href="css/animations-v3.css">
+<link rel="stylesheet" href="css/responsive-v3.css">
     <script src="js/interactions-premium.js" defer></script>
     <link rel="stylesheet" href="css/scroll-premium.css">
     <script src="js/scroll-premium.js" defer></script>
-   
+   <script type="module" src="js/app-v3.js"></script>
+
   </head>
 
   <body>
@@ -175,102 +182,56 @@ content="CV, curriculum, curriculum vitae, diseño CV, logo, logos, flyer, flyer
             </div>
           </div>
 
-          <div class="hero-video-wrapper reveal">
-  <video
-    class="hero-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="metadata"
-    poster="assets/images/hero-poster.webp"
-    aria-label="Presentación de los servicios profesionales de CVStudio"
-  >
-    <source
-      src="assets/video/hero-cvstudio.mp4"
-      type="video/mp4"
-    />
+<div class="hero-v3-scene reveal" aria-label="Muestra de trabajos de CVStudio">
+  <div class="hero-v3-glow hero-v3-glow-one"></div>
+  <div class="hero-v3-glow hero-v3-glow-two"></div>
 
-    Tu navegador no puede reproducir este video.
-  </video>
+  <div class="hero-v3-stage">
+    <div class="hero-v3-screen">
+      <img
+        class="hero-v3-main-image"
+        src="assets/images/hero-poster.webp"
+        alt="Trabajos de diseño realizados por CVStudio"
+        width="1280"
+        height="720"
+        decoding="async"
+        fetchpriority="high"
+      >
 
-  <div class="hero-video-overlay"></div>
+      <div class="hero-v3-screen-shine"></div>
 
-  <button
-    class="hero-sound-button"
-    type="button"
-    aria-label="Activar sonido del video"
-  >
-    <span class="sound-icon">🔇</span>
-    <span class="sound-text">Activar sonido</span>
-  </button>
+      <div class="hero-v3-label">
+        <span class="hero-v3-label-dot"></span>
+        Diseños que destacan
+      </div>
+    </div>
+
+    <div class="hero-v3-floating-card hero-v3-card-cv">
+      <span>CV</span>
+      <strong>Perfil profesional</strong>
+    </div>
+
+    <div class="hero-v3-floating-card hero-v3-card-brand">
+      <span>BRANDING</span>
+      <strong>Identidad visual</strong>
+    </div>
+
+    <div class="hero-v3-floating-card hero-v3-card-social">
+      <span>REDES</span>
+      <strong>Contenido digital</strong>
+    </div>
+
+    <button
+      class="hero-v3-video-button"
+      type="button"
+      data-video-open
+      aria-label="Ver presentación de CVStudio"
+    >
+      <span class="hero-v3-video-icon">▶</span>
+      <span>Ver presentación</span>
+    </button>
+  </div>
 </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- MARCAS / CATEGORÍAS -->
-      <section class="category-strip reveal">
-        <div class="category-track">
-          <span>CV PROFESIONALES</span>
-          <span>CARTAS DE PRESENTACIÓN</span>
-          <span>CV WEB</span>
-          <span>LOGOS</span>
-          <span>FLYERS</span>
-          <span>BANNERS</span>
-          <span>REELS</span>
-          <span>REDES SOCIALES</span>
-        </div>
-      </section>
-
-      <!-- SERVICIOS -->
-      <section class="section services" id="servicios">
-        <div class="section-container">
-          <div class="section-heading reveal">
-            <div>
-              <span class="section-kicker">Nuestros servicios</span>
-
-              <h2>
-                Soluciones visuales para
-                <span>personas, marcas y negocios.</span>
-              </h2>
-            </div>
-
-            <p>
-              Cada trabajo se desarrolla según tus objetivos, tu estilo y
-              el público al que necesitás llegar.
-            </p>
-          </div>
-
-          <div class="services-grid">
-            <article class="service-card reveal">
-              <div class="service-top">
-                <span class="service-number">01</span>
-                <span class="service-icon">CV</span>
-              </div>
-
-              <h3>CV Profesional</h3>
-
-              <p>
-                Currículums modernos, claros y personalizados según tu
-                experiencia y perfil laboral.
-              </p>
-
-              <a href="#contacto">Consultar servicio →</a>
-            </article>
-
-            <article class="service-card reveal">
-              <div class="service-top">
-                <span class="service-number">02</span>
-                <span class="service-icon">UP</span>
-              </div>
-
-              <h3>Actualización de CV</h3>
-
-              <p>
-                Mejoramos el contenido, la redacción, la estructura y la
-                apariencia de tu currículum anterior.
-              </p>
 
               <a href="#contacto">Consultar servicio →</a>
             </article>
@@ -923,5 +884,46 @@ content="CV, curriculum, curriculum vitae, diseño CV, logo, logos, flyer, flyer
 
     <script src="js/script.js"></script>
     <script src="js/header-premium.js"></script>
+    <div
+  class="video-modal-v3"
+  id="video-modal-v3"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Presentación de CVStudio"
+>
+  <div class="video-modal-v3-backdrop" data-video-close></div>
+
+  <div class="video-modal-v3-panel" role="document">
+    <button
+      class="video-modal-v3-close"
+      type="button"
+      data-video-close
+      aria-label="Cerrar presentación"
+    >
+      ×
+    </button>
+
+    <div class="video-modal-v3-frame">
+      <video
+        class="video-modal-v3-player"
+        controls
+        playsinline
+        preload="none"
+        poster="assets/images/hero-poster.webp"
+      >
+        <source
+          data-src="assets/video/hero-cvstudio.mp4"
+          type="video/mp4"
+        >
+      </video>
+    </div>
+
+    <div class="video-modal-v3-info">
+      <span>CVStudio Argentina</span>
+      <strong>Diseños pensados para destacar</strong>
+    </div>
+  </div>
+</div>
   </body>
 </html>
