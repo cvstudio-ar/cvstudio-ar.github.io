@@ -676,24 +676,30 @@ document.addEventListener("keydown", (event) => {
 ===================================================== */
 
 const heroVideo = document.querySelector(".hero-video");
-const heroVideoSource = heroVideo?.querySelector("source[data-src]");
+const heroVideoSource = heroVideo?.querySelector("source");
 const mobilePerformanceMode = window.matchMedia("(max-width: 700px)").matches;
 
-if (heroVideo && heroVideoSource && !mobilePerformanceMode) {
-  heroVideoSource.src = heroVideoSource.dataset.src;
-  heroVideo.load();
+if (heroVideo && heroVideoSource) {
+  if (mobilePerformanceMode) {
+    heroVideo.pause();
+    heroVideo.removeAttribute("autoplay");
+    heroVideo.preload = "none";
+    heroVideo.poster = "assets/images/hero-poster.webp";
 
-  heroVideo.play().catch(() => {
-    // El navegador puede bloquear el autoplay con sonido.
-  });
-}
-const isMobileDevice = window.matchMedia("(max-width: 700px)").matches;
+    heroVideoSource.removeAttribute("src");
+    heroVideoSource.removeAttribute("data-src");
 
-if (heroVideo && isMobileDevice) {
-  heroVideo.pause();
-  heroVideo.removeAttribute("autoplay");
-  heroVideo.preload = "none";
-  heroVideo.poster = "assets/images/hero-poster.webp";
+    heroVideo.load();
+  } else {
+    const videoPath =
+      heroVideoSource.dataset.src ||
+      "assets/video/hero-cvstudio.mp4";
+
+    heroVideoSource.src = videoPath;
+    heroVideo.load();
+
+    heroVideo.play().catch(() => {});
+  }
 }
 const soundButton = document.querySelector(".hero-sound-button");
 const soundIcon = document.querySelector(".sound-icon");
