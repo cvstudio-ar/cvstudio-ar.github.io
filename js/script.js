@@ -676,6 +676,25 @@ document.addEventListener("keydown", (event) => {
 ===================================================== */
 
 const heroVideo = document.querySelector(".hero-video");
+const heroVideoSource = heroVideo?.querySelector("source[data-src]");
+const mobilePerformanceMode = window.matchMedia("(max-width: 700px)").matches;
+
+if (heroVideo && heroVideoSource && !mobilePerformanceMode) {
+  heroVideoSource.src = heroVideoSource.dataset.src;
+  heroVideo.load();
+
+  heroVideo.play().catch(() => {
+    // El navegador puede bloquear el autoplay con sonido.
+  });
+}
+const isMobileDevice = window.matchMedia("(max-width: 700px)").matches;
+
+if (heroVideo && isMobileDevice) {
+  heroVideo.pause();
+  heroVideo.removeAttribute("autoplay");
+  heroVideo.preload = "none";
+  heroVideo.poster = "assets/images/hero-poster.webp";
+}
 const soundButton = document.querySelector(".hero-sound-button");
 const soundIcon = document.querySelector(".sound-icon");
 const soundText = document.querySelector(".sound-text");
@@ -698,7 +717,9 @@ if (heroVideo && soundButton) {
 
             try{
 
-                await heroVideo.play();
+                if (!mobilePerformanceMode) {
+  await heroVideo.play();
+}
 
             }catch(e){
 
