@@ -161,4 +161,20 @@ html.scroll-ready .reveal-right.is-visible {
   html.scroll-ready .reveal-right.is-visible {
     transform: translateY(0);
   }
+}@media (max-width: 700px) {
+  html.scroll-ready .reveal,
+  html.scroll-ready .reveal-left,
+  html.scroll-ready .reveal-right {
+    filter: none !important;
+    transform: translateY(10px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease !important;
+  }
+
+  html.scroll-ready .reveal.is-visible,
+  html.scroll-ready .reveal-left.is-visible,
+  html.scroll-ready .reveal-right.is-visible {
+    transform: translateY(0);
+  }
 }
