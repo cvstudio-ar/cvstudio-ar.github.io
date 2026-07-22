@@ -5,6 +5,18 @@
 document.documentElement.classList.add("scroll-ready");
 
 document.addEventListener("DOMContentLoaded", () => {
+  const mobilePerformanceMode =
+  window.matchMedia("(max-width: 700px)").matches;
+
+if (mobilePerformanceMode) {
+  document.querySelectorAll(
+    ".reveal, .reveal-left, .reveal-right"
+  ).forEach((element) => {
+    element.classList.add("is-visible");
+  });
+
+  return;
+}
     const isMobile = window.matchMedia("(max-width: 700px)").matches;
 
   if (isMobile) {
