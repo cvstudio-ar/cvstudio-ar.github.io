@@ -4,6 +4,9 @@
 
 (() => {
   "use strict";
+  if (window.matchMedia("(max-width: 700px)").matches) {
+  return;
+}
 
   const modal = document.querySelector("#video-modal-v3");
   const openButton = document.querySelector("[data-video-open]");
