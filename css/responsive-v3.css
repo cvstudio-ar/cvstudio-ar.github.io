@@ -453,4 +453,115 @@
   .cursor-light-v3 {
     display: none;
 }
+}/* =====================================================
+   CVSTUDIO V3 — MODO RENDIMIENTO PARA CELULAR
+===================================================== */
+
+@media (max-width: 700px) {
+
+  /* Eliminar todos los efectos dinámicos pesados */
+  .digital-wind-v3,
+  .digital-particles-v3,
+  .digital-atmosphere-v3,
+  .digital-signature-v3,
+  .cursor-light-v3 {
+    display: none !important;
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* Mantener visible el fondo original */
+  .page-background {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .background-grid {
+    display: block !important;
+    opacity: 0.2 !important;
+    animation: none !important;
+    filter: none !important;
+  }
+
+  .background-light,
+  .background-light-one,
+  .background-light-two {
+    animation: none !important;
+    filter: none !important;
+    opacity: 0.18 !important;
+  }
+
+  /* Eliminar filtros costosos */
+  header,
+  .header,
+  .main-header,
+  .nav-container,
+  .service-card,
+  .project-card,
+  .process-card,
+  .benefit-card,
+  .contact-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Nada debe reaccionar al dedo */
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Conservar únicamente animaciones indispensables */
+  .menu-toggle,
+  .mobile-menu,
+  details,
+  summary {
+    transition-duration: 0.2s !important;
+  }
+
+  /* Evitar desplazamientos horizontales */
+  html,
+  body {
+    overflow-x: hidden !important;
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    overscroll-behavior-y: auto;
+  }
+
+  /* Las imágenes aparecen sin zoom permanente */
+  .hero-v3-main-image,
+  .portfolio-card img,
+  .project-card img {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Evitar cálculos innecesarios en contenido lejano */
+  .section {
+    content-visibility: auto;
+    contain-intrinsic-size: 700px;
+  }
+}@media (max-width: 700px) {
+  body {
+    background:
+      radial-gradient(
+        circle at 18% 20%,
+        rgba(58, 93, 165, 0.14),
+        transparent 38%
+      ),
+      radial-gradient(
+        circle at 82% 72%,
+        rgba(255, 190, 55, 0.055),
+        transparent 34%
+      ),
+      #071526 !important;
+  }
 }

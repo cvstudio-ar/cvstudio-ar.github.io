@@ -12,6 +12,12 @@
   if (reducedMotion) return;
 
   const mobileMode = window.matchMedia("(max-width: 700px)").matches;
+  /* Rendimiento móvil:
+   no crear logos, partículas, niebla, firma ni halo en celulares */
+if (mobileMode) {
+  document.documentElement.classList.add("mobile-performance-v3");
+  return;
+}
 
   const brands = [
     { name: "Instagram", icon: "assets/icons/instagram.svg", className: "brand-instagram", depth: "mid" },
