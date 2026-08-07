@@ -101,7 +101,7 @@ function lineSvg(colors=['#9b5de5','#35d07f','#3b82f6']){
   const uid=`chart-${++chartUid}`;
   const labels=['28 Jul','29 Jul','30 Jul','31 Jul','1 Ago','2 Ago','3 Ago'];
   const series=[[22,38,50,61,57,52,91],[11,24,33,43,39,42,55],[4,9,15,25,20,27,37]];
-  const width=1000,height=300,padX=16,padY=12;
+  const width=1000,height=220,padX=18,padY=12;
   const x=i=>padX+((width-padX*2)/(labels.length-1))*i;
   const y=v=>padY+(height-padY*2)-((v/100)*(height-padY*2));
   const path=values=>values.map((v,i)=>`${i?'L':'M'} ${x(i).toFixed(2)} ${y(v).toFixed(2)}`).join(' ');
@@ -123,7 +123,7 @@ function lineSvg(colors=['#9b5de5','#35d07f','#3b82f6']){
           <path class="chart-premium-line main" d="${path(series[0])}" stroke="${colors[0]}"/>
           <path class="chart-premium-line" d="${path(series[1])}" stroke="${colors[1]}"/>
           <path class="chart-premium-line" d="${path(series[2])}" stroke="${colors[2]}"/>
-          ${series.map((arr,si)=>arr.map((v,i)=>`<circle class="chart-premium-point" cx="${x(i)}" cy="${y(v)}" r="${si===0?6:5}" fill="${colors[si]}"><title>${labels[i]}: ${v}%</title></circle>`).join('')).join('')}
+          ${series.map((arr,si)=>arr.map((v,i)=>`<circle class="chart-premium-point" cx="${x(i)}" cy="${y(v)}" r="${si===0?5:4}" fill="${colors[si]}"><title>${labels[i]}: ${v}%</title></circle>`).join('')).join('')}
         </svg>
         <div class="chart-x-axis">${labels.map(l=>`<b>${l}</b>`).join('')}</div>
       </div>

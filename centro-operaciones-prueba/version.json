@@ -1,7 +1,7 @@
 {
-  "version": "1.4.44",
-  "build": "20260807-home-notifications-calendar",
+  "version": "1.4.45",
+  "build": "20260807-home-chart-hd",
   "releasedAt": "2026-08-07T07:45:00-03:00",
   "channel": "production",
-  "name": "Inicio compacto con notificaciones y calendario"
+  "name": "Gráfico de Inicio rediseñado y contenido"
 }

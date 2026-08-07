@@ -563,3 +563,19 @@
   .client-workspace .conversation{grid-column:1/-1;height:auto!important}
   .client-workspace .service-files{height:auto!important}
 }
+
+/* v1.4.45 · gráfico de Inicio contenido y refinado */
+.main-content[data-module="inicio"] .panel:has(.chart-premium){height:218px!important;min-height:218px!important;overflow:hidden!important;background:linear-gradient(180deg,rgba(18,35,58,.99),rgba(10,24,42,.99))!important}
+.main-content[data-module="inicio"] .chart-premium{display:grid!important;grid-template-rows:19px 142px!important;gap:5px!important;width:100%!important;height:166px!important;min-height:166px!important;padding:0!important;overflow:hidden!important}
+.main-content[data-module="inicio"] .chart-premium-legend{min-height:19px!important;height:19px!important;gap:18px!important;color:#eef5ff!important;font:800 10px/19px Inter,"Segoe UI",Arial,sans-serif!important;letter-spacing:.01em!important}
+.main-content[data-module="inicio"] .chart-premium-legend i{width:18px!important;height:3px!important;box-shadow:0 0 10px color-mix(in srgb,var(--c) 42%,transparent)!important}
+.main-content[data-module="inicio"] .chart-premium-body{display:grid!important;grid-template-columns:34px minmax(0,1fr)!important;gap:7px!important;width:100%!important;height:142px!important;min-height:142px!important;max-height:142px!important;overflow:hidden!important}
+.main-content[data-module="inicio"] .chart-y-axis{height:142px!important;min-height:0!important;padding:1px 0 24px!important;color:#bcd0e8!important;font:850 9px/1 Inter,"Segoe UI",Arial,sans-serif!important;letter-spacing:.01em!important}
+.main-content[data-module="inicio"] .chart-premium-plot{position:relative!important;width:100%!important;height:142px!important;min-height:142px!important;padding:0 1px 24px!important;overflow:hidden!important}
+.main-content[data-module="inicio"] .chart-premium-plot svg{display:block!important;width:100%!important;height:118px!important;max-height:118px!important;overflow:hidden!important;shape-rendering:geometricPrecision!important}
+.main-content[data-module="inicio"] .chart-premium-grid line{stroke:rgba(174,201,232,.16)!important;stroke-width:1!important}
+.main-content[data-module="inicio"] .chart-premium-line{stroke-width:2.6!important}
+.main-content[data-module="inicio"] .chart-premium-line.main{stroke-width:3.6!important;filter:drop-shadow(0 0 3px rgba(155,93,229,.32))!important}
+.main-content[data-module="inicio"] .chart-premium-point{stroke:#091727!important;stroke-width:2!important}
+.main-content[data-module="inicio"] .chart-x-axis{left:1px!important;right:1px!important;bottom:2px!important;height:17px!important;color:#c5d6eb!important;font:850 9px/17px Inter,"Segoe UI",Arial,sans-serif!important;letter-spacing:.01em!important}
+.main-content[data-module="inicio"] .chart-x-axis b{overflow:hidden!important;text-overflow:ellipsis!important}
