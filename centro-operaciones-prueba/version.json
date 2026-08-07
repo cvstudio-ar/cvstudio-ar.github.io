@@ -1,7 +1,7 @@
 {
-  "version": "1.4.36",
-  "build": "20260807-compact-ui",
-  "releasedAt": "2026-08-07T03:30:00-03:00",
+  "version": "1.4.37",
+  "build": "20260807-admin-settings-fit",
+  "releasedAt": "2026-08-07T03:55:00-03:00",
   "channel": "production",
-  "name": "Inicio, Administración y Marketing compactos"
+  "name": "Administración y Configuración en una pantalla"
 }
