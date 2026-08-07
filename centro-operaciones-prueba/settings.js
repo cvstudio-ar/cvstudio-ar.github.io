@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.4.37',build:'20260807-admin-settings-fit',date:'07/08/2026 · 03:55',name:'Administración y Configuración en una pantalla'};
+const APP_RELEASE={version:'v1.4.38',build:'20260807-home-simplificada',date:'07/08/2026 · 07:20',name:'Web principal simplificada y comercial'};
 const CHANGELOG=[
+ {version:'v1.4.38',date:'07/08/2026',items:['Servicios y precios trasladados al inicio del recorrido comercial.','Página principal reducida y enfocada en conversión.','Portfolio, proceso, pagos y preguntas compactados.','Vista móvil del proyecto CV corregida.']},
  {version:'v1.4.37',date:'07/08/2026',items:['Administración reorganizada en dos niveles sin perder funciones.','Configuración compactada para mostrar los ocho módulos en una pantalla.','Tarjetas, botones y espacios verticales reajustados.']},
  {version:'v1.4.35',date:'06/08/2026',items:['Comprobación de versión antes de cargar el panel.','URL de rescate independiente de la caché anterior.','Un solo build para HTML, CSS y JavaScript.','Limpieza de Service Workers y cachés residuales.']},
  {version:'v1.3.0',date:'04/08/2026',items:['Versión visible debajo del logo de CVStudio.','Historial de versiones dentro de Estado del Sistema.','Permisos por jerarquía y gestión avanzada de colaboradores.','Generador URL funcional con portfolios existentes y creación de espacios.']},

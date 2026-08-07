@@ -1,7 +1,7 @@
 {
-  "version": "1.4.37",
-  "build": "20260807-admin-settings-fit",
-  "releasedAt": "2026-08-07T03:55:00-03:00",
+  "version": "1.4.38",
+  "build": "20260807-home-simplificada",
+  "releasedAt": "2026-08-07T07:20:00-03:00",
   "channel": "production",
-  "name": "Administración y Configuración en una pantalla"
+  "name": "Web principal simplificada y comercial"
 }

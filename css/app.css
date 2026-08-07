@@ -7876,3 +7876,68 @@ z-index:9999}
 @media (max-width: 768px) {
   .footer-social-icon { width: 34px; height: 34px; flex-basis: 34px; }
 }
+
+/* v4.5.0 · Home comercial simplificada */
+.cv-transformation,.statistics,.benefits{display:none!important}
+.section{padding-top:72px!important;padding-bottom:72px!important}
+.services{padding-top:68px}
+.services-grid{gap:14px}
+.service-card{min-height:232px;padding:22px}
+.service-card h3{margin:24px 0 5px;font-size:20px}
+.service-price{display:block;color:var(--primary-light,#ffd34f);font-family:"Manrope",sans-serif;font-size:25px;font-weight:900;line-height:1.1;margin-bottom:10px}
+.service-price-small{font-size:16px;line-height:1.3}
+.service-card p{font-size:13px;line-height:1.55}
+.service-card>a{padding-top:14px}
+.conversion-cta-inline{margin-top:0}
+.portfolio-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.portfolio-grid .project-card:nth-child(4){display:none}
+.portfolio-grid .project-large{grid-row:auto}
+.portfolio-grid .project-preview,.portfolio-grid .project-large .project-preview{min-height:250px;height:250px}
+.portfolio-grid .project-content{min-height:130px;padding:18px}
+.portfolio-grid .project-content p{display:none}
+.project-cv .project-picture{width:100%;height:100%;display:block;background:#10162a}
+.project-cv .project-image{width:100%;height:100%;object-fit:contain;object-position:center}
+#proceso .process-list{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important}
+.process-item-redundant{display:none!important}
+#proceso{padding-top:64px!important;padding-bottom:64px!important}
+#proceso .section-heading{margin-bottom:30px!important}
+.testimonials{padding-top:64px}
+.combo-section-heading,.testimonial-combos-grid,.service-guarantee,.testimonials-cta{display:none!important}
+.testimonial-services-grid{max-width:980px;margin-inline:auto}
+.testimonial-full-card{min-height:0}
+.testimonial-full-image{aspect-ratio:4/5;object-fit:cover}
+.payment-methods{padding:44px 0}
+.payment-shell{grid-template-columns:minmax(0,.8fr) minmax(420px,1.2fr);gap:22px;padding:24px}
+.payment-copy h2{font-size:34px;margin:8px 0 10px}
+.payment-copy>p{font-size:13px;line-height:1.55}
+.payment-security{margin-top:12px;padding:11px}
+.payment-options{padding:16px}
+.payment-brand-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:10px 0}
+.payment-brand{min-height:42px;padding:5px}
+.faq{padding-top:58px;padding-bottom:58px}
+.faq-list .faq-item:nth-child(2),.faq-list .faq-item:nth-child(4){display:none}
+.faq-container{gap:34px}
+.contact-section{padding-top:44px;padding-bottom:44px}
+.contact-card{padding-top:34px;padding-bottom:34px}
+@media(max-width:900px){
+  .section{padding-top:52px!important;padding-bottom:52px!important}
+  .services-grid,.portfolio-grid,#proceso .process-list{grid-template-columns:1fr!important}
+  .service-card{min-height:auto;padding:19px}
+  .service-card h3{margin-top:14px}
+  .portfolio-grid .project-preview,.portfolio-grid .project-large .project-preview{height:auto!important;min-height:0!important;aspect-ratio:16/10!important}
+  .project-cv .project-image{width:100%!important;height:100%!important;object-fit:contain!important;object-position:center!important}
+  .project-content{min-height:auto!important}
+  .payment-shell{grid-template-columns:1fr;padding:19px}
+  .payment-brand-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  .hero-description{font-size:15px;line-height:1.55}
+  .hero-proof-points{grid-template-columns:1fr}
+  .conversion-trust-inner{grid-template-columns:1fr 1fr}
+  .trust-item{padding:10px 8px;gap:7px}
+  .trust-item small{display:none}
+  .portfolio-grid .project-preview,.portfolio-grid .project-large .project-preview{aspect-ratio:4/3!important}
+  .project-cv .project-picture{display:grid;place-items:center;overflow:hidden}
+  .project-cv .project-image{max-width:100%;max-height:100%;object-fit:contain!important}
+  .payment-brand-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
