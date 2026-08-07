@@ -1,7 +1,7 @@
 {
-  "version": "1.4.40",
-  "build": "20260807-layout-sync-final",
+  "version": "1.4.41",
+  "build": "20260807-worker-price-sync",
   "releasedAt": "2026-08-07T07:45:00-03:00",
   "channel": "production",
-  "name": "Diseño alineado y sincronización comercial"
+  "name": "Sincronización de precios y terminaciones visuales"
 }

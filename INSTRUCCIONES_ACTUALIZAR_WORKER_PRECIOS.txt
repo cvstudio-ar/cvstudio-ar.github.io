@@ -1,0 +1,17 @@
+CVStudio v1.4.41 - Actualización obligatoria del Worker de Cloudflare
+
+Para que los precios del Centro de Operaciones se sincronicen con la web:
+
+1. Ingresar a Cloudflare > Workers & Pages.
+2. Abrir el Worker: cvstudio-contacto.
+3. Entrar en Edit code.
+4. Abrir el archivo de este ZIP: config/cloudflare-worker-contacto.js
+5. Copiar todo su contenido y reemplazar completamente el código del Worker.
+6. Pulsar Deploy.
+7. Cerrar sesión en el Centro de Operaciones y volver a ingresar.
+8. Editar un precio y guardar.
+
+La versión correcta del Worker debe informar:
+v2.9.2-price-sync-owner-auth
+
+No se deben modificar ni borrar las variables o secretos existentes de Cloudflare.

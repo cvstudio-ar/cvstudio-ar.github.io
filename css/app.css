@@ -8204,3 +8204,57 @@ z-index:9999}
     transform: rotate(360deg);
   }
 }
+
+/* v4.8.0 · portfolio premium y cierre sin espacio residual */
+#portfolio .project-image,
+#portfolio .project-cv .project-image,
+#portfolio .project-flyer .project-image,
+#portfolio .project-social .project-image{
+  object-fit:cover!important;
+  object-position:center!important;
+  background:transparent!important;
+}
+#portfolio .project-cv .project-image{object-position:center 42%!important}
+#portfolio .project-logo .project-image{object-position:center 48%!important}
+#portfolio .project-flyer .project-image{object-position:center 48%!important}
+#portfolio .project-social .project-image{object-position:center 48%!important}
+#portfolio .portfolio-premium-action{
+  width:40px!important;
+  height:40px!important;
+  border:1px solid rgba(255,211,74,.52)!important;
+  border-radius:50%!important;
+  background:linear-gradient(145deg,rgba(255,211,74,.2),rgba(255,211,74,.07))!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.14),0 9px 24px rgba(0,0,0,.25)!important;
+  transition:transform .25s ease,background .25s ease,box-shadow .25s ease!important;
+}
+#portfolio .portfolio-premium-action svg{display:block!important;width:21px!important;height:21px!important;fill:none!important;stroke:#ffd34f!important;stroke-width:2.5!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+#portfolio .project-card:hover .portfolio-premium-action{transform:translateX(3px)!important;background:linear-gradient(145deg,#ffdb58,#eab518)!important;box-shadow:0 10px 28px rgba(255,202,41,.24)!important}
+#portfolio .project-card:hover .portfolio-premium-action svg{stroke:#111827!important}
+.footer{
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:26px 0 0!important;
+}
+.footer-container{
+  height:auto!important;
+  min-height:0!important;
+  margin:0 auto!important;
+  padding:0!important;
+  gap:38px!important;
+}
+.footer-brand,.footer-column{margin:0!important;padding:0!important}
+.footer-bottom{
+  height:auto!important;
+  min-height:0!important;
+  margin:18px auto 0!important;
+  padding:11px 0 7px!important;
+}
+.footer::after{display:none!important}
+body{padding-bottom:0!important}
+@media(max-width:560px){
+  .footer{padding-top:20px!important}
+  .footer-container{gap:17px!important}
+  .footer-bottom{margin-top:14px!important;padding:9px 0 5px!important}
+}

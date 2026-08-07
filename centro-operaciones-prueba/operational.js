@@ -693,7 +693,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   function modalPricesOperational() {
     showForm('Editar precios','Estos valores se usan para pagos, comisiones y distribución de fondos.',Object.entries(state.prices).map(([name,value])=>input(`price_${encodeURIComponent(name)}`,name,'number',value)).join(''),'Guardar precios',data=>{
       Object.keys(state.prices).forEach(name=>state.prices[name]=Number(data.get(`price_${encodeURIComponent(name)}`))||0);
-      addActivity('settings','Precios actualizados','La tabla económica fue recalculada');saveState();closeModal();toast('Precios guardados y cálculos recalculados.');openModule('administracion');window.CVStudioRealBridge?.updatePrices(state.prices).then(()=>toast('Precios sincronizados con la web y Mercado Pago.')).catch(err=>{console.error(err);toast('Precios guardados en operaciones; faltó sincronizar la web.');});
+      addActivity('settings','Precios actualizados','La tabla económica fue recalculada');saveState();closeModal();toast('Precios guardados y cálculos recalculados.');openModule('administracion');window.CVStudioRealBridge?.updatePrices(state.prices).then(()=>toast('Precios sincronizados con la web y Mercado Pago.')).catch(err=>{console.error(err);toast(`No se sincronizó la web: ${err.message}`);});
     });
   }
   function modalExpense() {
