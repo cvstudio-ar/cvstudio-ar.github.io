@@ -7528,6 +7528,50 @@ img{height:auto}
   .service-kit-option-heading{display:block}.service-kit-option-heading strong{display:block;margin-top:7px}
   .service-guarantee{padding:18px;gap:12px}.service-guarantee-icon{width:36px;height:36px;flex-basis:36px}
 }
+
+/* v4.6.0 · segunda compactación comercial */
+.portfolio-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
+.portfolio-grid .project-card:nth-child(4){display:block!important}
+.portfolio-grid .project-preview,.portfolio-grid .project-large .project-preview{min-height:190px!important;height:190px!important}
+.portfolio-grid .project-content{min-height:112px!important;padding:15px!important}
+.portfolio-conversion{display:none!important}
+#proceso .process-list{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+#proceso .process-item{min-height:132px!important;padding:14px!important;border-radius:17px!important;display:grid!important;grid-template-columns:42px minmax(0,1fr)!important;gap:10px!important;align-items:start!important}
+#proceso .process-number{position:static!important;width:40px!important;height:40px!important;min-width:40px!important;padding:0!important;font-size:11px!important}
+#proceso .process-item h3{font-size:16px!important;margin:2px 0 6px!important}
+#proceso .process-item p{font-size:11px!important;line-height:1.45!important}
+#proceso .process-item::before,#proceso .process-item::after,#proceso .process-number::after{display:none!important}
+.conversion-trust{background:linear-gradient(180deg,rgba(10,17,31,.96),rgba(7,14,27,.98));border-block:1px solid rgba(255,255,255,.08)}
+.conversion-trust-inner{gap:8px;padding-block:9px}
+.conversion-trust .trust-item{min-height:72px!important;padding:10px 14px!important;border:1px solid rgba(255,255,255,.075)!important;border-radius:16px;background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.015));box-shadow:inset 0 1px rgba(255,255,255,.05)}
+.conversion-trust .trust-icon{width:42px;height:42px;flex-basis:42px;border-radius:13px;background:linear-gradient(145deg,rgba(255,211,74,.17),rgba(255,211,74,.055));box-shadow:0 8px 22px rgba(0,0,0,.22)}
+.conversion-trust .trust-icon svg{width:21px;height:21px;fill:none;stroke:#ffd34f;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.service-reference-showcase{padding:18px 0 62px}
+.reference-showcase-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:18px}
+.reference-showcase-heading h2{margin:6px 0 0;font-size:clamp(27px,3vw,42px);line-height:1.05}
+.reference-showcase-heading h2 span{color:var(--yellow)}
+.reference-showcase-heading p{max-width:470px;margin:0;color:var(--text-muted);line-height:1.55}
+.reference-showcase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.reference-showcase-card{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.11);border-radius:22px;background:#080b11;box-shadow:0 20px 50px rgba(0,0,0,.3);cursor:pointer;aspect-ratio:4/5}
+.reference-showcase-card img{width:100%;height:100%;display:block;object-fit:cover;object-position:top center;transition:transform .35s ease}
+.reference-showcase-card:hover img{transform:scale(1.015)}
+.reference-showcase-card>span{position:absolute;left:12px;bottom:12px;padding:7px 11px;border:1px solid rgba(255,210,77,.38);border-radius:999px;background:rgba(5,9,16,.88);color:#ffd24d;font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;backdrop-filter:blur(10px)}
+.testimonial-services-grid{display:none!important}
+.combo-section-heading{display:none!important}
+.testimonial-combos-grid{display:grid!important}
+.testimonials .section-heading{margin-bottom:24px!important}
+@media(max-width:900px){
+  .portfolio-grid,#proceso .process-list{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(210px,78vw);grid-template-columns:none!important;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+  .portfolio-grid>*,#proceso .process-list>*{scroll-snap-align:start}
+  .reference-showcase-heading{display:block}
+  .reference-showcase-heading p{margin-top:9px}
+  .reference-showcase-grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(240px,78vw);grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+  .reference-showcase-card{scroll-snap-align:start}
+}
+@media(max-width:560px){
+  .conversion-trust-inner{grid-template-columns:repeat(4,minmax(150px,1fr))!important;overflow-x:auto;padding:9px 14px}
+  .conversion-trust .trust-item{min-width:150px}
+}
 @media(prefers-reduced-motion:reduce){.portfolio-premium-dialog,.service-whatsapp-button{transition:none!important}}
 
 /* === V2.3.1 · CORRECCIÓN DE SUPERPOSICIÓN EN MODAL DE SERVICIOS === */

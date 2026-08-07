@@ -1,7 +1,7 @@
 {
-  "version": "1.4.38",
-  "build": "20260807-home-simplificada",
-  "releasedAt": "2026-08-07T07:20:00-03:00",
+  "version": "1.4.39",
+  "build": "20260807-home-compacta-final",
+  "releasedAt": "2026-08-07T07:45:00-03:00",
   "channel": "production",
-  "name": "Web principal simplificada y comercial"
+  "name": "Web compacta, demostraciones y precios dinámicos"
 }

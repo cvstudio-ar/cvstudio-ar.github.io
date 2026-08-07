@@ -128,7 +128,7 @@
         {
           "@type": "Question",
           "name": "¿Cuánto tarda la entrega?",
-          "acceptedAnswer": {"@type": "Answer", "text": "En trabajos de CV, la entrega estimada suele ser de 4 a 8 horas desde que recibimos toda la información. Otros servicios se coordinan según su alcance."}
+          "acceptedAnswer": {"@type": "Answer", "text": "En trabajos de CV, la entrega estimada suele ser de 2 a 4 horas desde que recibimos toda la información. Otros servicios se coordinan según su alcance."}
         },
         {
           "@type": "Question",
@@ -160,7 +160,7 @@
   ]
 }
 </script>
-<link href="css/app.css?v=4.5.0" rel="stylesheet"/>
+<link href="css/app.css?v=4.6.0" rel="stylesheet"/>
 <link href="css/mobile-stability.css?v=4.5.0" rel="stylesheet"/>
 <link href="css/siac.css" rel="stylesheet"/>
 <!-- Google tag (gtag.js) -->
@@ -238,7 +238,7 @@
 <strong>Atención personalizada de principio a fin</strong>
 </div>
 <div class="hero-proof-points">
-<span><b>4–8 h</b> entrega estimada de CV</span>
+<span><b>2–4 h</b> entrega estimada de CV</span>
 <span><b>ATS</b> estructura clara y estratégica</span>
 <span><b>Directo</b> seguimiento por WhatsApp</span>
 </div>
@@ -248,7 +248,12 @@
 </div>
 </section>
 <section aria-label="Garantías de servicio" class="conversion-trust">
-<div class="conversion-trust-inner"><div class="trust-item"><span aria-hidden="true" class="trust-icon">⚡</span><span><strong>Entrega ágil</strong><small>CV estimado en 4–8 horas</small></span></div><div class="trust-item"><span aria-hidden="true" class="trust-icon">◎</span><span><strong>Enfoque ATS</strong><small>Lectura clara y estratégica</small></span></div><div class="trust-item"><span aria-hidden="true" class="trust-icon">✦</span><span><strong>Diseño exclusivo</strong><small>Adaptado a tu perfil o marca</small></span></div><div class="trust-item"><span aria-hidden="true" class="trust-icon">↗</span><span><strong>Atención directa</strong><small>Seguimiento real por WhatsApp</small></span></div></div>
+<div class="conversion-trust-inner">
+<div class="trust-item"><span aria-hidden="true" class="trust-icon"><svg viewBox="0 0 24 24"><path d="M13 2 5 13h6l-1 9 9-12h-6z"/></svg></span><span><strong>Entrega ágil</strong><small>CV estimado en 2–4 horas</small></span></div>
+<div class="trust-item"><span aria-hidden="true" class="trust-icon"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13l2 2 4-4"/></svg></span><span><strong>Enfoque ATS</strong><small>Estructura clara y estratégica</small></span></div>
+<div class="trust-item"><span aria-hidden="true" class="trust-icon"><svg viewBox="0 0 24 24"><path d="m12 3 2.4 4.9L20 9l-4 3.9.9 5.6L12 16l-4.9 2.5.9-5.6L4 9l5.6-1.1z"/></svg></span><span><strong>Diseño exclusivo</strong><small>Adaptado a tu perfil o marca</small></span></div>
+<div class="trust-item"><span aria-hidden="true" class="trust-icon"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span><strong>Atención directa</strong><small>Seguimiento real por WhatsApp</small></span></div>
+</div>
 </section>
 <!-- SERVICIOS -->
 <section class="section services" id="servicios">
@@ -264,7 +269,7 @@
 <p>Precios claros, atención personalizada y entrega digital lista para utilizar.</p>
 </div>
 <div class="services-grid">
-<article class="service-card reveal">
+<article class="service-card reveal" data-service-id="cv-profesional">
 <div class="service-top">
 <span class="service-number">01</span>
 <span class="service-icon">CV</span>
@@ -274,7 +279,7 @@
 <p>Redacción profesional, optimización ATS y diseño personalizado listo para enviar.</p>
 <a data-cro-event="service_interest" data-service="CV profesional" href="#propuesta">Solicitar mi CV →</a>
 </article>
-<article class="service-card reveal">
+<article class="service-card reveal" data-service-id="cv-freelance">
 <div class="service-top">
 <span class="service-number">02</span>
 <span class="service-icon">CF</span>
@@ -284,7 +289,7 @@
 <p>Presentación estratégica para profesionales independientes, servicios y emprendimientos.</p>
 <a data-cro-event="service_interest" data-service="CV freelance" href="#propuesta">Solicitar CV freelance →</a>
 </article>
-<article class="service-card reveal">
+<article class="service-card reveal" data-service-id="linkedin">
 <div class="service-top">
 <span class="service-number">03</span>
 <span class="service-icon">IN</span>
@@ -294,7 +299,7 @@
 <p>Perfil, portada, titular, presentación, experiencias, aptitudes y optimización profesional.</p>
 <a data-cro-event="service_interest" data-service="LinkedIn completo" href="#propuesta">Optimizar LinkedIn →</a>
 </article>
-<article class="service-card reveal">
+<article class="service-card reveal" data-service-id="combo-2-cv">
 <div class="service-top">
 <span class="service-number">04</span>
 <span class="service-icon">2CV</span>
@@ -304,7 +309,7 @@
 <p>Dos currículums para dos personas o para dos objetivos laborales diferentes.</p>
 <a data-cro-event="service_interest" data-service="Combo 2 CV" href="#propuesta">Elegir combo 2 CV →</a>
 </article>
-<article class="service-card reveal">
+<article class="service-card reveal" data-service-id="combo-cv-linkedin">
 <div class="service-top">
 <span class="service-number">05</span>
 <span class="service-icon">CV+</span>
@@ -327,12 +332,15 @@
 </div>
 </div>
 </section>
-<section aria-label="Orientación de servicio" class="conversion-cta-inline reveal">
-<div>
-<span>¿Todavía no sabés por dónde empezar?</span>
-<h2>Contanos tu objetivo y te recomendamos la opción más conveniente.</h2>
+<section class="service-reference-showcase" aria-labelledby="reference-showcase-title">
+<div class="section-container">
+<div class="reference-showcase-heading"><div><span class="section-kicker">Resultados de referencia</span><h2 id="reference-showcase-title">Así presentamos cada <span>perfil profesional.</span></h2></div><p>Ejemplos demostrativos de CV profesional, CV freelance y LinkedIn optimizado.</p></div>
+<div class="reference-showcase-grid">
+<article aria-label="Ver ejemplo de CV profesional" class="reference-showcase-card testimonial-premium-trigger" data-portfolio-alt="Ejemplo de actualización profesional de currículum" data-portfolio-src="assets/images/experiencia-actualizacion-cv.webp" role="button" tabindex="0"><img alt="Ejemplo demostrativo de actualización profesional de currículum" src="assets/images/experiencia-actualizacion-cv.webp" loading="lazy" width="1024" height="1536"><span>CV Profesional</span></article>
+<article aria-label="Ver ejemplo de CV freelance" class="reference-showcase-card testimonial-premium-trigger" data-portfolio-alt="Ejemplo de currículum freelance profesional" data-portfolio-src="assets/images/experiencia-cv-freelance.webp" role="button" tabindex="0"><img alt="Ejemplo demostrativo de currículum freelance profesional" src="assets/images/experiencia-cv-freelance.webp" loading="lazy" width="1024" height="1536"><span>CV Freelance</span></article>
+<article aria-label="Ver ejemplo de LinkedIn optimizado" class="reference-showcase-card testimonial-premium-trigger" data-portfolio-alt="Ejemplo de perfil de LinkedIn profesional" data-portfolio-src="assets/images/experiencia-linkedin.webp" role="button" tabindex="0"><img alt="Ejemplo demostrativo de perfil de LinkedIn profesional" src="assets/images/experiencia-linkedin.webp" loading="lazy" width="1024" height="1536"><span>LinkedIn Profesional</span></article>
 </div>
-<a aria-controls="siac-dialog" class="button button-primary" data-cro-event="guided_orientation" data-siac-open="" href="#">Recibir orientación <span class="button-arrow">↗</span></a>
+</div>
 </section>
 <!-- PROCESO CVSTUDIO -->
 <section class="section cv-transformation" id="transformacion-cv">
@@ -583,10 +591,10 @@
                 <span>totalmente personalizado.</span>
 </h2>
 </div>
-<p>Tres pasos simples, con acompañamiento directo hasta la entrega final.</p>
+<p>Cuatro pasos simples, con acompañamiento directo hasta la entrega final.</p>
 </div>
 <div class="process-list">
-<article class="process-item reveal process-item-redundant">
+<article class="process-item reveal">
 <div class="process-number">01</div>
 <div>
 <h3>Nos contactás</h3>
@@ -594,21 +602,21 @@
 </div>
 </article>
 <article class="process-item reveal">
-<div class="process-number">01</div>
+<div class="process-number">02</div>
 <div>
 <h3>Enviás la información</h3>
 <p>Compartís datos, textos, fotos o archivos anteriores.</p>
 </div>
 </article>
 <article class="process-item reveal">
-<div class="process-number">02</div>
+<div class="process-number">03</div>
 <div>
 <h3>Creamos y revisamos</h3>
 <p>Desarrollamos la propuesta y ajustamos los detalles acordados.</p>
 </div>
 </article>
 <article class="process-item reveal">
-<div class="process-number">03</div>
+<div class="process-number">04</div>
 <div>
 <h3>Recibís tus archivos</h3>
 <p>Entregamos todo organizado y listo para usar.</p>
@@ -671,13 +679,13 @@
 <div class="section-container">
 <div class="section-heading reveal">
 <div>
-<span class="section-kicker">Experiencia del cliente</span>
+<span class="section-kicker">Combos y promociones</span>
 <h2>
-                Una atención cercana de
-                <span>principio a fin.</span>
+                Más soluciones,
+                <span>mejor precio.</span>
 </h2>
 </div>
-<p>Opiniones reales sobre la atención, el criterio y el resultado de cada proyecto.</p>
+<p>Opciones combinadas para potenciar tu presentación profesional o tu marca.</p>
 </div>
 <div class="testimonials-grid testimonial-showcase testimonial-full-grid testimonial-services-grid">
 <article aria-label="Abrir experiencia de cliente: actualización de currículum" class="testimonial-full-card testimonial-premium-trigger reveal" data-portfolio-alt="Experiencia de cliente: actualización profesional de currículum" data-service-id="cv-profesional" data-portfolio-src="assets/images/experiencia-actualizacion-cv.webp" role="button" tabindex="0">
@@ -765,7 +773,7 @@
 <span class="faq-icon">+</span>
 </button>
 <div class="faq-answer">
-<p>En trabajos de CV, la entrega estimada suele ser de 4 a 8 horas desde que recibimos toda la información. Otros servicios se coordinan según alcance.</p>
+<p>En trabajos de CV, la entrega estimada suele ser de 2 a 4 horas desde que recibimos toda la información. Otros servicios se coordinan según alcance.</p>
 </div>
 </article>
 <article class="faq-item reveal">
@@ -944,7 +952,7 @@
 <span class="whatsapp-symbol"><img src="assets/icons/social-official/whatsapp.svg?v=1.4.9" alt=""></span>
 <span class="whatsapp-text">WhatsApp</span>
 </a>
-<script defer="" src="js/app.js?v=1.4.9"></script>
+<script defer="" src="js/app.js?v=1.4.10"></script>
 <script defer="" src="js/mobile-stability.js?v=4.5.0"></script>
 <script defer="" src="js/siac-loader.js?v=1.4.1"></script>
 <div aria-hidden="true" class="scroll-progress"><span></span></div>

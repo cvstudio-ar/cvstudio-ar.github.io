@@ -847,10 +847,12 @@
         service.amount = Number(product.effective_price || product.unit_price);
         service.price = formatArs(service.amount);
         service.isTestPrice = Boolean(product.test_mode);
-        const card = document.querySelector(`[data-service-id="${CSS.escape(product.product_id)}"]`);
-        const priceTag = card?.querySelector('.testimonial-price strong');
-        if (priceTag) priceTag.textContent = service.price;
-        if (card) card.toggleAttribute('data-test-price', service.isTestPrice);
+        const cards = document.querySelectorAll(`[data-service-id="${CSS.escape(product.product_id)}"]`);
+        cards.forEach((card) => {
+          const priceTag = card.querySelector('.testimonial-price strong, .service-price');
+          if (priceTag) priceTag.textContent = service.price;
+          card.toggleAttribute('data-test-price', service.isTestPrice);
+        });
       });
     } catch (error) { console.warn('No se pudieron actualizar los precios comerciales.', error); }
   };
