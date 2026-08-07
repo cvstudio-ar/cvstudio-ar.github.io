@@ -91,6 +91,7 @@ function openModule(id){
   document.getElementById('pageTitle').textContent=meta[2];
   document.getElementById('pageSubtitle').textContent=meta[3];
   const main=document.getElementById('appMain');
+  main.dataset.module=id;
   main.innerHTML=replaceIconTokens(renderers[id]());main.focus();bindModuleActions(id);
   document.getElementById('sidebar').classList.remove('is-open');
   history.replaceState(null,'',`#${id}`);

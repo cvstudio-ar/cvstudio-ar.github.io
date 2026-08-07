@@ -1,7 +1,7 @@
 {
-  "version": "1.4.35",
-  "build": "20260806-1208",
-  "releasedAt": "2026-08-06T12:08:00-03:00",
+  "version": "1.4.36",
+  "build": "20260807-compact-ui",
+  "releasedAt": "2026-08-07T03:30:00-03:00",
   "channel": "production",
-  "name": "bootstrap anti-cache definitivo"
+  "name": "Inicio, Administración y Marketing compactos"
 }
