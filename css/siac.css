@@ -1,0 +1,536 @@
+/* SIAC · Sistema Inteligente de Atención de CVStudio */
+
+/* Hero limpio: sin escena de Mia ni botón de YouTube */
+.hero-container {
+  grid-template-columns: minmax(0, 1fr) !important;
+  max-width: 1180px !important;
+}
+
+.hero-content {
+  max-width: 820px;
+}
+
+.hero-v3-scene,
+.hero-youtube-button {
+  display: none !important;
+}
+
+/* Botón flotante */
+.siac-launcher {
+  position: fixed;
+  right: 24px;
+  bottom: 92px;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px 9px 9px;
+  border: 1px solid rgba(255, 211, 74, 0.38);
+  border-radius: 999px;
+  background: rgba(8, 18, 32, 0.94);
+  color: #fff;
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.38),
+    0 0 28px rgba(255, 211, 74, 0.11);
+  backdrop-filter: blur(16px);
+  cursor: pointer;
+}
+
+.siac-launcher-mark,
+.siac-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffd84d, #f3b900);
+  color: #111827;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.siac-launcher-copy {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.18;
+}
+
+.siac-launcher-copy strong {
+  font-size: 0.8rem;
+}
+
+.siac-launcher-copy small {
+  margin-top: 3px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.67rem;
+}
+
+/* Capa general */
+.siac-shell[hidden] {
+  display: none;
+}
+
+.siac-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.siac-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 8, 18, 0.72);
+  backdrop-filter: blur(7px);
+}
+
+/* Panel compacto: aproximadamente 40% menor que la versión anterior */
+.siac-dialog {
+  position: relative;
+  width: min(500px, calc(100vw - 36px));
+  max-height: min(62vh, 540px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 22, 40, 0.99),
+    rgba(5, 14, 27, 0.99)
+  );
+  color: #fff;
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.55);
+}
+
+.siac-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.siac-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.siac-brand-mark {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+}
+
+.siac-brand div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.siac-brand strong {
+  font-size: 0.88rem;
+}
+
+.siac-brand span {
+  margin-top: 1px;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.siac-icon-button {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+/* Progreso */
+.siac-progress {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.siac-progress-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 0.68rem;
+}
+
+.siac-progress-copy strong {
+  color: #ffd34a;
+}
+
+.siac-progress-track {
+  height: 4px;
+  margin-top: 7px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.siac-progress-track span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #f5b800, #ffd84d);
+  transition: width 0.28s ease;
+}
+
+/* Contenido desplazable */
+.siac-content {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 15px 14px 17px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 211, 74, 0.55) rgba(255, 255, 255, 0.06);
+}
+
+.siac-content::-webkit-scrollbar {
+  width: 7px;
+}
+
+.siac-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.siac-content::-webkit-scrollbar-thumb {
+  border-radius: 99px;
+  background: rgba(255, 211, 74, 0.5);
+}
+
+.siac-message {
+  max-width: 100%;
+}
+
+.siac-message h2 {
+  margin: 0 0 8px;
+  font-size: clamp(1.12rem, 2.1vw, 1.48rem);
+  line-height: 1.1;
+}
+
+.siac-message p {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+  line-height: 1.48;
+}
+
+/* Opciones */
+.siac-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.siac-option {
+  min-height: 48px;
+  padding: 10px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #fff;
+  text-align: left;
+  font: inherit;
+  font-size: 0.83rem;
+  font-weight: 750;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.siac-option:hover {
+  border-color: rgba(255, 211, 74, 0.5);
+  background: rgba(255, 211, 74, 0.08);
+  transform: translateY(-1px);
+}
+
+.siac-option small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* Formularios */
+.siac-form {
+  display: grid;
+  gap: 11px;
+}
+
+.siac-field {
+  display: grid;
+  gap: 6px;
+}
+
+.siac-field label {
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.siac-field input,
+.siac-field textarea,
+.siac-field select {
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 11px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font: inherit;
+  font-size: 0.86rem;
+}
+
+.siac-field textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.siac-field input:focus,
+.siac-field textarea:focus,
+.siac-field select:focus {
+  border-color: #ffd34a;
+  box-shadow: 0 0 0 3px rgba(255, 211, 74, 0.1);
+}
+
+.siac-field option {
+  color: #111827;
+}
+
+.siac-help {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.68rem;
+}
+
+.siac-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.siac-primary,
+.siac-secondary {
+  padding: 9px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.siac-primary {
+  border: 0;
+  background: #ffd34a;
+  color: #111827;
+}
+
+.siac-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  color: #fff;
+}
+
+/* Archivos */
+.siac-upload {
+  padding: 12px;
+  border: 1px dashed rgba(255, 211, 74, 0.42);
+  border-radius: 12px;
+  background: rgba(255, 211, 74, 0.035);
+}
+
+.siac-files {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.siac-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.72rem;
+}
+
+/* Resumen y confirmación */
+.siac-summary {
+  display: grid;
+  gap: 8px;
+}
+
+.siac-summary-item {
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.siac-summary-item span {
+  display: block;
+  margin-bottom: 4px;
+  color: #ffd34a;
+  font-size: 0.64rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.siac-summary-item p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+}
+
+.siac-success {
+  padding: 13px;
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  border-radius: 13px;
+  background: rgba(52, 211, 153, 0.07);
+}
+
+.siac-code {
+  display: inline-block;
+  margin: 8px 0;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #ffd34a;
+  color: #111827;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+/* Pie */
+.siac-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(3, 10, 21, 0.72);
+}
+
+.siac-text-button,
+.siac-advisor-button {
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.76rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.siac-advisor-button {
+  color: #ffd34a;
+}
+
+.siac-note {
+  margin-top: 9px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.68rem;
+}
+
+.siac-admin-link {
+  display: inline-flex;
+  margin-top: 10px;
+  color: #ffd34a;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+/* Tablet y celular */
+@media (max-width: 700px) {
+  .siac-launcher {
+    right: 14px;
+    bottom: 84px;
+    padding: 8px;
+  }
+
+  .siac-launcher-copy {
+    display: none;
+  }
+
+  .siac-shell {
+    align-items: end;
+    padding: 10px;
+  }
+
+  .siac-dialog {
+    width: 100%;
+    max-height: 72vh;
+    border-radius: 18px;
+  }
+
+  .siac-header {
+    padding: 11px 12px;
+  }
+
+  .siac-progress {
+    padding: 8px 12px;
+  }
+
+  .siac-content {
+    padding: 13px 12px 15px;
+  }
+
+  .siac-message h2 {
+    font-size: 1.18rem;
+  }
+
+  .siac-message p {
+    font-size: 0.84rem;
+  }
+
+  .siac-options {
+    grid-template-columns: 1fr;
+  }
+
+  .siac-option {
+    min-height: 44px;
+  }
+
+  .siac-footer {
+    padding: 9px 12px;
+  }
+
+  .floating-whatsapp {
+    right: 14px !important;
+    bottom: 18px !important;
+  }
+}
+
+@media (max-height: 700px) and (min-width: 701px) {
+  .siac-dialog {
+    max-height: 72vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .siac-option,
+  .siac-progress-track span {
+    transition: none !important;
+  }
+}

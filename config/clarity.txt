@@ -1,0 +1,6 @@
+Microsoft Clarity
+Proyecto: CVStudio Argentina
+Project ID: xs8qlx3zqn
+Sitio: https://cvstudio.com.ar/
+
+Estado: instalado en index.html. Los primeros datos pueden tardar hasta 2 horas.

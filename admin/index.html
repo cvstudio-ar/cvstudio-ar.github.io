@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <title>SIAC · Centro de Conversaciones CVStudio</title>
+  <link rel="stylesheet" href="/css/siac-admin.css?v=4.4.0">
+  <link rel="stylesheet" href="/css/portfolio-admin.css?v=4.0.3">
+  <link rel="canonical" href="https://cvstudio.com.ar/admin/">
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="/" aria-label="CVStudio inicio"><span class="brand-mark">CV</span><span>Studio</span></a>
+    <div class="header-copy"><strong>Centro de Conversaciones</strong><span>Solicitudes, mensajes, archivos y seguimiento</span></div>
+    <button id="logout" class="header-button" hidden>Cerrar sesión</button>
+  </header>
+
+  <main>
+    <section id="loginPanel" class="login-card">
+      <div class="login-logo"><span>CV</span>Studio</div>
+      <h1>Ingresar al SIAC</h1>
+      <p>Acceso privado de administración.</p>
+      <form id="loginForm">
+        <label>Correo<input id="loginEmail" type="email" required autocomplete="username"></label>
+        <label>Contraseña<input id="loginPassword" type="password" required autocomplete="current-password"></label>
+        <button type="submit">Ingresar</button>
+        <p id="loginMessage" class="message"></p>
+      </form>
+    </section>
+
+    <section id="dashboard" hidden>
+      <nav class="admin-module-tabs" aria-label="Módulos de administración">
+        <button type="button" class="admin-module-tab is-active" data-admin-module="conversations">Conversaciones</button>
+        <button type="button" class="admin-module-tab" data-admin-module="portfolios">Portfolios de clientes</button>
+        <button type="button" class="admin-module-tab" data-admin-module="payments">Pedidos y pagos</button>
+        <button type="button" class="admin-module-tab" data-admin-module="tests">Admin Test</button>
+      </nav>
+
+      <section id="conversationsModule" class="admin-module">
+      <section id="stats" class="stats" aria-label="Resumen de solicitudes"></section>
+      <section class="toolbar">
+        <input id="search" type="search" placeholder="Buscar cliente, código, correo o servicio">
+        <select id="status">
+          <option value="">Todos los estados</option>
+          <option>Pendiente de revisión</option><option>Falta información</option><option>Presupuesto enviado</option>
+          <option>Confirmado</option><option>En producción</option><option>Pendiente de pago</option>
+          <option>Entregado</option><option>Finalizado</option><option>Cancelado</option>
+        </select>
+        <select id="conversationFilter">
+          <option value="">Todas las conversaciones</option>
+          <option value="unread">Con mensajes nuevos</option>
+          <option value="waiting-studio">Esperando CVStudio</option>
+          <option value="waiting-client">Esperando cliente</option>
+          <option value="inactive">Sin actividad 3 días</option>
+        </select>
+        <select id="sortOrder" aria-label="Ordenar solicitudes">
+          <option value="activity">Actividad reciente</option>
+          <option value="newest">Más nuevas</option>
+          <option value="oldest">Más antiguas</option>
+          <option value="name">Nombre A–Z</option>
+        </select>
+        <button id="refresh" type="button">Actualizar</button>
+      </section>
+      <p id="panelMessage" class="message"></p>
+      <section id="requests" class="requests"></section>
+      </section>
+
+      <section id="portfoliosModule" class="admin-module" hidden>
+        <header class="portfolio-admin-hero">
+          <div>
+            <span class="eyebrow">Nuevo módulo</span>
+            <h1>Portfolios de clientes</h1>
+            <p>Creá accesos privados, asigná una dirección personalizada y administrá cada portfolio desde CVStudio.</p>
+          </div>
+          <button id="openPortfolioCreate" type="button">+ Crear cliente</button>
+        </header>
+
+        <section id="portfolioStats" class="portfolio-stats" aria-label="Resumen de portfolios"></section>
+
+        <section class="portfolio-toolbar">
+          <input id="portfolioSearch" type="search" placeholder="Buscar nombre, usuario, marca o URL">
+          <select id="portfolioStatusFilter">
+            <option value="">Todos los estados</option>
+            <option value="draft">Borrador</option>
+            <option value="active">Activo</option>
+            <option value="suspended">Suspendido</option>
+          </select>
+          <button id="refreshPortfolios" class="secondary-button" type="button">Actualizar</button>
+        </section>
+        <p id="portfolioPanelMessage" class="message"></p>
+        <section id="portfolioClients" class="portfolio-clients"></section>
+      </section>
+
+
+      <section id="paymentsModule" class="admin-module" hidden>
+        <header class="portfolio-admin-hero payment-admin-hero"><div><span class="eyebrow">Sistema comercial</span><h1>Pedidos y pagos</h1><p>Consultá las contrataciones iniciadas, el estado informado por Mercado Pago y el avance interno de cada pedido.</p></div><button id="refreshPayments" type="button">Actualizar</button></header>
+        <details class="price-manager" id="priceManager"><summary><span><b>Precios de los servicios</b><small>Editá precios comerciales o activá un importe temporal de prueba.</small></span><span class="price-manager-action">Administrar</span></summary><div class="price-warning"><strong>Importante:</strong> cuando el modo prueba está activo, ese importe queda visible y disponible para cualquier visitante hasta que lo desactives.</div><section id="servicePrices" class="service-prices"></section></details>
+        <section id="paymentStats" class="stats" aria-label="Resumen de pagos"></section>
+        <section class="toolbar payment-toolbar"><input id="paymentSearch" type="search" placeholder="Buscar pedido, cliente, correo o servicio"><select id="paymentStatusFilter"><option value="">Todos los pagos</option><option value="approved">Aprobados</option><option value="pending">Pendientes</option><option value="rejected">No aprobados</option></select><select id="orderStatusFilter"><option value="">Todos los pedidos</option><option>Pendiente de pago</option><option>Pago recibido</option><option>En producción</option><option>Entregado</option><option>Finalizado</option><option>Cancelado</option></select><select id="paymentDateFilter"><option value="">Todas las fechas</option><option value="today">Hoy</option><option value="week">Esta semana</option><option value="month">Este mes</option></select></section>
+        <p id="paymentPanelMessage" class="message"></p><section id="paymentOrders" class="payment-orders"></section>
+      </section>
+
+      <section id="testsModule" class="admin-module" hidden>
+        <header class="portfolio-admin-hero">
+          <div><span class="eyebrow">Diagnóstico 2.1.0</span><h1>Admin Test</h1><p>Comprueba el Worker, la autenticación administrativa y la conexión con Supabase.</p></div>
+          <button id="runAdminTests" type="button">Ejecutar pruebas</button>
+        </header>
+        <section class="test-grid">
+          <article class="test-card" data-test-card="worker"><span>Worker</span><strong id="testWorkerStatus">Sin ejecutar</strong><p id="testWorkerDetail">Prueba pública del servicio.</p></article>
+          <article class="test-card" data-test-card="auth"><span>Administrador</span><strong id="testAuthStatus">Sin ejecutar</strong><p id="testAuthDetail">Valida sesión y permisos.</p></article>
+          <article class="test-card" data-test-card="supabase"><span>Supabase</span><strong id="testSupabaseStatus">Sin ejecutar</strong><p id="testSupabaseDetail">Consulta tablas del portal.</p></article>
+        </section>
+        <div class="test-log-panel"><div class="section-head"><h2>Logs de respuesta</h2><button id="clearAdminTestLog" class="secondary-button" type="button">Limpiar</button></div><pre id="adminTestLog">Todavía no se ejecutaron pruebas.</pre></div>
+      </section>
+    </section>
+  </main>
+
+  <aside id="conversationDrawer" class="conversation-drawer" hidden aria-labelledby="conversationTitle">
+    <div class="drawer-backdrop" data-close-conversation></div>
+    <section class="drawer-panel" role="dialog" aria-modal="true">
+      <header class="drawer-header">
+        <div>
+          <span class="eyebrow">Centro de Conversaciones</span>
+          <h2 id="conversationTitle">Conversación</h2>
+          <p id="conversationContext"></p>
+        </div>
+        <button class="drawer-close" type="button" aria-label="Cerrar" data-close-conversation>×</button>
+      </header>
+
+      <div class="drawer-layout">
+        <section class="chat-column">
+          <div class="timeline-toolbar">
+            <span id="timelineSummary">0 mensajes</span>
+            <button id="jumpToLatest" type="button" class="secondary-button compact-button">Ir al último ↓</button>
+          </div>
+          <div id="conversationTimeline" class="conversation-timeline" aria-live="polite"></div>
+          <form id="conversationForm" class="composer">
+            <input id="conversationRequestId" type="hidden">
+            <div class="composer-row">
+              <label>Plantilla
+                <select id="conversationTemplate">
+                  <option value="custom">Mensaje personalizado</option>
+                  <option value="missing_cv">Solicitar CV anterior</option>
+                  <option value="missing_photo">Solicitar fotografía</option>
+                  <option value="missing_experience">Solicitar experiencia laboral</option>
+                  <option value="missing_documents">Solicitar documentación</option>
+                  <option value="clarify_objective">Aclarar objetivo</option>
+                  <option value="brand_material">Solicitar material de marca</option>
+                  <option value="schedule">Coordinar contacto</option>
+                  <option value="budget">Aviso de presupuesto</option>
+                  <option value="delivery">Aviso de entrega</option>
+                </select>
+              </label>
+              <label>Asunto<input id="conversationSubject" type="text" maxlength="180" required></label>
+            </div>
+            <label>Mensaje<textarea id="conversationMessage" rows="7" maxlength="6000" required placeholder="Escribí tu respuesta..."></textarea></label>
+            <div id="selectedAttachments" class="selected-attachments"></div>
+            <div class="composer-actions">
+              <label class="file-button">📎 Adjuntar archivos<input id="conversationFiles" type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp"></label>
+              <label class="check"><input id="conversationCopy" type="checkbox" checked> Copia interna</label>
+              <span id="conversationSendStatus" class="message"></span>
+              <button id="sendConversation" type="submit">Enviar desde CVStudio</button>
+            </div>
+          </form>
+        </section>
+
+        <aside class="client-sidebar">
+          <section class="side-card">
+            <h3>Cliente</h3>
+            <dl id="conversationClient"></dl>
+          </section>
+          <section class="side-card">
+            <h3>Seguimiento</h3>
+            <label>Estado<select id="conversationStatus"></select></label>
+            <label>Notas internas<textarea id="conversationNotes" rows="5" placeholder="No visibles para el cliente"></textarea></label>
+            <label>Próximo seguimiento<input id="conversationReminder" type="datetime-local"></label>
+            <button id="saveConversationMeta" type="button">Guardar seguimiento</button>
+          </section>
+          <section class="side-card">
+            <h3>Herramientas</h3>
+            <button id="registerIncoming" class="secondary-button" type="button">Registrar mensaje recibido</button>
+            <button id="addSystemEvent" class="secondary-button" type="button">Agregar evento interno</button>
+            <p class="side-help">Estas opciones permiten completar el historial manualmente mientras se habilita la recepción automática del buzón.</p>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </aside>
+
+  <div id="quickEntryModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close-quick></div>
+    <section class="modal-panel small" role="dialog" aria-modal="true">
+      <button class="modal-close" type="button" data-close-quick>×</button>
+      <span class="eyebrow">Historial manual</span>
+      <h2 id="quickEntryTitle">Registrar mensaje</h2>
+      <form id="quickEntryForm">
+        <label>Asunto<input id="quickEntrySubject" type="text" maxlength="180" required></label>
+        <label>Contenido<textarea id="quickEntryMessage" rows="8" maxlength="12000" required></textarea></label>
+        <div class="modal-actions"><button type="button" class="secondary-button" data-close-quick>Cancelar</button><button type="submit">Guardar en historial</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div id="portfolioCreateModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close-portfolio-create></div>
+    <section class="modal-panel portfolio-create-panel" role="dialog" aria-modal="true" aria-labelledby="portfolioCreateTitle">
+      <button class="modal-close" type="button" data-close-portfolio-create>×</button>
+      <span class="eyebrow">Alta de cliente</span>
+      <h2 id="portfolioCreateTitle">Crear acceso de portfolio</h2>
+      <p class="portfolio-form-intro">El sistema generará una cuenta privada y la dirección pública inicial del cliente.</p>
+      <form id="portfolioCreateForm">
+        <div class="portfolio-form-grid">
+          <label>Nombre completo<input id="portfolioFullName" type="text" maxlength="120" required></label>
+          <label>Marca o nombre profesional<input id="portfolioBrandName" type="text" maxlength="120"></label>
+          <label>Usuario<input id="portfolioUsername" type="text" maxlength="40" pattern="[a-z0-9._-]+" required autocomplete="off"><small>Solo minúsculas, números, punto, guion y guion bajo.</small></label>
+          <label>URL personalizada<input id="portfolioSlug" type="text" maxlength="80" pattern="[a-z0-9-]+" required autocomplete="off"><small>cvstudio.com.ar/<strong id="portfolioSlugPreview">cliente</strong></small></label>
+          <label>Correo de contacto<input id="portfolioContactEmail" type="email" maxlength="160"></label>
+          <label>WhatsApp<input id="portfolioWhatsapp" type="tel" maxlength="40" placeholder="549..."></label><label>Instagram<input id="portfolioInstagram" type="url" maxlength="240" placeholder="https://instagram.com/..."></label><label>Facebook<input id="portfolioFacebook" type="url" maxlength="240" placeholder="https://facebook.com/..."></label><label>URL inicial del logo<input id="portfolioLogoUrl" type="url" maxlength="500" placeholder="https://..."><small>El cliente luego podrá subir o reemplazar su logo.</small></label><label>Color neón<input id="portfolioNeonColor" type="color" value="#ff4f9a"></label><label>Tipografía<select id="portfolioFontStyle"><option value="elegant">Elegante</option><option value="modern">Moderna</option><option value="editorial">Editorial</option><option value="minimal">Minimalista</option></select></label><label>Intensidad del neón<input id="portfolioGlowIntensity" type="range" min="10" max="70" step="5" value="40"></label>
+          <label>Actividad o rubro<input id="portfolioBusinessType" type="text" maxlength="100" placeholder="Fotografía, diseño, arquitectura..."></label>
+          <label>Plantilla
+            <select id="portfolioTemplate" required>
+              <option value="lens">LENS / Fotografía</option><option value="atelier">ATELIER / Ropa y moda</option><option value="studio">STUDIO / Edición y creatividad</option><option value="beauty">BEAUTY / Manicura y estética</option><option value="barber">BARBER / Barbería</option><option value="tech">TECH / Tecnología</option><option value="local">LOCAL / Servicios y comercios</option>
+            </select>
+          </label>
+          <label>Estado inicial
+            <select id="portfolioInitialStatus">
+              <option value="draft">Borrador</option>
+              <option value="active">Activo</option>
+            </select>
+          </label>
+          <label>Contraseña inicial<input id="portfolioPassword" type="text" minlength="10" maxlength="72" required autocomplete="off"></label>
+        </div>
+        <label>Presentación inicial<textarea id="portfolioBio" rows="4" maxlength="1000" placeholder="Descripción profesional del cliente..."></textarea></label>
+        <div class="modal-actions">
+          <button type="button" class="secondary-button" data-close-portfolio-create>Cancelar</button>
+          <button id="createPortfolioClient" type="submit">Crear cuenta y portfolio</button>
+        </div>
+        <p id="portfolioCreateMessage" class="message"></p>
+      </form>
+    </section>
+  </div>
+
+  <div id="portfolioCredentialsModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close-portfolio-credentials></div>
+    <section class="modal-panel small credentials-panel" role="dialog" aria-modal="true">
+      <button class="modal-close" type="button" data-close-portfolio-credentials>×</button>
+      <span class="eyebrow">Cuenta creada</span>
+      <h2>Acceso del cliente</h2>
+      <p>Copiá estos datos ahora. La contraseña no se guarda ni vuelve a mostrarse en el panel.</p>
+      <dl class="credential-list">
+        <div><dt>Usuario</dt><dd id="credentialUsername"></dd></div>
+        <div><dt>Contraseña inicial</dt><dd id="credentialPassword"></dd></div>
+        <div><dt>Acceso privado</dt><dd id="credentialLoginUrl"></dd></div>
+        <div><dt>Portfolio público</dt><dd id="credentialPublicUrl"></dd></div>
+      </dl>
+      <div class="modal-actions">
+        <button id="copyPortfolioCredentials" type="button">Copiar datos</button>
+        <button class="secondary-button" type="button" data-close-portfolio-credentials>Cerrar</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase-config.js"></script>
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <script src="/js/siac-admin.js?v=2.4.0"></script>
+  <script src="/js/portfolio-config.js?v=3.0.0"></script>
+  <script src="/js/portfolio-admin.js?v=4.3.0"></script>
+  <script src="/js/payments-admin.js?v=4.4.0"></script>
+</body>
+</html>

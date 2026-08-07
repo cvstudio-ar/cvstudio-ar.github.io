@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Portfolio profesional | CVStudio</title>
+  <meta name="description" content="Portfolio profesional creado con CVStudio">
+  <style>
+    :root{--primary:#9b5de5;--secondary:#ffd23f;--bg:#06101e;--panel:#0e1d31;--text:#f7f9fc;--muted:#a9b8cc}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 15% 0,color-mix(in srgb,var(--primary) 20%,transparent),transparent 35%),linear-gradient(145deg,#07111f,#02070d);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+    .shell{min-height:100vh;display:grid;place-items:center;padding:28px}.card{width:min(980px,100%);border:1px solid rgba(255,255,255,.13);border-radius:26px;background:rgba(12,28,48,.9);box-shadow:0 30px 80px rgba(0,0,0,.45);overflow:hidden}
+    .top{height:8px;background:linear-gradient(90deg,var(--primary),var(--secondary))}.content{padding:clamp(28px,6vw,70px)}.brand{display:flex;align-items:center;gap:11px;color:var(--secondary);font-weight:900;letter-spacing:.05em}.logo{width:38px;height:38px;border-radius:11px;border:1px solid color-mix(in srgb,var(--secondary) 65%,transparent);display:grid;place-items:center}
+    .badge{display:inline-flex;margin-top:50px;padding:7px 12px;border-radius:999px;background:color-mix(in srgb,var(--primary) 18%,transparent);border:1px solid color-mix(in srgb,var(--primary) 55%,transparent);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+    h1{font-size:clamp(42px,8vw,84px);line-height:.96;margin:20px 0 16px;overflow-wrap:anywhere}h2{font-size:clamp(30px,5vw,52px);margin:0 0 14px}.lead{font-size:clamp(17px,2vw,22px);line-height:1.6;color:var(--muted);max-width:760px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:35px}.button{border:0;border-radius:12px;padding:13px 19px;font-weight:900;text-decoration:none;cursor:pointer}.primary{background:var(--secondary);color:#07101c}.secondary{background:#142844;color:#fff;border:1px solid rgba(255,255,255,.14)}
+    .meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:45px}.meta div{padding:16px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09)}.meta span,.meta strong{display:block}.meta span{color:var(--muted);font-size:12px;margin-bottom:7px}.empty{text-align:center}.empty .actions{justify-content:center}.password{max-width:420px;margin:25px auto 0;display:grid;gap:10px}.password input{width:100%;padding:13px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:#071322;color:white}.error{color:#ff8b9b;min-height:20px}
+    @media(max-width:640px){.content{padding:28px 22px}.meta{grid-template-columns:1fr}.badge{margin-top:34px}}
+  </style>
+</head>
+<body><main class="shell"><section class="card"><div class="top"></div><div class="content" id="root"><div class="empty"><h2>Cargando espacio…</h2></div></div></section></main>
+<script>
+(() => {
+  const path=location.pathname.replace(/^\/+|\/+$/g,'');
+  if(/^beauty-nails-by-eliana(?:\.html)?$/.test(path)){location.replace('/beauty-nails-by-eliana/?v=1.3.3'+location.hash);return;}
+  if(/^julieta-ferrari(?:\.html)?$/.test(path)){location.replace('/julieta-ferrari/?v=1.3.3'+location.hash);return;}
+  const root=document.getElementById('root');
+  const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  let state={}; try{state=JSON.parse(localStorage.getItem('cvstudio_ops_operational_v2')||'{}')}catch(_){ }
+  const space=(state.urlSpaces||[]).find(s=>s.slug===path);
+  const unavailable=(message='Esta página todavía no fue publicada o la dirección no es correcta.')=>{root.innerHTML=`<div class="empty"><div class="brand" style="justify-content:center"><span class="logo">CV</span> CVStudio</div><h2 style="margin-top:50px">Portfolio no disponible</h2><p class="lead" style="margin-inline:auto">${esc(message)}</p><div class="actions"><a class="button primary" href="/">Volver a CVStudio</a></div></div>`};
+  if(!space){unavailable();return;}
+  document.documentElement.style.setProperty('--primary',space.primaryColor||'#9b5de5');document.documentElement.style.setProperty('--secondary',space.secondaryColor||'#ffd23f');
+  if(space.status!=='Publicado'){unavailable(space.status==='Pausado'?'Este espacio se encuentra pausado temporalmente.':'Este espacio todavía se encuentra en borrador.');return;}
+  const render=()=>{document.title=`${space.name} | Portfolio CVStudio`;root.innerHTML=`<div class="brand"><span class="logo">CV</span> CVStudio</div><span class="badge">${esc(space.service||'Portfolio profesional')}</span><h1>${esc(space.name||'Portfolio profesional')}</h1><p class="lead">Espacio profesional publicado y administrado desde el Centro de Operaciones CVStudio.</p><div class="actions"><a class="button primary" href="/">Contactar con CVStudio</a>${space.downloads!==false?'<button class="button secondary" type="button" onclick="alert(\'Las descargas se habilitarán al cargar archivos en este espacio.\')">Descargas habilitadas</button>':''}</div><div class="meta"><div><span>Estado</span><strong>Publicado</strong></div><div><span>Acceso</span><strong>${space.protected?'Protegido':'Público'}</strong></div></div>`};
+  if(space.protected){root.innerHTML=`<div class="empty"><div class="brand" style="justify-content:center"><span class="logo">CV</span> CVStudio</div><h2 style="margin-top:45px">Espacio protegido</h2><p class="lead" style="margin-inline:auto">Ingresá la contraseña configurada para acceder.</p><form class="password" id="passwordForm"><input id="passwordInput" type="password" autocomplete="current-password" placeholder="Contraseña" required><button class="button primary">Ingresar</button><div class="error" id="passwordError"></div></form></div>`;document.getElementById('passwordForm').onsubmit=e=>{e.preventDefault();if(document.getElementById('passwordInput').value===String(space.password||''))render();else document.getElementById('passwordError').textContent='Contraseña incorrecta.'};return;}
+  render();
+})();
+</script></body></html>

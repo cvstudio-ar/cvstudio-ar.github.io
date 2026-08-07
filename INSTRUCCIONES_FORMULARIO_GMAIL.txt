@@ -1,0 +1,10 @@
+DESTINATARIO FIJO: cvstudioargentina@gmail.com
+
+IMPORTANTE:
+1. Copiar TODO el contenido de WORKER_CVSTUDIO_CONTACTO_ESTABLE.js.
+2. Reemplazar el código actual del Worker en Cloudflare.
+3. Presionar Deploy.
+4. La variable vieja FORM_NOTIFICATION_EMAIL ya no se utiliza. Puede eliminarse de Cloudflare para evitar confusión.
+5. Mantener RESEND_API_KEY.
+
+El remitente contacto@cvstudio.com.ar es solo la identidad técnica. El receptor real y directo es cvstudioargentina@gmail.com.

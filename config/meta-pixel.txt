@@ -1,0 +1,4 @@
+Meta Pixel
+Estado: PENDIENTE
+
+Se integrará cuando se cree el nuevo ecosistema de Meta y se obtenga el Pixel ID.
