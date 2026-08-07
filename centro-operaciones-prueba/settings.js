@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.4.42',build:'20260807-public-price-cors',date:'07/08/2026 · 08:35',name:'Precios públicos y cierre final corregidos'};
+const APP_RELEASE={version:'v1.4.43',build:'20260807-mobile-final',date:'07/08/2026 · 08:45',name:'Ajustes finales exclusivos para celular'};
 const CHANGELOG=[
+ {version:'v1.4.43',date:'07/08/2026',items:['Beneficios en cuadrícula móvil 2 × 2.','Portfolio con carrusel táctil horizontal habilitado.','Proceso móvil organizado verticalmente.','Cierre comercial móvil rediseñado sin flechas.','Vista de escritorio conservada sin cambios.']},
  {version:'v1.4.42',date:'07/08/2026',items:['Bloqueo CORS de lectura pública eliminado.','Los precios guardados se reflejan en las tarjetas comerciales.','Textos legales trasladados al final visible de la página.']},
  {version:'v1.4.41',date:'07/08/2026',items:['Autorización del propietario corregida en Cloudflare Worker.','Actualización conjunta de todos los precios comerciales.','Mensajes de error de sincronización detallados.','Portfolio con imágenes a sangre y controles premium.','Footer ajustado al final real del contenido.']},
  {version:'v1.4.40',date:'07/08/2026',items:['Portfolio rediseñado en una fila uniforme.','Proceso compacto en cuatro pasos con iconografía vectorial.','Cierre comercial reducido y equilibrado.','Footer recortado y columnas paralelas en celular.','Sincronización de precios corregida por identificador de producto.']},

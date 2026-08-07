@@ -1,7 +1,7 @@
 {
-  "version": "1.4.42",
-  "build": "20260807-public-price-cors",
+  "version": "1.4.43",
+  "build": "20260807-mobile-final",
   "releasedAt": "2026-08-07T07:45:00-03:00",
   "channel": "production",
-  "name": "Precios públicos y cierre final corregidos"
+  "name": "Ajustes finales exclusivos para celular"
 }
