@@ -1,7 +1,7 @@
 {
-  "version": "1.4.39",
-  "build": "20260807-home-compacta-final",
+  "version": "1.4.40",
+  "build": "20260807-layout-sync-final",
   "releasedAt": "2026-08-07T07:45:00-03:00",
   "channel": "production",
-  "name": "Web compacta, demostraciones y precios dinámicos"
+  "name": "Diseño alineado y sincronización comercial"
 }

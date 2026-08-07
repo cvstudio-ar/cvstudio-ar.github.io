@@ -234,9 +234,17 @@
   async function deleteCollaboratorAuth(payload) { return api('collaborator-admin-delete', {authUserId:payload.authUserId,email:payload.email}); }
   async function updatePrices(prices) {
     const products = getState()._realProducts || [];
+    const priceKeyByProductId = {
+      'cv-profesional':'CV Profesional',
+      'cv-freelance':'CV Freelance',
+      'linkedin':'LinkedIn',
+      'combo-2-cv':'Combo 2 CV Profesionales',
+      'combo-cv-linkedin':'CV + LinkedIn'
+    };
     const calls = products.map(p => {
-      const value = prices[p.title];
-      if (!value) return null;
+      const key = priceKeyByProductId[p.product_id];
+      const value = Number(prices[key]);
+      if (!key || !Number.isFinite(value) || value <= 0) return null;
       return api('payments-admin-product-update',{productId:p.product_id,unitPrice:value,testPrice:p.test_price||'',testMode:Boolean(p.test_mode),active:p.active!==false});
     }).filter(Boolean);
     return Promise.all(calls);

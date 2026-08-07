@@ -7,11 +7,10 @@
   const STORE_KEY = 'cvstudio_ops_operational_v2';
   const SERVICE_DEFAULTS = {
     'CV Profesional': 12000,
+    'CV Freelance': 16000,
     'LinkedIn': 19000,
-    'LinkedIn Profesional': 19000,
-    'Combo CV + LinkedIn': 25000,
     'CV + LinkedIn': 25000,
-    '2 CV Profesionales': 20000,
+    'Combo 2 CV Profesionales': 20000,
     'Portfolio': 35000,
     'Kit Emprendedor': 45000,
     'Kit + Web': 75000
@@ -47,6 +46,17 @@
         const roleMap={'Administrador':'Director','Coordinador':'Líder','Producción':'Operario','Diseñador':'Operario','Redactor':'Operario','Corrector':'Operario','Editor LinkedIn':'Operario','Portfolio':'Operario','Marketing':'Operario','Atención al cliente':'Operario'};
         stored.clients=(stored.clients||[]).map(c=>({...c,formData:c.formData&&typeof c.formData==='object'?c.formData:{}}));
         stored.collaborators.forEach(c=>{c.role=roleMap[c.role]||c.role||'Aprendiz';c.roleHistory=Array.isArray(c.roleHistory)?c.roleHistory:[];c.capabilities=Array.isArray(c.capabilities)?c.capabilities:[];c.permissions=Array.isArray(c.permissions)&&c.permissions.length?c.permissions:permissionsForRole(c.role);c.training=c.training&&typeof c.training==='object'?c.training:{};});
+        const previousPrices=stored.prices||{};
+        stored.prices={
+          'CV Profesional':Number(previousPrices['CV Profesional']??12000),
+          'CV Freelance':Number(previousPrices['CV Freelance']??16000),
+          'LinkedIn':Number(previousPrices.LinkedIn??previousPrices['LinkedIn Profesional']??19000),
+          'Combo 2 CV Profesionales':Number(previousPrices['Combo 2 CV Profesionales']??previousPrices['2 CV Profesionales']??20000),
+          'CV + LinkedIn':Number(previousPrices['CV + LinkedIn']??previousPrices['Combo CV + LinkedIn']??25000),
+          'Portfolio':Number(previousPrices.Portfolio??35000),
+          'Kit Emprendedor':Number(previousPrices['Kit Emprendedor']??45000),
+          'Kit + Web':Number(previousPrices['Kit + Web']??75000)
+        };
         return stored;
       }
     } catch (_) {}

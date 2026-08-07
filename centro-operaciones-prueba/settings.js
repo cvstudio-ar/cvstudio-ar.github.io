@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.4.39',build:'20260807-home-compacta-final',date:'07/08/2026 · 07:45',name:'Web compacta, demostraciones y precios dinámicos'};
+const APP_RELEASE={version:'v1.4.40',build:'20260807-layout-sync-final',date:'07/08/2026 · 08:05',name:'Diseño alineado y sincronización comercial'};
 const CHANGELOG=[
+ {version:'v1.4.40',date:'07/08/2026',items:['Portfolio rediseñado en una fila uniforme.','Proceso compacto en cuatro pasos con iconografía vectorial.','Cierre comercial reducido y equilibrado.','Footer recortado y columnas paralelas en celular.','Sincronización de precios corregida por identificador de producto.']},
  {version:'v1.4.39',date:'07/08/2026',items:['Demostraciones trasladadas debajo de servicios y sin precios superpuestos.','Portfolio uniforme en cuatro tarjetas.','Proceso reducido a una franja compacta de cuatro pasos.','Ventajas renovadas con iconos vectoriales.','Entrega actualizada a 2–4 horas.','Precios exteriores conectados a la configuración comercial.']},
  {version:'v1.4.38',date:'07/08/2026',items:['Servicios y precios trasladados al inicio del recorrido comercial.','Página principal reducida y enfocada en conversión.','Portfolio, proceso, pagos y preguntas compactados.','Vista móvil del proyecto CV corregida.']},
  {version:'v1.4.37',date:'07/08/2026',items:['Administración reorganizada en dos niveles sin perder funciones.','Configuración compactada para mostrar los ocho módulos en una pantalla.','Tarjetas, botones y espacios verticales reajustados.']},
