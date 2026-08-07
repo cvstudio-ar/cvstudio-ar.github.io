@@ -838,7 +838,7 @@
   const formatArs = (value) => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(Number(value || 0));
   const applyRemotePrices = async () => {
     try {
-      const response = await fetch(paymentWorkerUrl, { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' }, body: JSON.stringify({ action: 'mercadopago-products', timestamp: Date.now() }) });
+      const response = await fetch(paymentWorkerUrl, { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'mercadopago-products', timestamp: Date.now() }) });
       const data = await response.json();
       if (!response.ok || !data.ok || !Array.isArray(data.products)) return;
       data.products.forEach((product) => {

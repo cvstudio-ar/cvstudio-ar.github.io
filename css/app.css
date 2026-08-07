@@ -8258,3 +8258,11 @@ body{padding-bottom:0!important}
   .footer-container{gap:17px!important}
   .footer-bottom{margin-top:14px!important;padding:9px 0 5px!important}
 }
+
+/* v4.9.0 · cierre legal apoyado sobre el final visible */
+@media(min-width:561px){
+  .footer-bottom{position:relative!important;top:68px!important;z-index:3!important}
+}
+@media(max-width:560px){
+  .footer-bottom{position:relative!important;top:16px!important;z-index:3!important}
+}
