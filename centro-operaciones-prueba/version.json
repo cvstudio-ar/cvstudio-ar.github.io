@@ -1,7 +1,7 @@
 {
-  "version": "1.4.43",
-  "build": "20260807-mobile-final",
+  "version": "1.4.44",
+  "build": "20260807-home-notifications-calendar",
   "releasedAt": "2026-08-07T07:45:00-03:00",
   "channel": "production",
-  "name": "Ajustes finales exclusivos para celular"
+  "name": "Inicio compacto con notificaciones y calendario"
 }

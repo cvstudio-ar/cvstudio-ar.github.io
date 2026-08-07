@@ -485,6 +485,49 @@
 .main-content[data-module="administracion"] .donut{width:100px;height:100px}
 .main-content[data-module="marketing"] .marketing-grid-premium{gap:8px}
 .main-content[data-module="marketing"] .chart-premium-body{height:158px;min-height:158px}
+
+/* v1.4.44 · Inicio compacto, notificaciones y calendario superior */
+.main-content[data-module="inicio"]{padding:10px 14px 14px}
+.main-content[data-module="inicio"] .kpi-grid{margin-bottom:8px;gap:8px}
+.main-content[data-module="inicio"] .kpi-card{min-height:68px;padding:8px 10px;grid-template-columns:34px 1fr;gap:8px}
+.main-content[data-module="inicio"] .kpi-icon{width:34px;height:34px}
+.main-content[data-module="inicio"] .kpi-card strong{font-size:18px;margin:2px 0}
+.main-content[data-module="inicio"] .kpi-card small,.main-content[data-module="inicio"] .trend{font-size:9px}
+.main-content[data-module="inicio"] .dashboard-layout{gap:8px;align-items:start}
+.main-content[data-module="inicio"] .panel{padding:10px}
+.main-content[data-module="inicio"] .panel-head{margin-bottom:7px}
+.main-content[data-module="inicio"] .panel h2{font-size:16px}
+.main-content[data-module="inicio"] .panel-head p{font-size:10px}
+.main-content[data-module="inicio"] .chart-premium{gap:3px}
+.main-content[data-module="inicio"] .chart-premium-legend{min-height:18px;font-size:10px;gap:14px}
+.main-content[data-module="inicio"] .chart-premium-legend i{width:16px;height:3px}
+.main-content[data-module="inicio"] .chart-premium-body{height:132px;min-height:132px;grid-template-columns:38px minmax(0,1fr);gap:6px}
+.main-content[data-module="inicio"] .chart-y-axis{font-size:9px}
+.main-content[data-module="inicio"] .chart-x-axis{font-size:9px}
+.main-content[data-module="inicio"] .activity-list{gap:4px}
+.main-content[data-module="inicio"] .activity-item{min-height:40px;padding:5px 6px;gap:7px}
+.main-content[data-module="inicio"] .activity-dot{width:25px;height:25px}
+.main-content[data-module="inicio"] .activity-item strong{font-size:11px}
+.main-content[data-module="inicio"] .activity-item small,.main-content[data-module="inicio"] .activity-item time{font-size:9px;margin-top:2px}
+.main-content[data-module="inicio"] .donut{width:92px;height:92px}
+.main-content[data-module="inicio"] .donut::after{inset:18px;font-size:10px}
+.main-content[data-module="inicio"] .legend{gap:4px}
+.main-content[data-module="inicio"] .legend span{font-size:9px}
+.main-content[data-module="inicio"] .funnel{gap:5px}
+.main-content[data-module="inicio"] .funnel-row{padding:7px 9px;font-size:10px}
+.main-content[data-module="inicio"] .campaign-card{padding:7px;margin-bottom:5px;font-size:10px}
+.main-content[data-module="inicio"] .campaign-card p{margin:5px 0 0;font-size:9px;line-height:1.35}
+.notification.is-read{color:var(--muted)}
+.header-modal-title{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:16px;padding-right:34px}
+.header-modal-title>div{display:flex;align-items:center;gap:10px}.header-modal-title h2{margin:0}.header-modal-title>small{color:var(--muted);font-size:11px;text-align:right}
+.header-modal-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:rgba(255,210,63,.12);color:var(--yellow)}
+.header-notification-list{display:grid;gap:8px}.header-notification-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.025)}
+.header-notification-item>span{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 15%,transparent)}
+.header-notification-item strong,.header-notification-item small{display:block}.header-notification-item small,.header-notification-item time{margin-top:3px;color:var(--muted);font-size:10px}
+.mini-calendar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.mini-calendar-head strong,.mini-calendar-head small{display:block}.mini-calendar-head small{color:var(--muted);margin-top:3px;font-size:11px}
+.mini-calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.mini-calendar-name{text-align:center;color:var(--muted);font-size:10px;font-weight:800;padding:3px}
+.mini-calendar-day{position:relative;min-height:38px;border:1px solid rgba(255,255,255,.055);border-radius:9px;background:rgba(255,255,255,.022);color:var(--text);cursor:pointer}.mini-calendar-day.is-empty{visibility:hidden}.mini-calendar-day.is-today{border-color:var(--yellow)}.mini-calendar-day.has-event{background:color-mix(in srgb,var(--event) 18%,rgba(255,255,255,.025));border-color:color-mix(in srgb,var(--event) 45%,transparent)}.mini-calendar-day i{position:absolute;left:50%;bottom:5px;width:5px;height:5px;border-radius:50%;background:var(--event);transform:translateX(-50%)}
+.mini-calendar-events{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px}.mini-calendar-events>div{display:grid;grid-template-columns:7px 1fr auto;gap:7px;align-items:center;padding:7px 8px;border-radius:8px;background:rgba(255,255,255,.025)}.mini-calendar-events i{width:7px;height:7px;border-radius:50%;background:var(--c)}.mini-calendar-events span{font-size:10px}.mini-calendar-events span b{margin-right:5px;color:var(--muted)}.mini-calendar-events small{font-size:9px;color:var(--muted)}
 .main-content[data-module="marketing"] .channel{padding:7px}
 .main-content[data-module="marketing"] .channel-metrics{margin-top:6px;gap:5px}
 .main-content[data-module="marketing"] .creative-card{height:82px;padding:7px;font-size:11px}

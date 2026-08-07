@@ -126,7 +126,7 @@
     </section>
     <section class="grid dashboard-layout">
       <section class="panel span-2"><div class="panel-head"><div><h2>Resumen de actividad</h2><p>Movimientos registrados en los últimos días</p></div></div>${state.activities.length || state.payments.length || state.jobs.length ? lineSvg() : `<div class="empty-state empty-state-large"><strong>Sin actividad registrada</strong><span>Los movimientos aparecerán aquí cuando ingresen clientes, pagos o trabajos.</span></div>`}</section>
-      ${panel('Actividad reciente', latestActivityHtml())}
+      ${panel('Actividad reciente', latestActivityHtml(4))}
       ${panel('Ingresos por servicio',`<div class="donut-wrap">${donutChart(money(revenue).replace('$ ','$'),'Confirmado')}<div class="legend">${sortedServices.map(([name,val],i)=>`<span style="--c:${['#35d07f','#3b82f6','#9b5de5','#ff8a1f'][i%4]}"><i></i>${esc(name)} · ${money(val)}</span>`).join('') || '<span>Sin pagos confirmados</span>'}</div></div>`)}
       ${panel('Embudo de ventas',`<div class="funnel"><div class="funnel-row" style="--c:#9b5de5"><span>Clientes</span><b>${consultations}</b></div><div class="funnel-row" style="--c:#3b82f6"><span>En seguimiento</span><b>${interested}</b></div><div class="funnel-row" style="--c:#ffb800"><span>Pagos pendientes</span><b>${pending}</b></div><div class="funnel-row" style="--c:#35d07f"><span>Ventas confirmadas</span><b>${confirmedPayments().length}</b></div></div>`)}
       ${panel('Estado operativo',`<div class="campaign-card"><div class="campaign-head"><span class="platform">${icon('database')} Base de datos</span><span class="status" style="--c:#35d07f">Operativa</span></div><p>Clientes, pagos, trabajos y movimientos se sincronizan con Supabase.</p></div><div class="campaign-card"><div class="campaign-head"><span class="platform">${icon('shield')} Panel anterior</span><span class="status" style="--c:#35d07f">Respaldo</span></div><p>El panel /admin permanece disponible durante la transición.</p></div>`)}
@@ -788,6 +788,34 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(btn.dataset.quick==='job')modalCreateJob();
     if(btn.dataset.quick==='reset')resetState();
   });
+
+  const notificationButton=document.getElementById('notificationButton');
+  const notificationCount=document.getElementById('notificationCount');
+  if(notificationButton) notificationButton.onclick=()=>{
+    const items=(state.activities||[]).slice(0,3);
+    const content=items.length?items.map(item=>`<div class="header-notification-item"><span style="--c:${activityColor(item.type)}">${icon(typeIcon(item.type))}</span><div><strong>${esc(item.title)}</strong><small>${esc(item.detail)}</small></div><time>${formatDateTime(item.at||item.createdAt)}</time></div>`).join(''):`<div class="header-notification-item"><span style="--c:#3b82f6">${icon('calendar')}</span><div><strong>Agenda disponible</strong><small>Revisá campañas, fechas y actividades programadas.</small></div></div><div class="header-notification-item"><span style="--c:#35d07f">${icon('database')}</span><div><strong>Sistema operativo</strong><small>Supabase se encuentra conectado.</small></div></div><div class="header-notification-item"><span style="--c:#ffd23f">${icon('shield')}</span><div><strong>Sin alertas críticas</strong><small>No hay incidencias pendientes.</small></div></div>`;
+    openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('bell')}</span><h2 id="modalTitle">Notificaciones</h2></div><small>Últimos movimientos del Centro de Operaciones</small></div><div class="header-notification-list">${content}</div>`);
+    notificationButton.classList.add('is-read');
+    if(notificationCount){notificationCount.textContent='0';notificationCount.hidden=true;}
+  };
+
+  const calendarEvents={
+    3:{label:'Liquidaciones y revisión mensual',color:'#9b5de5',type:'Administración'},
+    7:{label:'Campaña de CV Profesional',color:'#3b82f6',type:'Marketing'},
+    14:{label:'Cumpleaños del equipo',color:'#ffd23f',type:'Equipo'},
+    17:{label:'Feriado: General San Martín',color:'#35d07f',type:'Argentina'},
+    21:{label:'Publicación y seguimiento',color:'#e1306c',type:'Redes'},
+    31:{label:'Cierre mensual',color:'#ff8a1f',type:'Administración'}
+  };
+  const miniCalendarHtml=()=>{
+    const days=['L','M','M','J','V','S','D'].map(day=>`<span class="mini-calendar-name">${day}</span>`).join('');
+    const blanks='<span class="mini-calendar-day is-empty"></span>'.repeat(5);
+    const dates=Array.from({length:31},(_,index)=>{const day=index+1,event=calendarEvents[day];return `<button class="mini-calendar-day ${event?'has-event':''} ${day===3?'is-today':''}" type="button" ${event?`style="--event:${event.color}" title="${esc(event.label)}"`:''}><b>${day}</b>${event?'<i></i>':''}</button>`}).join('');
+    return `<div class="mini-calendar"><div class="mini-calendar-head"><div><strong>Agosto 2026</strong><small>Agenda CVStudio</small></div><span class="status" style="--c:#35d07f">6 eventos</span></div><div class="mini-calendar-grid">${days}${blanks}${dates}</div><div class="mini-calendar-events">${Object.entries(calendarEvents).map(([day,event])=>`<div><i style="--c:${event.color}"></i><span><b>${day} Ago</b>${esc(event.label)}</span><small>${event.type}</small></div>`).join('')}</div></div>`;
+  };
+  const dateChip=document.getElementById('dateChip');
+  if(dateChip) dateChip.onclick=()=>openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('calendar')}</span><h2 id="modalTitle">Calendario</h2></div><small>Campañas, cumpleaños, feriados y tareas</small></div>${miniCalendarHtml()}<div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button><button class="button primary" id="openFullCalendar">Abrir calendario completo</button></div>`);
+  document.addEventListener('click',event=>{if(event.target.closest('#openFullCalendar')){closeModal();openModule('calendario');}});
 
   // Actualiza la interfaz en la misma página cuando Supabase o el puente real cambian el estado.
   // Evita recargas completas y bucles de sincronización.
