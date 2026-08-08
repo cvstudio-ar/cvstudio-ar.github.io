@@ -21,6 +21,9 @@ create index if not exists firmas_solicitudes_expira_idx on public.firmas_solici
 
 alter table public.firmas_solicitudes enable row level security;
 
+grant usage on schema public to service_role;
+grant all privileges on table public.firmas_solicitudes to service_role;
+
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('firmas-clientes', 'firmas-clientes', false, 1500000, array['image/png'])
 on conflict (id) do update set public=false, file_size_limit=1500000, allowed_mime_types=array['image/png'];

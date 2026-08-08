@@ -19,7 +19,7 @@ const SUPABASE_URL = 'https://eqepkoegzyqklpxkrkhm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZXBrb2Vnenlxa2xweGtya2htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTc1MzcsImV4cCI6MjEwMDQzMzUzN30.dy-gMZJRMTQyr--kCq5JsEaDzazcDXFUkxQdiLQBFx8';
 const ADMIN_USER_ID = '3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
 const CONTACT_EMAIL = 'contacto@cvstudio.com.ar';
-const WORKER_RELEASE = 'v2.10.0-signatures';
+const WORKER_RELEASE = 'v2.10.1-signatures-panel-only';
 const FORM_NOTIFICATION_EMAIL = 'cvstudioargentina@gmail.com';
 const getFormNotificationEmail = () => FORM_NOTIFICATION_EMAIL;
 const DEFAULT_RESEND_RECEIVING_DOMAIN = 'iokioalkuu.resend.app';
@@ -190,8 +190,6 @@ async function handleSignaturePublicSubmit(env,origin,body){
     const now=new Date(),expires=new Date(now.getTime()+30*60*1000),path=`${row.id}/${token}.png`;
     await signatureStorage(env,path,{method:'POST',headers:{'Content-Type':'image/png','x-upsert':'true'},body:bytes});
     await supabaseService(env,`firmas_solicitudes?id=eq.${encodeURIComponent(row.id)}`,{method:'PATCH',body:JSON.stringify({estado:'recibida',object_path:path,firmado:now.toISOString(),firma_expira:expires.toISOString(),consentimiento:now.toISOString()})});
-    if(env.RESEND_API_KEY)sendResend(env,{from:'CVStudio Firmas <contacto@cvstudio.com.ar>',to:[FORM_NOTIFICATION_EMAIL],reply_to:CONTACT_EMAIL,subject:`✍️ Firma recibida · ${row.cliente_nombre}`,html:emailShell({eyebrow:'Firma recibida',title:row.cliente_nombre,button:false,body:`<p>La firma para <strong>${escapeHtml(row.documento)}</strong> ya está disponible en el Centro de Operaciones.</p><p>Por seguridad, debe descargarse antes de las <strong>${expires.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Argentina/Buenos_Aires'})}</strong>.</p>`}),text:`Firma recibida de ${row.cliente_nombre}. Disponible por 30 minutos.`}).catch(()=>null);
-    if(env.SIGNATURE_NOTIFY_WHATSAPP&&env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN)whatsappGraph(env,`${env.WHATSAPP_PHONE_NUMBER_ID}/messages`,{method:'POST',body:JSON.stringify({messaging_product:'whatsapp',to:digitsOnly(env.SIGNATURE_NOTIFY_WHATSAPP),type:'text',text:{preview_url:false,body:`CVStudio: recibiste la firma de ${row.cliente_nombre}. Disponible en el panel durante 30 minutos.`}})}).catch(()=>null);
     return jsonResponse({ok:true,expiresAt:expires.toISOString()},200,origin);
   }catch(error){return jsonResponse({ok:false,message:`No se pudo guardar la firma: ${error.message}`},502,origin)}
 }

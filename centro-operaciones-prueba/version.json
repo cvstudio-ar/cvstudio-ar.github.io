@@ -1,7 +1,7 @@
 {
-  "version": "1.4.46",
-  "build": "20260808-signatures",
-  "releasedAt": "2026-08-08T09:00:00-03:00",
+  "version": "1.4.47",
+  "build": "20260808-signatures-ui-final",
+  "releasedAt": "2026-08-08T10:15:00-03:00",
   "channel": "production",
-  "name": "Firmas seguras de clientes"
+  "name": "Firmas seguras · interfaz final"
 }

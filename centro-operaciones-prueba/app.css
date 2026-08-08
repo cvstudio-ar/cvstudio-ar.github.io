@@ -581,3 +581,59 @@
 .main-content[data-module="inicio"] .chart-x-axis b{overflow:hidden!important;text-overflow:ellipsis!important}
 .signature-panel-status,.signature-link-box{display:grid;gap:8px;padding:16px;margin:18px 0;border:1px solid var(--border);border-radius:14px;background:var(--surface-2,#f7fafc)}
 .signature-panel-status span{color:var(--muted);font-size:.9rem}.signature-link-box input{width:100%;padding:11px;border:1px solid var(--border);border-radius:9px;background:var(--surface,#fff);color:var(--text)}.signature-link-box>div{display:flex;gap:8px;flex-wrap:wrap}.signature-link-box a{text-decoration:none}
+
+/* v1.4.47 · firmas y acciones de cliente refinadas */
+.client-actions-single-row{
+  grid-template-columns:repeat(8,minmax(0,1fr))!important;
+  gap:5px!important;
+  overflow:visible!important;
+}
+.client-actions-single-row .action-card{
+  min-width:0!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:3px 4px!important;
+  gap:4px!important;
+  font-size:10px!important;
+  white-space:nowrap!important;
+}
+.client-actions-single-row .action-card span{height:16px!important}
+.client-actions-single-row .action-card .ui-icon,
+.client-actions-single-row .action-card .brand-logo,
+.client-actions-single-row .action-card .brand-whatsapp{
+  width:14px!important;
+  height:14px!important;
+  max-width:14px!important;
+  max-height:14px!important;
+}
+.signature-panel-status,
+.signature-link-box{
+  gap:8px;
+  padding:14px;
+  margin:16px 0;
+  border:1px solid #294766;
+  border-radius:12px;
+  background:#0b1c31;
+  color:#eef5ff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.signature-panel-status strong,
+.signature-link-box strong{color:#f5f8ff}
+.signature-panel-status span{color:#a9bdd6;font-size:.82rem}
+.signature-link-box input{
+  width:100%;
+  padding:10px;
+  border:1px solid #345879;
+  border-radius:8px;
+  background:#071525;
+  color:#eef5ff;
+}
+.signature-link-box>div{display:flex;gap:7px;flex-wrap:nowrap}
+.signature-link-box .button{color:#eef5ff;border-color:#345879;background:#142a45}
+.signature-link-box .button.primary{color:#142033;background:var(--yellow);border-color:var(--yellow)}
+@media(max-width:1180px) and (min-width:1001px){
+  .client-actions-single-row .action-card{font-size:9px!important;padding-inline:2px!important}
+}
+@media(max-width:1000px){
+  .client-actions-single-row{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
