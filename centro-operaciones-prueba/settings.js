@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.4.45',build:'20260807-home-chart-hd',date:'07/08/2026 · 09:10',name:'Gráfico de Inicio rediseñado y contenido'};
+const APP_RELEASE={version:'v1.4.46',build:'20260808-signatures',date:'08/08/2026 · 09:00',name:'Firmas seguras de clientes'};
 const CHANGELOG=[
+ {version:'v1.4.46',date:'08/08/2026',items:['Solicitudes de firma vinculadas a cada cliente.','Enlace público exclusivo y firma táctil desde celular.','PNG transparente disponible en el panel durante 30 minutos.','Aviso por correo y respaldo opcional por WhatsApp.']},
  {version:'v1.4.45',date:'07/08/2026',items:['Líneas y fechas contenidas dentro del panel.','Ejes reajustados y tipografía más nítida.','Trazos, puntos y cuadrícula refinados.','Altura compacta conservada sin superposiciones.']},
  {version:'v1.4.44',date:'07/08/2026',items:['Pantalla de Inicio compactada para un solo pantallazo.','Gráfico y actividad reciente reducidos.','Campana de notificaciones funcional.','Calendario superior desplegable con eventos señalizados.','Acceso al calendario completo desde la vista rápida.']},
  {version:'v1.4.43',date:'07/08/2026',items:['Beneficios en cuadrícula móvil 2 × 2.','Portfolio con carrusel táctil horizontal habilitado.','Proceso móvil organizado verticalmente.','Cierre comercial móvil rediseñado sin flechas.','Vista de escritorio conservada sin cambios.']},

@@ -223,6 +223,9 @@
     if (error) throw error;
   }
   async function sendWhatsApp(payload) { return api('whatsapp-admin-send', payload); }
+  async function createSignatureRequest(payload) { return api('signature-admin-create', payload); }
+  async function listSignatureRequests(clientId) { return api('signature-admin-list', {clientId}); }
+  async function downloadSignature(id) { return api('signature-admin-download', {id}); }
 
   async function updateOrderStatus(realOrderId, statusValue) {
     if (!realOrderId) return;
@@ -244,7 +247,7 @@
     return api('payments-admin-products-update',{products});
   }
 
-  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth};
+  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth};
 
   window.addEventListener('DOMContentLoaded', async () => {
     try {

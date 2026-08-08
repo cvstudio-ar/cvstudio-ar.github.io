@@ -579,3 +579,5 @@
 .main-content[data-module="inicio"] .chart-premium-point{stroke:#091727!important;stroke-width:2!important}
 .main-content[data-module="inicio"] .chart-x-axis{left:1px!important;right:1px!important;bottom:2px!important;height:17px!important;color:#c5d6eb!important;font:850 9px/17px Inter,"Segoe UI",Arial,sans-serif!important;letter-spacing:.01em!important}
 .main-content[data-module="inicio"] .chart-x-axis b{overflow:hidden!important;text-overflow:ellipsis!important}
+.signature-panel-status,.signature-link-box{display:grid;gap:8px;padding:16px;margin:18px 0;border:1px solid var(--border);border-radius:14px;background:var(--surface-2,#f7fafc)}
+.signature-panel-status span{color:var(--muted);font-size:.9rem}.signature-link-box input{width:100%;padding:11px;border:1px solid var(--border);border-radius:9px;background:var(--surface,#fff);color:var(--text)}.signature-link-box>div{display:flex;gap:8px;flex-wrap:wrap}.signature-link-box a{text-decoration:none}

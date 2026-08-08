@@ -19,7 +19,7 @@ const SUPABASE_URL = 'https://eqepkoegzyqklpxkrkhm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZXBrb2Vnenlxa2xweGtya2htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTc1MzcsImV4cCI6MjEwMDQzMzUzN30.dy-gMZJRMTQyr--kCq5JsEaDzazcDXFUkxQdiLQBFx8';
 const ADMIN_USER_ID = '3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
 const CONTACT_EMAIL = 'contacto@cvstudio.com.ar';
-const WORKER_RELEASE = 'v2.9.2-price-sync-owner-auth';
+const WORKER_RELEASE = 'v2.10.0-signatures';
 const FORM_NOTIFICATION_EMAIL = 'cvstudioargentina@gmail.com';
 const getFormNotificationEmail = () => FORM_NOTIFICATION_EMAIL;
 const DEFAULT_RESEND_RECEIVING_DOMAIN = 'iokioalkuu.resend.app';
@@ -137,6 +137,82 @@ async function verifyAuthenticatedUser(request){const authorization=request.head
 function emailShell({eyebrow='CVStudio Argentina',title,body,requestCode='',button=true}){return `<!doctype html><html><body style="margin:0;background:#f3f6fb;padding:28px 12px;font-family:Arial,sans-serif;color:#172033"><table role="presentation" width="100%"><tr><td align="center"><table role="presentation" width="100%" style="max-width:650px;background:#fff;border-radius:18px;overflow:hidden"><tr><td style="background:#091225;padding:24px 30px;text-align:center"><img src="${LOGO_URL}" width="190" alt="CVStudio Argentina" style="display:block;margin:0 auto 15px"><div style="color:#ffd447;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">${escapeHtml(eyebrow)}</div><h1 style="margin:7px 0 0;color:#fff;font-size:25px">${escapeHtml(title)}</h1></td></tr><tr><td style="padding:30px;line-height:1.65;font-size:15px">${body}${requestCode?`<div style="margin:24px 0;padding:14px 16px;background:#fff8d8;border:1px solid #ffe27a;border-radius:11px"><small>Código de solicitud</small><br><strong>${escapeHtml(requestCode)}</strong></div>`:''}${button?`<p style="text-align:center"><a href="https://cvstudio.com.ar" style="display:inline-block;background:#ffd447;color:#111827;text-decoration:none;font-weight:800;padding:12px 21px;border-radius:999px">Visitar CVStudio</a></p>`:''}</td></tr><tr><td style="padding:18px 30px;background:#f8fafc;text-align:center;color:#667085;font-size:12px"><strong>CVStudio Argentina</strong><br><a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a> · cvstudio.com.ar</td></tr></table></td></tr></table></body></html>`}
 
 async function supabaseService(env,path,options={}){if(!env.SUPABASE_SERVICE_ROLE_KEY)throw new Error('Falta SUPABASE_SERVICE_ROLE_KEY');const r=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{...options,headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:`Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,'Content-Type':'application/json',Prefer:'return=representation',...(options.headers||{})}});const d=await r.json().catch(()=>null);if(!r.ok)throw new Error(d?.message||d?.hint||`Supabase devolvió ${r.status}`);return d}
+
+const SIGNATURE_BUCKET='firmas-clientes';
+async function signatureStorage(env,path,options={}){
+  if(!env.SUPABASE_SERVICE_ROLE_KEY)throw new Error('Falta SUPABASE_SERVICE_ROLE_KEY');
+  const response=await fetch(`${SUPABASE_URL}/storage/v1/object/${SIGNATURE_BUCKET}/${path}`,{...options,headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:`Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,...(options.headers||{})}});
+  if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error(data?.message||data?.error||`Storage devolvió ${response.status}`)}
+  return response;
+}
+
+async function deleteExpiredSignatures(env){
+  const now=new Date().toISOString();
+  const rows=await supabaseService(env,`firmas_solicitudes?estado=eq.recibida&firma_expira=lte.${encodeURIComponent(now)}&select=id,object_path`).catch(()=>[]);
+  for(const row of rows||[]){
+    if(row.object_path)await signatureStorage(env,row.object_path,{method:'DELETE'}).catch(()=>null);
+    await supabaseService(env,`firmas_solicitudes?id=eq.${encodeURIComponent(row.id)}`,{method:'PATCH',body:JSON.stringify({estado:'eliminada',object_path:null})}).catch(()=>null);
+  }
+}
+
+async function handleSignatureAdminCreate(request,env,origin,body){
+  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  const clientId=cleanText(body.clientId,100),clientName=cleanText(body.clientName,120),phone=cleanText(body.phone,50),documentName=cleanText(body.documentName||'Carta de presentación',120);
+  if(clientName.length<3)return jsonResponse({ok:false,message:'Falta el nombre del cliente.'},400,origin);
+  const token=crypto.randomUUID().replaceAll('-','')+crypto.randomUUID().replaceAll('-','').slice(0,12),now=new Date(),linkExpires=new Date(now.getTime()+24*60*60*1000);
+  try{
+    const rows=await supabaseService(env,'firmas_solicitudes',{method:'POST',body:JSON.stringify({token,cliente_id:clientId||null,cliente_nombre:clientName,cliente_whatsapp:phone||null,documento:documentName,estado:'pendiente',creado:now.toISOString(),enlace_expira:linkExpires.toISOString(),creado_por:admin.id})});
+    return jsonResponse({ok:true,request:rows?.[0]||null,signingUrl:`https://cvstudio.com.ar/firma/?token=${token}`},200,origin);
+  }catch(error){return jsonResponse({ok:false,message:`No se pudo crear la solicitud: ${error.message}`},502,origin)}
+}
+
+async function handleSignaturePublicGet(env,origin,body){
+  const token=cleanText(body.token,100);if(token.length<30)return jsonResponse({ok:false,message:'Enlace de firma inválido.'},400,origin);
+  try{
+    const rows=await supabaseService(env,`firmas_solicitudes?token=eq.${encodeURIComponent(token)}&select=id,cliente_nombre,documento,estado,enlace_expira&limit=1`),row=rows?.[0];
+    if(!row)return jsonResponse({ok:false,message:'La solicitud no existe.'},404,origin);
+    if(new Date(row.enlace_expira)<=new Date())return jsonResponse({ok:false,message:'El enlace de firma venció. Solicitá uno nuevo a CVStudio.'},410,origin);
+    if(row.estado!=='pendiente')return jsonResponse({ok:false,message:'Esta firma ya fue enviada o dejó de estar disponible.'},409,origin);
+    return jsonResponse({ok:true,clientName:row.cliente_nombre,documentName:row.documento},200,origin);
+  }catch(error){return jsonResponse({ok:false,message:`No se pudo abrir la solicitud: ${error.message}`},502,origin)}
+}
+
+async function handleSignaturePublicSubmit(env,origin,body){
+  const token=cleanText(body.token,100),consent=body.consent===true,dataUrl=String(body.signature||'');
+  if(!consent)return jsonResponse({ok:false,message:'Debés aceptar la autorización de uso.'},400,origin);
+  const match=dataUrl.match(/^data:image\/png;base64,([A-Za-z0-9+/=]+)$/);if(!match)return jsonResponse({ok:false,message:'La firma no tiene un formato válido.'},400,origin);
+  const bytes=b64ToBytes(match[1]);if(bytes.length<100||bytes.length>1500000)return jsonResponse({ok:false,message:'La firma está vacía o supera el tamaño permitido.'},400,origin);
+  try{
+    const rows=await supabaseService(env,`firmas_solicitudes?token=eq.${encodeURIComponent(token)}&select=*&limit=1`),row=rows?.[0];
+    if(!row)return jsonResponse({ok:false,message:'La solicitud no existe.'},404,origin);
+    if(row.estado!=='pendiente')return jsonResponse({ok:false,message:'Esta firma ya fue enviada.'},409,origin);
+    if(new Date(row.enlace_expira)<=new Date())return jsonResponse({ok:false,message:'El enlace venció.'},410,origin);
+    const now=new Date(),expires=new Date(now.getTime()+30*60*1000),path=`${row.id}/${token}.png`;
+    await signatureStorage(env,path,{method:'POST',headers:{'Content-Type':'image/png','x-upsert':'true'},body:bytes});
+    await supabaseService(env,`firmas_solicitudes?id=eq.${encodeURIComponent(row.id)}`,{method:'PATCH',body:JSON.stringify({estado:'recibida',object_path:path,firmado:now.toISOString(),firma_expira:expires.toISOString(),consentimiento:now.toISOString()})});
+    if(env.RESEND_API_KEY)sendResend(env,{from:'CVStudio Firmas <contacto@cvstudio.com.ar>',to:[FORM_NOTIFICATION_EMAIL],reply_to:CONTACT_EMAIL,subject:`✍️ Firma recibida · ${row.cliente_nombre}`,html:emailShell({eyebrow:'Firma recibida',title:row.cliente_nombre,button:false,body:`<p>La firma para <strong>${escapeHtml(row.documento)}</strong> ya está disponible en el Centro de Operaciones.</p><p>Por seguridad, debe descargarse antes de las <strong>${expires.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Argentina/Buenos_Aires'})}</strong>.</p>`}),text:`Firma recibida de ${row.cliente_nombre}. Disponible por 30 minutos.`}).catch(()=>null);
+    if(env.SIGNATURE_NOTIFY_WHATSAPP&&env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN)whatsappGraph(env,`${env.WHATSAPP_PHONE_NUMBER_ID}/messages`,{method:'POST',body:JSON.stringify({messaging_product:'whatsapp',to:digitsOnly(env.SIGNATURE_NOTIFY_WHATSAPP),type:'text',text:{preview_url:false,body:`CVStudio: recibiste la firma de ${row.cliente_nombre}. Disponible en el panel durante 30 minutos.`}})}).catch(()=>null);
+    return jsonResponse({ok:true,expiresAt:expires.toISOString()},200,origin);
+  }catch(error){return jsonResponse({ok:false,message:`No se pudo guardar la firma: ${error.message}`},502,origin)}
+}
+
+async function handleSignatureAdminList(request,env,origin,body){
+  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  await deleteExpiredSignatures(env);
+  const clientId=cleanText(body.clientId,100),filter=clientId?`cliente_id=eq.${encodeURIComponent(clientId)}&`:'';
+  try{const rows=await supabaseService(env,`firmas_solicitudes?${filter}select=id,token,cliente_id,cliente_nombre,cliente_whatsapp,documento,estado,creado,firmado,firma_expira&order=creado.desc&limit=30`);return jsonResponse({ok:true,requests:rows||[]},200,origin)}catch(error){return jsonResponse({ok:false,message:error.message},502,origin)}
+}
+
+async function handleSignatureAdminDownload(request,env,origin,body){
+  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  await deleteExpiredSignatures(env);
+  const id=cleanText(body.id,100);try{
+    const rows=await supabaseService(env,`firmas_solicitudes?id=eq.${encodeURIComponent(id)}&select=*&limit=1`),row=rows?.[0];
+    if(!row||row.estado!=='recibida'||!row.object_path)return jsonResponse({ok:false,message:'La firma ya no está disponible.'},404,origin);
+    const response=await signatureStorage(env,row.object_path),bytes=new Uint8Array(await response.arrayBuffer());
+    return jsonResponse({ok:true,fileName:`firma-${String(row.cliente_nombre).toLowerCase().replace(/[^a-z0-9]+/g,'-')}.png`,dataUrl:`data:image/png;base64,${bytesToB64(bytes)}`,expiresAt:row.firma_expira},200,origin);
+  }catch(error){return jsonResponse({ok:false,message:`No se pudo descargar la firma: ${error.message}`},502,origin)}
+}
 
 function b64ToBytes(value){let base64=String(value).replace(/-/g,'+').replace(/_/g,'/');while(base64.length%4)base64+='=';const raw=atob(base64);return Uint8Array.from(raw,c=>c.charCodeAt(0))}
 function bytesToB64(bytes){let s='';for(const b of bytes)s+=String.fromCharCode(b);return btoa(s)}
@@ -511,4 +587,30 @@ async function handleWhatsAppAdminSend(request,env,origin,body){
     return jsonResponse({ok:true,id:result?.messages?.[0]?.id||null},200,origin);
   }catch(error){return jsonResponse({ok:false,message:`No se pudo enviar por WhatsApp: ${error.message}`},502,origin)}
 }
-export default {async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN)},200,origin);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}if(body?.action==='whatsapp-admin-send')return handleWhatsAppAdminSend(request,env,origin,body);if(body?.action==='mercadopago-products')return handlePaymentProductsPublic(env,origin);if(body?.action==='mercadopago-create-preference')return handleMercadoPagoPreference(env,origin,body);if(body?.action==='payments-admin-list')return handlePaymentsAdminList(request,env,origin);if(body?.action==='payments-admin-update')return handlePaymentsAdminUpdate(request,env,origin,body);if(body?.action==='payments-admin-products')return handlePaymentProductsAdmin(request,env,origin);if(body?.action==='payments-admin-products-update')return handlePaymentProductsBulkUpdate(request,env,origin,body);if(body?.action==='payments-admin-product-update')return handlePaymentProductUpdate(request,env,origin,body);if(!env.RESEND_API_KEY)return jsonResponse({ok:false,message:'Configuración incompleta.'},500,origin);if(body?.action==='siac-form-notification')return handleSiacFormNotification(env,origin,body);if(body?.action==='admin-reply')return handleAdminReply(request,env,origin,body);if(body?.action==='collaborator-admin-create')return handleCollaboratorAdminCreate(request,env,origin,body);if(body?.action==='collaborator-admin-update')return handleCollaboratorAdminUpdate(request,env,origin,body);if(body?.action==='collaborator-admin-delete')return handleCollaboratorAdminDelete(request,env,origin,body);if(body?.action==='portfolio-admin-list')return handlePortfolioAdminList(request,env,origin);if(body?.action==='portfolio-admin-create')return handlePortfolioAdminCreate(request,env,origin,body);if(body?.action==='portfolio-admin-update')return handlePortfolioAdminUpdate(request,env,origin,body);if(body?.action==='portfolio-admin-reset-password')return handlePortfolioAdminResetPassword(request,env,origin,body);if(body?.action==='portfolio-admin-delete')return handlePortfolioAdminDelete(request,env,origin,body);return handlePublicRequest(env,origin,body)}catch(error){console.error('Worker request failed',error);return jsonResponse({ok:false,message:`Error interno del Worker: ${error?.message||'desconocido'}`},500,origin)}}};
+export default {
+async scheduled(_event,env,ctx){ctx.waitUntil(deleteExpiredSignatures(env));},
+async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN)},200,origin);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}
+if(body?.action==='signature-public-get')return handleSignaturePublicGet(env,origin,body);
+if(body?.action==='signature-public-submit')return handleSignaturePublicSubmit(env,origin,body);
+if(body?.action==='signature-admin-create')return handleSignatureAdminCreate(request,env,origin,body);
+if(body?.action==='signature-admin-list')return handleSignatureAdminList(request,env,origin,body);
+if(body?.action==='signature-admin-download')return handleSignatureAdminDownload(request,env,origin,body);
+if(body?.action==='whatsapp-admin-send')return handleWhatsAppAdminSend(request,env,origin,body);
+if(body?.action==='mercadopago-products')return handlePaymentProductsPublic(env,origin);
+if(body?.action==='mercadopago-create-preference')return handleMercadoPagoPreference(env,origin,body);
+if(body?.action==='payments-admin-list')return handlePaymentsAdminList(request,env,origin);
+if(body?.action==='payments-admin-update')return handlePaymentsAdminUpdate(request,env,origin,body);
+if(body?.action==='payments-admin-products')return handlePaymentProductsAdmin(request,env,origin);
+if(body?.action==='payments-admin-products-update')return handlePaymentProductsBulkUpdate(request,env,origin,body);
+if(body?.action==='payments-admin-product-update')return handlePaymentProductUpdate(request,env,origin,body);if(!env.RESEND_API_KEY)return jsonResponse({ok:false,message:'Configuración incompleta.'},500,origin);
+if(body?.action==='siac-form-notification')return handleSiacFormNotification(env,origin,body);
+if(body?.action==='admin-reply')return handleAdminReply(request,env,origin,body);
+if(body?.action==='collaborator-admin-create')return handleCollaboratorAdminCreate(request,env,origin,body);
+if(body?.action==='collaborator-admin-update')return handleCollaboratorAdminUpdate(request,env,origin,body);
+if(body?.action==='collaborator-admin-delete')return handleCollaboratorAdminDelete(request,env,origin,body);
+if(body?.action==='portfolio-admin-list')return handlePortfolioAdminList(request,env,origin);
+if(body?.action==='portfolio-admin-create')return handlePortfolioAdminCreate(request,env,origin,body);
+if(body?.action==='portfolio-admin-update')return handlePortfolioAdminUpdate(request,env,origin,body);
+if(body?.action==='portfolio-admin-reset-password')return handlePortfolioAdminResetPassword(request,env,origin,body);
+if(body?.action==='portfolio-admin-delete')return handlePortfolioAdminDelete(request,env,origin,body);return handlePublicRequest(env,origin,body)
+}catch(error){console.error('Worker request failed',error);return jsonResponse({ok:false,message:`Error interno del Worker: ${error?.message||'desconocido'}`},500,origin)}}};
