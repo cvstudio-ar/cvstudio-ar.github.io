@@ -249,6 +249,7 @@
     createForm.reset();
     $('portfolioInitialStatus').value = 'draft';
     $('portfolioTemplate').value = 'creative';
+    if ($('portfolioPortalMode')) $('portfolioPortalMode').value = 'portfolio';
     $('portfolioPassword').value = generatePassword();
     $('portfolioSlugPreview').textContent = 'cliente';
     $('portfolioCreateMessage').textContent = '';
@@ -303,7 +304,7 @@
       status: $('portfolioInitialStatus').value,
       password: $('portfolioPassword').value,
       bio: $('portfolioBio').value.trim(),
-      settings:{instagram:$('portfolioInstagram').value.trim()||null,facebook:$('portfolioFacebook').value.trim()||null,logoUrl:$('portfolioLogoUrl').value.trim()||null,palette:'custom',colors:[$('portfolioNeonColor').value,'#07070b','#f7f7fa'],fontStyle:$('portfolioFontStyle').value,glowIntensity:Number($('portfolioGlowIntensity').value),showHeader:true,showSocials:true,showThumbs:true,showCounter:true,showArrows:true,showWhatsapp:true} 
+      settings:{portalMode:$('portfolioPortalMode')?.value||'portfolio',instagram:$('portfolioInstagram').value.trim()||null,facebook:$('portfolioFacebook').value.trim()||null,logoUrl:$('portfolioLogoUrl').value.trim()||null,palette:'custom',colors:[$('portfolioNeonColor').value,'#07070b','#f7f7fa'],fontStyle:$('portfolioFontStyle').value,glowIntensity:Number($('portfolioGlowIntensity').value),showHeader:true,showSocials:true,showThumbs:true,showCounter:true,showArrows:true,showWhatsapp:true} 
     };
     button.disabled = true;
     message.textContent = 'Creando usuario y portfolio…';

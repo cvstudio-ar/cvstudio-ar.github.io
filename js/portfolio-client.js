@@ -7,6 +7,8 @@
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]));
   let portfolio = null;
   let projects = [];
+  let products = [];
+  let catalogMode = false;
   let selectedImageFile = null;
   let selectedSlideFiles = [];
   let selectedSlideSections = [];
@@ -16,6 +18,9 @@
   let selectedTemplate = 'lens';
   let selectedPalette = 'gold';
   let themeColors = null;
+  let selectedProductImage = null;
+  let selectedProductGallery = [];
+  let editingProductMedia = [];
   const themes = [
     ['lens','LENS','Fotografía'],['atelier','ATELIER','Ropa y moda'],['studio','STUDIO','Edición y creatividad'],['beauty','BEAUTY','Manicura y estética'],['barber','BARBER','Barbería'],['tech','TECH','Tecnología'],['local','LOCAL','Servicios y comercios']
   ];
@@ -49,6 +54,24 @@
     const data = await response.json().catch(() => ({}));
     if (!response.ok || !data.ok) throw new Error(data.message || 'No se pudo subir la imagen.');
     return data.file;
+  }
+
+  async function optimizeCatalogImage(file) {
+    if (!file || !file.type.startsWith('image/')) return file;
+    try {
+      const bitmap = await createImageBitmap(file);
+      const maxSide = 1800;
+      const ratio = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+      const width = Math.max(1, Math.round(bitmap.width * ratio));
+      const height = Math.max(1, Math.round(bitmap.height * ratio));
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d',{alpha:false}).drawImage(bitmap,0,0,width,height);
+      bitmap.close?.();
+      const blob = await new Promise(resolve => canvas.toBlob(resolve,'image/webp',.88));
+      if (!blob) return file;
+      return new File([blob],`${file.name.replace(/\.[^.]+$/,'') || 'producto'}.webp`,{type:'image/webp'});
+    } catch (_) { return file; }
   }
 
   function initLogin() {
@@ -98,6 +121,39 @@
     themeColors = Array.isArray(portfolio.settings?.colors) ? [...portfolio.settings.colors] : [...(palettes[selectedPalette] || palettes.gold)];
     renderThemeStudio();
     $('profileBio').value = portfolio.bio || '';
+    catalogMode = portfolio.slug === 'bazar-casa-morita' || portfolio.template_key === 'local' || portfolio.settings?.portalMode === 'catalog';
+    document.body.classList.toggle('catalog-client-mode', catalogMode);
+    $('productsNav').hidden = !catalogMode;
+    $('projectsNav').hidden = catalogMode;
+    $('themeNav').hidden = catalogMode;
+    $('templateField').hidden = catalogMode;
+    $('portalEyebrow').textContent = catalogMode ? 'Mi comercio' : 'Mi espacio profesional';
+    $('profileNav').textContent = catalogMode ? 'Mi comercio' : 'Mi perfil';
+    $('profileHeading').textContent = catalogMode ? 'Información del comercio' : 'Información del portfolio';
+    $('profileDescription').textContent = catalogMode ? 'Estos datos acompañan tu catálogo y facilitan las consultas.' : 'Actualizá los datos visibles de tu espacio.';
+    if (catalogMode) $('dashboardSubtitle').textContent = 'Administrá tus productos, fotografías y datos comerciales.';
+  }
+
+  const availabilityLabel = value => ({available:'Disponible',last_units:'Últimas unidades',coming_soon:'Próximamente',sold_out:'Agotado'}[value] || 'Disponible');
+  const money = value => new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Number(value || 0));
+
+  function renderProducts() {
+    const box = $('productList');
+    if (!box) return;
+    $('productTotal').textContent = products.length;
+    $('productPublished').textContent = products.filter(item => item.is_visible).length;
+    $('productFeatured').textContent = products.filter(item => item.featured).length;
+    if (!products.length) {
+      box.innerHTML = '<div class="catalog-empty"><span>＋</span><h3>Tu catálogo está listo para empezar</h3><p>Agregá el primer producto con sus fotos, precio y disponibilidad.</p><button type="button" data-empty-product>Agregar producto</button></div>';
+      box.querySelector('[data-empty-product]')?.addEventListener('click', () => openProduct());
+      return;
+    }
+    box.innerHTML = products.map(item => `<article class="product-admin-card ${item.is_visible?'':'is-hidden'}">
+      <div class="product-admin-media">${item.cover_url ? `<img src="${esc(item.cover_url)}" alt="${esc(item.title)}">` : '<span>Sin foto</span>'}${item.featured?'<b>Destacado</b>':''}</div>
+      <div class="product-admin-copy"><div><small>${esc(item.category || 'Producto')}</small><h3>${esc(item.title)}</h3></div><p>${item.price_mode === 'price' ? money(item.price) : 'Consultar precio'} · ${availabilityLabel(item.availability)}</p><span class="product-visibility ${item.is_visible?'is-public':'is-draft'}">${item.is_visible?'Publicado':'Oculto'}</span><div class="product-admin-actions"><button type="button" class="secondary" data-edit-product="${esc(item.id)}">Editar</button><button type="button" class="secondary danger" data-delete-product="${esc(item.id)}">Eliminar</button></div></div>
+    </article>`).join('');
+    box.querySelectorAll('[data-edit-product]').forEach(button => button.addEventListener('click', () => openProduct(products.find(item => item.id === button.dataset.editProduct))));
+    box.querySelectorAll('[data-delete-product]').forEach(button => button.addEventListener('click', () => removeProduct(button.dataset.deleteProduct)));
   }
 
   function renderProjects() {
@@ -119,8 +175,57 @@
     document.querySelectorAll('[data-client-tab]').forEach(button => button.classList.toggle('is-active', button.dataset.clientTab === name));
     $('profileTab').hidden = name !== 'profile';
     $('projectsTab').hidden = name !== 'projects';
+    $('productsTab').hidden = name !== 'products';
     $('themeTab').hidden = name !== 'theme';
     $('settingsTab').hidden = name !== 'settings';
+  }
+
+  function renderProductGalleryPreview() {
+    const box = $('productGalleryPreview');
+    if (!box) return;
+    box.innerHTML = [
+      ...editingProductMedia.map((item,index) => `<figure><img src="${esc(item.url || item)}" alt="Foto adicional"><button type="button" data-remove-existing-product="${index}" aria-label="Quitar foto">×</button></figure>`),
+      ...selectedProductGallery.map((file,index) => `<figure><img src="${esc(file._previewUrl)}" alt="Nueva foto"><button type="button" data-remove-new-product="${index}" aria-label="Quitar foto">×</button></figure>`)
+    ].join('');
+    box.querySelectorAll('[data-remove-existing-product]').forEach(button => button.addEventListener('click', () => { editingProductMedia.splice(Number(button.dataset.removeExistingProduct),1); renderProductGalleryPreview(); }));
+    box.querySelectorAll('[data-remove-new-product]').forEach(button => button.addEventListener('click', () => { selectedProductGallery.splice(Number(button.dataset.removeNewProduct),1); renderProductGalleryPreview(); }));
+  }
+
+  function openProduct(item = null) {
+    $('productForm').reset();
+    $('productId').value = item?.id || '';
+    $('productModalTitle').textContent = item ? 'Editar producto' : 'Nuevo producto';
+    $('productTitle').value = item?.title || '';
+    $('productCategory').value = item?.category || 'Cocina';
+    $('productDescription').value = item?.description || '';
+    $('productPriceMode').value = item?.price_mode || 'consult';
+    $('productPrice').value = item?.price || '';
+    $('productPrice').disabled = $('productPriceMode').value !== 'price';
+    $('productAvailability').value = item?.availability || 'available';
+    $('productFeaturedInput').checked = Boolean(item?.featured);
+    $('productVisibleInput').checked = item ? item.is_visible !== false : true;
+    $('productImagePreview').src = item?.cover_url || '';
+    $('productImagePreview').hidden = !item?.cover_url;
+    editingProductMedia = Array.isArray(item?.media) ? item.media.filter(media => !(media && media.isCover)).map(media => typeof media === 'string' ? {url:media} : media) : [];
+    selectedProductImage = null;
+    selectedProductGallery = [];
+    renderProductGalleryPreview();
+    $('productFormMessage').textContent = '';
+    $('productModal').hidden = false;
+  }
+
+  function closeProduct() { $('productModal').hidden = true; selectedProductImage = null; selectedProductGallery = []; editingProductMedia = []; }
+
+  async function removeProduct(id) {
+    if (!confirm('¿Eliminar este producto del catálogo?')) return;
+    const message = $('productsMessage');
+    try {
+      message.textContent = 'Eliminando producto…';
+      await api('catalog-product-delete',{productId:id});
+      products = products.filter(item => item.id !== id);
+      renderProducts();
+      message.textContent = 'Producto eliminado.';
+    } catch (error) { message.textContent = error.message; }
   }
 
 
@@ -227,9 +332,14 @@
     try {
       const result = await api('portfolio-client-load');
       portfolio = result.portfolio;
-      projects = Array.isArray(result.projects) ? result.projects : [];
+      const records = Array.isArray(result.projects) ? result.projects : [];
+      products = records.filter(item => item.item_type === 'product');
+      projects = records.filter(item => item.item_type !== 'product');
       renderProfile();
       renderProjects();
+      renderProducts();
+      const publicUrl = `${location.origin}/${portfolio.slug}`;
+      if ($('catalogPreviewButton')) $('catalogPreviewButton').href = publicUrl;
     } catch (error) {
       alert(error.message);
       await db.auth.signOut().catch(() => {});
@@ -280,9 +390,41 @@
       updateThemePreview();
     });
     $('openProjectModal').addEventListener('click', () => openProject());
+    $('openProductModal')?.addEventListener('click', () => openProduct());
     $('saveThemeButton').addEventListener('click', saveTheme);
-    ['themeAccent','themeBackground','themeText','themeFont','themeGlow','themeLightMode','themeShowHeader','themeShowSocials','themeShowWhatsapp','themeAmbientTrack'].forEach(id => $(id).addEventListener('input', () => { updateThemePreview(); markDirty(); }));
+    ['themeAccent','themeBackground','themeText','themeFont','themeGlow','themeLightMode','themeShowHeader','themeShowSocials','themeShowWhatsapp','themeAmbientTrack'].forEach(id => $(id)?.addEventListener('input', () => { updateThemePreview(); markDirty(); }));
     document.querySelectorAll('[data-close-project]').forEach(button => button.addEventListener('click', closeProject));
+    document.querySelectorAll('[data-close-product]').forEach(button => button.addEventListener('click', closeProduct));
+    $('productPriceMode')?.addEventListener('change', () => { $('productPrice').disabled = $('productPriceMode').value !== 'price'; if ($('productPrice').disabled) $('productPrice').value=''; });
+    $('productImage')?.addEventListener('change', event => {
+      selectedProductImage = event.target.files?.[0] || null;
+      if (!selectedProductImage) return;
+      if (selectedProductImage.size > 10*1024*1024) { $('productFormMessage').textContent='La imagen supera los 10 MB.'; event.target.value=''; selectedProductImage=null; return; }
+      $('productImagePreview').src = URL.createObjectURL(selectedProductImage);
+      $('productImagePreview').hidden = false;
+      $('productFormMessage').textContent = 'Foto principal preparada.';
+    });
+    $('productGallery')?.addEventListener('change', event => {
+      const files = Array.from(event.target.files || []).slice(0,Math.max(0,5-editingProductMedia.length-selectedProductGallery.length));
+      files.forEach(file => { if (file.size <= 10*1024*1024) { file._previewUrl=URL.createObjectURL(file); selectedProductGallery.push(file); } });
+      event.target.value=''; renderProductGalleryPreview();
+    });
+    $('productForm')?.addEventListener('submit', async event => {
+      event.preventDefault();
+      const button=$('saveProductButton'), message=$('productFormMessage'); button.disabled=true;
+      try {
+        const existing=products.find(item=>item.id===$('productId').value);
+        let coverUrl=existing?.cover_url || null;
+        if(selectedProductImage){message.textContent='Optimizando y subiendo foto principal…';coverUrl=(await uploadFile(await optimizeCatalogImage(selectedProductImage))).publicUrl;}
+        const media=[...editingProductMedia];
+        for(let i=0;i<selectedProductGallery.length;i++){message.textContent=`Optimizando y subiendo foto ${i+1} de ${selectedProductGallery.length}…`;const uploaded=await uploadFile(await optimizeCatalogImage(selectedProductGallery[i]));media.push({url:uploaded.publicUrl});}
+        if(!coverUrl) throw new Error('Seleccioná una foto principal para el producto.');
+        message.textContent='Guardando producto…';
+        const result=await api('catalog-product-save',{productId:$('productId').value||null,title:$('productTitle').value.trim(),category:$('productCategory').value,description:$('productDescription').value.trim(),priceMode:$('productPriceMode').value,price:$('productPrice').value||null,availability:$('productAvailability').value,featured:$('productFeaturedInput').checked,isVisible:$('productVisibleInput').checked,coverUrl,media:[{url:coverUrl,isCover:true},...media]});
+        const index=products.findIndex(item=>item.id===result.product.id); if(index>=0) products[index]=result.product; else products.unshift(result.product);
+        renderProducts();closeProduct();$('productsMessage').textContent='Producto guardado y catálogo actualizado.';
+      } catch(error){message.textContent=error.message;} finally{button.disabled=false;}
+    });
     $('projectCoverSection').addEventListener('change',()=>{editingCoverSection=$('projectCoverSection').value;});
     $('projectImage').addEventListener('change', event => {
       selectedImageFile = event.target.files?.[0] || null;

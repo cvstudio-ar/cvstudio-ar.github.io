@@ -8,7 +8,7 @@ document.getElementById('cvstudioAccessOpen')?.addEventListener('click',open);
 modal.querySelectorAll('[data-access-close]').forEach(x=>x.addEventListener('click',close));
 document.getElementById('collaboratorAccess')?.addEventListener('click',()=>{panel.classList.add('is-login');options.hidden=true;form.hidden=false;form.email.focus();});
 document.getElementById('accessBack')?.addEventListener('click',()=>{panel.classList.remove('is-login');form.hidden=true;options.hidden=false;msg.textContent='';});
-document.getElementById('clientAccess')?.addEventListener('click',()=>{msg.textContent='El portal del cliente está planificado para una próxima implementación.';});
+document.getElementById('clientAccess')?.addEventListener('click',()=>{location.href='/clientes/';});
 form?.addEventListener('submit',async e=>{e.preventDefault();msg.textContent='Ingresando…';const db=window.cvstudioSupabase;if(!db){msg.textContent='No se pudo iniciar la conexión segura.';return;}const fd=new FormData(form);const {error}=await db.auth.signInWithPassword({email:String(fd.get('email')).trim(),password:String(fd.get('password'))});if(error){msg.textContent='Correo o contraseña incorrectos.';return;}location.href='/centro-operaciones-prueba/#inicio';});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close();});
 })();

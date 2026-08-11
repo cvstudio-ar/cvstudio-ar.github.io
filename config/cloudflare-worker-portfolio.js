@@ -153,6 +153,7 @@ async function updateOwnProfile(portfolio, body, env) {
 async function saveOwnProject(portfolio, body, env) {
   const payload = {
     portfolio_id: portfolio.id,
+    item_type: 'project',
     title: clean(body.title),
     category: clean(body.category) || null,
     description: clean(body.description) || null,
@@ -169,6 +170,46 @@ async function saveOwnProject(portfolio, body, env) {
   }
   const rows = await sb(env, '/rest/v1/portfolio_proyectos', {method:'POST', body:JSON.stringify({...payload, sort_order: Number(body.sortOrder) || 0})});
   return rows?.[0];
+}
+
+async function saveOwnProduct(portfolio, body, env) {
+  const priceMode = clean(body.priceMode) === 'price' ? 'price' : 'consult';
+  const availability = ['available','last_units','coming_soon','sold_out'].includes(clean(body.availability)) ? clean(body.availability) : 'available';
+  const rawPrice = body.price === null || body.price === '' ? null : Number(body.price);
+  if (priceMode === 'price' && (!Number.isFinite(rawPrice) || rawPrice < 0)) throw new Error('Ingresá un precio válido.');
+  const payload = {
+    portfolio_id: portfolio.id,
+    item_type: 'product',
+    title: clean(body.title),
+    category: clean(body.category) || 'Otros',
+    description: clean(body.description) || null,
+    cover_url: clean(body.coverUrl) || null,
+    media: Array.isArray(body.media) ? body.media.slice(0, 6) : [],
+    price: priceMode === 'price' ? rawPrice : null,
+    price_mode: priceMode,
+    availability,
+    featured: body.featured === true,
+    is_visible: body.isVisible !== false,
+    updated_at: new Date().toISOString()
+  };
+  if (!payload.title) throw new Error('El producto necesita un nombre.');
+  if (!payload.cover_url) throw new Error('El producto necesita una foto principal.');
+  if (body.productId) {
+    const rows = await sb(env, `/rest/v1/portfolio_proyectos?id=eq.${encodeURIComponent(body.productId)}&portfolio_id=eq.${encodeURIComponent(portfolio.id)}&item_type=eq.product`, {method:'PATCH', body:JSON.stringify(payload)});
+    if (!rows?.[0]) throw new Error('Producto no encontrado.');
+    return rows[0];
+  }
+  const rows = await sb(env, '/rest/v1/portfolio_proyectos', {method:'POST', body:JSON.stringify({...payload,sort_order:Number(body.sortOrder)||0})});
+  return rows?.[0];
+}
+
+async function deleteOwnProduct(portfolio, body, env) {
+  const productId = clean(body.productId);
+  if (!productId) throw new Error('Falta el producto.');
+  const rows = await sb(env, `/rest/v1/portfolio_proyectos?id=eq.${encodeURIComponent(productId)}&portfolio_id=eq.${encodeURIComponent(portfolio.id)}&item_type=eq.product&select=*`, {method:'GET'});
+  if (!rows?.[0]) throw new Error('Producto no encontrado.');
+  await sb(env, `/rest/v1/portfolio_proyectos?id=eq.${encodeURIComponent(productId)}&portfolio_id=eq.${encodeURIComponent(portfolio.id)}&item_type=eq.product`, {method:'DELETE',prefer:'return=minimal'});
+  return rows[0];
 }
 
 async function deleteOwnProject(portfolio, body, env) {
@@ -214,7 +255,7 @@ async function publicPortfolio(url, env) {
   const rows = await sb(env, `/rest/v1/portfolio_clientes?slug=eq.${encodeURIComponent(slug)}&status=eq.active&select=id,slug,full_name,brand_name,contact_email,whatsapp,business_type,bio,template_key,settings,updated_at`, {method:'GET'});
   const portfolio = rows?.[0];
   if (!portfolio) return null;
-  const projects = await sb(env, `/rest/v1/portfolio_proyectos?portfolio_id=eq.${portfolio.id}&is_visible=eq.true&select=id,title,description,category,cover_url,media,sort_order&order=sort_order.asc,created_at.desc`, {method:'GET'});
+  const projects = await sb(env, `/rest/v1/portfolio_proyectos?portfolio_id=eq.${portfolio.id}&is_visible=eq.true&select=id,title,description,category,cover_url,media,sort_order,item_type,price,price_mode,availability,featured&order=featured.desc,sort_order.asc,created_at.desc`, {method:'GET'});
   return {...portfolio, projects: projects || []};
 }
 
@@ -259,6 +300,8 @@ export default {
         if (body.action === 'portfolio-client-profile-update') return json({ok:true, portfolio:await updateOwnProfile(portfolio, body, env)}, 200, origin);
         if (body.action === 'portfolio-client-project-save') return json({ok:true, project:await saveOwnProject(portfolio, body, env)}, body.projectId ? 200 : 201, origin);
         if (body.action === 'portfolio-client-project-delete') return json({ok:true, project:await deleteOwnProject(portfolio, body, env)}, 200, origin);
+        if (body.action === 'catalog-product-save') return json({ok:true, product:await saveOwnProduct(portfolio, body, env)}, body.productId ? 200 : 201, origin);
+        if (body.action === 'catalog-product-delete') return json({ok:true, product:await deleteOwnProduct(portfolio, body, env)}, 200, origin);
         return json({ok:false, message:'Acción de cliente no reconocida.'}, 400, origin);
       }
 

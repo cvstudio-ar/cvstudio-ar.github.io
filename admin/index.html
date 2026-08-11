@@ -209,7 +209,7 @@
     <section class="modal-panel portfolio-create-panel" role="dialog" aria-modal="true" aria-labelledby="portfolioCreateTitle">
       <button class="modal-close" type="button" data-close-portfolio-create>×</button>
       <span class="eyebrow">Alta de cliente</span>
-      <h2 id="portfolioCreateTitle">Crear acceso de portfolio</h2>
+      <h2 id="portfolioCreateTitle">Crear acceso de cliente</h2>
       <p class="portfolio-form-intro">El sistema generará una cuenta privada y la dirección pública inicial del cliente.</p>
       <form id="portfolioCreateForm">
         <div class="portfolio-form-grid">
@@ -219,7 +219,10 @@
           <label>URL personalizada<input id="portfolioSlug" type="text" maxlength="80" pattern="[a-z0-9-]+" required autocomplete="off"><small>cvstudio.com.ar/<strong id="portfolioSlugPreview">cliente</strong></small></label>
           <label>Correo de contacto<input id="portfolioContactEmail" type="email" maxlength="160"></label>
           <label>WhatsApp<input id="portfolioWhatsapp" type="tel" maxlength="40" placeholder="549..."></label><label>Instagram<input id="portfolioInstagram" type="url" maxlength="240" placeholder="https://instagram.com/..."></label><label>Facebook<input id="portfolioFacebook" type="url" maxlength="240" placeholder="https://facebook.com/..."></label><label>URL inicial del logo<input id="portfolioLogoUrl" type="url" maxlength="500" placeholder="https://..."><small>El cliente luego podrá subir o reemplazar su logo.</small></label><label>Color neón<input id="portfolioNeonColor" type="color" value="#ff4f9a"></label><label>Tipografía<select id="portfolioFontStyle"><option value="elegant">Elegante</option><option value="modern">Moderna</option><option value="editorial">Editorial</option><option value="minimal">Minimalista</option></select></label><label>Intensidad del neón<input id="portfolioGlowIntensity" type="range" min="10" max="70" step="5" value="40"></label>
-          <label>Actividad o rubro<input id="portfolioBusinessType" type="text" maxlength="100" placeholder="Fotografía, diseño, arquitectura..."></label>
+          <label>Actividad o rubro<input id="portfolioBusinessType" type="text" maxlength="100" placeholder="Fotografía, diseño, bazar, estética..."></label>
+          <label>Tipo de espacio
+            <select id="portfolioPortalMode" required><option value="portfolio">Portfolio profesional</option><option value="catalog">Catálogo comercial</option></select>
+          </label>
           <label>Plantilla
             <select id="portfolioTemplate" required>
               <option value="lens">LENS / Fotografía</option><option value="atelier">ATELIER / Ropa y moda</option><option value="studio">STUDIO / Edición y creatividad</option><option value="beauty">BEAUTY / Manicura y estética</option><option value="barber">BARBER / Barbería</option><option value="tech">TECH / Tecnología</option><option value="local">LOCAL / Servicios y comercios</option>

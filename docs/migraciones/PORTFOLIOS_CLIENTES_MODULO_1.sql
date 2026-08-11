@@ -14,7 +14,7 @@ create table if not exists public.portfolio_clientes (
   whatsapp text,
   business_type text,
   bio text,
-  template_key text not null default 'creative' check (template_key in ('creative','professional','business','minimal')),
+  template_key text not null default 'creative' check (template_key in ('lens','atelier','studio','beauty','barber','tech','local','creative','professional','business','minimal')),
   status text not null default 'draft' check (status in ('draft','active','suspended')),
   settings jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),
@@ -27,11 +27,16 @@ create index if not exists portfolio_clientes_updated_idx on public.portfolio_cl
 create table if not exists public.portfolio_proyectos (
   id uuid primary key default gen_random_uuid(),
   portfolio_id uuid not null references public.portfolio_clientes(id) on delete cascade,
+  item_type text not null default 'project' check (item_type in ('project','product')),
   title text not null,
   description text,
   category text,
   cover_url text,
   media jsonb not null default '[]'::jsonb,
+  price numeric(12,2),
+  price_mode text not null default 'consult' check (price_mode in ('consult','price')),
+  availability text not null default 'available' check (availability in ('available','last_units','coming_soon','sold_out')),
+  featured boolean not null default false,
   sort_order integer not null default 0,
   is_visible boolean not null default true,
   created_at timestamptz not null default now(),
@@ -39,6 +44,7 @@ create table if not exists public.portfolio_proyectos (
 );
 
 create index if not exists portfolio_proyectos_portfolio_idx on public.portfolio_proyectos(portfolio_id, sort_order);
+create index if not exists portfolio_productos_publicos_idx on public.portfolio_proyectos(portfolio_id, item_type, is_visible, featured desc, sort_order);
 
 alter table public.portfolio_clientes enable row level security;
 alter table public.portfolio_proyectos enable row level security;
