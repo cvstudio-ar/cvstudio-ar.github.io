@@ -6,6 +6,7 @@
   'use strict';
   const STORE_KEY = 'cvstudio_ops_operational_v2';
   const WORKER_URL = 'https://cvstudio-contacto.cvpro-duccionesar.workers.dev';
+  const PORTFOLIO_WORKER_URL = 'https://cvstudio-portfolios.cvpro-duccionesar.workers.dev';
   const STATUS_ID = 'opsSyncStatus';
   const SYNC_KEY = 'cvstudio_ops_real_sync_v25';
   const db = () => window.cvstudioSupabase;
@@ -79,6 +80,16 @@
     if (!response.ok || !data.ok) throw new Error(data.message || 'No se pudo completar la operación.');
     return data;
   }
+  async function portfolioApi(action, payload={}) {
+    let session=await currentSession(false);
+    if (!session?.access_token) throw new Error('La sesión del panel no está activa.');
+    const call=token=>fetch(`${PORTFOLIO_WORKER_URL}/api/admin`,{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json',Authorization:`Bearer ${token}`},body:JSON.stringify({action,...payload})});
+    let response=await call(session.access_token);
+    if(response.status===401){session=await currentSession(true);if(session?.access_token)response=await call(session.access_token);}
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.ok)throw new Error(data.message||'No se pudo administrar el espacio.');
+    return data;
+  }
   function mergeByKey(existing, incoming, keyFn) {
     const map = new Map((existing || []).map(item => [keyFn(item), item]));
     for (const item of incoming || []) {
@@ -102,7 +113,7 @@
       client.from('comunicaciones').select('*').order('fecha_creacion', {ascending:false}).limit(3000),
       api('payments-admin-list').catch(error => ({orders:[], _error:error.message})),
       api('payments-admin-products').catch(error => ({products:[], _error:error.message})),
-      api('portfolio-admin-list').catch(error => ({clients:[], _error:error.message}))
+      portfolioApi('portfolio-admin-list').catch(error => ({clients:[], _error:error.message}))
     ]);
     if (requestsResult.error) throw requestsResult.error;
     if (commsResult.error) throw commsResult.error;
@@ -235,6 +246,10 @@
   async function createCollaboratorAuth(payload) { return api('collaborator-admin-create', payload); }
   async function updateCollaboratorAuth(payload) { return api('collaborator-admin-update', {collaborator:payload}); }
   async function deleteCollaboratorAuth(payload) { return api('collaborator-admin-delete', {authUserId:payload.authUserId,email:payload.email}); }
+  async function createPortfolioClient(payload) { return portfolioApi('portfolio-admin-create', payload); }
+  async function updatePortfolioClient(portfolioId, changes) { return portfolioApi('portfolio-admin-update', {portfolioId, changes}); }
+  async function resetPortfolioPassword(portfolioId, password) { return portfolioApi('portfolio-admin-reset-password', {portfolioId, password}); }
+  async function deletePortfolioClient(portfolioId) { return portfolioApi('portfolio-admin-delete', {portfolioId}); }
   async function updatePrices(prices) {
     const priceKeyByProductId = {
       'cv-profesional':'CV Profesional',
@@ -247,7 +262,7 @@
     return api('payments-admin-products-update',{products});
   }
 
-  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth};
+  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient};
 
   window.addEventListener('DOMContentLoaded', async () => {
     try {

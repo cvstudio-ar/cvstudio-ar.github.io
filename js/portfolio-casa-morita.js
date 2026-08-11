@@ -5,6 +5,9 @@
   const worker = String(window.CVSTUDIO_PORTFOLIO_WORKER_URL || '').replace(/\/$/, '');
   const box = document.getElementById('catalogProducts');
   const modal = document.getElementById('catalogProductModal');
+  const tools = document.getElementById('catalogTools');
+  const filters = document.getElementById('catalogFilters');
+  const count = document.getElementById('catalogCount');
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[char]));
   const money = value => new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Number(value || 0));
   const availability = value => ({available:'Disponible',last_units:'Últimas unidades',coming_soon:'Próximamente',sold_out:'Agotado'}[value] || 'Disponible');
@@ -48,10 +51,20 @@
   function renderProducts(products) {
     if (!box || !products.length) return;
     box.classList.add('has-live-products');
+    if (tools && filters) {
+      const categories = [...new Set(products.map(product => product.category || 'Otros'))];
+      tools.hidden = false;
+      count.textContent = `${products.length} ${products.length === 1 ? 'pieza seleccionada' : 'piezas seleccionadas'}`;
+      filters.innerHTML = ['Todos',...categories].map((category,index)=>`<button type="button" class="${index===0?'is-active':''}" data-catalog-filter="${esc(category)}">${esc(category)}</button>`).join('');
+      filters.querySelectorAll('[data-catalog-filter]').forEach(filter=>filter.addEventListener('click',()=>{
+        filters.querySelectorAll('button').forEach(button=>button.classList.toggle('is-active',button===filter));
+        box.querySelectorAll('[data-product-category]').forEach(card=>card.hidden=filter.dataset.catalogFilter!=='Todos'&&card.dataset.productCategory!==filter.dataset.catalogFilter);
+      }));
+    }
     box.innerHTML = products.map((product,index) => `<article class="cm-live-product ${product.featured?'is-featured':''}" data-live-product="${index}" tabindex="0" role="button" aria-label="Ver ${esc(product.title)}">
       <div class="cm-live-product-media"><img src="${esc(product.cover_url)}" alt="${esc(product.title)}" loading="lazy">${product.featured?'<span>Selección especial</span>':''}<i>${availability(product.availability)}</i></div>
       <div class="cm-live-product-copy"><small>${esc(product.category || 'Casa Morita')}</small><h3>${esc(product.title)}</h3><p>${esc(product.description || 'Conocé todos los detalles y opciones disponibles.')}</p><div><strong>${product.price_mode === 'price' ? money(product.price) : 'Consultar precio'}</strong><b>Ver producto →</b></div></div>
-    </article>`).join('');
+    </article>`.replace('data-live-product="'+index+'"',`data-live-product="${index}" data-product-category="${esc(product.category || 'Otros')}"`)).join('');
     box.querySelectorAll('[data-live-product]').forEach(card => {
       const open = () => openProduct(products[Number(card.dataset.liveProduct)]);
       card.addEventListener('click', open);

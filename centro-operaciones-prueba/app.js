@@ -55,7 +55,7 @@ const modules = [
   ['archivos','folder','Archivos','Organizá documentos, imágenes y entregables de CVStudio.'],
   ['integraciones','plug','Integraciones','Conectá y controlá las herramientas externas de CVStudio.'],
   ['colaboradores','users','Colaboradores','Administrá usuarios, roles, comisiones y beneficios del equipo.'],
-  ['generador-url','link','Generador URL','Creá y configurá espacios personalizados para clientes.'],
+  ['generador-url','link','Espacios de clientes','Creá accesos, administrá catálogos y publicá URLs desde un solo lugar.'],
   ['configuracion','settings','Configuración','Gestioná el sistema, licencias, respaldos y reglas internas.']
 ];
 
