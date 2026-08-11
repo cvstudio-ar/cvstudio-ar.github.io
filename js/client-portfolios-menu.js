@@ -10,7 +10,8 @@
 
   const BUILTIN = [
     { slug: 'beauty-nails-by-eliana', name: 'Beauty Nails by Eliana', menuLabel: 'By Eliana', status: PUBLIC_STATUS, publicPath: '/beauty-nails-by-eliana/' },
-    { slug: 'julieta-ferrari', name: 'Julieta Ferrari · Follow Digital', menuLabel: 'Follow Digital', status: PUBLIC_STATUS, publicPath: '/julieta-ferrari/' }
+    { slug: 'julieta-ferrari', name: 'Julieta Ferrari · Follow Digital', menuLabel: 'Follow Digital', status: PUBLIC_STATUS, publicPath: '/julieta-ferrari/' },
+    { slug: 'bazar-casa-morita', name: 'Bazar Casa Morita', menuLabel: 'Casa Morita', status: PUBLIC_STATUS, publicPath: '/bazar-casa-morita/' }
   ];
 
   const safeText = value => String(value || '').trim();
