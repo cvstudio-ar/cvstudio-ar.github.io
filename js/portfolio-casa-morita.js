@@ -30,6 +30,27 @@
     return [...new Set([product.cover_url,...media].filter(Boolean))];
   }
 
+  function renderSocialLinks() {
+    const socialBox = document.getElementById('catalogSocialLinks');
+    if (!socialBox || !commerce) return;
+    const instagram = String(commerce.settings?.instagram || '').trim();
+    const facebook = String(commerce.settings?.facebook || '').trim();
+    const phone = String(commerce.whatsapp || '').replace(/\D/g,'');
+    const values = {
+      instagram: instagram || 'https://www.instagram.com/bazarcasamorita/',
+      whatsapp: phone ? `https://wa.me/${phone}` : '',
+      facebook
+    };
+    Object.entries(values).forEach(([network,url]) => {
+      const link = socialBox.querySelector(`[data-social="${network}"]`);
+      if (!link) return;
+      link.hidden = !url;
+      if (url) link.href = url;
+    });
+    const contact = document.querySelector('.cm-floating-contact');
+    if (contact) contact.href = phone ? `https://wa.me/${phone}` : values.instagram;
+  }
+
   function openProduct(product) {
     if (!modal) return;
     const images = productMedia(product);
@@ -62,8 +83,10 @@
       }));
     }
     box.innerHTML = products.map((product,index) => `<article class="cm-live-product ${product.featured?'is-featured':''}" data-live-product="${index}" tabindex="0" role="button" aria-label="Ver ${esc(product.title)}">
+      <div class="cm-product-post-head"><span><img src="/assets/portfolio/casa-morita/isotipo-casa-morita.svg" alt="">Casa Morita</span><b aria-hidden="true">•••</b></div>
       <div class="cm-live-product-media"><img src="${esc(product.cover_url)}" alt="${esc(product.title)}" loading="lazy">${product.featured?'<span>Selección especial</span>':''}<i>${availability(product.availability)}</i></div>
-      <div class="cm-live-product-copy"><small>${esc(product.category || 'Casa Morita')}</small><h3>${esc(product.title)}</h3><p>${esc(product.description || 'Conocé todos los detalles y opciones disponibles.')}</p><div><strong>${product.price_mode === 'price' ? money(product.price) : 'Consultar precio'}</strong><b>Ver producto →</b></div></div>
+      <div class="cm-product-post-actions" aria-hidden="true"><span>♡</span><span>○</span><span>⌁</span><b>⌑</b></div>
+      <div class="cm-live-product-copy"><small>${esc(product.category || 'Casa Morita')}</small><h3>${esc(product.title)}</h3><p>${esc(product.description || 'Conocé todos los detalles y opciones disponibles.')}</p><div><strong class="cm-product-price-pill">${product.price_mode === 'price' ? money(product.price) : 'Consultar precio'}</strong><b>Ver detalles</b></div></div>
     </article>`.replace('data-live-product="'+index+'"',`data-live-product="${index}" data-product-category="${esc(product.category || 'Otros')}"`)).join('');
     box.querySelectorAll('[data-live-product]').forEach(card => {
       const open = () => openProduct(products[Number(card.dataset.liveProduct)]);
@@ -79,6 +102,7 @@
       const data = await response.json();
       if (!response.ok || !data?.portfolio) return;
       commerce = data.portfolio;
+      renderSocialLinks();
       const products = (commerce.projects || []).filter(item => item.item_type === 'product');
       renderProducts(products);
     } catch (error) { console.warn('[Casa Morita] Catálogo demostrativo activo:', error); }
