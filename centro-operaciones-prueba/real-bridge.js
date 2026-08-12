@@ -1,4 +1,4 @@
-/* CVStudio Centro de Operaciones · v1.4.33 WhatsApp bridge
+/* CVStudio Centro de Operaciones · v1.4.51 WhatsApp bridge
    Puente con las tablas productivas existentes. Requiere sesión administrativa.
    Importa solicitudes/clientes/comunicaciones/archivos y pedidos/precios reales,
    manteniendo la operación diaria en las tablas stage hasta aprobar la migración final. */
@@ -221,7 +221,11 @@
     let result = await db().from('clientes').insert({id:clientId,nombre:clientData.name,telefono:clientData.phone||'',email:clientData.email||'',ciudad:clientData.city||'',creado:now});
     if (result.error) throw result.error;
     result = await db().from('solicitudes').insert({id:requestId,cliente_id:clientId,codigo:code,servicio:clientData.service,subtipo:'',descripcion:'Alta manual desde Centro de Operaciones',datos:{},estado:'Pendiente de revisión',prioridad:'Normal',responsable:'Exequiel',asignado:clientData.responsible||'Sin definir',notas:'',canal:clientData.source||'WhatsApp',fecha_creacion:now,fecha_actualizacion:now});
-    if (result.error) throw result.error;
+    if (result.error) {
+      try { await db().from('clientes').delete().eq('id',clientId); }
+      catch (_) { /* limpieza de cortesía; se conserva el error original */ }
+      throw result.error;
+    }
     return {clientId,requestId,code};
   }
   async function addNote(realRequestId, text) {
@@ -264,8 +268,17 @@
 
   window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient};
 
+  function waitForStageReady(timeout = 8000) {
+    if (window.CVStudioStageReady) return Promise.resolve();
+    return Promise.race([
+      new Promise(resolve => window.addEventListener('cvstudio:stage-ready', resolve, {once:true})),
+      new Promise(resolve => setTimeout(resolve, timeout))
+    ]);
+  }
+
   window.addEventListener('DOMContentLoaded', async () => {
     try {
+      await waitForStageReady();
       const ok = await loadReal();
       if (!ok) return;
       const state = getState();
