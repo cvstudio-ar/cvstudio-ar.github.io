@@ -1,7 +1,7 @@
 {
-  "version": "1.4.51",
-  "build": "20260811-client-persistence-safe",
-  "releasedAt": "2026-08-11T21:08:00-03:00",
+  "version": "1.4.52",
+  "build": "20260811-carla-legacy-recovery",
+  "releasedAt": "2026-08-11T21:32:00-03:00",
   "channel": "production",
-  "name": "Persistencia segura de clientes"
+  "name": "Recuperación de Carla y firma heredada"
 }
