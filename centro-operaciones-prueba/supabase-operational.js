@@ -13,6 +13,9 @@
   let initialized = false;
   let applyingRemote = false;
   let timer = null;
+  let retryTimer = null;
+  let pushInFlight = false;
+  let pendingRawValue = '';
   let lastSerialized = '';
   let realtimeChannel = null;
 
@@ -66,8 +69,18 @@
   }
 
   function row(entity, extra = {}) {
+    const rawId=entity?.id;
+    let numericId=Number(rawId);
+    if(!Number.isSafeInteger(numericId) || numericId<=0){
+      let hash=2166136261;
+      for(const char of String(rawId||JSON.stringify(entity)||'entity')){
+        hash^=char.charCodeAt(0);
+        hash=Math.imul(hash,16777619);
+      }
+      numericId=Math.abs(hash>>>0)||1;
+    }
     return {
-      id: Number(entity.id),
+      id: numericId,
       workspace_id: META_ID,
       payload: entity,
       updated_at: new Date().toISOString(),
@@ -85,6 +98,7 @@
 
   async function pushState(rawValue) {
     if (!client || applyingRemote) return;
+    if(pushInFlight){ pendingRawValue=rawValue; return; }
     let state;
     try { state = normalizeState(JSON.parse(rawValue)); }
     catch (_) { return; }
@@ -92,6 +106,7 @@
 
     const serialized = JSON.stringify(state);
     if (serialized === lastSerialized) return;
+    pushInFlight=true;
     status('Guardando cambios…', 'syncing');
 
     try {
@@ -134,10 +149,20 @@
       ]);
 
       lastSerialized = serialized;
-      status('Supabase operativo', 'connected');
+      clearTimeout(retryTimer);
+      status('Sincronización operativa', 'connected');
     } catch (error) {
       console.error('[CVStudio RC4] Error al sincronizar:', error);
-      status('Error de sincronización', 'warning');
+      status('Reintentando sincronización…', 'syncing');
+      clearTimeout(retryTimer);
+      retryTimer=setTimeout(()=>pushState(rawValue),4000);
+    } finally {
+      pushInFlight=false;
+      if(pendingRawValue){
+        const next=pendingRawValue;
+        pendingRawValue='';
+        schedulePush(next);
+      }
     }
   }
 

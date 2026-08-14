@@ -146,6 +146,13 @@
     return entries.sort((a,b)=>String(a.at||'').localeCompare(String(b.at||''))).map(e=>`<div class="message ${e.kind==='out'?'out':''}"><b>${esc(e.who)}</b><p>${esc(e.text)}</p><small>${e.at?formatDateTime(e.at):'Registro inicial'}</small></div>`).join('');
   }
 
+  function scrollConversationToLatest() {
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      const messages=document.querySelector('.main-content[data-module="clientes"] .conversation .messages');
+      if(messages) messages.scrollTop=messages.scrollHeight;
+    }));
+  }
+
   function formDataEntries(client){
     const data=client?.formData&&typeof client.formData==='object'?client.formData:{};
     return Object.entries(data).map(([key,item])=>{
@@ -272,8 +279,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     return `<section class="grid kpi-grid">${kpi('users','Colaboradores activos',active.length,'usuarios habilitados','#9b5de5')}${kpi('message','Accesos pendientes',pending,'requieren activar usuario','#35d07f')}${kpi('shield','Roles definidos',roleCount,'perfiles configurados','#3b82f6')}${kpi('lock','Permisos asignados',collaborators.filter(c=>c.permissions?.length).length,'según rol','#ffd23f')}${kpi('chart','Actividad este mes',(state.executions||[]).length,'ejecuciones registradas','#28c2d8')}</section><section class="grid collaborators-layout"><section class="panel span-2"><div class="panel-head"><div><h2>Gestión de colaboradores</h2><p>Usuarios, roles, comisiones, fechas y estado de acceso.</p></div><button class="button primary" data-action="new-collaborator">+ Nuevo colaborador</button></div>${rows||`<div class="empty-state empty-state-large"><strong>Sin colaboradores registrados</strong><span>Creá el primer usuario para comenzar a asignar trabajos.</span></div>`}</section>${panel('Beneficios internos',`<div class="funds"><div class="fund-row"><span>Beneficio cumpleaños</span><b>+7%</b></div><div class="fund-row"><span>Día libre</span><b>Activo</b></div><div class="fund-row"><span>Liquidación mensual</span><b>Día 3</b></div><div class="fund-row"><span>Cobros de clientes</span><b>cvstudio.ar</b></div></div>`)}</section>`;
   }
   const BUILTIN_PORTFOLIOS = [
-    {slug:'beauty-nails-by-eliana',name:'Beauty Nails by Eliana',menuLabel:'By Eliana',service:'Portfolio profesional · Estética',status:'Publicado',protected:false,password:'',downloads:true,primaryColor:'#9b5de5',secondaryColor:'#ffd23f',source:'Sistema',origin:'Sistema',builtin:true,publicPath:'/beauty-nails-by-eliana/'},
-    {slug:'julieta-ferrari',name:'Julieta Ferrari · Follow Digital',menuLabel:'Follow Digital',service:'Portfolio profesional · Fotografía',status:'Publicado',protected:false,password:'',downloads:true,primaryColor:'#3b82f6',secondaryColor:'#35d07f',source:'Sistema',origin:'Sistema',builtin:true,publicPath:'/julieta-ferrari/'}
+    {slug:'beauty-nails-by-eliana',name:'Beauty Nails by Eliana',menuLabel:'By Eliana',service:'Portfolio profesional · Estética',status:'Publicado',protected:false,password:'',downloads:true,primaryColor:'#9b5de5',secondaryColor:'#ffd23f',source:'Sistema',origin:'Sistema',builtin:true,publicPath:'/beauty-nails-by-eliana/'}
   ];
   let selectedUrlSpace = 'beauty-nails-by-eliana';
   const normalizeSlug=value=>String(value||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -285,13 +291,17 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     saveState();
   }
   function getUrlSpaces() {
+    const isRemovedSpace=item=>{
+      const searchable=normalizeSlug(`${item?.slug||''} ${item?.name||''} ${item?.full_name||''} ${item?.brand_name||''} ${item?.username||''}`);
+      return item?.deleted===true || item?.isDeleted===true || String(item?.status||'').toLowerCase()==='eliminado' || searchable.includes('julieta-ferrari') || searchable.includes('follow-digital');
+    };
     const delivered=(state.clients||[]).filter(c=>c.status==='Entregado').map(c=>({
       slug:normalizeSlug(c.name),name:c.name,service:c.service,status:'Publicado',protected:false,password:'',downloads:true,primaryColor:'#9b5de5',secondaryColor:'#ffd23f',source:'operaciones'
-    }));
-    const migrated=(state.portfolios||[]).map(p=>({
+    })).filter(item=>!isRemovedSpace(item));
+    const migrated=(state.portfolios||[]).filter(p=>!isRemovedSpace(p)).map(p=>({
       id:p.id,portfolioId:p.id,authUserId:p.auth_user_id,username:p.username,slug:p.slug,name:p.full_name||p.brand_name||p.username,menuLabel:p.brand_name||p.full_name||p.username,service:p.business_type||'Portfolio',status:({active:'Publicado',draft:'Borrador',suspended:'Pausado'}[p.status]||'Borrador'),backendStatus:p.status||'draft',protected:false,password:'',downloads:true,primaryColor:p.settings?.colors?.[0]||'#9b5de5',secondaryColor:p.settings?.colors?.[2]||'#ffd23f',settings:p.settings||{},templateKey:p.template_key||'creative',portalMode:p.settings?.portalMode||'portfolio',contactEmail:p.contact_email||'',whatsapp:p.whatsapp||'',bio:p.bio||'',source:'Centro de Operaciones',origin:'Cuenta real',real:true,updatedAt:p.updated_at
     })).filter(p=>p.slug);
-    const custom=(state.urlSpaces||[]).filter(s=>!BUILTIN_PORTFOLIOS.some(b=>b.slug===s.slug));
+    const custom=(state.urlSpaces||[]).filter(s=>!isRemovedSpace(s) && !BUILTIN_PORTFOLIOS.some(b=>b.slug===s.slug));
     const merged=[...migrated,...BUILTIN_PORTFOLIOS.map(b=>({...b,...(storedUrlSpace(b.slug)||{})})),...delivered,...custom];
     const seen=new Set();
     return merged.filter(item=>item.slug&&!seen.has(item.slug)&&(seen.add(item.slug),true)).map(item=>({...item,origin:item.origin||(item.builtin?'Sistema':'Panel'),url:`https://cvstudio.com.ar${item.publicPath||`/${item.slug}`}`}));
@@ -380,6 +390,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
         document.getElementById('clientRows').innerHTML=clientRowsOperational(state.clients.filter(c=>(c.name+c.service+c.status+c.phone).toLowerCase().includes(q)));
         bindModuleActions('clientes');
       };
+      scrollConversationToLatest();
     }
     if(id==='generador-url') {
       const refreshSelection=(slug)=>{selectedUrlSpace=slug;openModule('generador-url');setTimeout(()=>document.querySelector('.url-config-panel')?.scrollIntoView({behavior:'smooth',block:'start'}),80);};
