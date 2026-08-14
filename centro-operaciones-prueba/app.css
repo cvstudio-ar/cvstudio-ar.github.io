@@ -639,3 +639,80 @@
 }
 .url-unified-hero{margin-bottom:22px;padding:30px 32px;display:flex;align-items:center;justify-content:space-between;gap:30px;border:1px solid rgba(155,93,229,.24);border-radius:24px;background:radial-gradient(circle at 88% 20%,rgba(53,208,127,.14),transparent 30%),linear-gradient(135deg,rgba(155,93,229,.16),rgba(10,24,42,.72));box-shadow:0 22px 65px rgba(0,0,0,.17)}.url-unified-hero span{color:#bba0ff;font-size:.7rem;font-weight:800;letter-spacing:.15em}.url-unified-hero h2{margin:8px 0 7px;font-size:clamp(1.65rem,3vw,2.5rem)}.url-unified-hero p{max-width:720px;margin:0;color:var(--muted);line-height:1.6}.url-account-actions{display:flex;flex-wrap:wrap;gap:10px;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.025)}
 @media(max-width:760px){.url-unified-hero{padding:23px;display:block}.url-unified-hero .button{width:100%;margin-top:20px}.url-account-actions{display:grid;grid-template-columns:1fr}.url-account-actions .button{width:100%}}
+
+/* v1.4.51 · altura útil, chats al día y gráficos contenidos */
+@media(min-width:1001px){
+  .main-content[data-module="clientes"]{
+    height:calc(100dvh - 62px);
+    min-height:0;
+    overflow:hidden;
+    padding:9px 13px 10px!important;
+  }
+  .main-content[data-module="clientes"] .clients-layout{
+    height:100%;
+    min-height:0;
+    align-items:stretch;
+  }
+  .main-content[data-module="clientes"] .client-list{
+    min-height:0;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr);
+  }
+  .main-content[data-module="clientes"] .client-rows{
+    min-height:0;
+    max-height:none;
+    overflow-y:auto;
+  }
+  .main-content[data-module="clientes"] .client-workspace{
+    height:100%;
+    min-height:0;
+    grid-template-rows:max-content max-content minmax(0,1fr);
+    align-content:start;
+    gap:6px;
+  }
+  .main-content[data-module="clientes"] .client-summary{
+    height:auto!important;
+    min-height:0!important;
+    align-self:start;
+  }
+  .main-content[data-module="clientes"] .client-actions-single-row{margin:0!important}
+  .main-content[data-module="clientes"] .client-detail-grid{
+    height:100%;
+    min-height:0;
+    align-self:stretch;
+  }
+  .main-content[data-module="clientes"] .client-detail-grid>.panel,
+  .main-content[data-module="clientes"] .conversation,
+  .main-content[data-module="clientes"] .service-files,
+  .main-content[data-module="clientes"] .client-form-panel{
+    height:100%!important;
+    min-height:0!important;
+  }
+
+  .main-content[data-module="inicio"] .dashboard-layout{align-items:stretch}
+  .main-content[data-module="inicio"] .dashboard-layout>.panel{height:100%;min-height:0}
+  .main-content[data-module="inicio"] .panel:has(.chart-premium){height:auto!important;min-height:218px!important}
+}
+
+.main-content[data-module="marketing"] .marketing-grid-premium{align-items:stretch}
+.main-content[data-module="marketing"] .marketing-chart{overflow:hidden;padding-bottom:12px}
+.main-content[data-module="marketing"] .marketing-chart .chart-premium{overflow:hidden}
+.main-content[data-module="marketing"] .marketing-chart .chart-premium-body{
+  height:172px!important;
+  min-height:172px!important;
+  max-height:172px!important;
+  overflow:hidden!important;
+}
+.main-content[data-module="marketing"] .marketing-chart .chart-premium-plot{
+  height:172px!important;
+  min-height:172px!important;
+  padding-bottom:25px!important;
+  overflow:hidden!important;
+}
+.main-content[data-module="marketing"] .marketing-chart .chart-premium-plot svg{
+  height:147px!important;
+  max-height:147px!important;
+  overflow:hidden!important;
+}
+.main-content[data-module="marketing"] .marketing-chart .chart-y-axis{height:172px!important;padding-bottom:25px!important}
+.main-content[data-module="marketing"] .marketing-chart .chart-x-axis{bottom:1px!important;height:18px!important;line-height:18px!important}

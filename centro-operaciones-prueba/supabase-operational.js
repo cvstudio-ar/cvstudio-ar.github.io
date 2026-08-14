@@ -13,6 +13,9 @@
   let initialized = false;
   let applyingRemote = false;
   let timer = null;
+  let retryTimer = null;
+  let pushInFlight = false;
+  let pendingRawValue = '';
   let lastSerialized = '';
   let realtimeChannel = null;
 
@@ -61,13 +64,24 @@
       expenses: Array.isArray(state.expenses) ? state.expenses : [],
       activities: Array.isArray(state.activities) ? state.activities : [],
       collaborators: Array.isArray(state.collaborators) ? state.collaborators : [],
-      urlSpaces: Array.isArray(state.urlSpaces) ? state.urlSpaces : []
+      urlSpaces: Array.isArray(state.urlSpaces) ? state.urlSpaces : [],
+      templates: Array.isArray(state.templates) ? state.templates : []
     };
   }
 
   function row(entity, extra = {}) {
+    const rawId=entity?.id;
+    let numericId=Number(rawId);
+    if(!Number.isSafeInteger(numericId) || numericId<=0){
+      let hash=2166136261;
+      for(const char of String(rawId||JSON.stringify(entity)||'entity')){
+        hash^=char.charCodeAt(0);
+        hash=Math.imul(hash,16777619);
+      }
+      numericId=Math.abs(hash>>>0)||1;
+    }
     return {
-      id: Number(entity.id),
+      id: numericId,
       workspace_id: META_ID,
       payload: entity,
       updated_at: new Date().toISOString(),
@@ -85,6 +99,7 @@
 
   async function pushState(rawValue) {
     if (!client || applyingRemote) return;
+    if(pushInFlight){ pendingRawValue=rawValue; return; }
     let state;
     try { state = normalizeState(JSON.parse(rawValue)); }
     catch (_) { return; }
@@ -92,6 +107,7 @@
 
     const serialized = JSON.stringify(state);
     if (serialized === lastSerialized) return;
+    pushInFlight=true;
     status('Guardando cambios…', 'syncing');
 
     try {
@@ -106,7 +122,7 @@
 
       const meta = {
         id: META_ID,
-        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [] },
+        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [] },
         version: state.version,
         updated_at: new Date().toISOString(),
         updated_by: 'pablexe'
@@ -134,10 +150,20 @@
       ]);
 
       lastSerialized = serialized;
-      status('Supabase operativo', 'connected');
+      clearTimeout(retryTimer);
+      status('Sincronización operativa', 'connected');
     } catch (error) {
       console.error('[CVStudio RC4] Error al sincronizar:', error);
-      status('Error de sincronización', 'warning');
+      status('Reintentando sincronización…', 'syncing');
+      clearTimeout(retryTimer);
+      retryTimer=setTimeout(()=>pushState(rawValue),4000);
+    } finally {
+      pushInFlight=false;
+      if(pendingRawValue){
+        const next=pendingRawValue;
+        pendingRawValue='';
+        schedulePush(next);
+      }
     }
   }
 
@@ -193,8 +219,10 @@
     const local = normalizeState(parseLocal()) || {};
     const remoteRules = meta.rules || local.rules || {};
     const remoteUrlSpaces = Array.isArray(remoteRules.__urlSpaces) ? remoteRules.__urlSpaces : (local.urlSpaces || []);
+    const remoteTemplates = Array.isArray(remoteRules.__templates) ? remoteRules.__templates : (local.templates || []);
     const cleanRules = { ...remoteRules };
     delete cleanRules.__urlSpaces;
+    delete cleanRules.__templates;
     const prices = {};
     (servicesResult.data || []).forEach(service => { prices[service.name] = Number(service.price); });
 
@@ -211,6 +239,7 @@
       activities,
       collaborators,
       urlSpaces: remoteUrlSpaces,
+      templates: remoteTemplates,
       _sync: { updatedAt: meta.updated_at, source: 'supabase-normalized' }
     });
 

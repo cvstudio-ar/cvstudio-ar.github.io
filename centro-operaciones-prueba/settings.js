@@ -16,7 +16,7 @@ const CHANGELOG=[
  {version:'v1.4.37',date:'07/08/2026',items:['Administración reorganizada en dos niveles sin perder funciones.','Configuración compactada para mostrar los ocho módulos en una pantalla.','Tarjetas, botones y espacios verticales reajustados.']},
  {version:'v1.4.35',date:'06/08/2026',items:['Comprobación de versión antes de cargar el panel.','URL de rescate independiente de la caché anterior.','Un solo build para HTML, CSS y JavaScript.','Limpieza de Service Workers y cachés residuales.']},
  {version:'v1.3.0',date:'04/08/2026',items:['Versión visible debajo del logo de CVStudio.','Historial de versiones dentro de Estado del Sistema.','Permisos por jerarquía y gestión avanzada de colaboradores.','Generador URL funcional con portfolios existentes y creación de espacios.']},
- {version:'v1.2.0',date:'04/08/2026',items:['Generador URL con Beauty Nails by Eliana y Julieta Ferrari.','Configuración y vista previa de espacios publicados.']},
+ {version:'v1.2.0',date:'04/08/2026',items:['Generador URL con portfolios administrables.','Configuración y vista previa de espacios publicados.']},
  {version:'v1.1.0',date:'04/08/2026',items:['Configuración funcional con ocho módulos independientes.','Identidad visual, Open Graph, favicon y recursos de marca.']}
 ];
 const defaults={
