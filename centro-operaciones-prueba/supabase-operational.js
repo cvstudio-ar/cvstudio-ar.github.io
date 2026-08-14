@@ -1,4 +1,4 @@
-/* CVStudio Centro de Operaciones · RC4 v2.4
+/* CVStudio Centro de Operaciones · RC5 v2.5
    Persistencia normalizada de staging en Supabase.
    Mantiene la UI funcional existente y sincroniza entidades separadas para
    Clientes → Producción → Administración, sin tocar las tablas productivas. */
@@ -18,6 +18,15 @@
   let pendingRawValue = '';
   let lastSerialized = '';
   let realtimeChannel = null;
+  const WRITER_ID = (() => {
+    const key = 'cvstudio_ops_writer_id';
+    let value = sessionStorage.getItem(key);
+    if (!value) {
+      value = `pablexe:${crypto.randomUUID()}`;
+      sessionStorage.setItem(key, value);
+    }
+    return value;
+  })();
 
   const TABLES = {
     meta: 'cvstudio_ops_stage_meta',
@@ -88,12 +97,28 @@
     };
   }
 
-  async function replaceTable(table, entities) {
-    const { error: deleteError } = await client.from(table).delete().eq('workspace_id', META_ID);
-    if (deleteError) throw deleteError;
-    if (!entities.length) return;
-    const { error: insertError } = await client.from(table).insert(entities.map(item => row(item)));
-    if (insertError) throw insertError;
+  function removedIds(previousState, nextState, key) {
+    const previous = Array.isArray(previousState?.[key]) ? previousState[key] : [];
+    const current = new Set((Array.isArray(nextState?.[key]) ? nextState[key] : []).map(item => String(item.id)));
+    return previous
+      .filter(item => !current.has(String(item.id)))
+      .map(item => Number(item.id))
+      .filter(Number.isFinite);
+  }
+
+  async function syncTable(table, entities, deletedIds = []) {
+    if (entities.length) {
+      const { error: upsertError } = await client.from(table).upsert(entities.map(item => row(item)), { onConflict: 'workspace_id,id' });
+      if (upsertError) throw upsertError;
+    }
+    const previousCount = entities.length + deletedIds.length;
+    const safeDeletion = entities.length > 0 && deletedIds.length <= Math.max(1, Math.floor(previousCount / 2));
+    if (deletedIds.length && safeDeletion) {
+      const { error: deleteError } = await client.from(table).delete().eq('workspace_id', META_ID).in('id', deletedIds);
+      if (deleteError) throw deleteError;
+    } else if (deletedIds.length) {
+      console.warn(`[CVStudio RC5] Borrado preventivo bloqueado en ${table}: ${deletedIds.length} registros.`);
+    }
   }
 
   async function pushState(rawValue) {
@@ -119,34 +144,28 @@
         updated_at: new Date().toISOString()
       }));
 
+      await Promise.all([
+        syncTable(TABLES.clients, state.clients, removedIds(previousState, state, 'clients')),
+        syncTable(TABLES.jobs, state.jobs, removedIds(previousState, state, 'jobs')),
+        syncTable(TABLES.payments, state.payments, removedIds(previousState, state, 'payments')),
+        syncTable(TABLES.executions, state.executions, removedIds(previousState, state, 'executions')),
+        syncTable(TABLES.expenses, state.expenses, removedIds(previousState, state, 'expenses')),
+        syncTable(TABLES.activities, state.activities, removedIds(previousState, state, 'activities')),
+        syncTable(TABLES.collaborators, state.collaborators, removedIds(previousState, state, 'collaborators')),
+        services.length
+          ? client.from(TABLES.services).upsert(services, { onConflict: 'workspace_id,id' }).then(({ error }) => { if (error) throw error; })
+          : Promise.resolve()
+      ]);
+
       const meta = {
         id: META_ID,
         rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [] },
         version: state.version,
         updated_at: new Date().toISOString(),
-        updated_by: 'pablexe'
+        updated_by: WRITER_ID
       };
-
       const { error: metaError } = await client.from(TABLES.meta).upsert(meta, { onConflict: 'id' });
       if (metaError) throw metaError;
-
-      await Promise.all([
-        replaceTable(TABLES.clients, state.clients),
-        replaceTable(TABLES.jobs, state.jobs),
-        replaceTable(TABLES.payments, state.payments),
-        replaceTable(TABLES.executions, state.executions),
-        replaceTable(TABLES.expenses, state.expenses),
-        replaceTable(TABLES.activities, state.activities),
-        replaceTable(TABLES.collaborators, state.collaborators),
-        (async () => {
-          const { error: d } = await client.from(TABLES.services).delete().eq('workspace_id', META_ID);
-          if (d) throw d;
-          if (services.length) {
-            const { error: i } = await client.from(TABLES.services).insert(services);
-            if (i) throw i;
-          }
-        })()
-      ]);
 
       lastSerialized = serialized;
       clearTimeout(retryTimer);
@@ -268,14 +287,14 @@
 
   function startRealtime() {
     if (!client || realtimeChannel) return;
-    realtimeChannel = client.channel('cvstudio-ops-rc4')
+    realtimeChannel = client.channel('cvstudio-ops-rc5')
       .on('postgres_changes', {
         event: '*', schema: 'public', table: TABLES.meta, filter: `id=eq.${META_ID}`
       }, payload => {
-        if (payload?.new?.updated_by === 'pablexe') return;
+        if (payload?.new?.updated_by === WRITER_ID) return;
         status('Cambios remotos detectados', 'syncing');
         setTimeout(() => pullRemote().catch(error => {
-          console.error('[CVStudio RC4] Error al actualizar en tiempo real:', error);
+          console.error('[CVStudio RC5] Error al actualizar en tiempo real:', error);
           status('Error de actualización', 'warning');
         }), 250);
       })
@@ -286,6 +305,7 @@
     if ((!window.supabase && !window.cvstudioSupabase) || !window.CVSTUDIO_SUPABASE_URL || !window.CVSTUDIO_SUPABASE_PUBLISHABLE_KEY) {
       initialized = true;
       status('Modo local · configuración ausente', 'warning');
+      markReady();
       return;
     }
     try {
@@ -299,13 +319,21 @@
       await pullRemote();
       startRealtime();
     } catch (error) {
-      console.error('[CVStudio RC4] No se pudo iniciar Supabase:', error);
+      console.error('[CVStudio RC5] No se pudo iniciar Supabase:', error);
       initialized = true;
       const message = String(error?.message || 'Error desconocido');
       if (/permission denied|42501/i.test(message)) status('Ejecutar parche SQL RC4', 'warning');
       else if (/does not exist|42P01/i.test(message)) status('Faltan tablas RC3', 'warning');
       else status('Supabase sin conexión', 'warning');
+    } finally {
+      markReady();
     }
+  }
+
+  function markReady() {
+    if (window.CVStudioStageReady) return;
+    window.CVStudioStageReady = true;
+    window.dispatchEvent(new CustomEvent('cvstudio:stage-ready'));
   }
 
   window.addEventListener('online', () => { status('Reconectando Supabase…', 'syncing'); boot(); });
