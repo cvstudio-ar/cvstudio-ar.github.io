@@ -1,4 +1,4 @@
-/* Centro de Operaciones CVStudio — capa funcional Clientes visual v1.4.30 WhatsApp + Enter FINAL
+/* Centro de Operaciones CVStudio — capa funcional Clientes visual v1.4.52 recuperación de firmas heredadas
    Persistencia local con sincronización normalizada en Supabase staging.
    No modifica Mercado Pago, Meta ni el panel /admin actual. */
 (() => {
@@ -554,17 +554,47 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }));
   }
 
+  async function ensureRealClient(client) {
+    if (client?.realClientId) return client;
+    const bridge=window.CVStudioRealBridge;
+    if(!bridge?.createRealClient) throw new Error('Supabase todavía no está disponible. Esperá unos segundos y volvé a intentar.');
+    const persisted=await bridge.createRealClient({
+      name:client.name,
+      phone:client.phone||'',
+      email:client.email||'',
+      city:client.city||'',
+      service:client.service||'Pendiente de definir',
+      responsible:client.responsible||'pablexe',
+      source:client.source||'WhatsApp'
+    });
+    if(!persisted?.clientId||!persisted?.requestId) throw new Error('Supabase no confirmó el alta del cliente.');
+    client.realClientId=persisted.clientId;
+    client.realRequestId=persisted.requestId;
+    client.code=persisted.code||client.code||'';
+    client.imported=true;
+    saveState();
+    return client;
+  }
+
   function modalCreateClient() {
     showForm(
       'Nuevo cliente',
       'Ingresá únicamente los datos iniciales. El cliente completará el resto de la información desde su formulario.',
       input('name','Nombre y apellido') + input('phone','WhatsApp'),
       'Crear cliente',
-      data=>{
+      async (data,form)=>{
         const name=String(data.get('name')||'').trim();
         const phone=String(data.get('phone')||'').trim();
         if(name.length<3){toast('Ingresá el nombre y apellido del cliente.');return;}
         if(!phone){toast('Ingresá el número de WhatsApp del cliente.');return;}
+        const normalizedPhone=normalizeWhatsApp(phone);
+        if(state.clients.some(client=>normalizeWhatsApp(client.phone)===normalizedPhone&&client.name.toLowerCase()===name.toLowerCase())){
+          toast('Ese cliente ya está cargado.');
+          return;
+        }
+        const submit=form.querySelector('button[type="submit"]');
+        submit.disabled=true;
+        submit.textContent='Guardando en Supabase…';
         const client={
           id:nextId(state.clients),
           name,
@@ -577,15 +607,24 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
           email:'',
           city:'',
           responsible:'pablexe',
-          createdAt:new Date().toISOString()
+          createdAt:new Date().toISOString(),
+          source:'WhatsApp'
         };
-        state.clients.unshift(client);
-        addActivity('client','Nuevo cliente registrado',`${name} · información pendiente del cliente`,client.id);
-        saveState();
-        selectedClient=client;
-        closeModal();
-        toast('Cliente creado. Ahora podés enviarle el formulario para que complete sus datos.');
-        openModule('clientes');
+        try{
+          await ensureRealClient(client);
+          state.clients.unshift(client);
+          addActivity('client','Nuevo cliente registrado',`${name} · confirmado en Supabase`,client.id);
+          saveState();
+          selectedClient=client;
+          closeModal();
+          toast('Cliente guardado en Supabase. Ya podés enviarle el formulario o solicitar la firma.');
+          openModule('clientes');
+        }catch(error){
+          console.error('[CVStudio] No se pudo crear el cliente:',error);
+          toast(error.message||'No se pudo guardar el cliente en Supabase. No se creó un registro local incompleto.');
+          submit.disabled=false;
+          submit.textContent='Crear cliente';
+        }
       }
     );
   }
@@ -737,7 +776,14 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const bridge=window.CVStudioRealBridge;if(!bridge?.listSignatureRequests)return toast('El módulo de firmas todavía no está conectado.');
     openModal(`<h2>Firma de carta de presentación</h2><p style="color:var(--muted)">Consultando solicitudes de ${esc(client.name)}…</p>`);
     try{
-      const clientId=client.realClientId||String(client.id),data=await bridge.listSignatureRequests(clientId),latest=data.requests?.[0];
+      let clientId=client.realClientId||client.legacySignatureClientId||String(client.id);
+      let data=await bridge.listSignatureRequests(clientId);
+      if(!data.requests?.length&&!client.realClientId){
+        await ensureRealClient(client);
+        clientId=client.realClientId;
+        data=await bridge.listSignatureRequests(clientId);
+      }
+      const latest=data.requests?.[0];
       const received=latest?.estado==='recibida',pending=latest?.estado==='pendiente';
       openModal(`<h2>Firma de carta de presentación</h2><p style="color:var(--muted)">Generá un enlace exclusivo para ${esc(client.name)}. La firma recibida estará disponible durante 30 minutos.</p><div class="signature-panel-status"><strong>${latest?`Última solicitud: ${esc(latest.estado)}`:'Todavía no hay solicitudes'}</strong>${latest?.firmado?`<span>Recibida: ${new Date(latest.firmado).toLocaleString('es-AR')}</span>`:''}${received?`<span>Vence: ${new Date(latest.firma_expira).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}</span>`:''}</div><div id="signatureLinkResult"></div><div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button>${received?`<button class="button primary" id="downloadSignaturePng">Descargar PNG</button>`:`<button class="button primary" id="createSignatureLink">${pending?'Generar nuevo enlace':'Solicitar firma'}</button>`}</div>`);
       document.getElementById('downloadSignaturePng')?.addEventListener('click',async()=>{try{const file=await bridge.downloadSignature(latest.id);downloadDataUrl(file.dataUrl,file.fileName);toast('Firma descargada. Recordá incorporarla antes del vencimiento.');}catch(err){toast(err.message)}});
@@ -745,7 +791,9 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
         const button=e.currentTarget,defaultLabel=button.textContent;
         button.disabled=true;button.textContent='Generando…';
         try{
-          const result=await bridge.createSignatureRequest({clientId,clientName:client.name,phone:client.phone||'',documentName:'Carta de presentación'}),url=result.signingUrl,number=normalizeWhatsApp(client.phone),message=`Hola ${client.name.split(' ')[0]}, ya podés firmar tu carta de presentación desde este enlace exclusivo de CVStudio:\n\n${url}\n\nLa firma será utilizada únicamente en tu documento y se eliminará automáticamente 30 minutos después de enviarla.`;
+          if(!client.realClientId)await ensureRealClient(client);
+          const requestClientId=client.realClientId;
+          const result=await bridge.createSignatureRequest({clientId:requestClientId,clientName:client.name,phone:client.phone||'',documentName:'Carta de presentación'}),url=result.signingUrl,number=normalizeWhatsApp(client.phone),message=`Hola ${client.name.split(' ')[0]}, ya podés firmar tu carta de presentación desde este enlace exclusivo de CVStudio:\n\n${url}\n\nLa firma será utilizada únicamente en tu documento y se eliminará automáticamente 30 minutos después de enviarla.`;
           document.getElementById('signatureLinkResult').innerHTML=`<div class="signature-link-box"><strong>Enlace exclusivo generado</strong><input id="signatureGeneratedUrl" value="${esc(url)}" readonly><div><button class="button secondary small" id="copySignatureUrl">Copiar enlace</button>${number?`<a class="button primary small" href="https://wa.me/${number}?text=${encodeURIComponent(message)}" target="_blank" rel="noopener">Enviar por WhatsApp</a>`:''}</div></div>`;
           document.querySelector('.signature-panel-status').innerHTML='<strong>Enlace generado · pendiente de firma</strong><span>La recepción se verá directamente en este panel.</span>';
           document.getElementById('copySignatureUrl').onclick=()=>navigator.clipboard.writeText(url).then(()=>toast('Enlace copiado.'));

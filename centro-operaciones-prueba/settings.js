@@ -1,8 +1,10 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.4.47',build:'20260808-signatures-ui-final',date:'08/08/2026 · 10:15',name:'Firmas seguras · interfaz final'};
+const APP_RELEASE={version:'v1.4.52',build:'20260811-carla-legacy-recovery',date:'11/08/2026 · 21:32',name:'Recuperación de clientes y firmas heredadas'};
 const CHANGELOG=[
+ {version:'v1.4.52',date:'11/08/2026',items:['Ficha de Carla recuperada desde su solicitud de firma.','Compatibilidad con firmas generadas antes de la persistencia real.','Las nuevas solicitudes continúan usando exclusivamente el identificador de Supabase.']},
+ {version:'v1.4.51',date:'11/08/2026',items:['El alta se confirma primero en Supabase y recién después aparece en el panel.','Las firmas usan exclusivamente el identificador real del cliente.','Sincronización incremental sin borrados masivos y con coordinación segura entre pestañas.']},
  {version:'v1.4.47',date:'08/08/2026',items:['Ocho acciones del cliente alineadas en una sola fila.','WhatsApp compacto y modal de firmas integrado al modo oscuro.','Estado de generación corregido y recepción centralizada únicamente en el panel.']},
  {version:'v1.4.46',date:'08/08/2026',items:['Solicitudes de firma vinculadas a cada cliente.','Enlace público exclusivo y firma táctil desde celular.','PNG transparente disponible en el panel durante 30 minutos.']},
  {version:'v1.4.45',date:'07/08/2026',items:['Líneas y fechas contenidas dentro del panel.','Ejes reajustados y tipografía más nítida.','Trazos, puntos y cuadrícula refinados.','Altura compacta conservada sin superposiciones.']},
