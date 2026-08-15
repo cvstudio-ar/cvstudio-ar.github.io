@@ -803,6 +803,13 @@
 }
 .main-content[data-module="integraciones"] .integration-brand .brand-logo{width:36px;height:36px;object-fit:contain;filter:none}
 .main-content[data-module="integraciones"] .integration-brand .brand-mercadolibre{width:44px}
+.main-content[data-module="integraciones"] .integration-brand{background:transparent!important}
+.main-content[data-module="integraciones"] .brand-instagram{content:url("./assets/icons/instagram.svg")}
+.main-content[data-module="integraciones"] .brand-cloudflare{filter:invert(53%) sepia(94%) saturate(2138%) hue-rotate(349deg) brightness(101%) contrast(91%)!important}
+.main-content[data-module="integraciones"] .brand-linkedin{filter:invert(31%) sepia(94%) saturate(1171%) hue-rotate(173deg) brightness(91%) contrast(101%)!important}
+.main-content[data-module="integraciones"] .brand-openai{filter:invert(1)!important}
+.main-content[data-module="marketing"] .marketing-grid>.panel:nth-child(4){overflow-y:auto!important;overscroll-behavior:contain;scrollbar-width:thin}
+.main-content[data-module="marketing"] .marketing-campaign-card>span{background:transparent}
 .main-content[data-module="integraciones"] .integration-card-real>div{grid-area:info;min-width:0}
 .main-content[data-module="integraciones"] .integration-card-real strong{font-size:12px}
 .main-content[data-module="integraciones"] .integration-card-real small{font-size:9px;color:#8fb0d4}

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 64" role="img" aria-label="Mercado Libre">
+  <path fill="none" stroke="#FFE600" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M12 34c8-13 18-18 28-16 7 1 12 7 18 8 7 2 12-8 21-8 11 0 21 6 29 17-9 10-19 15-29 13-8-2-13-9-19-9-7 0-12 8-20 9-10 1-19-4-28-14Z"/>
+  <path fill="none" stroke="#3483FA" stroke-width="4" stroke-linecap="round" d="m38 28 12 8m2-10 12 9m3-9 10 7m-43 1 9 7m18-4 8 6"/>
+</svg>

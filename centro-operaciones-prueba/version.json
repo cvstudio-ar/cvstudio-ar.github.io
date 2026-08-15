@@ -1,7 +1,7 @@
 {
-  "version": "1.4.64",
-  "build": "20260815-meta-marketing-real",
-  "releasedAt": "2026-08-15T17:25:00-03:00",
+  "version": "1.4.65",
+  "build": "20260815-campaign-status-brand-assets",
+  "releasedAt": "2026-08-15T18:20:00-03:00",
   "channel": "production",
-  "name": "Estado persistente de Canva"
+  "name": "Campañas vigentes y marcas oficiales"
 }

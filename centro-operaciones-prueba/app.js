@@ -33,8 +33,8 @@ const ICONS={
 function icon(name,cls=''){const d=ICONS[name]||ICONS.file;return `<svg class="ui-icon ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`}
 const BRAND_FILES={
   facebook:'facebook-official.svg',instagram:'instagram.svg',whatsapp:'whatsapp-official.svg',
-  mercadolibre:'mercadolibre.svg',mercadopago:'mercadopago.svg',resend:'resend-official.svg',
-  supabase:'supabase.svg',cloudflare:'cloudflare.svg',googleanalytics:'googleanalytics.svg',canva:'canva.svg',
+ mercadolibre:'mercadolibre-transparent.svg',mercadopago:'mercadopago.svg',resend:'resend-official.svg',
+ supabase:'supabase.svg',cloudflare:'cloudflare.svg',googleanalytics:'googleanalytics.svg',canva:'canva-color.svg',
   linkedin:'linkedin.svg',openai:'openai.svg'
 };
 function brand(name,cls=''){const file=BRAND_FILES[name]||`${name}.svg`;return `<img class="brand-logo brand-${name} ${cls}" src="./assets/brands/${file}" alt="" aria-hidden="true">`}
