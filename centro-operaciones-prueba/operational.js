@@ -320,8 +320,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   function integrationDefinitions(){
     const real=state._integrationStatus||{};
     return [
-      {id:'supabase',name:'Supabase',type:'Base de datos y autenticación',detail:'Proyecto cvstudio-core',status:integrationHealth?.supabase||'checking',brand:'supabase'},
-      {id:'storage',name:'Supabase Storage',type:'Archivos privados',detail:'Bucket cvstudio-archivos',status:integrationHealth?.storage||'checking',brand:'supabase'},
+      {id:'supabase',name:'Supabase',type:'Base de datos y autenticación',detail:real.supabaseDetail||'Proyecto cvstudio-core',status:integrationHealth?.supabase||real.supabase||'checking',brand:'supabase'},
+      {id:'storage',name:'Supabase Storage',type:'Archivos privados',detail:real.storageDetail||'Bucket cvstudio-archivos',status:integrationHealth?.storage||real.storage||'checking',brand:'supabase'},
       {id:'mercadopago',name:'Mercado Pago',type:'Pagos y servicios',detail:real.paymentsDetail||'Verificación disponible',status:real.payments||'checking',brand:'mercadopago'},
       {id:'whatsapp',name:'WhatsApp Business',type:'Mensajería operativa',detail:'Envío mediante Worker',status:real.whatsapp||'configured',brand:'whatsapp'},
       {id:'resend',name:'Resend',type:'Correo transaccional',detail:'Historial de comunicaciones',status:real.resend||'configured',brand:'resend'},

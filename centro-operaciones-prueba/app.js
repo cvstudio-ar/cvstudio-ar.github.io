@@ -32,8 +32,8 @@ const ICONS={
 }
 function icon(name,cls=''){const d=ICONS[name]||ICONS.file;return `<svg class="ui-icon ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`}
 const BRAND_FILES={
-  facebook:'facebook-official.svg',instagram:'instagram-official.png',whatsapp:'whatsapp-official.svg',
-  mercadolibre:'mercadolibre-official.png',mercadopago:'mercadopago.svg',resend:'resend-official.svg',
+  facebook:'facebook-official.svg',instagram:'instagram.svg',whatsapp:'whatsapp-official.svg',
+  mercadolibre:'mercadolibre.svg',mercadopago:'mercadopago.svg',resend:'resend-official.svg',
   supabase:'supabase.svg',cloudflare:'cloudflare.svg',googleanalytics:'googleanalytics.svg',canva:'canva.svg',
   linkedin:'linkedin.svg',openai:'openai.svg'
 };

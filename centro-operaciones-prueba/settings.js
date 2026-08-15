@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.4.62',build:'20260815-canva-status-persist',date:'15/08/2026 · 17:25',name:'Estado persistente de Canva'};
+const APP_RELEASE={version:'v1.4.63',build:'20260815-integrations-classic-real',date:'15/08/2026 · 17:48',name:'Integraciones amplias y estado real'};
 const CHANGELOG=[
+ {version:'v1.4.63',date:'15/08/2026',items:['Recuperado el diseño amplio de integraciones.','Logos oficiales transparentes y sin recuadros blancos.','Supabase y Storage conservan el estado real después de actualizar.']},
  {version:'v1.4.62',date:'15/08/2026',items:['Canva se verifica automáticamente al iniciar el panel.','El estado conectado permanece después de actualizar o reiniciar.']},
  {version:'v1.4.61',date:'15/08/2026',items:['OAuth 2.0 con PKCE para Canva Connect API.','Tokens protegidos en Supabase y credenciales privadas en Cloudflare.','Botón Canva conectado al flujo real de autorización.']},
  {version:'v1.4.60',date:'15/08/2026',items:['Permisos de Archivos corregidos y previsualización antes de guardar.','Logos oficiales y accesos de Facebook, Instagram, Canva, Mercado Libre, ChatGPT y LinkedIn.','Campañas activas del Calendario visibles en Marketing.','Configuración de Espacios recuperada dentro de la misma pantalla.']},

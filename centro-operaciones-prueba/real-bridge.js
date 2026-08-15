@@ -115,9 +115,10 @@
     }
     status('Sincronizando datos reales…', 'syncing');
 
-    const [requestsResult, commsResult, paymentsData, productsData, portfoliosData, canvaData] = await Promise.all([
+    const [requestsResult, commsResult, storageResult, paymentsData, productsData, portfoliosData, canvaData] = await Promise.all([
       client.from('solicitudes').select('*, clientes(*), archivos(*)').order('fecha_creacion', {ascending:false}).limit(1000),
       client.from('comunicaciones').select('*').order('fecha_creacion', {ascending:false}).limit(3000),
+      client.storage.from('cvstudio-archivos').list('',{limit:1}).catch(error=>({data:null,error})),
       api('payments-admin-list').catch(error => ({orders:[], _error:error.message})),
       api('payments-admin-products').catch(error => ({products:[], _error:error.message})),
       portfolioApi('portfolio-admin-list').catch(error => ({clients:[], _error:error.message})),
@@ -222,6 +223,10 @@
     state.portfolios=Array.isArray(portfoliosData.clients)?portfoliosData.clients:state.portfolios||[];
     state._integrationStatus={
       ...(state._integrationStatus||{}),
+      supabase:'connected',
+      supabaseDetail:`Base operativa · ${requests.length} solicitudes leídas`,
+      storage:storageResult?.error?'error':'connected',
+      storageDetail:storageResult?.error?storageResult.error.message:'Bucket privado verificado',
       payments:paymentsData._error?'error':'connected',
       paymentsDetail:paymentsData._error?paymentsData._error:`${orders.length} pedidos leídos`,
       portfolios:portfoliosData._error?'error':'connected',

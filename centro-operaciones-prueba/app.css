@@ -788,3 +788,25 @@
 
 @media(min-width:1100px){.main-content[data-module="integraciones"] .integrations-compact{display:flex;flex-direction:column}.main-content[data-module="integraciones"] .integration-grid-real{flex:1;min-height:0;align-content:start}.main-content[data-module="generador-url"] .url-directory-compact{height:100%}.main-content[data-module="marketing"]{height:calc(100dvh - 68px);min-height:0;overflow:hidden;padding:8px 12px}.main-content[data-module="marketing"]>.kpi-grid{margin-bottom:7px}.main-content[data-module="marketing"] .marketing-grid{height:calc(100% - 72px);gap:7px}.main-content[data-module="marketing"] .marketing-grid>.panel{min-height:0;overflow:hidden;padding:9px}}
 @media(max-width:1099px){.integration-grid-real{grid-template-columns:repeat(2,minmax(0,1fr))}.url-workspace-inline{grid-template-columns:1fr;height:auto}.url-workspace-inline>.panel{height:auto}.url-workspace-inline .url-spaces-list{height:auto;max-height:340px}.url-config-inline{overflow:visible}}
+
+/* v1.4.63 · integraciones amplias y logos transparentes */
+.main-content[data-module="integraciones"] .integrations-compact{padding:12px!important}
+.main-content[data-module="integraciones"] .integration-grid-real{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 18px;align-content:start}
+.main-content[data-module="integraciones"] .integration-card-real{
+  display:grid;grid-template-columns:48px minmax(0,1fr) auto auto;grid-template-areas:"brand info status action";
+  min-height:61px;padding:8px 4px;gap:10px;align-items:center;border:0;border-bottom:1px solid rgba(255,255,255,.075);
+  border-radius:0;background:transparent
+}
+.main-content[data-module="integraciones"] .integration-card-real:hover{background:rgba(255,255,255,.025)}
+.main-content[data-module="integraciones"] .integration-brand{
+  grid-area:brand;display:grid;place-items:center;width:42px;height:42px;border-radius:0;background:transparent
+}
+.main-content[data-module="integraciones"] .integration-brand .brand-logo{width:36px;height:36px;object-fit:contain;filter:none}
+.main-content[data-module="integraciones"] .integration-brand .brand-mercadolibre{width:44px}
+.main-content[data-module="integraciones"] .integration-card-real>div{grid-area:info;min-width:0}
+.main-content[data-module="integraciones"] .integration-card-real strong{font-size:12px}
+.main-content[data-module="integraciones"] .integration-card-real small{font-size:9px;color:#8fb0d4}
+.main-content[data-module="integraciones"] .integration-card-real p{font-size:9px;margin:3px 0 0;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.main-content[data-module="integraciones"] .integration-card-real>.status{grid-area:status;justify-self:end;font-size:9px;padding:4px 7px}
+.main-content[data-module="integraciones"] .integration-card-real>.button{grid-area:action;justify-self:end;min-height:28px;padding:5px 9px;font-size:9px}
+@media(max-width:900px){.main-content[data-module="integraciones"] .integration-grid-real{grid-template-columns:1fr}.main-content[data-module="integraciones"] .integrations-compact{height:auto!important;overflow:visible!important}}
