@@ -91,6 +91,8 @@
     return data;
   }
   const canvaStatus=()=>api('canva-status');
+  const metaStatus=()=>api('meta-status');
+  const metaCampaigns=()=>api('meta-campaigns');
   const connectCanva=async()=>{
     const result=await api('canva-oauth-start');
     if(!result.authorizationUrl)throw new Error('Canva no devolvió una dirección de autorización.');
@@ -115,14 +117,15 @@
     }
     status('Sincronizando datos reales…', 'syncing');
 
-    const [requestsResult, commsResult, storageResult, paymentsData, productsData, portfoliosData, canvaData] = await Promise.all([
+    const [requestsResult, commsResult, storageResult, paymentsData, productsData, portfoliosData, canvaData, metaData] = await Promise.all([
       client.from('solicitudes').select('*, clientes(*), archivos(*)').order('fecha_creacion', {ascending:false}).limit(1000),
       client.from('comunicaciones').select('*').order('fecha_creacion', {ascending:false}).limit(3000),
       client.storage.from('cvstudio-archivos').list('',{limit:1}).catch(error=>({data:null,error})),
       api('payments-admin-list').catch(error => ({orders:[], _error:error.message})),
       api('payments-admin-products').catch(error => ({products:[], _error:error.message})),
       portfolioApi('portfolio-admin-list').catch(error => ({clients:[], _error:error.message})),
-      api('canva-status').catch(error => ({configured:true,connected:false,_error:error.message}))
+      api('canva-status').catch(error => ({configured:true,connected:false,_error:error.message})),
+      api('meta-campaigns').catch(error => ({connected:false,campaigns:[],_error:error.message}))
     ]);
     if (requestsResult.error) throw requestsResult.error;
     if (commsResult.error) throw commsResult.error;
@@ -221,6 +224,8 @@
       state._realProducts = products;
     }
     state.portfolios=Array.isArray(portfoliosData.clients)?portfoliosData.clients:state.portfolios||[];
+    state.metaCampaigns=Array.isArray(metaData.campaigns)?metaData.campaigns:state.metaCampaigns||[];
+    state.metaSummary=metaData.summary||state.metaSummary||{spend:0,results:0,impressions:0};
     state._integrationStatus={
       ...(state._integrationStatus||{}),
       supabase:'connected',
@@ -235,7 +240,9 @@
       resend:'configured',
       analytics:'configured',
       canva:canvaData.connected?'connected':canvaData.configured?'pending':'configured',
-      canvaDetail:canvaData.connected?'Cuenta y tokens verificados':(canvaData._error||(canvaData.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare'))
+      canvaDetail:canvaData.connected?'Cuenta y tokens verificados':(canvaData._error||(canvaData.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare')),
+      facebook:metaData.connected?'connected':metaData._error?'error':'pending',
+      facebookDetail:metaData.connected?`${state.metaCampaigns.length} campañas sincronizadas`:(metaData._error||'Meta Marketing pendiente')
     };
     state._realSync = {at:new Date().toISOString(),requests:requests.length,orders:orders.length,communications:communications.length,portfolios:state.portfolios.length,source:'production-read'};
     setState(state);
@@ -299,7 +306,7 @@
     return api('payments-admin-products-update',{products});
   }
 
-  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, connectCanva};
+  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, connectCanva, metaStatus, metaCampaigns};
 
   function waitForStageReady(timeout = 8000) {
     if (window.CVStudioStageReady) return Promise.resolve();

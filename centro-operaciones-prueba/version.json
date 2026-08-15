@@ -1,6 +1,6 @@
 {
-  "version": "1.4.63",
-  "build": "20260815-integrations-classic-real",
+  "version": "1.4.64",
+  "build": "20260815-meta-marketing-real",
   "releasedAt": "2026-08-15T17:25:00-03:00",
   "channel": "production",
   "name": "Estado persistente de Canva"

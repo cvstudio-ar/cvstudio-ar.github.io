@@ -21,7 +21,7 @@ const SUPABASE_URL = 'https://eqepkoegzyqklpxkrkhm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZXBrb2Vnenlxa2xweGtya2htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTc1MzcsImV4cCI6MjEwMDQzMzUzN30.dy-gMZJRMTQyr--kCq5JsEaDzazcDXFUkxQdiLQBFx8';
 const ADMIN_USER_ID = '3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
 const CONTACT_EMAIL = 'contacto@cvstudio.com.ar';
-const WORKER_RELEASE = 'v2.11.0-canva-oauth';
+const WORKER_RELEASE = 'v2.12.0-meta-marketing';
 const FORM_NOTIFICATION_EMAIL = 'cvstudioargentina@gmail.com';
 const getFormNotificationEmail = () => FORM_NOTIFICATION_EMAIL;
 const DEFAULT_RESEND_RECEIVING_DOMAIN = 'iokioalkuu.resend.app';
@@ -661,9 +661,33 @@ async function handleWhatsAppAdminSend(request,env,origin,body){
     return jsonResponse({ok:true,id:result?.messages?.[0]?.id||null},200,origin);
   }catch(error){return jsonResponse({ok:false,message:`No se pudo enviar por WhatsApp: ${error.message}`},502,origin)}
 }
+
+const normalizeMetaAdAccount=value=>String(value||'').trim().replace(/^act_/, '');
+async function metaGraph(env,path,params={}){
+  if(!env.META_MARKETING_ACCESS_TOKEN||!env.META_AD_ACCOUNT_ID)throw new Error('Faltan las credenciales de Meta Marketing en Cloudflare.');
+  const url=new URL(`https://graph.facebook.com/v25.0/${path.replace(/^\//,'')}`);
+  Object.entries(params).forEach(([key,value])=>value!=null&&url.searchParams.set(key,String(value)));
+  url.searchParams.set('access_token',env.META_MARKETING_ACCESS_TOKEN);
+  const response=await fetch(url,{headers:{Accept:'application/json'}}),data=await response.json().catch(()=>({}));
+  if(!response.ok||data.error)throw new Error(data?.error?.message||`Meta respondió ${response.status}.`);
+  return data;
+}
+const metaResultCount=actions=>{for(const type of ['onsite_conversion.messaging_conversation_started_7d','messaging_conversation_started_7d','lead','offsite_conversion.fb_pixel_lead','link_click']){const item=(actions||[]).find(action=>action.action_type===type);if(item)return Number(item.value||0)}return 0};
+async function handleMetaStatus(request,env,origin){
+  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  const accountId=normalizeMetaAdAccount(env.META_AD_ACCOUNT_ID);
+  if(!env.META_MARKETING_ACCESS_TOKEN||!accountId)return jsonResponse({ok:true,configured:false,connected:false},200,origin);
+  try{const account=await metaGraph(env,`act_${accountId}`,{fields:'id,name,account_status,currency,timezone_name'});return jsonResponse({ok:true,configured:true,connected:true,account:{id:account.id,name:account.name||'Cuenta publicitaria',status:account.account_status,currency:account.currency,timezone:account.timezone_name}},200,origin)}catch(error){return jsonResponse({ok:true,configured:true,connected:false,message:error.message},200,origin)}
+}
+async function handleMetaCampaigns(request,env,origin){
+  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  const accountId=normalizeMetaAdAccount(env.META_AD_ACCOUNT_ID);
+  if(!env.META_MARKETING_ACCESS_TOKEN||!accountId)return jsonResponse({ok:false,message:'Meta Marketing todavía no está configurado.'},503,origin);
+  try{const fields='id,name,status,effective_status,objective,daily_budget,lifetime_budget,start_time,stop_time,updated_time,insights.date_preset(last_30d){spend,impressions,reach,clicks,actions,cost_per_action_type}',data=await metaGraph(env,`act_${accountId}/campaigns`,{fields,limit:100});const campaigns=(data.data||[]).map(item=>{const insight=item.insights?.data?.[0]||{};return {id:item.id,name:item.name,status:item.status,effective_status:item.effective_status,objective:item.objective,start_time:item.start_time,stop_time:item.stop_time,updated_time:item.updated_time,budget:Number(item.daily_budget||item.lifetime_budget||0)/100,budgetType:item.daily_budget?'daily':item.lifetime_budget?'lifetime':null,spend:Number(insight.spend||0),impressions:Number(insight.impressions||0),reach:Number(insight.reach||0),clicks:Number(insight.clicks||0),results:metaResultCount(insight.actions),source:'Meta Ads',platform:'Facebook / Instagram'}});return jsonResponse({ok:true,connected:true,accountId:`act_${accountId}`,campaigns,summary:{spend:campaigns.reduce((sum,item)=>sum+item.spend,0),results:campaigns.reduce((sum,item)=>sum+item.results,0),impressions:campaigns.reduce((sum,item)=>sum+item.impressions,0)}},200,origin)}catch(error){return jsonResponse({ok:false,message:`No se pudieron leer las campañas de Meta: ${error.message}`},502,origin)}
+}
 export default {
 async scheduled(_event,env,ctx){ctx.waitUntil(deleteExpiredSignatures(env));},
-async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN),canvaConfigured:canvaConfigured(env)},200,origin);if(url.pathname==='/oauth/canva/callback'&&request.method==='GET')return handleCanvaOAuthCallback(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}
+async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN),canvaConfigured:canvaConfigured(env),metaConfigured:Boolean(env.META_MARKETING_ACCESS_TOKEN&&env.META_AD_ACCOUNT_ID)},200,origin);if(url.pathname==='/oauth/canva/callback'&&request.method==='GET')return handleCanvaOAuthCallback(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}
 if(body?.action==='signature-public-get')return handleSignaturePublicGet(env,origin,body);
 if(body?.action==='signature-public-submit')return handleSignaturePublicSubmit(env,origin,body);
 if(body?.action==='signature-admin-create')return handleSignatureAdminCreate(request,env,origin,body);
@@ -679,6 +703,8 @@ if(body?.action==='payments-admin-products-update')return handlePaymentProductsB
 if(body?.action==='payments-admin-product-update')return handlePaymentProductUpdate(request,env,origin,body);
 if(body?.action==='canva-oauth-start')return handleCanvaOAuthStart(request,env,origin);
 if(body?.action==='canva-status')return handleCanvaStatus(request,env,origin);
+if(body?.action==='meta-status')return handleMetaStatus(request,env,origin);
+if(body?.action==='meta-campaigns')return handleMetaCampaigns(request,env,origin);
 if(!env.RESEND_API_KEY)return jsonResponse({ok:false,message:'Configuración incompleta.'},500,origin);
 if(body?.action==='siac-form-notification')return handleSiacFormNotification(env,origin,body);
 if(body?.action==='admin-reply')return handleAdminReply(request,env,origin,body);

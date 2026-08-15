@@ -326,7 +326,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       {id:'whatsapp',name:'WhatsApp Business',type:'Mensajería operativa',detail:'Envío mediante Worker',status:real.whatsapp||'configured',brand:'whatsapp'},
       {id:'resend',name:'Resend',type:'Correo transaccional',detail:'Historial de comunicaciones',status:real.resend||'configured',brand:'resend'},
       {id:'portfolio',name:'Cloudflare',type:'Espacios de clientes',detail:real.portfoliosDetail||'Verificación disponible',status:real.portfolios||'checking',brand:'cloudflare'},
-      {id:'facebook',name:'Facebook',type:'Campañas y página',detail:'Meta Marketing API pendiente',status:real.facebook||'pending',brand:'facebook',setup:'https://business.facebook.com/settings/'},
+      {id:'facebook',name:'Facebook',type:'Campañas y página',detail:real.facebookDetail||'Meta Marketing API pendiente',status:real.facebook||'pending',brand:'facebook',setup:'https://business.facebook.com/settings/'},
       {id:'instagram',name:'Instagram',type:'Cuenta profesional',detail:'Meta Business pendiente',status:real.instagram||'pending',brand:'instagram',setup:'https://business.facebook.com/settings/'},
       {id:'canva',name:'Canva',type:'Diseño y plantillas',detail:real.canvaDetail||'OAuth pendiente de vinculación',status:real.canva||'pending',brand:'canva'},
       {id:'mercadolibre',name:'Mercado Libre',type:'Marketplace',detail:'OAuth pendiente',status:real.mercadolibre||'pending',brand:'mercadolibre',setup:'https://developers.mercadolibre.com.ar/'},
@@ -349,9 +349,12 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     try{
       await window.CVStudioRealBridge?.loadReal?.();state=loadState();
       const canva=await window.CVStudioRealBridge?.canvaStatus?.();
+      const meta=await window.CVStudioRealBridge?.metaStatus?.();
       state._integrationStatus=state._integrationStatus||{};
       state._integrationStatus.canva=canva?.connected?'connected':canva?.configured?'pending':'configured';
       state._integrationStatus.canvaDetail=canva?.connected?'Cuenta y tokens verificados':canva?.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare';
+      state._integrationStatus.facebook=meta?.connected?'connected':meta?.configured?'error':'pending';
+      state._integrationStatus.facebookDetail=meta?.connected?`${meta.account?.name||'Cuenta publicitaria'} verificada`:(meta?.message||'Meta Marketing pendiente');
       saveState();
     }catch(error){console.error('[CVStudio integrations]',error);}
     openModule('integraciones');toast(database.error||storage.error?'La verificación detectó puntos pendientes.':'Integraciones principales verificadas.');
@@ -397,7 +400,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const confirmed = confirmedPayments(), revenue = totalRevenue();
     const byChannel = {}; confirmed.forEach(p=>{const k=p.source||'Sin identificar';byChannel[k]=(byChannel[k]||0)+Number(p.amount||0)});
     const channels=Object.entries(byChannel).sort((a,b)=>b[1]-a[1]);
-    const budget=revenue*Number(state.rules.growth||0)/100, spent=totalExpenses(), available=Math.max(0,budget-spent);
+    const metaSpend=Number(state.metaSummary?.spend||0),budget=revenue*Number(state.rules.growth||0)/100, spent=totalExpenses()+metaSpend, available=Math.max(0,budget-spent);
     const today=localDateKey(new Date()),manualCampaigns=calendarItems().filter(item=>item.type==='campaign'&&item.startDate<=today&&(item.endDate||item.startDate)>=today&&!['Completada','Cancelada'].includes(item.status));
     const metaCampaigns=Array.isArray(state.metaCampaigns)?state.metaCampaigns:[],campaigns=[...metaCampaigns,...manualCampaigns.map(item=>({...item,source:'Calendario',budget:itemTotal(item)}))];
     const campaignCards=campaigns.map(item=>{const source=String(item.platform||item.channel||item.title||'').toLowerCase(),network=source.includes('instagram')?'instagram':'facebook';return `<article class="marketing-campaign-card"><span>${brand(network)}</span><div><strong>${esc(item.name||item.title)}</strong><small>${esc(item.source||'Meta Ads')} · ${dateLabel(item.startDate||item.start_time)}${item.endDate||item.stop_time?` → ${dateLabel(item.endDate||item.stop_time)}`:''}</small></div><b>${money(item.budget||item.totalBudget||item.spend||0)}</b><i>${esc(item.status||item.effective_status||'Activa')}</i></article>`;}).join('');
