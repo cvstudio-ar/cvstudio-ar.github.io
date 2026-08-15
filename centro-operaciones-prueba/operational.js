@@ -27,20 +27,21 @@
   const permissionsForRole = role => [...(ROLE_PERMISSION_MAP[role] || ROLE_PERMISSION_MAP.Aprendiz)];
 
   const seed = {
-    version: 9,
+    version: 10,
     rules: { colab: 20, growth: 15, reserve: 5, company: 60 },
     prices: { ...SERVICE_DEFAULTS },
-    clients: [], jobs: [], payments: [], executions: [], expenses: [], activities: [], urlSpaces: [], templates: [], collaborators: [{id:1,name:'pablexe',email:'pablexe@cvstudio.com.ar',role:'Director',commission:20,birthDate:'',startDate:'2026-08-01',status:'Activo',authStatus:'Activo',permissions:permissionsForRole('Director'),capabilities:['CV Profesional','LinkedIn','Cartas','Portfolio','Atención al cliente','Diseño gráfico','Marketing','Revisión'],training:{}}]
+    clients: [], jobs: [], payments: [], executions: [], expenses: [], activities: [], calendarItems: [], urlSpaces: [], templates: [], collaborators: [{id:1,name:'pablexe',email:'pablexe@cvstudio.com.ar',role:'Director',commission:20,birthDate:'',startDate:'2026-08-01',status:'Activo',authStatus:'Activo',permissions:permissionsForRole('Director'),capabilities:['CV Profesional','LinkedIn','Cartas','Portfolio','Atención al cliente','Diseño gráfico','Marketing','Revisión'],training:{}}]
   };
 
   const clone = value => JSON.parse(JSON.stringify(value));
   function loadState() {
     try {
       const stored = JSON.parse(localStorage.getItem(STORE_KEY));
-      if (stored && [2,3,4,5,6,7,8,9].includes(stored.version)) {
-        stored.version = 9;
+      if (stored && [2,3,4,5,6,7,8,9,10].includes(stored.version)) {
+        stored.version = 10;
         stored.executions = Array.isArray(stored.executions) ? stored.executions : [];
         stored.activities = Array.isArray(stored.activities) ? stored.activities : [];
+        stored.calendarItems = Array.isArray(stored.calendarItems) ? stored.calendarItems : [];
         stored.urlSpaces = Array.isArray(stored.urlSpaces) ? stored.urlSpaces : [];
         stored.templates = Array.isArray(stored.templates) ? stored.templates : [];
         stored.collaborators = Array.isArray(stored.collaborators) && stored.collaborators.length ? stored.collaborators : clone(seed.collaborators);
@@ -265,13 +266,45 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const budget=revenue*Number(state.rules.growth||0)/100, spent=totalExpenses(), available=Math.max(0,budget-spent);
     return `<section class="grid kpi-grid">${kpi('chart','Inversión registrada',money(spent),`${state.expenses.length} movimientos`,'#3b82f6')}${kpi('message','Canales con ventas',channels.length,'origen de pagos confirmados','#35d07f')}${kpi('file','Ventas generadas',confirmed.length,'pagos confirmados','#9b5de5')}${kpi('dollar','Ingreso promedio',confirmed.length?money(revenue/confirmed.length):money(0),'por venta confirmada','#ff8a1f')}${kpi('wallet','Fondo disponible',money(available),'crecimiento menos gastos','#28c2d8')}</section><section class="grid marketing-grid">${panel('Caja publicitaria · Fondo de Crecimiento',`<div class="donut-wrap">${donutChart(budget?Math.round(spent/budget*100)+'%':'0%','Ejecutado')}<div class="legend"><span><b>Asignado:</b> ${money(budget)}</span><span><b>Gastado:</b> ${money(spent)}</span><span><b>Disponible:</b> ${money(available)}</span></div></div>`)}<section class="panel span-2"><div class="panel-head"><div><h2>Inversión y resultados</h2><p>Se construye con movimientos reales de marketing y ventas.</p></div></div>${spent||confirmed.length?lineSvg():`<div class="empty-state empty-state-large"><strong>Sin datos suficientes</strong><span>Registrá gastos publicitarios y pagos confirmados para construir esta estadística.</span></div>`}</section>${panel('Rendimiento por canal',channels.length?`<div class="channel-grid">${channels.map(([name,val])=>`<div class="channel-card"><strong>${esc(name)}</strong><span>${confirmed.filter(p=>(p.source||'Sin identificar')===name).length} ventas</span><b>${money(val)}</b></div>`).join('')}</div>`:`<div class="empty-state empty-state-large"><strong>Sin canales medidos</strong><span>El origen de cada pago aparecerá aquí automáticamente.</span></div>`)}${panel('Campañas activas',`<div class="empty-state empty-state-large"><strong>Sin campañas sincronizadas</strong><span>Meta Ads y otras plataformas aparecerán cuando se conecten sus APIs.</span></div>`)}${panel('Creatividades recientes',`<div class="empty-state empty-state-large"><strong>Sin creatividades registradas</strong><span>Podrás cargar piezas y asociarlas a campañas desde este módulo.</span></div>`)}</section>`;
   }
+  const calendarTypeMeta={
+    campaign:{label:'Campaña publicitaria',color:'#3b82f6',icon:'megaphone'},
+    delivery:{label:'Entrega',color:'#35d07f',icon:'check'},
+    task:{label:'Tarea interna',color:'#9b5de5',icon:'briefcase'},
+    publication:{label:'Publicación en redes',color:'#e1306c',icon:'upload'},
+    followup:{label:'Seguimiento de cliente',color:'#28c2d8',icon:'message'},
+    reminder:{label:'Recordatorio',color:'#ffb800',icon:'clock'}
+  };
+  let calendarCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+  const localDateKey=date=>`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  const parseLocalDate=value=>{const [year,month,day]=String(value||'').split('-').map(Number);return new Date(year,month-1,day);};
+  const dateLabel=value=>value?new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'short',year:'numeric'}).format(parseLocalDate(value)).replace('.',''):'—';
+  const calendarItems=()=>Array.isArray(state.calendarItems)?state.calendarItems:[];
+  const itemTotal=item=>item.type==='campaign'?(Number(item.totalBudget)||Number(item.dailyBudget||0)*Math.max(1,Math.round((parseLocalDate(item.endDate)-parseLocalDate(item.startDate))/86400000)+1)):Number(item.totalBudget||0);
+  function calendarMonthEvents(year,month){
+    const first=localDateKey(new Date(year,month,1)),last=localDateKey(new Date(year,month+1,0));
+    const manual=calendarItems().filter(item=>item.startDate<=last&&(item.endDate||item.startDate)>=first).map(item=>({...item,source:'manual'}));
+    const jobs=state.jobs.filter(job=>job.due&&job.due>=first&&job.due<=last).map(job=>({id:`job-${job.id}`,title:`${job.client} · ${job.service}`,type:'delivery',startDate:job.due,endDate:job.due,status:job.stage,notes:`Responsable: ${job.responsible}`,source:'job'}));
+    return [...manual,...jobs].sort((a,b)=>String(a.startDate).localeCompare(String(b.startDate)));
+  }
+  function fullMonthCalendar(events,year,month){
+    const first=new Date(year,month,1),days=new Date(year,month+1,0).getDate(),leading=(first.getDay()+6)%7,today=localDateKey(new Date());
+    const cells=[];
+    for(let i=0;i<leading;i++)cells.push('<div class="calendar-day is-outside"></div>');
+    for(let day=1;day<=days;day++){
+      const key=localDateKey(new Date(year,month,day));
+      const dayEvents=events.filter(item=>item.startDate<=key&&(item.endDate||item.startDate)>=key);
+      cells.push(`<div class="calendar-day ${key===today?'is-today':''}" data-calendar-day="${key}"><b>${day}</b>${dayEvents.slice(0,3).map(item=>{const meta=calendarTypeMeta[item.type]||calendarTypeMeta.reminder;return `<button class="cal-event" type="button" style="--c:${meta.color}" ${item.source==='manual'?`data-calendar-item="${item.id}"`:''} title="${esc(item.title)}">${esc(item.title)}</button>`}).join('')}${dayEvents.length>3?`<small class="calendar-more">+${dayEvents.length-3} más</small>`:''}</div>`);
+    }
+    while(cells.length%7)cells.push('<div class="calendar-day is-outside"></div>');
+    return `<div class="calendar calendar-functional">${['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(name=>`<div class="day-name">${name}</div>`).join('')}${cells.join('')}</div>`;
+  }
   function calendarOperationalRenderer() {
-    const jobs=state.jobs.filter(j=>j.due).sort((a,b)=>String(a.due).localeCompare(String(b.due)));
-    const active=jobs.filter(j=>!['Entregado','Pausado'].includes(j.stage));
-    const paused=jobs.filter(j=>j.stage==='Pausado');
-    const delivered=jobs.filter(j=>j.stage==='Entregado');
-    const statusColorMap={Entregado:'#35d07f',Pausado:'#ff8a1f','En revisión':'#3b82f6','En producción':'#9b5de5'};
-    return `<section class="grid kpi-grid">${kpi('calendar','Proyectos con fecha',jobs.length,'agenda del mes','#9b5de5')}${kpi('briefcase','En ejecución',active.length,'proyectos activos','#35d07f')}${kpi('clock','En pausa',paused.length,'esperando continuidad','#ff8a1f')}${kpi('check','Entregados',delivered.length,'proyectos finalizados','#3b82f6')}${kpi('users','Cumpleaños próximos',0,'sin colaboradores cargados','#ffd23f')}</section><section class="grid calendar-layout"><section class="panel span-2"><div class="panel-head"><div><h2>Calendario general</h2><p>Proyectos, entregas, publicidad, cumpleaños y actividades del equipo.</p></div></div>${jobs.length?`<div class="schedule-list">${jobs.map(j=>`<div class="activity-item" data-client-calendar="${j.clientId||''}"><span class="activity-dot" style="color:${statusColorMap[j.stage]||'#9b5de5'}">${icon('calendar')}</span><div><strong>${esc(j.client)} · ${esc(j.service)}</strong><small>${esc(j.stage)} · Responsable: ${esc(j.responsible)}</small></div><time>${esc(j.due)}</time></div>`).join('')}</div>`:`<div class="empty-state empty-state-large"><strong>Calendario vacío</strong><span>Los proyectos aparecerán acá cuando se les asigne una fecha desde la ficha del cliente.</span></div>`}</section>${panel('Resumen de proyectos',jobs.length?`<div class="simple-list"><div class="list-item">En ejecución <b style="margin-left:auto">${active.length}</b></div><div class="list-item">En pausa <b style="margin-left:auto">${paused.length}</b></div><div class="list-item">Entregados <b style="margin-left:auto">${delivered.length}</b></div></div>`:`<div class="empty-state"><strong>Sin proyectos programados</strong></div>`)}</section>`;
+    const year=calendarCursor.getFullYear(),month=calendarCursor.getMonth(),events=calendarMonthEvents(year,month),manual=events.filter(e=>e.source==='manual');
+    const campaigns=manual.filter(e=>e.type==='campaign'&&e.status==='Activa'),pending=manual.filter(e=>!['Completada','Cancelada'].includes(e.status)),completed=manual.filter(e=>e.status==='Completada');
+    const investment=manual.filter(e=>e.type==='campaign').reduce((sum,e)=>sum+itemTotal(e),0);
+    const monthTitle=new Intl.DateTimeFormat('es-AR',{month:'long',year:'numeric'}).format(calendarCursor).replace(/^./,letter=>letter.toUpperCase());
+    const today=localDateKey(new Date()),upcoming=events.filter(e=>(e.endDate||e.startDate)>=today).slice(0,8);
+    return `<section class="grid kpi-grid">${kpi('calendar','Actividades del mes',manual.length,'carga manual y proyectos','#9b5de5')}${kpi('megaphone','Campañas activas',campaigns.length,'publicidad en ejecución','#35d07f')}${kpi('clock','Pendientes',pending.length,'requieren seguimiento','#ff8a1f')}${kpi('check','Completadas',completed.length,'durante el mes','#3b82f6')}${kpi('wallet','Inversión planificada',money(investment),'presupuesto de campañas','#ffd23f')}</section><section class="grid calendar-layout calendar-operational-layout"><section class="panel"><div class="panel-head calendar-main-head"><div><h2>${esc(monthTitle)}</h2><p>Campañas, entregas, tareas y recordatorios de CVStudio.</p></div><div class="calendar-head-actions"><button class="button secondary small" data-calendar-nav="prev" aria-label="Mes anterior">‹</button><button class="button secondary small" data-calendar-nav="today">Hoy</button><button class="button secondary small" data-calendar-nav="next" aria-label="Mes siguiente">›</button><button class="button primary" data-action="new-calendar-item">+ Nueva actividad</button></div></div><div class="calendar-wrap">${fullMonthCalendar(events,year,month)}</div></section><aside class="grid calendar-aside"><section class="panel"><div class="panel-head"><div><h2>Próximas actividades</h2><p>${upcoming.length} programadas</p></div></div>${upcoming.length?`<div class="calendar-upcoming">${upcoming.map(item=>{const meta=calendarTypeMeta[item.type]||calendarTypeMeta.reminder;return `<button type="button" class="calendar-upcoming-item" ${item.source==='manual'?`data-calendar-item="${item.id}"`:''}><i style="--c:${meta.color}"></i><span><strong>${esc(item.title)}</strong><small>${dateLabel(item.startDate)}${item.endDate&&item.endDate!==item.startDate?` → ${dateLabel(item.endDate)}`:''} · ${esc(item.status||meta.label)}</small></span></button>`}).join('')}</div>`:`<div class="empty-state"><strong>Sin actividades próximas</strong><span>Creá una desde el botón superior.</span></div>`}</section><section class="panel"><div class="panel-head"><h2>Tipos de actividad</h2></div><div class="calendar-legend">${Object.values(calendarTypeMeta).map(meta=>`<span><i style="--c:${meta.color}"></i>${meta.label}</span>`).join('')}</div></section></aside></section>`;
   }
 
   function collaboratorPresence(c) {
@@ -444,6 +477,16 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       document.querySelectorAll('input[data-fund]').forEach(input=>input.addEventListener('input',updateTotal));
       updateTotal();
     }
+    if(id==='calendario') {
+      document.querySelectorAll('[data-calendar-nav]').forEach(button=>button.onclick=()=>{
+        const action=button.dataset.calendarNav;
+        if(action==='today')calendarCursor=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+        else calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+(action==='next'?1:-1),1);
+        openModule('calendario');
+      });
+      document.querySelectorAll('[data-calendar-day]').forEach(day=>day.ondblclick=()=>modalCalendarItem(null,day.dataset.calendarDay));
+      document.querySelectorAll('[data-calendar-item]').forEach(button=>button.onclick=event=>{event.stopPropagation();modalCalendarItem(Number(button.dataset.calendarItem));});
+    }
   };
 
   function showForm(title,desc,body,submitText,onSubmit) {
@@ -454,6 +497,37 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   const input = (name,label,type='text',value='',required=true) => `<label>${label}<input name="${name}" type="${type}" value="${esc(value)}" ${required?'required':''}></label>`;
   const passwordInput = (name,label,value='',required=true) => `<label>${label}<div class="password-field"><input name="${name}" type="text" value="${esc(value)}" autocomplete="new-password" spellcheck="false" ${required?'required':''}><button type="button" class="password-toggle" aria-label="Ocultar contraseña" title="Mostrar u ocultar contraseña" data-password-toggle><span data-eye-open>Ocultar</span><span data-eye-closed hidden>Mostrar</span></button></div><small class="field-help">Visible durante el alta para poder verificarla antes de crear el acceso.</small></label>`;
   const select = (name,label,options,value='') => `<label>${label}<select name="${name}">${options.map(item=>{const o=typeof item==='object'?item:{value:item,label:item};return `<option value="${esc(o.value)}" ${String(o.value)===String(value)?'selected':''}>${esc(o.label)}</option>`}).join('')}</select></label>`;
+
+  function modalCalendarItem(id=null,presetDate='') {
+    const existing=id?calendarItems().find(item=>item.id===Number(id)):null;
+    const today=presetDate||localDateKey(new Date()),item=existing||{title:'',type:'campaign',startDate:today,endDate:today,startTime:'09:00',status:'Planificada',platform:'Facebook / Instagram',objective:'Mensajes por WhatsApp',dailyBudget:'',totalBudget:'',reminder:'1 día antes',notes:''};
+    const body=input('title','Título de la actividad','text',item.title)+
+      select('type','Tipo de actividad',Object.entries(calendarTypeMeta).map(([value,meta])=>({value,label:meta.label})),item.type)+
+      input('startDate','Fecha de inicio','date',item.startDate)+input('endDate','Fecha de finalización','date',item.endDate||item.startDate)+
+      input('startTime','Hora','time',item.startTime||'09:00',false)+select('status','Estado',['Planificada','Activa','Pausada','Completada','Cancelada'],item.status||'Planificada')+
+      `<div class="calendar-campaign-fields span-2"><div class="form-grid">${select('platform','Plataforma',['Facebook / Instagram','Facebook','Instagram','Google','WhatsApp','Otra'],item.platform||'Facebook / Instagram')}${input('objective','Objetivo','text',item.objective||'',false)}${input('dailyBudget','Presupuesto diario','number',item.dailyBudget||'',false)}${input('totalBudget','Presupuesto total estimado','number',item.totalBudget||'',false)}</div><div class="calendar-budget-preview"><span>Duración: <b id="calendarDuration">1 día</b></span><span>Total calculado: <b id="calendarCalculatedTotal">$ 0</b></span></div></div>`+
+      select('reminder','Recordatorio',['Sin recordatorio','El mismo día','1 día antes','2 días antes','Mitad de campaña y último día'],item.reminder||'1 día antes')+
+      `<label class="span-2">Notas<textarea name="notes" rows="3" placeholder="Detalles, público, pieza utilizada u observaciones">${esc(item.notes||'')}</textarea></label>`;
+    showForm(existing?'Editar actividad':'Nueva actividad',existing?'Actualizá los datos o eliminá esta actividad.':'Registrá campañas, entregas, tareas, publicaciones y recordatorios.',body,existing?'Guardar cambios':'Crear actividad',data=>{
+      const startDate=String(data.get('startDate')),endDate=String(data.get('endDate')||startDate);
+      if(endDate<startDate){toast('La fecha de finalización no puede ser anterior al inicio.');return;}
+      const record={id:existing?.id||nextId(calendarItems()),title:String(data.get('title')).trim(),type:String(data.get('type')),startDate,endDate,startTime:String(data.get('startTime')||''),status:String(data.get('status')),platform:String(data.get('platform')||''),objective:String(data.get('objective')||''),dailyBudget:Number(data.get('dailyBudget')||0),totalBudget:Number(data.get('totalBudget')||0),reminder:String(data.get('reminder')),notes:String(data.get('notes')||''),createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};
+      state.calendarItems=calendarItems();
+      const index=state.calendarItems.findIndex(x=>x.id===record.id);
+      if(index>=0)state.calendarItems[index]=record;else state.calendarItems.push(record);
+      addActivity('settings',existing?'Actividad actualizada':'Actividad programada',`${record.title} · ${dateLabel(record.startDate)}`);saveState();closeModal();calendarCursor=parseLocalDate(record.startDate);calendarCursor.setDate(1);openModule('calendario');toast(existing?'Actividad actualizada.':'Actividad creada en el calendario.');
+    });
+    const form=document.getElementById('opsForm'),typeField=form?.querySelector('[name="type"]'),campaignFields=form?.querySelector('.calendar-campaign-fields');
+    const refreshCampaign=()=>{
+      if(campaignFields)campaignFields.hidden=typeField?.value!=='campaign';
+      const start=form?.querySelector('[name="startDate"]')?.value,end=form?.querySelector('[name="endDate"]')?.value,daily=Number(form?.querySelector('[name="dailyBudget"]')?.value||0);
+      let days=1;if(start&&end&&end>=start)days=Math.max(1,Math.round((parseLocalDate(end)-parseLocalDate(start))/86400000)+1);
+      const duration=document.getElementById('calendarDuration'),total=document.getElementById('calendarCalculatedTotal');if(duration)duration.textContent=`${days} día${days===1?'':'s'}`;if(total)total.textContent=money(days*daily);
+      const totalInput=form?.querySelector('[name="totalBudget"]');if(totalInput&&document.activeElement!==totalInput)totalInput.value=daily?days*daily:(existing?.totalBudget||'');
+    };
+    form?.querySelectorAll('[name="type"],[name="startDate"],[name="endDate"],[name="dailyBudget"]').forEach(field=>field.addEventListener('input',refreshCampaign));refreshCampaign();
+    if(existing){const actions=form?.querySelector('.modal-actions');actions?.insertAdjacentHTML('afterbegin','<button type="button" class="button danger" id="deleteCalendarItem">Eliminar</button>');document.getElementById('deleteCalendarItem').onclick=()=>{if(!confirm(`¿Eliminar “${existing.title}” del calendario?`))return;state.calendarItems=calendarItems().filter(x=>x.id!==existing.id);addActivity('settings','Actividad eliminada',existing.title);saveState();closeModal();openModule('calendario');toast('Actividad eliminada.');};}
+  }
 
 
   const LEVELS=['Aprendiz','Operario','Líder','Supervisor','Director'];
@@ -830,6 +904,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(action==='change-status') return modalStatus();
     if(action==='edit-prices') return modalPricesOperational();
     if(action==='register-expense') return modalExpense();
+    if(action==='new-calendar-item') return modalCalendarItem();
     if(action==='save-funds') {
       const values={}; document.querySelectorAll('input[data-fund]').forEach(i=>values[i.dataset.fund]=Number(i.value));
       const total=Object.values(values).reduce((a,b)=>a+b,0);
@@ -913,21 +988,17 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(notificationCount){notificationCount.textContent='0';notificationCount.hidden=true;}
   };
 
-  const calendarEvents={
-    3:{label:'Liquidaciones y revisión mensual',color:'#9b5de5',type:'Administración'},
-    7:{label:'Campaña de CV Profesional',color:'#3b82f6',type:'Marketing'},
-    14:{label:'Cumpleaños del equipo',color:'#ffd23f',type:'Equipo'},
-    17:{label:'Feriado: General San Martín',color:'#35d07f',type:'Argentina'},
-    21:{label:'Publicación y seguimiento',color:'#e1306c',type:'Redes'},
-    31:{label:'Cierre mensual',color:'#ff8a1f',type:'Administración'}
-  };
   const miniCalendarHtml=()=>{
+    const now=new Date(),year=now.getFullYear(),month=now.getMonth(),events=calendarMonthEvents(year,month),byDay={};
+    events.forEach(event=>{const day=parseLocalDate(event.startDate).getDate();if(!byDay[day])byDay[day]=event;});
     const days=['L','M','M','J','V','S','D'].map(day=>`<span class="mini-calendar-name">${day}</span>`).join('');
-    const blanks='<span class="mini-calendar-day is-empty"></span>'.repeat(5);
-    const dates=Array.from({length:31},(_,index)=>{const day=index+1,event=calendarEvents[day];return `<button class="mini-calendar-day ${event?'has-event':''} ${day===3?'is-today':''}" type="button" ${event?`style="--event:${event.color}" title="${esc(event.label)}"`:''}><b>${day}</b>${event?'<i></i>':''}</button>`}).join('');
-    return `<div class="mini-calendar"><div class="mini-calendar-head"><div><strong>Agosto 2026</strong><small>Agenda CVStudio</small></div><span class="status" style="--c:#35d07f">6 eventos</span></div><div class="mini-calendar-grid">${days}${blanks}${dates}</div><div class="mini-calendar-events">${Object.entries(calendarEvents).map(([day,event])=>`<div><i style="--c:${event.color}"></i><span><b>${day} Ago</b>${esc(event.label)}</span><small>${event.type}</small></div>`).join('')}</div></div>`;
+    const blanks='<span class="mini-calendar-day is-empty"></span>'.repeat((new Date(year,month,1).getDay()+6)%7),monthDays=new Date(year,month+1,0).getDate();
+    const dates=Array.from({length:monthDays},(_,index)=>{const day=index+1,event=byDay[day],meta=event?(calendarTypeMeta[event.type]||calendarTypeMeta.reminder):null;return `<button class="mini-calendar-day ${event?'has-event':''} ${day===now.getDate()?'is-today':''}" type="button" ${event?`style="--event:${meta.color}" title="${esc(event.title)}"`:''}><b>${day}</b>${event?'<i></i>':''}</button>`}).join('');
+    const monthName=new Intl.DateTimeFormat('es-AR',{month:'long',year:'numeric'}).format(now).replace(/^./,l=>l.toUpperCase());
+    return `<div class="mini-calendar"><div class="mini-calendar-head"><div><strong>${esc(monthName)}</strong><small>Agenda CVStudio</small></div><span class="status" style="--c:#35d07f">${events.length} eventos</span></div><div class="mini-calendar-grid">${days}${blanks}${dates}</div><div class="mini-calendar-events">${events.slice(0,6).map(event=>{const meta=calendarTypeMeta[event.type]||calendarTypeMeta.reminder;return `<div><i style="--c:${meta.color}"></i><span><b>${parseLocalDate(event.startDate).getDate()}</b>${esc(event.title)}</span><small>${esc(event.status||meta.label)}</small></div>`}).join('')||'<p class="empty-state">Sin actividades este mes.</p>'}</div></div>`;
   };
   const dateChip=document.getElementById('dateChip');
+  if(dateChip)dateChip.innerHTML=`<span class="date-glyph"></span>${new Intl.DateTimeFormat('es-AR',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}`;
   if(dateChip) dateChip.onclick=()=>openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('calendar')}</span><h2 id="modalTitle">Calendario</h2></div><small>Campañas, cumpleaños, feriados y tareas</small></div>${miniCalendarHtml()}<div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button><button class="button primary" id="openFullCalendar">Abrir calendario completo</button></div>`);
   document.addEventListener('click',event=>{if(event.target.closest('#openFullCalendar')){closeModal();openModule('calendario');}});
 

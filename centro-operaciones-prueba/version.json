@@ -1,7 +1,7 @@
 {
-  "version": "1.4.54",
-  "build": "20260814-templates-real-save",
-  "releasedAt": "2026-08-14T18:25:00-03:00",
+  "version": "1.4.55",
+  "build": "20260815-operational-calendar",
+  "releasedAt": "2026-08-15T01:20:00-03:00",
   "channel": "production",
-  "name": "Guardado real de plantillas de Canva"
+  "name": "Calendario operativo · actividades manuales"
 }

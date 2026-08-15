@@ -63,7 +63,7 @@
     if (!state || typeof state !== 'object') return null;
     return {
       ...state,
-      version: 4,
+      version: Number(state.version || 10),
       rules: state.rules || { colab: 20, growth: 15, reserve: 5, company: 60 },
       prices: state.prices || {},
       clients: Array.isArray(state.clients) ? state.clients : [],
@@ -72,6 +72,7 @@
       executions: Array.isArray(state.executions) ? state.executions : [],
       expenses: Array.isArray(state.expenses) ? state.expenses : [],
       activities: Array.isArray(state.activities) ? state.activities : [],
+      calendarItems: Array.isArray(state.calendarItems) ? state.calendarItems : [],
       collaborators: Array.isArray(state.collaborators) ? state.collaborators : [],
       urlSpaces: Array.isArray(state.urlSpaces) ? state.urlSpaces : [],
       templates: Array.isArray(state.templates) ? state.templates : []
@@ -160,7 +161,7 @@
 
       const meta = {
         id: META_ID,
-        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [] },
+        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [], __calendarItems: state.calendarItems || [] },
         version: state.version,
         updated_at: new Date().toISOString(),
         updated_by: WRITER_ID
@@ -239,9 +240,11 @@
     const remoteRules = meta.rules || local.rules || {};
     const remoteUrlSpaces = Array.isArray(remoteRules.__urlSpaces) ? remoteRules.__urlSpaces : (local.urlSpaces || []);
     const remoteTemplates = Array.isArray(remoteRules.__templates) ? remoteRules.__templates : (local.templates || []);
+    const remoteCalendarItems = Array.isArray(remoteRules.__calendarItems) ? remoteRules.__calendarItems : (local.calendarItems || []);
     const cleanRules = { ...remoteRules };
     delete cleanRules.__urlSpaces;
     delete cleanRules.__templates;
+    delete cleanRules.__calendarItems;
     const prices = {};
     (servicesResult.data || []).forEach(service => { prices[service.name] = Number(service.price); });
 
@@ -257,6 +260,7 @@
       expenses,
       activities,
       collaborators,
+      calendarItems: remoteCalendarItems,
       urlSpaces: remoteUrlSpaces,
       templates: remoteTemplates,
       _sync: { updatedAt: meta.updated_at, source: 'supabase-normalized' }
