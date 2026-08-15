@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.4.58',build:'20260815-sync-state-hotfix',date:'15/08/2026 · 13:30',name:'Sincronización Supabase estable'};
+const APP_RELEASE={version:'v1.4.59',build:'20260815-visual-ops-files',date:'15/08/2026 · 14:30',name:'Actualización visual operativa'};
 const CHANGELOG=[
+ {version:'v1.4.59',date:'15/08/2026',items:['Selección múltiple, archivo y eliminación de chats desde Clientes.','Plantillas seleccionables y compactas, visibles en dos filas.','Centro de archivos privado conectado a Supabase Storage.','Integraciones verificables sin estados simulados.','Espacios de clientes compactos y configuración en ventana.']},
  {version:'v1.4.58',date:'15/08/2026',items:['Estado anterior de sincronización restaurado para comparar cambios sin errores.','Confirmación remota posterior al guardado completo de todas las entidades.','Reintentos limitados con espera progresiva y salida segura ante errores permanentes.']},
  {version:'v1.4.52',date:'11/08/2026',items:['Ficha de Carla recuperada desde su solicitud de firma.','Compatibilidad con firmas generadas antes de la persistencia real.','Las nuevas solicitudes continúan usando exclusivamente el identificador de Supabase.']},
  {version:'v1.4.51',date:'11/08/2026',items:['El alta se confirma primero en Supabase y recién después aparece en el panel.','Las firmas usan exclusivamente el identificador real del cliente.','Sincronización incremental sin borrados masivos y con coordinación segura entre pestañas.']},

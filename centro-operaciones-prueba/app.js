@@ -27,6 +27,8 @@ const ICONS={
  gift:'M20 12v10H4V12 M2 7h20v5H2z M12 7v15 M12 7H7.5A2.5 2.5 0 1 1 10 4.5z M12 7h4.5A2.5 2.5 0 1 0 14 4.5z',
  shield:'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
  database:'M20 5c0 1.66-3.58 3-8 3S4 6.66 4 5s3.58-3 8-3 8 1.34 8 3z M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5 M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7',
+ copy:'M8 8h12v12H8z M4 16H3V3h13v1',
+ external:'M14 3h7v7 M21 3l-9 9 M19 13v8H3V5h8',
 }
 function icon(name,cls=''){const d=ICONS[name]||ICONS.file;return `<svg class="ui-icon ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`}
 const BRAND_FILES={facebook:'facebook-official.svg',instagram:'instagram-official.png',whatsapp:'whatsapp-official.svg',mercadolibre:'mercadolibre-official.png',resend:'resend-official.svg'};
@@ -55,7 +57,7 @@ const modules = [
   ['archivos','folder','Archivos','Organizá documentos, imágenes y entregables de CVStudio.'],
   ['integraciones','plug','Integraciones','Conectá y controlá las herramientas externas de CVStudio.'],
   ['colaboradores','users','Colaboradores','Administrá usuarios, roles, comisiones y beneficios del equipo.'],
-  ['generador-url','link','Espacios de clientes','Creá accesos, administrá catálogos y publicá URLs desde un solo lugar.'],
+  ['generador-url','link','Espacios de clientes',''],
   ['configuracion','settings','Configuración','Gestioná el sistema, licencias, respaldos y reglas internas.']
 ];
 

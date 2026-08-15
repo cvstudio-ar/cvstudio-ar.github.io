@@ -27,23 +27,24 @@
   const permissionsForRole = role => [...(ROLE_PERMISSION_MAP[role] || ROLE_PERMISSION_MAP.Aprendiz)];
 
   const seed = {
-    version: 10,
+    version: 11,
     rules: { colab: 20, growth: 15, reserve: 5, company: 60 },
     prices: { ...SERVICE_DEFAULTS },
-    clients: [], jobs: [], payments: [], executions: [], expenses: [], activities: [], calendarItems: [], urlSpaces: [], templates: [], collaborators: [{id:1,name:'pablexe',email:'pablexe@cvstudio.com.ar',role:'Director',commission:20,birthDate:'',startDate:'2026-08-01',status:'Activo',authStatus:'Activo',permissions:permissionsForRole('Director'),capabilities:['CV Profesional','LinkedIn','Cartas','Portfolio','Atención al cliente','Diseño gráfico','Marketing','Revisión'],training:{}}]
+    clients: [], jobs: [], payments: [], executions: [], expenses: [], activities: [], calendarItems: [], urlSpaces: [], templates: [], hiddenClientRefs: [], collaborators: [{id:1,name:'pablexe',email:'pablexe@cvstudio.com.ar',role:'Director',commission:20,birthDate:'',startDate:'2026-08-01',status:'Activo',authStatus:'Activo',permissions:permissionsForRole('Director'),capabilities:['CV Profesional','LinkedIn','Cartas','Portfolio','Atención al cliente','Diseño gráfico','Marketing','Revisión'],training:{}}]
   };
 
   const clone = value => JSON.parse(JSON.stringify(value));
   function loadState() {
     try {
       const stored = JSON.parse(localStorage.getItem(STORE_KEY));
-      if (stored && [2,3,4,5,6,7,8,9,10].includes(stored.version)) {
-        stored.version = 10;
+      if (stored && [2,3,4,5,6,7,8,9,10,11].includes(stored.version)) {
+        stored.version = 11;
         stored.executions = Array.isArray(stored.executions) ? stored.executions : [];
         stored.activities = Array.isArray(stored.activities) ? stored.activities : [];
         stored.calendarItems = Array.isArray(stored.calendarItems) ? stored.calendarItems : [];
         stored.urlSpaces = Array.isArray(stored.urlSpaces) ? stored.urlSpaces : [];
         stored.templates = Array.isArray(stored.templates) ? stored.templates : [];
+        stored.hiddenClientRefs = Array.isArray(stored.hiddenClientRefs) ? stored.hiddenClientRefs : [];
         stored.collaborators = Array.isArray(stored.collaborators) && stored.collaborators.length ? stored.collaborators : clone(seed.collaborators);
         const roleMap={'Administrador':'Director','Coordinador':'Líder','Producción':'Operario','Diseñador':'Operario','Redactor':'Operario','Corrector':'Operario','Editor LinkedIn':'Operario','Portfolio':'Operario','Marketing':'Operario','Atención al cliente':'Operario'};
         stored.clients=(stored.clients||[]).map(c=>({...c,formData:c.formData&&typeof c.formData==='object'?c.formData:{}}));
@@ -66,6 +67,19 @@
     return clone(seed);
   }
   let state = loadState();
+  let clientFilter = 'Todos';
+  let clientQuery = '';
+  let clientSelectionMode = false;
+  const selectedClientIds = new Set();
+  let templateFilter = 'Todas';
+  let selectedTemplateId = '';
+  let filesCache = [];
+  let filesLoading = false;
+  let filesLoaded = false;
+  let filesFilter = 'todos';
+  let filesQuery = '';
+  const selectedFileIds = new Set();
+  let integrationHealth = null;
   function saveState(message) {
     localStorage.setItem(STORE_KEY, JSON.stringify(state));
     syncLegacyClients();
@@ -79,7 +93,7 @@
   function syncLegacyClients() {
     clients.splice(0, clients.length, ...state.clients.map(clone));
     const current = state.clients.find(c => selectedClient && c.id === selectedClient.id) || state.clients[0];
-    selectedClient = clients.find(c => c.id === current.id) || clients[0];
+    selectedClient = current ? (clients.find(c => c.id === current.id) || clients[0]) : null;
   }
   syncLegacyClients();
 
@@ -146,8 +160,15 @@
     </section>`;
   }
 
-  function clientRowsOperational(list=state.clients) {
-    return list.map(c=>`<div class="client-row ${selectedClient?.id===c.id?'is-selected':''}" data-client-id="${c.id}"><span class="client-avatar" style="background:${c.color}">${esc(c.initials)}</span><div><strong>${esc(c.name)}</strong><small>${esc(c.service)}</small></div><div class="client-row-status"><span class="status" style="--c:${statusColor(c.status)}">${esc(c.status)}</span><small>${esc(c.time||'')}</small></div></div>`).join('') || '<div class="empty-state">No se encontraron clientes.</div>';
+  function visibleClients(){
+    return state.clients.filter(c=>{
+      const matchesFilter=clientFilter==='Todos'||c.status===clientFilter;
+      const haystack=`${c.name} ${c.service} ${c.status} ${c.phone||''}`.toLowerCase();
+      return matchesFilter&&(!clientQuery||haystack.includes(clientQuery));
+    });
+  }
+  function clientRowsOperational(list=visibleClients()) {
+    return list.map(c=>`<div class="client-row ${selectedClient?.id===c.id?'is-selected':''} ${selectedClientIds.has(c.id)?'is-checked':''}" data-client-id="${c.id}">${clientSelectionMode?`<label class="client-check" title="Seleccionar chat"><input type="checkbox" data-client-check="${c.id}" ${selectedClientIds.has(c.id)?'checked':''}><span></span></label>`:''}<span class="client-avatar" style="background:${c.color}">${esc(c.initials)}</span><div><strong>${esc(c.name)}</strong><small>${esc(c.service)}</small></div><div class="client-row-status"><span class="status" style="--c:${statusColor(c.status)}">${esc(c.status)}</span><small>${esc(c.time||'')}</small></div></div>`).join('') || '<div class="empty-state">No se encontraron clientes.</div>';
   }
 
   function clientTimelineHtml(c, payment, job) {
@@ -208,19 +229,118 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
 
   function clientsRenderer() {
     const counts = status => state.clients.filter(c=>c.status===status).length;
-    return `<section class="grid clients-layout"><section class="panel client-list"><div class="client-list-head"><div class="panel-head"><h2>Clientes</h2><button class="button primary" data-action="new-client">+ Nuevo cliente</button></div><div class="search-box" style="width:100%"><span>${icon('search')}</span><input id="clientSearch" placeholder="Buscar cliente..."></div><div class="filters-row"><button class="filter-chip is-active" data-client-filter="Todos">Todos ${state.clients.length}</button><button class="filter-chip" data-client-filter="En proceso">En proceso ${counts('En proceso')}</button><button class="filter-chip" data-client-filter="Esperando pago">Esperando pago ${counts('Esperando pago')}</button><button class="filter-chip" data-client-filter="Entregado">Entregados ${counts('Entregado')}</button><button class="filter-chip" data-client-filter="Archivado">Archivados ${counts('Archivado')}</button></div></div><div class="client-rows" id="clientRows">${clientRowsOperational()}</div></section><section class="client-workspace" id="clientWorkspace">${clientWorkspaceOperational()}</section></section>`;
+    const bulk=clientSelectionMode?`<div class="client-bulk-bar"><label><input type="checkbox" data-client-select-all ${visibleClients().length&&visibleClients().every(c=>selectedClientIds.has(c.id))?'checked':''}> Todos</label><strong>${selectedClientIds.size} seleccionados</strong><button class="button secondary small" data-client-bulk="archive" ${selectedClientIds.size?'':'disabled'}>Archivar</button><button class="button danger small" data-client-bulk="delete" ${selectedClientIds.size?'':'disabled'}>Eliminar</button><button class="icon-action" data-client-selection-close title="Cerrar selección">×</button></div>`:'';
+    return `<section class="grid clients-layout"><section class="panel client-list"><div class="client-list-head"><div class="panel-head"><h2>Clientes</h2><div class="client-head-actions"><button class="button secondary small" data-client-selection-toggle>${clientSelectionMode?'Cancelar':'Seleccionar'}</button><button class="button primary" data-action="new-client">+ Nuevo cliente</button></div></div>${bulk}<div class="search-box" style="width:100%"><span>${icon('search')}</span><input id="clientSearch" value="${esc(clientQuery)}" placeholder="Buscar cliente..."></div><div class="filters-row"><button class="filter-chip ${clientFilter==='Todos'?'is-active':''}" data-client-filter="Todos">Todos ${state.clients.length}</button><button class="filter-chip ${clientFilter==='En proceso'?'is-active':''}" data-client-filter="En proceso">En proceso ${counts('En proceso')}</button><button class="filter-chip ${clientFilter==='Esperando pago'?'is-active':''}" data-client-filter="Esperando pago">Esperando pago ${counts('Esperando pago')}</button><button class="filter-chip ${clientFilter==='Entregado'?'is-active':''}" data-client-filter="Entregado">Entregados ${counts('Entregado')}</button><button class="filter-chip ${clientFilter==='Archivado'?'is-active':''}" data-client-filter="Archivado">Archivados ${counts('Archivado')}</button></div></div><div class="client-rows" id="clientRows">${clientRowsOperational()}</div></section><section class="client-workspace" id="clientWorkspace">${clientWorkspaceOperational()}</section></section>`;
   }
 
-  const baseTemplates=[['Elegante Minimalista','CV Profesional'],['Moderno Azul','CV Profesional'],['Profesional Beige','CV Profesional'],['Creativo Claro','CV Profesional'],['Premium Dark','CV Profesional'],['LinkedIn Ejecutivo','LinkedIn'],['Combo CV + LinkedIn','Combo'],['Portfolio Fotografía','Portfolio']];
+  const baseTemplates=[['base-elegante','Elegante Minimalista','CV Profesional'],['base-azul','Moderno Azul','CV Profesional'],['base-beige','Profesional Beige','CV Profesional'],['base-claro','Creativo Claro','CV Profesional'],['base-dark','Premium Dark','CV Profesional'],['base-linkedin','LinkedIn Ejecutivo','LinkedIn'],['base-combo','Combo CV + LinkedIn','Combo'],['base-portfolio','Portfolio Fotografía','Portfolio']];
+  const allTemplates=()=>[...baseTemplates.map(([id,name,category])=>({id,name,category,base:true,active:true})),...(state.templates||[])];
   function templateCardOperational(item,isCustom=false){
-    const action=isCustom?`<a class="button secondary small" href="${esc(item.url)}" target="_blank" rel="noopener">Abrir en Canva</a>`:'<button class="button secondary small" type="button" disabled>Diseño base</button>';
-    return `<article class="panel template-card"><div class="template-preview"><div class="cv-sheet"><div><div class="photo"></div><div class="cv-lines">${'<i></i>'.repeat(8)}</div></div><div><h4>${esc(item.name)}</h4><div class="cv-lines">${'<i></i>'.repeat(14)}</div></div></div></div><div class="template-meta"><strong>${esc(item.name)}</strong><small style="display:block;color:var(--muted);margin-top:4px">${esc(item.category)}</small><div class="template-actions">${action}<span class="toggle"></span></div></div></article>`;
+    return `<article class="panel template-card ${selectedTemplateId===item.id?'is-selected':''}" data-template-id="${esc(item.id)}" tabindex="0"><span class="template-select-mark">${selectedTemplateId===item.id?'✓':''}</span><div class="template-preview"><div class="cv-sheet"><div><div class="photo"></div><div class="cv-lines">${'<i></i>'.repeat(8)}</div></div><div><h4>${esc(item.name)}</h4><div class="cv-lines">${'<i></i>'.repeat(14)}</div></div></div></div><div class="template-meta"><strong>${esc(item.name)}</strong><small>${esc(item.category)}</small><div class="template-actions"><button class="button secondary small" data-template-preview="${esc(item.id)}">Ver</button>${isCustom?`<a class="button secondary small" href="${esc(item.url)}" target="_blank" rel="noopener">Canva</a>`:'<span class="template-base-label">Diseño base</span>'}</div></div></article>`;
   }
   function templatesRenderer(){
-    const custom=state.templates||[];
-    const all=[...baseTemplates.map(([name,category])=>({name,category})),...custom];
+    const all=allTemplates();
     const count=category=>all.filter(item=>item.category===category).length;
-    return `<section class="grid kpi-grid">${kpi('layers','Total plantillas',all.length,'plantillas activas','#ffd23f')}${kpi('file','CV Profesionales',count('CV Profesional'),'diseños aprobados','#35d07f')}${kpi('link','LinkedIn',count('LinkedIn'),'plantillas','#3b82f6')}${kpi('layers','Combos',count('Combo'),'plantillas','#9b5de5')}${kpi('file','Portfolios',count('Portfolio'),'plantillas','#ff8a1f')}</section><section class="panel"><div class="panel-head"><div><h2>Biblioteca de plantillas</h2><p>Diseños oficiales de CVStudio listos para asignar a producción.</p></div><button class="button primary" data-action="new-template">+ Nueva plantilla</button></div><div class="filters-row" style="margin-bottom:14px"><button class="filter-chip is-active">Todas ${all.length}</button><button class="filter-chip">CV Profesionales ${count('CV Profesional')}</button><button class="filter-chip">LinkedIn ${count('LinkedIn')}</button><button class="filter-chip">Combos ${count('Combo')}</button><button class="filter-chip">Portfolios ${count('Portfolio')}</button></div><div class="grid template-grid">${baseTemplates.map(([name,category])=>templateCardOperational({name,category})).join('')}${custom.map(item=>templateCardOperational(item,true)).join('')}</div></section>`;
+    const visible=all.filter(item=>templateFilter==='Todas'||item.category===templateFilter);
+    const selected=all.find(item=>item.id===selectedTemplateId);
+    const actions=selected?`<div class="template-selection-bar"><span>${icon('check')} <b>${esc(selected.name)}</b></span><button class="button secondary small" data-template-preview="${esc(selected.id)}">Vista previa</button><button class="button primary small" data-template-assign="${esc(selected.id)}">Usar referencia</button>${selected.base?'':`<button class="button danger small" data-template-delete="${esc(selected.id)}">Eliminar</button>`}</div>`:'';
+    return `<section class="grid kpi-grid">${kpi('layers','Total plantillas',all.length,'plantillas activas','#ffd23f')}${kpi('file','CV Profesionales',count('CV Profesional'),'diseños aprobados','#35d07f')}${kpi('link','LinkedIn',count('LinkedIn'),'plantillas','#3b82f6')}${kpi('layers','Combos',count('Combo'),'plantillas','#9b5de5')}${kpi('file','Portfolios',count('Portfolio'),'plantillas','#ff8a1f')}</section><section class="panel template-library-panel"><div class="panel-head"><div><h2>Biblioteca de plantillas</h2></div><button class="button primary" data-action="new-template">+ Nueva plantilla</button></div><div class="template-toolbar"><div class="filters-row">${[['Todas','Todas'],['CV Profesional','CV Profesionales'],['LinkedIn','LinkedIn'],['Combo','Combos'],['Portfolio','Portfolios']].map(([key,label])=>`<button class="filter-chip ${templateFilter===key?'is-active':''}" data-template-filter="${key}">${label} ${key==='Todas'?all.length:count(key)}</button>`).join('')}</div>${actions}</div><div class="grid template-grid">${visible.map(item=>templateCardOperational(item,!item.base)).join('')}</div></section>`;
+  }
+
+  const FILE_BUCKET='cvstudio-archivos';
+  const FILE_TABLE='cvstudio_archivos_centro';
+  const FILE_CATEGORIES={todos:'Todos',institucional:'Institucional',clientes:'Clientes',plantillas:'Plantillas',marketing:'Marketing',administracion:'Administración',otros:'Otros',papelera:'Papelera'};
+  const fileSize=value=>{const n=Number(value||0);if(n<1024)return `${n} B`;if(n<1048576)return `${(n/1024).toFixed(1)} KB`;return `${(n/1048576).toFixed(1)} MB`;};
+  const safeFileName=name=>String(name||'archivo').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]+/g,'-').replace(/^-+|-+$/g,'').slice(-120)||'archivo';
+  async function loadFiles(force=false){
+    if(filesLoading||(!force&&filesLoaded))return;
+    filesLoading=true;
+    try{
+      const db=window.cvstudioSupabase;
+      if(!db)throw new Error('Supabase no está disponible.');
+      const {data,error}=await db.from(FILE_TABLE).select('*').order('created_at',{ascending:false}).limit(500);
+      if(error)throw error;
+      filesCache=data||[];filesLoaded=true;
+    }catch(error){filesLoaded=true;console.error('[CVStudio Archivos]',error);toast(`Archivos: ${error.message}`);}finally{
+      filesLoading=false;
+      if(currentModule==='archivos')openModule('archivos');
+    }
+  }
+  function visibleFiles(){
+    return filesCache.filter(file=>{
+      const inTrash=Boolean(file.deleted_at);
+      const categoryOk=filesFilter==='papelera'?inTrash:!inTrash&&(filesFilter==='todos'||file.categoria===filesFilter);
+      return categoryOk&&(!filesQuery||`${file.nombre} ${file.categoria} ${file.uploaded_by_email||''}`.toLowerCase().includes(filesQuery));
+    });
+  }
+  function filesRenderer(){
+    if(!filesLoading&&!filesLoaded)setTimeout(()=>loadFiles(),0);
+    const active=filesCache.filter(f=>!f.deleted_at),trash=filesCache.filter(f=>f.deleted_at),shown=visibleFiles();
+    const bytes=active.reduce((sum,f)=>sum+Number(f.tamano||0),0),images=active.filter(f=>/^image\//.test(f.mime_type||'')).length,docs=active.length-images;
+    const rows=shown.map(file=>`<tr class="${selectedFileIds.has(file.id)?'is-selected':''}"><td><input type="checkbox" data-file-check="${file.id}" ${selectedFileIds.has(file.id)?'checked':''}></td><td><b>${esc(file.nombre)}</b></td><td>${esc(FILE_CATEGORIES[file.categoria]||file.categoria)}</td><td><span class="status" style="--c:#3b82f6">${esc((file.nombre.split('.').pop()||'FILE').toUpperCase())}</span></td><td>${fileSize(file.tamano)}</td><td>${esc((file.uploaded_by_email||'equipo').split('@')[0])}</td><td>${new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit',year:'2-digit'}).format(new Date(file.created_at))}</td><td><div class="file-row-actions">${file.deleted_at?`<button class="icon-action" data-file-restore="${file.id}" title="Restaurar">${icon('refresh')}</button>`:`<button class="icon-action" data-file-open="${file.id}" title="Abrir o descargar">${icon('eye')}</button><button class="icon-action" data-file-edit="${file.id}" title="Renombrar o mover">${icon('settings')}</button><button class="icon-action" data-file-trash="${file.id}" title="Mover a papelera">×</button>`}</div></td></tr>`).join('');
+    return `<section class="files-toolbar panel"><div class="files-kpis"><span><small>Archivos</small><b>${active.length}</b></span><span><small>Imágenes</small><b>${images}</b></span><span><small>Documentos</small><b>${docs}</b></span><span><small>Almacenado</small><b>${fileSize(bytes)}</b></span><span><small>Papelera</small><b>${trash.length}</b></span></div><div class="files-actions"><button class="button secondary" data-files-refresh>${icon('refresh')} Actualizar</button><button class="button primary" data-file-upload>+ Subir archivo</button></div></section><section class="panel files-center"><div class="files-filterbar"><div class="filters-row">${Object.entries(FILE_CATEGORIES).map(([key,label])=>`<button class="filter-chip ${filesFilter===key?'is-active':''}" data-files-filter="${key}">${label}${key==='papelera'?` ${trash.length}`:''}</button>`).join('')}</div><div class="search-box"><span>${icon('search')}</span><input id="filesSearch" value="${esc(filesQuery)}" placeholder="Buscar archivo..."></div>${selectedFileIds.size?`<div class="files-selection"><b>${selectedFileIds.size}</b><button class="button danger small" data-files-trash-selected>Enviar a papelera</button></div>`:''}</div><div class="files-table-wrap"><table class="data-table files-table"><thead><tr><th><input type="checkbox" data-files-check-all ${shown.length&&shown.every(f=>selectedFileIds.has(f.id))?'checked':''}></th><th>Nombre</th><th>Carpeta</th><th>Tipo</th><th>Tamaño</th><th>Subido por</th><th>Fecha</th><th></th></tr></thead><tbody>${rows||`<tr><td colspan="8"><div class="empty-state"><strong>${filesLoading?'Cargando archivos…':'Todavía no hay archivos en esta vista'}</strong><span>Usá “Subir archivo” para guardar el primer documento real.</span></div></td></tr>`}</tbody></table></div></section>`;
+  }
+  function openFileUploadModal(client=null){
+    const clientOptions=state.clients.map(c=>`<option value="${c.id}" ${client?.id===c.id?'selected':''}>${esc(c.name)}</option>`).join('');
+    openModal(`<h2 id="modalTitle">Subir archivos</h2><form id="fileUploadForm" class="form-grid"><label>Carpeta<select name="category"><option value="institucional">Institucional</option><option value="clientes" ${client?'selected':''}>Clientes</option><option value="plantillas">Plantillas</option><option value="marketing">Marketing</option><option value="administracion">Administración</option><option value="otros">Otros</option></select></label><label>Asociar a cliente<select name="clientId"><option value="">Sin asociación</option>${clientOptions}</select></label><label class="span-2 file-drop"><input type="file" name="files" multiple required accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.webp,.zip,.txt"><span>${icon('upload')}</span><b>Seleccionar documentos</b><small>PDF, Office, imágenes o ZIP · máximo 50 MB por archivo</small></label><div class="upload-progress span-2" id="fileUploadProgress" hidden><i></i><span>Preparando…</span></div><div class="modal-actions span-2"><button type="button" class="button secondary" data-close-modal>Cancelar</button><button class="button primary" type="submit">Guardar en CVStudio</button></div></form>`);
+    const form=document.getElementById('fileUploadForm');
+    form.onsubmit=async event=>{event.preventDefault();const data=new FormData(form),files=[...form.elements.files.files];if(!files.length)return toast('Seleccioná al menos un archivo.');const target=state.clients.find(c=>String(c.id)===String(data.get('clientId')))||client;await uploadFiles(files,String(data.get('category')),target,form);};
+  }
+  async function uploadFiles(files,category='otros',client=null,form=null){
+    const db=window.cvstudioSupabase;if(!db)return toast('Supabase no está disponible.');
+    const submit=form?.querySelector('[type="submit"]'),progress=form?.querySelector('#fileUploadProgress');if(submit)submit.disabled=true;if(progress)progress.hidden=false;
+    let completed=0;
+    try{
+      for(const file of files){
+        if(file.size>52428800)throw new Error(`${file.name} supera el límite de 50 MB.`);
+        const id=crypto.randomUUID(),folder=category==='clientes'&&client?`clientes/${client.id}`:category,path=`${folder}/${id}-${safeFileName(file.name)}`;
+        if(progress)progress.querySelector('span').textContent=`Subiendo ${file.name} (${completed+1}/${files.length})…`;
+        const upload=await db.storage.from(FILE_BUCKET).upload(path,file,{cacheControl:'3600',upsert:false,contentType:file.type||'application/octet-stream'});if(upload.error)throw upload.error;
+        const row={id,bucket_id:FILE_BUCKET,object_path:path,nombre:file.name,categoria:category,cliente_id:client?String(client.id):null,solicitud_id:client?.realRequestId||null,mime_type:file.type||'application/octet-stream',tamano:file.size};
+        const meta=await db.from(FILE_TABLE).insert(row).select().single();
+        if(meta.error){await db.storage.from(FILE_BUCKET).remove([path]);throw meta.error;}
+        filesCache.unshift(meta.data);completed++;
+      }
+      if(client){client.files=client.files||[];filesCache.filter(f=>f.cliente_id===String(client.id)).forEach(f=>{if(!client.files.some(x=>x.storageId===f.id))client.files.push({storageId:f.id,name:f.nombre,size:f.tamano,type:f.mime_type,addedAt:f.created_at});});addActivity('client','Archivos respaldados',`${client.name} · ${completed} archivo(s)`,client.id);saveState();}
+      closeModal();toast(`${completed} archivo(s) guardados en Supabase.`);openModule(currentModule);
+    }catch(error){console.error('[CVStudio upload]',error);toast(`No se completó la carga: ${error.message}`);if(submit)submit.disabled=false;}
+  }
+  async function downloadFileRecord(file){
+    const result=await window.cvstudioSupabase.storage.from(FILE_BUCKET).download(file.object_path);if(result.error)throw result.error;const url=URL.createObjectURL(result.data);window.open(url,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000);
+  }
+  async function trashFileRecord(file){
+    const nextPath=`papelera/${file.id}/${safeFileName(file.nombre)}`;const storage=window.cvstudioSupabase.storage.from(FILE_BUCKET);const moved=await storage.move(file.object_path,nextPath);if(moved.error)throw moved.error;const updated=await window.cvstudioSupabase.from(FILE_TABLE).update({object_path:nextPath,categoria:'papelera',deleted_at:new Date().toISOString(),updated_at:new Date().toISOString()}).eq('id',file.id).select().single();if(updated.error)throw updated.error;filesCache=filesCache.map(f=>f.id===file.id?updated.data:f);
+  }
+  async function restoreFileRecord(file){
+    const category='otros',nextPath=`otros/${file.id}-${safeFileName(file.nombre)}`;const storage=window.cvstudioSupabase.storage.from(FILE_BUCKET);const moved=await storage.move(file.object_path,nextPath);if(moved.error)throw moved.error;const updated=await window.cvstudioSupabase.from(FILE_TABLE).update({object_path:nextPath,categoria:category,deleted_at:null,updated_at:new Date().toISOString()}).eq('id',file.id).select().single();if(updated.error)throw updated.error;filesCache=filesCache.map(f=>f.id===file.id?updated.data:f);
+  }
+
+  function integrationDefinitions(){
+    const real=state._integrationStatus||{};
+    return [
+      {id:'supabase',name:'Supabase',type:'Base de datos y autenticación',detail:'Proyecto cvstudio-core',status:integrationHealth?.supabase||'checking',icon:'database'},
+      {id:'storage',name:'Supabase Storage',type:'Respaldo privado de archivos',detail:'Bucket cvstudio-archivos',status:integrationHealth?.storage||'checking',icon:'folder'},
+      {id:'mercadopago',name:'Mercado Pago',type:'Pagos y servicios',detail:real.paymentsDetail||'Verificación disponible',status:real.payments||'checking',icon:'dollar'},
+      {id:'whatsapp',name:'WhatsApp Business',type:'Mensajería operativa',detail:'Envío mediante Worker',status:real.whatsapp||'configured',icon:'message'},
+      {id:'resend',name:'Resend',type:'Correo transaccional',detail:'Historial en comunicaciones',status:real.resend||'configured',icon:'message'},
+      {id:'portfolio',name:'Cloudflare · Espacios',type:'Worker de catálogos y portfolios',detail:real.portfoliosDetail||'Verificación disponible',status:real.portfolios||'checking',icon:'link'},
+      {id:'meta',name:'Meta Business',type:'Facebook Ads e Instagram',detail:'Requiere vinculación OAuth',status:'pending',icon:'megaphone'},
+      {id:'analytics',name:'Google Analytics 4',type:'Analítica web',detail:'Configuración del sitio',status:real.analytics||'configured',icon:'chart'}
+    ];
+  }
+  const integrationMeta=status=>({connected:['Conectado','#35d07f'],configured:['Configurado','#3b82f6'],pending:['Pendiente','#ffd23f'],error:['Error','#ff5d73'],checking:['Verificando…','#28c2d8']})[status]||['Pendiente','#ffd23f'];
+  function integrationsRenderer(){
+    const items=integrationDefinitions(),connected=items.filter(x=>x.status==='connected').length,pending=items.filter(x=>x.status==='pending'||x.status==='configured'||x.status==='checking').length,errors=items.filter(x=>x.status==='error').length;
+    return `<section class="panel integrations-compact"><div class="panel-head"><div><h2>Integraciones reales</h2></div><button class="button primary" data-integrations-test>${icon('refresh')} Verificar todas</button></div><div class="integration-summary"><span><b>${connected}</b> conectadas</span><span><b>${pending}</b> por verificar/configurar</span><span class="${errors?'has-errors':''}"><b>${errors}</b> errores</span><small>Última lectura: ${state._realSync?.at?formatDateTime(state._realSync.at):'sin registro'}</small></div><div class="integration-grid-real">${items.map(item=>{const [label,color]=integrationMeta(item.status);return `<article class="integration-card-real"><span class="integration-icon">${icon(item.icon)}</span><div><strong>${esc(item.name)}</strong><small>${esc(item.type)}</small><p>${esc(item.detail)}</p></div><span class="status" style="--c:${color}">${label}</span><button class="button secondary small" data-integration-test="${item.id}">Probar</button></article>`;}).join('')}</div></section>`;
+  }
+  async function testIntegrations(){
+    integrationHealth={supabase:'checking',storage:'checking'};openModule('integraciones');
+    const db=window.cvstudioSupabase;
+    if(!db){integrationHealth={supabase:'error',storage:'error'};openModule('integraciones');return;}
+    const [database,storage]=await Promise.all([db.from('cvstudio_ops_stage_meta').select('id').limit(1),db.storage.from(FILE_BUCKET).list('',{limit:1})]);
+    integrationHealth={supabase:database.error?'error':'connected',storage:storage.error?'error':'connected'};
+    try{await window.CVStudioRealBridge?.loadReal?.();state=loadState();}catch(error){console.error('[CVStudio integrations]',error);}
+    openModule('integraciones');toast(database.error||storage.error?'La verificación detectó puntos pendientes.':'Integraciones principales verificadas.');
   }
 
 
@@ -392,7 +512,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(!spaces.some(s=>s.slug===selectedUrlSpace)) selectedUrlSpace=spaces[0]?.slug||'';
     const selected=spaces.find(s=>s.slug===selectedUrlSpace);
     const cards=spaces.map(s=>`<article class="campaign-card url-space-card ${s.slug===selectedUrlSpace?'is-selected':''}" data-url-select="${esc(s.slug)}"><div class="campaign-head"><div><strong>${esc(s.name)}</strong><small>${esc(s.service)}</small></div><span class="status" style="--c:${s.status==='Publicado'?'#35d07f':'#ffd23f'}">${esc(s.status||'Publicado')}</span></div><p class="link-text">${esc(s.url)}</p><div class="url-card-actions"><button class="button secondary small" data-url-copy="${esc(s.url)}">${icon('copy')} Copiar</button><button class="button secondary small" data-url-open="${esc(s.url)}">${icon('external')} Ver</button><button class="button primary small" data-url-config="${esc(s.slug)}">${icon('settings')} Configurar</button></div></article>`).join('');
-    return `<section class="url-unified-hero"><div><span>GESTIÓN CENTRALIZADA</span><h2>Un cliente, un acceso, una URL.</h2><p>Las cuentas que antes administrabas desde /admin ahora se crean y configuran acá, junto con sus catálogos y portfolios.</p></div><button class="button primary" data-action="new-url">+ Crear espacio de cliente</button></section><section class="grid kpi-grid">${kpi('file','Espacios reales',spaces.filter(s=>s.real).length,'cuentas sincronizadas','#9b5de5')}${kpi('eye','Publicados',spaces.filter(s=>s.status==='Publicado').length,'visibles en la web','#3b82f6')}${kpi('upload','Catálogos',spaces.filter(s=>s.portalMode==='catalog').length,'comercios activos','#35d07f')}${kpi('lock','Borradores',spaces.filter(s=>s.status==='Borrador').length,'en preparación','#ffd23f')}${kpi('zap','Servicio','Online','Worker conectado','#28c2d8')}</section><section class="grid url-layout"><section class="panel"><div class="panel-head"><div><h2>Directorio de espacios</h2><p>Seleccioná una cuenta para administrarla sin salir del Centro.</p></div><button class="button secondary" data-action="refresh-url-spaces">Actualizar</button></div><div class="url-spaces-list">${cards||`<div class="empty-state empty-state-large"><strong>Sin espacios generados</strong><span>Creá el primer espacio personalizado para un cliente.</span></div>`}</div></section><section class="panel url-config-panel"><div class="panel-head"><div><h2>Cuenta y publicación</h2><p>Acceso del cliente, identidad, estado y vista pública.</p></div></div><div id="urlSpaceDetails">${urlSpaceDetails(selected)}</div></section></section>`;
+    return `<section class="url-compact-head panel"><div class="url-mini-kpis"><span><small>Espacios</small><b>${spaces.length}</b></span><span><small>Publicados</small><b>${spaces.filter(s=>s.status==='Publicado').length}</b></span><span><small>Catálogos</small><b>${spaces.filter(s=>s.portalMode==='catalog').length}</b></span><span><small>Borradores</small><b>${spaces.filter(s=>s.status==='Borrador').length}</b></span></div><div><button class="button secondary" data-action="refresh-url-spaces">${icon('refresh')} Actualizar</button><button class="button primary" data-action="new-url">+ Crear espacio</button></div></section><section class="panel url-directory-compact"><div class="panel-head"><h2>Directorio de espacios</h2></div><div class="url-spaces-list">${cards||`<div class="empty-state empty-state-large"><strong>Sin espacios generados</strong><span>Creá el primer espacio para un cliente.</span></div>`}</div></section>`;
   }
   function openNewUrlModal(){
     showForm('Crear espacio de cliente','Generá la cuenta, el panel editable y la URL pública en una sola operación.',
@@ -415,6 +535,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   renderers.marketing = marketingOperationalRenderer;
   renderers.calendario = calendarOperationalRenderer;
   renderers.plantillas = templatesRenderer;
+  renderers.archivos = filesRenderer;
+  renderers.integraciones = integrationsRenderer;
   renderers.colaboradores = collaboratorsOperationalRenderer;
   renderers['generador-url'] = urlOperationalRenderer;
 
@@ -431,33 +553,69 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       });
     }
     if (id === 'clientes') {
-      document.querySelectorAll('[data-client-id]').forEach(row => row.onclick = () => {
+      const rerenderClients=()=>openModule('clientes');
+      document.querySelectorAll('[data-client-id]').forEach(row => row.onclick = event => {
+        if(event.target.closest('.client-check'))return;
         const found = state.clients.find(c=>c.id===Number(row.dataset.clientId));
+        if(clientSelectionMode&&found){selectedClientIds.has(found.id)?selectedClientIds.delete(found.id):selectedClientIds.add(found.id);return rerenderClients();}
         if(found){ selectedClient = clients.find(c=>c.id===found.id) || found; document.getElementById('clientRows').innerHTML=clientRowsOperational(); document.getElementById('clientWorkspace').innerHTML=clientWorkspaceOperational(); bindModuleActions('clientes'); }
       });
+      document.querySelectorAll('[data-client-check]').forEach(input=>input.onchange=()=>{const id=Number(input.dataset.clientCheck);input.checked?selectedClientIds.add(id):selectedClientIds.delete(id);rerenderClients();});
+      document.querySelector('[data-client-selection-toggle]')?.addEventListener('click',()=>{clientSelectionMode=!clientSelectionMode;if(!clientSelectionMode)selectedClientIds.clear();rerenderClients();});
+      document.querySelector('[data-client-selection-close]')?.addEventListener('click',()=>{clientSelectionMode=false;selectedClientIds.clear();rerenderClients();});
+      document.querySelector('[data-client-select-all]')?.addEventListener('change',event=>{visibleClients().forEach(c=>event.target.checked?selectedClientIds.add(c.id):selectedClientIds.delete(c.id));rerenderClients();});
+      document.querySelectorAll('[data-client-bulk]').forEach(button=>button.onclick=()=>{
+        const ids=new Set(selectedClientIds),chosen=state.clients.filter(c=>ids.has(c.id));if(!chosen.length)return;
+        if(button.dataset.clientBulk==='archive'){
+          if(!confirm(`¿Archivar ${chosen.length} chats seleccionados?`))return;
+          chosen.forEach(c=>{c.status='Archivado';c.time='Ahora';});addActivity('client','Chats archivados',`${chosen.length} clientes`);saveState();selectedClientIds.clear();clientSelectionMode=false;rerenderClients();toast('Chats archivados.');return;
+        }
+        if(!confirm(`¿Eliminar ${chosen.length} chats de la bandeja? Se quitarán también sus datos operativos asociados. Esta acción no se puede deshacer.`))return;
+        const refs=chosen.map(c=>c.realRequestId||c.realOrderId).filter(Boolean).map(String);state.hiddenClientRefs=[...new Set([...(state.hiddenClientRefs||[]),...refs])];
+        state.clients=state.clients.filter(c=>!ids.has(c.id));state.jobs=state.jobs.filter(j=>!ids.has(j.clientId));state.payments=state.payments.filter(p=>!ids.has(p.clientId));state.executions=state.executions.filter(x=>!ids.has(x.clientId));state.activities=state.activities.filter(a=>!ids.has(a.clientId));selectedClientIds.clear();clientSelectionMode=false;selectedClient=state.clients[0]||null;saveState();rerenderClients();toast('Chats eliminados de la bandeja.');
+      });
       document.querySelectorAll('[data-client-filter]').forEach(btn => btn.onclick = () => {
-        document.querySelectorAll('[data-client-filter]').forEach(x=>x.classList.toggle('is-active',x===btn));
-        const filter=btn.dataset.clientFilter;
-        const list=filter==='Todos'?state.clients:state.clients.filter(c=>c.status===filter);
-        document.getElementById('clientRows').innerHTML=clientRowsOperational(list);
-        bindModuleActions('clientes');
+        clientFilter=btn.dataset.clientFilter;rerenderClients();
       });
       const search=document.getElementById('clientSearch');
       if(search) search.oninput=()=>{
-        const q=search.value.toLowerCase().trim();
-        document.getElementById('clientRows').innerHTML=clientRowsOperational(state.clients.filter(c=>(c.name+c.service+c.status+c.phone).toLowerCase().includes(q)));
-        bindModuleActions('clientes');
+        clientQuery=search.value.toLowerCase().trim();document.getElementById('clientRows').innerHTML=clientRowsOperational();bindModuleActions('clientes');search.focus();search.setSelectionRange(search.value.length,search.value.length);
       };
       scrollConversationToLatest();
     }
+    if(id==='plantillas'){
+      document.querySelectorAll('[data-template-filter]').forEach(btn=>btn.onclick=()=>{templateFilter=btn.dataset.templateFilter;openModule('plantillas');});
+      document.querySelectorAll('[data-template-id]').forEach(card=>card.onclick=event=>{if(event.target.closest('button,a'))return;selectedTemplateId=card.dataset.templateId;openModule('plantillas');});
+      document.querySelectorAll('[data-template-preview]').forEach(btn=>btn.onclick=event=>{event.stopPropagation();const item=allTemplates().find(x=>x.id===btn.dataset.templatePreview);if(!item)return;openModal(`<h2 id="modalTitle">${esc(item.name)}</h2><div class="template-modal-preview">${templateCardOperational(item,!item.base)}</div><div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button>${item.url?`<a class="button primary" href="${esc(item.url)}" target="_blank" rel="noopener">Abrir en Canva</a>`:''}</div>`);});
+      document.querySelectorAll('[data-template-assign]').forEach(btn=>btn.onclick=()=>{const item=allTemplates().find(x=>x.id===btn.dataset.templateAssign),client=state.clients.find(c=>c.id===selectedClient?.id);if(!item)return;if(client){client.templateId=item.id;client.templateName=item.name;addActivity('job','Plantilla asignada',`${client.name} · ${item.name}`,client.id);saveState();toast(`Referencia asignada a ${client.name}.`);}else toast('Seleccioná primero un cliente.');});
+      document.querySelectorAll('[data-template-delete]').forEach(btn=>btn.onclick=()=>{const item=state.templates.find(x=>x.id===btn.dataset.templateDelete);if(!item||!confirm(`¿Eliminar la plantilla “${item.name}”?`))return;state.templates=state.templates.filter(x=>x.id!==item.id);selectedTemplateId='';saveState();openModule('plantillas');toast('Plantilla eliminada.');});
+    }
+    if(id==='archivos'){
+      document.querySelector('[data-file-upload]')?.addEventListener('click',()=>openFileUploadModal());
+      document.querySelector('[data-files-refresh]')?.addEventListener('click',()=>{filesCache=[];filesLoaded=false;loadFiles(true);});
+      document.querySelectorAll('[data-files-filter]').forEach(btn=>btn.onclick=()=>{filesFilter=btn.dataset.filesFilter;selectedFileIds.clear();openModule('archivos');});
+      const search=document.getElementById('filesSearch');if(search)search.oninput=()=>{filesQuery=search.value.toLowerCase().trim();openModule('archivos');document.getElementById('filesSearch')?.focus();};
+      document.querySelectorAll('[data-file-check]').forEach(input=>input.onchange=()=>{input.checked?selectedFileIds.add(input.dataset.fileCheck):selectedFileIds.delete(input.dataset.fileCheck);openModule('archivos');});
+      document.querySelector('[data-files-check-all]')?.addEventListener('change',event=>{visibleFiles().forEach(f=>event.target.checked?selectedFileIds.add(f.id):selectedFileIds.delete(f.id));openModule('archivos');});
+      document.querySelectorAll('[data-file-open]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileOpen);try{await downloadFileRecord(file);}catch(error){toast(error.message);}});
+      document.querySelectorAll('[data-file-trash]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileTrash);if(!file||!confirm(`¿Mover “${file.nombre}” a la papelera?`))return;try{await trashFileRecord(file);openModule('archivos');toast('Archivo enviado a la papelera.');}catch(error){toast(error.message);}});
+      document.querySelector('[data-files-trash-selected]')?.addEventListener('click',async()=>{const chosen=filesCache.filter(f=>selectedFileIds.has(f.id)&&!f.deleted_at);if(!chosen.length||!confirm(`¿Mover ${chosen.length} archivos a la papelera?`))return;for(const file of chosen)await trashFileRecord(file);selectedFileIds.clear();openModule('archivos');toast('Archivos enviados a la papelera.');});
+      document.querySelectorAll('[data-file-restore]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileRestore);try{await restoreFileRecord(file);openModule('archivos');toast('Archivo restaurado en Otros.');}catch(error){toast(error.message);}});
+      document.querySelectorAll('[data-file-edit]').forEach(btn=>btn.onclick=()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileEdit);if(!file)return;showForm('Renombrar o mover','Actualizá el nombre visible y la carpeta.',input('name','Nombre','text',file.nombre)+select('category','Carpeta',Object.entries(FILE_CATEGORIES).filter(([k])=>!['todos','papelera'].includes(k)).map(([value,label])=>({value,label})),file.categoria),'Guardar',async data=>{const name=String(data.get('name')||'').trim(),category=String(data.get('category'));if(!name)return toast('Ingresá un nombre.');try{const nextPath=`${category}/${file.id}-${safeFileName(name)}`;const move=await window.cvstudioSupabase.storage.from(FILE_BUCKET).move(file.object_path,nextPath);if(move.error)throw move.error;const update=await window.cvstudioSupabase.from(FILE_TABLE).update({nombre:name,categoria:category,object_path:nextPath,updated_at:new Date().toISOString()}).eq('id',file.id).select().single();if(update.error)throw update.error;filesCache=filesCache.map(f=>f.id===file.id?update.data:f);closeModal();openModule('archivos');toast('Archivo actualizado.');}catch(error){toast(error.message);}});});
+    }
+    if(id==='integraciones'){
+      document.querySelector('[data-integrations-test]')?.addEventListener('click',testIntegrations);
+      document.querySelectorAll('[data-integration-test]').forEach(btn=>btn.onclick=async()=>{if(['supabase','storage','mercadopago','portfolio'].includes(btn.dataset.integrationTest))return testIntegrations();const item=integrationDefinitions().find(x=>x.id===btn.dataset.integrationTest);openModal(`<h2 id="modalTitle">${esc(item.name)}</h2><p style="color:var(--muted)">${esc(item.detail)}</p><div class="integration-test-note"><b>${integrationMeta(item.status)[0]}</b><span>${item.status==='pending'?'Todavía necesita una conexión externa.':item.status==='configured'?'La configuración existe; la prueba completa requiere una operación autorizada.':'Conexión verificada.'}</span></div><div class="modal-actions"><button class="button primary" data-close-modal>Cerrar</button></div>`);});
+    }
     if(id==='generador-url') {
-      const refreshSelection=(slug)=>{selectedUrlSpace=slug;openModule('generador-url');setTimeout(()=>document.querySelector('.url-config-panel')?.scrollIntoView({behavior:'smooth',block:'start'}),80);};
+      const refreshSelection=(slug)=>{selectedUrlSpace=slug;openModule('generador-url');};
+      const openConfig=(slug)=>{selectedUrlSpace=slug;const space=getUrlSpaces().find(s=>s.slug===slug);if(!space)return;openModal(`<h2 id="modalTitle">Configurar ${esc(space.name)}</h2>${urlSpaceDetails(space)}`);bindModuleActions('generador-url');};
       document.querySelectorAll('[data-url-select]').forEach(card=>card.onclick=e=>{if(e.target.closest('button'))return;refreshSelection(card.dataset.urlSelect);});
-      document.querySelectorAll('[data-url-config]').forEach(btn=>btn.onclick=e=>{e.stopPropagation();refreshSelection(btn.dataset.urlConfig);});
+      document.querySelectorAll('[data-url-config]').forEach(btn=>btn.onclick=e=>{e.stopPropagation();openConfig(btn.dataset.urlConfig);});
       document.querySelectorAll('[data-url-copy]').forEach(btn=>btn.onclick=async e=>{e.stopPropagation();try{await navigator.clipboard.writeText(btn.dataset.urlCopy);toast('URL copiada al portapapeles.');}catch(_){toast('No se pudo copiar automáticamente.');}});
       document.querySelectorAll('[data-url-open]').forEach(btn=>btn.onclick=e=>{e.stopPropagation();window.open(btn.dataset.urlOpen,'_blank','noopener');});
       const form=document.getElementById('urlSpaceForm');
-      if(form) form.onsubmit=async e=>{e.preventDefault();const data=new FormData(form),originalSlug=form.dataset.originalSlug,slug=normalizeSlug(data.get('slug'));if(!slug){toast('Ingresá una URL válida.');return;}if(getUrlSpaces().some(s=>s.slug===slug&&s.slug!==originalSlug)){toast('Esa URL ya está utilizada.');return;}const current=getUrlSpaces().find(s=>s.slug===originalSlug)||{};const updated={...current,slug:current.builtin?originalSlug:slug,name:String(data.get('name')).trim(),menuLabel:String(data.get('menuLabel')||data.get('name')).trim(),service:String(data.get('service')).trim(),status:String(data.get('status')),portalMode:String(data.get('portalMode')||current.portalMode||'portfolio'),primaryColor:String(data.get('primaryColor')||'#9b5de5'),secondaryColor:String(data.get('secondaryColor')||'#ffd23f')};try{if(current.real){const changes={full_name:updated.name,brand_name:updated.menuLabel,business_type:updated.service,slug:updated.slug,status:({Publicado:'active',Borrador:'draft',Pausado:'suspended',Oculto:'suspended'}[updated.status]||'draft'),settings:{...(current.settings||{}),portalMode:updated.portalMode,colors:[updated.primaryColor,'#fffdf9',updated.secondaryColor]}};const result=await window.CVStudioRealBridge.updatePortfolioClient(current.portfolioId,changes);state.portfolios=(state.portfolios||[]).map(p=>p.id===current.portfolioId?result.client:p);saveState();}else{upsertUrlSpace({...updated,origin:current.builtin?'Sistema':'Panel'});}selectedUrlSpace=updated.slug;openModule('generador-url');toast('Cuenta y publicación actualizadas.');}catch(error){toast(error.message);}};
+      if(form) form.onsubmit=async e=>{e.preventDefault();const data=new FormData(form),originalSlug=form.dataset.originalSlug,slug=normalizeSlug(data.get('slug'));if(!slug){toast('Ingresá una URL válida.');return;}if(getUrlSpaces().some(s=>s.slug===slug&&s.slug!==originalSlug)){toast('Esa URL ya está utilizada.');return;}const current=getUrlSpaces().find(s=>s.slug===originalSlug)||{};const updated={...current,slug:current.builtin?originalSlug:slug,name:String(data.get('name')).trim(),menuLabel:String(data.get('menuLabel')||data.get('name')).trim(),service:String(data.get('service')).trim(),status:String(data.get('status')),portalMode:String(data.get('portalMode')||current.portalMode||'portfolio'),primaryColor:String(data.get('primaryColor')||'#9b5de5'),secondaryColor:String(data.get('secondaryColor')||'#ffd23f')};try{if(current.real){const changes={full_name:updated.name,brand_name:updated.menuLabel,business_type:updated.service,slug:updated.slug,status:({Publicado:'active',Borrador:'draft',Pausado:'suspended',Oculto:'suspended'}[updated.status]||'draft'),settings:{...(current.settings||{}),portalMode:updated.portalMode,colors:[updated.primaryColor,'#fffdf9',updated.secondaryColor]}};const result=await window.CVStudioRealBridge.updatePortfolioClient(current.portfolioId,changes);state.portfolios=(state.portfolios||[]).map(p=>p.id===current.portfolioId?result.client:p);saveState();}else{upsertUrlSpace({...updated,origin:current.builtin?'Sistema':'Panel'});}selectedUrlSpace=updated.slug;closeModal();openModule('generador-url');toast('Cuenta y publicación actualizadas.');}catch(error){toast(error.message);}};
       const reset=document.querySelector('[data-url-reset]');if(reset)reset.onclick=()=>{if(confirm('¿Restablecer los cambios de este espacio?')){state.urlSpaces=state.urlSpaces.filter(s=>s.slug!==form.dataset.originalSlug);saveState();openModule('generador-url');toast('Configuración restablecida.');}};
       const toggleBtn=document.querySelector('[data-url-toggle]');if(toggleBtn)toggleBtn.onclick=async()=>{const slug=toggleBtn.dataset.urlToggle,space=getUrlSpaces().find(s=>s.slug===slug);if(!space)return;const next=toggleBtn.dataset.nextStatus||'Oculto';try{if(space.real){const result=await window.CVStudioRealBridge.updatePortfolioClient(space.portfolioId,{status:next==='Publicado'?'active':'suspended'});state.portfolios=state.portfolios.map(p=>p.id===space.portfolioId?result.client:p);saveState();}else upsertUrlSpace({...space,status:next});openModule('generador-url');toast(next==='Publicado'?'Espacio publicado.':'Espacio pausado.');}catch(error){toast(error.message);}};
       document.querySelector('[data-action="refresh-url-spaces"]')?.addEventListener('click',async()=>{toast('Actualizando espacios…');await window.CVStudioRealBridge.loadReal();state=loadState();openModule('generador-url');toast('Espacios sincronizados.');});
@@ -774,9 +932,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   }
   function uploadClientFile(){
     const client=currentClientOperational(); if(!client){toast('No hay un cliente seleccionado.');return;}
-    const picker=document.createElement('input'); picker.type='file'; picker.multiple=true; picker.accept='.pdf,.doc,.docx,.jpg,.jpeg,.png,.webp';
-    picker.onchange=()=>{const files=[...picker.files]; if(!files.length)return; client.files=client.files||[]; files.forEach(f=>client.files.push({id:Date.now()+Math.random(),name:f.name,size:f.size,type:f.type||'archivo',addedAt:new Date().toISOString()})); addActivity('client','Archivos asociados',`${client.name} · ${files.length} archivo(s)`,client.id); saveState(); toast(`${files.length} archivo(s) registrados en la ficha.`); openModule('clientes');};
-    picker.click();
+    openFileUploadModal(client);
   }
   function modalClientMoreActions(){
     const client=currentClientOperational(); if(!client){toast('No hay un cliente seleccionado.');return;}
@@ -784,7 +940,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     document.querySelector('[data-client-extra="note"]')?.addEventListener('click',()=>{closeModal();showForm('Agregar nota',`Seguimiento interno de ${client.name}.`,textarea('note','Nota interna',3),'Guardar nota',data=>{const note=String(data.get('note')||'').trim();if(!note){toast('Escribí una nota.');return;}addActivity('client','Nota de seguimiento',`${client.name}: ${note}`,client.id);saveState();closeModal();openModule('clientes');toast('Nota guardada.');});});
     document.querySelector('[data-client-extra="reassign"]')?.addEventListener('click',()=>{closeModal();showForm('Reasignar responsable',`Cliente: ${client.name}`,select('responsible','Responsable',(state.collaborators||[]).filter(c=>c.status==='Activo').map(c=>c.name),client.responsible||'pablexe'),'Guardar',data=>{client.responsible=String(data.get('responsible'));state.jobs.filter(j=>j.clientId===client.id&&j.stage!=='Entregado').forEach(j=>j.responsible=client.responsible);addActivity('client','Responsable actualizado',`${client.name} · ${client.responsible}`,client.id);saveState();closeModal();openModule('clientes');toast('Responsable actualizado.');});});
     document.querySelector('[data-client-extra="archive"]')?.addEventListener('click',()=>{if(!confirm(`¿Archivar a ${client.name}?`))return;client.status='Archivado';client.time='Ahora';addActivity('client','Cliente archivado',client.name,client.id);saveState();closeModal();openModule('clientes');toast('Cliente archivado.');});
-    document.querySelector('[data-client-extra="delete"]')?.addEventListener('click',()=>{if(!confirm(`¿Eliminar definitivamente a ${client.name}? Esta acción no se puede deshacer.`))return;state.clients=state.clients.filter(c=>c.id!==client.id);state.jobs=state.jobs.filter(j=>j.clientId!==client.id);state.payments=state.payments.filter(p=>p.clientId!==client.id);state.activities=state.activities.filter(a=>a.clientId!==client.id);selectedClient=state.clients[0]||null;saveState();closeModal();openModule('clientes');toast('Cliente eliminado.');});
+    document.querySelector('[data-client-extra="delete"]')?.addEventListener('click',()=>{if(!confirm(`¿Eliminar definitivamente a ${client.name}? Esta acción no se puede deshacer.`))return;const ref=client.realRequestId||client.realOrderId;if(ref)state.hiddenClientRefs=[...new Set([...(state.hiddenClientRefs||[]),String(ref)])];state.clients=state.clients.filter(c=>c.id!==client.id);state.jobs=state.jobs.filter(j=>j.clientId!==client.id);state.payments=state.payments.filter(p=>p.clientId!==client.id);state.executions=state.executions.filter(x=>x.clientId!==client.id);state.activities=state.activities.filter(a=>a.clientId!==client.id);selectedClient=state.clients[0]||null;saveState();closeModal();openModule('clientes');toast('Cliente eliminado de la bandeja.');});
   }
 
   function modalPayment() {

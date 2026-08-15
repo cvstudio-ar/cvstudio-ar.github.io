@@ -66,7 +66,7 @@
     if (!state || typeof state !== 'object') return null;
     return {
       ...state,
-      version: Number(state.version || 10),
+      version: Number(state.version || 11),
       rules: state.rules || { colab: 20, growth: 15, reserve: 5, company: 60 },
       prices: state.prices || {},
       clients: Array.isArray(state.clients) ? state.clients : [],
@@ -79,6 +79,7 @@
       collaborators: Array.isArray(state.collaborators) ? state.collaborators : [],
       urlSpaces: Array.isArray(state.urlSpaces) ? state.urlSpaces : [],
       templates: Array.isArray(state.templates) ? state.templates : []
+      ,hiddenClientRefs: Array.isArray(state.hiddenClientRefs) ? state.hiddenClientRefs : []
     };
   }
 
@@ -166,7 +167,7 @@
 
       const meta = {
         id: META_ID,
-        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [], __calendarItems: state.calendarItems || [] },
+        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [], __calendarItems: state.calendarItems || [], __hiddenClientRefs: state.hiddenClientRefs || [] },
         version: state.version,
         updated_at: new Date().toISOString(),
         updated_by: WRITER_ID
@@ -273,10 +274,19 @@
     const remoteUrlSpaces = Array.isArray(remoteRules.__urlSpaces) ? remoteRules.__urlSpaces : (local.urlSpaces || []);
     const remoteTemplates = Array.isArray(remoteRules.__templates) ? remoteRules.__templates : (local.templates || []);
     const remoteCalendarItems = Array.isArray(remoteRules.__calendarItems) ? remoteRules.__calendarItems : (local.calendarItems || []);
+    const remoteHiddenClientRefs = Array.isArray(remoteRules.__hiddenClientRefs) ? remoteRules.__hiddenClientRefs : (local.hiddenClientRefs || []);
+    const hiddenRefs = new Set(remoteHiddenClientRefs.map(String));
+    const hiddenClientIds = new Set(clients.filter(c=>hiddenRefs.has(String(c.realRequestId||c.realOrderId||''))).map(c=>String(c.id)));
+    const visibleClients = clients.filter(c=>!hiddenRefs.has(String(c.realRequestId||c.realOrderId||'')));
+    const visibleJobs = jobs.filter(item=>!hiddenClientIds.has(String(item.clientId))&&!hiddenRefs.has(String(item.realRequestId||'')));
+    const visiblePayments = payments.filter(item=>!hiddenClientIds.has(String(item.clientId))&&!hiddenRefs.has(String(item.realOrderId||'')));
+    const visibleExecutions = executions.filter(item=>!hiddenClientIds.has(String(item.clientId)));
+    const visibleActivities = activities.filter(item=>!hiddenClientIds.has(String(item.clientId)));
     const cleanRules = { ...remoteRules };
     delete cleanRules.__urlSpaces;
     delete cleanRules.__templates;
     delete cleanRules.__calendarItems;
+    delete cleanRules.__hiddenClientRefs;
     const prices = {};
     (servicesResult.data || []).forEach(service => { prices[service.name] = Number(service.price); });
 
@@ -285,16 +295,17 @@
       version: Number(meta.version || 4),
       rules: cleanRules,
       prices: Object.keys(prices).length ? prices : local.prices,
-      clients,
-      jobs,
-      payments,
-      executions,
+      clients: visibleClients,
+      jobs: visibleJobs,
+      payments: visiblePayments,
+      executions: visibleExecutions,
       expenses,
-      activities,
+      activities: visibleActivities,
       collaborators,
       calendarItems: remoteCalendarItems,
       urlSpaces: remoteUrlSpaces,
       templates: remoteTemplates,
+      hiddenClientRefs: remoteHiddenClientRefs,
       _sync: { updatedAt: meta.updated_at, source: 'supabase-normalized' }
     });
 

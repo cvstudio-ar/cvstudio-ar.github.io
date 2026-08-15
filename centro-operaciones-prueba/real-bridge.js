@@ -119,12 +119,20 @@
     if (commsResult.error) throw commsResult.error;
 
     const state = getState();
-    state.version = 6;
+    state.version = 11;
     state.rules ||= {colab:20,growth:15,reserve:5,company:60};
     state.clients ||= []; state.jobs ||= []; state.payments ||= []; state.executions ||= [];
     state.expenses ||= []; state.activities ||= []; state.prices ||= {};
 
-    const requests = requestsResult.data || [];
+    state.hiddenClientRefs=Array.isArray(state.hiddenClientRefs)?state.hiddenClientRefs:[];
+    const hiddenRefs=new Set(state.hiddenClientRefs.map(String));
+    state.clients=state.clients.filter(c=>!hiddenRefs.has(String(c.realRequestId||c.realOrderId||'')));
+    const retainedClientIds=new Set(state.clients.map(c=>String(c.id)));
+    state.jobs=state.jobs.filter(item=>retainedClientIds.has(String(item.clientId))&&!hiddenRefs.has(String(item.realRequestId||'')));
+    state.payments=state.payments.filter(item=>retainedClientIds.has(String(item.clientId))&&!hiddenRefs.has(String(item.realOrderId||'')));
+    state.executions=state.executions.filter(item=>retainedClientIds.has(String(item.clientId)));
+    state.activities=state.activities.filter(item=>item.clientId==null||retainedClientIds.has(String(item.clientId)));
+    const requests = (requestsResult.data || []).filter(r=>!hiddenRefs.has(String(r.id)));
     const communications = commsResult.data || [];
     const commByRequest = new Map();
     communications.forEach(c => {
@@ -172,7 +180,7 @@
       }));
     });
 
-    const orders = paymentsData.orders || [];
+    const orders = (paymentsData.orders || []).filter(order=>!hiddenRefs.has(String(order.id)));
     const byEmail = new Map(state.clients.filter(c=>c.email).map(c=>[c.email.toLowerCase(),c]));
     const byPhone = new Map(state.clients.filter(c=>c.phone).map(c=>[digits(c.phone),c]));
     const realPayments = [];
@@ -204,6 +212,15 @@
       state._realProducts = products;
     }
     state.portfolios=Array.isArray(portfoliosData.clients)?portfoliosData.clients:state.portfolios||[];
+    state._integrationStatus={
+      payments:paymentsData._error?'error':'connected',
+      paymentsDetail:paymentsData._error?paymentsData._error:`${orders.length} pedidos leídos`,
+      portfolios:portfoliosData._error?'error':'connected',
+      portfoliosDetail:portfoliosData._error?portfoliosData._error:`${state.portfolios.length} espacios leídos`,
+      whatsapp:'configured',
+      resend:'configured',
+      analytics:'configured'
+    };
     state._realSync = {at:new Date().toISOString(),requests:requests.length,orders:orders.length,communications:communications.length,portfolios:state.portfolios.length,source:'production-read'};
     setState(state);
     status(`Datos reales · ${requests.length} clientes`, 'connected');
