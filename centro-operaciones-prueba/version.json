@@ -1,7 +1,7 @@
 {
-  "version": "1.4.61",
-  "build": "20260815-canva-oauth",
-  "releasedAt": "2026-08-15T17:10:00-03:00",
+  "version": "1.4.62",
+  "build": "20260815-canva-status-persist",
+  "releasedAt": "2026-08-15T17:25:00-03:00",
   "channel": "production",
-  "name": "Integración segura de Canva"
+  "name": "Estado persistente de Canva"
 }

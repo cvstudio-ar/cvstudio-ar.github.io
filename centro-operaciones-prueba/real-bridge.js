@@ -115,12 +115,13 @@
     }
     status('Sincronizando datos reales…', 'syncing');
 
-    const [requestsResult, commsResult, paymentsData, productsData, portfoliosData] = await Promise.all([
+    const [requestsResult, commsResult, paymentsData, productsData, portfoliosData, canvaData] = await Promise.all([
       client.from('solicitudes').select('*, clientes(*), archivos(*)').order('fecha_creacion', {ascending:false}).limit(1000),
       client.from('comunicaciones').select('*').order('fecha_creacion', {ascending:false}).limit(3000),
       api('payments-admin-list').catch(error => ({orders:[], _error:error.message})),
       api('payments-admin-products').catch(error => ({products:[], _error:error.message})),
-      portfolioApi('portfolio-admin-list').catch(error => ({clients:[], _error:error.message}))
+      portfolioApi('portfolio-admin-list').catch(error => ({clients:[], _error:error.message})),
+      api('canva-status').catch(error => ({configured:true,connected:false,_error:error.message}))
     ]);
     if (requestsResult.error) throw requestsResult.error;
     if (commsResult.error) throw commsResult.error;
@@ -220,13 +221,16 @@
     }
     state.portfolios=Array.isArray(portfoliosData.clients)?portfoliosData.clients:state.portfolios||[];
     state._integrationStatus={
+      ...(state._integrationStatus||{}),
       payments:paymentsData._error?'error':'connected',
       paymentsDetail:paymentsData._error?paymentsData._error:`${orders.length} pedidos leídos`,
       portfolios:portfoliosData._error?'error':'connected',
       portfoliosDetail:portfoliosData._error?portfoliosData._error:`${state.portfolios.length} espacios leídos`,
       whatsapp:'configured',
       resend:'configured',
-      analytics:'configured'
+      analytics:'configured',
+      canva:canvaData.connected?'connected':canvaData.configured?'pending':'configured',
+      canvaDetail:canvaData.connected?'Cuenta y tokens verificados':(canvaData._error||(canvaData.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare'))
     };
     state._realSync = {at:new Date().toISOString(),requests:requests.length,orders:orders.length,communications:communications.length,portfolios:state.portfolios.length,source:'production-read'};
     setState(state);
