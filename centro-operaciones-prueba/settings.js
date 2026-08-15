@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.4.59',build:'20260815-visual-ops-files',date:'15/08/2026 · 14:30',name:'Actualización visual operativa'};
+const APP_RELEASE={version:'v1.4.60',build:'20260815-integrations-files-hotfix',date:'15/08/2026 · 16:10',name:'Archivos e integraciones ampliadas'};
 const CHANGELOG=[
+ {version:'v1.4.60',date:'15/08/2026',items:['Permisos de Archivos corregidos y previsualización antes de guardar.','Logos oficiales y accesos de Facebook, Instagram, Canva, Mercado Libre, ChatGPT y LinkedIn.','Campañas activas del Calendario visibles en Marketing.','Configuración de Espacios recuperada dentro de la misma pantalla.']},
  {version:'v1.4.59',date:'15/08/2026',items:['Selección múltiple, archivo y eliminación de chats desde Clientes.','Plantillas seleccionables y compactas, visibles en dos filas.','Centro de archivos privado conectado a Supabase Storage.','Integraciones verificables sin estados simulados.','Espacios de clientes compactos y configuración en ventana.']},
  {version:'v1.4.58',date:'15/08/2026',items:['Estado anterior de sincronización restaurado para comparar cambios sin errores.','Confirmación remota posterior al guardado completo de todas las entidades.','Reintentos limitados con espera progresiva y salida segura ante errores permanentes.']},
  {version:'v1.4.52',date:'11/08/2026',items:['Ficha de Carla recuperada desde su solicitud de firma.','Compatibilidad con firmas generadas antes de la persistencia real.','Las nuevas solicitudes continúan usando exclusivamente el identificador de Supabase.']},
@@ -27,7 +28,7 @@ const defaults={
  empresa:{nombre:'CVStudio',responsable:'pablexe',dominio:'cvstudio.com.ar',correo:'contacto@cvstudio.com.ar',whatsapp:'',horario:'09:00 a 22:00'},
  ia:{proveedor:'OpenAI',modelo:'GPT-5',estado:'Pendiente',limite:100,asistencia:true},
  estado:{entorno:'Prueba',mantenimiento:false,version:APP_RELEASE.version,sesion:480,logs:true},
- integraciones:{mercadopago:'Conectado',supabase:'Conectado',resend:'Conectado',cloudflare:'Conectado',ga4:'Pendiente',meta:'Pendiente'},
+ integraciones:{mercadopago:'Conectado',supabase:'Conectado',resend:'Conectado',cloudflare:'Conectado',ga4:'Pendiente',facebook:'Pendiente',instagram:'Pendiente',canva:'Pendiente',mercadolibre:'Pendiente',chatgpt:'Pendiente',linkedin:'Pendiente'},
  respaldos:{automaticos:true,frecuencia:'Diario',retencion:30,ultima:'Sin ejecutar'},
  reglas:{empresa:60,colaboradores:20,crecimiento:15,reserva:5,liquidacion:3,alias:'cvstudio.ar'},
  beneficios:{cumpleanos:7,diaLibre:true,capacitacion:true,reconocimiento:true},

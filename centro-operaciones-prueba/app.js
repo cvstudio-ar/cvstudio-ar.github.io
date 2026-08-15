@@ -31,7 +31,12 @@ const ICONS={
  external:'M14 3h7v7 M21 3l-9 9 M19 13v8H3V5h8',
 }
 function icon(name,cls=''){const d=ICONS[name]||ICONS.file;return `<svg class="ui-icon ${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`}
-const BRAND_FILES={facebook:'facebook-official.svg',instagram:'instagram-official.png',whatsapp:'whatsapp-official.svg',mercadolibre:'mercadolibre-official.png',resend:'resend-official.svg'};
+const BRAND_FILES={
+  facebook:'facebook-official.svg',instagram:'instagram-official.png',whatsapp:'whatsapp-official.svg',
+  mercadolibre:'mercadolibre-official.png',mercadopago:'mercadopago.svg',resend:'resend-official.svg',
+  supabase:'supabase.svg',cloudflare:'cloudflare.svg',googleanalytics:'googleanalytics.svg',canva:'canva.svg',
+  linkedin:'linkedin.svg',openai:'openai.svg'
+};
 function brand(name,cls=''){const file=BRAND_FILES[name]||`${name}.svg`;return `<img class="brand-logo brand-${name} ${cls}" src="./assets/brands/${file}" alt="" aria-hidden="true">`}
 const TOKEN_ICONS={'💬':'message','💵':'dollar','💰':'dollar','💲':'dollar','📄':'file','✅':'check','🛠':'briefcase','🔎':'search','⏳':'clock','👥':'users','📅':'calendar','📢':'megaphone','🎂':'gift','🔗':'link','⚠':'shield','↻':'refresh','▤':'database','👁':'eye','⬇':'upload','🔒':'lock','⚡':'zap','🏢':'briefcase','🤖':'settings','🌐':'link','🗄':'database','🎁':'gift','📊':'chart','⚙':'settings','☷':'layers','📤':'upload','🔄':'refresh','✉':'message','⌖':'link','🔑':'lock'};
 function replaceIconTokens(html){for(const [t,n] of Object.entries(TOKEN_ICONS))html=html.split(t).join(icon(n));return html}

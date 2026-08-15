@@ -22,6 +22,10 @@ create table if not exists public.cvstudio_archivos_centro (
 
 alter table public.cvstudio_archivos_centro enable row level security;
 
+-- RLS no reemplaza los privilegios de PostgreSQL/Data API.
+-- Este GRANT corrige el error "permission denied for table cvstudio_archivos_centro".
+grant select, insert, update, delete on table public.cvstudio_archivos_centro to authenticated;
+
 insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
 values (
   'cvstudio-archivos','cvstudio-archivos',false,52428800,
@@ -39,5 +43,30 @@ on conflict (id) do update set
   file_size_limit=excluded.file_size_limit,
   allowed_mime_types=excluded.allowed_mime_types;
 
--- Las políticas activas restringen tabla y bucket a cuentas autenticadas
--- del dominio corporativo @cvstudio.com.ar.
+drop policy if exists "cvstudio_archivos_select" on public.cvstudio_archivos_centro;
+create policy "cvstudio_archivos_select" on public.cvstudio_archivos_centro
+for select to authenticated using ((auth.jwt()->>'email') like '%@cvstudio.com.ar');
+drop policy if exists "cvstudio_archivos_insert" on public.cvstudio_archivos_centro;
+create policy "cvstudio_archivos_insert" on public.cvstudio_archivos_centro
+for insert to authenticated with check ((auth.jwt()->>'email') like '%@cvstudio.com.ar');
+drop policy if exists "cvstudio_archivos_update" on public.cvstudio_archivos_centro;
+create policy "cvstudio_archivos_update" on public.cvstudio_archivos_centro
+for update to authenticated using ((auth.jwt()->>'email') like '%@cvstudio.com.ar')
+with check ((auth.jwt()->>'email') like '%@cvstudio.com.ar');
+drop policy if exists "cvstudio_archivos_delete" on public.cvstudio_archivos_centro;
+create policy "cvstudio_archivos_delete" on public.cvstudio_archivos_centro
+for delete to authenticated using ((auth.jwt()->>'email') like '%@cvstudio.com.ar');
+
+drop policy if exists "cvstudio_storage_select" on storage.objects;
+create policy "cvstudio_storage_select" on storage.objects for select to authenticated
+using (bucket_id='cvstudio-archivos' and (auth.jwt()->>'email') like '%@cvstudio.com.ar');
+drop policy if exists "cvstudio_storage_insert" on storage.objects;
+create policy "cvstudio_storage_insert" on storage.objects for insert to authenticated
+with check (bucket_id='cvstudio-archivos' and (auth.jwt()->>'email') like '%@cvstudio.com.ar');
+drop policy if exists "cvstudio_storage_update" on storage.objects;
+create policy "cvstudio_storage_update" on storage.objects for update to authenticated
+using (bucket_id='cvstudio-archivos' and (auth.jwt()->>'email') like '%@cvstudio.com.ar')
+with check (bucket_id='cvstudio-archivos' and (auth.jwt()->>'email') like '%@cvstudio.com.ar');
+drop policy if exists "cvstudio_storage_delete" on storage.objects;
+create policy "cvstudio_storage_delete" on storage.objects for delete to authenticated
+using (bucket_id='cvstudio-archivos' and (auth.jwt()->>'email') like '%@cvstudio.com.ar');
