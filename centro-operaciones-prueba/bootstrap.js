@@ -82,7 +82,7 @@
       const manifest = await getManifest();
       exposeRelease(manifest);
       await Promise.all(LOCAL_STYLES.map(path => loadStyle(path, manifest.build)));
-      await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', manifest.build, true);
+      await loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.102.0', manifest.build, true);
       for (const src of LOCAL_SCRIPTS) await loadScript(src, manifest.build);
     } catch (error) {
       showFatal(error);

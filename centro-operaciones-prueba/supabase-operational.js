@@ -17,7 +17,10 @@
   let pushInFlight = false;
   let pendingRawValue = '';
   let lastSerialized = '';
+  let previousState = null;
+  let retryAttempt = 0;
   let realtimeChannel = null;
+  const MAX_SYNC_RETRIES = 3;
   const WRITER_ID = (() => {
     const key = 'cvstudio_ops_writer_id';
     let value = sessionStorage.getItem(key);
@@ -109,12 +112,18 @@
   }
 
   async function syncTable(table, entities, deletedIds = []) {
-    if (entities.length) {
-      const { error: upsertError } = await client.from(table).upsert(entities.map(item => row(item)), { onConflict: 'workspace_id,id' });
+    const uniqueRows = [...new Map(
+      entities.map(item => {
+        const normalized = row(item);
+        return [`${normalized.workspace_id}:${normalized.id}`, normalized];
+      })
+    ).values()];
+    if (uniqueRows.length) {
+      const { error: upsertError } = await client.from(table).upsert(uniqueRows, { onConflict: 'workspace_id,id' });
       if (upsertError) throw upsertError;
     }
-    const previousCount = entities.length + deletedIds.length;
-    const safeDeletion = entities.length > 0 && deletedIds.length <= Math.max(1, Math.floor(previousCount / 2));
+    const previousCount = uniqueRows.length + deletedIds.length;
+    const safeDeletion = uniqueRows.length > 0 && deletedIds.length <= Math.max(1, Math.floor(previousCount / 2));
     if (deletedIds.length && safeDeletion) {
       const { error: deleteError } = await client.from(table).delete().eq('workspace_id', META_ID).in('id', deletedIds);
       if (deleteError) throw deleteError;
@@ -123,9 +132,18 @@
     }
   }
 
-  async function pushState(rawValue) {
+  function isTransientError(error) {
+    const code = String(error?.code || error?.status || '');
+    const message = String(error?.message || '');
+    return !navigator.onLine
+      || /^(408|409|429|503|504|520)$/.test(code)
+      || /network|failed to fetch|load failed|timeout|temporarily unavailable/i.test(message);
+  }
+
+  async function pushState(rawValue, isRetry = false) {
     if (!client || applyingRemote) return;
     if(pushInFlight){ pendingRawValue=rawValue; return; }
+    if (!isRetry) retryAttempt = 0;
     let state;
     try { state = normalizeState(JSON.parse(rawValue)); }
     catch (_) { return; }
@@ -146,6 +164,13 @@
         updated_at: new Date().toISOString()
       }));
 
+      const meta = {
+        id: META_ID,
+        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [], __calendarItems: state.calendarItems || [] },
+        version: state.version,
+        updated_at: new Date().toISOString(),
+        updated_by: WRITER_ID
+      };
       await Promise.all([
         syncTable(TABLES.clients, state.clients, removedIds(previousState, state, 'clients')),
         syncTable(TABLES.jobs, state.jobs, removedIds(previousState, state, 'jobs')),
@@ -159,24 +184,29 @@
           : Promise.resolve()
       ]);
 
-      const meta = {
-        id: META_ID,
-        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [], __calendarItems: state.calendarItems || [] },
-        version: state.version,
-        updated_at: new Date().toISOString(),
-        updated_by: WRITER_ID
-      };
+      // La fila meta se confirma al final. Así Realtime nunca anuncia un
+      // estado nuevo antes de que todas las entidades hayan sido guardadas.
       const { error: metaError } = await client.from(TABLES.meta).upsert(meta, { onConflict: 'id' });
       if (metaError) throw metaError;
 
       lastSerialized = serialized;
+      previousState = state;
+      retryAttempt = 0;
       clearTimeout(retryTimer);
       status('Sincronización operativa', 'connected');
     } catch (error) {
-      console.error('[CVStudio RC4] Error al sincronizar:', error);
-      status('Reintentando sincronización…', 'syncing');
+      console.error('[CVStudio RC5] Error al sincronizar:', error);
       clearTimeout(retryTimer);
-      retryTimer=setTimeout(()=>pushState(rawValue),4000);
+      if (isTransientError(error) && retryAttempt < MAX_SYNC_RETRIES) {
+        retryAttempt += 1;
+        const delay = Math.min(2000 * (2 ** (retryAttempt - 1)), 8000);
+        status(`Reintentando sincronización (${retryAttempt}/${MAX_SYNC_RETRIES})…`, 'syncing');
+        retryTimer=setTimeout(()=>pushState(rawValue, true), delay);
+      } else {
+        const detail = String(error?.hint || error?.message || 'Error desconocido');
+        console.error('[CVStudio RC5] Sincronización detenida:', detail);
+        status(navigator.onLine ? 'Error de sincronización · revisar' : 'Sin conexión · cambios pendientes', 'warning');
+      }
     } finally {
       pushInFlight=false;
       if(pendingRawValue){
@@ -189,6 +219,7 @@
 
   function schedulePush(rawValue) {
     clearTimeout(timer);
+    clearTimeout(retryTimer);
     timer = setTimeout(() => pushState(rawValue), 500);
   }
 
@@ -219,6 +250,7 @@
     if (!meta) {
       initialized = true;
       const local = parseLocal();
+      previousState = normalizeState(local);
       if (local) await pushState(JSON.stringify(local));
       else status('Supabase operativo', 'connected');
       return;
@@ -270,6 +302,7 @@
     originalSetItem.call(localStorage, STORE_KEY, JSON.stringify(remote));
     applyingRemote = false;
     lastSerialized = JSON.stringify(remote);
+    previousState = remote;
     initialized = true;
     status('Supabase operativo', 'connected');
 
