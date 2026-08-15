@@ -295,7 +295,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       const dayEvents=events.filter(item=>item.startDate<=key&&(item.endDate||item.startDate)>=key);
       cells.push(`<div class="calendar-day ${key===today?'is-today':''}" data-calendar-day="${key}"><b>${day}</b>${dayEvents.slice(0,3).map(item=>{const meta=calendarTypeMeta[item.type]||calendarTypeMeta.reminder;return `<button class="cal-event" type="button" style="--c:${meta.color}" ${item.source==='manual'?`data-calendar-item="${item.id}"`:''} title="${esc(item.title)}">${esc(item.title)}</button>`}).join('')}${dayEvents.length>3?`<small class="calendar-more">+${dayEvents.length-3} más</small>`:''}</div>`);
     }
-    while(cells.length%7)cells.push('<div class="calendar-day is-outside"></div>');
+    while(cells.length<42)cells.push('<div class="calendar-day is-outside"></div>');
     return `<div class="calendar calendar-functional">${['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(name=>`<div class="day-name">${name}</div>`).join('')}${cells.join('')}</div>`;
   }
   function calendarOperationalRenderer() {
