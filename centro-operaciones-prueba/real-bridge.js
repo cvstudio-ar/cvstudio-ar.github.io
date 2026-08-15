@@ -90,6 +90,13 @@
     if(!response.ok||!data.ok)throw new Error(data.message||'No se pudo administrar el espacio.');
     return data;
   }
+  const canvaStatus=()=>api('canva-status');
+  const connectCanva=async()=>{
+    const result=await api('canva-oauth-start');
+    if(!result.authorizationUrl)throw new Error('Canva no devolvió una dirección de autorización.');
+    window.location.assign(result.authorizationUrl);
+    return result;
+  };
   function mergeByKey(existing, incoming, keyFn) {
     const map = new Map((existing || []).map(item => [keyFn(item), item]));
     for (const item of incoming || []) {
@@ -283,7 +290,7 @@
     return api('payments-admin-products-update',{products});
   }
 
-  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient};
+  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, connectCanva};
 
   function waitForStageReady(timeout = 8000) {
     if (window.CVStudioStageReady) return Promise.resolve();

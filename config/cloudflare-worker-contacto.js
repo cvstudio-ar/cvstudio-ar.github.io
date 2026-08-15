@@ -6,6 +6,8 @@
  *   RESEND_WEBHOOK_SECRET
  *   SUPABASE_SERVICE_ROLE_KEY
  *   MERCADOPAGO_ACCESS_TOKEN
+ *   CANVA_CLIENT_ID
+ *   CANVA_CLIENT_SECRET
  *
  * Recepción recomendada (sin tocar los MX de Cloudflare Email Routing):
  *   usar la dirección administrada por Resend: <codigo>@iokioalkuu.resend.app
@@ -19,11 +21,18 @@ const SUPABASE_URL = 'https://eqepkoegzyqklpxkrkhm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZXBrb2Vnenlxa2xweGtya2htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTc1MzcsImV4cCI6MjEwMDQzMzUzN30.dy-gMZJRMTQyr--kCq5JsEaDzazcDXFUkxQdiLQBFx8';
 const ADMIN_USER_ID = '3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
 const CONTACT_EMAIL = 'contacto@cvstudio.com.ar';
-const WORKER_RELEASE = 'v2.10.1-signatures-panel-only';
+const WORKER_RELEASE = 'v2.11.0-canva-oauth';
 const FORM_NOTIFICATION_EMAIL = 'cvstudioargentina@gmail.com';
 const getFormNotificationEmail = () => FORM_NOTIFICATION_EMAIL;
 const DEFAULT_RESEND_RECEIVING_DOMAIN = 'iokioalkuu.resend.app';
 const LOGO_URL = 'https://cvstudio.com.ar/assets/images/cvstudio-email-logo.png';
+const CANVA_REDIRECT_URI = 'https://cvstudio-contacto.cvpro-duccionesar.workers.dev/oauth/canva/callback';
+const CANVA_SCOPES = [
+  'asset:read','asset:write',
+  'brandtemplate:content:read','brandtemplate:meta:read',
+  'design:content:read','design:content:write','design:meta:read',
+  'folder:read','folder:write','profile:read'
+].join(' ');
 
 
 
@@ -131,12 +140,79 @@ const inboundAddress=(env,code)=>`${String(code||'consulta').toLowerCase().repla
 
 async function sendResend(env,payload){const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(payload)});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data?.message||`Resend devolvió ${response.status}`);return data}
 async function resendGet(env,path){const r=await fetch(`https://api.resend.com${path}`,{headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d?.message||`Resend devolvió ${r.status}`);return d?.data??d}
-async function verifyAdmin(request){const authorization=request.headers.get('Authorization')||'';if(!authorization.startsWith('Bearer '))return null;const response=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:SUPABASE_PUBLISHABLE_KEY,'Cache-Control':'no-store'}});if(!response.ok)return null;const user=await response.json().catch(()=>null);if(!user?.id)return null;const email=String(user.email||'').trim().toLowerCase();const role=String(user.user_metadata?.role||'').trim();return user.id===ADMIN_USER_ID||email==='pablexe@cvstudio.com.ar'||role==='Director'?user:null}
+async function verifyAdmin(request){const authorization=request.headers.get('Authorization')||'';if(!authorization.startsWith('Bearer '))return null;const response=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:SUPABASE_PUBLISHABLE_KEY,'Cache-Control':'no-store'}});if(!response.ok)return null;const user=await response.json().catch(()=>null);if(!user?.id)return null;const email=String(user.email||'').trim().toLowerCase();const role=String(user.app_metadata?.role||'').trim();return user.id===ADMIN_USER_ID||email==='pablexe@cvstudio.com.ar'||role==='Director'?user:null}
 async function verifyAuthenticatedUser(request){const authorization=request.headers.get('Authorization')||'';if(!authorization.startsWith('Bearer '))return null;const response=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:SUPABASE_PUBLISHABLE_KEY,'Cache-Control':'no-store'}});if(!response.ok)return null;const user=await response.json().catch(()=>null);return user?.id?user:null}
 
 function emailShell({eyebrow='CVStudio Argentina',title,body,requestCode='',button=true}){return `<!doctype html><html><body style="margin:0;background:#f3f6fb;padding:28px 12px;font-family:Arial,sans-serif;color:#172033"><table role="presentation" width="100%"><tr><td align="center"><table role="presentation" width="100%" style="max-width:650px;background:#fff;border-radius:18px;overflow:hidden"><tr><td style="background:#091225;padding:24px 30px;text-align:center"><img src="${LOGO_URL}" width="190" alt="CVStudio Argentina" style="display:block;margin:0 auto 15px"><div style="color:#ffd447;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">${escapeHtml(eyebrow)}</div><h1 style="margin:7px 0 0;color:#fff;font-size:25px">${escapeHtml(title)}</h1></td></tr><tr><td style="padding:30px;line-height:1.65;font-size:15px">${body}${requestCode?`<div style="margin:24px 0;padding:14px 16px;background:#fff8d8;border:1px solid #ffe27a;border-radius:11px"><small>Código de solicitud</small><br><strong>${escapeHtml(requestCode)}</strong></div>`:''}${button?`<p style="text-align:center"><a href="https://cvstudio.com.ar" style="display:inline-block;background:#ffd447;color:#111827;text-decoration:none;font-weight:800;padding:12px 21px;border-radius:999px">Visitar CVStudio</a></p>`:''}</td></tr><tr><td style="padding:18px 30px;background:#f8fafc;text-align:center;color:#667085;font-size:12px"><strong>CVStudio Argentina</strong><br><a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a> · cvstudio.com.ar</td></tr></table></td></tr></table></body></html>`}
 
 async function supabaseService(env,path,options={}){if(!env.SUPABASE_SERVICE_ROLE_KEY)throw new Error('Falta SUPABASE_SERVICE_ROLE_KEY');const r=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{...options,headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:`Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,'Content-Type':'application/json',Prefer:'return=representation',...(options.headers||{})}});const d=await r.json().catch(()=>null);if(!r.ok)throw new Error(d?.message||d?.hint||`Supabase devolvió ${r.status}`);return d}
+
+function randomBase64Url(byteLength=48){
+  const bytes=crypto.getRandomValues(new Uint8Array(byteLength));
+  return bytesToB64(bytes).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');
+}
+async function sha256Base64Url(value){
+  const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value));
+  return bytesToB64(new Uint8Array(hash)).replaceAll('+','-').replaceAll('/','_').replace(/=+$/,'');
+}
+function canvaConfigured(env){return Boolean(env.CANVA_CLIENT_ID&&env.CANVA_CLIENT_SECRET&&env.SUPABASE_SERVICE_ROLE_KEY)}
+async function canvaTokenRequest(env,params){
+  if(!env.CANVA_CLIENT_ID||!env.CANVA_CLIENT_SECRET)throw new Error('Faltan las credenciales privadas de Canva en Cloudflare.');
+  const response=await fetch('https://api.canva.com/rest/v1/oauth/token',{
+    method:'POST',
+    headers:{Authorization:`Basic ${btoa(`${env.CANVA_CLIENT_ID}:${env.CANVA_CLIENT_SECRET}`)}`,'Content-Type':'application/x-www-form-urlencoded'},
+    body:new URLSearchParams(params)
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data?.message||data?.error_description||data?.error||`Canva devolvió ${response.status}`);
+  return data;
+}
+async function saveCanvaTokens(env,userId,tokens){
+  const expiresIn=Math.max(60,Number(tokens.expires_in||3600));
+  const record={user_id:userId,access_token:tokens.access_token,refresh_token:tokens.refresh_token,token_type:tokens.token_type||'Bearer',scopes:Array.isArray(tokens.scope)?tokens.scope.join(' '):String(tokens.scope||CANVA_SCOPES),expires_at:new Date(Date.now()+expiresIn*1000).toISOString(),updated_at:new Date().toISOString()};
+  const rows=await supabaseService(env,'canva_integraciones?on_conflict=user_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify(record)});
+  return rows?.[0]||record;
+}
+async function getCanvaConnection(env,userId,{refresh=true}={}){
+  const rows=await supabaseService(env,`canva_integraciones?user_id=eq.${encodeURIComponent(userId)}&select=*&limit=1`);
+  let row=rows?.[0]||null;
+  if(row&&refresh&&new Date(row.expires_at).getTime()<=Date.now()+60000){
+    const tokens=await canvaTokenRequest(env,{grant_type:'refresh_token',refresh_token:row.refresh_token});
+    row=await saveCanvaTokens(env,userId,tokens);
+  }
+  return row;
+}
+async function handleCanvaOAuthStart(request,env,origin){
+  const admin=await verifyAdmin(request);if(!admin)return jsonResponse({ok:false,message:'Sesión administrativa inválida o vencida.'},401,origin);
+  if(!canvaConfigured(env))return jsonResponse({ok:false,message:'Primero configurá CANVA_CLIENT_ID y CANVA_CLIENT_SECRET en Cloudflare.'},503,origin);
+  const state=randomBase64Url(48),codeVerifier=randomBase64Url(72),codeChallenge=await sha256Base64Url(codeVerifier),now=Date.now();
+  await supabaseService(env,'canva_oauth_sessions',{method:'POST',body:JSON.stringify({state,code_verifier:codeVerifier,user_id:admin.id,redirect_uri:CANVA_REDIRECT_URI,created_at:new Date(now).toISOString(),expires_at:new Date(now+10*60*1000).toISOString()})});
+  const params=new URLSearchParams({code_challenge:codeChallenge,code_challenge_method:'S256',scope:CANVA_SCOPES,response_type:'code',client_id:env.CANVA_CLIENT_ID,state,redirect_uri:CANVA_REDIRECT_URI});
+  return jsonResponse({ok:true,authorizationUrl:`https://www.canva.com/api/oauth/authorize?${params}`},200,origin);
+}
+function canvaCallbackPage({ok,message}){
+  const color=ok?'#35d07f':'#ff6b7f',title=ok?'Canva quedó conectado':'No se pudo conectar Canva';
+  return new Response(`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} | CVStudio</title></head><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#07111f;color:#eef5ff;font-family:Inter,Arial,sans-serif"><main style="max-width:620px;margin:20px;padding:30px;border:1px solid #29405e;border-radius:18px;background:#10223a;text-align:center"><div style="width:58px;height:58px;margin:0 auto 16px;border-radius:50%;display:grid;place-items:center;background:${color};color:#07111f;font-size:30px;font-weight:900">${ok?'✓':'!'}</div><h1>${title}</h1><p style="color:#aec1d8;line-height:1.6">${escapeHtml(message)}</p><a href="https://cvstudio.com.ar/centro-operaciones-prueba/#integraciones" style="display:inline-block;margin-top:12px;padding:12px 18px;border-radius:10px;background:#ffd23f;color:#111827;text-decoration:none;font-weight:800">Volver al Centro de Operaciones</a></main></body></html>`,{status:ok?200:400,headers:{'Content-Type':'text/html; charset=UTF-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
+}
+async function handleCanvaOAuthCallback(request,env){
+  const url=new URL(request.url),error=url.searchParams.get('error'),code=url.searchParams.get('code'),state=url.searchParams.get('state');
+  if(error)return canvaCallbackPage({ok:false,message:`Canva canceló la autorización: ${url.searchParams.get('error_description')||error}`});
+  if(!code||!state)return canvaCallbackPage({ok:false,message:'La respuesta de Canva no contiene los datos de autorización necesarios.'});
+  try{
+    const rows=await supabaseService(env,`canva_oauth_sessions?state=eq.${encodeURIComponent(state)}&select=*&limit=1`),session=rows?.[0];
+    if(!session||new Date(session.expires_at).getTime()<=Date.now())throw new Error('La solicitud venció o no coincide. Iniciá la vinculación nuevamente desde CVStudio.');
+    await supabaseService(env,`canva_oauth_sessions?state=eq.${encodeURIComponent(state)}`,{method:'DELETE'});
+    const tokens=await canvaTokenRequest(env,{grant_type:'authorization_code',code,code_verifier:session.code_verifier,redirect_uri:session.redirect_uri});
+    await saveCanvaTokens(env,session.user_id,tokens);
+    return canvaCallbackPage({ok:true,message:'La cuenta fue autorizada correctamente. Ya podés regresar al panel y verificar la integración.'});
+  }catch(error){console.error('Canva OAuth callback',error);return canvaCallbackPage({ok:false,message:error.message})}
+}
+async function handleCanvaStatus(request,env,origin){
+  const admin=await verifyAdmin(request);if(!admin)return jsonResponse({ok:false,message:'Sesión administrativa inválida o vencida.'},401,origin);
+  if(!canvaConfigured(env))return jsonResponse({ok:true,configured:false,connected:false},200,origin);
+  try{const connection=await getCanvaConnection(env,admin.id);return jsonResponse({ok:true,configured:true,connected:Boolean(connection),expiresAt:connection?.expires_at||null},200,origin)}
+  catch(error){return jsonResponse({ok:false,configured:true,connected:false,message:error.message},502,origin)}
+}
 
 const SIGNATURE_BUCKET='firmas-clientes';
 async function signatureStorage(env,path,options={}){
@@ -587,7 +663,7 @@ async function handleWhatsAppAdminSend(request,env,origin,body){
 }
 export default {
 async scheduled(_event,env,ctx){ctx.waitUntil(deleteExpiredSignatures(env));},
-async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN)},200,origin);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}
+async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN),canvaConfigured:canvaConfigured(env)},200,origin);if(url.pathname==='/oauth/canva/callback'&&request.method==='GET')return handleCanvaOAuthCallback(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}
 if(body?.action==='signature-public-get')return handleSignaturePublicGet(env,origin,body);
 if(body?.action==='signature-public-submit')return handleSignaturePublicSubmit(env,origin,body);
 if(body?.action==='signature-admin-create')return handleSignatureAdminCreate(request,env,origin,body);
@@ -600,7 +676,10 @@ if(body?.action==='payments-admin-list')return handlePaymentsAdminList(request,e
 if(body?.action==='payments-admin-update')return handlePaymentsAdminUpdate(request,env,origin,body);
 if(body?.action==='payments-admin-products')return handlePaymentProductsAdmin(request,env,origin);
 if(body?.action==='payments-admin-products-update')return handlePaymentProductsBulkUpdate(request,env,origin,body);
-if(body?.action==='payments-admin-product-update')return handlePaymentProductUpdate(request,env,origin,body);if(!env.RESEND_API_KEY)return jsonResponse({ok:false,message:'Configuración incompleta.'},500,origin);
+if(body?.action==='payments-admin-product-update')return handlePaymentProductUpdate(request,env,origin,body);
+if(body?.action==='canva-oauth-start')return handleCanvaOAuthStart(request,env,origin);
+if(body?.action==='canva-status')return handleCanvaStatus(request,env,origin);
+if(!env.RESEND_API_KEY)return jsonResponse({ok:false,message:'Configuración incompleta.'},500,origin);
 if(body?.action==='siac-form-notification')return handleSiacFormNotification(env,origin,body);
 if(body?.action==='admin-reply')return handleAdminReply(request,env,origin,body);
 if(body?.action==='collaborator-admin-create')return handleCollaboratorAdminCreate(request,env,origin,body);

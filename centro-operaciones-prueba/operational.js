@@ -328,7 +328,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       {id:'portfolio',name:'Cloudflare',type:'Espacios de clientes',detail:real.portfoliosDetail||'Verificación disponible',status:real.portfolios||'checking',brand:'cloudflare'},
       {id:'facebook',name:'Facebook',type:'Campañas y página',detail:'Meta Marketing API pendiente',status:real.facebook||'pending',brand:'facebook',setup:'https://business.facebook.com/settings/'},
       {id:'instagram',name:'Instagram',type:'Cuenta profesional',detail:'Meta Business pendiente',status:real.instagram||'pending',brand:'instagram',setup:'https://business.facebook.com/settings/'},
-      {id:'canva',name:'Canva',type:'Diseño y plantillas',detail:'Enlaces de biblioteca disponibles',status:real.canva||'configured',brand:'canva',setup:'https://www.canva.com/settings/your-account'},
+      {id:'canva',name:'Canva',type:'Diseño y plantillas',detail:real.canvaDetail||'OAuth pendiente de vinculación',status:real.canva||'pending',brand:'canva'},
       {id:'mercadolibre',name:'Mercado Libre',type:'Marketplace',detail:'OAuth pendiente',status:real.mercadolibre||'pending',brand:'mercadolibre',setup:'https://developers.mercadolibre.com.ar/'},
       {id:'analytics',name:'Google Analytics 4',type:'Analítica web',detail:'Configuración del sitio',status:real.analytics||'configured',brand:'googleanalytics'},
       {id:'chatgpt',name:'ChatGPT',type:'Redacción asistida',detail:'API de OpenAI pendiente',status:real.chatgpt||'pending',brand:'openai',setup:'https://platform.openai.com/api-keys'},
@@ -346,7 +346,14 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(!db){integrationHealth={supabase:'error',storage:'error'};openModule('integraciones');return;}
     const [database,storage]=await Promise.all([db.from('cvstudio_ops_stage_meta').select('id').limit(1),db.storage.from(FILE_BUCKET).list('',{limit:1})]);
     integrationHealth={supabase:database.error?'error':'connected',storage:storage.error?'error':'connected'};
-    try{await window.CVStudioRealBridge?.loadReal?.();state=loadState();}catch(error){console.error('[CVStudio integrations]',error);}
+    try{
+      await window.CVStudioRealBridge?.loadReal?.();state=loadState();
+      const canva=await window.CVStudioRealBridge?.canvaStatus?.();
+      state._integrationStatus=state._integrationStatus||{};
+      state._integrationStatus.canva=canva?.connected?'connected':canva?.configured?'pending':'configured';
+      state._integrationStatus.canvaDetail=canva?.connected?'Cuenta y tokens verificados':canva?.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare';
+      saveState();
+    }catch(error){console.error('[CVStudio integrations]',error);}
     openModule('integraciones');toast(database.error||storage.error?'La verificación detectó puntos pendientes.':'Integraciones principales verificadas.');
   }
 
@@ -614,7 +621,21 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }
     if(id==='integraciones'){
       document.querySelector('[data-integrations-test]')?.addEventListener('click',testIntegrations);
-      document.querySelectorAll('[data-integration-test]').forEach(btn=>btn.onclick=async()=>{if(['supabase','storage','mercadopago','portfolio'].includes(btn.dataset.integrationTest))return testIntegrations();const item=integrationDefinitions().find(x=>x.id===btn.dataset.integrationTest),external=item.setup?`<a class="button primary" href="${esc(item.setup)}" target="_blank" rel="noopener">Abrir configuración oficial</a>`:'';openModal(`<div class="integration-modal-head"><span class="integration-brand">${brand(item.brand)}</span><div><h2 id="modalTitle">${esc(item.name)}</h2><small>${esc(item.type)}</small></div></div><div class="integration-test-note"><b>${integrationMeta(item.status)[0]}</b><span>${esc(item.detail)}</span></div><div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button>${external}</div>`);});
+      document.querySelectorAll('[data-integration-test]').forEach(btn=>btn.onclick=async()=>{
+        const id=btn.dataset.integrationTest;
+        if(['supabase','storage','mercadopago','portfolio'].includes(id))return testIntegrations();
+        if(id==='canva'){
+          btn.disabled=true;
+          try{
+            const status=await window.CVStudioRealBridge?.canvaStatus?.();
+            if(status?.connected){toast('Canva está conectado correctamente.');return testIntegrations();}
+            await window.CVStudioRealBridge?.connectCanva?.();
+          }catch(error){toast(error.message);btn.disabled=false;}
+          return;
+        }
+        const item=integrationDefinitions().find(x=>x.id===id),external=item.setup?`<a class="button primary" href="${esc(item.setup)}" target="_blank" rel="noopener">Abrir configuración oficial</a>`:'';
+        openModal(`<div class="integration-modal-head"><span class="integration-brand">${brand(item.brand)}</span><div><h2 id="modalTitle">${esc(item.name)}</h2><small>${esc(item.type)}</small></div></div><div class="integration-test-note"><b>${integrationMeta(item.status)[0]}</b><span>${esc(item.detail)}</span></div><div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button>${external}</div>`);
+      });
     }
     if(id==='generador-url') {
       const refreshSelection=(slug)=>{selectedUrlSpace=slug;openModule('generador-url');};
