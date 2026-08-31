@@ -7,6 +7,7 @@
   let evaluations = [];
   let templates = [];
   let loading = false;
+  let loaded = false;
   let loadError = '';
 
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
@@ -82,6 +83,7 @@
     }
     templates = templateResult.data || [];
     evaluations = evaluationResult.data || [];
+    loaded = true;
     if (window.openModule && document.getElementById('appMain')?.dataset.module === 'evaluaciones') window.openModule('evaluaciones');
   }
 
@@ -203,7 +205,7 @@
       notes:'Práctica previa a evaluación psicotécnica. Trabajar lógica, atención, concentración, velocidad y precisión.'
     }));
     bindRows();
-    if (!loading && !evaluations.length && !loadError) load();
+    if (!loading && !loaded && !loadError) load();
   }
 
   window.CVStudioEvaluations = {render,bind,load};
