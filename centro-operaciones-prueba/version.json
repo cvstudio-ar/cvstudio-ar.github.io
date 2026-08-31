@@ -1,6 +1,6 @@
 {
-  "version": "1.4.65",
-  "build": "20260815-campaign-status-brand-assets",
+  "version": "1.5.0",
+  "build": "20260831-interviews-v1",
   "releasedAt": "2026-08-15T18:20:00-03:00",
   "channel": "production",
   "name": "Campañas vigentes y marcas oficiales"

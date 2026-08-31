@@ -27,10 +27,22 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare public site
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '_site/' \
+            --exclude 'docs/migraciones/' \
+            --exclude '*.sql' \
+            --exclude '*.zip' \
+            ./ _site/
+
       - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: "."
+          path: "_site"
 
       - name: Deploy to GitHub Pages
         id: deployment

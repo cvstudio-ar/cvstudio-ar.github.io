@@ -55,6 +55,7 @@ window.CVStudioAccess={level:'Aprendiz',collaborator:null,ready:false,canModule(
 const modules = [
   ['inicio','home','Inicio','Resumen general de la actividad de CVStudio.'],
   ['clientes','users','Clientes','Gestioná consultas, formularios, pagos y trabajos desde una sola pantalla.'],
+  ['evaluaciones','check','Entrevistas y simulacros','Creá enlaces cronometrados, seguí intentos y analizá resultados.'],
   ['administracion','wallet','Administración','Controlá ingresos, fondos, precios, colaboradores y liquidaciones.'],
   ['marketing','megaphone','Marketing','Gestioná campañas, presupuesto y resultados en todos los canales.'],
   ['calendario','calendar','Calendario','Organizá campañas, entregas, cumpleaños y tareas del equipo.'],
@@ -193,6 +194,7 @@ const renderers={
 
  'generador-url'(){return `<section class="grid kpi-grid">${kpi('⌁','URLs activas','24','espacios publicados','#9b5de5')}${kpi('👁','Visitas este mes','3.482','↗ 26% vs mes anterior','#3b82f6')}${kpi('⬇','Descargas','816','archivos entregados','#35d07f')}${kpi('🔒','Espacios protegidos','18','con contraseña','#ffd23f')}${kpi('⚡','Disponibilidad','100%','operativo','#28c2d8')}</section><section class="grid url-grid"><section class="panel"><div class="panel-head"><div><h2>Espacios de clientes</h2><p>Creá, personalizá, activá y compartí cada URL.</p></div><button class="button primary" data-action="new-url">+ Generar nueva URL</button></div><div class="grid">${[['María Gómez','maria-gomez','Portfolio Clásico','Activo'],['Juana Pérez','juana-perez','LENS Fotografía','Activo'],['Laura Fernández','laura-fernandez','CV + LinkedIn','Activo'],['Rodrigo Sánchez','rodrigo-sanchez','TECH','Borrador']].map(x=>`<article class="url-card"><div style="display:flex;justify-content:space-between"><strong>${x[0]}</strong><span class="status" style="--c:${x[3]==='Activo'?'#35d07f':'#ffd23f'}">${x[3]}</span></div><span class="url-address">https://cvstudio.com.ar/${x[1]}</span><small style="color:var(--muted)">${x[2]} · creada 10/08/2026</small><div><button class="button secondary small" data-action="copy-url">Copiar</button> <button class="button secondary small" data-action="url-settings">Configurar</button></div></article>`).join('')}</div></section><section class="panel"><div class="panel-head"><div><h2>Configuración del espacio</h2><p>Vista previa funcional para la auditoría.</p></div></div><div style="height:270px;border-radius:14px;background:radial-gradient(circle at 50% 40%,rgba(155,93,229,.35),transparent 35%),linear-gradient(145deg,#101a2c,#050b13);border:1px solid var(--line);display:grid;place-items:center;text-align:center;padding:20px"><div><div class="brand-mark" style="margin:auto">CV</div><h2>María Gómez</h2><p style="color:var(--muted)">CV Profesional · Espacio privado</p><button class="button primary">Ver trabajo</button></div></div><div class="form-grid" style="margin-top:14px"><label>Plantilla<select><option>Portfolio Clásico</option><option>LENS</option><option>TECH</option></select></label><label>Color principal<input type="color" value="#9b5de5"></label><label>Contraseña<select><option>Opcional</option><option>Obligatoria</option></select></label><label>Permitir descargas<select><option>Sí</option><option>No</option></select></label></div><button class="button primary" style="width:100%;margin-top:14px" data-action="save-url">Guardar configuración</button></section></section>`},
 
+ evaluaciones(){return window.CVStudioEvaluations?window.CVStudioEvaluations.render():`<section class="panel"><h2>Entrevistas y simulacros</h2><p>Cargando módulo...</p></section>`},
  configuracion(){return window.CVStudioSettings?window.CVStudioSettings.render():`<section class="panel"><h2>Configuración</h2><p>Cargando módulo...</p></section>`}
 };
 
@@ -225,6 +227,7 @@ function bindModuleActions(id){
   document.querySelectorAll('input[data-fund]').forEach(i=>i.oninput=()=>document.getElementById(`${i.dataset.fund}Value`).textContent=`${i.value}%`);
   if(id==='configuracion')window.CVStudioSettings?.bind(document.getElementById('appMain'));
   if(id==='colaboradores')window.CVStudioCollaborators?.bind(document.getElementById('appMain'));
+  if(id==='evaluaciones')window.CVStudioEvaluations?.bind(document.getElementById('appMain'));
 }
 
 function handleAction(action,el){
