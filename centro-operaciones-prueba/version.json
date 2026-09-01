@@ -1,7 +1,7 @@
 {
-  "version": "1.7.0",
-  "build": "20260901-advanced-assessments",
-  "releasedAt": "2026-09-01T00:40:00Z",
+  "version": "1.7.1",
+  "build": "20260901-analysis-workflow",
+  "releasedAt": "2026-09-01T01:10:00Z",
   "channel": "production",
-  "name": "Evaluaciones avanzadas por competencias y sector"
+  "name": "Análisis y devolución profesional de simulacros"
 }

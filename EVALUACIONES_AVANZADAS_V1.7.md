@@ -22,6 +22,20 @@ Cada plantilla contiene un banco de 22 consignas y asigna 18 por intento. La sel
 
 El informe interno muestra resultado global, tiempo, dificultad percibida y puntaje por dimensión. Las consignas abiertas no se corrigen automáticamente.
 
+## Flujo profesional de devolución
+
+La versión 1.7.1 completa el ciclo posterior al envío:
+
+1. Revisión de cada respuesta abierta con valoración profesional de 0 a 3 y observación editable.
+2. Análisis sugerido de resultado, ritmo, fortalezas y dimensiones a reforzar.
+3. Ejercicios y preguntas de entrevista adaptados a las competencias de menor rendimiento.
+4. Devolución editable antes de marcar el intento como revisado.
+5. Copia del texto, informe imprimible o guardable como PDF y apertura de WhatsApp con un resumen prudente.
+6. Segundo intento con un banco diferente y vínculo con el proceso original.
+7. Comparación de porcentaje y tiempo entre intentos completados.
+
+El segundo intento solo puede generarse después de guardar la primera devolución como revisada. El sistema advierte si se intenta cerrar una revisión con respuestas abiertas todavía sin calificar.
+
 ## Criterios de diseño
 
 - Las opciones incorrectas evitan formulaciones absurdas o evidentemente negligentes siempre que el caso lo permite.
