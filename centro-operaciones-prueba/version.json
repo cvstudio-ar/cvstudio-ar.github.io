@@ -1,6 +1,6 @@
 {
-  "version": "1.5.1",
-  "build": "20260831-interviews-fix1",
+  "version": "1.6.0",
+  "build": "20260901-generic-tests",
   "releasedAt": "2026-08-15T18:20:00-03:00",
   "channel": "production",
   "name": "Campañas vigentes y marcas oficiales"

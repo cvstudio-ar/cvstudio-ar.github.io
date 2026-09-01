@@ -39,17 +39,19 @@
       ${kpi('eye','Revisados',values.reviewed,'con devolución','#28c2d8')}
     </section>
     <section class="panel evaluation-center">
-      <div class="panel-head evaluation-head"><div><h2>Entrevistas y simulacros</h2><p>Generá un enlace individual, controlá el tiempo y revisá cada respuesta.</p></div><div class="evaluation-head-actions"><button class="button secondary" data-evaluation-federico>+ Federico · lógico</button><button class="button primary" data-evaluation-new>+ Nuevo simulacro</button></div></div>
+      <div class="panel-head evaluation-head"><div><h2>Entrevistas y simulacros</h2><p>Elegí una plantilla, generá un enlace individual y revisá los resultados.</p></div><div class="evaluation-head-actions"><button class="button primary" data-evaluation-new>+ Generar enlace</button></div></div>
       <div class="evaluation-notice"><strong>Uso orientativo</strong><span>Este módulo prepara al cliente para una instancia laboral. No emite diagnósticos psicológicos ni reemplaza una evaluación profesional.</span></div>
       <div id="evaluationContent">${content()}</div>
     </section>`;
   }
 
   function content() {
-    if (loading) return '<div class="empty-state"><strong>Cargando simulacros…</strong><span>Consultando datos seguros en Supabase.</span></div>';
-    if (loadError) return `<div class="empty-state evaluation-error"><strong>Falta activar la base de simulacros</strong><span>${esc(loadError)}</span><button class="button primary" data-evaluation-retry>Reintentar</button></div>`;
-    if (!evaluations.length) return '<div class="empty-state"><strong>Todavía no hay simulacros</strong><span>Creá el primero o usá el acceso rápido preparado para Federico.</span></div>';
-    return `<div class="evaluation-table-wrap"><table class="data-table evaluation-table"><thead><tr><th>Cliente</th><th>Objetivo</th><th>Plantilla</th><th>Estado</th><th>Resultado</th><th>Tiempo</th><th>Vence</th><th></th></tr></thead><tbody>${evaluations.map(row => {
+    if (loading) return '<div class="empty-state"><strong>Cargando plantillas y simulacros…</strong><span>Consultando datos seguros en Supabase.</span></div>';
+    if (loadError) return `<div class="empty-state evaluation-error"><strong>No pudimos leer las plantillas</strong><span>${esc(loadError)}</span><button class="button primary" data-evaluation-retry>Reintentar</button></div>`;
+    const catalog = `<section class="evaluation-template-section"><div class="evaluation-section-title"><div><h3>Plantillas disponibles</h3><p>Seleccioná el test que mejor se adapte al puesto o a la instancia de evaluación.</p></div><span>${templates.length} activas</span></div><div class="evaluation-template-grid">${templates.map(template => `<article class="evaluation-template-card"><div class="evaluation-template-top"><span>${esc(template.tipo)}</span><b>${template.duracion_minutos} min</b></div><h3>${esc(template.titulo)}</h3><p>${esc(template.descripcion || 'Simulacro de preparación laboral.')}</p><small>${Array.isArray(template.preguntas) ? template.preguntas.length : 0} preguntas · corrección automática</small><button class="button primary small" data-template-use="${template.id}">Usar esta plantilla</button></article>`).join('') || '<div class="empty-state"><strong>No hay plantillas disponibles</strong><span>Verificá los permisos o activá al menos una plantilla.</span></div>'}</div></section>`;
+    const historyTitle = `<div class="evaluation-section-title evaluation-history-title"><div><h3>Simulacros generados</h3><p>Seguimiento de enlaces, intentos y devoluciones.</p></div></div>`;
+    if (!evaluations.length) return `${catalog}${historyTitle}<div class="empty-state evaluation-empty-history"><strong>Todavía no generaste ningún enlace</strong><span>Elegí una plantilla y completá los datos del cliente para comenzar.</span></div>`;
+    return `${catalog}${historyTitle}<div class="evaluation-table-wrap"><table class="data-table evaluation-table"><thead><tr><th>Cliente</th><th>Objetivo</th><th>Plantilla</th><th>Estado</th><th>Resultado</th><th>Tiempo</th><th>Vence</th><th></th></tr></thead><tbody>${evaluations.map(row => {
       const template = row.plantillas_evaluacion || {};
       const result = row.puntaje_total == null ? '—' : `${row.puntaje_total}/${row.total_preguntas}`;
       return `<tr><td><b>${esc(row.cliente_nombre)}</b><small>${esc(row.cliente_whatsapp || row.cliente_email || '')}</small></td><td>${esc(row.puesto_objetivo || 'General')}</td><td>${esc(template.titulo || 'Personalizada')}</td><td><span class="status" style="--c:${statusColor(row.estado)}">${esc(row.estado)}</span></td><td><b>${result}</b></td><td>${formatTime(row.tiempo_segundos)}</td><td>${formatDate(row.vence_en)}</td><td><div class="evaluation-actions"><button class="button secondary small" data-evaluation-copy="${row.id}">Copiar enlace</button><button class="button primary small" data-evaluation-view="${row.id}">Ver</button></div></td></tr>`;
@@ -69,14 +71,14 @@
     loadError = '';
     refreshContent();
     const [templateResult, evaluationResult] = await Promise.all([
-      db.from(TEMPLATE_TABLE).select('id,slug,titulo,tipo,duracion_minutos,preguntas,activa').eq('activa',true).order('titulo'),
+      db.from(TEMPLATE_TABLE).select('id,slug,titulo,tipo,descripcion,duracion_minutos,preguntas,activa').eq('activa',true).order('titulo'),
       db.from(TABLE).select('*,plantillas_evaluacion(titulo,tipo,duracion_minutos,preguntas)').order('creado_en',{ascending:false})
     ]);
     loading = false;
     if (templateResult.error || evaluationResult.error) {
       const error = templateResult.error || evaluationResult.error;
       loadError = /does not exist|schema cache|PGRST/i.test(error.message || '')
-        ? 'Ejecutá primero docs/migraciones/SUPABASE_ENTREVISTAS_SIMULACROS.sql en el editor SQL de Supabase.'
+        ? 'La base del módulo todavía no está disponible en Supabase.'
         : error.message;
       refreshContent();
       return;
@@ -97,16 +99,16 @@
 
   function openCreate(prefill = {}) {
     if (!templates.length) {
-      window.toast?.('Primero activá la migración y volvé a cargar el módulo.');
+      window.toast?.('No hay plantillas disponibles para generar el enlace.');
       return;
     }
-    const selectedSlug = prefill.template || 'logica-atencion-calidad-20';
-    window.openModal(`<h2 id="modalTitle">Nuevo simulacro</h2><p style="color:var(--muted)">El enlace será único y el tiempo empezará cuando el cliente presione “Comenzar”.</p><form id="evaluationCreateForm" class="form-grid">
+    const selectedTemplate = prefill.template || templates[0]?.id;
+    window.openModal(`<h2 id="modalTitle">Generar enlace de simulacro</h2><p style="color:var(--muted)">El enlace será único y el tiempo empezará cuando el cliente presione “Comenzar”.</p><form id="evaluationCreateForm" class="form-grid">
       <label>Nombre y apellido<input name="name" value="${esc(prefill.name || '')}" required autocomplete="off"></label>
       <label>Puesto objetivo<input name="role" value="${esc(prefill.role || '')}" required autocomplete="off"></label>
       <label>WhatsApp<input name="whatsapp" value="${esc(prefill.whatsapp || '')}" placeholder="+54 9 …" autocomplete="off"></label>
       <label>Correo<input name="email" type="email" value="${esc(prefill.email || '')}" autocomplete="off"></label>
-      <label>Plantilla<select name="template">${templates.map(item => `<option value="${item.id}" ${item.slug === selectedSlug ? 'selected' : ''}>${esc(item.titulo)} · ${item.duracion_minutos} min</option>`).join('')}</select></label>
+      <label>Plantilla<select name="template">${templates.map(item => `<option value="${item.id}" ${item.id === selectedTemplate || item.slug === selectedTemplate ? 'selected' : ''}>${esc(item.titulo)} · ${item.duracion_minutos} min</option>`).join('')}</select></label>
       <label>Vencimiento<input name="expires" type="datetime-local" value="${localDateTime(1,15)}" required></label>
       <label class="span-2">Notas internas<textarea name="notes" rows="3" placeholder="Contexto de la entrevista, empresa o aspectos a observar…">${esc(prefill.notes || '')}</textarea></label>
       <div class="modal-actions span-2"><button type="button" class="button secondary" data-close-modal>Cancelar</button><button type="submit" class="button primary">Crear y obtener enlace</button></div>
@@ -186,6 +188,7 @@
 
   function bindRows() {
     document.querySelector('[data-evaluation-retry]')?.addEventListener('click',load);
+    document.querySelectorAll('[data-template-use]').forEach(button => button.onclick = () => openCreate({template:button.dataset.templateUse}));
     document.querySelectorAll('[data-evaluation-copy]').forEach(button => button.onclick = () => {
       const row = evaluations.find(item => item.id === button.dataset.evaluationCopy);
       if (row) copy(linkFor(row),'Enlace copiado.');
@@ -198,12 +201,6 @@
 
   function bind() {
     document.querySelector('[data-evaluation-new]')?.addEventListener('click',() => openCreate());
-    document.querySelector('[data-evaluation-federico]')?.addEventListener('click',() => openCreate({
-      name:'Federico Aguirre',
-      role:'Calidad y producción',
-      template:'logica-atencion-calidad-20',
-      notes:'Práctica previa a evaluación psicotécnica. Trabajar lógica, atención, concentración, velocidad y precisión.'
-    }));
     bindRows();
     if (!loading && !loaded && !loadError) load();
   }

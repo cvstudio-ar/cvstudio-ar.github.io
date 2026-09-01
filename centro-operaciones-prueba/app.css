@@ -824,6 +824,12 @@
 .evaluation-notice{display:flex;gap:12px;padding:13px 15px;border:1px solid rgba(255,210,77,.2);background:rgba(255,210,77,.06);border-radius:12px;margin-bottom:16px}
 .evaluation-notice strong{color:#ffe58a;white-space:nowrap}.evaluation-notice span{color:var(--muted)}
 .evaluation-table-wrap{overflow:auto}.evaluation-table{min-width:980px}.evaluation-table td small{display:block;color:var(--muted);margin-top:4px}
+.evaluation-template-section{margin:18px 0 26px}.evaluation-section-title{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 13px}
+.evaluation-section-title h3{margin:0;font-size:16px}.evaluation-section-title p{margin:4px 0 0;color:var(--muted);font-size:11px}.evaluation-section-title>span{padding:5px 9px;border:1px solid var(--line);border-radius:999px;color:#9fc0e8;font-size:10px;font-weight:800}
+.evaluation-template-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.evaluation-template-card{display:flex;flex-direction:column;min-height:184px;padding:16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(155deg,rgba(25,41,66,.88),rgba(12,24,41,.94))}
+.evaluation-template-card h3{font-size:14px;line-height:1.35;margin:13px 0 7px}.evaluation-template-card p{color:var(--muted);font-size:10px;line-height:1.5;margin:0 0 8px}.evaluation-template-card>small{display:block;color:#87a4c8;font-size:9px;margin-bottom:14px}.evaluation-template-card .button{margin-top:auto;width:100%}
+.evaluation-template-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.evaluation-template-top span{color:#c7a7ff;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.evaluation-template-top b{color:#ffe37a;font-size:10px}
+.evaluation-history-title{padding-top:18px;border-top:1px solid var(--line)}.evaluation-empty-history{min-height:145px!important}
 .evaluation-center .empty-state{min-height:220px}.evaluation-error{border:1px dashed rgba(255,93,115,.35);border-radius:14px}
 .evaluation-share{display:grid;gap:13px}.evaluation-share label{display:grid;gap:6px;color:var(--muted);font-weight:700}
 .evaluation-share input,.evaluation-share textarea{width:100%;padding:12px;background:#0c1524;border:1px solid var(--line);border-radius:10px;color:#fff}
@@ -836,5 +842,6 @@
 .evaluation-answer>span{display:grid;place-items:center;width:27px;height:27px;border-radius:8px;background:#253149;font-weight:800}
 .evaluation-answer small{display:block;color:var(--muted);margin-top:4px}.evaluation-answer.is-correct{border-color:rgba(53,208,127,.35)}
 .evaluation-answer.is-wrong{border-color:rgba(255,93,115,.35)}
+@media(max-width:1100px){.evaluation-template-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:850px){.evaluation-head-actions{width:100%}.evaluation-head-actions .button{flex:1}.evaluation-detail-summary,.evaluation-self-report{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.evaluation-notice{display:grid}.evaluation-detail-summary,.evaluation-self-report{grid-template-columns:1fr}}
+@media(max-width:600px){.evaluation-notice{display:grid}.evaluation-template-grid{grid-template-columns:1fr}.evaluation-detail-summary,.evaluation-self-report{grid-template-columns:1fr}}
