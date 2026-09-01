@@ -1,7 +1,7 @@
 {
-  "version": "1.7.1",
-  "build": "20260901-analysis-workflow",
-  "releasedAt": "2026-09-01T01:10:00Z",
+  "version": "1.8.0",
+  "build": "20260901-sectorial-banks-v4",
+  "releasedAt": "2026-09-01T04:00:00Z",
   "channel": "production",
-  "name": "Análisis y devolución profesional de simulacros"
+  "name": "Bancos de evaluaciones totalmente sectoriales"
 }
