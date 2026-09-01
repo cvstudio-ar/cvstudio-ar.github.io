@@ -48,12 +48,12 @@
   function content() {
     if (loading) return '<div class="empty-state"><strong>Cargando plantillas y simulacros…</strong><span>Consultando datos seguros en Supabase.</span></div>';
     if (loadError) return `<div class="empty-state evaluation-error"><strong>No pudimos leer las plantillas</strong><span>${esc(loadError)}</span><button class="button primary" data-evaluation-retry>Reintentar</button></div>`;
-    const catalog = `<section class="evaluation-template-section"><div class="evaluation-section-title"><div><h3>Plantillas disponibles</h3><p>Seleccioná el test que mejor se adapte al puesto o a la instancia de evaluación.</p></div><span>${templates.length} activas</span></div><div class="evaluation-template-grid">${templates.map(template => `<article class="evaluation-template-card"><div class="evaluation-template-top"><span>${esc(template.tipo)}</span><b>${template.duracion_minutos} min</b></div><h3>${esc(template.titulo)}</h3><p>${esc(template.descripcion || 'Simulacro de preparación laboral.')}</p><small>${Array.isArray(template.preguntas) ? template.preguntas.length : 0} preguntas · corrección automática</small><button class="button primary small" data-template-use="${template.id}">Usar esta plantilla</button></article>`).join('') || '<div class="empty-state"><strong>No hay plantillas disponibles</strong><span>Verificá los permisos o activá al menos una plantilla.</span></div>'}</div></section>`;
+    const catalog = `<section class="evaluation-template-section"><div class="evaluation-section-title"><div><h3>Biblioteca de evaluaciones avanzadas</h3><p>Cada perfil combina razonamiento, precisión, casos situacionales y entrevista estructurada.</p></div><span>${templates.length} perfiles activos</span></div><div class="evaluation-catalog-tools"><input type="search" data-template-search placeholder="Buscar por sector, puesto o competencia…" aria-label="Buscar una evaluación"></div><div class="evaluation-template-grid">${templates.map(template => `<article class="evaluation-template-card" data-template-card data-search="${esc([template.sector,template.tipo,template.titulo,template.descripcion,...(template.competencias || [])].join(' ').toLowerCase())}"><div class="evaluation-template-top"><span>${esc(template.sector || template.tipo)}</span><b>${template.duracion_minutos} min</b></div><h3>${esc(template.titulo)}</h3><p>${esc(template.descripcion || 'Simulacro de preparación laboral.')}</p><small>${esc(template.nivel || 'Intermedio')} · banco ${Array.isArray(template.preguntas) ? template.preguntas.length : 0} · intento ${template.cantidad_preguntas || template.preguntas?.length || 0}</small><button class="button primary small" data-template-use="${template.id}">Generar evaluación</button></article>`).join('') || '<div class="empty-state"><strong>No hay plantillas disponibles</strong><span>Verificá los permisos o activá al menos una plantilla.</span></div>'}</div></section>`;
     const historyTitle = `<div class="evaluation-section-title evaluation-history-title"><div><h3>Simulacros generados</h3><p>Seguimiento de enlaces, intentos y devoluciones.</p></div></div>`;
     if (!evaluations.length) return `${catalog}${historyTitle}<div class="empty-state evaluation-empty-history"><strong>Todavía no generaste ningún enlace</strong><span>Elegí una plantilla y completá los datos del cliente para comenzar.</span></div>`;
     return `${catalog}${historyTitle}<div class="evaluation-table-wrap"><table class="data-table evaluation-table"><thead><tr><th>Cliente</th><th>Objetivo</th><th>Plantilla</th><th>Estado</th><th>Resultado</th><th>Tiempo</th><th>Vence</th><th></th></tr></thead><tbody>${evaluations.map(row => {
       const template = row.plantillas_evaluacion || {};
-      const result = row.puntaje_total == null ? '—' : `${row.puntaje_total}/${row.total_preguntas}`;
+      const result = row.puntaje_total == null ? 'Cualitativo' : `${row.puntaje_total}/${row.puntaje_maximo || row.total_preguntas}`;
       return `<tr><td><b>${esc(row.cliente_nombre)}</b><small>${esc(row.cliente_whatsapp || row.cliente_email || '')}</small></td><td>${esc(row.puesto_objetivo || 'General')}</td><td>${esc(template.titulo || 'Personalizada')}</td><td><span class="status" style="--c:${statusColor(row.estado)}">${esc(row.estado)}</span></td><td><b>${result}</b></td><td>${formatTime(row.tiempo_segundos)}</td><td>${formatDate(row.vence_en)}</td><td><div class="evaluation-actions"><button class="button secondary small" data-evaluation-copy="${row.id}">Copiar enlace</button><button class="button primary small" data-evaluation-view="${row.id}">Ver</button></div></td></tr>`;
     }).join('')}</tbody></table></div>`;
   }
@@ -71,7 +71,7 @@
     loadError = '';
     refreshContent();
     const [templateResult, evaluationResult] = await Promise.all([
-      db.from(TEMPLATE_TABLE).select('id,slug,titulo,tipo,descripcion,duracion_minutos,preguntas,activa').eq('activa',true).order('titulo'),
+      db.from(TEMPLATE_TABLE).select('id,slug,titulo,tipo,descripcion,sector,nivel,duracion_minutos,cantidad_preguntas,competencias,version_contenido,preguntas,activa').eq('activa',true).order('sector').order('titulo'),
       db.from(TABLE).select('*,plantillas_evaluacion(titulo,tipo,duracion_minutos,preguntas)').order('creado_en',{ascending:false})
     ]);
     loading = false;
@@ -128,6 +128,7 @@
         puesto_objetivo: String(data.get('role')).trim(),
         plantilla_id: data.get('template'),
         duracion_minutos: template?.duracion_minutos || 25,
+        cantidad_preguntas: template?.cantidad_preguntas || template?.preguntas?.length || 15,
         vence_en: new Date(data.get('expires')).toISOString(),
         notas_internas: String(data.get('notes')).trim() || null
       };
@@ -160,17 +161,26 @@
 
   function showDetail(row) {
     const template = row.plantillas_evaluacion || {};
-    const questions = Array.isArray(template.preguntas) ? template.preguntas : [];
+    const questions = Array.isArray(row.preguntas_asignadas) && row.preguntas_asignadas.length ? row.preguntas_asignadas : (Array.isArray(template.preguntas) ? template.preguntas : []);
     const answers = row.respuestas || {};
     const details = questions.map((question,index) => {
       const answer = answers[question.id];
+      if(question.type === 'text') return `<div class="evaluation-answer is-open"><span>${index + 1}</span><div><strong>${esc(question.text)}</strong><small>${answer ? esc(answer) : 'Sin responder'}</small></div></div>`;
       const option = (question.options || []).find(item => item.value === answer);
-      const correct = answer && answer === question.correct;
-      return `<div class="evaluation-answer ${answer ? (correct ? 'is-correct' : 'is-wrong') : 'is-empty'}"><span>${index + 1}</span><div><strong>${esc(question.text)}</strong><small>Respuesta: ${esc(option?.label || 'Sin responder')}</small>${answer && !correct ? `<small>Correcta: ${esc((question.options || []).find(item => item.value === question.correct)?.label || question.correct)}</small>` : ''}</div></div>`;
+      const hasGradualScore = (question.options || []).some(item => item.score != null);
+      const maxOptionScore = Math.max(0,...(question.options || []).map(item => Number(item.score || 0)));
+      const selectedScore = Number(option?.score || 0);
+      const correct = answer && (hasGradualScore ? selectedScore === maxOptionScore : answer === question.correct);
+      const quality = !answer ? 'is-empty' : correct ? 'is-correct' : selectedScore > 0 ? 'is-partial' : 'is-wrong';
+      const note = hasGradualScore ? `Valor de la respuesta: ${selectedScore}/${maxOptionScore}` : (answer && !correct ? `Correcta: ${(question.options || []).find(item => item.value === question.correct)?.label || question.correct}` : 'Respuesta objetiva correcta');
+      return `<div class="evaluation-answer ${quality}"><span>${index + 1}</span><div><strong>${esc(question.text)}</strong><small>Respuesta: ${esc(option?.label || 'Sin responder')}</small>${answer ? `<small>${esc(note)}</small>` : ''}</div></div>`;
     }).join('');
-    const score = row.puntaje_total == null ? 'Aún no disponible' : `${row.puntaje_total} de ${row.total_preguntas} (${Math.round((row.puntaje_total / Math.max(row.total_preguntas,1))*100)}%)`;
+    const maxScore = row.puntaje_maximo || row.total_preguntas || 0;
+    const score = row.puntaje_total == null ? 'Revisión cualitativa' : `${row.puntaje_total} de ${maxScore} (${Math.round((row.puntaje_total / Math.max(maxScore,1))*100)}%)`;
+    const dimensions = Object.entries(row.puntaje_detalle || {}).map(([name,value]) => {const percent=Math.round((Number(value.obtenido||0)/Math.max(Number(value.maximo||0),1))*100);return `<div class="evaluation-dimension"><span><b>${esc(name)}</b><strong>${percent}%</strong></span><i><em style="width:${percent}%"></em></i><small>${value.obtenido}/${value.maximo} puntos</small></div>`;}).join('');
     window.openModal(`<h2 id="modalTitle">${esc(row.cliente_nombre)}</h2><div class="evaluation-detail-summary"><div><small>Estado</small><strong>${esc(row.estado)}</strong></div><div><small>Resultado</small><strong>${score}</strong></div><div><small>Tiempo</small><strong>${formatTime(row.tiempo_segundos)}</strong></div><div><small>Finalizado</small><strong>${formatDate(row.finalizado_en)}</strong></div></div>
       <div class="evaluation-self-report"><span><b>Dificultad</b>${esc(row.dificultad_percibida || '—')}</span><span><b>Ansiedad</b>${esc(row.ansiedad_percibida || '—')}</span><span><b>Comentario</b>${esc(row.comentario_participante || '—')}</span></div>
+      ${dimensions ? `<div class="evaluation-dimensions">${dimensions}</div>` : ''}
       <div class="evaluation-answer-list">${details || '<p>Todavía no hay respuestas.</p>'}</div>
       <form id="evaluationReviewForm" class="form-grid"><label class="span-2">Devolución interna<textarea name="feedback" rows="4" placeholder="Fortalezas, puntos a reforzar y recomendaciones…">${esc(row.devolucion || '')}</textarea></label><div class="modal-actions span-2"><button type="button" class="button secondary" data-evaluation-detail-copy>Copiar enlace</button><button type="submit" class="button primary">Guardar como revisado</button></div></form>`);
     document.querySelector('[data-evaluation-detail-copy]').onclick = () => copy(linkFor(row),'Enlace copiado.');
@@ -188,6 +198,10 @@
 
   function bindRows() {
     document.querySelector('[data-evaluation-retry]')?.addEventListener('click',load);
+    document.querySelector('[data-template-search]')?.addEventListener('input',event => {
+      const query = event.target.value.trim().toLowerCase();
+      document.querySelectorAll('[data-template-card]').forEach(card => { card.hidden = query && !card.dataset.search.includes(query); });
+    });
     document.querySelectorAll('[data-template-use]').forEach(button => button.onclick = () => openCreate({template:button.dataset.templateUse}));
     document.querySelectorAll('[data-evaluation-copy]').forEach(button => button.onclick = () => {
       const row = evaluations.find(item => item.id === button.dataset.evaluationCopy);
