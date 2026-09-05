@@ -757,8 +757,8 @@
     'cv-profesional': {
       title: 'Actualización de CV Profesional',
       productId: 'cv-profesional',
-      amount: 12000,
-      price: '$12.000',
+      amount: 11500,
+      price: '$11.500',
       intro: 'Transformamos tu currículum en una herramienta profesional, moderna y optimizada para procesos de selección.',
       includes: ['Diseño moderno y profesional.', 'Redacción optimizada.', 'Estructura clara y organizada.', 'Adaptación para sistemas ATS.', 'Optimización del perfil profesional.', 'Corrección ortográfica y de estilo.', 'Formato PDF listo para enviar.'],
       ideal: ['Personas que buscan trabajo.', 'Cambiar de empleo.', 'Actualizar un CV antiguo.', 'Primer empleo.', 'Profesionales.'],

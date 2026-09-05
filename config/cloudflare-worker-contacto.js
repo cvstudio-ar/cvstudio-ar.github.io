@@ -38,7 +38,7 @@ const CANVA_SCOPES = [
 
 // === Mercado Pago · Checkout Pro + pedidos ===
 const MP_PRODUCT_DEFAULTS = Object.freeze({
-  'cv-profesional': { title: 'CV Profesional', unit_price: 12000, sort_order: 10 },
+  'cv-profesional': { title: 'CV Profesional', unit_price: 11500, sort_order: 10 },
   'cv-freelance': { title: 'CV Freelance Profesional', unit_price: 16000, sort_order: 20 },
   'linkedin': { title: 'Perfil Profesional de LinkedIn', unit_price: 19000, sort_order: 30 },
   'combo-2-cv': { title: 'Combo 2 CV Profesionales', unit_price: 20000, sort_order: 40 },

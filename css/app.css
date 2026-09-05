@@ -7315,6 +7315,13 @@ z-index:2;
 
 /* Navegación y FAQ */
 .navigation a{padding-block:8px}
+
+/* Acceso al catálogo público de modelos de CV */
+.services-catalog-cta{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:34px;align-items:center;margin-top:28px;border:1px solid var(--cv-border-yellow);border-radius:var(--cv-radius-lg);padding:30px;background:linear-gradient(135deg,rgba(245,184,0,.09),rgba(124,108,255,.11));box-shadow:var(--cv-shadow-card)}
+.services-catalog-cta h3{margin:8px 0 6px;font-family:"Manrope",sans-serif;font-size:clamp(24px,3vw,34px);line-height:1.16}
+.services-catalog-cta p{max-width:690px;color:var(--text-soft)}
+.services-catalog-cta .button{white-space:nowrap}
+@media(max-width:780px){.services-catalog-cta{grid-template-columns:1fr;padding:24px}.services-catalog-cta .button{width:100%;white-space:normal;text-align:center}}
 .faq-question{min-height:64px}
 .faq-icon{flex:0 0 auto}
 
