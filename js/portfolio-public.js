@@ -7,7 +7,10 @@
   if(reserved.has(slug)) return unavailable('Página no encontrada','La dirección solicitada no existe.');
   fetch(`${window.CVSTUDIO_PORTFOLIO_WORKER_URL}/api/public/portfolio?slug=${encodeURIComponent(slug)}`)
     .then(async r=>{const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.message);return d.portfolio;})
-    .then(render).catch(e=>{console.error(e);unavailable('Portfolio no disponible','Esta página todavía no fue publicada o la dirección no es correcta.');});
+    .then(portfolio=>{
+      if(new URLSearchParams(location.search).has('slug')) history.replaceState(null,'',`/${encodeURIComponent(slug)}`+location.hash);
+      render(portfolio);
+    }).catch(e=>{console.error(e);unavailable('Portfolio no disponible','Esta página todavía no fue publicada o la dirección no es correcta.');});
   function unavailable(t,x){root.innerHTML=`<div class="public-empty"><h1>${esc(t)}</h1><p>${esc(x)}</p><a class="button" href="/">Volver a CVStudio</a></div>`;}
   function safeUrl(v){try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return''}}
   function slides(project){const out=[];if(project?.cover_url)out.push(project.cover_url);if(Array.isArray(project?.media))project.media.forEach(i=>{const u=typeof i==='string'?i:(i?.url||i?.publicUrl||i?.src||'');if(u&&!out.includes(u))out.push(u)});return out.filter(Boolean)}
@@ -15,11 +18,17 @@
   function normalizeSection(project,index){const raw=String(project?.category||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'-');if(['sobre-mi','servicios','proyecto','experiencia'].includes(raw))return raw;return sectionDefs[index%4][0]}
   const icons={home:'<svg viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v11h14V10M9 21v-7h6v7"/></svg>',phone:'<svg viewBox="0 0 24 24"><path d="M7.2 3.5 10 8l-2 2.2c1.3 2.6 3.4 4.7 6 6l2.2-2 4.3 2.8c.5.3.7.9.5 1.4-.7 1.8-2.5 3-4.4 2.8C9.5 20.4 3.6 14.5 2.8 7.4 2.6 5.5 3.8 3.7 5.6 3c.6-.2 1.2 0 1.6.5Z"/></svg>',user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4.5 21c.5-5 3-7.5 7.5-7.5S19 16 19.5 21"/></svg>',briefcase:'<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg>',folder:'<svg viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',star:'<svg viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"/></svg>',prev:'<svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>',next:'<svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>',play:'<svg viewBox="0 0 24 24"><path class="fill" d="m8 5 11 7-11 7z"/></svg>',pause:'<svg viewBox="0 0 24 24"><path class="fill" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>',volume:'<svg viewBox="0 0 24 24"><path d="M5 10v4h4l5 4V6L9 10zM17 9c1.3 1.6 1.3 4.4 0 6M19 7c2.7 2.8 2.7 7.2 0 10"/></svg>',expand:'<svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>'};
   function render(p){
+    if(slug==='isabella-hogar-deco' && typeof window.renderIsabellaCatalog==='function') return window.renderIsabellaCatalog(p,{root,esc,safeUrl,icons});
     if(slug==='julieta-ferrari' && typeof window.renderJulietaPortfolio==='function') return window.renderJulietaPortfolio(p,{root,esc,safeUrl,icons});
     if(slug==='beauty-nails-by-eliana' && typeof window.renderElianaPortfolio==='function') return window.renderElianaPortfolio(p,{root,esc,safeUrl,icons});
     const settings=p.settings||{},colors=Array.isArray(settings.colors)?settings.colors:['#ff4b55','#050506','#f5f5f5'];
     const projects=(p.projects||[]).filter(x=>x.is_visible!==false);
-    if(!projects.length)return unavailable('Portfolio sin contenido','Todavía no hay imágenes publicadas.');
+    if(!projects.length){
+      const publicName=p.full_name||p.brand_name||'Mi marca',brand=esc(publicName),isCatalog=settings.portalMode==='catalog',whatsapp=String(p.whatsapp||'').replace(/\D/g,''),waText=encodeURIComponent(`Hola, vi el espacio de ${publicName} y quisiera realizar una consulta.`);
+      document.title=`${publicName} · ${isCatalog?'Catálogo':'Portfolio'}`;
+      root.innerHTML=`<div class="public-empty"><span class="eyebrow">${esc(p.business_type||'Espacio profesional')}</span><h1>${brand}</h1><p>${isCatalog?'El catálogo está publicado y en preparación. Próximamente vas a encontrar aquí sus productos.':'El portfolio está publicado y en preparación. Próximamente vas a encontrar aquí sus trabajos.'}</p>${whatsapp?`<a class="button whatsapp" href="https://wa.me/${whatsapp}?text=${waText}" target="_blank" rel="noopener">Consultar por WhatsApp</a>`:''}</div>`;
+      return;
+    }
     document.title=`${p.brand_name||p.full_name} · Portfolio`;
     const logo=safeUrl(settings.logoUrl||''), instagram=safeUrl(settings.instagram||''), facebook=safeUrl(settings.facebook||'');
     const whatsapp=String(p.whatsapp||'').replace(/\D/g,''), waText=encodeURIComponent(`Hola, vi el portfolio de ${p.brand_name||p.full_name} y quisiera realizar una consulta.`);
