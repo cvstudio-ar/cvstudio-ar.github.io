@@ -757,7 +757,7 @@
     'cv-profesional': {
       title: 'Actualización de CV Profesional',
       productId: 'cv-profesional',
-      amount: 11500,
+      amount: null, // Se habilita únicamente después de validar el precio remoto.
       price: '$11.500',
       intro: 'Transformamos tu currículum en una herramienta profesional, moderna y optimizada para procesos de selección.',
       includes: ['Diseño moderno y profesional.', 'Redacción optimizada.', 'Estructura clara y organizada.', 'Adaptación para sistemas ATS.', 'Optimización del perfil profesional.', 'Corrección ortográfica y de estilo.', 'Formato PDF listo para enviar.'],
@@ -768,7 +768,7 @@
     'cv-freelance': {
       title: 'Currículum Freelance Profesional',
       productId: 'cv-freelance',
-      amount: 16000,
+      amount: null, // Se habilita únicamente después de validar el precio remoto.
       price: '$16.000',
       intro: 'Diseñamos un currículum pensado especialmente para trabajadores independientes, emprendedores y profesionales que ofrecen servicios.',
       includes: ['Diseño exclusivo.', 'Perfil profesional.', 'Servicios destacados.', 'Experiencia organizada.', 'Formación.', 'Herramientas.', 'Habilidades.', 'Idiomas.', 'Optimización visual.', 'PDF listo para compartir.'],
@@ -779,7 +779,7 @@
     linkedin: {
       title: 'Perfil Profesional de LinkedIn',
       productId: 'linkedin',
-      amount: 19000,
+      amount: null, // Se habilita únicamente después de validar el precio remoto.
       price: '$19.000',
       intro: 'Creamos un perfil de LinkedIn completo, optimizado y diseñado para aumentar tu visibilidad profesional.',
       includes: ['Foto de perfil optimizada.', 'Portada personalizada.', 'Título profesional.', 'Acerca de mí.', 'Experiencia laboral.', 'Formación académica.', 'Aptitudes.', 'Optimización SEO para LinkedIn.', 'URL personalizada.'],
@@ -790,7 +790,7 @@
     'combo-2-cv': {
       title: 'Combo 2 CV Profesionales',
       productId: 'combo-2-cv',
-      amount: 20000,
+      amount: null, // Se habilita únicamente después de validar el precio remoto.
       price: '$20.000',
       intro: 'Obtené dos currículums profesionales por un precio promocional.',
       choice: ['Dos personas distintas.', 'Dos CV para la misma persona con objetivos diferentes.'],
@@ -802,7 +802,7 @@
     'combo-cv-linkedin': {
       title: 'Combo CV + LinkedIn',
       productId: 'combo-cv-linkedin',
-      amount: 25000,
+      amount: null, // Se habilita únicamente después de validar el precio remoto.
       price: '$25.000',
       intro: 'La solución más completa para potenciar tu perfil profesional.',
       cvIncludes: ['Diseño moderno.', 'Redacción profesional.', 'Optimización ATS.', 'Perfil profesional.', 'Experiencia laboral.', 'Formación.', 'Habilidades.', 'Idiomas.'],
@@ -840,7 +840,9 @@
     try {
       const response = await fetch(paymentWorkerUrl, { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'mercadopago-products', timestamp: Date.now() }) });
       const data = await response.json();
-      if (!response.ok || !data.ok || !Array.isArray(data.products)) return;
+      if (!response.ok || !data.ok || !Array.isArray(data.products)) {
+        throw new Error('El catálogo de precios no respondió correctamente.');
+      }
       data.products.forEach((product) => {
         const service = services[product.product_id];
         if (!service) return;
@@ -854,7 +856,11 @@
           card.toggleAttribute('data-test-price', service.isTestPrice);
         });
       });
-    } catch (error) { console.warn('No se pudieron actualizar los precios comerciales.', error); }
+    } catch (error) {
+      // El precio visible sigue sirviendo como referencia, pero el checkout queda
+      // deshabilitado para impedir cobros con un importe local desactualizado.
+      console.warn('No se pudieron validar los precios comerciales; checkout deshabilitado.', error);
+    }
   };
   applyRemotePrices();
 
