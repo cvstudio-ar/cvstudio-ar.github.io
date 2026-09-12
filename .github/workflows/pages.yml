@@ -34,7 +34,11 @@ jobs:
             --exclude '.git/' \
             --exclude '.github/' \
             --exclude '_site/' \
-            --exclude 'docs/migraciones/' \
+            --exclude 'docs/' \
+            --exclude 'config/' \
+            --exclude 'WORKER_CVSTUDIO_CONTACTO_ESTABLE.js' \
+            --exclude '.env.example' \
+            --exclude 'centro-operaciones-prueba/panel-*.html' \
             --exclude '*.sql' \
             --exclude '*.zip' \
             ./ _site/
