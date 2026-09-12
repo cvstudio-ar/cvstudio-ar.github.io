@@ -21,7 +21,6 @@
 (() => {
   const path=location.pathname.replace(/^\/+|\/+$/g,'');
   if(/^beauty-nails-by-eliana(?:\.html)?$/.test(path)){location.replace('/beauty-nails-by-eliana/?v=1.3.3'+location.hash);return;}
-  if(/^julieta-ferrari(?:\.html)?$/.test(path)){location.replace('/julieta-ferrari/?v=1.3.3'+location.hash);return;}
   const root=document.getElementById('root');
   const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const unavailable=(message='Esta página todavía no fue publicada o la dirección no es correcta.')=>{root.innerHTML=`<div class="empty"><div class="brand" style="justify-content:center"><span class="logo">CV</span> CVStudio</div><h2 style="margin-top:50px">Portfolio no disponible</h2><p class="lead" style="margin-inline:auto">${esc(message)}</p><div class="actions"><a class="button primary" href="/">Volver a CVStudio</a></div></div>`};

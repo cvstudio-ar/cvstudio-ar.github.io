@@ -1,11 +1,22 @@
+const isAllowedOrigin = origin => {
+  if (!origin) return false;
+  try {
+    const url = new URL(origin);
+    return url.protocol === 'https:' && (url.hostname === 'cvstudio.com.ar' || url.hostname.endsWith('.cvstudio.com.ar'))
+      || ['http://localhost', 'http://127.0.0.1'].includes(url.origin);
+  } catch {
+    return false;
+  }
+};
+
 const corsHeaders = origin => ({
-  'Access-Control-Allow-Origin': origin || '*',
+  ...(isAllowedOrigin(origin) ? {'Access-Control-Allow-Origin': origin} : {}),
   'Access-Control-Allow-Headers': 'authorization, content-type',
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
   'Vary': 'Origin'
 });
 
-const json = (body, status = 200, origin = '*') => new Response(JSON.stringify(body), {
+const json = (body, status = 200, origin = '') => new Response(JSON.stringify(body), {
   status,
   headers: {...corsHeaders(origin), 'Content-Type': 'application/json; charset=utf-8'}
 });
@@ -261,7 +272,7 @@ async function publicPortfolio(url, env) {
 
 export default {
   async fetch(request, env) {
-    const origin = request.headers.get('Origin') || '*';
+    const origin = request.headers.get('Origin') || '';
     if (request.method === 'OPTIONS') return new Response(null, {status:204, headers:corsHeaders(origin)});
     try {
       if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY || !env.SUPABASE_ANON_KEY) throw new Error('Faltan variables del Worker.');

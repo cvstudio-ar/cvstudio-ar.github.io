@@ -24,8 +24,8 @@
   function loadSIAC() {
     if (!loadingPromise) {
       loadingPromise = loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2')
-        .then(() => loadScript('js/supabase-config.js'))
-        .then(() => loadScript('js/siac.js'));
+        .then(() => loadScript('js/supabase-config.js?v=2.9.1'))
+        .then(() => loadScript('js/siac.js?v=1.8.2-security'));
     }
     return loadingPromise;
   }

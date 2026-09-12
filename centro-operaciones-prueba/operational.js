@@ -118,8 +118,9 @@
   const initials = name => String(name || '').trim().split(/\s+/).slice(0,2).map(x => x[0]?.toUpperCase()).join('') || 'CL';
   const nextId = list => Math.max(0, ...list.map(x => Number(x.id) || 0)) + 1;
   const formatDateTime = iso => new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(iso));
-  const todayKey = new Date().toISOString().slice(0,10);
-  const isToday = iso => String(iso || '').slice(0,10) === todayKey;
+  const argentinaDateKey = value => new Intl.DateTimeFormat('en-CA',{timeZone:'America/Argentina/Buenos_Aires',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value));
+  const todayKey = argentinaDateKey(new Date());
+  const isToday = iso => { try{return argentinaDateKey(iso)===todayKey;}catch(_){return false;} };
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
 
   function addActivity(type,title,detail,clientId=null) {
@@ -134,6 +135,22 @@
   }
   function latestActivityHtml(limit=6) {
     return `<div class="activity-list">${state.activities.slice(0,limit).map(a=>`<div class="activity-item"><span class="activity-dot" style="background:${activityColor(a.type)}22;color:${activityColor(a.type)}">${icon(typeIcon(a.type))}</span><div><strong>${esc(a.title)}</strong><small>${esc(a.detail)}</small></div><time>${formatDateTime(a.at || a.createdAt)}</time></div>`).join('') || '<p class="empty-state">Todavía no hay actividad.</p>'}</div>`;
+  }
+
+  function realActivityChart(){
+    const days=Array.from({length:7},(_,index)=>{
+      const date=new Date();date.setUTCHours(15,0,0,0);date.setUTCDate(date.getUTCDate()-(6-index));
+      return {key:argentinaDateKey(date),label:new Intl.DateTimeFormat('es-AR',{timeZone:'America/Argentina/Buenos_Aires',day:'2-digit',month:'2-digit'}).format(date),count:0};
+    });
+    const byKey=new Map(days.map(day=>[day.key,day]));
+    const events=[
+      ...state.activities.map(item=>item.at||item.createdAt),
+      ...state.payments.map(item=>item.createdAt),
+      ...state.jobs.map(item=>item.createdAt)
+    ].filter(Boolean);
+    events.forEach(value=>{try{const day=byKey.get(argentinaDateKey(value));if(day)day.count++;}catch(_){}});
+    const max=Math.max(1,...days.map(day=>day.count));
+    return `<div class="real-activity-chart" aria-label="Actividad real de los últimos siete días" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;align-items:end;min-height:210px;padding:22px 12px 4px">${days.map(day=>`<div style="display:grid;gap:8px;text-align:center;align-items:end"><b style="color:var(--text)">${day.count}</b><i style="display:block;min-height:4px;height:${Math.max(4,Math.round(day.count/max*130))}px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#9b5de5,#3b82f6)"></i><small style="color:var(--muted)">${day.label}</small></div>`).join('')}</div>`;
   }
 
   function dashboardRenderer() {
@@ -155,11 +172,11 @@
       ${kpi('wallet','Ingresos confirmados',money(revenue),'pagos confirmados','#28c2d8')}
     </section>
     <section class="grid dashboard-layout">
-      <section class="panel span-2"><div class="panel-head"><div><h2>Resumen de actividad</h2><p>Movimientos registrados en los últimos días</p></div></div>${state.activities.length || state.payments.length || state.jobs.length ? lineSvg() : `<div class="empty-state empty-state-large"><strong>Sin actividad registrada</strong><span>Los movimientos aparecerán aquí cuando ingresen clientes, pagos o trabajos.</span></div>`}</section>
+      <section class="panel span-2"><div class="panel-head"><div><h2>Resumen de actividad</h2><p>Movimientos registrados en los últimos días</p></div></div>${state.activities.length || state.payments.length || state.jobs.length ? realActivityChart() : `<div class="empty-state empty-state-large"><strong>Sin actividad registrada</strong><span>Los movimientos aparecerán aquí cuando ingresen clientes, pagos o trabajos.</span></div>`}</section>
       ${panel('Actividad reciente', latestActivityHtml(4))}
       ${panel('Ingresos por servicio',`<div class="donut-wrap">${donutChart(money(revenue).replace('$ ','$'),'Confirmado')}<div class="legend">${sortedServices.map(([name,val],i)=>`<span style="--c:${['#35d07f','#3b82f6','#9b5de5','#ff8a1f'][i%4]}"><i></i>${esc(name)} · ${money(val)}</span>`).join('') || '<span>Sin pagos confirmados</span>'}</div></div>`)}
       ${panel('Embudo de ventas',`<div class="funnel"><div class="funnel-row" style="--c:#9b5de5"><span>Clientes</span><b>${consultations}</b></div><div class="funnel-row" style="--c:#3b82f6"><span>En seguimiento</span><b>${interested}</b></div><div class="funnel-row" style="--c:#ffb800"><span>Pagos pendientes</span><b>${pending}</b></div><div class="funnel-row" style="--c:#35d07f"><span>Ventas confirmadas</span><b>${confirmedPayments().length}</b></div></div>`)}
-      ${panel('Estado operativo',`<div class="campaign-card"><div class="campaign-head"><span class="platform">${icon('database')} Base de datos</span><span class="status" style="--c:#35d07f">Operativa</span></div><p>Clientes, pagos, trabajos y movimientos se sincronizan con Supabase.</p></div><div class="campaign-card"><div class="campaign-head"><span class="platform">${icon('shield')} Panel anterior</span><span class="status" style="--c:#35d07f">Respaldo</span></div><p>El panel /admin permanece disponible durante la transición.</p></div>`)}
+      ${panel('Estado operativo',`<div class="campaign-card"><div class="campaign-head"><span class="platform">${icon('database')} Base de datos</span><span class="status" style="--c:#35d07f">Operativa</span></div><p>Clientes, pagos, trabajos y movimientos se sincronizan con Supabase.</p></div><div class="campaign-card"><div class="campaign-head"><span class="platform">${icon('shield')} Panel anterior</span><span class="status" style="--c:#3b82f6">Disponible</span></div><p>El panel /admin permanece disponible durante la transición. No constituye una copia de seguridad.</p></div>`)}
     </section>`;
   }
 

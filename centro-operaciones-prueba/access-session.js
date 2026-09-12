@@ -65,7 +65,7 @@ async function forcePasswordChange(){
     const host=document.getElementById('appModal');host.dataset.locked='false';host.hidden=true;document.body.style.overflow='';updatePresence('online').catch(()=>{});
   };
 }
-window.addEventListener('load',async()=>{
+async function bootstrapSession(){
   const client=db();if(!client)return;
   session=(await client.auth.getSession()).data.session;
   if(!session?.user){location.href='/?access=collaborator';return;}
@@ -90,6 +90,11 @@ window.addEventListener('load',async()=>{
   ['pointerdown','keydown','touchstart','scroll'].forEach(type=>window.addEventListener(type,()=>registerActivity(),{passive:true,capture:true}));
   armTimers(); presenceTimer=setInterval(()=>updatePresence(away?'away':'online').catch(()=>{}),60000);
   if(session.user.user_metadata?.must_change_password===true||collab?.mustChangePassword===true)await forcePasswordChange();
+  document.body.classList.remove('auth-pending');
+}
+window.CVStudioAuthReady=bootstrapSession().catch(error=>{
+  console.error('[CVStudio Auth]',error);
+  location.href='/?access=collaborator&error=session';
 });
 window.addEventListener('pagehide',()=>{updatePresence('offline').catch(()=>{});});
 })();

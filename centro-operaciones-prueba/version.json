@@ -1,7 +1,7 @@
 {
-  "version": "1.8.1",
-  "build": "20260912-form-alerts-files-v1",
-  "releasedAt": "2026-09-12T19:00:00Z",
+  "version": "1.8.2",
+  "build": "20260912-security-hardening-v182",
+  "releasedAt": "2026-09-12T20:30:00Z",
   "channel": "production",
-  "name": "Avisos de formularios y adjuntos de clientes"
+  "name": "Acceso operativo protegido y seguridad de Workers"
 }

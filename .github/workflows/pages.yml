@@ -24,6 +24,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
+      - name: Validate JavaScript
+        shell: bash
+        run: |
+          find . -type f -name '*.js' -not -path './config/*' -not -path './_site/*' -print0 | xargs -0 -n1 node --check
+          for file in config/*.js; do
+            cp "$file" /tmp/cvstudio-worker-check.mjs
+            node --check /tmp/cvstudio-worker-check.mjs
+          done
+
+      - name: Verify private sources stay unpublished
+        shell: bash
+        run: |
+          test ! -e WORKER_CVSTUDIO_CONTACTO_ESTABLE.js
+          test ! -e centro-operaciones-prueba/panel-20260806-1208.html
+          test ! -e "js/siac-loader 1.js"
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
@@ -34,7 +50,11 @@ jobs:
             --exclude '.git/' \
             --exclude '.github/' \
             --exclude '_site/' \
-            --exclude 'docs/migraciones/' \
+            --exclude 'docs/' \
+            --exclude 'config/' \
+            --exclude 'WORKER_CVSTUDIO_CONTACTO_ESTABLE.js' \
+            --exclude '.env.example' \
+            --exclude 'centro-operaciones-prueba/panel-*.html' \
             --exclude '*.sql' \
             --exclude '*.zip' \
             ./ _site/

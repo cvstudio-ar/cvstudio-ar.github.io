@@ -16,13 +16,21 @@
   const openButtons = [...document.querySelectorAll('[data-siac-open]')];
   const pendingFiles = [];
 
-  const state = loadSession() || {
+  const restoredState = loadSession();
+  const state = restoredState || {
     screen: 'welcome',
     history: [],
     answers: {},
     files: [],
     startedAt: new Date().toISOString()
   };
+
+  // Los objetos File no sobreviven una recarga. No mostramos nombres que ya no
+  // pueden subirse, porque eso haría creer al cliente que el archivo sigue adjunto.
+  if (restoredState && state.screen !== 'success' && Array.isArray(state.files) && state.files.length) {
+    state.files = [];
+    state.fileRestoreNotice = true;
+  }
 
   const serviceMeta = {
     cv: { label: 'CV profesional', total: 7 },
@@ -256,6 +264,11 @@
     backBtn.hidden = !state.history.length;
     content.scrollTop = 0;
     const meta = currentServiceMeta();
+    if (state.fileRestoreNotice) {
+      state.fileRestoreNotice = false;
+      saveSession();
+      setTimeout(() => alert('La página se recargó y, por seguridad, tenés que adjuntar nuevamente los archivos.'), 0);
+    }
 
     if (state.screen === 'welcome') {
       setProgress('Bienvenida', 0, 0);
@@ -475,8 +488,14 @@
         : `<p><strong>Envío:</strong> No pudimos confirmar el correo. Conservá este código y comunicate por WhatsApp. ${escapeHTML(request.emailError || '')}</p>`;
       const storageNote = request.saved === 'supabase'
         ? '<p><strong>Registro:</strong> Guardado en el sistema de gestión.</p>'
-        : '<p><strong>Registro:</strong> Guardado temporalmente en este dispositivo. Te recomendamos conservar el código de solicitud.</p>';
-      content.innerHTML = `<div class="siac-message"><div class="siac-success"><h2>✅ ¡Muchas gracias!</h2><p>Recibimos correctamente la información inicial de tu solicitud.</p><p>Tu consulta fue registrada y ya quedó preparada para la revisión de un asesor de CVStudio Argentina.</p><p>En breve, un integrante del equipo se pondrá en contacto con vos para continuar la atención, confirmar los detalles del trabajo, el presupuesto y el plazo de entrega.</p><p>Mientras tanto, podés enviar cualquier archivo o información adicional que consideres importante.</p><span class="siac-code">${escapeHTML(request.code)}</span><p><strong>Estado:</strong> Pendiente de revisión.</p>${storageNote}${deliveryNote}</div><button class="siac-secondary" type="button" data-new-request>Nueva solicitud</button></div>`;
+        : '<p><strong>Registro:</strong> Guardado temporalmente en este dispositivo. Conservá el código y comunicate por WhatsApp para confirmar la recepción.</p>';
+      const fileNote = request.fileUploadErrors?.length
+        ? `<p><strong>Atención:</strong> No pudimos guardar ${request.fileUploadErrors.length} archivo(s): ${escapeHTML(request.fileUploadErrors.map(item => item.name).join(', '))}. Enviálos por WhatsApp indicando el código de solicitud.</p>`
+        : '';
+      const successLead = request.saved === 'supabase'
+        ? 'Recibimos correctamente la información inicial de tu solicitud.'
+        : 'Recibimos el aviso, pero no pudimos confirmar el registro completo en el sistema.';
+      content.innerHTML = `<div class="siac-message"><div class="siac-success"><h2>✅ ¡Muchas gracias!</h2><p>${successLead}</p><p>Tu consulta fue registrada y ya quedó preparada para la revisión de un asesor de CVStudio Argentina.</p><p>En breve, un integrante del equipo se pondrá en contacto con vos para continuar la atención, confirmar los detalles del trabajo, el presupuesto y el plazo de entrega.</p><p>Mientras tanto, podés enviar cualquier archivo o información adicional que consideres importante.</p><span class="siac-code">${escapeHTML(request.code)}</span><p><strong>Estado:</strong> Pendiente de revisión.</p>${storageNote}${fileNote}${deliveryNote}</div><button class="siac-secondary" type="button" data-new-request>Nueva solicitud</button></div>`;
       content.querySelector('[data-new-request]').addEventListener('click', reset);
     } else if (state.screen === 'advisor') {
       setProgress('Atención personal', 0, 0);
@@ -590,12 +609,16 @@
       });
       if (requestError) throw requestError;
 
+      const fileUploadErrors = [];
       for (let index = 0; index < pendingFiles.length; index += 1) {
         const file = pendingFiles[index];
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]+/g, '-');
         const path = `${requestId}/${Date.now()}-${index}-${safeName}`;
         const { error: uploadError } = await db.storage.from('siac-archivos').upload(path, file, { upsert: false, contentType: file.type || undefined });
-        if (uploadError) throw uploadError;
+        if (uploadError) {
+          fileUploadErrors.push({ name: file.name, error: uploadError.message || 'No se pudo subir.' });
+          continue;
+        }
         const { error: fileError } = await db.from('archivos').insert({
           solicitud_id: requestId,
           nombre: file.name,
@@ -603,11 +626,15 @@
           tipo: file.type || '',
           fecha: new Date().toISOString()
         });
-        if (fileError) throw fileError;
+        if (fileError) {
+          await db.storage.from('siac-archivos').remove([path]).catch(() => {});
+          fileUploadErrors.push({ name: file.name, error: fileError.message || 'No se pudo registrar.' });
+        }
       }
 
       request.id = requestId;
       request.saved = 'supabase';
+      request.fileUploadErrors = fileUploadErrors;
     } catch (error) {
       console.error('SIAC Supabase:', error);
       const list = JSON.parse(localStorage.getItem(REQUESTS_KEY) || '[]');

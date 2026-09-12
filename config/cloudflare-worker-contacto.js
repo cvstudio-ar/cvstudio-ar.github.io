@@ -8,6 +8,7 @@
  *   MERCADOPAGO_ACCESS_TOKEN
  *   CANVA_CLIENT_ID
  *   CANVA_CLIENT_SECRET
+ *   WHATSAPP_APP_SECRET
  *
  * Recepción recomendada (sin tocar los MX de Cloudflare Email Routing):
  *   usar la dirección administrada por Resend: <codigo>@iokioalkuu.resend.app
@@ -21,7 +22,7 @@ const SUPABASE_URL = 'https://eqepkoegzyqklpxkrkhm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZXBrb2Vnenlxa2xweGtya2htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTc1MzcsImV4cCI6MjEwMDQzMzUzN30.dy-gMZJRMTQyr--kCq5JsEaDzazcDXFUkxQdiLQBFx8';
 const ADMIN_USER_ID = '3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
 const CONTACT_EMAIL = 'contacto@cvstudio.com.ar';
-const WORKER_RELEASE = 'v2.12.0-meta-marketing';
+const WORKER_RELEASE = 'v2.13.0-security-hardening';
 const FORM_NOTIFICATION_EMAIL = 'cvstudioargentina@gmail.com';
 const getFormNotificationEmail = () => FORM_NOTIFICATION_EMAIL;
 const DEFAULT_RESEND_RECEIVING_DOMAIN = 'iokioalkuu.resend.app';
@@ -142,6 +143,25 @@ async function sendResend(env,payload){const response=await fetch('https://api.r
 async function resendGet(env,path){const r=await fetch(`https://api.resend.com${path}`,{headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d?.message||`Resend devolvió ${r.status}`);return d?.data??d}
 async function verifyAdmin(request){const authorization=request.headers.get('Authorization')||'';if(!authorization.startsWith('Bearer '))return null;const response=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:SUPABASE_PUBLISHABLE_KEY,'Cache-Control':'no-store'}});if(!response.ok)return null;const user=await response.json().catch(()=>null);if(!user?.id)return null;const email=String(user.email||'').trim().toLowerCase();const role=String(user.app_metadata?.role||'').trim();return user.id===ADMIN_USER_ID||email==='pablexe@cvstudio.com.ar'||role==='Director'?user:null}
 async function verifyAuthenticatedUser(request){const authorization=request.headers.get('Authorization')||'';if(!authorization.startsWith('Bearer '))return null;const response=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:SUPABASE_PUBLISHABLE_KEY,'Cache-Control':'no-store'}});if(!response.ok)return null;const user=await response.json().catch(()=>null);return user?.id?user:null}
+async function verifyStaff(request,env){
+  const user=await verifyAuthenticatedUser(request);
+  if(!user)return null;
+  const email=String(user.email||'').trim().toLowerCase();
+  if(email==='pablexe@cvstudio.com.ar'||String(user.app_metadata?.role||'')==='Director')return user;
+  try{
+    const rows=await supabaseService(env,`cvstudio_ops_stage_collaborators?workspace_id=eq.centro-operaciones-prueba&select=payload&limit=500`,{method:'GET'});
+    const active=(rows||[]).some(row=>{
+      const payload=row.payload||{};
+      const sameUser=String(payload.authUserId||'')===String(user.id)||String(payload.email||'').trim().toLowerCase()===email;
+      const blocked=['suspendido','archivado','inactivo'];
+      return sameUser&&!blocked.includes(String(payload.status||'Activo').toLowerCase())&&!blocked.includes(String(payload.authStatus||'Activo').toLowerCase());
+    });
+    return active?user:null;
+  }catch(error){
+    console.error('No se pudo validar al colaborador',error);
+    return null;
+  }
+}
 
 function emailShell({eyebrow='CVStudio Argentina',title,body,requestCode='',button=true}){return `<!doctype html><html><body style="margin:0;background:#f3f6fb;padding:28px 12px;font-family:Arial,sans-serif;color:#172033"><table role="presentation" width="100%"><tr><td align="center"><table role="presentation" width="100%" style="max-width:650px;background:#fff;border-radius:18px;overflow:hidden"><tr><td style="background:#091225;padding:24px 30px;text-align:center"><img src="${LOGO_URL}" width="190" alt="CVStudio Argentina" style="display:block;margin:0 auto 15px"><div style="color:#ffd447;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">${escapeHtml(eyebrow)}</div><h1 style="margin:7px 0 0;color:#fff;font-size:25px">${escapeHtml(title)}</h1></td></tr><tr><td style="padding:30px;line-height:1.65;font-size:15px">${body}${requestCode?`<div style="margin:24px 0;padding:14px 16px;background:#fff8d8;border:1px solid #ffe27a;border-radius:11px"><small>Código de solicitud</small><br><strong>${escapeHtml(requestCode)}</strong></div>`:''}${button?`<p style="text-align:center"><a href="https://cvstudio.com.ar" style="display:inline-block;background:#ffd447;color:#111827;text-decoration:none;font-weight:800;padding:12px 21px;border-radius:999px">Visitar CVStudio</a></p>`:''}</td></tr><tr><td style="padding:18px 30px;background:#f8fafc;text-align:center;color:#667085;font-size:12px"><strong>CVStudio Argentina</strong><br><a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a> · cvstudio.com.ar</td></tr></table></td></tr></table></body></html>`}
 
@@ -232,7 +252,7 @@ async function deleteExpiredSignatures(env){
 }
 
 async function handleSignatureAdminCreate(request,env,origin,body){
-  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  const admin=await verifyStaff(request,env);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
   const clientId=cleanText(body.clientId,100),clientName=cleanText(body.clientName,120),phone=cleanText(body.phone,50),documentName=cleanText(body.documentName||'Carta de presentación',120);
   if(clientName.length<3)return jsonResponse({ok:false,message:'Falta el nombre del cliente.'},400,origin);
   const token=crypto.randomUUID().replaceAll('-','')+crypto.randomUUID().replaceAll('-','').slice(0,12),now=new Date(),linkExpires=new Date(now.getTime()+24*60*60*1000);
@@ -271,14 +291,14 @@ async function handleSignaturePublicSubmit(env,origin,body){
 }
 
 async function handleSignatureAdminList(request,env,origin,body){
-  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  const admin=await verifyStaff(request,env);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
   await deleteExpiredSignatures(env);
   const clientId=cleanText(body.clientId,100),filter=clientId?`cliente_id=eq.${encodeURIComponent(clientId)}&`:'';
   try{const rows=await supabaseService(env,`firmas_solicitudes?${filter}select=id,token,cliente_id,cliente_nombre,cliente_whatsapp,documento,estado,creado,firmado,firma_expira&order=creado.desc&limit=30`);return jsonResponse({ok:true,requests:rows||[]},200,origin)}catch(error){return jsonResponse({ok:false,message:error.message},502,origin)}
 }
 
 async function handleSignatureAdminDownload(request,env,origin,body){
-  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  const admin=await verifyStaff(request,env);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
   await deleteExpiredSignatures(env);
   const id=cleanText(body.id,100);try{
     const rows=await supabaseService(env,`firmas_solicitudes?id=eq.${encodeURIComponent(id)}&select=*&limit=1`),row=rows?.[0];
@@ -614,10 +634,11 @@ async function findOrCreateWhatsAppRequest(env, contact, phone) {
 
 async function saveWhatsAppCommunication(env,{requestId,direction,phone,text,messageId,status='recibido',raw}) {
   const record={
-    id:crypto.randomUUID(),solicitud_id:requestId,tipo:'whatsapp',direccion:direction,
+    id:crypto.randomUUID(),solicitud_id:requestId,direccion:direction,
     remitente:direction==='entrante'?phone:'CVStudio',destinatario:direction==='saliente'?phone:'CVStudio',
-    asunto:'WhatsApp',contenido:text||'',estado:status,proveedor_id:messageId||null,
-    metadatos:{canal:'whatsapp',telefono:phone,raw:raw||null},fecha_creacion:waNow()
+    asunto:'WhatsApp',mensaje:text||'',estado:status,message_id:messageId||null,
+    canal:'WhatsApp',origen_registro:'whatsapp-cloud-api',
+    metadata:{canal:'whatsapp',telefono:phone,raw:raw||null},fecha_creacion:waNow()
   };
   try { const rows=await supabaseService(env,'comunicaciones',{method:'POST',body:JSON.stringify(record)}); return rows?.[0]||record; }
   catch(error){ console.warn('No se pudo guardar comunicación WhatsApp:',error.message); return record; }
@@ -629,8 +650,19 @@ async function handleWhatsAppVerification(request,env){
   return new Response('Token de verificación inválido',{status:403});
 }
 
+async function verifyWhatsAppWebhookSignature(request,raw,secret){
+  const signature=request.headers.get('x-hub-signature-256')||'';
+  if(!secret||!signature.startsWith('sha256='))return false;
+  const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign']);
+  const digest=new Uint8Array(await crypto.subtle.sign('HMAC',key,new TextEncoder().encode(raw)));
+  const expected='sha256='+[...digest].map(byte=>byte.toString(16).padStart(2,'0')).join('');
+  return safeEqual(signature,expected);
+}
+
 async function handleWhatsAppWebhook(request,env){
-  const body=await request.json().catch(()=>null);
+  const raw=await request.text();
+  if(!(await verifyWhatsAppWebhookSignature(request,raw,env.WHATSAPP_APP_SECRET)))return jsonResponse({ok:false,message:'Firma de WhatsApp inválida.'},401);
+  const body=JSON.parse(raw);
   if(!body || body.object!=='whatsapp_business_account') return jsonResponse({ok:true,ignored:true});
   for(const entry of body.entry||[]) for(const change of entry.changes||[]){
     const value=change.value||{};
@@ -644,14 +676,14 @@ async function handleWhatsAppWebhook(request,env){
     }
     for(const st of value.statuses||[]){
       if(!st.id) continue;
-      await supabaseService(env,`comunicaciones?proveedor_id=eq.${encodeURIComponent(st.id)}`,{method:'PATCH',body:JSON.stringify({estado:st.status||'actualizado',metadatos:{canal:'whatsapp',status:st.status,conversation:st.conversation||null,pricing:st.pricing||null}})}).catch(()=>null);
+      await supabaseService(env,`comunicaciones?message_id=eq.${encodeURIComponent(st.id)}`,{method:'PATCH',body:JSON.stringify({estado:st.status||'actualizado',metadata:{canal:'whatsapp',status:st.status,conversation:st.conversation||null,pricing:st.pricing||null}})}).catch(()=>null);
     }
   }
   return jsonResponse({ok:true,received:true});
 }
 
 async function handleWhatsAppAdminSend(request,env,origin,body){
-  const admin=await verifyAuthenticatedUser(request); if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida. Volvé a iniciar sesión.'},401,origin);
+  const admin=await verifyStaff(request,env); if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida. Volvé a iniciar sesión.'},401,origin);
   const to=digitsOnly(body.to), text=cleanText(body.message,4096), requestId=cleanText(body.requestId,100);
   if(to.length<8 || text.length<1)return jsonResponse({ok:false,message:'Revisá el número y el mensaje.'},400,origin);
   const phoneNumberId=env.WHATSAPP_PHONE_NUMBER_ID; if(!phoneNumberId)return jsonResponse({ok:false,message:'Falta WHATSAPP_PHONE_NUMBER_ID.'},503,origin);
@@ -674,13 +706,13 @@ async function metaGraph(env,path,params={}){
 }
 const metaResultCount=actions=>{for(const type of ['onsite_conversion.messaging_conversation_started_7d','messaging_conversation_started_7d','lead','offsite_conversion.fb_pixel_lead','link_click']){const item=(actions||[]).find(action=>action.action_type===type);if(item)return Number(item.value||0)}return 0};
 async function handleMetaStatus(request,env,origin){
-  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  const admin=await verifyStaff(request,env);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
   const accountId=normalizeMetaAdAccount(env.META_AD_ACCOUNT_ID);
   if(!env.META_MARKETING_ACCESS_TOKEN||!accountId)return jsonResponse({ok:true,configured:false,connected:false},200,origin);
   try{const account=await metaGraph(env,`act_${accountId}`,{fields:'id,name,account_status,currency,timezone_name'});return jsonResponse({ok:true,configured:true,connected:true,account:{id:account.id,name:account.name||'Cuenta publicitaria',status:account.account_status,currency:account.currency,timezone:account.timezone_name}},200,origin)}catch(error){return jsonResponse({ok:true,configured:true,connected:false,message:error.message},200,origin)}
 }
 async function handleMetaCampaigns(request,env,origin){
-  const admin=await verifyAuthenticatedUser(request);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
+  const admin=await verifyStaff(request,env);if(!admin)return jsonResponse({ok:false,message:'Sesión del panel inválida o vencida.'},401,origin);
   const accountId=normalizeMetaAdAccount(env.META_AD_ACCOUNT_ID);
   if(!env.META_MARKETING_ACCESS_TOKEN||!accountId)return jsonResponse({ok:false,message:'Meta Marketing todavía no está configurado.'},503,origin);
   try{const fields='id,name,status,effective_status,objective,daily_budget,lifetime_budget,start_time,stop_time,updated_time,insights.date_preset(last_30d){spend,impressions,reach,clicks,actions,cost_per_action_type}',data=await metaGraph(env,`act_${accountId}/campaigns`,{fields,limit:100});const campaigns=(data.data||[]).map(item=>{const insight=item.insights?.data?.[0]||{};return {id:item.id,name:item.name,status:item.status,effective_status:item.effective_status,objective:item.objective,start_time:item.start_time,stop_time:item.stop_time,updated_time:item.updated_time,budget:Number(item.daily_budget||item.lifetime_budget||0)/100,budgetType:item.daily_budget?'daily':item.lifetime_budget?'lifetime':null,spend:Number(insight.spend||0),impressions:Number(insight.impressions||0),reach:Number(insight.reach||0),clicks:Number(insight.clicks||0),results:metaResultCount(insight.actions),source:'Meta Ads',platform:'Facebook / Instagram'}});return jsonResponse({ok:true,connected:true,accountId:`act_${accountId}`,campaigns,summary:{spend:campaigns.reduce((sum,item)=>sum+item.spend,0),results:campaigns.reduce((sum,item)=>sum+item.results,0),impressions:campaigns.reduce((sum,item)=>sum+item.impressions,0)}},200,origin)}catch(error){return jsonResponse({ok:false,message:`No se pudieron leer las campañas de Meta: ${error.message}`},502,origin)}
