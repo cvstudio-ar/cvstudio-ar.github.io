@@ -80,6 +80,9 @@
   let filesQuery = '';
   const selectedFileIds = new Set();
   let integrationHealth = null;
+  const FORM_ALERTS_START_AT = '2026-09-12T19:00:00Z';
+  const FORM_ALERTS_SEEN_KEY = 'cvstudio_ops_seen_form_requests_v1';
+  let lastFormAlertCount = 0;
   function saveState(message) {
     localStorage.setItem(STORE_KEY, JSON.stringify(state));
     syncLegacyClients();
@@ -194,10 +197,29 @@
       return {key,label:key,value:item||''};
     }).filter(item=>String(item.value||'').trim());
   }
+  function clientInboundFilesHtml(client){
+    const attached=(client?.files||[]).filter(file=>file&&(file.url||file.object_path));
+    if(!attached.length)return '';
+    return `<div class="client-inbound-files"><div class="panel-head"><div><h3>Archivos adjuntos</h3><p>Documentos enviados por el cliente desde el formulario.</p></div><span class="status" style="--c:#35d07f">${attached.length}</span></div><div class="client-form-summary">${attached.map((file,index)=>`<div class="fund-row"><span>${icon('file')} ${esc(file.nombre||file.name||'Archivo adjunto')}</span><button class="button primary small" type="button" data-client-file-open="${esc(file.id||index)}">${icon('eye')} Ver / descargar</button></div>`).join('')}</div></div>`;
+  }
   function clientFormSummaryHtml(client){
     const entries=formDataEntries(client);
-    if(!entries.length) return `<div class="empty-state"><strong>Formulario todavía no recibido</strong><span>Cuando el cliente lo complete, sus datos aparecerán aquí y se habilitará la ficha para ChatGPT.</span></div>`;
-    return `<div class="client-form-summary">${entries.map(item=>`<div class="fund-row"><span>${esc(item.label)}</span><b>${esc(item.value)}</b></div>`).join('')}</div>`;
+    const files=clientInboundFilesHtml(client);
+    if(!entries.length&&!files) return `<div class="empty-state"><strong>Formulario todavía no recibido</strong><span>Cuando el cliente lo complete, sus datos aparecerán aquí y se habilitará la ficha para ChatGPT.</span></div>`;
+    return `${entries.length?`<div class="client-form-summary">${entries.map(item=>`<div class="fund-row"><span>${esc(item.label)}</span><b>${esc(item.value)}</b></div>`).join('')}</div>`:''}${files}`;
+  }
+  async function downloadClientInboundFile(client,fileId){
+    const attached=(client?.files||[]).filter(file=>file&&(file.url||file.object_path));
+    const file=attached.find((item,index)=>String(item.id||index)===String(fileId));
+    if(!file)throw new Error('No se encontró el archivo adjunto.');
+    await downloadFileRecord({
+      id:file.id||fileId,
+      bucket_id:file.bucket_id||'siac-archivos',
+      object_path:file.url||file.object_path,
+      nombre:file.nombre||file.name||'archivo-cliente',
+      mime_type:file.tipo||file.type||'application/octet-stream',
+      read_only:true
+    });
   }
   function buildClientCopySheet(client){
     const entries=formDataEntries(client);
@@ -249,8 +271,10 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
 
   const FILE_BUCKET='cvstudio-archivos';
   const FILE_TABLE='cvstudio_archivos_centro';
+  const INBOUND_FILE_BUCKET='siac-archivos';
+  const INBOUND_FILE_TABLE='archivos';
   const FILE_CATEGORIES={todos:'Todos',institucional:'Institucional',clientes:'Clientes',plantillas:'Plantillas',marketing:'Marketing',administracion:'Administración',otros:'Otros',papelera:'Papelera'};
-  const fileSize=value=>{const n=Number(value||0);if(n<1024)return `${n} B`;if(n<1048576)return `${(n/1024).toFixed(1)} KB`;return `${(n/1048576).toFixed(1)} MB`;};
+  const fileSize=value=>{if(value===null||value===undefined||value==='')return '—';const n=Number(value||0);if(n<1024)return `${n} B`;if(n<1048576)return `${(n/1024).toFixed(1)} KB`;return `${(n/1048576).toFixed(1)} MB`;};
   const safeFileName=name=>String(name||'archivo').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]+/g,'-').replace(/^-+|-+$/g,'').slice(-120)||'archivo';
   async function loadFiles(force=false){
     if(filesLoading||(!force&&filesLoaded))return;
@@ -258,9 +282,39 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     try{
       const db=window.cvstudioSupabase;
       if(!db)throw new Error('Supabase no está disponible.');
-      const {data,error}=await db.from(FILE_TABLE).select('*').order('created_at',{ascending:false}).limit(500);
-      if(error)throw error;
-      filesCache=data||[];filesLoaded=true;
+      const [managed,inbound]=await Promise.all([
+        db.from(FILE_TABLE).select('*').order('created_at',{ascending:false}).limit(500),
+        db.from(INBOUND_FILE_TABLE).select('*').order('fecha',{ascending:false}).limit(500)
+      ]);
+      if(managed.error)throw managed.error;
+      if(inbound.error)throw inbound.error;
+      const inboundFiles=(inbound.data||[]).map(file=>{
+        const client=state.clients.find(item=>item.realRequestId===file.solicitud_id);
+        return {
+          id:`inbound:${file.id}`,
+          source:'formulario',
+          read_only:true,
+          bucket_id:INBOUND_FILE_BUCKET,
+          object_path:file.url,
+          nombre:file.nombre||'Archivo recibido',
+          categoria:'clientes',
+          cliente_id:client?String(client.id):null,
+          solicitud_id:file.solicitud_id,
+          mime_type:file.tipo||'application/octet-stream',
+          tamano:null,
+          uploaded_by_email:client?.name||'Formulario web',
+          created_at:file.fecha,
+          deleted_at:null
+        };
+      });
+      const merged=[...(managed.data||[]),...inboundFiles],seen=new Set();
+      filesCache=merged.filter(file=>{
+        const key=`${file.bucket_id||FILE_BUCKET}:${file.object_path}`;
+        if(seen.has(key))return false;
+        seen.add(key);
+        return true;
+      }).sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+      filesLoaded=true;
     }catch(error){filesLoaded=true;console.error('[CVStudio Archivos]',error);toast(`Archivos: ${error.message}`);}finally{
       filesLoading=false;
       if(currentModule==='archivos')openModule('archivos');
@@ -277,7 +331,18 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(!filesLoading&&!filesLoaded)setTimeout(()=>loadFiles(),0);
     const active=filesCache.filter(f=>!f.deleted_at),trash=filesCache.filter(f=>f.deleted_at),shown=visibleFiles();
     const bytes=active.reduce((sum,f)=>sum+Number(f.tamano||0),0),images=active.filter(f=>/^image\//.test(f.mime_type||'')).length,docs=active.length-images;
-    const rows=shown.map(file=>`<tr class="${selectedFileIds.has(file.id)?'is-selected':''}"><td><input type="checkbox" data-file-check="${file.id}" ${selectedFileIds.has(file.id)?'checked':''}></td><td><b>${esc(file.nombre)}</b></td><td>${esc(FILE_CATEGORIES[file.categoria]||file.categoria)}</td><td><span class="status" style="--c:#3b82f6">${esc((file.nombre.split('.').pop()||'FILE').toUpperCase())}</span></td><td>${fileSize(file.tamano)}</td><td>${esc((file.uploaded_by_email||'equipo').split('@')[0])}</td><td>${new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit',year:'2-digit'}).format(new Date(file.created_at))}</td><td><div class="file-row-actions">${file.deleted_at?`<button class="icon-action" data-file-restore="${file.id}" title="Restaurar">${icon('refresh')}</button>`:`<button class="icon-action" data-file-open="${file.id}" title="Abrir o descargar">${icon('eye')}</button><button class="icon-action" data-file-edit="${file.id}" title="Renombrar o mover">${icon('settings')}</button><button class="icon-action" data-file-trash="${file.id}" title="Mover a papelera">×</button>`}</div></td></tr>`).join('');
+    const rows=shown.map(file=>{
+      const readOnly=Boolean(file.read_only);
+      const selectCell=readOnly?'':`<input type="checkbox" data-file-check="${file.id}" ${selectedFileIds.has(file.id)?'checked':''}>`;
+      const actions=file.deleted_at
+        ?`<button class="icon-action" data-file-restore="${file.id}" title="Restaurar">${icon('refresh')}</button>`
+        :readOnly
+          ?`<button class="button primary small" data-file-open="${file.id}" title="Ver o descargar">${icon('eye')} Ver</button>`
+          :`<button class="icon-action" data-file-open="${file.id}" title="Abrir o descargar">${icon('eye')}</button><button class="icon-action" data-file-edit="${file.id}" title="Renombrar o mover">${icon('settings')}</button><button class="icon-action" data-file-trash="${file.id}" title="Mover a papelera">×</button>`;
+      const uploader=file.source==='formulario'?(file.uploaded_by_email||'Formulario web'):((file.uploaded_by_email||'equipo').split('@')[0]);
+      const date=file.created_at?new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit',year:'2-digit'}).format(new Date(file.created_at)):'—';
+      return `<tr class="${selectedFileIds.has(file.id)?'is-selected':''}"><td>${selectCell}</td><td><b>${esc(file.nombre)}</b>${readOnly?'<small style="display:block;color:var(--muted);margin-top:3px">Recibido desde formulario</small>':''}</td><td>${esc(FILE_CATEGORIES[file.categoria]||file.categoria)}</td><td><span class="status" style="--c:#3b82f6">${esc((file.nombre.split('.').pop()||'FILE').toUpperCase())}</span></td><td>${fileSize(file.tamano)}</td><td>${esc(uploader)}</td><td>${date}</td><td><div class="file-row-actions">${actions}</div></td></tr>`;
+    }).join('');
     return `<section class="files-toolbar panel"><div class="files-kpis"><span><small>Archivos</small><b>${active.length}</b></span><span><small>Imágenes</small><b>${images}</b></span><span><small>Documentos</small><b>${docs}</b></span><span><small>Almacenado</small><b>${fileSize(bytes)}</b></span><span><small>Papelera</small><b>${trash.length}</b></span></div><div class="files-actions"><button class="button secondary" data-files-refresh>${icon('refresh')} Actualizar</button><button class="button primary" data-file-upload>+ Subir archivo</button></div></section><section class="panel files-center"><div class="files-filterbar"><div class="filters-row">${Object.entries(FILE_CATEGORIES).map(([key,label])=>`<button class="filter-chip ${filesFilter===key?'is-active':''}" data-files-filter="${key}">${label}${key==='papelera'?` ${trash.length}`:''}</button>`).join('')}</div><div class="search-box"><span>${icon('search')}</span><input id="filesSearch" value="${esc(filesQuery)}" placeholder="Buscar archivo..."></div>${selectedFileIds.size?`<div class="files-selection"><b>${selectedFileIds.size}</b><button class="button danger small" data-files-trash-selected>Enviar a papelera</button></div>`:''}</div><div class="files-table-wrap"><table class="data-table files-table"><thead><tr><th><input type="checkbox" data-files-check-all ${shown.length&&shown.every(f=>selectedFileIds.has(f.id))?'checked':''}></th><th>Nombre</th><th>Carpeta</th><th>Tipo</th><th>Tamaño</th><th>Subido por</th><th>Fecha</th><th></th></tr></thead><tbody>${rows||`<tr><td colspan="8"><div class="empty-state"><strong>${filesLoading?'Cargando archivos…':'Todavía no hay archivos en esta vista'}</strong><span>Usá “Subir archivo” para guardar el primer documento real.</span></div></td></tr>`}</tbody></table></div></section>`;
   }
   function openFileUploadModal(client=null){
@@ -308,7 +373,13 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }catch(error){console.error('[CVStudio upload]',error);toast(`No se completó la carga: ${error.message}`);if(submit)submit.disabled=false;}
   }
   async function downloadFileRecord(file){
-    const result=await window.cvstudioSupabase.storage.from(FILE_BUCKET).download(file.object_path);if(result.error)throw result.error;const url=URL.createObjectURL(result.data);window.open(url,'_blank','noopener');setTimeout(()=>URL.revokeObjectURL(url),60000);
+    if(!file?.object_path)throw new Error('El archivo no tiene una ruta válida.');
+    const result=await window.cvstudioSupabase.storage.from(file.bucket_id||FILE_BUCKET).download(file.object_path);
+    if(result.error)throw result.error;
+    const url=URL.createObjectURL(result.data),anchor=document.createElement('a');
+    anchor.href=url;anchor.download=file.nombre||'archivo';anchor.target='_blank';anchor.rel='noopener';
+    document.body.appendChild(anchor);anchor.click();anchor.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
   }
   async function trashFileRecord(file){
     const nextPath=`papelera/${file.id}/${safeFileName(file.nombre)}`;const storage=window.cvstudioSupabase.storage.from(FILE_BUCKET);const moved=await storage.move(file.object_path,nextPath);if(moved.error)throw moved.error;const updated=await window.cvstudioSupabase.from(FILE_TABLE).update({object_path:nextPath,categoria:'papelera',deleted_at:new Date().toISOString(),updated_at:new Date().toISOString()}).eq('id',file.id).select().single();if(updated.error)throw updated.error;filesCache=filesCache.map(f=>f.id===file.id?updated.data:f);
@@ -608,6 +679,11 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       if(search) search.oninput=()=>{
         clientQuery=search.value.toLowerCase().trim();document.getElementById('clientRows').innerHTML=clientRowsOperational();bindModuleActions('clientes');search.focus();search.setSelectionRange(search.value.length,search.value.length);
       };
+      document.querySelectorAll('[data-client-file-open]').forEach(button=>button.onclick=async()=>{
+        const client=state.clients.find(item=>item.id===selectedClient?.id);
+        try{await downloadClientInboundFile(client,button.dataset.clientFileOpen);toast('Archivo del cliente descargado.');}
+        catch(error){console.error('[CVStudio archivo recibido]',error);toast(`No se pudo abrir el archivo: ${error.message}`);}
+      });
       scrollConversationToLatest();
     }
     if(id==='plantillas'){
@@ -626,9 +702,9 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       document.querySelector('[data-files-check-all]')?.addEventListener('change',event=>{visibleFiles().forEach(f=>event.target.checked?selectedFileIds.add(f.id):selectedFileIds.delete(f.id));openModule('archivos');});
       document.querySelectorAll('[data-file-open]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileOpen);try{await downloadFileRecord(file);}catch(error){toast(error.message);}});
       document.querySelectorAll('[data-file-trash]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileTrash);if(!file||!confirm(`¿Mover “${file.nombre}” a la papelera?`))return;try{await trashFileRecord(file);openModule('archivos');toast('Archivo enviado a la papelera.');}catch(error){toast(error.message);}});
-      document.querySelector('[data-files-trash-selected]')?.addEventListener('click',async()=>{const chosen=filesCache.filter(f=>selectedFileIds.has(f.id)&&!f.deleted_at);if(!chosen.length||!confirm(`¿Mover ${chosen.length} archivos a la papelera?`))return;for(const file of chosen)await trashFileRecord(file);selectedFileIds.clear();openModule('archivos');toast('Archivos enviados a la papelera.');});
+      document.querySelector('[data-files-trash-selected]')?.addEventListener('click',async()=>{const chosen=filesCache.filter(f=>selectedFileIds.has(f.id)&&!f.deleted_at&&!f.read_only);if(!chosen.length||!confirm(`¿Mover ${chosen.length} archivos a la papelera?`))return;for(const file of chosen)await trashFileRecord(file);selectedFileIds.clear();openModule('archivos');toast('Archivos enviados a la papelera.');});
       document.querySelectorAll('[data-file-restore]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileRestore);try{await restoreFileRecord(file);openModule('archivos');toast('Archivo restaurado en Otros.');}catch(error){toast(error.message);}});
-      document.querySelectorAll('[data-file-edit]').forEach(btn=>btn.onclick=()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileEdit);if(!file)return;showForm('Renombrar o mover','Actualizá el nombre visible y la carpeta.',input('name','Nombre','text',file.nombre)+select('category','Carpeta',Object.entries(FILE_CATEGORIES).filter(([k])=>!['todos','papelera'].includes(k)).map(([value,label])=>({value,label})),file.categoria),'Guardar',async data=>{const name=String(data.get('name')||'').trim(),category=String(data.get('category'));if(!name)return toast('Ingresá un nombre.');try{const nextPath=`${category}/${file.id}-${safeFileName(name)}`;const move=await window.cvstudioSupabase.storage.from(FILE_BUCKET).move(file.object_path,nextPath);if(move.error)throw move.error;const update=await window.cvstudioSupabase.from(FILE_TABLE).update({nombre:name,categoria:category,object_path:nextPath,updated_at:new Date().toISOString()}).eq('id',file.id).select().single();if(update.error)throw update.error;filesCache=filesCache.map(f=>f.id===file.id?update.data:f);closeModal();openModule('archivos');toast('Archivo actualizado.');}catch(error){toast(error.message);}});});
+      document.querySelectorAll('[data-file-edit]').forEach(btn=>btn.onclick=()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileEdit);if(!file||file.read_only)return;showForm('Renombrar o mover','Actualizá el nombre visible y la carpeta.',input('name','Nombre','text',file.nombre)+select('category','Carpeta',Object.entries(FILE_CATEGORIES).filter(([k])=>!['todos','papelera'].includes(k)).map(([value,label])=>({value,label})),file.categoria),'Guardar',async data=>{const name=String(data.get('name')||'').trim(),category=String(data.get('category'));if(!name)return toast('Ingresá un nombre.');try{const nextPath=`${category}/${file.id}-${safeFileName(name)}`;const move=await window.cvstudioSupabase.storage.from(FILE_BUCKET).move(file.object_path,nextPath);if(move.error)throw move.error;const update=await window.cvstudioSupabase.from(FILE_TABLE).update({nombre:name,categoria:category,object_path:nextPath,updated_at:new Date().toISOString()}).eq('id',file.id).select().single();if(update.error)throw update.error;filesCache=filesCache.map(f=>f.id===file.id?update.data:f);closeModal();openModule('archivos');toast('Archivo actualizado.');}catch(error){toast(error.message);}});});
     }
     if(id==='integraciones'){
       document.querySelector('[data-integrations-test]')?.addEventListener('click',testIntegrations);
@@ -1177,13 +1253,35 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
 
   const notificationButton=document.getElementById('notificationButton');
   const notificationCount=document.getElementById('notificationCount');
-  if(notificationButton) notificationButton.onclick=()=>{
-    const items=(state.activities||[]).slice(0,3);
-    const content=items.length?items.map(item=>`<div class="header-notification-item"><span style="--c:${activityColor(item.type)}">${icon(typeIcon(item.type))}</span><div><strong>${esc(item.title)}</strong><small>${esc(item.detail)}</small></div><time>${formatDateTime(item.at||item.createdAt)}</time></div>`).join(''):`<div class="header-notification-item"><span style="--c:#3b82f6">${icon('calendar')}</span><div><strong>Agenda disponible</strong><small>Revisá campañas, fechas y actividades programadas.</small></div></div><div class="header-notification-item"><span style="--c:#35d07f">${icon('database')}</span><div><strong>Sistema operativo</strong><small>Supabase se encuentra conectado.</small></div></div><div class="header-notification-item"><span style="--c:#ffd23f">${icon('shield')}</span><div><strong>Sin alertas críticas</strong><small>No hay incidencias pendientes.</small></div></div>`;
-    openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('bell')}</span><h2 id="modalTitle">Notificaciones</h2></div><small>Últimos movimientos del Centro de Operaciones</small></div><div class="header-notification-list">${content}</div>`);
-    notificationButton.classList.add('is-read');
-    if(notificationCount){notificationCount.textContent='0';notificationCount.hidden=true;}
+  const readSeenFormAlerts=()=>{try{return new Set(JSON.parse(localStorage.getItem(FORM_ALERTS_SEEN_KEY)||'[]'));}catch(_){return new Set();}};
+  const formAlertId=client=>String(client?.realRequestId||client?.code||client?.id||'');
+  const unreadFormAlerts=()=>{
+    const threshold=Date.parse(FORM_ALERTS_START_AT),seen=readSeenFormAlerts();
+    return (state.clients||[]).filter(client=>{
+      const created=Date.parse(client.createdAt||client.time||0);
+      return client.imported&&formAlertId(client)&&Number.isFinite(created)&&created>=threshold&&!seen.has(formAlertId(client));
+    }).sort((a,b)=>new Date(b.createdAt||b.time||0)-new Date(a.createdAt||a.time||0));
   };
+  function updateFormNotificationBadge(announce=false){
+    const count=unreadFormAlerts().length;
+    if(notificationCount){notificationCount.textContent=String(count);notificationCount.hidden=count===0;}
+    notificationButton?.classList.toggle('is-read',!count);
+    if(announce&&count>lastFormAlertCount)toast(count===1?'Nuevo formulario recibido.':`${count} formularios nuevos recibidos.`);
+    lastFormAlertCount=count;
+  }
+  if(notificationButton) notificationButton.onclick=()=>{
+    const forms=unreadFormAlerts(),activityItems=(state.activities||[]).slice(0,Math.max(0,5-forms.length));
+    const formContent=forms.map(client=>`<div class="header-notification-item"><span style="--c:#ffd23f">${icon('file')}</span><div><strong>Nuevo formulario: ${esc(client.name)}</strong><small>${esc(client.service||'Solicitud web')}${client.files?.length?` · ${client.files.length} archivo(s)`:''}</small></div><time>${formatDateTime(client.createdAt||client.time)}</time></div>`).join('');
+    const activityContent=activityItems.map(item=>`<div class="header-notification-item"><span style="--c:${activityColor(item.type)}">${icon(typeIcon(item.type))}</span><div><strong>${esc(item.title)}</strong><small>${esc(item.detail)}</small></div><time>${formatDateTime(item.at||item.createdAt)}</time></div>`).join('');
+    const content=formContent||activityContent||`<div class="header-notification-item"><span style="--c:#35d07f">${icon('database')}</span><div><strong>Sin formularios nuevos</strong><small>El Centro está sincronizado con Supabase.</small></div></div>`;
+    openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('bell')}</span><h2 id="modalTitle">Notificaciones</h2></div><small>Formularios y movimientos recientes</small></div><div class="header-notification-list">${content}</div>`);
+    if(forms.length){
+      const seen=readSeenFormAlerts();forms.forEach(client=>seen.add(formAlertId(client)));
+      localStorage.setItem(FORM_ALERTS_SEEN_KEY,JSON.stringify([...seen].slice(-500)));
+    }
+    notificationButton.classList.add('is-read');updateFormNotificationBadge(false);
+  };
+  updateFormNotificationBadge(false);
 
   const miniCalendarHtml=()=>{
     const now=new Date(),year=now.getFullYear(),month=now.getMonth(),events=calendarMonthEvents(year,month),byDay={};
@@ -1209,6 +1307,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       refreshQueued = false;
       state = loadState();
       syncLegacyClients();
+      updateFormNotificationBadge(true);
+      filesLoaded=false;
       openModule(currentModule);
     }, 80);
   });

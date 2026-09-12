@@ -162,7 +162,7 @@
         time:r.fecha_actualizacion || r.fecha_creacion || 'Ahora', phone:c.telefono || '', email:c.email || '',
         city:c.ciudad || '', responsible:(r.responsable && r.responsable !== 'Exequiel') ? r.responsable : 'pablexe',
         source:r.canal || 'Web', realRequestId:r.id, realClientId:r.cliente_id, code:r.codigo,
-        notes:r.notas || '', files:r.archivos || [], formData:r.datos?.formulario || r.datos?.formData || r.datos || {}, imported:true
+        createdAt:r.fecha_creacion || r.fecha_actualizacion, notes:r.notas || '', files:r.archivos || [], formData:r.datos?.formulario || r.datos?.formData || r.datos || {}, imported:true
       };
     });
     state.clients = mergeByKey(state.clients, realClients, x => x.realRequestId ? `real:${x.realRequestId}` : `local:${x.id}`);
@@ -316,18 +316,29 @@
     ]);
   }
 
-  window.addEventListener('DOMContentLoaded', async () => {
-    try {
-      await waitForStageReady();
-      const ok = await loadReal();
-      if (!ok) return;
-      const state = getState();
-      const current = state._realSync?.at || '';
-      sessionStorage.setItem(SYNC_KEY, current);
-      window.dispatchEvent(new CustomEvent('cvstudio:state-updated', { detail: { source: 'real-bridge' } }));
-    } catch (error) {
-      console.error('[CVStudio RC6] Error al conectar datos reales:', error);
-      status(`Datos reales: ${error.message}`, 'warning');
-    }
-  }, {once:true});
+  let liveSyncRunning=false;
+  async function refreshReal(source='manual'){
+    if(liveSyncRunning)return false;
+    liveSyncRunning=true;
+    try{
+      const ok=await loadReal();
+      if(!ok)return false;
+      const state=getState(),current=state._realSync?.at||'';
+      sessionStorage.setItem(SYNC_KEY,current);
+      window.dispatchEvent(new CustomEvent('cvstudio:state-updated',{detail:{source,at:current}}));
+      return true;
+    }catch(error){
+      console.error('[CVStudio] Error al sincronizar solicitudes:',error);
+      status(`Datos reales: ${error.message}`,'warning');
+      return false;
+    }finally{liveSyncRunning=false;}
+  }
+
+  window.addEventListener('DOMContentLoaded',async()=>{
+    await waitForStageReady();
+    await refreshReal('real-bridge-startup');
+    window.setInterval(()=>{if(document.visibilityState==='visible')refreshReal('real-bridge-poll');},60000);
+  },{once:true});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshReal('real-bridge-visible');});
+
 })();
