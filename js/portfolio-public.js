@@ -7,7 +7,10 @@
   if(reserved.has(slug)) return unavailable('Página no encontrada','La dirección solicitada no existe.');
   fetch(`${window.CVSTUDIO_PORTFOLIO_WORKER_URL}/api/public/portfolio?slug=${encodeURIComponent(slug)}`)
     .then(async r=>{const d=await r.json();if(!r.ok||!d.ok)throw new Error(d.message);return d.portfolio;})
-    .then(render).catch(e=>{console.error(e);unavailable('Portfolio no disponible','Esta página todavía no fue publicada o la dirección no es correcta.');});
+    .then(portfolio=>{
+      if(new URLSearchParams(location.search).has('slug')) history.replaceState(null,'',`/${encodeURIComponent(slug)}`+location.hash);
+      render(portfolio);
+    }).catch(e=>{console.error(e);unavailable('Portfolio no disponible','Esta página todavía no fue publicada o la dirección no es correcta.');});
   function unavailable(t,x){root.innerHTML=`<div class="public-empty"><h1>${esc(t)}</h1><p>${esc(x)}</p><a class="button" href="/">Volver a CVStudio</a></div>`;}
   function safeUrl(v){try{const u=new URL(v);return ['http:','https:'].includes(u.protocol)?u.href:''}catch{return''}}
   function slides(project){const out=[];if(project?.cover_url)out.push(project.cover_url);if(Array.isArray(project?.media))project.media.forEach(i=>{const u=typeof i==='string'?i:(i?.url||i?.publicUrl||i?.src||'');if(u&&!out.includes(u))out.push(u)});return out.filter(Boolean)}
@@ -19,7 +22,12 @@
     if(slug==='beauty-nails-by-eliana' && typeof window.renderElianaPortfolio==='function') return window.renderElianaPortfolio(p,{root,esc,safeUrl,icons});
     const settings=p.settings||{},colors=Array.isArray(settings.colors)?settings.colors:['#ff4b55','#050506','#f5f5f5'];
     const projects=(p.projects||[]).filter(x=>x.is_visible!==false);
-    if(!projects.length)return unavailable('Portfolio sin contenido','Todavía no hay imágenes publicadas.');
+    if(!projects.length){
+      const publicName=p.full_name||p.brand_name||'Mi marca',brand=esc(publicName),isCatalog=settings.portalMode==='catalog',whatsapp=String(p.whatsapp||'').replace(/\D/g,''),waText=encodeURIComponent(`Hola, vi el espacio de ${publicName} y quisiera realizar una consulta.`);
+      document.title=`${publicName} · ${isCatalog?'Catálogo':'Portfolio'}`;
+      root.innerHTML=`<div class="public-empty"><span class="eyebrow">${esc(p.business_type||'Espacio profesional')}</span><h1>${brand}</h1><p>${isCatalog?'El catálogo está publicado y en preparación. Próximamente vas a encontrar aquí sus productos.':'El portfolio está publicado y en preparación. Próximamente vas a encontrar aquí sus trabajos.'}</p>${whatsapp?`<a class="button whatsapp" href="https://wa.me/${whatsapp}?text=${waText}" target="_blank" rel="noopener">Consultar por WhatsApp</a>`:''}</div>`;
+      return;
+    }
     document.title=`${p.brand_name||p.full_name} · Portfolio`;
     const logo=safeUrl(settings.logoUrl||''), instagram=safeUrl(settings.instagram||''), facebook=safeUrl(settings.facebook||'');
     const whatsapp=String(p.whatsapp||'').replace(/\D/g,''), waText=encodeURIComponent(`Hola, vi el portfolio de ${p.brand_name||p.full_name} y quisiera realizar una consulta.`);
