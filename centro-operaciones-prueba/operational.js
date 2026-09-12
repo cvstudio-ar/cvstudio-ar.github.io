@@ -217,7 +217,7 @@
   function clientInboundFilesHtml(client){
     const attached=(client?.files||[]).filter(file=>file&&(file.url||file.object_path));
     if(!attached.length)return '';
-    return `<div class="client-inbound-files"><div class="panel-head"><div><h3>Archivos adjuntos</h3><p>Documentos enviados por el cliente desde el formulario.</p></div><span class="status" style="--c:#35d07f">${attached.length}</span></div><div class="client-form-summary">${attached.map((file,index)=>`<div class="fund-row"><span>${icon('file')} ${esc(file.nombre||file.name||'Archivo adjunto')}</span><button class="button primary small" type="button" data-client-file-open="${esc(file.id||index)}">${icon('eye')} Ver / descargar</button></div>`).join('')}</div></div>`;
+    return `<div class="client-inbound-files"><div class="panel-head"><div><h3>Archivos adjuntos</h3><p>Documentos enviados por el cliente desde el formulario.</p></div><span class="status" style="--c:#35d07f">${attached.length}</span></div><div class="client-form-summary">${attached.map((file,index)=>`<div class="fund-row"><span>${icon('file')} ${esc(file.nombre||file.name||'Archivo adjunto')}</span><div class="file-row-actions"><button class="button secondary small" type="button" data-client-file-preview="${esc(file.id||index)}">${icon('eye')} Ver</button><button class="button primary small" type="button" data-client-file-download="${esc(file.id||index)}">Descargar</button></div></div>`).join('')}</div></div>`;
   }
   function clientFormSummaryHtml(client){
     const entries=formDataEntries(client);
@@ -225,18 +225,24 @@
     if(!entries.length&&!files) return `<div class="empty-state"><strong>Formulario todavía no recibido</strong><span>Cuando el cliente lo complete, sus datos aparecerán aquí y se habilitará la ficha para ChatGPT.</span></div>`;
     return `${entries.length?`<div class="client-form-summary">${entries.map(item=>`<div class="fund-row"><span>${esc(item.label)}</span><b>${esc(item.value)}</b></div>`).join('')}</div>`:''}${files}`;
   }
-  async function downloadClientInboundFile(client,fileId){
+  function clientInboundFileRecord(client,fileId){
     const attached=(client?.files||[]).filter(file=>file&&(file.url||file.object_path));
     const file=attached.find((item,index)=>String(item.id||index)===String(fileId));
     if(!file)throw new Error('No se encontró el archivo adjunto.');
-    await downloadFileRecord({
+    return {
       id:file.id||fileId,
       bucket_id:file.bucket_id||'siac-archivos',
       object_path:file.url||file.object_path,
       nombre:file.nombre||file.name||'archivo-cliente',
       mime_type:file.tipo||file.type||'application/octet-stream',
       read_only:true
-    });
+    };
+  }
+  async function openClientInboundFile(client,fileId){
+    await openFileRecord(clientInboundFileRecord(client,fileId));
+  }
+  async function downloadClientInboundFile(client,fileId){
+    await downloadFileRecord(clientInboundFileRecord(client,fileId));
   }
   function buildClientCopySheet(client){
     const entries=formDataEntries(client);
@@ -354,8 +360,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       const actions=file.deleted_at
         ?`<button class="icon-action" data-file-restore="${file.id}" title="Restaurar">${icon('refresh')}</button>`
         :readOnly
-          ?`<button class="button primary small" data-file-open="${file.id}" title="Ver o descargar">${icon('eye')} Ver</button>`
-          :`<button class="icon-action" data-file-open="${file.id}" title="Abrir o descargar">${icon('eye')}</button><button class="icon-action" data-file-edit="${file.id}" title="Renombrar o mover">${icon('settings')}</button><button class="icon-action" data-file-trash="${file.id}" title="Mover a papelera">×</button>`;
+          ?`<button class="button secondary small" data-file-open="${file.id}" title="Ver en una pestaña nueva">${icon('eye')} Ver</button><button class="button primary small" data-file-download="${file.id}" title="Descargar archivo">Descargar</button>`
+          :`<button class="icon-action" data-file-open="${file.id}" title="Ver en una pestaña nueva">${icon('eye')}</button><button class="icon-action" data-file-download="${file.id}" title="Descargar archivo">↓</button><button class="icon-action" data-file-edit="${file.id}" title="Renombrar o mover">${icon('settings')}</button><button class="icon-action" data-file-trash="${file.id}" title="Mover a papelera">×</button>`;
       const uploader=file.source==='formulario'?(file.uploaded_by_email||'Formulario web'):((file.uploaded_by_email||'equipo').split('@')[0]);
       const date=file.created_at?new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit',year:'2-digit'}).format(new Date(file.created_at)):'—';
       return `<tr class="${selectedFileIds.has(file.id)?'is-selected':''}"><td>${selectCell}</td><td><b>${esc(file.nombre)}</b>${readOnly?'<small style="display:block;color:var(--muted);margin-top:3px">Recibido desde formulario</small>':''}</td><td>${esc(FILE_CATEGORIES[file.categoria]||file.categoria)}</td><td><span class="status" style="--c:#3b82f6">${esc((file.nombre.split('.').pop()||'FILE').toUpperCase())}</span></td><td>${fileSize(file.tamano)}</td><td>${esc(uploader)}</td><td>${date}</td><td><div class="file-row-actions">${actions}</div></td></tr>`;
@@ -388,6 +394,31 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       if(client){client.files=client.files||[];filesCache.filter(f=>f.cliente_id===String(client.id)).forEach(f=>{if(!client.files.some(x=>x.storageId===f.id))client.files.push({storageId:f.id,name:f.nombre,size:f.tamano,type:f.mime_type,addedAt:f.created_at});});addActivity('client','Archivos respaldados',`${client.name} · ${completed} archivo(s)`,client.id);saveState();}
       closeModal();toast(`${completed} archivo(s) guardados en Supabase.`);openModule(currentModule);
     }catch(error){console.error('[CVStudio upload]',error);toast(`No se completó la carga: ${error.message}`);if(submit)submit.disabled=false;}
+  }
+  async function openFileRecord(file){
+    if(!file?.object_path)throw new Error('El archivo no tiene una ruta válida.');
+    const viewer=window.open('about:blank','_blank');
+    if(viewer){
+      viewer.document.title='Abriendo archivo…';
+      viewer.document.body.innerHTML='<p style="font-family:system-ui;padding:24px">Abriendo archivo…</p>';
+    }
+    try{
+      const result=await window.cvstudioSupabase.storage.from(file.bucket_id||FILE_BUCKET).download(file.object_path);
+      if(result.error)throw result.error;
+      const type=file.mime_type||result.data?.type||'application/octet-stream';
+      const blob=result.data?.type?result.data:new Blob([result.data],{type});
+      const url=URL.createObjectURL(blob);
+      if(viewer&&!viewer.closed)viewer.location.replace(url);
+      else{
+        const anchor=document.createElement('a');
+        anchor.href=url;anchor.target='_blank';anchor.rel='noopener';
+        document.body.appendChild(anchor);anchor.click();anchor.remove();
+      }
+      setTimeout(()=>URL.revokeObjectURL(url),300000);
+    }catch(error){
+      if(viewer&&!viewer.closed)viewer.close();
+      throw error;
+    }
   }
   async function downloadFileRecord(file){
     if(!file?.object_path)throw new Error('El archivo no tiene una ruta válida.');
@@ -696,10 +727,15 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       if(search) search.oninput=()=>{
         clientQuery=search.value.toLowerCase().trim();document.getElementById('clientRows').innerHTML=clientRowsOperational();bindModuleActions('clientes');search.focus();search.setSelectionRange(search.value.length,search.value.length);
       };
-      document.querySelectorAll('[data-client-file-open]').forEach(button=>button.onclick=async()=>{
+      document.querySelectorAll('[data-client-file-preview]').forEach(button=>button.onclick=async()=>{
         const client=state.clients.find(item=>item.id===selectedClient?.id);
-        try{await downloadClientInboundFile(client,button.dataset.clientFileOpen);toast('Archivo del cliente descargado.');}
+        try{await openClientInboundFile(client,button.dataset.clientFilePreview);toast('Archivo abierto en una pestaña nueva.');}
         catch(error){console.error('[CVStudio archivo recibido]',error);toast(`No se pudo abrir el archivo: ${error.message}`);}
+      });
+      document.querySelectorAll('[data-client-file-download]').forEach(button=>button.onclick=async()=>{
+        const client=state.clients.find(item=>item.id===selectedClient?.id);
+        try{await downloadClientInboundFile(client,button.dataset.clientFileDownload);toast('Archivo del cliente descargado.');}
+        catch(error){console.error('[CVStudio archivo recibido]',error);toast(`No se pudo descargar el archivo: ${error.message}`);}
       });
       scrollConversationToLatest();
     }
@@ -717,7 +753,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       const search=document.getElementById('filesSearch');if(search)search.oninput=()=>{filesQuery=search.value.toLowerCase().trim();openModule('archivos');document.getElementById('filesSearch')?.focus();};
       document.querySelectorAll('[data-file-check]').forEach(input=>input.onchange=()=>{input.checked?selectedFileIds.add(input.dataset.fileCheck):selectedFileIds.delete(input.dataset.fileCheck);openModule('archivos');});
       document.querySelector('[data-files-check-all]')?.addEventListener('change',event=>{visibleFiles().forEach(f=>event.target.checked?selectedFileIds.add(f.id):selectedFileIds.delete(f.id));openModule('archivos');});
-      document.querySelectorAll('[data-file-open]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileOpen);try{await downloadFileRecord(file);}catch(error){toast(error.message);}});
+      document.querySelectorAll('[data-file-open]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileOpen);try{await openFileRecord(file);}catch(error){toast(error.message);}});
+      document.querySelectorAll('[data-file-download]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileDownload);try{await downloadFileRecord(file);}catch(error){toast(error.message);}});
       document.querySelectorAll('[data-file-trash]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileTrash);if(!file||!confirm(`¿Mover “${file.nombre}” a la papelera?`))return;try{await trashFileRecord(file);openModule('archivos');toast('Archivo enviado a la papelera.');}catch(error){toast(error.message);}});
       document.querySelector('[data-files-trash-selected]')?.addEventListener('click',async()=>{const chosen=filesCache.filter(f=>selectedFileIds.has(f.id)&&!f.deleted_at&&!f.read_only);if(!chosen.length||!confirm(`¿Mover ${chosen.length} archivos a la papelera?`))return;for(const file of chosen)await trashFileRecord(file);selectedFileIds.clear();openModule('archivos');toast('Archivos enviados a la papelera.');});
       document.querySelectorAll('[data-file-restore]').forEach(btn=>btn.onclick=async()=>{const file=filesCache.find(f=>f.id===btn.dataset.fileRestore);try{await restoreFileRecord(file);openModule('archivos');toast('Archivo restaurado en Otros.');}catch(error){toast(error.message);}});
