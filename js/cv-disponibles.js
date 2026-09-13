@@ -2,11 +2,14 @@
   'use strict';
 
   const whatsapp = '5492964652318';
+  const paymentWorkerUrl = 'https://cvstudio-contacto.cvpro-duccionesar.workers.dev';
+  const formatArs = (value) => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(Number(value || 0));
   const categories = [
     {
       key: 'express',
+      productId: 'cv-express',
       name: 'CV Express',
-      price: '$5.500',
+      price: '$6.000',
       description: 'Una renovación rápida para ordenar y mejorar la presentación de un CV existente mediante un diseño prediseñado.',
       includes: [
         'Organización de la información proporcionada.',
@@ -18,6 +21,7 @@
     },
     {
       key: 'basico',
+      productId: 'cv-basico',
       name: 'CV Básico',
       price: '$6.500',
       description: 'Mejora la presentación y el contenido principal con una estructura más completa y un diseño moderno.',
@@ -32,6 +36,7 @@
     },
     {
       key: 'estandar',
+      productId: 'cv-estandar',
       name: 'CV Estándar',
       price: '$7.500',
       description: 'Una opción más desarrollada, con redacción integral, mejor jerarquía de la información y enfoque profesional.',
@@ -46,6 +51,7 @@
     },
     {
       key: 'avanzado',
+      productId: 'cv-avanzado',
       name: 'CV Avanzado',
       price: '$10.500',
       description: 'Desarrollo estratégico con diseño premium, mayor profundidad de contenido y recursos profesionales adicionales.',
@@ -61,8 +67,9 @@
     },
     {
       key: 'profesional',
+      productId: 'cv-profesional',
       name: 'CV Profesional Personalizado',
-      price: '$11.500',
+      price: '$12.500',
       description: 'Un currículum desarrollado desde cero y completamente a medida según la experiencia, el sector y el objetivo laboral.',
       includes: [
         'Evaluación detallada de la trayectoria profesional.',
@@ -97,7 +104,8 @@
   const sectionRoot = document.getElementById('categorySections');
   const waLink = (model, category) => `https://wa.me/${whatsapp}?text=${encodeURIComponent(`Hola CVStudio, quiero solicitar el modelo ${model.code} — ${category.name} de ${category.price}. ¿Cómo puedo comenzar?`)}`;
 
-  sectionRoot.innerHTML = categories.map((category) => {
+  const renderCatalog = () => {
+    sectionRoot.innerHTML = categories.map((category) => {
     const categoryModels = models.filter((model) => model.category === category.key);
     const includes = category.includes.map((item) => `<li>${item}</li>`).join('');
     const cards = categoryModels.map((model) => {
@@ -127,5 +135,30 @@
       </div>
       <div class="models-grid">${cards}</div>
     </section>`;
-  }).join('');
+    }).join('');
+    categories.forEach((category) => {
+      const price = document.querySelector(`[data-catalog-price="${category.productId}"] b`);
+      if (price) price.textContent = category.price;
+    });
+  };
+
+  renderCatalog();
+
+  fetch(paymentWorkerUrl, {
+    method: 'POST',
+    cache: 'no-store',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'mercadopago-products', timestamp: Date.now() })
+  })
+    .then((response) => response.ok ? response.json() : Promise.reject(new Error('No se pudo validar el catálogo.')))
+    .then((data) => {
+      if (!data?.ok || !Array.isArray(data.products)) throw new Error('El catálogo remoto no es válido.');
+      const products = new Map(data.products.map((product) => [product.product_id, product]));
+      categories.forEach((category) => {
+        const product = products.get(category.productId);
+        if (product) category.price = formatArs(product.effective_price || product.unit_price);
+      });
+      renderCatalog();
+    })
+    .catch((error) => console.warn('Se muestran los precios oficiales de respaldo.', error));
 })();

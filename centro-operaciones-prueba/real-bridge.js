@@ -12,6 +12,7 @@
   const db = () => window.cvstudioSupabase;
 
   const esc = value => String(value ?? '').trim();
+  const normalizeService = value => window.CVStudioNormalizeServiceName ? window.CVStudioNormalizeServiceName(value) : esc(value);
   const digits = value => String(value || '').replace(/\D/g, '');
   const hashId = value => {
     let h = 2166136261;
@@ -131,7 +132,7 @@
     if (commsResult.error) throw commsResult.error;
 
     const state = getState();
-    state.version = 11;
+    state.version = 12;
     state.rules ||= {colab:20,growth:15,reserve:5,company:60};
     state.clients ||= []; state.jobs ||= []; state.payments ||= []; state.executions ||= [];
     state.expenses ||= []; state.activities ||= []; state.prices ||= {};
@@ -157,7 +158,7 @@
       const id = hashId(`solicitud:${r.id}`);
       return {
         id, name:c.nombre || r.codigo || 'Cliente', initials:initials(c.nombre),
-        service:r.servicio || r.subtipo || 'Solicitud', status:statusMap(r.estado),
+        service:normalizeService(r.servicio || r.subtipo || 'Solicitud'), status:statusMap(r.estado),
         color:['#9b5de5','#3b82f6','#35d07f','#ff8a1f'][index%4],
         time:r.fecha_actualizacion || r.fecha_creacion || 'Ahora', phone:c.telefono || '', email:c.email || '',
         city:c.ciudad || '', responsible:(r.responsable && r.responsable !== 'Exequiel') ? r.responsable : 'pablexe',
@@ -171,7 +172,7 @@
       const clientId = hashId(`solicitud:${r.id}`);
       return {
         id:hashId(`job:${r.id}`), clientId, client:r.clientes?.nombre || r.codigo,
-        service:r.servicio || 'Solicitud', stage:stageMap(r.estado), progress:progressMap(r.estado),
+        service:normalizeService(r.servicio || 'Solicitud'), stage:stageMap(r.estado), progress:progressMap(r.estado),
         responsible:(r.responsable && r.responsable !== 'Exequiel') ? r.responsable : 'pablexe',
         due:(r.datos?.fecha_entrega || r.datos?.fechaEntrega || '').slice?.(0,10) || '',
         completedAt:/entregado|finalizado/i.test(r.estado || '') ? (r.fecha_actualizacion || null) : null,
@@ -200,11 +201,11 @@
       let c = byEmail.get(esc(order.cliente_email).toLowerCase()) || byPhone.get(digits(order.cliente_whatsapp));
       if (!c) {
         const id = hashId(`mpclient:${order.cliente_email || order.cliente_whatsapp || order.id}`);
-        c = {id,name:order.cliente_nombre || 'Cliente Mercado Pago',initials:initials(order.cliente_nombre),service:order.producto_nombre,status:order.estado_pago==='approved'?'En proceso':'Esperando pago',color:['#35d07f','#3b82f6','#ff8a1f'][index%3],time:order.updated_at||order.created_at,phone:order.cliente_whatsapp||'',email:order.cliente_email||'',responsible:'pablexe',source:'Web',realOrderId:order.id,imported:true};
+        c = {id,name:order.cliente_nombre || 'Cliente Mercado Pago',initials:initials(order.cliente_nombre),service:normalizeService(order.producto_nombre),status:order.estado_pago==='approved'?'En proceso':'Esperando pago',color:['#35d07f','#3b82f6','#ff8a1f'][index%3],time:order.updated_at||order.created_at,phone:order.cliente_whatsapp||'',email:order.cliente_email||'',responsible:'pablexe',source:'Web',realOrderId:order.id,imported:true};
         state.clients.push(c);
       }
       realPayments.push({
-        id:hashId(`payment:${order.id}`),clientId:c.id,client:c.name,service:order.producto_nombre,
+        id:hashId(`payment:${order.id}`),clientId:c.id,client:c.name,service:normalizeService(order.producto_nombre),
         amount:Number(order.importe||0),status:order.estado_pago==='approved'?'Confirmado':'Pendiente',
         source:'Web',paymentMethod:'Mercado Pago',alias:'cvstudio.ar',priceSnapshot:Number(order.importe||0),
         createdAt:order.fecha_aprobacion||order.created_at,realOrderId:order.id,externalReference:order.external_reference,
@@ -219,7 +220,10 @@
     const products = productsData.products || [];
     if (products.length) {
       const mapped = {};
-      products.forEach(p => mapped[p.title] = Number(p.test_mode && p.test_price ? p.test_price : p.unit_price));
+      products.forEach(p => {
+        const key = window.CVStudioServiceNameByProductId?.[p.product_id] || normalizeService(p.title);
+        mapped[key] = Number(p.test_mode && p.test_price ? p.test_price : p.unit_price);
+      });
       state.prices = {...state.prices, ...mapped};
       state._realProducts = products;
     }
@@ -296,11 +300,18 @@
   async function deletePortfolioClient(portfolioId) { return portfolioApi('portfolio-admin-delete', {portfolioId}); }
   async function updatePrices(prices) {
     const priceKeyByProductId = {
+      'cv-express':'CV Express',
+      'cv-basico':'CV Básico',
+      'cv-estandar':'CV Estándar',
+      'cv-avanzado':'CV Avanzado',
       'cv-profesional':'CV Profesional',
       'cv-freelance':'CV Freelance',
-      'linkedin':'LinkedIn',
+      'linkedin':'LinkedIn Completo',
       'combo-2-cv':'Combo 2 CV Profesionales',
-      'combo-cv-linkedin':'CV + LinkedIn'
+      'combo-cv-linkedin':'Combo CV + LinkedIn',
+      'entrevistas':'Preparación para entrevistas',
+      'kit-emprendedor':'Kit Emprendedor',
+      'kit-web':'Kit Emprendedor + Web'
     };
     const products=Object.fromEntries(Object.entries(priceKeyByProductId).map(([productId,key])=>[productId,Number(prices[key])]));
     return api('payments-admin-products-update',{products});

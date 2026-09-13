@@ -22,7 +22,7 @@ const SUPABASE_URL = 'https://eqepkoegzyqklpxkrkhm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZXBrb2Vnenlxa2xweGtya2htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTc1MzcsImV4cCI6MjEwMDQzMzUzN30.dy-gMZJRMTQyr--kCq5JsEaDzazcDXFUkxQdiLQBFx8';
 const ADMIN_USER_ID = '3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
 const CONTACT_EMAIL = 'contacto@cvstudio.com.ar';
-const WORKER_RELEASE = 'v2.13.0-security-hardening';
+const WORKER_RELEASE = 'v2.14.0-official-prices';
 const FORM_NOTIFICATION_EMAIL = 'cvstudioargentina@gmail.com';
 const getFormNotificationEmail = () => FORM_NOTIFICATION_EMAIL;
 const DEFAULT_RESEND_RECEIVING_DOMAIN = 'iokioalkuu.resend.app';
@@ -39,11 +39,18 @@ const CANVA_SCOPES = [
 
 // === Mercado Pago · Checkout Pro + pedidos ===
 const MP_PRODUCT_DEFAULTS = Object.freeze({
-  'cv-profesional': { title: 'CV Profesional', unit_price: 11500, sort_order: 10 },
-  'cv-freelance': { title: 'CV Freelance Profesional', unit_price: 16000, sort_order: 20 },
-  'linkedin': { title: 'Perfil Profesional de LinkedIn', unit_price: 19000, sort_order: 30 },
-  'combo-2-cv': { title: 'Combo 2 CV Profesionales', unit_price: 20000, sort_order: 40 },
-  'combo-cv-linkedin': { title: 'Combo CV + LinkedIn', unit_price: 25000, sort_order: 50 }
+  'cv-express': { title: 'CV Express', unit_price: 6000, sort_order: 10 },
+  'cv-basico': { title: 'CV Básico', unit_price: 6500, sort_order: 20 },
+  'cv-estandar': { title: 'CV Estándar', unit_price: 7500, sort_order: 30 },
+  'cv-avanzado': { title: 'CV Avanzado', unit_price: 10500, sort_order: 40 },
+  'cv-profesional': { title: 'CV Profesional', unit_price: 12500, sort_order: 50 },
+  'cv-freelance': { title: 'CV Freelance', unit_price: 15000, sort_order: 60 },
+  'linkedin': { title: 'LinkedIn Completo', unit_price: 20000, sort_order: 70 },
+  'combo-2-cv': { title: 'Combo 2 CV Profesionales', unit_price: 20000, sort_order: 80 },
+  'combo-cv-linkedin': { title: 'Combo CV + LinkedIn', unit_price: 28000, sort_order: 90 },
+  'entrevistas': { title: 'Preparación para entrevistas', unit_price: 10000, sort_order: 100 },
+  'kit-emprendedor': { title: 'Kit Emprendedor', unit_price: 35000, sort_order: 110 },
+  'kit-web': { title: 'Kit Emprendedor + Web', unit_price: 80000, sort_order: 120 }
 });
 const effectiveProductPrice=product=>Number(product?.test_mode&&Number(product?.test_price)>0?product.test_price:product?.unit_price||0);
 async function getPaymentProducts(env){

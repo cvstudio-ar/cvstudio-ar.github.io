@@ -6,15 +6,40 @@
 
   const STORE_KEY = 'cvstudio_ops_operational_v2';
   const SERVICE_DEFAULTS = {
-    'CV Profesional': 12000,
-    'CV Freelance': 16000,
-    'LinkedIn': 19000,
-    'CV + LinkedIn': 25000,
+    'CV Express': 6000,
+    'CV Básico': 6500,
+    'CV Estándar': 7500,
+    'CV Avanzado': 10500,
+    'CV Profesional': 12500,
+    'CV Freelance': 15000,
+    'LinkedIn Completo': 20000,
     'Combo 2 CV Profesionales': 20000,
-    'Portfolio': 35000,
-    'Kit Emprendedor': 45000,
-    'Kit + Web': 75000
+    'Combo CV + LinkedIn': 28000,
+    'Preparación para entrevistas': 10000,
+    'Kit Emprendedor': 35000,
+    'Kit Emprendedor + Web': 80000
   };
+  const PRODUCT_SERVICE_NAMES = Object.freeze({
+    'cv-express':'CV Express','cv-basico':'CV Básico','cv-estandar':'CV Estándar','cv-avanzado':'CV Avanzado',
+    'cv-profesional':'CV Profesional','cv-freelance':'CV Freelance','linkedin':'LinkedIn Completo',
+    'combo-2-cv':'Combo 2 CV Profesionales','combo-cv-linkedin':'Combo CV + LinkedIn','entrevistas':'Preparación para entrevistas',
+    'kit-emprendedor':'Kit Emprendedor','kit-web':'Kit Emprendedor + Web'
+  });
+  const serviceToken = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9+]+/g,' ').trim().replace(/\s+/g,' ');
+  const SERVICE_ALIASES = new Map([
+    ['cv express','CV Express'],['express','CV Express'],['cv basico','CV Básico'],['basico','CV Básico'],
+    ['cv estandar','CV Estándar'],['estandar','CV Estándar'],['cv avanzado','CV Avanzado'],['avanzado','CV Avanzado'],
+    ['cv profesional','CV Profesional'],['actualizacion de cv profesional','CV Profesional'],['cv profesional personalizado','CV Profesional'],
+    ['cv freelance','CV Freelance'],['cv freelance profesional','CV Freelance'],['curriculum freelance profesional','CV Freelance'],['portfolio personalizado','CV Freelance'],
+    ['linkedin','LinkedIn Completo'],['linkedin completo','LinkedIn Completo'],['perfil profesional de linkedin','LinkedIn Completo'],
+    ['2 cv profesionales','Combo 2 CV Profesionales'],['combo 2 cv','Combo 2 CV Profesionales'],['combo 2 cv profesionales','Combo 2 CV Profesionales'],
+    ['cv + linkedin','Combo CV + LinkedIn'],['combo cv + linkedin','Combo CV + LinkedIn'],['combo cv linkedin','Combo CV + LinkedIn'],
+    ['entrevistas','Preparación para entrevistas'],['preparacion para entrevistas','Preparación para entrevistas'],['preparacion para entrevistas laborales','Preparación para entrevistas'],
+    ['kit emprendedor','Kit Emprendedor'],['kit + web','Kit Emprendedor + Web'],['kit emprendedor + web','Kit Emprendedor + Web'],['kit emprendedor web','Kit Emprendedor + Web']
+  ]);
+  const canonicalServiceName = value => SERVICE_ALIASES.get(serviceToken(value)) || String(value || '').trim() || 'Pendiente de definir';
+  window.CVStudioNormalizeServiceName = canonicalServiceName;
+  window.CVStudioServiceNameByProductId = PRODUCT_SERVICE_NAMES;
 
   const PERMISSION_MODULES = ['Inicio','Clientes','Administración','Marketing','Calendario','Plantillas','Archivos','Integraciones','Colaboradores','Espacios de clientes','Configuración'];
   const ROLE_PERMISSION_MAP = {
@@ -27,7 +52,7 @@
   const permissionsForRole = role => [...(ROLE_PERMISSION_MAP[role] || ROLE_PERMISSION_MAP.Aprendiz)];
 
   const seed = {
-    version: 11,
+    version: 12,
     rules: { colab: 20, growth: 15, reserve: 5, company: 60 },
     prices: { ...SERVICE_DEFAULTS },
     clients: [], jobs: [], payments: [], executions: [], expenses: [], activities: [], calendarItems: [], urlSpaces: [], templates: [], hiddenClientRefs: [], collaborators: [{id:1,name:'pablexe',email:'pablexe@cvstudio.com.ar',role:'Director',commission:20,birthDate:'',startDate:'2026-08-01',status:'Activo',authStatus:'Activo',permissions:permissionsForRole('Director'),capabilities:['CV Profesional','LinkedIn','Cartas','Portfolio','Atención al cliente','Diseño gráfico','Marketing','Revisión'],training:{}}]
@@ -37,8 +62,8 @@
   function loadState() {
     try {
       const stored = JSON.parse(localStorage.getItem(STORE_KEY));
-      if (stored && [2,3,4,5,6,7,8,9,10,11].includes(stored.version)) {
-        stored.version = 11;
+      if (stored && [2,3,4,5,6,7,8,9,10,11,12].includes(stored.version)) {
+        stored.version = 12;
         stored.executions = Array.isArray(stored.executions) ? stored.executions : [];
         stored.activities = Array.isArray(stored.activities) ? stored.activities : [];
         stored.calendarItems = Array.isArray(stored.calendarItems) ? stored.calendarItems : [];
@@ -47,19 +72,11 @@
         stored.hiddenClientRefs = Array.isArray(stored.hiddenClientRefs) ? stored.hiddenClientRefs : [];
         stored.collaborators = Array.isArray(stored.collaborators) && stored.collaborators.length ? stored.collaborators : clone(seed.collaborators);
         const roleMap={'Administrador':'Director','Coordinador':'Líder','Producción':'Operario','Diseñador':'Operario','Redactor':'Operario','Corrector':'Operario','Editor LinkedIn':'Operario','Portfolio':'Operario','Marketing':'Operario','Atención al cliente':'Operario'};
-        stored.clients=(stored.clients||[]).map(c=>({...c,formData:c.formData&&typeof c.formData==='object'?c.formData:{}}));
+        stored.clients=(stored.clients||[]).map(c=>({...c,service:canonicalServiceName(c.service),formData:c.formData&&typeof c.formData==='object'?c.formData:{}}));
+        stored.jobs=(stored.jobs||[]).map(j=>({...j,service:canonicalServiceName(j.service)}));
+        stored.payments=(stored.payments||[]).map(p=>({...p,service:canonicalServiceName(p.service)}));
         stored.collaborators.forEach(c=>{c.role=roleMap[c.role]||c.role||'Aprendiz';c.roleHistory=Array.isArray(c.roleHistory)?c.roleHistory:[];c.capabilities=Array.isArray(c.capabilities)?c.capabilities:[];c.permissions=Array.isArray(c.permissions)&&c.permissions.length?c.permissions:permissionsForRole(c.role);c.training=c.training&&typeof c.training==='object'?c.training:{};});
-        const previousPrices=stored.prices||{};
-        stored.prices={
-          'CV Profesional':Number(previousPrices['CV Profesional']??12000),
-          'CV Freelance':Number(previousPrices['CV Freelance']??16000),
-          'LinkedIn':Number(previousPrices.LinkedIn??previousPrices['LinkedIn Profesional']??19000),
-          'Combo 2 CV Profesionales':Number(previousPrices['Combo 2 CV Profesionales']??previousPrices['2 CV Profesionales']??20000),
-          'CV + LinkedIn':Number(previousPrices['CV + LinkedIn']??previousPrices['Combo CV + LinkedIn']??25000),
-          'Portfolio':Number(previousPrices.Portfolio??35000),
-          'Kit Emprendedor':Number(previousPrices['Kit Emprendedor']??45000),
-          'Kit + Web':Number(previousPrices['Kit + Web']??75000)
-        };
+        stored.prices={...SERVICE_DEFAULTS};
         return stored;
       }
     } catch (_) {}
@@ -114,7 +131,10 @@
   const confirmedPayments = () => state.payments.filter(p => p.status === 'Confirmado');
   const totalRevenue = () => confirmedPayments().reduce((sum, p) => sum + Number(p.amount || 0), 0);
   const totalExpenses = () => state.expenses.reduce((sum, e) => sum + Number(e.amount || 0), 0);
-  const servicePrice = service => Number(state.prices[service] ?? SERVICE_DEFAULTS[service] ?? 0);
+  const servicePrice = service => {
+    const canonical = canonicalServiceName(service);
+    return Number(state.prices[canonical] ?? SERVICE_DEFAULTS[canonical] ?? 0);
+  };
   const initials = name => String(name || '').trim().split(/\s+/).slice(0,2).map(x => x[0]?.toUpperCase()).join('') || 'CL';
   const nextId = list => Math.max(0, ...list.map(x => Number(x.id) || 0)) + 1;
   const formatDateTime = iso => new Intl.DateTimeFormat('es-AR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(iso));
@@ -966,7 +986,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       phone:client.phone||'',
       email:client.email||'',
       city:client.city||'',
-      service:client.service||'Pendiente de definir',
+      service:canonicalServiceName(client.service),
       responsible:client.responsible||'pablexe',
       source:client.source||'WhatsApp'
     });
@@ -1120,7 +1140,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const clientOptions=state.clients.map(c=>({value:String(c.id),label:c.name}));
     showForm('Registrar pago','Simula el ingreso centralizado a Mercado Pago alias cvstudio.ar.',select('clientId','Cliente',clientOptions,String(defaultClient.id))+select('service','Servicio',Object.keys(state.prices),defaultClient.service)+input('amount','Importe calculado','number',servicePrice(defaultClient.service))+select('status','Estado',['Confirmado','Pendiente'],'Confirmado')+select('source','Canal de origen',['WhatsApp','Web','Facebook','Instagram','Mercado Libre','Referido','Otro'],'WhatsApp'),'Registrar pago',data=>{
       const client=state.clients.find(c=>c.id===Number(data.get('clientId')));
-      const service=data.get('service'), amount=servicePrice(service), status=data.get('status');
+      const service=canonicalServiceName(data.get('service')), amount=servicePrice(service), status=data.get('status');
       if(!client){toast('No se encontró el cliente seleccionado.');return;}
       if(amount<=0){toast('El servicio seleccionado no tiene un precio válido.');return;}
       if(status==='Confirmado' && state.payments.some(p=>p.clientId===client.id&&p.status==='Confirmado')){toast('Este cliente ya tiene un pago confirmado.');return;}
@@ -1142,7 +1162,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     showForm('Nuevo trabajo','El proyecto quedará asociado directamente a la ficha del cliente y a su calendario.',select('clientId','Cliente',state.clients.map(c=>({value:String(c.id),label:c.name})),String(defaultClient.id))+select('service','Servicio',Object.keys(state.prices),defaultClient.service)+select('responsible','Responsable',(state.collaborators||[]).filter(c=>c.status==='Activo').map(c=>c.name),defaultClient.responsible||'pablexe')+input('due','Entrega estimada','date','2026-08-08')+select('stage','Etapa',['En producción','En revisión','Pausado'],'En producción'),'Crear trabajo',data=>{
       const client=state.clients.find(c=>c.id===Number(data.get('clientId')));
       if(!client){toast('No se encontró el cliente seleccionado.');return;}
-      const job={id:nextId(state.jobs),clientId:client.id,client:client.name,service:data.get('service'),stage:data.get('stage'),progress:data.get('stage')==='En revisión'?70:10,responsible:data.get('responsible'),due:data.get('due'),completedAt:null};
+      const job={id:nextId(state.jobs),clientId:client.id,client:client.name,service:canonicalServiceName(data.get('service')),stage:data.get('stage'),progress:data.get('stage')==='En revisión'?70:10,responsible:data.get('responsible'),due:data.get('due'),completedAt:null};
       state.jobs.unshift(job); client.service=job.service; client.status='En proceso'; client.responsible=job.responsible; addActivity('job','Nuevo trabajo creado',`${client.name} · ${job.service}`,client.id); saveState(); closeModal(); toast('Proyecto creado y asociado al cliente.'); openModule('clientes'); if(client.realRequestId)window.CVStudioRealBridge?.updateRequestStatus(client.realRequestId,'En producción',{asignado:job.responsible}).catch(console.error);
     });
     const form=document.getElementById('opsForm');

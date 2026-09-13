@@ -1,7 +1,7 @@
 {
-  "version": "1.8.3",
-  "build": "20260912-pdf-inline-preview-v183",
-  "releasedAt": "2026-09-12T23:40:00Z",
+  "version": "1.8.4",
+  "build": "20260913-official-prices-v184",
+  "releasedAt": "2026-09-13T00:13:00Z",
   "channel": "production",
-  "name": "Vista previa y descarga separada de archivos adjuntos"
+  "name": "Catálogo y precios oficiales unificados"
 }
