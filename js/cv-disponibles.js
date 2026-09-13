@@ -144,7 +144,10 @@
       const active = tab.dataset.category === model.category;
       tab.classList.toggle('is-active', active);
       tab.setAttribute('aria-selected', String(active));
-      if (active) tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      if (active) {
+        const targetLeft = tab.offsetLeft - ((elements.tabs.clientWidth - tab.offsetWidth) / 2);
+        elements.tabs.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+      }
     });
     elements.dots.querySelectorAll('.carousel-dot').forEach((dot, dotIndex) => {
       const active = dotIndex === currentIndex;
@@ -153,6 +156,11 @@
     });
 
     if (window.history?.replaceState) window.history.replaceState(null, '', `#${model.code.toLowerCase()}`);
+    elements.featured.classList.remove('is-changing');
+    requestAnimationFrame(() => {
+      elements.featured.classList.add('is-changing');
+      window.setTimeout(() => elements.featured.classList.remove('is-changing'), 260);
+    });
     [previousModel.image,nextModel.image].forEach((src) => { const preload = new Image(); preload.src = src; });
   };
 
