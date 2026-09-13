@@ -7,31 +7,31 @@
     {
       key: 'express', name: 'CV Express', price: '$6.000',
       description: 'Una opción ágil para renovar y ordenar un currículum existente con un diseño prediseñado.',
-      band: [['◷','Entrega estimada: 1 hora*'],['◆','Diseño y color predeterminados'],['✎','Corrección y mejora básica'],['PDF','Entrega final en PDF']],
+      band: [['clock','Entrega estimada: 1 hora*'],['layout','Diseño y color predeterminados'],['pen','Corrección y mejora básica'],['pdf','Entrega final en PDF']],
       benefits: ['Diseño prediseñado de una página.','Reorganización del contenido principal.','Corrección ortográfica y mejora básica de redacción.','Presentación clara y profesional.','Archivo final listo para enviar.']
     },
     {
       key: 'basico', name: 'CV Básico', price: '$6.500',
       description: 'Una presentación moderna y organizada, con mejoras en los textos principales y mayor personalización.',
-      band: [['◷','Entrega estimada: 1 hora*'],['◆','Personalización de colores'],['✎','Redacción y corrección general'],['PDF','Entrega final en PDF']],
+      band: [['clock','Entrega estimada: 1 hora*'],['palette','Personalización de colores'],['pen','Redacción y corrección general'],['pdf','Entrega final en PDF']],
       benefits: ['Diseño profesional de una página.','Organización de experiencia y formación.','Mejora del perfil y los textos principales.','Incorporación de habilidades y conocimientos.','Adaptación para perfiles con o sin experiencia.']
     },
     {
       key: 'estandar', name: 'CV Estándar', price: '$7.500',
       description: 'Redacción profesional, contenido mejor desarrollado y una estructura estratégica para destacar el perfil.',
-      band: [['◷','Entrega estimada: 1 hora*'],['◆','Personalización de colores'],['✎','Redacción profesional'],['ATS','Optimización ATS básica']],
+      band: [['clock','Entrega estimada: 1 hora*'],['palette','Personalización de colores'],['pen','Redacción profesional'],['ats','Optimización ATS básica']],
       benefits: ['Diseño completo de una página.','Organización estratégica del contenido.','Desarrollo de experiencias laborales.','Habilidades, conocimientos y formación.','Entrega final en formato PDF.']
     },
     {
       key: 'avanzado', name: 'CV Avanzado', price: '$10.500',
       description: 'Una propuesta más completa, con diseño premium, redacción optimizada y recursos profesionales adicionales.',
-      band: [['◷','Entrega estimada: 1 hora*'],['◆','Diseño premium personalizable'],['ATS','Optimización para sistemas ATS'],['QR','QR para LinkedIn']],
+      band: [['clock','Entrega estimada: 1 hora*'],['palette','Diseño premium personalizable'],['ats','Optimización para sistemas ATS'],['qr','QR para LinkedIn']],
       benefits: ['Redacción profesional optimizada.','Desarrollo detallado de las experiencias.','Organización de habilidades y competencias.','Incorporación de idiomas, formación y cursos.','Entrega final en formato PDF.']
     },
     {
       key: 'profesional', name: 'CV Profesional', price: '$12.500',
       description: 'Un currículum exclusivo, desarrollado desde cero según tu trayectoria, sector y objetivo laboral.',
-      band: [['◷','Entrega estimada: 1 hora*'],['◆','Diseño completamente personalizado'],['ATS','Optimización ATS avanzada'],['QR','QR para LinkedIn']],
+      band: [['clock','Entrega estimada: 1 hora*'],['palette','Diseño completamente personalizado'],['ats','Optimización ATS avanzada'],['qr','QR para LinkedIn']],
       benefits: ['Análisis integral de la información.','Redacción profesional completa.','Estructura y colores definidos a medida.','Selección de habilidades y palabras clave.','Adaptación al sector y al objetivo laboral.','Entrega final en formato PDF.']
     }
   ];
@@ -66,6 +66,16 @@
     dialog: document.getElementById('modelDialog'), dialogImage: document.getElementById('dialogImage'),
     dialogTitle: document.getElementById('dialogTitle'), dialogSubtitle: document.getElementById('dialogSubtitle'),
     closeDialog: document.getElementById('closeModelDialog'), featured: document.getElementById('featuredModel')
+  };
+
+  const serviceIcons = {
+    clock: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3.5 2"/></svg>',
+    layout: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M9 9h11"/></svg>',
+    palette: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 0 17h1.2a1.7 1.7 0 0 0 0-3.4h-.8a1.9 1.9 0 0 1 0-3.8H15a5.5 5.5 0 0 0 5.5-5.5C20.5 5.1 16.5 3.5 12 3.5Z"/><circle cx="7.5" cy="10" r=".8"/><circle cx="9.5" cy="6.8" r=".8"/><circle cx="14" cy="6.5" r=".8"/><circle cx="17" cy="9" r=".8"/></svg>',
+    pen: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 3.6-.8L19 7.8 16.2 5 5.8 15.4 5 19Z"/><path d="m14.8 6.4 2.8 2.8M5.8 15.4l2.8 2.8"/></svg>',
+    pdf: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.5h7l4 4V20H7Z"/><path d="M14 3.5V8h4M9.2 15.8v-4h1.4a1.2 1.2 0 1 1 0 2.4H9.2m4.1 1.6v-4h1.1c1.5 0 2.3.8 2.3 2s-.8 2-2.3 2Z"/></svg>',
+    ats: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 19 6v5.3c0 4.1-2.9 7.5-7 9.2-4.1-1.7-7-5.1-7-9.2V6Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>',
+    qr: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4Zm10 0h6v6h-6ZM4 14h6v6H4Zm11 0h2v2h-2Zm3 0h2v4h-2Zm-4 4h4v2h-4Z"/></svg>'
   };
 
   const categoryByKey = new Map(categories.map((category) => [category.key, category]));
@@ -122,7 +132,7 @@
     elements.title.textContent = model.title;
     elements.price.textContent = category.price;
     elements.description.textContent = model.description;
-    elements.band.innerHTML = category.band.map(([icon,label]) => `<span class="service-chip"><b>${icon}</b>${label}</span>`).join('');
+    elements.band.innerHTML = category.band.map(([icon,label]) => `<span class="service-chip"><span class="service-icon">${serviceIcons[icon]}</span><span>${label}</span></span>`).join('');
     elements.benefits.innerHTML = category.benefits.map((benefit) => `<li>${benefit}</li>`).join('');
     elements.request.href = requestLink(model, category);
     elements.request.setAttribute('aria-label', `Solicitar ${model.code}, ${model.title}, por WhatsApp`);
