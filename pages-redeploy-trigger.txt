@@ -3,3 +3,4 @@ HTTPS re-enabled — clean deployment test
 Restore branch deployment
 Sectorial banks v1.8.0 — 2026-09-01
 Catálogo responsive de 13 modelos — 2026-09-13
+Activación de despliegue del catálogo — 2026-09-13
