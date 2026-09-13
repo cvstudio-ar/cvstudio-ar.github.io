@@ -1,4 +1,4 @@
-:root{--catalog-navy:#071d39;--catalog-navy-2:#0b294d;--catalog-gold:#f4bf36;--catalog-gold-soft:#ffd66d;--catalog-paper:#f7f8fa;--catalog-gray:#e8ebef;--catalog-ink:#10233d;--catalog-muted:#607086}
+:root{color-scheme:light;--catalog-navy:#071d39;--catalog-navy-2:#0b294d;--catalog-gold:#f4bf36;--catalog-gold-soft:#ffd66d;--catalog-paper:#f7f8fa;--catalog-gray:#f1f3f6;--catalog-ink:#10233d;--catalog-muted:#607086}
 .catalog-page{margin:0;background:var(--catalog-navy);color:#fff;font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
 .catalog-page *{box-sizing:border-box}
 .catalog-page a{text-decoration:none}
@@ -48,9 +48,11 @@
 .featured-details h2{margin:0;color:#0b2b52;font-family:"Manrope","Inter",sans-serif;font-size:clamp(31px,3vw,43px);line-height:1.08;letter-spacing:-.035em}
 .model-price{display:block;margin-top:5px;color:#dda51d;font-size:clamp(36px,4vw,50px);line-height:1.15}
 .model-description{margin:12px 0 18px;color:#53647a;font-size:16px;line-height:1.55}
-.service-band{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;overflow:hidden;border:1px solid #d8dde4;border-radius:10px;background:#d8dde4}
-.service-chip{display:flex;min-height:54px;align-items:center;gap:9px;padding:10px 12px;background:var(--catalog-gray);color:#25384f;font-size:12px;font-weight:750;line-height:1.25}
-.service-chip b{display:grid;flex:0 0 24px;width:24px;height:24px;place-items:center;border-radius:50%;background:#fff;color:#c99009;font-size:14px}
+.service-band{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;overflow:hidden;border:1px solid #ccd3dc;border-radius:12px;background:#ccd3dc;forced-color-adjust:none}
+.service-chip{display:flex;min-height:64px;align-items:center;gap:11px;padding:11px 13px;background:#f1f3f6;color:#173553;font-size:12px;font-weight:800;line-height:1.28}
+.service-icon{display:grid;flex:0 0 32px;width:32px;height:32px;place-items:center;border:1px solid #e2c165;border-radius:9px;background:#fff9e9;color:#b47c00;box-shadow:0 2px 6px rgba(25,45,68,.08)}
+.service-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.service-icon svg circle{fill:none}
 .featured-details h3{margin:20px 0 9px;color:#183958;font-size:15px}
 .model-benefits{display:grid;grid-template-columns:1fr;gap:7px;margin:0 0 20px;padding:0;list-style:none;color:#405167;font-size:13px;line-height:1.35}
 .model-benefits li{position:relative;padding-left:25px}
@@ -131,7 +133,7 @@
   .model-price{font-size:40px}
   .model-description{font-size:15px}
   .service-band{grid-template-columns:1fr 1fr;margin-inline:-20px;border-right:0;border-left:0;border-radius:0}
-  .service-chip{min-height:58px;padding:10px 13px}
+  .service-chip{min-height:66px;padding:10px 13px}
   .model-benefits{font-size:13px}
   .side-preview{display:block;top:220px;z-index:5;width:53px;height:310px;border-radius:10px;opacity:.38;transform:translateY(-50%)}
   .side-preview-prev{left:-39px}.side-preview-next{right:-39px}
@@ -154,6 +156,8 @@
   .featured-details{padding:23px 17px 20px}
   .service-band{margin-inline:-17px}
   .service-chip{padding:9px 10px;font-size:11px}
+  .service-icon{flex-basis:29px;width:29px;height:29px;border-radius:8px}
+  .service-icon svg{width:18px;height:18px}
   .featured-details h2{font-size:30px}
   .model-price{font-size:37px}
   .model-actions{gap:8px}
