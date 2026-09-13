@@ -758,7 +758,7 @@
       title: 'Actualización de CV Profesional',
       productId: 'cv-profesional',
       amount: null, // Se habilita únicamente después de validar el precio remoto.
-      price: '$11.500',
+      price: '$12.500',
       intro: 'Transformamos tu currículum en una herramienta profesional, moderna y optimizada para procesos de selección.',
       includes: ['Diseño moderno y profesional.', 'Redacción optimizada.', 'Estructura clara y organizada.', 'Adaptación para sistemas ATS.', 'Optimización del perfil profesional.', 'Corrección ortográfica y de estilo.', 'Formato PDF listo para enviar.'],
       ideal: ['Personas que buscan trabajo.', 'Cambiar de empleo.', 'Actualizar un CV antiguo.', 'Primer empleo.', 'Profesionales.'],
@@ -769,18 +769,18 @@
       title: 'Currículum Freelance Profesional',
       productId: 'cv-freelance',
       amount: null, // Se habilita únicamente después de validar el precio remoto.
-      price: '$16.000',
-      intro: 'Diseñamos un currículum pensado especialmente para trabajadores independientes, emprendedores y profesionales que ofrecen servicios.',
+      price: '$15.000',
+      intro: 'Diseñamos un portfolio personalizado para trabajadores independientes, emprendedores y profesionales que ofrecen servicios.',
       includes: ['Diseño exclusivo.', 'Perfil profesional.', 'Servicios destacados.', 'Experiencia organizada.', 'Formación.', 'Herramientas.', 'Habilidades.', 'Idiomas.', 'Optimización visual.', 'PDF listo para compartir.'],
       ideal: ['Diseñadores.', 'Fotógrafos.', 'Community Managers.', 'Arquitectos.', 'Programadores.', 'Profesionales independientes.', 'Emprendedores.'],
-      result: 'Una presentación profesional que genera confianza y transmite el valor de tus servicios.',
-      message: '¡Hola! Me interesa el Currículum Freelance Profesional. Quisiera conocer el proceso y comenzar con mi CV.'
+      result: 'Un portfolio personalizado que genera confianza y transmite el valor de tus servicios.',
+      message: '¡Hola! Me interesa el CV Freelance con portfolio personalizado por $15.000. Quisiera conocer el proceso.'
     },
     linkedin: {
       title: 'Perfil Profesional de LinkedIn',
       productId: 'linkedin',
       amount: null, // Se habilita únicamente después de validar el precio remoto.
-      price: '$19.000',
+      price: '$20.000',
       intro: 'Creamos un perfil de LinkedIn completo, optimizado y diseñado para aumentar tu visibilidad profesional.',
       includes: ['Foto de perfil optimizada.', 'Portada personalizada.', 'Título profesional.', 'Acerca de mí.', 'Experiencia laboral.', 'Formación académica.', 'Aptitudes.', 'Optimización SEO para LinkedIn.', 'URL personalizada.'],
       ideal: ['Profesionales.', 'Ejecutivos.', 'Freelancers.', 'Personas en búsqueda laboral.', 'Emprendedores.'],
@@ -803,33 +803,46 @@
       title: 'Combo CV + LinkedIn',
       productId: 'combo-cv-linkedin',
       amount: null, // Se habilita únicamente después de validar el precio remoto.
-      price: '$25.000',
+      price: '$28.000',
       intro: 'La solución más completa para potenciar tu perfil profesional.',
       cvIncludes: ['Diseño moderno.', 'Redacción profesional.', 'Optimización ATS.', 'Perfil profesional.', 'Experiencia laboral.', 'Formación.', 'Habilidades.', 'Idiomas.'],
       linkedinIncludes: ['Foto optimizada.', 'Portada personalizada.', 'Título profesional.', 'Acerca de mí.', 'Experiencias.', 'Formación.', 'Aptitudes.', 'Optimización SEO.', 'URL personalizada.'],
       ideal: ['Personas en búsqueda laboral.', 'Profesionales.', 'Ejecutivos.', 'Cambio de empleo.', 'Mayor visibilidad.'],
       result: 'Una imagen profesional consistente tanto en tu CV como en LinkedIn.',
-      message: '¡Hola! Me interesa el Combo CV Profesional + LinkedIn por $25.000. Quisiera comenzar con el servicio.'
+      message: '¡Hola! Me interesa el Combo CV Profesional + LinkedIn por $28.000. Quisiera comenzar con el servicio.'
+    },
+    entrevistas: {
+      title: 'Preparación para entrevistas',
+      productId: 'entrevistas',
+      amount: null,
+      price: '$10.000',
+      intro: 'Preparación personalizada para afrontar entrevistas laborales con más seguridad y claridad.',
+      includes: ['Análisis del puesto y del perfil.', 'Preguntas personalizadas.', 'Simulación de entrevista.', 'Ejercicios cronometrados.', 'Devolución y recomendaciones.'],
+      ideal: ['Personas con una entrevista próxima.', 'Cambios de puesto o sector.', 'Quienes desean mejorar sus respuestas y seguridad.'],
+      result: 'Una preparación práctica y enfocada en la oportunidad laboral concreta.',
+      message: '¡Hola! Me interesa la preparación para entrevistas por $10.000. Quisiera recibir más información.'
     },
     'kit-marca': {
       title: 'Kit de Lanzamiento de Marca',
-      price: 'Opciones desde $45.000',
+      price: 'Opciones desde $35.000',
       options: [
         {
+          productId: 'kit-emprendedor',
           name: 'Opción 1 · Kit Emprendedor',
-          price: '$45.000',
+          price: '$35.000',
           includes: ['Logo profesional.', 'Identidad visual.', 'Portada para redes.', 'Foto de perfil.', 'Descripción comercial.', 'Miniaturas destacadas.', 'Flyers.', 'Plantillas para publicaciones.', 'Diseño para historias.', 'Manual básico de marca.'],
           ideal: ['Nuevos emprendimientos.', 'Comercios.', 'Profesionales independientes.', 'Marcas personales.'],
           result: 'Todo lo necesario para comenzar con una imagen profesional y coherente.',
-          message: '¡Hola! Me interesa el Kit Emprendedor de lanzamiento de marca por $45.000. Quisiera recibir más información.'
+          message: '¡Hola! Me interesa el Kit Emprendedor por $35.000. Quisiera recibir más información.'
         },
         {
+          productId: 'kit-web',
           name: 'Opción 2 · Kit Emprendedor + Web',
-          price: '$75.000',
-          includes: ['Todo el Kit Emprendedor.', 'Página web personalizada.', 'Dominio propio (si el cliente lo contrata).', 'Formulario de contacto.', 'Botón de WhatsApp.', 'Adaptación para celulares.', 'Integración con redes sociales.', 'Optimización SEO básica.', 'Capacitación para el uso del sitio.'],
+          price: '$80.000',
+          includes: ['Todo el Kit Emprendedor.', 'Catálogo o portfolio con web personalizada.', 'Dominio propio (si el cliente lo contrata).', 'Formulario de contacto.', 'Botón de WhatsApp.', 'Adaptación para celulares.', 'Integración con redes sociales.', 'Optimización SEO básica.', 'Capacitación para el uso del sitio.'],
           ideal: ['Emprendedores que quieren vender más.', 'Empresas nuevas.', 'Profesionales.', 'Negocios locales.'],
-          result: 'Una identidad profesional completa con presencia digital y sitio web propio listo para recibir consultas.',
-          message: '¡Hola! Me interesa el Kit Emprendedor + Web Personalizada por $75.000. Quisiera recibir asesoramiento.'
+          result: 'Una identidad profesional completa con catálogo o portfolio y web personalizada lista para recibir consultas.',
+          message: '¡Hola! Me interesa el Kit Emprendedor + Web por $80.000. Quisiera recibir asesoramiento.'
         }
       ]
     }
@@ -855,6 +868,18 @@
           if (priceTag) priceTag.textContent = service.price;
           card.toggleAttribute('data-test-price', service.isTestPrice);
         });
+      });
+      const remoteProducts = new Map(data.products.map((product) => [product.product_id, product]));
+      services['kit-marca'].options.forEach((option) => {
+        const product = remoteProducts.get(option.productId);
+        if (!product) return;
+        option.amount = Number(product.effective_price || product.unit_price);
+        option.price = formatArs(option.amount);
+        option.isTestPrice = Boolean(product.test_mode);
+      });
+      services['kit-marca'].price = `Opciones desde ${services['kit-marca'].options[0].price}`;
+      document.querySelectorAll('[data-service-id="kit-marca"] .service-price').forEach((priceTag) => {
+        priceTag.textContent = services['kit-marca'].price;
       });
     } catch (error) {
       // El precio visible sigue sirviendo como referencia, pero el checkout queda
