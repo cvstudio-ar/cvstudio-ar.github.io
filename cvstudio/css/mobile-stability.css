@@ -1,0 +1,29 @@
+/* CVStudio v4.5.0 · estabilidad y experiencia móvil */
+@media (max-width:900px){
+  html{width:100%;overflow-x:clip;scroll-behavior:auto;-webkit-text-size-adjust:100%}
+  body{width:100%;min-height:100dvh;overflow-x:clip;overscroll-behavior-y:auto;touch-action:pan-y}
+  body:not(.menu-open):not(.modal-open):not(.siac-open){overflow-y:auto!important;position:static!important;height:auto!important}
+  main,.hero,.section,.services,.portfolio,.process,.faq,.testimonials,.contact{max-width:100%;overflow-x:clip}
+  img,video,svg,canvas{max-width:100%;height:auto}
+  .services-grid,.portfolio-grid,.testimonials-grid{min-width:0}
+  .service-card,.project-card,.testimonial-card{min-width:0;touch-action:pan-y}
+  .service-card a,.service-card button,.project-card a,.project-card button{touch-action:manipulation}
+  .floating-whatsapp{right:max(12px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));max-width:calc(100vw - 24px)}
+  .back-to-top{right:max(12px,env(safe-area-inset-right));bottom:92px}
+  .portfolio-premium-modal{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .portfolio-premium-dialog,.service-modal-details,.service-modal-scroll{max-width:100%;touch-action:pan-y}
+}
+@media (max-width:650px){
+  .services-grid{grid-template-columns:1fr!important;gap:16px!important}
+  .service-card{min-height:0!important;height:auto!important;transform:none!important}
+  .service-card:hover{transform:none!important}
+  .service-card h3{overflow-wrap:anywhere}
+}
+@media (hover:none),(pointer:coarse){
+  .service-card:hover,.project-card:hover,.testimonial-card:hover{transform:none!important}
+  *{-webkit-tap-highlight-color:transparent}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}

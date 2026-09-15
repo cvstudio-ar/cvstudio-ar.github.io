@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-label="Isotipo Bazar Casa Morita">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#53765c"/><stop offset="1" stop-color="#2f5440"/></linearGradient></defs>
+  <rect width="220" height="220" rx="64" fill="#f3eadc"/>
+  <path d="M48 110 110 57l62 53v63a14 14 0 0 1-14 14H62a14 14 0 0 1-14-14Z" fill="url(#g)"/>
+  <path d="M82 135c8 27 48 27 56 0Z" fill="#f3eadc"/>
+  <path d="M110 134c2-27 16-43 40-51-2 27-15 43-40 51Z" fill="#d5a879"/>
+  <path d="M110 133c-3-18-13-29-30-34 2 18 12 29 30 34Z" fill="#e6c7a4"/>
+</svg>

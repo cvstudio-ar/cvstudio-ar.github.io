@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" role="img" aria-labelledby="title desc">
+  <title id="title">Bazar Casa Morita</title>
+  <desc id="desc">Identidad de Bazar Casa Morita con una casa, una hoja y un cuenco.</desc>
+  <defs>
+    <linearGradient id="seal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#53765c"/>
+      <stop offset="1" stop-color="#2f5440"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(10 10)">
+    <rect width="200" height="200" rx="58" fill="#f3eadc"/>
+    <path d="M44 100 100 52l56 48v57a13 13 0 0 1-13 13H57a13 13 0 0 1-13-13Z" fill="url(#seal)"/>
+    <path d="M75 123c7 25 44 25 51 0Z" fill="#f3eadc"/>
+    <path d="M100 122c2-25 14-39 36-47-2 25-13 39-36 47Z" fill="#d5a879"/>
+    <path d="M100 121c-3-16-12-26-27-31 1 16 10 26 27 31Z" fill="#e6c7a4"/>
+  </g>
+  <g transform="translate(245 47)">
+    <text x="0" y="30" fill="#9a704f" font-family="Montserrat,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="6">BAZAR</text>
+    <text x="0" y="90" fill="#284737" font-family="Georgia,serif" font-size="62" font-weight="700">Casa Morita</text>
+    <path d="M2 110h390" stroke="#d5a879" stroke-width="3"/>
+    <text x="0" y="140" fill="#6a746d" font-family="Montserrat,Arial,sans-serif" font-size="15" font-weight="600" letter-spacing="2.7">DETALLES QUE HACEN HOGAR</text>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+CVStudio v1.4.20
+
+DESTINATARIO FIJO DE FORMULARIOS:
+cvstudioargentina@gmail.com
+
+IMPORTANTE: el sitio web no controla el destinatario. Lo controla el Worker publicado en Cloudflare.
+
+PASOS OBLIGATORIOS:
+1. Abrir Cloudflare > Workers & Pages > cvstudio-contacto.
+2. Editar el código.
+3. Reemplazar TODO con WORKER_CVSTUDIO_CONTACTO_ESTABLE.js de este paquete.
+4. Deploy.
+5. Abrir en el navegador:
+   https://cvstudio-contacto.cvpro-duccionesar.workers.dev/health
+6. Debe mostrar:
+   worker: v2.8.4
+   formRecipient: cvstudioargentina@gmail.com
+
+Si /health no muestra esos datos, el Worker nuevo NO está desplegado y los formularios seguirán usando el destinatario viejo.

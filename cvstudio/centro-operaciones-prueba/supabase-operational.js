@@ -1,0 +1,394 @@
+/* CVStudio Centro de Operaciones · RC5 v2.5
+   Persistencia normalizada de staging en Supabase.
+   Mantiene la UI funcional existente y sincroniza entidades separadas para
+   Clientes → Producción → Administración, sin tocar las tablas productivas. */
+(() => {
+  'use strict';
+
+  const STORE_KEY = 'cvstudio_ops_operational_v2';
+  const STATUS_ID = 'opsSyncStatus';
+  const META_ID = 'centro-operaciones-prueba';
+  const originalSetItem = Storage.prototype.setItem;
+  let client = null;
+  let initialized = false;
+  let applyingRemote = false;
+  let timer = null;
+  let retryTimer = null;
+  let pushInFlight = false;
+  let pendingRawValue = '';
+  let lastSerialized = '';
+  let previousState = null;
+  let retryAttempt = 0;
+  let realtimeChannel = null;
+  const MAX_SYNC_RETRIES = 3;
+  const WRITER_ID = (() => {
+    const key = 'cvstudio_ops_writer_id';
+    let value = sessionStorage.getItem(key);
+    if (!value) {
+      value = `pablexe:${crypto.randomUUID()}`;
+      sessionStorage.setItem(key, value);
+    }
+    return value;
+  })();
+
+  const TABLES = {
+    meta: 'cvstudio_ops_stage_meta',
+    clients: 'cvstudio_ops_stage_clients',
+    jobs: 'cvstudio_ops_stage_jobs',
+    payments: 'cvstudio_ops_stage_payments',
+    executions: 'cvstudio_ops_stage_executions',
+    expenses: 'cvstudio_ops_stage_expenses',
+    activities: 'cvstudio_ops_stage_activities',
+    services: 'cvstudio_ops_stage_services',
+    collaborators: 'cvstudio_ops_stage_collaborators'
+  };
+
+  function status(text, mode = 'local') {
+    let el = document.getElementById(STATUS_ID);
+    if (!el) {
+      const foot = document.querySelector('.sidebar-foot');
+      if (!foot) return;
+      el = document.createElement('div');
+      el.id = STATUS_ID;
+      el.className = 'sync-badge';
+      foot.appendChild(el);
+    }
+    el.dataset.mode = mode;
+    el.innerHTML = `<span></span>${text}`;
+  }
+
+  function parseLocal() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); }
+    catch (_) { return null; }
+  }
+
+  function normalizeState(state) {
+    if (!state || typeof state !== 'object') return null;
+    return {
+      ...state,
+      version: Number(state.version || 11),
+      rules: state.rules || { colab: 20, growth: 15, reserve: 5, company: 60 },
+      prices: state.prices || {},
+      clients: Array.isArray(state.clients) ? state.clients : [],
+      jobs: Array.isArray(state.jobs) ? state.jobs : [],
+      payments: Array.isArray(state.payments) ? state.payments : [],
+      executions: Array.isArray(state.executions) ? state.executions : [],
+      expenses: Array.isArray(state.expenses) ? state.expenses : [],
+      activities: Array.isArray(state.activities) ? state.activities : [],
+      calendarItems: Array.isArray(state.calendarItems) ? state.calendarItems : [],
+      collaborators: Array.isArray(state.collaborators) ? state.collaborators : [],
+      urlSpaces: Array.isArray(state.urlSpaces) ? state.urlSpaces : [],
+      templates: Array.isArray(state.templates) ? state.templates : []
+      ,hiddenClientRefs: Array.isArray(state.hiddenClientRefs) ? state.hiddenClientRefs : []
+    };
+  }
+
+  function row(entity, extra = {}) {
+    const rawId=entity?.id;
+    let numericId=Number(rawId);
+    if(!Number.isSafeInteger(numericId) || numericId<=0){
+      let hash=2166136261;
+      for(const char of String(rawId||JSON.stringify(entity)||'entity')){
+        hash^=char.charCodeAt(0);
+        hash=Math.imul(hash,16777619);
+      }
+      numericId=Math.abs(hash>>>0)||1;
+    }
+    return {
+      id: numericId,
+      workspace_id: META_ID,
+      payload: entity,
+      updated_at: new Date().toISOString(),
+      ...extra
+    };
+  }
+
+  function removedIds(previousState, nextState, key) {
+    const previous = Array.isArray(previousState?.[key]) ? previousState[key] : [];
+    const current = new Set((Array.isArray(nextState?.[key]) ? nextState[key] : []).map(item => String(item.id)));
+    return previous
+      .filter(item => !current.has(String(item.id)))
+      .map(item => Number(item.id))
+      .filter(Number.isFinite);
+  }
+
+  async function syncTable(table, entities, deletedIds = []) {
+    const uniqueRows = [...new Map(
+      entities.map(item => {
+        const normalized = row(item);
+        return [`${normalized.workspace_id}:${normalized.id}`, normalized];
+      })
+    ).values()];
+    if (uniqueRows.length) {
+      const { error: upsertError } = await client.from(table).upsert(uniqueRows, { onConflict: 'workspace_id,id' });
+      if (upsertError) throw upsertError;
+    }
+    const previousCount = uniqueRows.length + deletedIds.length;
+    const safeDeletion = uniqueRows.length > 0 && deletedIds.length <= Math.max(1, Math.floor(previousCount / 2));
+    if (deletedIds.length && safeDeletion) {
+      const { error: deleteError } = await client.from(table).delete().eq('workspace_id', META_ID).in('id', deletedIds);
+      if (deleteError) throw deleteError;
+    } else if (deletedIds.length) {
+      console.warn(`[CVStudio RC5] Borrado preventivo bloqueado en ${table}: ${deletedIds.length} registros.`);
+    }
+  }
+
+  function isTransientError(error) {
+    const code = String(error?.code || error?.status || '');
+    const message = String(error?.message || '');
+    return !navigator.onLine
+      || /^(408|409|429|503|504|520)$/.test(code)
+      || /network|failed to fetch|load failed|timeout|temporarily unavailable/i.test(message);
+  }
+
+  async function pushState(rawValue, isRetry = false) {
+    if (!client || applyingRemote) return;
+    if(pushInFlight){ pendingRawValue=rawValue; return; }
+    if (!isRetry) retryAttempt = 0;
+    let state;
+    try { state = normalizeState(JSON.parse(rawValue)); }
+    catch (_) { return; }
+    if (!state) return;
+
+    const serialized = JSON.stringify(state);
+    if (serialized === lastSerialized) return;
+    pushInFlight=true;
+    status('Guardando cambios…', 'syncing');
+
+    try {
+      const services = Object.entries(state.prices).map(([name, price], index) => ({
+        id: index + 1,
+        workspace_id: META_ID,
+        name,
+        price: Number(price || 0),
+        active: true,
+        updated_at: new Date().toISOString()
+      }));
+
+      const meta = {
+        id: META_ID,
+        rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [], __calendarItems: state.calendarItems || [], __hiddenClientRefs: state.hiddenClientRefs || [] },
+        version: state.version,
+        updated_at: new Date().toISOString(),
+        updated_by: WRITER_ID
+      };
+      await Promise.all([
+        syncTable(TABLES.clients, state.clients, removedIds(previousState, state, 'clients')),
+        syncTable(TABLES.jobs, state.jobs, removedIds(previousState, state, 'jobs')),
+        syncTable(TABLES.payments, state.payments, removedIds(previousState, state, 'payments')),
+        syncTable(TABLES.executions, state.executions, removedIds(previousState, state, 'executions')),
+        syncTable(TABLES.expenses, state.expenses, removedIds(previousState, state, 'expenses')),
+        syncTable(TABLES.activities, state.activities, removedIds(previousState, state, 'activities')),
+        syncTable(TABLES.collaborators, state.collaborators, removedIds(previousState, state, 'collaborators')),
+        services.length
+          ? client.from(TABLES.services).upsert(services, { onConflict: 'workspace_id,id' }).then(({ error }) => { if (error) throw error; })
+          : Promise.resolve()
+      ]);
+
+      // La fila meta se confirma al final. Así Realtime nunca anuncia un
+      // estado nuevo antes de que todas las entidades hayan sido guardadas.
+      const { error: metaError } = await client.from(TABLES.meta).upsert(meta, { onConflict: 'id' });
+      if (metaError) throw metaError;
+
+      lastSerialized = serialized;
+      previousState = state;
+      retryAttempt = 0;
+      clearTimeout(retryTimer);
+      status('Sincronización operativa', 'connected');
+    } catch (error) {
+      console.error('[CVStudio RC5] Error al sincronizar:', error);
+      clearTimeout(retryTimer);
+      if (isTransientError(error) && retryAttempt < MAX_SYNC_RETRIES) {
+        retryAttempt += 1;
+        const delay = Math.min(2000 * (2 ** (retryAttempt - 1)), 8000);
+        status(`Reintentando sincronización (${retryAttempt}/${MAX_SYNC_RETRIES})…`, 'syncing');
+        retryTimer=setTimeout(()=>pushState(rawValue, true), delay);
+      } else {
+        const detail = String(error?.hint || error?.message || 'Error desconocido');
+        console.error('[CVStudio RC5] Sincronización detenida:', detail);
+        status(navigator.onLine ? 'Error de sincronización · revisar' : 'Sin conexión · cambios pendientes', 'warning');
+      }
+    } finally {
+      pushInFlight=false;
+      if(pendingRawValue){
+        const next=pendingRawValue;
+        pendingRawValue='';
+        schedulePush(next);
+      }
+    }
+  }
+
+  function schedulePush(rawValue) {
+    clearTimeout(timer);
+    clearTimeout(retryTimer);
+    timer = setTimeout(() => pushState(rawValue), 500);
+  }
+
+  Storage.prototype.setItem = function(key, value) {
+    originalSetItem.call(this, key, value);
+    if (this === localStorage && key === STORE_KEY && initialized && !applyingRemote) {
+      schedulePush(value);
+    }
+  };
+
+  async function selectPayload(table) {
+    const { data, error } = await client.from(table)
+      .select('payload')
+      .eq('workspace_id', META_ID)
+      .order('id', { ascending: true });
+    if (error) throw error;
+    return (data || []).map(item => item.payload).filter(Boolean);
+  }
+
+  async function pullRemote() {
+    status('Cargando Supabase…', 'syncing');
+    const { data: meta, error: metaError } = await client.from(TABLES.meta)
+      .select('rules,version,updated_at')
+      .eq('id', META_ID)
+      .maybeSingle();
+    if (metaError) throw metaError;
+
+    if (!meta) {
+      initialized = true;
+      const local = parseLocal();
+      previousState = normalizeState(local);
+      if (local) await pushState(JSON.stringify(local));
+      else status('Supabase operativo', 'connected');
+      return;
+    }
+
+    const [clients, jobs, payments, executions, expenses, activities, collaborators, servicesResult] = await Promise.all([
+      selectPayload(TABLES.clients),
+      selectPayload(TABLES.jobs),
+      selectPayload(TABLES.payments),
+      selectPayload(TABLES.executions),
+      selectPayload(TABLES.expenses),
+      selectPayload(TABLES.activities),
+      selectPayload(TABLES.collaborators),
+      client.from(TABLES.services).select('name,price').eq('workspace_id', META_ID).order('id')
+    ]);
+    if (servicesResult.error) throw servicesResult.error;
+
+    const local = normalizeState(parseLocal()) || {};
+    const remoteRules = meta.rules || local.rules || {};
+    const remoteUrlSpaces = Array.isArray(remoteRules.__urlSpaces) ? remoteRules.__urlSpaces : (local.urlSpaces || []);
+    const remoteTemplates = Array.isArray(remoteRules.__templates) ? remoteRules.__templates : (local.templates || []);
+    const remoteCalendarItems = Array.isArray(remoteRules.__calendarItems) ? remoteRules.__calendarItems : (local.calendarItems || []);
+    const remoteHiddenClientRefs = Array.isArray(remoteRules.__hiddenClientRefs) ? remoteRules.__hiddenClientRefs : (local.hiddenClientRefs || []);
+    const hiddenRefs = new Set(remoteHiddenClientRefs.map(String));
+    const hiddenClientIds = new Set(clients.filter(c=>hiddenRefs.has(String(c.realRequestId||c.realOrderId||''))).map(c=>String(c.id)));
+    const visibleClients = clients.filter(c=>!hiddenRefs.has(String(c.realRequestId||c.realOrderId||'')));
+    const visibleJobs = jobs.filter(item=>!hiddenClientIds.has(String(item.clientId))&&!hiddenRefs.has(String(item.realRequestId||'')));
+    const visiblePayments = payments.filter(item=>!hiddenClientIds.has(String(item.clientId))&&!hiddenRefs.has(String(item.realOrderId||'')));
+    const visibleExecutions = executions.filter(item=>!hiddenClientIds.has(String(item.clientId)));
+    const visibleActivities = activities.filter(item=>!hiddenClientIds.has(String(item.clientId)));
+    const cleanRules = { ...remoteRules };
+    delete cleanRules.__urlSpaces;
+    delete cleanRules.__templates;
+    delete cleanRules.__calendarItems;
+    delete cleanRules.__hiddenClientRefs;
+    const prices = {};
+    (servicesResult.data || []).forEach(service => { prices[service.name] = Number(service.price); });
+
+    const remote = normalizeState({
+      ...local,
+      version: Number(meta.version || 4),
+      rules: cleanRules,
+      prices: Object.keys(prices).length ? prices : local.prices,
+      clients: visibleClients,
+      jobs: visibleJobs,
+      payments: visiblePayments,
+      executions: visibleExecutions,
+      expenses,
+      activities: visibleActivities,
+      collaborators,
+      calendarItems: remoteCalendarItems,
+      urlSpaces: remoteUrlSpaces,
+      templates: remoteTemplates,
+      hiddenClientRefs: remoteHiddenClientRefs,
+      _sync: { updatedAt: meta.updated_at, source: 'supabase-normalized' }
+    });
+
+    applyingRemote = true;
+    originalSetItem.call(localStorage, STORE_KEY, JSON.stringify(remote));
+    applyingRemote = false;
+    lastSerialized = JSON.stringify(remote);
+    previousState = remote;
+    initialized = true;
+    status('Supabase operativo', 'connected');
+
+    sessionStorage.setItem('cvstudio_ops_rc3_loaded', '1');
+    window.dispatchEvent(new CustomEvent('cvstudio:state-updated', { detail: { source: 'supabase' } }));
+  }
+
+  async function verifySchema() {
+    const checks = await Promise.all(Object.values(TABLES).map(async (table) => {
+      const query = table === TABLES.meta
+        ? client.from(table).select('id', { count: 'exact', head: true })
+        : client.from(table).select('id', { count: 'exact', head: true }).eq('workspace_id', META_ID);
+      const { error } = await query;
+      return { table, error };
+    }));
+    const failed = checks.find(item => item.error);
+    if (failed) {
+      const error = new Error(`${failed.table}: ${failed.error.message}`);
+      error.code = failed.error.code;
+      throw error;
+    }
+  }
+
+  function startRealtime() {
+    if (!client || realtimeChannel) return;
+    realtimeChannel = client.channel('cvstudio-ops-rc5')
+      .on('postgres_changes', {
+        event: '*', schema: 'public', table: TABLES.meta, filter: `id=eq.${META_ID}`
+      }, payload => {
+        if (payload?.new?.updated_by === WRITER_ID) return;
+        status('Cambios remotos detectados', 'syncing');
+        setTimeout(() => pullRemote().catch(error => {
+          console.error('[CVStudio RC5] Error al actualizar en tiempo real:', error);
+          status('Error de actualización', 'warning');
+        }), 250);
+      })
+      .subscribe();
+  }
+
+  async function boot() {
+    if ((!window.supabase && !window.cvstudioSupabase) || !window.CVSTUDIO_SUPABASE_URL || !window.CVSTUDIO_SUPABASE_PUBLISHABLE_KEY) {
+      initialized = true;
+      status('Modo local · configuración ausente', 'warning');
+      markReady();
+      return;
+    }
+    try {
+      client = window.cvstudioSupabase || window.supabase.createClient(
+        window.CVSTUDIO_SUPABASE_URL,
+        window.CVSTUDIO_SUPABASE_PUBLISHABLE_KEY,
+        { auth: { persistSession: true, autoRefreshToken: true } }
+      );
+      status('Verificando Supabase…', 'syncing');
+      await verifySchema();
+      await pullRemote();
+      startRealtime();
+    } catch (error) {
+      console.error('[CVStudio RC5] No se pudo iniciar Supabase:', error);
+      initialized = true;
+      const message = String(error?.message || 'Error desconocido');
+      if (/permission denied|42501/i.test(message)) status('Ejecutar parche SQL RC4', 'warning');
+      else if (/does not exist|42P01/i.test(message)) status('Faltan tablas RC3', 'warning');
+      else status('Supabase sin conexión', 'warning');
+    } finally {
+      markReady();
+    }
+  }
+
+  function markReady() {
+    if (window.CVStudioStageReady) return;
+    window.CVStudioStageReady = true;
+    window.dispatchEvent(new CustomEvent('cvstudio:stage-ready'));
+  }
+
+  window.addEventListener('online', () => { status('Reconectando Supabase…', 'syncing'); boot(); });
+  window.addEventListener('offline', () => status('Sin conexión · modo local', 'warning'));
+  window.addEventListener('DOMContentLoaded', boot, { once: true });
+})();

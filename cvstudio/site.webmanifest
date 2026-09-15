@@ -1,0 +1,31 @@
+{
+  "name": "CVStudio Argentina",
+  "short_name": "CVStudio",
+  "description": "Currículums profesionales y diseño digital para personas, marcas y negocios.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "lang": "es-AR",
+  "icons": [
+    {
+      "src": "/assets/favicons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "id": "/",
+  "categories": [
+    "business",
+    "productivity",
+    "design"
+  ],
+  "orientation": "any",
+  "prefer_related_applications": false
+}

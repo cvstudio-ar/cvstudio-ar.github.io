@@ -3,4 +3,6 @@ HTTPS re-enabled — clean deployment test
 Restore branch deployment
 Sectorial banks v1.8.0 — 2026-09-01
 Catálogo responsive de 16 modelos — 2026-09-15
+Corrección de imagen del modelo AVA-03 — 2026-09-15
+Versión definitiva de AVA-03 — 2026-09-15
 Activación de despliegue del catálogo — 2026-09-13

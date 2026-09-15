@@ -1,0 +1,112 @@
+(() => {
+  'use strict';
+  const button = document.querySelector('.cm-menu');
+  const nav = document.querySelector('.cm-header nav');
+  const worker = String(window.CVSTUDIO_PORTFOLIO_WORKER_URL || '').replace(/\/$/, '');
+  const box = document.getElementById('catalogProducts');
+  const modal = document.getElementById('catalogProductModal');
+  const tools = document.getElementById('catalogTools');
+  const filters = document.getElementById('catalogFilters');
+  const count = document.getElementById('catalogCount');
+  const esc = value => String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[char]));
+  const money = value => new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Number(value || 0));
+  const availability = value => ({available:'Disponible',last_units:'Últimas unidades',coming_soon:'Próximamente',sold_out:'Agotado'}[value] || 'Disponible');
+  let commerce = null;
+
+  if (button && nav) {
+    button.addEventListener('click', () => { const open = nav.classList.toggle('is-open'); button.setAttribute('aria-expanded', String(open)); });
+    nav.addEventListener('click', event => { if (event.target.closest('a')) { nav.classList.remove('is-open'); button.setAttribute('aria-expanded', 'false'); } });
+  }
+
+  function contactUrl(product) {
+    const phone = String(commerce?.whatsapp || '').replace(/\D/g,'');
+    const message = encodeURIComponent(`Hola, consulto por ${product.title} publicado en el catálogo de Casa Morita.`);
+    if (phone) return `https://wa.me/${phone}?text=${message}`;
+    return commerce?.settings?.instagram || 'https://www.instagram.com/bazarcasamorita/';
+  }
+
+  function productMedia(product) {
+    const media = Array.isArray(product.media) ? product.media.map(item => typeof item === 'string' ? item : item?.url).filter(Boolean) : [];
+    return [...new Set([product.cover_url,...media].filter(Boolean))];
+  }
+
+  function renderSocialLinks() {
+    const socialBox = document.getElementById('catalogSocialLinks');
+    if (!socialBox || !commerce) return;
+    const instagram = String(commerce.settings?.instagram || '').trim();
+    const facebook = String(commerce.settings?.facebook || '').trim();
+    const phone = String(commerce.whatsapp || '').replace(/\D/g,'');
+    const values = {
+      instagram: instagram || 'https://www.instagram.com/bazarcasamorita/',
+      whatsapp: phone ? `https://wa.me/${phone}` : '',
+      facebook
+    };
+    Object.entries(values).forEach(([network,url]) => {
+      const link = socialBox.querySelector(`[data-social="${network}"]`);
+      if (!link) return;
+      link.hidden = !url;
+      if (url) link.href = url;
+    });
+    const contact = document.querySelector('.cm-floating-contact');
+    if (contact) contact.href = phone ? `https://wa.me/${phone}` : values.instagram;
+  }
+
+  function openProduct(product) {
+    if (!modal) return;
+    const images = productMedia(product);
+    document.getElementById('catalogModalGallery').innerHTML = images.map((url,index) => `<img src="${esc(url)}" alt="${esc(product.title)}${index ? ` · foto ${index+1}` : ''}">`).join('');
+    document.getElementById('catalogModalCategory').textContent = product.category || 'Producto';
+    document.getElementById('catalogModalTitle').textContent = product.title;
+    document.getElementById('catalogModalDescription').textContent = product.description || 'Consultanos para conocer todos los detalles.';
+    document.getElementById('catalogModalPrice').textContent = product.price_mode === 'price' ? money(product.price) : 'Consultar precio';
+    document.getElementById('catalogModalAvailability').textContent = availability(product.availability);
+    document.getElementById('catalogModalContact').href = contactUrl(product);
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProduct() { if (!modal) return; modal.hidden = true; document.body.style.overflow = ''; }
+  document.querySelectorAll('[data-close-catalog-product]').forEach(node => node.addEventListener('click', closeProduct));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && modal && !modal.hidden) closeProduct(); });
+
+  function renderProducts(products) {
+    if (!box || !products.length) return;
+    box.classList.add('has-live-products');
+    if (tools && filters) {
+      const categories = [...new Set(products.map(product => product.category || 'Otros'))];
+      tools.hidden = false;
+      count.textContent = `${products.length} ${products.length === 1 ? 'pieza seleccionada' : 'piezas seleccionadas'}`;
+      filters.innerHTML = ['Todos',...categories].map((category,index)=>`<button type="button" class="${index===0?'is-active':''}" data-catalog-filter="${esc(category)}">${esc(category)}</button>`).join('');
+      filters.querySelectorAll('[data-catalog-filter]').forEach(filter=>filter.addEventListener('click',()=>{
+        filters.querySelectorAll('button').forEach(button=>button.classList.toggle('is-active',button===filter));
+        box.querySelectorAll('[data-product-category]').forEach(card=>card.hidden=filter.dataset.catalogFilter!=='Todos'&&card.dataset.productCategory!==filter.dataset.catalogFilter);
+      }));
+    }
+    box.innerHTML = products.map((product,index) => `<article class="cm-live-product ${product.featured?'is-featured':''}" data-live-product="${index}" tabindex="0" role="button" aria-label="Ver ${esc(product.title)}">
+      <div class="cm-product-post-head"><span><img src="/assets/portfolio/casa-morita/isotipo-casa-morita.svg" alt="">Casa Morita</span><b aria-hidden="true">•••</b></div>
+      <div class="cm-live-product-media"><img src="${esc(product.cover_url)}" alt="${esc(product.title)}" loading="lazy">${product.featured?'<span>Selección especial</span>':''}<i>${availability(product.availability)}</i></div>
+      <div class="cm-product-post-actions" aria-hidden="true"><span>♡</span><span>○</span><span>⌁</span><b>⌑</b></div>
+      <div class="cm-live-product-copy"><small>${esc(product.category || 'Casa Morita')}</small><h3>${esc(product.title)}</h3><p>${esc(product.description || 'Conocé todos los detalles y opciones disponibles.')}</p><div><strong class="cm-product-price-pill">${product.price_mode === 'price' ? money(product.price) : 'Consultar precio'}</strong><b>Ver detalles</b></div></div>
+    </article>`.replace('data-live-product="'+index+'"',`data-live-product="${index}" data-product-category="${esc(product.category || 'Otros')}"`)).join('');
+    box.querySelectorAll('[data-live-product]').forEach(card => {
+      const open = () => openProduct(products[Number(card.dataset.liveProduct)]);
+      card.addEventListener('click', open);
+      card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
+    });
+  }
+
+  async function loadCatalog() {
+    if (!worker || !box) return;
+    try {
+      const response = await fetch(`${worker}/api/public/portfolio?slug=bazar-casa-morita`,{cache:'no-store'});
+      const data = await response.json();
+      if (!response.ok || !data?.portfolio) return;
+      commerce = data.portfolio;
+      renderSocialLinks();
+      const products = (commerce.projects || []).filter(item => item.item_type === 'product');
+      renderProducts(products);
+    } catch (error) { console.warn('[Casa Morita] Catálogo demostrativo activo:', error); }
+  }
+
+  loadCatalog();
+})();
