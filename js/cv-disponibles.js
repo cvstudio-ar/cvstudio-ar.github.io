@@ -49,7 +49,10 @@
     { code:'AVA-02', category:'avanzado', title:'Azul Ejecutivo', image:'/assets/cv-disponibles/ava-02.webp', description:'Diseño corporativo con jerarquías marcadas, certificaciones e idiomas.' },
     { code:'AVA-03', category:'avanzado', title:'Negro Premium', image:'/assets/cv-disponibles/ava-03.webp', description:'Alto contraste, gran presencia visual y código QR para complementar el perfil.' },
     { code:'AVA-04', category:'avanzado', title:'Gris Corporativo', image:'/assets/cv-disponibles/ava-04.webp', description:'Estructura ejecutiva con competencias, habilidades y trayectoria bien diferenciadas.' },
-    { code:'PRO-01', category:'profesional', title:'Profesional Premium', image:'/assets/cv-disponibles/pro-01.webp', description:'Referencia de un diseño exclusivo creado a medida según el perfil y el objetivo laboral.' }
+    { code:'PRO-01', category:'profesional', title:'Profesional Premium', image:'/assets/cv-disponibles/pro-01.webp', description:'Referencia de un diseño exclusivo creado a medida según el perfil y el objetivo laboral.' },
+    { code:'PRO-02', category:'profesional', title:'Harvard Clásico', image:'/assets/cv-disponibles/pro-02.webp', description:'Diseño limpio de una columna, con lectura directa, jerarquía académica y estructura optimizada para sistemas ATS.' },
+    { code:'PRO-03', category:'profesional', title:'Ejecutivo Premium', image:'/assets/cv-disponibles/pro-03.webp', description:'Propuesta ejecutiva sobria en azul y dorado, pensada para destacar liderazgo, resultados y trayectoria profesional.' },
+    { code:'PRO-04', category:'profesional', title:'Profesional Suave', image:'/assets/cv-disponibles/pro-04.webp', description:'Estética moderna, cercana y equilibrada, con paleta suave y una organización visual adaptable a distintos perfiles.' }
   ];
 
   const elements = {

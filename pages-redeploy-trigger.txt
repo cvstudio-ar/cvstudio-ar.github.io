@@ -2,5 +2,5 @@ GitHub Pages redeploy trigger — 2026-08-06
 HTTPS re-enabled — clean deployment test
 Restore branch deployment
 Sectorial banks v1.8.0 — 2026-09-01
-Catálogo responsive de 13 modelos — 2026-09-13
+Catálogo responsive de 16 modelos — 2026-09-15
 Activación de despliegue del catálogo — 2026-09-13
