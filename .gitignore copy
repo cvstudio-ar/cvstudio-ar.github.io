@@ -1,0 +1,35 @@
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencias y herramientas
+node_modules/
+.wrangler/
+.dev.vars
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Archivos temporales, logs y respaldos
+*.log
+*.tmp
+*.bak
+*.backup
+*.zip
+backups/
+exports/
+
+# Datos personales o archivos de clientes
+private/
+uploads-private/
+# El portal público de acceso de clientes debe publicarse en GitHub Pages.
+!clientes/
+!clientes/index.html

@@ -1,0 +1,8 @@
+/centro-operaciones-prueba/
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/centro-operaciones-prueba/index.html
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/centro-operaciones-prueba/version.json
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/centro-operaciones-prueba/bootstrap.js
+  Cache-Control: no-cache, must-revalidate, max-age=0

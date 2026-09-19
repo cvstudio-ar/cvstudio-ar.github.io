@@ -1,0 +1,3 @@
+152d54d9f4a1b5d102576279d0f97ff9189e192cb03a5e9d212c7a3c50331694  centro-operaciones-prueba/index.html
+6229443540247c24cdd57471476c5708130f76aba7d4e79cc4b08181db5f6490  centro-operaciones-prueba/operational.js
+a5f8316b6a6de2ff7e4cdfeedfc9389a2ebb626e27479db1cc04045caa5791f1  centro-operaciones-prueba/real-bridge.js

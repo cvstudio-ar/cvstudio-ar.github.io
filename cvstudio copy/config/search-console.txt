@@ -1,0 +1,7 @@
+Google Search Console
+Propiedad: https://cvstudio.com.ar/
+Método: etiqueta HTML
+
+<meta name="google-site-verification" content="v9u3g7GB8K-oX60DwI5cUbKPLEvscJFcszQ9TZ4ik1M" />
+
+Estado: instalado en index.html. Falta publicar y presionar Verificar en Search Console.

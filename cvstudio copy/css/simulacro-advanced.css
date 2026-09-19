@@ -1,0 +1,6 @@
+.question-context{margin:14px 0 0;padding:14px;border-left:3px solid var(--blue);border-radius:8px;background:rgba(59,130,246,.08);color:#c8d5e8;font-size:14px;line-height:1.55;white-space:pre-line}
+.question-text-response{display:grid;gap:8px;text-align:left}
+.question-text-response>span{color:#dbe5f3;font-weight:800}
+.question-text-response textarea{width:100%;resize:vertical;padding:14px;border:1px solid var(--line);border-radius:12px;background:#081321;color:#fff;font:inherit;line-height:1.55}
+.question-text-response textarea:focus{outline:2px solid rgba(155,93,229,.45);border-color:var(--purple)}
+.question-text-response small{color:var(--muted)}

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs>
+  <pattern id="minor" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity=".045"/>
+  </pattern>
+  <pattern id="major" width="200" height="200" patternUnits="userSpaceOnUse">
+    <path d="M200 0H0V200" fill="none" stroke="#ffffff" stroke-opacity=".10" stroke-width="1.2"/>
+  </pattern>
+
+  <radialGradient id="blueGlow">
+    <stop offset="0" stop-color="#1597ff" stop-opacity=".42"/>
+    <stop offset=".55" stop-color="#0a4b8f" stop-opacity=".18"/>
+    <stop offset="1" stop-color="#1597ff" stop-opacity="0"/>
+  </radialGradient>
+
+  <radialGradient id="goldGlow">
+    <stop offset="0" stop-color="#ffd54a" stop-opacity=".42"/>
+    <stop offset=".55" stop-color="#c48a00" stop-opacity=".18"/>
+    <stop offset="1" stop-color="#ffd54a" stop-opacity="0"/>
+  </radialGradient>
+
+  <linearGradient id="whiteBrush" x1="0" x2="1">
+    <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+    <stop offset=".15" stop-color="#ffffff" stop-opacity=".35"/>
+    <stop offset=".70" stop-color="#ffffff" stop-opacity=".16"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+  </linearGradient>
+
+  <linearGradient id="goldBrush" x1="0" x2="1">
+    <stop offset="0" stop-color="#ffd54a" stop-opacity="0"/>
+    <stop offset=".16" stop-color="#ffd54a" stop-opacity=".65"/>
+    <stop offset=".76" stop-color="#ffd54a" stop-opacity=".24"/>
+    <stop offset="1" stop-color="#ffd54a" stop-opacity="0"/>
+  </linearGradient>
+
+  <filter id="soft">
+    <feGaussianBlur stdDeviation="10"/>
+  </filter>
+
+  <style>
+    .guide{stroke:#fff;stroke-opacity:.15;stroke-width:1.5;fill:none}
+    .dash{stroke:#fff;stroke-opacity:.18;stroke-width:1.5;fill:none;stroke-dasharray:10 10}
+    .gold{stroke:#ffd54a;stroke-opacity:.75;stroke-width:2;fill:none}
+    .blue{stroke:#56b8ff;stroke-opacity:.52;stroke-width:1.5;fill:none}
+    .label{fill:#fff;fill-opacity:.20;font:14px Arial,sans-serif;letter-spacing:4px}
+    .micro{fill:#fff;fill-opacity:.16;font:10px Arial,sans-serif;letter-spacing:3px}
+  </style>
+</defs>
+
+<rect width="1920" height="1080" fill="#07101c"/>
+<rect width="1920" height="1080" fill="url(#minor)"/>
+<rect width="1920" height="1080" fill="url(#major)"/>
+
+<!-- Strong atmosphere -->
+<ellipse cx="210" cy="170" rx="520" ry="360" fill="url(#blueGlow)"/>
+<ellipse cx="1660" cy="860" rx="500" ry="360" fill="url(#goldGlow)"/>
+<ellipse cx="1380" cy="260" rx="300" ry="220" fill="url(#blueGlow)" opacity=".65"/>
+
+<!-- Main white paint -->
+<g transform="rotate(-8 960 540)">
+  <path d="M-100 350 C320 260 720 330 1030 255 C1280 195 1510 205 2010 155"
+        stroke="url(#whiteBrush)" stroke-width="72" stroke-linecap="round" fill="none"/>
+  <path d="M180 770 C460 700 780 720 1090 650"
+        stroke="url(#whiteBrush)" stroke-width="28" stroke-linecap="round" fill="none"/>
+</g>
+
+<!-- Main yellow paint -->
+<g transform="rotate(-6 960 540)">
+  <path d="M1180 760 C1400 680 1620 690 2030 590"
+        stroke="url(#goldBrush)" stroke-width="110" stroke-linecap="round" fill="none"/>
+  <path d="M-80 930 C170 860 390 870 650 820"
+        stroke="url(#goldBrush)" stroke-width="38" stroke-linecap="round" fill="none"/>
+</g>
+
+<!-- Urban spray clusters -->
+<g fill="#ffd54a">
+  <circle cx="165" cy="300" r="8" opacity=".8"/>
+  <circle cx="205" cy="335" r="4" opacity=".65"/>
+  <circle cx="255" cy="275" r="6" opacity=".7"/>
+  <circle cx="315" cy="320" r="3" opacity=".6"/>
+  <circle cx="1490" cy="700" r="9" opacity=".8"/>
+  <circle cx="1540" cy="735" r="4" opacity=".65"/>
+  <circle cx="1605" cy="690" r="7" opacity=".72"/>
+  <circle cx="1700" cy="760" r="3" opacity=".58"/>
+</g>
+
+<g fill="#ffffff">
+  <circle cx="610" cy="195" r="5" opacity=".42"/>
+  <circle cx="655" cy="225" r="3" opacity=".34"/>
+  <circle cx="720" cy="180" r="6" opacity=".38"/>
+  <circle cx="1090" cy="905" r="5" opacity=".34"/>
+  <circle cx="1140" cy="875" r="3" opacity=".30"/>
+</g>
+
+<!-- Figma / Illustrator wireframes -->
+<g class="guide">
+  <line x1="960" y1="0" x2="960" y2="1080"/>
+  <line x1="0" y1="540" x2="1920" y2="540"/>
+  <rect x="1220" y="120" width="500" height="300" rx="22"/>
+  <line x1="1220" y1="270" x2="1720" y2="270"/>
+  <line x1="1470" y1="120" x2="1470" y2="420"/>
+  <circle cx="1510" cy="270" r="95"/>
+  <circle cx="1510" cy="270" r="48"/>
+  <rect x="250" y="690" width="420" height="250" rx="18"/>
+  <line x1="250" y1="815" x2="670" y2="815"/>
+  <line x1="460" y1="690" x2="460" y2="940"/>
+</g>
+
+<g class="dash">
+  <rect x="720" y="610" width="500" height="300" rx="26"/>
+  <line x1="970" y1="610" x2="970" y2="910"/>
+  <line x1="720" y1="760" x2="1220" y2="760"/>
+</g>
+
+<!-- Crop marks and design crosses -->
+<g class="gold">
+  <path d="M310 170h34M327 153v34"/>
+  <path d="M1500 665h34M1517 648v34"/>
+  <path d="M880 930h34M897 913v34"/>
+  <path d="M1770 400h34M1787 383v34"/>
+</g>
+
+<g class="blue">
+  <path d="M590 500h28M604 486v28"/>
+  <path d="M1090 190h28M1104 176v28"/>
+</g>
+
+<!-- Hidden CV -->
+<text x="730" y="675" font-family="Arial Black,Arial" font-size="300"
+      fill="#ffffff" fill-opacity=".045" transform="rotate(-7 730 675)">CV</text>
+
+<!-- Labels -->
+<g class="label">
+  <text x="70" y="75">CVSTUDIO / MASTER 03</text>
+  <text x="1550" y="80">SAFE AREA</text>
+  <text x="95" y="1015">BRAND SYSTEM</text>
+  <text x="1500" y="1015">CREATIVE STUDIO</text>
+</g>
+
+<g class="micro">
+  <text x="1260" y="105">FIGMA FRAME / 24</text>
+  <text x="280" y="670">WIREFRAME / 01</text>
+  <text x="1450" y="470">SPACING 64</text>
+  <text x="450" y="520">1920 PX</text>
+  <text x="830" y="965">RADIUS 28</text>
+  <text x="1580" y="620">ARTBOARD</text>
+</g>
+</svg>
