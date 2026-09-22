@@ -46,7 +46,7 @@
   --text-soft: #aeb8cc;
   --text-muted: #78849b;
 
-  --container: 1180px;
+  --container: min(1540px, 88vw);
   --header-height: 82px;
 
   --radius-small: 16px;
@@ -8397,4 +8397,27 @@ body{padding-bottom:0!important}
     color:#f4f6fb!important;
   }
   .contact-section .button-arrow{display:none!important}
+}
+
+/* v5.1.2 · estas reglas deben cerrar la cascada */
+.footer-bottom{top:0!important}
+@media(min-width:901px){
+  .navigation{gap:clamp(8px,1vw,16px)!important;flex-wrap:nowrap!important}
+  .navigation>a,
+  .navigation .nav-dropdown>a{
+    white-space:nowrap!important;
+    font-size:clamp(.72rem,.84vw,.88rem)!important;
+  }
+  .header-button{white-space:nowrap!important;flex:0 0 auto!important}
+}
+@media(min-width:1200px){
+  .header-container,
+  .header.is-scrolled .header-container{width:min(calc(100% - 40px),1540px)!important;max-width:94vw!important}
+}
+@media(min-width:1440px){
+  .services-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .service-card{min-height:226px!important}
+  .reference-showcase-grid{gap:20px!important}
+  .reference-showcase-card{min-height:520px!important}
+  .section{padding-top:clamp(74px,5vw,94px)!important;padding-bottom:clamp(74px,5vw,94px)!important}
 }

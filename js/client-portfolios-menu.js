@@ -1,4 +1,4 @@
-/* CVStudio · Menú público de portfolios administrado desde Generador URL · v1.4.14 */
+/* CVStudio · Menú público de portfolios administrado desde Generador URL · v1.4.15 */
 (() => {
   'use strict';
 
@@ -7,14 +7,18 @@
   const STORE_KEY = 'cvstudio_ops_operational_v2';
   const META_ID = 'centro-operaciones-prueba';
   const PUBLIC_STATUS = 'Publicado';
+  const EXCLUDED_SLUGS = new Set(['julieta-ferrari']);
 
   const BUILTIN = [
     { slug: 'beauty-nails-by-eliana', name: 'Beauty Nails by Eliana', menuLabel: 'By Eliana', status: PUBLIC_STATUS, publicPath: '/beauty-nails-by-eliana/' },
-    { slug: 'julieta-ferrari', name: 'Julieta Ferrari · Follow Digital', menuLabel: 'Follow Digital', status: PUBLIC_STATUS, publicPath: '/julieta-ferrari/' },
     { slug: 'bazar-casa-morita', name: 'Bazar Casa Morita', menuLabel: 'Casa Morita', status: PUBLIC_STATUS, publicPath: '/bazar-casa-morita/' }
   ];
 
   const safeText = value => String(value || '').trim();
+  const isExcluded = item => {
+    const identity = `${safeText(item.slug)} ${safeText(item.menuLabel)} ${safeText(item.name)}`.toLocaleLowerCase('es');
+    return EXCLUDED_SLUGS.has(safeText(item.slug)) || identity.includes('follow digital');
+  };
   const isPublic = item => safeText(item.status) === PUBLIC_STATUS && item.deleted !== true && item.is_visible !== false;
 
   function localSpaces() {
@@ -31,7 +35,7 @@
     const builtins = BUILTIN.map(base => ({ ...base, ...(source.find(item => item && item.slug === base.slug) || {}) }));
     const custom = source.filter(item => item && item.slug && !BUILTIN.some(base => base.slug === item.slug));
     const seen = new Set();
-    return [...builtins, ...custom].filter(item => item.slug && !seen.has(item.slug) && seen.add(item.slug));
+    return [...builtins, ...custom].filter(item => item.slug && !isExcluded(item) && !seen.has(item.slug) && seen.add(item.slug));
   }
 
   async function remoteSpaces() {
