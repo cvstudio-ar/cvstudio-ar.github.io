@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f4ed">
+  <meta name="description" content="Modelo demostrativo de espacio web para spa y bienestar, diseñado por CVStudio Argentina.">
+  <meta property="og:title" content="Spa | Modelo demostrativo de CVStudio">
+  <meta property="og:description" content="Una muestra de cómo podría verse el sitio de tu spa en computadora y celular.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cvstudio.com.ar/web/spa-demo/assets/spa-hero.webp">
+  <title>Spa | Modelo demostrativo · CVStudio Argentina</title>
+  <link rel="icon" href="assets/cvstudio-logo.webp" type="image/webp">
+  <link rel="preload" href="assets/spa-hero.webp" as="image" media="(min-width: 701px)">
+  <link rel="preload" href="assets/spa-hero-mobile.webp" as="image" media="(max-width: 700px)">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+  <header class="site-header"><div class="wrap header-inner">
+    <div class="brand" aria-label="Modelo demostrativo de CVStudio Argentina">
+      <img src="assets/cvstudio-logo.webp" alt="CVStudio Argentina" width="44" height="44">
+      <span class="brand-line" aria-hidden="true"></span>
+      <span class="brand-copy"><span class="demo-label">MODELO<br>DEMOSTRATIVO</span><span class="brand-tagline">SPA · BIENESTAR · BELLEZA</span></span>
+    </div>
+    <span class="header-mark">SPA <span aria-hidden="true">✦</span> BIENESTAR</span>
+  </div></header>
+
+  <main id="contenido"><section class="showcase" aria-labelledby="hero-title">
+    <div class="showcase-photo" role="img" aria-label="Tratamiento facial en un spa de tonos cálidos"></div>
+    <div class="wrap showcase-inner">
+      <div class="hero-content">
+        <span class="eyebrow">PAUSA · CUIDADO · ARMONÍA</span>
+        <h1 id="hero-title">Un momento<br><em>para vos.</em></h1>
+        <p>Cuidado, calma y bienestar en cada visita.</p>
+        <button class="button" type="button" data-panel="hours" data-dialog-title="Tu próxima visita">Reservar experiencia <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="explore" aria-labelledby="explore-title">
+        <div class="explore-heading"><span>EXPLORÁ</span><h2 id="explore-title">Conocé nuestro <em>espacio.</em></h2></div>
+        <div class="card-grid">
+          <button class="explore-card" type="button" data-panel="services" data-dialog-title="Tratamientos">
+            <span class="card-photo photo-one" aria-hidden="true"></span>
+            <span class="card-copy"><small>01 / EXPERIENCIAS</small><strong>Tratamientos</strong><span>Faciales, masajes y rituales.</span></span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 40c-9-5-14-12-14-21 6 0 11 2 14 7 3-5 8-7 14-7 0 9-5 16-14 21Z"/><path d="M24 26V9m0 13c-5-6-11-7-16-7m16 7c5-6 11-7 16-7"/></svg></span>
+          </button>
+          <button class="explore-card" type="button" data-panel="hours" data-dialog-title="Ubicación y horarios">
+            <span class="card-photo photo-three" aria-hidden="true"></span>
+            <span class="card-copy"><small>02 / VISITANOS</small><strong>Ubicación y horarios</strong><span>Organizá tu momento.</span></span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 42S10 31 10 20a14 14 0 1 1 28 0c0 11-14 22-14 22Z"/><circle cx="24" cy="20" r="6"/><path d="M24 17v4l3 2"/></svg></span>
+          </button>
+          <button class="explore-card" type="button" data-panel="gallery" data-dialog-title="Galería">
+            <span class="card-photo photo-two" aria-hidden="true"></span>
+            <span class="card-copy"><small>03 / INSPIRACIÓN</small><strong>Galería</strong><span>Un lugar para relajarte.</span></span>
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="8" width="34" height="32" rx="4"/><circle cx="30" cy="17" r="4"/><path d="m8 33 10-9 7 6 7-6 9 9"/></svg></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section></main>
+
+  <footer class="footer"><div class="wrap footer-inner">
+    <span class="footer-credit">DISEÑO DEMOSTRATIVO POR <strong>CVSTUDIO</strong></span>
+    <div class="social-icons" aria-hidden="true">
+      <span title="Instagram"><img src="assets/instagram.svg" alt=""></span>
+      <span title="Facebook"><img src="assets/facebook.svg" alt=""></span>
+      <span title="WhatsApp"><img src="assets/whatsapp.svg" alt=""></span>
+    </div>
+  </div></footer>
+
+  <dialog class="detail-dialog" id="detail-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-head"><div><span>SPA · MODELO DEMOSTRATIVO</span><h2 id="dialog-title">Explorá el espacio</h2></div><button class="dialog-close" type="button" aria-label="Cerrar ventana">×</button></div>
+    <div class="dialog-panel" data-panel-content="services" hidden>
+      <p class="dialog-intro">Una carta de experiencias para presentar los tratamientos reales de cada spa, con fotos, duración y precios propios.</p>
+      <div class="sample-services">
+        <article><span>01</span><div><strong>Cuidado facial</strong><p>Un espacio dedicado a la limpieza, la hidratación y el bienestar de la piel.</p></div></article>
+        <article><span>02</span><div><strong>Masajes relajantes</strong><p>Una pausa para desconectar y disfrutar de un momento de calma.</p></div></article>
+        <article><span>03</span><div><strong>Ritual de bienestar</strong><p>Una experiencia personalizada que combina cuidado y relajación.</p></div></article>
+        <article><span>04</span><div><strong>Spa de manos</strong><p>Detalles de cuidado para completar tu visita.</p></div></article>
+      </div>
+    </div>
+    <div class="dialog-panel" data-panel-content="hours" hidden>
+      <p class="dialog-intro">Así podrían mostrarse los días de atención, la ubicación y la disponibilidad de turnos.</p>
+      <div class="schedule-card"><span class="schedule-kicker">HORARIOS DE EJEMPLO</span><div><span>Lunes a viernes</span><strong>10:00 – 19:00</strong></div><div><span>Sábados</span><strong>10:00 – 16:00</strong></div><div><span>Domingos</span><strong>Cerrado</strong></div></div>
+      <div class="location-note"><span aria-hidden="true">⌖</span><p><strong>Encontranos cerca tuyo.</strong><br>La dirección, el mapa y la reserva de turnos se adaptan a cada negocio.</p></div>
+    </div>
+    <div class="dialog-panel" data-panel-content="gallery" hidden>
+      <p class="dialog-intro">Una galería visual para mostrar el ambiente y las experiencias del spa.</p>
+      <div class="style-gallery"><figure><div class="style-photo photo-one" role="img" aria-label="Tratamiento facial"></div><figcaption>Cuidado facial</figcaption></figure><figure><div class="style-photo photo-two" role="img" aria-label="Sala de masajes"></div><figcaption>Relax</figcaption></figure><figure><div class="style-photo photo-three" role="img" aria-label="Recepción de spa"></div><figcaption>Nuestro espacio</figcaption></figure></div>
+    </div>
+    <p class="dialog-foot">Contenido ilustrativo · Cada espacio se personaliza para el negocio.</p>
+  </dialog>
+</body>
+</html>
