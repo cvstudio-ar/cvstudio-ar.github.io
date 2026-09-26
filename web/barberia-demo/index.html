@@ -11,7 +11,7 @@
   <title>Barbería | Modelo demostrativo · CVStudio Argentina</title>
   <link rel="icon" href="assets/cvstudio-logo.webp" type="image/webp">
   <link rel="preload" href="assets/barberia-hero.webp" as="image">
-  <link rel="stylesheet" href="styles-compact-v4.css"><script src="script-compact-v2.js" defer></script>
+  <link rel="stylesheet" href="styles-compact-v7.css"><script src="script-compact-v4.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -29,35 +29,59 @@
         <span class="eyebrow"><span aria-hidden="true"></span> BARBERÍA · ESTILO · IDENTIDAD</span>
         <h1 id="hero-title">Tu estilo, en<br><em>buenas manos.</em></h1>
         <p>Cortes, barba y una experiencia pensada para vos.</p>
-        <button class="button demo-action" type="button">Reservar turno <span aria-hidden="true">↗</span></button>
+        <button class="button demo-action" type="button" data-panel="hours" data-dialog-title="Reservá tu visita">Reservar turno <span aria-hidden="true">↗</span></button>
       </div>
       <div class="services" id="servicios" aria-labelledby="services-title">
-        <div class="services-heading"><span>LO QUE HACEMOS</span><h2 id="services-title">Servicios con <em>personalidad.</em></h2></div>
+        <div class="services-heading"><span>EXPLORÁ</span><h2 id="services-title">Conocé la <em>barbería.</em></h2></div>
         <div class="service-grid">
-          <button class="service-card demo-action" type="button" aria-label="Ejemplo de corte clásico">
+          <button class="service-card demo-action" type="button" aria-label="Abrir servicios de muestra" data-panel="services" data-dialog-title="Servicios">
             <span class="service-image service-image-one" aria-hidden="true"></span>
-            <span class="service-copy"><small>01 / SERVICIO</small><strong>Corte clásico</strong><span>Precisión en cada detalle.</span></span><span class="card-arrow" aria-hidden="true">↗</span>
+            <span class="service-copy"><small>01 / SERVICIOS</small><strong>Servicios</strong><span>Corte, barba y estilo.</span></span>
+            <span class="card-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="34" r="5"/><circle cx="32" cy="34" r="5"/><path d="M15.8 30.6 39 8M28.2 30.7 9 9M20 23.5h8"/></svg></span>
           </button>
-          <button class="service-card demo-action" type="button" aria-label="Ejemplo de barba y perfilado">
+          <button class="service-card demo-action" type="button" aria-label="Abrir ubicación y horarios de muestra" data-panel="hours" data-dialog-title="Ubicación y horarios">
             <span class="service-image service-image-two" aria-hidden="true"></span>
-            <span class="service-copy"><small>02 / SERVICIO</small><strong>Barba y perfilado</strong><span>El toque para tu look.</span></span><span class="card-arrow" aria-hidden="true">↗</span>
+            <span class="service-copy"><small>02 / VISITANOS</small><strong>Ubicación y horarios</strong><span>Consultá disponibilidad.</span></span>
+            <span class="card-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 43S10 31.5 10 19a14 14 0 1 1 28 0c0 12.5-14 24-14 24Z"/><circle cx="24" cy="19" r="7"/><path d="M24 15v5l3 2"/></svg></span>
           </button>
-          <button class="service-card demo-action" type="button" aria-label="Ejemplo de asesoramiento de estilo">
+          <button class="service-card demo-action" type="button" aria-label="Abrir galería de cortes de muestra" data-panel="gallery" data-dialog-title="Galería de estilos">
             <span class="service-image service-image-three" aria-hidden="true"></span>
-            <span class="service-copy"><small>03 / SERVICIO</small><strong>Tu propio estilo</strong><span>Una imagen que habla de vos.</span></span><span class="card-arrow" aria-hidden="true">↗</span>
+            <span class="service-copy"><small>03 / INSPIRACIÓN</small><strong>Galería</strong><span>El espacio y los estilos.</span></span>
+            <span class="card-symbol" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="8" width="34" height="32" rx="3"/><path d="M7 32 16 24l8 7 7-6 10 9"/><circle cx="30" cy="18" r="4"/><path d="M14 15h7"/></svg></span>
           </button>
         </div>
       </div>
     </div>
   </section></main>
   <footer class="footer" id="contacto"><div class="wrap footer-inner">
-    <span class="footer-credit">DISEÑO DEMOSTRATIVO POR <strong>CVSTUDIO ARGENTINA</strong></span>
+    <span class="footer-credit">DISEÑO DEMOSTRATIVO POR <strong>CVSTUDIO</strong></span>
     <div class="social-icons" aria-hidden="true">
       <span class="social-icon" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg></span>
       <span class="social-icon social-facebook" title="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.9 21v-8.1h2.7l.4-3.2h-3.1V7.6c0-.9.3-1.5 1.6-1.5H17V3.3c-.3 0-1.2-.1-2.3-.1-2.4 0-4 1.5-4 4.2v2.3H8v3.2h2.7V21h3.2Z"/></svg></span>
       <span class="social-icon" title="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 11.9a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.3-4.6A8.4 8.4 0 1 1 20.4 11.9Z"/><path d="M8.6 8.1c-.5.6-.7 1.2-.3 2.1.9 2.1 2.5 3.9 4.8 4.9.8.3 1.4.2 2-.4l.7-1.1-2.1-1-1 1c-1.2-.5-2-1.4-2.7-2.6l.8-.9-1-2Z"/></svg></span>
     </div>
   </div></footer>
-  <div class="demo-toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  <dialog class="detail-dialog" id="detail-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-head"><div><span>BARBERÍA · MODELO DEMOSTRATIVO</span><h2 id="dialog-title">Explorá la barbería</h2></div><button class="dialog-close" type="button" aria-label="Cerrar ventana">×</button></div>
+    <div class="dialog-panel" data-panel-content="services" hidden>
+      <p class="dialog-intro">Una carta de servicios clara, con lugar para fotos, duración y precios propios.</p>
+      <div class="sample-services">
+        <article><span>01</span><div><strong>Corte a medida</strong><p>Clásico, moderno o el estilo que mejor va con vos.</p></div></article>
+        <article><span>02</span><div><strong>Barba y perfilado</strong><p>Definición, cuidado y terminaciones precisas.</p></div></article>
+        <article><span>03</span><div><strong>Corte + barba</strong><p>Una renovación completa en una sola visita.</p></div></article>
+        <article><span>04</span><div><strong>Asesoramiento de estilo</strong><p>Un look pensado para tu rostro y rutina.</p></div></article>
+      </div>
+    </div>
+    <div class="dialog-panel" data-panel-content="hours" hidden>
+      <p class="dialog-intro">Así podría presentarse la atención al público y la disponibilidad de turnos.</p>
+      <div class="schedule-card"><span class="schedule-kicker">HORARIOS DE EJEMPLO</span><div><span>Lunes a viernes</span><strong>10:00 – 20:00</strong></div><div><span>Sábados</span><strong>10:00 – 18:00</strong></div><div><span>Domingos</span><strong>Cerrado</strong></div></div>
+      <div class="location-note"><span aria-hidden="true">⌖</span><p><strong>Encontranos cerca tuyo.</strong><br>La dirección, el mapa y la reserva de turnos se personalizan para cada barbería.</p></div>
+    </div>
+    <div class="dialog-panel" data-panel-content="gallery" hidden>
+      <p class="dialog-intro">Una galería para mostrar cortes reales y el sello de la barbería.</p>
+      <div class="style-gallery"><figure><div class="style-photo style-one" role="img" aria-label="Corte fade bajo"></div><figcaption>Fade bajo</figcaption></figure><figure><div class="style-photo style-two" role="img" aria-label="Corte texturizado"></div><figcaption>Crop texturizado</figcaption></figure><figure><div class="style-photo style-three" role="img" aria-label="Corte clásico con barba"></div><figcaption>Clásico con barba</figcaption></figure></div>
+    </div>
+    <p class="dialog-foot">Contenido ilustrativo · Cada espacio se adapta a la identidad del negocio.</p>
+  </dialog>
 </body>
 </html>
