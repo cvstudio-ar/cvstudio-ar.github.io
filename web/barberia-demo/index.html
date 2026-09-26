@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#151515">
+  <meta name="description" content="Modelo demostrativo de espacio web para barberías, diseñado por CVStudio Argentina.">
+  <meta property="og:title" content="Barbería | Modelo demostrativo de CVStudio">
+  <meta property="og:description" content="Una muestra de cómo puede verse el sitio de tu barbería en computadora y celular.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cvstudio.com.ar/web/barberia-demo/assets/barberia-hero.webp">
+  <title>Barbería | Modelo demostrativo · CVStudio Argentina</title>
+  <link rel="icon" href="assets/cvstudio-logo.webp" type="image/webp">
+  <link rel="preload" href="assets/barberia-hero.webp" as="image">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+  <header class="site-header" id="inicio">
+    <div class="header-inner wrap">
+      <div class="brand" aria-label="Modelo demostrativo de CVStudio Argentina">
+        <img src="assets/cvstudio-logo.webp" alt="CVStudio Argentina" width="48" height="48">
+        <span class="brand-separator" aria-hidden="true"></span>
+        <span class="demo-label">MODELO<br>DEMOSTRATIVO</span>
+      </div>
+      <button class="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Navegación principal">
+        <a class="active" href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#galeria">Galería</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-photo" role="img" aria-label="Barbero trabajando en un corte de cabello"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-content wrap">
+        <span class="eyebrow"><span class="eyebrow-line"></span> BARBERÍA · ESTILO · IDENTIDAD</span>
+        <h1 id="hero-title">Tu estilo, en<br><em>buenas manos.</em></h1>
+        <p>Cortes, barba y una experiencia<br class="desktop-break"> pensada para vos.</p>
+        <button class="button button-primary demo-action" type="button">Reservar turno <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="hero-caption" aria-hidden="true">01 / BARBERÍA</div>
+    </section>
+
+    <section class="services section-pad" id="servicios" aria-labelledby="services-title">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><span class="kicker">LO QUE HACEMOS</span><h2 id="services-title">Servicios con <em>personalidad.</em></h2></div>
+          <span class="heading-rule" aria-hidden="true"></span>
+        </div>
+        <div class="service-grid">
+          <button class="service-card demo-action" type="button" aria-label="Ver ejemplo de corte clásico">
+            <span class="service-image service-image-one" aria-hidden="true"></span>
+            <span class="service-copy"><span class="service-num">01</span><strong>Corte clásico</strong><small>Precisión y estilo en cada detalle.</small><span class="service-arrow" aria-hidden="true">↗</span></span>
+          </button>
+          <button class="service-card demo-action" type="button" aria-label="Ver ejemplo de barba y perfilado">
+            <span class="service-image service-image-two" aria-hidden="true"></span>
+            <span class="service-copy"><span class="service-num">02</span><strong>Barba y perfilado</strong><small>El toque que completa tu look.</small><span class="service-arrow" aria-hidden="true">↗</span></span>
+          </button>
+          <button class="service-card demo-action" type="button" aria-label="Ver ejemplo de asesoramiento de estilo">
+            <span class="service-image service-image-three" aria-hidden="true"></span>
+            <span class="service-copy"><span class="service-num">03</span><strong>Asesoramiento de estilo</strong><small>Una imagen que habla de vos.</small><span class="service-arrow" aria-hidden="true">↗</span></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery section-pad" id="galeria" aria-labelledby="gallery-title">
+      <div class="wrap">
+        <div class="section-heading gallery-heading">
+          <div><span class="kicker">NUESTRO ESPACIO</span><h2 id="gallery-title">Un lugar para <em>renovarte.</em></h2></div>
+          <span class="heading-rule" aria-hidden="true"></span>
+        </div>
+        <div class="gallery-grid" aria-label="Galería demostrativa de barbería">
+          <div class="gallery-image gallery-one" role="img" aria-label="Sillón de barbería y espejos"></div>
+          <div class="gallery-image gallery-two" role="img" aria-label="Herramientas de barbería"></div>
+          <div class="gallery-image gallery-three" role="img" aria-label="Barbero realizando un corte"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about section-pad" id="nosotros" aria-labelledby="about-title">
+      <div class="wrap about-inner">
+        <div><span class="kicker">SOBRE ESTA EXPERIENCIA</span><h2 id="about-title">Cada detalle cuenta.</h2></div>
+        <p>Un espacio pensado para que cada visita se sienta propia: atención dedicada, técnica y una identidad que se nota desde el primer momento.</p>
+      </div>
+    </section>
+
+    <section class="contact section-pad" id="contacto" aria-labelledby="contact-title">
+      <div class="wrap contact-inner">
+        <div><span class="kicker">TU PRÓXIMO ESTILO</span><h2 id="contact-title">¿Listo para un cambio?</h2><p>Así podría presentarse la invitación a reservar de tu barbería.</p></div>
+        <button class="button button-outline demo-action" type="button">Reservar turno <span aria-hidden="true">↗</span></button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner"><span>DISEÑO DEMOSTRATIVO POR <strong>CVSTUDIO ARGENTINA</strong></span><span>Espacio web de muestra · Sin reservas activas</span></div>
+  </footer>
+  <div class="demo-toast" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
