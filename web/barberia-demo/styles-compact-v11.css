@@ -120,3 +120,15 @@ body{grid-template-rows:64px minmax(0,1fr) 60px}
 }
 @media(max-width:700px){.ember{box-shadow:0 0 6px 1px #e864282e}}
 @media(prefers-reduced-motion:reduce){.ember-field{display:none}}
+
+/* Keep the hero promise on two intentional lines. */
+.hero-content p span{display:block;white-space:nowrap}
+@media(max-width:700px){.hero-content p{max-width:none}}
+
+/* A restrained pulse draws attention to the booking action. */
+.hero-content .button{animation:booking-pulse 2.8s ease-in-out infinite}
+@keyframes booking-pulse{
+  0%,100%{box-shadow:0 9px 24px #0005,0 0 0 0 #e0384359}
+  50%{box-shadow:0 9px 24px #0005,0 0 0 9px #e0384300}
+}
+@media(prefers-reduced-motion:reduce){.hero-content .button{animation:none}}
