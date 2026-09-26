@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#132a30">
+  <meta name="description" content="Modelo demostrativo de espacio web para estudio jurídico, diseñado por CVStudio Argentina.">
+  <meta property="og:title" content="Estudio jurídico | Modelo demostrativo de CVStudio">
+  <meta property="og:description" content="Una muestra de cómo podría presentarse un estudio jurídico en computadora y celular.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://cvstudio.com.ar/web/estudio-juridico-demo/assets/legal-hero.webp">
+  <title>Estudio jurídico | Modelo demostrativo · CVStudio</title>
+  <link rel="icon" href="assets/cvstudio-logo.webp" type="image/webp">
+  <link rel="preload" href="assets/legal-hero.webp" as="image">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+  <header class="site-header"><div class="wrap header-inner">
+    <div class="brand" aria-label="Modelo demostrativo de CVStudio Argentina">
+      <img src="assets/cvstudio-logo.webp" alt="CVStudio Argentina" width="42" height="42">
+      <span class="brand-rule" aria-hidden="true"></span>
+      <span class="brand-copy"><strong>MODELO<br>DEMOSTRATIVO</strong><small>ESTUDIO JURÍDICO · ASESORAMIENTO</small></span>
+    </div>
+    <span class="header-mark">ESTUDIO JURÍDICO <i aria-hidden="true"></i> ATENCIÓN PERSONALIZADA</span>
+  </div></header>
+
+  <main id="contenido"><section class="showcase" aria-labelledby="hero-title">
+    <div class="showcase-photo" role="img" aria-label="Oficina jurídica con escritorio, libros y balanza"></div>
+    <div class="wrap showcase-inner">
+      <div class="hero-content">
+        <span class="eyebrow"><span class="eyebrow-line" aria-hidden="true"></span> CLARIDAD · COMPROMISO · CERCANÍA</span>
+        <h1 id="hero-title">Tu consulta merece<br><em>una respuesta clara.</em></h1>
+        <p>Un espacio profesional para conocer el estudio, explorar sus áreas y dar el primer paso con confianza.</p>
+        <button class="primary-button" type="button" data-panel="contact" data-dialog-title="Hablemos de tu consulta">Solicitar una consulta <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="explore" aria-labelledby="explore-title">
+        <div class="explore-heading"><span>CONOCÉ EL ESTUDIO</span><h2 id="explore-title">Información para <em>decidir con confianza.</em></h2></div>
+        <div class="card-grid">
+          <button class="explore-card" type="button" data-panel="areas" data-dialog-title="Áreas de práctica">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M24 7v32M9 15h30M11 15 5 29h12l-6-14Zm26 0-6 14h12l-6-14ZM17 39h14M14 42h20"/><path d="M5 29c1 5 11 5 12 0m14 0c1 5 11 5 12 0"/></svg></span>
+            <span class="card-copy"><small>01 / ASESORAMIENTO</small><strong>Áreas de práctica</strong><span>Encontrá el servicio adecuado.</span></span><span class="card-plus" aria-hidden="true">+</span>
+          </button>
+          <button class="explore-card" type="button" data-panel="team" data-dialog-title="El equipo">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="24" cy="16" r="7"/><path d="M10 40c0-8 6-13 14-13s14 5 14 13M8 16c-3 1-5 4-5 7m37-7c3 1 5 4 5 7"/></svg></span>
+            <span class="card-copy"><small>02 / TRAYECTORIA</small><strong>El equipo</strong><span>Personas detrás de cada caso.</span></span><span class="card-plus" aria-hidden="true">+</span>
+          </button>
+          <button class="explore-card" type="button" data-panel="contact" data-dialog-title="Contacto y atención">
+            <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 13h30v21H22l-9 7v-7H9V13Z"/><path d="M16 21h16m-16 6h11"/></svg></span>
+            <span class="card-copy"><small>03 / PRIMER PASO</small><strong>Contacto</strong><span>Consultas simples y directas.</span></span><span class="card-plus" aria-hidden="true">+</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section></main>
+
+  <footer class="footer"><div class="wrap footer-inner">
+    <span>DISEÑO DEMOSTRATIVO POR <strong>CVSTUDIO</strong></span>
+    <div class="social-icons" aria-hidden="true"><img src="assets/instagram.svg" alt=""><img src="assets/facebook.svg" alt=""><img src="assets/whatsapp.svg" alt=""></div>
+  </div></footer>
+
+  <dialog class="detail-dialog" id="detail-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-head"><div><span>ESTUDIO JURÍDICO · MODELO DEMOSTRATIVO</span><h2 id="dialog-title">Conocé el estudio</h2></div><button class="dialog-close" type="button" aria-label="Cerrar ventana">×</button></div>
+    <div class="dialog-panel" data-panel-content="areas" hidden>
+      <p>Estos espacios permiten explicar las áreas reales de cada estudio con un lenguaje claro. Las siguientes son opciones ilustrativas.</p>
+      <div class="sample-grid"><article><small>01</small><strong>Derecho laboral</strong><span>Orientación sobre relaciones de trabajo y conflictos laborales.</span></article><article><small>02</small><strong>Derecho de familia</strong><span>Acompañamiento en asuntos familiares y acuerdos.</span></article><article><small>03</small><strong>Sucesiones</strong><span>Información y asistencia en trámites sucesorios.</span></article><article><small>04</small><strong>Asesoramiento civil</strong><span>Consultas, contratos y situaciones cotidianas.</span></article></div>
+    </div>
+    <div class="dialog-panel" data-panel-content="team" hidden>
+      <p>Una sección para presentar a los profesionales, su matrícula, trayectoria y forma de trabajo, con información comprobada que proporcione el estudio.</p>
+      <div class="feature-box"><span aria-hidden="true">✦</span><div><strong>Un equipo con identidad propia</strong><span>Fotografías, especialidades, credenciales y una presentación cercana, adaptadas a quienes integran el estudio.</span></div></div>
+    </div>
+    <div class="dialog-panel" data-panel-content="contact" hidden>
+      <p>Así se mostrarían los canales de contacto, días de atención y ubicación que indique cada estudio.</p>
+      <div class="feature-box"><span aria-hidden="true">⌖</span><div><strong>Una consulta empieza con un contacto claro.</strong><span>El sitio final puede incluir WhatsApp, correo electrónico, formulario y mapa, con datos propios del cliente.</span></div></div>
+      <div class="contact-example"><span>ATENCIÓN</span><strong>Con cita previa</strong><small>Horario y dirección a personalizar.</small></div>
+    </div>
+    <p class="dialog-foot">Contenido ilustrativo · Este modelo no presta asesoramiento legal ni recibe consultas.</p>
+  </dialog>
+</body>
+</html>
