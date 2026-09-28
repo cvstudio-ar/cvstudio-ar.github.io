@@ -51,14 +51,19 @@ function showAvailability() {
 const originalDrawCalendar=drawCalendar;
 drawCalendar=function() {
   originalDrawCalendar();
+  const horizon=new Date(today.getFullYear()+2,today.getMonth(),1);
+  next.disabled=shownMonth>=new Date(horizon.getFullYear(),horizon.getMonth()-1,1);
   if(!availabilityLoaded||!availabilityPublished) return;
   daysGrid.querySelectorAll('button').forEach(button=>{
     const day=Number(button.textContent);
     const date=new Date(shownMonth.getFullYear(),shownMonth.getMonth(),day);
-    if(!freeCabins(date,new Date(date.getFullYear(),date.getMonth(),date.getDate()+1)).length) {
-      button.classList.add('fully-booked'); button.disabled=true;
-      button.setAttribute('aria-label',`${format(date)}: todas las cabañas ocupadas`);
-      button.title='Todas las cabañas ocupadas';
+    const dayUnavailable=!freeCabins(date,new Date(date.getFullYear(),date.getMonth(),date.getDate()+1)).length;
+    const rangeUnavailable=arrival&&!departure&&date>arrival&&!freeCabins(arrival,date).length;
+    if(dayUnavailable||rangeUnavailable) {
+      button.classList.add('fully-booked');
+      button.disabled=true;
+      button.setAttribute('aria-label',`${format(date)}: no disponible`);
+      button.title='No disponible';
     }
   });
 };
@@ -68,13 +73,19 @@ async function refreshAvailability() {
   const first=dayKey(new Date(today.getFullYear(),today.getMonth(),1));
   const last=dayKey(new Date(today.getFullYear()+2,today.getMonth(),1));
   try {
-    const [settings,days]=await Promise.all([
-      availabilityClient.from('valhalla_settings').select('availability_published').eq('id','main').single(),
-      availabilityClient.from('valhalla_occupied_days').select('cabin_id,occupied_on').gte('occupied_on',first).lt('occupied_on',last)
-    ]);
-    if(settings.error||days.error) throw settings.error||days.error;
+    const settings=await availabilityClient.from('valhalla_settings').select('availability_published').eq('id','main').single();
+    if(settings.error)throw settings.error;
+    let rows=[];
+    if(settings.data.availability_published){
+      for(let offset=0;;offset+=1000){
+        const page=await availabilityClient.from('valhalla_occupied_days').select('cabin_id,occupied_on').gte('occupied_on',first).lt('occupied_on',last).order('occupied_on').range(offset,offset+999);
+        if(page.error)throw page.error;
+        rows.push(...page.data);
+        if(page.data.length<1000)break;
+      }
+    }
     availabilityPublished=settings.data.availability_published;
-    occupiedDays=new Set(days.data.map(row=>`${row.cabin_id}:${row.occupied_on}`));
+    occupiedDays=new Set(rows.map(row=>`${row.cabin_id}:${row.occupied_on}`));
     availabilityLoaded=true;
   } catch(error) {
     console.error('Disponibilidad:',error);
