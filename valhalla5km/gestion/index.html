@@ -5,7 +5,7 @@
 </style></head><body>
 <header><strong>VALHALLA 5 KM · GESTIÓN</strong><a href="../">Ver la web pública ↗</a></header>
 <main>
-<section id="login" class="panel login"><h1>Ingresar</h1><p class="intro">Acceso privado para administrar las fechas ocupadas de las cuatro cabañas.</p><form id="login-form"><label>Correo electrónico<input id="email" type="email" autocomplete="username" required></label><label>Contraseña<input id="password" type="password" autocomplete="current-password" required></label><button class="primary" type="submit">Ingresar</button></form><p id="login-error" class="error" role="alert"></p></section>
+<section id="login" class="panel login"><h1>Ingresar</h1><p class="intro">Acceso privado para administrar las fechas ocupadas de las cuatro cabañas.</p><form id="login-form"><label>Usuario<input id="username" type="text" autocomplete="username" required></label><label>Contraseña<input id="password" type="password" autocomplete="current-password" required></label><button class="primary" type="submit">Ingresar</button></form><p id="login-error" class="error" role="alert"></p></section>
 <section id="manager" class="hidden"><div class="toolbar"><div><h1>Calendarios de reservas</h1></div><button class="secondary" id="logout" type="button">Cerrar sesión</button></div><p class="intro">Tocá una fecha para marcarla como <b>ocupada</b>. Volvé a tocarla para dejarla <b>libre</b>. Los cambios se guardan al instante. Marcá las noches de estadía; el día de salida se puede usar para una nueva entrada.</p>
 <div class="panel publish"><b>Disponibilidad en la página pública</b><p id="publish-status" class="status"></p><div id="publish-controls"><label><input id="ready-check" type="checkbox"> Ya cargué las reservas futuras de las cuatro cabañas.</label><button id="publish-button" class="primary" type="button">Publicar disponibilidad</button></div><p class="intro" style="margin:12px 0 0">Hasta que la publiques, la web invita a consultar por WhatsApp sin afirmar que una fecha esté libre.</p></div>
 <div class="toolbar"><div><button id="prev" class="secondary" type="button" aria-label="Mes anterior">‹</button><strong id="month"></strong><button id="next" class="secondary" type="button" aria-label="Mes siguiente">›</button></div><span id="save-status" role="status"></span></div>
@@ -14,6 +14,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.109.0/dist/umd/supabase.min.js"></script>
 <script>
 const client=supabase.createClient('https://eqepkoegzyqklpxkrkhm.supabase.co','sb_publishable_k-VAklYxdMXQ8C2bun1WoA_N7M98apd');
+// El usuario visible se vinculará a la cuenta verificada del dueño al activarla.
+const OWNER_EMAIL='__OWNER_EMAIL__';
 const login=document.querySelector('#login'),manager=document.querySelector('#manager'),errorBox=document.querySelector('#login-error');
 const cards=document.querySelector('#cards'),monthLabel=document.querySelector('#month'),saveStatus=document.querySelector('#save-status');
 const today=new Date(); today.setHours(0,0,0,0);
@@ -80,7 +82,11 @@ async function start(){
 }
 document.querySelector('#login-form').addEventListener('submit',async e=>{
   e.preventDefault();errorBox.textContent='Ingresando…';
-  const {error}=await client.auth.signInWithPassword({email:document.querySelector('#email').value.trim(),password:document.querySelector('#password').value});
+  if(document.querySelector('#username').value.trim().toLowerCase()!=='cabañas.valhalla'){
+    errorBox.textContent='Usuario o contraseña incorrectos.';return;
+  }
+  if(OWNER_EMAIL==='__OWNER_EMAIL__'){errorBox.textContent='El acceso está pendiente de activación.';return}
+  const {error}=await client.auth.signInWithPassword({email:OWNER_EMAIL,password:document.querySelector('#password').value});
   if(error){errorBox.textContent='Correo o contraseña incorrectos.';return}errorBox.textContent='';await start();
 });
 document.querySelector('#logout').addEventListener('click',async()=>{await client.auth.signOut();authorized=false;manager.classList.add('hidden');login.classList.remove('hidden');document.querySelector('#password').value=''});
