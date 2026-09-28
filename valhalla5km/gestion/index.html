@@ -59,12 +59,16 @@ async function toggle(cabin,date){
   working=false;
 }
 async function load(){
-  const [days,settings]=await Promise.all([
-    client.from('valhalla_occupied_days').select('cabin_id,occupied_on').gte('occupied_on',iso(today)),
-    client.from('valhalla_settings').select('availability_published').eq('id','main').single()
-  ]);
-  if(days.error||settings.error)throw days.error||settings.error;
-  occupied=new Set(days.data.map(row=>`${row.cabin_id}:${row.occupied_on}`));published=settings.data.availability_published;render();status('Listo para marcar fechas');
+  const settings=await client.from('valhalla_settings').select('availability_published').eq('id','main').single();
+  if(settings.error)throw settings.error;
+  let rows=[];
+  for(let offset=0;;offset+=1000){
+    const page=await client.from('valhalla_occupied_days').select('cabin_id,occupied_on').gte('occupied_on',iso(today)).order('occupied_on').range(offset,offset+999);
+    if(page.error)throw page.error;
+    rows.push(...page.data);
+    if(page.data.length<1000)break;
+  }
+  occupied=new Set(rows.map(row=>`${row.cabin_id}:${row.occupied_on}`));published=settings.data.availability_published;render();status('Listo para marcar fechas');
 }
 async function start(){
   try{
