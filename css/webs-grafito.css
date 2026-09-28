@@ -1,0 +1,53 @@
+:root{--bg:#17191d;--panel:#202328;--panel2:#272a30;--line:rgba(240,240,240,.16);--text:#f6f6f6;--muted:#b7b9bd;--lav:#e94148;--gold:#ed4a51}
+body{isolation:isolate;background:radial-gradient(ellipse at 78% 12%,rgba(142,22,30,.22),transparent 36%),radial-gradient(ellipse at 14% 62%,rgba(115,25,31,.13),transparent 38%),linear-gradient(135deg,#222529,#151619 65%,#202226);color:var(--text)}
+body:before{display:none}
+.ash-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;mask-image:linear-gradient(to bottom,transparent,#000 12%,#000 92%,transparent)}
+.ash-field span{position:absolute;inset:0;display:block;background-repeat:repeat;will-change:background-position}
+.ash-field span:nth-child(1){opacity:.68;background-image:radial-gradient(circle at 28px 162px,#f0f0ed 0 1.2px,transparent 2.5px),radial-gradient(circle at 174px 49px,#aeb1b1 0 1.4px,transparent 3px),radial-gradient(circle at 98px 220px,#ececea 0 .8px,transparent 2.2px),radial-gradient(circle at 225px 189px,#8f9395 0 1px,transparent 2.6px);background-size:260px 260px;animation:ash-rise 14s linear infinite}
+.ash-field span:nth-child(2){opacity:.48;background-image:radial-gradient(circle at 75px 95px,#ef4c50 0 1.5px,transparent 5px),radial-gradient(circle at 242px 252px,#bc2e33 0 1.1px,transparent 4px),radial-gradient(circle at 180px 183px,#eaa4a2 0 .8px,transparent 3px);background-size:310px 310px;animation:ash-rise-red 19s linear infinite}
+.ash-field span:nth-child(3){opacity:.35;background-image:radial-gradient(circle at 190px 68px,#c2c2c0 0 1px,transparent 5px),radial-gradient(circle at 310px 280px,#f0f0ee 0 1.1px,transparent 3px),radial-gradient(circle at 40px 337px,#bbb 0 .9px,transparent 3px);background-size:370px 370px;animation:ash-rise-soft 25s linear infinite}
+@keyframes ash-rise{to{background-position:0 -260px}}
+@keyframes ash-rise-red{to{background-position:0 -310px}}
+@keyframes ash-rise-soft{to{background-position:0 -370px}}
+.topbar,main,.footer{position:relative;z-index:1}
+.topbar{background:rgba(11,12,14,.87);border:1px solid #6d3034;box-shadow:0 0 0 1px #ffffff0b,0 14px 38px #0007}
+.brand:first-letter{color:#ef414a}.brand span{color:#fff}
+.topbar nav a{color:#d0d0d2}.topbar nav a:hover,.topbar nav a.current{color:#fff}.topbar nav a.current{border-left-color:#d34349}
+.mobile-home{color:#f36469}
+.hero{display:flex;align-items:center;justify-content:center;text-align:center;min-height:570px;padding:82px 0 92px;gap:0}
+.hero:before{content:"";position:absolute;inset:8% 10%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(154,25,33,.19),transparent 66%);filter:blur(20px);z-index:-1;pointer-events:none}
+.hero:after{content:"";position:absolute;left:calc(50% - 90px);bottom:53px;width:180px;height:2px;background:linear-gradient(90deg,transparent,#f44d55,transparent);box-shadow:0 0 21px #ed343dcc;pointer-events:none}
+.hero-copy{max-width:1020px;width:100%;display:flex;align-items:center;flex-direction:column}
+.eyebrow{color:#ff989b;border:1px solid #bd3b42;background:rgba(64,18,22,.65);box-shadow:inset 0 0 17px #ec363324;padding:8px 17px}
+.hero h1{font-size:clamp(44px,5.7vw,82px);line-height:1.06;letter-spacing:-.065em;margin:23px 0 12px;white-space:normal}
+.hero h1 em,h2 em{color:#f04b53}
+.hero-price{color:#f34e56;text-shadow:0 5px 32px #b41e2866;font-size:clamp(64px,7vw,96px)}
+.hero-copy>p{color:#d5d5d6;max-width:640px;margin:15px 0 30px;font-size:18px}
+.actions{justify-content:center}
+.button.primary{color:#fff;background:linear-gradient(120deg,#cf3038,#f04b52 52%,#c72d36);box-shadow:0 12px 32px #b5293659,0 0 25px #cf30352b}
+.button.primary:hover{box-shadow:0 14px 38px #e2334388,0 0 28px #d8333f66}
+.button.secondary{border-color:#a94b50;background:rgba(12,13,15,.7);box-shadow:inset 0 0 0 1px #ffffff12}
+.button.secondary:hover{background:#282126}
+.benefits{background:rgba(16,17,20,.84);border-color:#8c363b;box-shadow:0 0 0 1px #ffffff0d,0 23px 44px #0007;backdrop-filter:blur(10px)}
+.benefits>div+div{border-left-color:#ffffff26}
+.benefit-icon{border-color:#9c4248;color:#f0636b;background:radial-gradient(circle,#55252b,#1e1d23);box-shadow:inset 0 0 0 4px #241c20}
+.benefits small{color:#b9b9bd}
+.section-head>p{color:#b7b7bd}
+.design-card{background:#17191d;border-color:#55585e;box-shadow:0 18px 36px #0008}
+.design-card:hover{border-color:#e54850;box-shadow:0 19px 44px #d0273029;transform:translateY(-5px)}
+.design-card .preview{border-bottom:1px solid #55585e}
+.card-foot p{color:#adafb4}.card-foot a{color:#fff;border-color:#a94047;background:#401e25}.card-foot a:hover{background:#b9343e}
+.concept-label{color:#e47a80}
+.features{background:rgba(14,15,18,.91);border-color:#853238;box-shadow:0 0 0 1px #ffffff0d,0 25px 45px #0006;backdrop-filter:blur(8px)}
+.feature{background:#202226;border-color:#3d4045}.feature-wide{background:#282125;border-color:#914249}
+.feature>span{color:#ff757d;background:#432027;border-color:#a83e48}
+.feature p,.scope-note{color:#b6b6ba}
+.closing{background:radial-gradient(ellipse at 80% -40%,#a52a3442,transparent 52%),linear-gradient(110deg,#0e0e11,#24191d 68%,#121316);border-color:#ae454c;box-shadow:0 0 0 1px #ffffff14,0 22px 40px #0007}
+.closing:before{border-top-color:#e44f57;box-shadow:0 -12px 30px #d42d3b45,0 -36px 72px #be273442}
+.closing:after{border-bottom-color:#b73c43;box-shadow:0 9px 25px #e1374644,0 30px 50px #96293645}
+.closing p{color:#c3c3c6}.closing-perks{color:#d7ced0}.closing-perks span:first-letter{color:#f65d63}
+.closing .button img{filter:brightness(0) invert(1)!important}
+.footer{border-color:#804047;color:#b5b5b9}
+@media(max-width:780px){.hero{min-height:0;padding:74px 0 88px}.hero h1{font-size:clamp(41px,8.2vw,64px)}.hero:after{bottom:35px}.benefits>div:nth-child(3),.benefits>div:nth-child(4){border-top-color:#ffffff26}}
+@media(max-width:520px){.hero{padding:63px 0 72px}.hero h1{font-size:clamp(37px,9vw,48px)}.hero-price{font-size:clamp(60px,14vw,77px)}.hero-copy>p{font-size:15px;line-height:1.55}.hero:after{bottom:24px}.button{min-height:54px}.features{margin-top:56px}}
+@media(prefers-reduced-motion:reduce){.ash-field span{animation:none}}
