@@ -68,3 +68,26 @@ body:before{position:fixed;height:100%;opacity:1;background-image:radial-gradien
 @media(max-width:520px){.hero-showcase{height:auto;aspect-ratio:480/340}.design-card .preview{height:auto;aspect-ratio:267/215}}
 .hero-showcase{background-size:187.8% auto;background-position:96.5% 6.35%}
 .closing:after{top:-175px;height:160px;transform:rotate(-4deg)}
+
+/* Final artwork is rendered from separate high-definition compositions. */
+.hero-showcase{background-image:url('/assets/images/webs-hero-hd.webp');background-size:contain;background-position:center;mask-image:none;filter:drop-shadow(0 26px 32px #0008);aspect-ratio:1535/1024}
+.design-card .preview{aspect-ratio:3/2;background-size:cover;background-position:center;background-repeat:no-repeat}
+.design-card.barber .preview{background-image:url('/assets/images/webs-barberia-hd.webp')}
+.design-card.spa .preview{background-image:url('/assets/images/webs-spa-hd.webp')}
+.design-card.legal .preview{background-image:url('/assets/images/webs-juridico-hd.webp')}
+.design-card.tattoo .preview{background-image:url('/assets/images/webs-tatuajes-hd.webp')}
+.design-card.fashion .preview{background-image:url('/assets/images/webs-ropa-hd.webp')}
+.design-card.medical .preview{background-image:url('/assets/images/webs-medico-hd.webp')}
+.closing{min-height:240px;gap:26px;background:radial-gradient(ellipse at 33% -55%,#8970df68,transparent 58%),radial-gradient(ellipse at 80% 145%,#b99aff44,transparent 52%),linear-gradient(110deg,#07172f,#0b1830 72%,#101b39)}
+.closing:before{left:-9%;bottom:-188px;width:120%;height:270px;border-radius:50% 45% 0 0;transform:rotate(-7deg);border-top:1px solid #d7b773;box-shadow:0 -12px 36px #b3908140,0 -36px 72px #a783ec3a}
+.closing:after{left:15%;top:-254px;width:100%;height:300px;border-radius:0 0 50% 45%;transform:rotate(7deg);border-bottom:1px solid #e8c47e;box-shadow:0 9px 20px #af89ee56,0 25px 52px #7058b156}
+.closing>div:first-child{position:relative;z-index:1;max-width:720px}
+.closing h2{max-width:660px}
+.closing-side{position:relative;z-index:1;display:grid;justify-items:center;gap:26px;flex:none}
+.closing-side .button{min-width:260px}
+.closing-perks{display:flex;align-items:center;gap:13px;white-space:nowrap;color:#d0cbe4;font-size:10px}
+.closing-perks span+span{border-left:1px solid #9a92aa88;padding-left:13px}
+.closing-perks span:first-letter{color:#f2c259}
+@media(max-width:1100px){.closing{display:block}.closing-side{justify-items:start;margin-top:26px}.closing-perks{flex-wrap:wrap;white-space:normal}}
+@media(max-width:780px){.hero-showcase{aspect-ratio:1535/1024}.design-card .preview{aspect-ratio:3/2}.closing-side{justify-items:stretch}.closing-perks{justify-content:center}}
+@media(max-width:520px){.hero-showcase{aspect-ratio:1535/1024}.design-card .preview{aspect-ratio:3/2}.closing-side .button{min-width:0}.closing-perks{font-size:9px;gap:7px}.closing-perks span+span{padding-left:7px}}
