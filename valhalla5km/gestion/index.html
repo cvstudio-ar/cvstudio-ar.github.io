@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es-AR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173626"><title>Gestión de reservas | Valhalla 5 km</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#21392b;background:#f3f2ec}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}header{background:#173626;color:white;padding:22px max(20px,calc((100vw - 1160px)/2));display:flex;justify-content:space-between;align-items:center;gap:14px}header strong{font-size:19px;letter-spacing:.06em}header a{color:#fff;text-decoration:none;font-size:13px}main{max-width:1160px;margin:auto;padding:26px 18px 70px}h1{font:500 clamp(29px,5vw,44px) Georgia,serif;margin:0 0 9px}h2{font:500 25px Georgia,serif;margin:0}.intro{line-height:1.5;color:#5d6c61;margin:0 0 22px}.panel{border:1px solid #d9ded5;background:white;border-radius:15px;padding:21px;box-shadow:0 8px 24px #1934210b}.login{max-width:450px;margin:45px auto}.login label{display:block;margin:17px 0;font-weight:650;font-size:13px}.login input{display:block;width:100%;padding:13px;margin-top:6px;border:1px solid #b7c7b9;border-radius:8px}.primary{background:#22583a;color:white;border:0;padding:12px 18px;border-radius:8px;font-weight:700}.secondary{background:white;color:#245238;border:1px solid #a8bbae;padding:10px 13px;border-radius:8px}.notice{background:#e8f1e9;padding:12px 15px;border-radius:9px;line-height:1.5;margin:15px 0}.warning{background:#fff2dc;color:#68470e}.error{color:#a02f25;min-height:20px}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:18px 0}.toolbar div{display:flex;align-items:center;gap:8px}.toolbar strong{text-transform:capitalize;font-size:20px;min-width:170px;text-align:center}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:17px}.card-head small{color:#698070}.weekdays,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}.weekdays{font-size:11px;color:#748779;font-weight:750;margin-bottom:8px}.days button,.days span{width:100%;aspect-ratio:1.35;min-height:34px;border-radius:7px;display:grid;place-items:center}.days button{border:1px solid #e0e9df;background:#f5f8f4;color:#244331}.days button:hover{border-color:#407354}.days button.occupied{background:#b9503c;color:white;border-color:#a43c29}.days button:disabled{opacity:.45;cursor:default}.legend{margin-top:13px;font-size:12px;color:#617166}.legend b{display:inline-block;width:11px;height:11px;border-radius:2px;background:#b9503c;margin-right:5px}.publish{margin-bottom:18px}.publish label{display:flex;gap:8px;align-items:flex-start;margin:12px 0}.publish input{margin-top:5px}.status{font-size:13px;font-weight:700}.hidden{display:none!important}@media(max-width:720px){.grid{grid-template-columns:1fr}header{padding:18px}main{padding:22px 14px 60px}.panel{padding:16px}.days button,.days span{min-height:39px}}
+</style></head><body>
+<header><strong>VALHALLA 5 KM · GESTIÓN</strong><a href="../">Ver la web pública ↗</a></header>
+<main>
+<section id="login" class="panel login"><h1>Ingresar</h1><p class="intro">Acceso privado para administrar las fechas ocupadas de las cuatro cabañas.</p><form id="login-form"><label>Correo electrónico<input id="email" type="email" autocomplete="username" required></label><label>Contraseña<input id="password" type="password" autocomplete="current-password" required></label><button class="primary" type="submit">Ingresar</button></form><p id="login-error" class="error" role="alert"></p></section>
+<section id="manager" class="hidden"><div class="toolbar"><div><h1>Calendarios de reservas</h1></div><button class="secondary" id="logout" type="button">Cerrar sesión</button></div><p class="intro">Tocá una fecha para marcarla como <b>ocupada</b>. Volvé a tocarla para dejarla <b>libre</b>. Los cambios se guardan al instante. Marcá las noches de estadía; el día de salida se puede usar para una nueva entrada.</p>
+<div class="panel publish"><b>Disponibilidad en la página pública</b><p id="publish-status" class="status"></p><div id="publish-controls"><label><input id="ready-check" type="checkbox"> Ya cargué las reservas futuras de las cuatro cabañas.</label><button id="publish-button" class="primary" type="button">Publicar disponibilidad</button></div><p class="intro" style="margin:12px 0 0">Hasta que la publiques, la web invita a consultar por WhatsApp sin afirmar que una fecha esté libre.</p></div>
+<div class="toolbar"><div><button id="prev" class="secondary" type="button" aria-label="Mes anterior">‹</button><strong id="month"></strong><button id="next" class="secondary" type="button" aria-label="Mes siguiente">›</button></div><span id="save-status" role="status"></span></div>
+<div id="cards" class="grid"></div></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.109.0/dist/umd/supabase.min.js"></script>
+<script>
+const client=supabase.createClient('https://eqepkoegzyqklpxkrkhm.supabase.co','sb_publishable_k-VAklYxdMXQ8C2bun1WoA_N7M98apd');
+const login=document.querySelector('#login'),manager=document.querySelector('#manager'),errorBox=document.querySelector('#login-error');
+const cards=document.querySelector('#cards'),monthLabel=document.querySelector('#month'),saveStatus=document.querySelector('#save-status');
+const today=new Date(); today.setHours(0,0,0,0);
+let shown=new Date(today.getFullYear(),today.getMonth(),1),occupied=new Set(),published=false,authorized=false,working=false;
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const key=(cabin,date)=>`${cabin}:${iso(date)}`;
+function status(message,problem=false){saveStatus.textContent=message;saveStatus.style.color=problem?'#a02f25':'#436c4d'}
+function render(){
+  monthLabel.textContent=new Intl.DateTimeFormat('es-AR',{month:'long',year:'numeric'}).format(shown);
+  document.querySelector('#prev').disabled=shown.getFullYear()===today.getFullYear()&&shown.getMonth()===today.getMonth();
+  cards.replaceChildren();
+  for(let cabin=1;cabin<=4;cabin++){
+    const card=document.createElement('article');card.className='panel';
+    const heading=document.createElement('div');heading.className='card-head';
+    const title=document.createElement('h2');title.textContent=`Cabaña ${cabin}`;
+    const count=document.createElement('small');count.textContent=`${[...occupied].filter(x=>x.startsWith(`${cabin}:`)&&x.slice(2,9)===iso(shown).slice(0,7)).length} noches ocupadas este mes`;
+    heading.append(title,count);card.append(heading);
+    const weekdays=document.createElement('div');weekdays.className='weekdays';
+    for(const name of ['LU','MA','MI','JU','VI','SÁ','DO']){const span=document.createElement('span');span.textContent=name;weekdays.append(span)}card.append(weekdays);
+    const days=document.createElement('div');days.className='days';
+    for(let i=0;i<(shown.getDay()+6)%7;i++)days.append(document.createElement('span'));
+    const countDays=new Date(shown.getFullYear(),shown.getMonth()+1,0).getDate();
+    for(let n=1;n<=countDays;n++){
+      const date=new Date(shown.getFullYear(),shown.getMonth(),n),k=key(cabin,date);
+      const button=document.createElement('button');button.type='button';button.textContent=n;
+      button.classList.toggle('occupied',occupied.has(k));button.disabled=date<today;
+      button.setAttribute('aria-label',`Cabaña ${cabin}, ${new Intl.DateTimeFormat('es-AR',{dateStyle:'full'}).format(date)}: ${occupied.has(k)?'ocupada':'libre'}`);
+      button.setAttribute('aria-pressed',String(occupied.has(k)));
+      button.addEventListener('click',()=>toggle(cabin,date));days.append(button);
+    }
+    card.append(days);const legend=document.createElement('p');legend.className='legend';legend.innerHTML='<b></b> Rojo: noche ocupada · Verde claro: libre';card.append(legend);cards.append(card);
+  }
+  document.querySelector('#publish-status').textContent=published?'Publicado: los huéspedes pueden ver las fechas disponibles.':'Sin publicar: los huéspedes consultan por WhatsApp.';
+  document.querySelector('#publish-button').textContent=published?'Pausar disponibilidad pública':'Publicar disponibilidad';
+  document.querySelector('#ready-check').closest('label').classList.toggle('hidden',published);
+}
+async function toggle(cabin,date){
+  if(working||!authorized)return;
+  working=true;status('Guardando…');const k=key(cabin,date),exists=occupied.has(k);
+  const result=exists?await client.from('valhalla_occupied_days').delete().eq('cabin_id',cabin).eq('occupied_on',iso(date)):await client.from('valhalla_occupied_days').insert({cabin_id:cabin,occupied_on:iso(date)});
+  if(result.error){status('No se guardó. Reintentá.',true);console.error(result.error)}
+  else{exists?occupied.delete(k):occupied.add(k);status('Cambio guardado');render()}
+  working=false;
+}
+async function load(){
+  const [days,settings]=await Promise.all([
+    client.from('valhalla_occupied_days').select('cabin_id,occupied_on').gte('occupied_on',iso(today)),
+    client.from('valhalla_settings').select('availability_published').eq('id','main').single()
+  ]);
+  if(days.error||settings.error)throw days.error||settings.error;
+  occupied=new Set(days.data.map(row=>`${row.cabin_id}:${row.occupied_on}`));published=settings.data.availability_published;render();status('Listo para marcar fechas');
+}
+async function start(){
+  try{
+    const {data:{user},error}=await client.auth.getUser();if(error||!user){login.classList.remove('hidden');manager.classList.add('hidden');return}
+    const allowed=await client.from('valhalla_managers').select('user_id').eq('user_id',user.id).maybeSingle();
+    if(allowed.error||!allowed.data){await client.auth.signOut();errorBox.textContent='Esta cuenta aún no tiene acceso al calendario de Valhalla.';login.classList.remove('hidden');manager.classList.add('hidden');return}
+    authorized=true;await load();login.classList.add('hidden');manager.classList.remove('hidden');
+  }catch(e){errorBox.textContent='No pudimos cargar el calendario. Intentá nuevamente.';console.error(e);login.classList.remove('hidden')}
+}
+document.querySelector('#login-form').addEventListener('submit',async e=>{
+  e.preventDefault();errorBox.textContent='Ingresando…';
+  const {error}=await client.auth.signInWithPassword({email:document.querySelector('#email').value.trim(),password:document.querySelector('#password').value});
+  if(error){errorBox.textContent='Correo o contraseña incorrectos.';return}errorBox.textContent='';await start();
+});
+document.querySelector('#logout').addEventListener('click',async()=>{await client.auth.signOut();authorized=false;manager.classList.add('hidden');login.classList.remove('hidden');document.querySelector('#password').value=''});
+document.querySelector('#prev').addEventListener('click',()=>{shown=new Date(shown.getFullYear(),shown.getMonth()-1,1);render()});
+document.querySelector('#next').addEventListener('click',()=>{shown=new Date(shown.getFullYear(),shown.getMonth()+1,1);render()});
+document.querySelector('#publish-button').addEventListener('click',async()=>{
+  if(!authorized||working)return;
+  if(!published&&!document.querySelector('#ready-check').checked){status('Confirmá que cargaste las reservas de las cuatro cabañas.',true);return}
+  working=true;status('Guardando publicación…');
+  const result=await client.from('valhalla_settings').update({availability_published:!published,updated_at:new Date().toISOString()}).eq('id','main').select('availability_published').single();
+  if(result.error)status('No se pudo cambiar la publicación.',true);else{published=result.data.availability_published;render();status(published?'Disponibilidad publicada':'Disponibilidad pública pausada')}
+  working=false;
+});
+start();
+</script></body></html>
