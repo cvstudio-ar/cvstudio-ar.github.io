@@ -27,3 +27,9 @@ La revisión visual en navegador no se pudo completar en el entorno de preparaci
 
 CORRECCIONES DEL CLIENTE
 Cabañas 3 y 4: anafe y microondas, sin horno eléctrico. Smart TV en todas las cabañas. No se entregan toallas ni toallones; aclarado en servicios y fichas.
+
+REDES SOCIALES
+Fila inferior: Instagram, TikTok, Facebook, YouTube y WhatsApp. Se conservan los enlaces originales de Instagram y WhatsApp. Facebook y YouTube abren el reel y el video indicados por el cliente.
+
+LOGOS Y FIRMA
+Se usan los cinco PNG originales suministrados, con sus colores y transparencia. Debajo de las redes: una web desarrollada por cvstudio, con enlace a https://cvstudio.com.ar/otros-servicios.
