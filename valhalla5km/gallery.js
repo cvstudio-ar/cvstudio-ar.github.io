@@ -1,4 +1,3 @@
-// Galería original de Valhalla. Rutas relativas a index.html.
 window.VALHALLA_PHOTOS = [
   {
     "src": "assets/galeria/01-valhalla.webp",
@@ -66,11 +65,6 @@ window.VALHALLA_PHOTOS = [
     "category": "Interiores"
   },
   {
-    "src": "assets/galeria/14-valhalla.webp",
-    "title": "Baño y sector de ducha",
-    "category": "Interiores"
-  },
-  {
     "src": "assets/galeria/15-valhalla.webp",
     "title": "Pileta y reposeras durante el día",
     "category": "Espacios comunes"
@@ -93,11 +87,6 @@ window.VALHALLA_PHOTOS = [
   {
     "src": "assets/galeria/19-valhalla.webp",
     "title": "Zona de descanso bajo los árboles",
-    "category": "Espacios comunes"
-  },
-  {
-    "src": "assets/galeria/20-valhalla.webp",
-    "title": "Mesas y bancos en la zona arbolada",
     "category": "Espacios comunes"
   },
   {

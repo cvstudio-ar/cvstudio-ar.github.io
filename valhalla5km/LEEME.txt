@@ -6,14 +6,14 @@ No requiere compilación ni instalación de paquetes. Conserva la ruta /valhalla
 
 DISEÑO
 Portada compacta en PC y celular. Los seis botones abren ventanas dentro de la misma página. Solo el contenido de las ventanas se desplaza.
-Logo original extraído del PDF y fotografía original del atardecer, incluidos como archivos locales. Ilustraciones SVG nítidas y tipografía local.
+Logo original extraído del PDF y fotografía original del atardecer a pantalla completa, sin cortes en celular, incluidos como archivos locales. Ilustraciones SVG nítidas y tipografía local.
 
 RESERVAS
 Se conserva gestion/index.html del ZIP original y la integración existente de disponibilidad. El logo de la portada abre el acceso privado dentro de una ventana; también continúa disponible /valhalla5km/gestion/.
 La disponibilidad real requiere las tablas y permisos ya configurados en el servicio existente. Si no responde, se invita a consultar por WhatsApp sin afirmar que haya fechas libres.
 
 GALERÍA
-Las fotos anteriores fueron retiradas. Se incluyen 24 fotos originales en una sola galería, ordenadas por exteriores, interiores y espacios comunes. El visor usa recorte centrado para llenar todo el recuadro, sin franjas vacías. El listado de fotos está en gallery.js. Cada registro usa src (ruta local), title (descripción) y category (cabaña o espacio). Los archivos deben estar dentro de assets.
+Las fotos anteriores fueron retiradas. Se incluyen 22 fotos originales (retiradas las antiguas fotos 14 y 20) en una sola galería, ordenadas por exteriores, interiores y espacios comunes. El visor usa recorte centrado para llenar todo el recuadro, sin franjas vacías. El listado de fotos está en gallery.js. Cada registro usa src (ruta local), title (descripción) y category (cabaña o espacio). Los archivos deben estar dentro de assets.
 
 CONTENIDO
 Cabañas 1 y 2: hasta 4 personas. Cabañas 3 y 4: hasta 2 personas.
