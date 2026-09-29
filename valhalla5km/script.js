@@ -64,14 +64,14 @@ const cabins={
  1:{capacity:4,beds:['Una cama matrimonial','Una cama tipo nido','Ropa de cama completa'],kitchen:['Anafe','Horno eléctrico',...commonKitchen],grill:true},
  2:{capacity:4,beds:['Una cama matrimonial','Una cama tipo nido','Ropa de cama completa'],kitchen:['Anafe','Horno eléctrico',...commonKitchen],grill:true},
  3:{capacity:2,beds:['Una cama matrimonial','Ropa de cama completa'],kitchen:['Anafe',...commonKitchen],grill:true},
- 4:{capacity:2,beds:['Una cama matrimonial','Ropa de cama completa'],kitchen:['Anafe','Horno eléctrico',...commonKitchen],grill:false}
+ 4:{capacity:2,beds:['Una cama matrimonial','Ropa de cama completa'],kitchen:['Anafe',...commonKitchen],grill:false}
 };
 function list(items){return '<ul>'+items.map(text=>'<li>'+text+'</li>').join('')+'</ul>'}
 function showCabin(number){
  const cabin=cabins[number];const detail=document.querySelector('#cabin-detail');
  document.querySelectorAll('[data-cabin]').forEach(button=>{const selected=Number(button.dataset.cabin)===number;button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1});
  detail.setAttribute('aria-labelledby','tab-'+number);
- detail.innerHTML='<span class="capacity">Hasta '+cabin.capacity+' personas</span><h3>Cabaña '+number+'</h3><p>'+(cabin.capacity===4?'Ideal para familias o parejas que buscan confort, independencia y un entorno relajante.':'Ideal para parejas que buscan confort, independencia y un entorno relajante.')+'</p><div class="equipment"><section><h3>Descanso</h3>'+list(cabin.beds)+'</section><section><h3>Cocina equipada</h3>'+list(cabin.kitchen)+'</section><section><h3>Climatización y conexión</h3>'+list(['Aire acondicionado frío/calor','Wi-Fi de alta velocidad'])+'</section><section><h3>Espacios exteriores</h3>'+list(cabin.grill?['Parrilla techada privada','Estacionamiento propio junto a la cabaña']:['Estacionamiento propio junto a la cabaña','Asador fogonero en el espacio común'])+'</section></div>';
+ detail.innerHTML='<span class="capacity">Hasta '+cabin.capacity+' personas</span><h3>Cabaña '+number+'</h3><p>'+(cabin.capacity===4?'Ideal para familias o parejas que buscan confort, independencia y un entorno relajante.':'Ideal para parejas que buscan confort, independencia y un entorno relajante.')+'</p><div class="equipment"><section><h3>Descanso</h3>'+list(cabin.beds)+'</section><section><h3>Cocina equipada</h3>'+list(cabin.kitchen)+'</section><section><h3>Climatización y conexión</h3>'+list(['Aire acondicionado frío/calor','Wi-Fi de alta velocidad','Smart TV'])+'</section><section><h3>Espacios exteriores</h3>'+list(cabin.grill?['Parrilla techada privada','Estacionamiento propio junto a la cabaña']:['Estacionamiento propio junto a la cabaña','Asador fogonero en el espacio común'])+'</section></div><p class="note"><strong>Importante:</strong> no se entregan toallas ni toallones. Recordá traer los tuyos.</p>';
 }
 document.querySelectorAll('[data-cabin]').forEach(button=>{
  button.addEventListener('click',()=>showCabin(Number(button.dataset.cabin)));

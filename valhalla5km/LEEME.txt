@@ -6,7 +6,7 @@ No requiere compilación ni instalación de paquetes. Conserva la ruta /valhalla
 
 DISEÑO
 Portada compacta en PC y celular. Los seis botones abren ventanas dentro de la misma página. Solo el contenido de las ventanas se desplaza.
-Logo original extraído del PDF y fondo móvil recreado desde la portada aprobada a pantalla completa, sin recortes; fotografía original del atardecer en PC, incluidos como archivos locales. Ilustraciones SVG nítidas y tipografía local.
+Logo original extraído del PDF y fondo móvil recreado desde la portada aprobada a pantalla completa, sin recortes; fondo de PC recreado desde la maqueta aprobada, incluidos como archivos locales. Ilustraciones SVG nítidas y tipografía local.
 
 RESERVAS
 Se conserva gestion/index.html del ZIP original y la integración existente de disponibilidad. El logo de la portada abre el acceso privado dentro de una ventana; también continúa disponible /valhalla5km/gestion/.
@@ -24,3 +24,6 @@ La cantidad de plazas de la cama nido queda pendiente de confirmación; no se ag
 COMPROBACIONES
 Rutas locales, apertura/cierre/cambio de ventanas, cambio entre las cuatro cabañas, selección de fechas, consulta por WhatsApp, bloqueo de rangos completos ocupados y alternativa cuando falla la disponibilidad.
 La revisión visual en navegador no se pudo completar en el entorno de preparación.
+
+CORRECCIONES DEL CLIENTE
+Cabañas 3 y 4: anafe y microondas, sin horno eléctrico. Smart TV en todas las cabañas. No se entregan toallas ni toallones; aclarado en servicios y fichas.
