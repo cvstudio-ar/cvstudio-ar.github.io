@@ -6,7 +6,7 @@ No requiere compilación ni instalación de paquetes. Conserva la ruta /valhalla
 
 DISEÑO
 Portada compacta en PC y celular. Los seis botones abren ventanas dentro de la misma página. Solo el contenido de las ventanas se desplaza.
-Logo original extraído del PDF y fotografía original del atardecer a pantalla completa, sin cortes en celular, incluidos como archivos locales. Ilustraciones SVG nítidas y tipografía local.
+Logo original extraído del PDF y fondo móvil recreado desde la portada aprobada a pantalla completa, sin recortes; fotografía original del atardecer en PC, incluidos como archivos locales. Ilustraciones SVG nítidas y tipografía local.
 
 RESERVAS
 Se conserva gestion/index.html del ZIP original y la integración existente de disponibilidad. El logo de la portada abre el acceso privado dentro de una ventana; también continúa disponible /valhalla5km/gestion/.
