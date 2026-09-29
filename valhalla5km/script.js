@@ -44,13 +44,43 @@ next.addEventListener('click',()=>{shownMonth=new Date(shownMonth.getFullYear(),
 bookingLink.addEventListener('click',event=>{if(bookingLink.getAttribute('aria-disabled')==='true')event.preventDefault()});
 drawCalendar();
 
-// Las tres secciones se abren sin desplazar la portada.
-document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>document.getElementById(button.dataset.open).showModal()));
+
+// Public sections open as dialogs. Their own content scrolls; the home stays fixed.
+function openPanel(id){
+ const panel=document.getElementById(id);
+ if(!panel||panel.open)return;
+ panel.querySelectorAll('iframe[data-src]').forEach(frame=>{frame.src=frame.dataset.src;delete frame.dataset.src});
+ panel.showModal();
+}
+document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>openPanel(button.dataset.open)));
 document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>button.closest('dialog').close()));
-document.querySelectorAll('[data-switch]').forEach(button=>button.addEventListener('click',()=>{button.closest('dialog').close();document.getElementById(button.dataset.switch).showModal()}));
-document.querySelectorAll('dialog').forEach(panel=>panel.addEventListener('click',event=>{if(event.target===panel)panel.close()}));
-const photos=[['01-exterior.webp','Exterior de las cabañas'],['02-cabana-glamping.webp','Rincón de descanso al atardecer'],['03-cabana-parrilla.webp','Cabaña con parrilla'],['04-bano.webp','Baño de la cabaña'],['05-pileta.webp','Pileta iluminada por la noche'],['06-cocina.webp','Cocina equipada'],['07-cabana-interior.webp','Interior de la cabaña'],['08-cocina-detalle.webp','Detalles de la cocina'],['09-jardin.webp','Espacio para compartir en el jardín'],['10-living.webp','Otra vista del interior']];
+document.querySelectorAll('[data-switch]').forEach(button=>button.addEventListener('click',()=>{button.closest('dialog').close();openPanel(button.dataset.switch)}));
+document.querySelectorAll('dialog').forEach(panel=>panel.addEventListener('click',event=>{
+ const r=panel.getBoundingClientRect();
+ if(event.target===panel&&(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom))panel.close();
+}));
+const commonKitchen=['Microondas','Termotanque eléctrico','Vajilla completa y utensilios'];
+const cabins={
+ 1:{capacity:4,beds:['Una cama matrimonial','Una cama tipo nido','Ropa de cama completa'],kitchen:['Anafe','Horno eléctrico',...commonKitchen],grill:true},
+ 2:{capacity:4,beds:['Una cama matrimonial','Una cama tipo nido','Ropa de cama completa'],kitchen:['Anafe','Horno eléctrico',...commonKitchen],grill:true},
+ 3:{capacity:2,beds:['Una cama matrimonial','Ropa de cama completa'],kitchen:['Anafe',...commonKitchen],grill:true},
+ 4:{capacity:2,beds:['Una cama matrimonial','Ropa de cama completa'],kitchen:['Anafe','Horno eléctrico',...commonKitchen],grill:false}
+};
+function list(items){return '<ul>'+items.map(text=>'<li>'+text+'</li>').join('')+'</ul>'}
+function showCabin(number){
+ const cabin=cabins[number];const detail=document.querySelector('#cabin-detail');
+ document.querySelectorAll('[data-cabin]').forEach(button=>{const selected=Number(button.dataset.cabin)===number;button.setAttribute('aria-selected',String(selected));button.tabIndex=selected?0:-1});
+ detail.setAttribute('aria-labelledby','tab-'+number);
+ detail.innerHTML='<span class="capacity">Hasta '+cabin.capacity+' personas</span><h3>Cabaña '+number+'</h3><p>'+(cabin.capacity===4?'Ideal para familias o parejas que buscan confort, independencia y un entorno relajante.':'Ideal para parejas que buscan confort, independencia y un entorno relajante.')+'</p><div class="equipment"><section><h3>Descanso</h3>'+list(cabin.beds)+'</section><section><h3>Cocina equipada</h3>'+list(cabin.kitchen)+'</section><section><h3>Climatización y conexión</h3>'+list(['Aire acondicionado frío/calor','Wi-Fi de alta velocidad'])+'</section><section><h3>Espacios exteriores</h3>'+list(cabin.grill?['Parrilla techada privada','Estacionamiento propio junto a la cabaña']:['Estacionamiento propio junto a la cabaña','Asador fogonero en el espacio común'])+'</section></div>';
+}
+document.querySelectorAll('[data-cabin]').forEach(button=>{
+ button.addEventListener('click',()=>showCabin(Number(button.dataset.cabin)));
+ button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const current=Number(button.dataset.cabin);const n=event.key==='Home'?1:event.key==='End'?4:((current-1+(event.key==='ArrowRight'?1:3))%4)+1;showCabin(n);document.querySelector('#tab-'+n).focus()});
+});showCabin(1);
+const photos=window.VALHALLA_PHOTOS||[];
 const mainPhoto=document.querySelector('#gallery-main'),caption=document.querySelector('#gallery-caption'),countLabel=document.querySelector('#gallery-count'),thumbs=document.querySelector('#gallery-thumbs');let photoIndex=0;
-photos.forEach(([file,title],index)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',`Ver foto ${index+1}: ${title}`);const img=document.createElement('img');img.src=`assets/fotos/${file}`;img.alt='';img.loading='lazy';b.append(img);b.addEventListener('click',()=>showPhoto(index));thumbs.append(b)});
-function showPhoto(index){photoIndex=(index+photos.length)%photos.length;const [file,title]=photos[photoIndex];mainPhoto.src=`assets/fotos/${file}`;mainPhoto.alt=title;caption.textContent=title;countLabel.textContent=`${photoIndex+1} / ${photos.length}`;[...thumbs.children].forEach((b,i)=>{b.classList.toggle('active',i===photoIndex);b.setAttribute('aria-pressed',String(i===photoIndex))})}
-document.querySelector('.gallery-prev').addEventListener('click',()=>showPhoto(photoIndex-1));document.querySelector('.gallery-next').addEventListener('click',()=>showPhoto(photoIndex+1));document.querySelector('#galeria').addEventListener('keydown',e=>{if(e.key==='ArrowLeft')showPhoto(photoIndex-1);if(e.key==='ArrowRight')showPhoto(photoIndex+1)});showPhoto(0);
+photos.forEach((photo,index)=>{const button=document.createElement('button');button.type='button';button.setAttribute('aria-label','Ver foto: '+photo.title);const img=document.createElement('img');img.src=photo.src;img.alt='';img.loading='lazy';button.append(img);button.addEventListener('click',()=>showPhoto(index));thumbs.append(button)});
+function showPhoto(index){if(!photos.length)return;photoIndex=(index+photos.length)%photos.length;const photo=photos[photoIndex];mainPhoto.src=photo.src;mainPhoto.alt=photo.title;caption.textContent=photo.title;countLabel.textContent=(photoIndex+1)+' / '+photos.length;[...thumbs.children].forEach((b,i)=>{b.classList.toggle('active',i===photoIndex);b.setAttribute('aria-pressed',String(i===photoIndex))})}
+document.querySelector('.gallery-prev').addEventListener('click',()=>showPhoto(photoIndex-1));document.querySelector('.gallery-next').addEventListener('click',()=>showPhoto(photoIndex+1));
+document.querySelectorAll('.gallery-view button').forEach(button=>{button.hidden=photos.length<2});
+document.querySelector('#galeria').addEventListener('keydown',event=>{if(event.key==='ArrowLeft')showPhoto(photoIndex-1);if(event.key==='ArrowRight')showPhoto(photoIndex+1)});showPhoto(0);

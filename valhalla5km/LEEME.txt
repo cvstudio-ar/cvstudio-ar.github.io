@@ -1,0 +1,26 @@
+CABAÑAS VALHALLA — PROYECTO ACTUALIZADO
+
+PUBLICACIÓN
+Descomprimí el ZIP. Reemplazá la carpeta valhalla5km completa de tu web con la carpeta incluida. No agregues la carpeta nueva dentro de la anterior: index.html debe quedar en /valhalla5km/index.html.
+No requiere compilación ni instalación de paquetes. Conserva la ruta /valhalla5km/.
+
+DISEÑO
+Portada compacta en PC y celular. Los seis botones abren ventanas dentro de la misma página. Solo el contenido de las ventanas se desplaza.
+Logo original extraído del PDF y fotografía original del atardecer, incluidos como archivos locales. Ilustraciones SVG nítidas y tipografía local.
+
+RESERVAS
+Se conserva gestion/index.html del ZIP original y la integración existente de disponibilidad. El logo de la portada abre el acceso privado dentro de una ventana; también continúa disponible /valhalla5km/gestion/.
+La disponibilidad real requiere las tablas y permisos ya configurados en el servicio existente. Si no responde, se invita a consultar por WhatsApp sin afirmar que haya fechas libres.
+
+GALERÍA
+Las fotos anteriores fueron retiradas. Se incluyen 24 fotos originales en una sola galería, ordenadas por exteriores, interiores y espacios comunes. El visor usa recorte centrado para llenar todo el recuadro, sin franjas vacías. El listado de fotos está en gallery.js. Cada registro usa src (ruta local), title (descripción) y category (cabaña o espacio). Los archivos deben estar dentro de assets.
+
+CONTENIDO
+Cabañas 1 y 2: hasta 4 personas. Cabañas 3 y 4: hasta 2 personas.
+Cabaña 4: no se anuncia parrilla privada porque no figura en su ficha.
+Se incorporan historia, espacios comunes, horarios, normas de pileta, mascotas y sustentabilidad.
+La cantidad de plazas de la cama nido queda pendiente de confirmación; no se agrega una distribución inventada.
+
+COMPROBACIONES
+Rutas locales, apertura/cierre/cambio de ventanas, cambio entre las cuatro cabañas, selección de fechas, consulta por WhatsApp, bloqueo de rangos completos ocupados y alternativa cuando falla la disponibilidad.
+La revisión visual en navegador no se pudo completar en el entorno de preparación.

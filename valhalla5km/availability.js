@@ -1,5 +1,5 @@
 // Calendario público: las noches ocupadas se cargan desde el panel de gestión.
-const availabilityClient = supabase.createClient(VALHALLA_SUPABASE_URL, VALHALLA_SUPABASE_KEY);
+const availabilityClient = window.supabase ? supabase.createClient(VALHALLA_SUPABASE_URL, VALHALLA_SUPABASE_KEY) : null;
 const cabinAvailability = document.querySelector('#cabin-availability');
 const availabilityStatus = document.querySelector('#availability-status');
 let occupiedDays = new Set();
@@ -73,6 +73,7 @@ async function refreshAvailability() {
   const first=dayKey(new Date(today.getFullYear(),today.getMonth(),1));
   const last=dayKey(new Date(today.getFullYear()+2,today.getMonth(),1));
   try {
+    if (!availabilityClient) throw new Error('Servicio de disponibilidad no accesible');
     const settings=await availabilityClient.from('valhalla_settings').select('availability_published').eq('id','main').single();
     if(settings.error)throw settings.error;
     let rows=[];
@@ -89,11 +90,11 @@ async function refreshAvailability() {
     availabilityLoaded=true;
   } catch(error) {
     console.error('Disponibilidad:',error);
-    availabilityLoaded=false;
+    availabilityLoaded=true; availabilityPublished=false;
   }
   drawCalendar(); showAvailability();
 }
-document.querySelector('[data-open="ubicacion"]').addEventListener('click',refreshAvailability);
+document.querySelector('[data-open="disponibilidad"]').addEventListener('click',refreshAvailability);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshAvailability()});
 setInterval(()=>{if(!document.hidden)refreshAvailability()},60000);
 refreshAvailability();
