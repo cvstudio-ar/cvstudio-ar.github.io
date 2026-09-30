@@ -33,3 +33,6 @@ Fila inferior: Instagram, TikTok, Facebook, YouTube y WhatsApp. Se conservan los
 
 LOGOS Y FIRMA
 Se usan los cinco PNG originales suministrados, con sus colores y transparencia. Debajo de las redes: una web desarrollada por cvstudio, con enlace a https://cvstudio.com.ar/otros-servicios.
+
+MEDIOS DE PAGO
+Servicios incluye un octavo casillero Medios de pago. Despliega el detalle dentro de la misma ventana: todas las tarjetas (crédito y débito vía Mercado Pago) y transferencias bancarias. Se incluyen las dos imágenes enviadas por el cliente.

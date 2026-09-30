@@ -84,3 +84,11 @@ function showPhoto(index){if(!photos.length)return;photoIndex=(index+photos.leng
 document.querySelector('.gallery-prev').addEventListener('click',()=>showPhoto(photoIndex-1));document.querySelector('.gallery-next').addEventListener('click',()=>showPhoto(photoIndex+1));
 document.querySelectorAll('.gallery-view button').forEach(button=>{button.hidden=photos.length<2});
 document.querySelector('#galeria').addEventListener('keydown',event=>{if(event.key==='ArrowLeft')showPhoto(photoIndex-1);if(event.key==='ArrowRight')showPhoto(photoIndex+1)});showPhoto(0);
+
+const paymentToggle=document.querySelector('#payment-toggle');
+const paymentInfo=document.querySelector('#payment-info');
+paymentToggle.addEventListener('click',()=>{
+ const expanded=paymentToggle.getAttribute('aria-expanded')==='true';
+ paymentToggle.setAttribute('aria-expanded',String(!expanded));
+ paymentInfo.hidden=expanded;
+});

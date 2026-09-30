@@ -20,3 +20,13 @@
 @media(max-width:760px){.site-footer{position:static;flex:none;margin-top:14px;gap:9px}.site-footer .social{gap:14px}.social .social-logo{width:26px;height:26px}.social .social-logo-tiktok{width:38px;height:38px}.studio-credit{font-size:10px}}
 @media(max-width:760px) and (max-height:700px){.site-footer{margin-top:10px;gap:7px}.social .social-logo{width:23px;height:23px}.social .social-logo-tiktok{width:33px;height:33px}}
 @media(max-width:760px) and (max-height:540px){.site-footer{margin-top:8px;gap:5px}.social .social-logo{width:19px;height:19px}.social .social-logo-tiktok{width:27px;height:27px}.studio-credit{font-size:9px}}
+
+.amenity-grid .payment-toggle{min-width:0;text-align:left;border:1px solid #ded4b9;border-radius:9px;background:#fffaf0;color:var(--ink);padding:11px 12px;font:13px/1.65 Arial,sans-serif}
+.payment-toggle small{display:block;margin-top:3px;font-size:11px;color:#647466}
+.amenity-grid .payment-toggle:hover,.amenity-grid .payment-toggle[aria-expanded=true]{border-color:#a28640;background:#f3ecd7}
+.payment-info{border:1px solid #ded4b9;background:#fffaf0;border-radius:12px;padding:18px;margin:0 0 20px}
+.payment-info h3{margin:0 0 10px}.payment-info[hidden]{display:none}
+.payment-images{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.payment-images img{object-fit:contain;height:auto;border-radius:7px;max-width:100%}
+.payment-images img:first-child{width:118px}.payment-images img:last-child{width:min(100%,390px)}
+@media(max-width:760px){.amenity-grid .payment-toggle{padding:9px;font-size:12px}.payment-toggle small{font-size:10px}.payment-info{padding:14px}.payment-images{gap:12px}}
