@@ -26,7 +26,21 @@
 .amenity-grid .payment-toggle:hover,.amenity-grid .payment-toggle[aria-expanded=true]{border-color:#a28640;background:#f3ecd7}
 .payment-info{border:1px solid #ded4b9;background:#fffaf0;border-radius:12px;padding:18px;margin:0 0 20px}
 .payment-info h3{margin:0 0 10px}.payment-info[hidden]{display:none}
-.payment-images{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
-.payment-images img{object-fit:contain;height:auto;border-radius:7px;max-width:100%}
-.payment-images img:first-child{width:118px}.payment-images img:last-child{width:min(100%,390px)}
-@media(max-width:760px){.amenity-grid .payment-toggle{padding:9px;font-size:12px}.payment-toggle small{font-size:10px}.payment-info{padding:14px}.payment-images{gap:12px}}
+
+
+
+@media(max-width:760px){.amenity-grid .payment-toggle{padding:9px;font-size:12px}.payment-toggle small{font-size:10px}.payment-info{padding:14px}}
+
+.payment-protection{display:flex;gap:12px;padding:14px;border:1px solid #ded4b9;border-radius:10px;background:#f3eedf;margin:16px 0;font-size:13px}
+.payment-protection>span{font-size:21px}.payment-protection p{margin:4px 0 0;font-size:12px;line-height:1.5}
+.payment-methods{background:#fff;border:1px solid #e2dac5;border-radius:14px;padding:18px}
+.payment-provider{display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid #e7dfcd;margin-bottom:12px;font-size:18px}
+.payment-provider img{width:46px;height:36px;object-fit:contain}
+.payment-brands{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.payment-brand{display:flex;align-items:center;justify-content:center;min-width:0;min-height:54px;padding:8px;border:1px solid #e1dac9;border-radius:10px;background:white}
+.payment-brand img{width:100%;height:32px;object-fit:contain;max-width:100px}
+.payment-transfer{display:flex;gap:12px;align-items:flex-start;background:#edf2e9;padding:14px;border-radius:10px;margin:12px 0}
+.payment-transfer>span{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#1d4930;color:#fff6dc;font:22px Arial}
+.payment-transfer p{font-size:12px;line-height:1.5;margin:4px 0 0}
+.payment-methods .payment-conditions{font-size:11px;line-height:1.5;color:#677163;margin:12px 0 0}
+@media(max-width:760px){.payment-methods{padding:12px}.payment-brands{gap:6px}.payment-brand{min-height:48px;padding:6px}.payment-brand img{height:28px}.payment-provider{font-size:17px}.payment-transfer{padding:12px;gap:9px}}
