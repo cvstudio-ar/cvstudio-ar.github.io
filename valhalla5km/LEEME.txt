@@ -38,3 +38,7 @@ MEDIOS DE PAGO
 Servicios incluye un octavo casillero Medios de pago. Despliega el detalle dentro de la misma ventana: todas las tarjetas (crédito y débito vía Mercado Pago) y transferencias bancarias. La presentación usa los logos SVG de CVStudio y muestra Mercado Pago, tarjetas, transferencia bancaria y aclaración sobre cuotas y promociones.
 
 Los logos de pago se cargan desde https://cvstudio.com.ar/assets/icons/ y requieren que esas rutas sigan disponibles. El texto de transferencia se adapta a la confirmación de una reserva.
+
+VISTA PREVIA Y GOOGLE
+Nueva imagen: assets/valhalla-vista-previa.jpg. Se configura en Open Graph, Twitter Card y primaryImageOfPage. La portada se expone como imagen HTML con las fuentes adaptadas a PC y celular. Se permite vista previa grande.
+Después de publicar, inspeccioná https://cvstudio.com.ar/valhalla5km/ en Google Search Console y solicitá indexación. Google decide la miniatura y el rastreo puede tardar días o semanas; no se garantiza un cambio inmediato.
