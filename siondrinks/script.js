@@ -100,26 +100,90 @@
   });
 
   const musicToggle = document.getElementById('music-toggle');
-  const musicTray = document.getElementById('music-tray');
-  const musicPlayer = document.getElementById('music-player');
-  function stopMusic() {
-    musicPlayer.replaceChildren();
-    musicTray.hidden = true;
-    musicToggle.setAttribute('aria-expanded', 'false');
-    document.getElementById('music-label').textContent = 'Activar música';
+  const musicLabel = document.getElementById('music-label');
+  const musicStatus = document.getElementById('music-status');
+  let player = null;
+  let ready = false;
+  let desiredPlaying = false;
+  let loading = false;
+  let loadTimer = null;
+  function status(message = '') {
+    musicStatus.textContent = message;
+    musicStatus.hidden = !message;
+  }
+  function updateButton(playing) {
+    musicToggle.setAttribute('aria-pressed', String(playing));
+    musicLabel.textContent = playing ? 'Pausar música' : 'Activar música';
+    musicToggle.querySelector('.play-icon').textContent = playing ? 'Ⅱ' : '▶';
+  }
+  function failed(message) {
+    clearTimeout(loadTimer);
+    desiredPlaying = false;
+    loading = false;
+    updateButton(false);
+    status(message);
+  }
+  function createPlayer() {
+    if (player) return;
+    player = new window.YT.Player('music-player', {
+      host: 'https://www.youtube-nocookie.com',
+      width: 320,
+      height: 200,
+      videoId: 'i34pFNr42mc',
+      playerVars: { playsinline: 1, controls: 0, rel: 0, origin: window.location.origin },
+      events: {
+        onReady(event) {
+          clearTimeout(loadTimer);
+          ready = true;
+          loading = false;
+          const iframe = event.target.getIframe();
+          iframe.setAttribute('tabindex', '-1');
+          iframe.setAttribute('aria-hidden', 'true');
+          iframe.setAttribute('allow', 'autoplay; encrypted-media');
+          event.target.setVolume(55);
+          if (desiredPlaying) event.target.playVideo();
+        },
+        onStateChange(event) {
+          if (event.data === 1) { updateButton(true); status(); }
+          else if (event.data === 2 || event.data === 0) {
+            desiredPlaying = false;
+            updateButton(false);
+          }
+        },
+        onAutoplayBlocked() {
+          failed('Tocá Activar música otra vez para iniciar la reproducción.');
+        },
+        onError() {
+          failed('No se pudo reproducir la música de YouTube. Intentá nuevamente.');
+        }
+      }
+    });
   }
   musicToggle.addEventListener('click', () => {
-    if (!musicTray.hidden) { stopMusic(); return; }
-    const iframe = document.createElement('iframe');
-    iframe.title = 'Jamaican (Bam Bam) de HUGEL y SOLTO · Reproductor de YouTube';
-    iframe.src = 'https://www.youtube-nocookie.com/embed/i34pFNr42mc?autoplay=1&playsinline=1&rel=0';
-    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-    iframe.allowFullscreen = true;
-    musicPlayer.append(iframe);
-    musicTray.hidden = false;
-    musicToggle.setAttribute('aria-expanded', 'true');
-    document.getElementById('music-label').textContent = 'Cerrar música';
+    if (loading) {
+      desiredPlaying = !desiredPlaying;
+      musicLabel.textContent = desiredPlaying ? 'Cargando música…' : 'Activar música';
+      return;
+    }
+    status();
+    if (ready) {
+      desiredPlaying = !desiredPlaying;
+      if (desiredPlaying) player.playVideo();
+      else { player.pauseVideo(); updateButton(false); }
+      return;
+    }
+    desiredPlaying = true;
+    loading = true;
+    musicLabel.textContent = 'Cargando música…';
+    loadTimer = setTimeout(() => failed('La música no pudo cargarse. Revisá tu conexión e intentá nuevamente.'), 15000);
+    if (window.YT?.Player) { createPlayer(); return; }
+    window.onYouTubeIframeAPIReady = createPlayer;
+    const script = document.createElement('script');
+    script.src = 'https://www.youtube.com/iframe_api';
+    script.onerror = () => {
+      script.remove();
+      failed('La música no pudo cargarse. Intentá nuevamente.');
+    };
+    document.head.append(script);
   });
-  document.getElementById('music-close').addEventListener('click', () => { stopMusic(); musicToggle.focus(); });
 })();

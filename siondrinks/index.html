@@ -16,9 +16,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" as="image" href="assets/hero.webp">
-  <link rel="stylesheet" href="styles.css?v=20261003-1">
-  <script src="script.js?v=20261003-1" defer></script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Siondrinks Barras Móviles","url":"https://cvstudio.com.ar/siondrinks/","logo":"https://cvstudio.com.ar/siondrinks/assets/logo.webp","telephone":"+5491163734430","sameAs":["https://www.instagram.com/siondrinks/"]}</script>
+  <link rel="stylesheet" href="styles.css?v=20261003-3">
+  <script src="script.js?v=20261003-3" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Siondrinks Barras Móviles","url":"https://cvstudio.com.ar/siondrinks/","logo":"https://cvstudio.com.ar/siondrinks/assets/logo.webp","telephone":"+5491163734430","sameAs":["https://www.instagram.com/sionpacheco/"]}</script>
 </head>
 <body>
   <a class="skip" href="#principal">Ir al contenido</a>
@@ -34,6 +34,20 @@
   </svg>
   <div class="page">
     <div class="scene" aria-hidden="true"><div class="smoke smoke-one"></div><div class="smoke smoke-two"></div></div>
+    <div class="stage-light" aria-hidden="true"><div class="light-beam"></div><div class="light-haze"></div></div>
+    <svg class="smoke-overlay" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="smoke-filter" x="-50%" y="-100%" width="200%" height="300%">
+          <feTurbulence type="fractalNoise" baseFrequency=".006 .014" numOctaves="3" seed="8" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="180" xChannelSelector="R" yChannelSelector="G"/>
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+        <radialGradient id="smoke-cyan"><stop stop-color="#7cbeeb" stop-opacity=".5"/><stop offset=".52" stop-color="#6489ce" stop-opacity=".26"/><stop offset="1" stop-color="#6489ce" stop-opacity="0"/></radialGradient>
+        <radialGradient id="smoke-magenta"><stop stop-color="#cb86ce" stop-opacity=".38"/><stop offset=".58" stop-color="#8974c9" stop-opacity=".24"/><stop offset="1" stop-color="#8974c9" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g class="smoke-cloud smoke-cloud-front" filter="url(#smoke-filter)"><ellipse cx="420" cy="540" rx="620" ry="115" fill="url(#smoke-cyan)"/><ellipse cx="980" cy="420" rx="580" ry="95" fill="url(#smoke-magenta)"/></g>
+      <g class="smoke-cloud smoke-cloud-low" filter="url(#smoke-filter)"><ellipse cx="790" cy="680" rx="670" ry="95" fill="url(#smoke-cyan)"/></g>
+    </svg>
     <header class="header">
       <a class="brand" href="./" aria-label="Siondrinks, inicio"><img src="assets/logo.webp" alt="Siondrinks Barras Móviles" width="1080" height="695" fetchpriority="high"></a>
       <nav class="desktop-nav" aria-label="Navegación principal">
@@ -43,7 +57,7 @@
         <button type="button" data-open="restobares">Restobares</button>
         <button type="button" data-open="contacto">Contacto</button>
       </nav>
-      <button class="music-button" id="music-toggle" type="button" aria-expanded="false" aria-controls="music-tray"><span class="play-icon" aria-hidden="true">▶</span><span id="music-label">Activar música</span></button>
+      <button class="music-button" id="music-toggle" type="button" aria-pressed="false" aria-describedby="music-status"><span class="play-icon" aria-hidden="true">▶</span><span id="music-label">Activar música</span></button>
       <button class="menu-toggle" type="button" data-open="menu" aria-label="Abrir menú"><span></span><span></span><span></span></button>
     </header>
     <main id="principal" class="landing">
@@ -68,7 +82,7 @@
     <footer class="footer">
       <a class="credit" href="https://cvstudio.com.ar/" target="_blank" rel="noopener noreferrer">Desarrollado por <strong>CVStudio</strong></a>
       <button class="event-link" type="button" data-open="eventos">Egresados <span>·</span> 15 años <span>·</span> Eventos</button>
-      <div class="social-links"><a href="https://www.instagram.com/siondrinks/" target="_blank" rel="noopener noreferrer"><svg class="instagram" aria-hidden="true"><use href="#i-instagram"/></svg><span>@siondrinks</span></a><i aria-hidden="true"></i><a data-whatsapp href="https://wa.me/5491163734430" target="_blank" rel="noopener noreferrer"><svg class="whatsapp" aria-hidden="true"><use href="#i-whatsapp"/></svg><span>11 6373-4430</span></a></div>
+      <div class="social-links"><a aria-label="Abrir Instagram de Sion Pacheco" href="https://www.instagram.com/sionpacheco/" target="_blank" rel="noopener noreferrer"><svg class="instagram" aria-hidden="true"><use href="#i-instagram"/></svg></a><i aria-hidden="true"></i><a aria-label="Consultar a Federico por WhatsApp" data-whatsapp href="https://wa.me/5491163734430" target="_blank" rel="noopener noreferrer"><svg class="whatsapp" aria-hidden="true"><use href="#i-whatsapp"/></svg></a></div>
     </footer>
   </div>
 
@@ -86,10 +100,11 @@
 
   <dialog class="panel restobar-panel" id="restobares" aria-labelledby="restobares-title"><header class="panel-header"><span id="restobares-title">Musicalización a restobares</span><button type="button" data-close aria-label="Cerrar musicalización a restobares">×</button></header><div class="panel-body"><p class="eyebrow">FEDE PACHECO DJ</p><h2>El sonido de<br><span>tu espacio.</span></h2><div class="restobar-layout"><img src="assets/restobares.webp" alt="Fede Pacheco DJ · Música ambient para restobares · 11 6373-4430" width="561" height="528" loading="lazy"><div><p class="panel-lead">Musicalización a restobares, con una selección que acompaña la identidad de tu lugar.</p><p>Coordinamos con vos el estilo musical, el ambiente que querés lograr y los horarios. Una experiencia que acompaña la conversación, la gastronomía y cada momento de la noche.</p><ul class="check-list"><li>Música ambient, deep y afro house.</li><li>Selección musical adaptada a tu propuesta.</li><li>Consultá formatos, equipamiento y disponibilidad con Federico.</li></ul></div></div><a class="button button-primary" data-whatsapp data-service="la musicalización de mi restobar" href="https://wa.me/5491163734430" target="_blank" rel="noopener noreferrer">Consultar por musicalización ↗</a></div></dialog>
 
-  <dialog class="panel" id="galeria" aria-labelledby="galeria-title"><header class="panel-header"><span id="galeria-title">Galería</span><button type="button" data-close aria-label="Cerrar galería">×</button></header><div class="panel-body"><p class="eyebrow">EL UNIVERSO SIONDRINKS</p><h2>Una noche.<br><span>Muchas experiencias.</span></h2><div class="gallery-stage"><button type="button" id="gallery-prev" aria-label="Imagen anterior">‹</button><img id="gallery-image" src="assets/egresados.webp" alt="Propuesta Siondrinks para fiestas de egresados" loading="lazy"><button type="button" id="gallery-next" aria-label="Imagen siguiente">›</button></div><div class="gallery-caption"><strong id="gallery-caption">Fiestas de egresados</strong><span id="gallery-count" aria-live="polite">1 / 3</span></div><div class="gallery-thumbs" aria-label="Elegir imagen"><button type="button" data-gallery="0" aria-label="Ver propuesta para egresados" aria-pressed="true"><img src="assets/egresados.webp" alt="" loading="lazy"></button><button type="button" data-gallery="1" aria-label="Ver barras móviles y DJ" aria-pressed="false"><img src="assets/barras-dj.webp" alt="" loading="lazy"></button><button type="button" data-gallery="2" aria-label="Ver DJ en acción" aria-pressed="false"><img src="assets/dj-original.webp" alt="" loading="lazy"></button></div><a class="text-link" href="https://www.instagram.com/siondrinks/" target="_blank" rel="noopener noreferrer">Más de Siondrinks en Instagram ↗</a></div></dialog>
+  <dialog class="panel" id="galeria" aria-labelledby="galeria-title"><header class="panel-header"><span id="galeria-title">Galería</span><button type="button" data-close aria-label="Cerrar galería">×</button></header><div class="panel-body"><p class="eyebrow">EL UNIVERSO SIONDRINKS</p><h2>Una noche.<br><span>Muchas experiencias.</span></h2><div class="gallery-stage"><button type="button" id="gallery-prev" aria-label="Imagen anterior">‹</button><img id="gallery-image" src="assets/egresados.webp" alt="Propuesta Siondrinks para fiestas de egresados" loading="lazy"><button type="button" id="gallery-next" aria-label="Imagen siguiente">›</button></div><div class="gallery-caption"><strong id="gallery-caption">Fiestas de egresados</strong><span id="gallery-count" aria-live="polite">1 / 3</span></div><div class="gallery-thumbs" aria-label="Elegir imagen"><button type="button" data-gallery="0" aria-label="Ver propuesta para egresados" aria-pressed="true"><img src="assets/egresados.webp" alt="" loading="lazy"></button><button type="button" data-gallery="1" aria-label="Ver barras móviles y DJ" aria-pressed="false"><img src="assets/barras-dj.webp" alt="" loading="lazy"></button><button type="button" data-gallery="2" aria-label="Ver DJ en acción" aria-pressed="false"><img src="assets/dj-original.webp" alt="" loading="lazy"></button></div><a class="text-link" href="https://www.instagram.com/sionpacheco/" target="_blank" rel="noopener noreferrer">Más de Siondrinks en Instagram ↗</a></div></dialog>
 
   <dialog class="panel" id="contacto" aria-labelledby="contacto-title"><header class="panel-header"><span id="contacto-title">Consultá tu fecha</span><button type="button" data-close aria-label="Cerrar consulta">×</button></header><div class="panel-body"><p class="eyebrow">HABLEMOS DE TU EVENTO</p><h2>Todo empieza<br><span>con una fecha.</span></h2><p class="panel-lead">Completá los datos y enviá tu consulta a Federico por WhatsApp. Te ayudará a definir una propuesta a tu medida.</p><form id="quote-form"><div class="form-grid"><label>Tu nombre<input name="nombre" type="text" autocomplete="given-name" maxlength="80" required placeholder="¿Cómo te llamás?"></label><label>Tipo de evento<select name="evento" required><option value="">Elegí una opción</option><option>Egresados</option><option>Fiesta de 15</option><option>Casamiento</option><option>Cumpleaños</option><option>Evento corporativo</option><option>Restobar</option><option>Otro evento</option></select></label><label>Fecha del evento<input name="fecha" id="event-date" type="date" required></label><label>Invitados aproximados<input name="invitados" type="number" min="1" max="100000" inputmode="numeric" placeholder="Ej.: 100"></label><label class="full">Lugar o zona<input name="lugar" type="text" autocomplete="off" maxlength="150" placeholder="Salón, localidad o dirección"></label><label class="full">¿Qué servicio necesitás?<select name="servicio" required><option>Barra móvil + DJ</option><option>Barra móvil</option><option>DJ, sonido y luces</option><option>Musicalización a restobares</option><option>Quiero asesoramiento</option></select></label><label class="full">Contanos un poco más <span class="optional">(opcional)</span><textarea name="mensaje" maxlength="1000" rows="3" placeholder="El estilo de tu fiesta, preferencias o dudas…"></textarea></label></div><button class="button button-primary" type="submit"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>Enviar consulta por WhatsApp ↗</button><p class="note">La consulta no confirma una reserva. Vas a poder revisar el mensaje antes de enviarlo en WhatsApp.</p></form><a class="text-link" data-whatsapp href="https://wa.me/5491163734430" target="_blank" rel="noopener noreferrer">Prefiero escribir directamente a Federico ↗</a></div></dialog>
 
-  <aside class="music-tray" id="music-tray" aria-label="Reproductor de música" hidden><header><span>Jamaican (Bam Bam) · HUGEL, SOLTO</span><button type="button" id="music-close" aria-label="Detener música y cerrar reproductor">×</button></header><div id="music-player"></div><a href="https://www.youtube.com/watch?v=i34pFNr42mc" target="_blank" rel="noopener noreferrer">Escuchar en YouTube ↗</a></aside>
+  <div class="background-music" aria-hidden="true"><div id="music-player"></div></div>
+  <p class="music-status" id="music-status" role="status" hidden></p>
 </body>
 </html>
