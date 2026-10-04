@@ -1,5 +1,14 @@
 (() => {
   'use strict';
+  // Use the currently visible mobile viewport, including browser bars and safe areas.
+  const updateViewport = () => {
+    const height = Math.floor(window.visualViewport?.height || window.innerHeight);
+    document.documentElement.style.setProperty('--viewport-height', `${height}px`);
+    document.documentElement.style.setProperty('--vh', `${height / 100}px`);
+  };
+  updateViewport();
+  window.addEventListener('resize', updateViewport, { passive: true });
+  window.visualViewport?.addEventListener('resize', updateViewport, { passive: true });
   const whatsappBase = 'https://wa.me/5491163734430';
   const greeting = '¡Hola Federico! Te escribo para consultarte sobre tus servicios de Siondrinks.';
   document.querySelectorAll('[data-whatsapp]').forEach(link => {
@@ -107,6 +116,7 @@
   let desiredPlaying = false;
   let loading = false;
   let loadTimer = null;
+  let automaticAttempt = true;
   function status(message = '') {
     musicStatus.textContent = message;
     musicStatus.hidden = !message;
@@ -121,7 +131,7 @@
     desiredPlaying = false;
     loading = false;
     updateButton(false);
-    status(message);
+    if (!automaticAttempt) status(message);
   }
   function createPlayer() {
     if (player) return;
@@ -130,7 +140,7 @@
       width: 320,
       height: 200,
       videoId: 'i34pFNr42mc',
-      playerVars: { playsinline: 1, controls: 0, rel: 0, origin: window.location.origin },
+      playerVars: { autoplay: 1, playsinline: 1, controls: 0, rel: 0, origin: window.location.origin },
       events: {
         onReady(event) {
           clearTimeout(loadTimer);
@@ -144,7 +154,7 @@
           if (desiredPlaying) event.target.playVideo();
         },
         onStateChange(event) {
-          if (event.data === 1) { updateButton(true); status(); }
+          if (event.data === 1) { automaticAttempt = false; updateButton(true); status(); }
           else if (event.data === 2 || event.data === 0) {
             desiredPlaying = false;
             updateButton(false);
@@ -160,6 +170,13 @@
     });
   }
   musicToggle.addEventListener('click', () => {
+    if (loading && automaticAttempt) {
+      automaticAttempt = false;
+      desiredPlaying = true;
+      musicLabel.textContent = 'Cargando música…';
+      return;
+    }
+    automaticAttempt = false;
     if (loading) {
       desiredPlaying = !desiredPlaying;
       musicLabel.textContent = desiredPlaying ? 'Cargando música…' : 'Activar música';
@@ -172,9 +189,12 @@
       else { player.pauseVideo(); updateButton(false); }
       return;
     }
+    startMusic();
+  });
+  function startMusic() {
     desiredPlaying = true;
     loading = true;
-    musicLabel.textContent = 'Cargando música…';
+    if (!automaticAttempt) musicLabel.textContent = 'Cargando música…';
     loadTimer = setTimeout(() => failed('La música no pudo cargarse. Revisá tu conexión e intentá nuevamente.'), 15000);
     if (window.YT?.Player) { createPlayer(); return; }
     window.onYouTubeIframeAPIReady = createPlayer;
@@ -185,5 +205,6 @@
       failed('La música no pudo cargarse. Intentá nuevamente.');
     };
     document.head.append(script);
-  });
+  }
+  startMusic();
 })();
