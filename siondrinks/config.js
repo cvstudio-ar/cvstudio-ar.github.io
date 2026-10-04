@@ -1,0 +1,3 @@
+window.SION={url:'https://eqepkoegzyqklpxkrkhm.supabase.co',key:'sb_publishable_k-VAklYxdMXQ8C2bun1WoA_N7M98apd'};
+window.sionClient=window.supabase?.createClient(SION.url,SION.key,{auth:{storageKey:'siondrinks-admin-session'}});
+window.sionVideoId=value=>{try{const u=new URL(value);if(u.protocol!=='https:')return null;let id;if(u.hostname==='youtu.be')id=u.pathname.slice(1);else if(['youtube.com','www.youtube.com','m.youtube.com','www.youtube-nocookie.com'].includes(u.hostname))id=u.searchParams.get('v')||u.pathname.split('/').filter(Boolean)[1];return /^[\w-]{11}$/.test(id||'')?id:null}catch{return null}};

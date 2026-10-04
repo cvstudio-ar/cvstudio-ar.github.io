@@ -9,7 +9,8 @@
   updateViewport();
   window.addEventListener('resize', updateViewport, { passive: true });
   window.visualViewport?.addEventListener('resize', updateViewport, { passive: true });
-  const whatsappBase = 'https://wa.me/5491163734430';
+  let whatsappBase = 'https://wa.me/5491163734430';
+  let musicVideoId = 'i34pFNr42mc';
   const greeting = '¡Hola Federico! Te escribo para consultarte sobre tus servicios de Siondrinks.';
   document.querySelectorAll('[data-whatsapp]').forEach(link => {
     const service = link.dataset.service;
@@ -56,13 +57,14 @@
     });
   });
 
-  const images = [
+  let images = [
     { src: 'assets/egresados.webp', caption: 'Fiestas de egresados', alt: 'Propuesta Siondrinks para fiestas de egresados' },
     { src: 'assets/barras-dj.webp', caption: 'Barras móviles + DJ', alt: 'Presentación de barras móviles, coctelería y DJ de Siondrinks' },
     { src: 'assets/dj-original.webp', caption: 'El ritmo de tu fiesta', alt: 'DJ frente a su consola entre luces y humo' }
   ];
   let galleryIndex = 0;
   function showImage(index) {
+    if (!images.length) return;
     galleryIndex = (index + images.length) % images.length;
     const item = images[galleryIndex];
     const photo = document.getElementById('gallery-image');
@@ -139,7 +141,7 @@
       host: 'https://www.youtube-nocookie.com',
       width: 320,
       height: 200,
-      videoId: 'i34pFNr42mc',
+      videoId: musicVideoId,
       playerVars: { autoplay: 1, playsinline: 1, controls: 0, rel: 0, origin: window.location.origin },
       events: {
         onReady(event) {
@@ -151,7 +153,8 @@
           iframe.setAttribute('aria-hidden', 'true');
           iframe.setAttribute('allow', 'autoplay; encrypted-media');
           event.target.setVolume(55);
-          if (desiredPlaying) event.target.playVideo();
+          if (event.target.getVideoData?.().video_id && event.target.getVideoData().video_id !== musicVideoId) { if(desiredPlaying) event.target.loadVideoById(musicVideoId); else event.target.cueVideoById(musicVideoId); }
+          else if (desiredPlaying) event.target.playVideo();
         },
         onStateChange(event) {
           if (event.data === 1) { automaticAttempt = false; updateButton(true); status(); }
@@ -206,5 +209,30 @@
     };
     document.head.append(script);
   }
+  async function syncContent() {
+    if (!window.sionClient) return;
+    try {
+      const settings = await sionClient.from('sion_settings').select('instagram,whatsapp,youtube_id').eq('id',true).single();
+      if (!settings.error && settings.data) {
+        const s=settings.data;
+        if (/^\d{8,15}$/.test(s.whatsapp)) whatsappBase='https://wa.me/'+s.whatsapp;
+        document.querySelectorAll('[data-whatsapp]').forEach(link=>{const service=link.dataset.service;link.href=whatsappBase+'?text='+encodeURIComponent(service?`¡Hola Federico! Te escribo para consultarte sobre ${service}.`:greeting)});
+        try {const u=new URL(s.instagram);if(u.protocol==='https:'&&['instagram.com','www.instagram.com'].includes(u.hostname))document.querySelectorAll('a[href*="instagram.com"]').forEach(a=>a.href=u.href);}catch{}
+        if (/^[\w-]{11}$/.test(s.youtube_id)) {musicVideoId=s.youtube_id;if(ready&&player.getVideoData?.().video_id!==musicVideoId){if(desiredPlaying)player.loadVideoById(musicVideoId);else player.cueVideoById(musicVideoId);}}
+      }
+      const gallery=await sionClient.from('sion_gallery').select('src,caption').order('position').order('created_at');
+      if (!gallery.error) {
+        images=gallery.data.filter(item=>{try{return new URL(item.src).protocol==='https:'}catch{return false}}).map(item=>({src:item.src,caption:item.caption,alt:item.caption||'Evento Siondrinks'}));
+        const thumbs=document.querySelector('.gallery-thumbs');thumbs.replaceChildren();
+        document.querySelector('.gallery-stage').hidden=!images.length;
+        document.querySelector('.gallery-caption').hidden=!images.length;
+        let empty=document.getElementById('gallery-empty');if(!empty){empty=document.createElement('p');empty.id='gallery-empty';empty.textContent='Pronto vamos a compartir nuevas fotos de nuestros eventos.';thumbs.before(empty);}empty.hidden=!!images.length;
+        images.forEach((item,i)=>{const button=document.createElement('button');button.type='button';button.dataset.gallery=i;button.setAttribute('aria-label','Ver foto '+(i+1));const img=document.createElement('img');img.src=item.src;img.alt='';img.loading='lazy';button.append(img);button.addEventListener('click',()=>showImage(i));thumbs.append(button)});
+        if(images.length)showImage(0);
+      }
+    }catch { /* Keep the original content when the connection is unavailable. */ }
+  }
+  // Start promptly, then replace the song if a saved configuration arrives later.
   startMusic();
+  syncContent();
 })();

@@ -136,3 +136,6 @@
 .conversion-group .hero-actions .button-primary{position:relative}
 @media(max-width:540px){.service-card>span{min-width:0;width:100%}.service-card strong{padding-right:10px;overflow-wrap:break-word}}
 @media(max-width:540px) and (max-height:650px){.service-card .arrow{display:none}.service-card strong{padding-right:0}}
+
+.gallery-thumbs{overflow-x:auto;max-width:100%;padding-bottom:6px}.gallery-thumbs button{flex-shrink:0}
+.gallery-stage[hidden],.gallery-caption[hidden],#gallery-empty[hidden]{display:none}
