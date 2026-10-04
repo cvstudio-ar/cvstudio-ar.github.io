@@ -77,3 +77,38 @@
 @media(max-width:900px){.social-links .social-logo{width:25px;height:25px}.smoke-overlay{opacity:.95}}
 @media(max-width:540px){.social-links .social-logo{width:24px;height:24px}}
 @media(max-width:540px) and (max-height:520px){.social-links .social-logo{width:22px;height:22px}}
+
+/* v6: airy service tiles and a quieter, centered footer. */
+.footer{display:grid;grid-template-columns:1fr;justify-items:center;gap:2px;padding:6px 0 8px}
+.social-links{grid-row:1;order:0;width:auto;gap:14px}
+.social-links a{width:34px;height:34px}
+.social-links .social-logo{width:23px;height:23px;image-rendering:auto}
+.event-link{grid-row:2;order:0;padding:3px 2px;font-size:11px;text-align:center}
+.credit{grid-row:3;order:0;justify-self:end;margin:2px 0 0;font-size:9px;line-height:1.4;color:#879ab0}
+.credit strong{color:#a9bbce}
+@media(min-width:901px){.landing{justify-content:flex-end}.hero{margin-bottom:auto}.service-cards{margin-top:18px}.alcohol-note{margin-bottom:2px}.footer{padding-top:2px}.social-links a{height:29px}.credit{font-size:8px}}
+@media(max-width:900px){.landing{justify-content:flex-end}.hero{margin-bottom:auto}.service-cards{margin-top:18px}.alcohol-note{margin-bottom:4px}.credit{font-size:8px}.footer{padding-bottom:max(6px,env(safe-area-inset-bottom))}}
+@media(max-width:540px){
+ .landing{display:grid;grid-template-rows:1fr auto auto;padding-top:6px;padding-bottom:4px}
+ .hero{align-self:center;margin:0;padding:3px 0 0}
+ .service-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+ .service-card{min-height:clamp(72px,calc(var(--vh,1svh)*12.5),110px);padding:10px 9px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:7px;position:relative;border-radius:12px;text-align:left}
+ .service-card .service-icon{display:block;width:25px;height:25px}
+ .service-card strong{font-size:12px;margin-bottom:4px}
+ .service-card small{font-size:9px;line-height:1.35}
+ .service-card .arrow{position:absolute;right:9px;top:15px;width:11px;height:11px}
+ .alcohol-note{margin:11px 0 0;font-size:8px;gap:6px}
+ .alcohol-note:before,.alcohol-note:after{width:12px}
+ .footer{gap:1px;padding-top:2px}
+ .social-links a{width:34px;height:30px}.social-links .social-logo{width:22px;height:22px}
+ .event-link{font-size:9px;padding:3px 2px}.credit{font-size:7px;margin-top:3px}
+}
+@media(max-width:540px) and (max-height:650px){
+ .service-cards{gap:9px;margin-top:12px}.service-card{min-height:64px;padding:8px 9px;gap:4px}
+ .service-card .service-icon{width:20px;height:20px}.service-card strong{font-size:11px;margin-bottom:2px}.service-card small{font-size:8px}
+ .alcohol-note{font-size:7px;margin-top:9px}.social-links a{height:26px}.social-links .social-logo{width:20px;height:20px}
+}
+@media(max-width:540px) and (max-height:520px){
+ .service-card{min-height:54px;gap:3px;padding:6px 8px}.service-card .service-icon{display:none}.service-card .arrow{top:11px}.service-cards{margin-top:10px;gap:8px}
+ .alcohol-note{margin-top:7px;font-size:6px}.social-links a{height:23px}.event-link{font-size:8px;padding:2px}.credit{font-size:6px;margin-top:2px}
+}
