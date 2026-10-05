@@ -140,5 +140,5 @@
 .gallery-thumbs{overflow-x:auto;max-width:100%;padding-bottom:6px}.gallery-thumbs button{flex-shrink:0}
 .gallery-stage[hidden],.gallery-caption[hidden],#gallery-empty[hidden]{display:none}
 
-/* Larger logo without changing the header layout. */
-.brand img{transform:scale(1.25);transform-origin:center;}
+/* Keep the full logo inside the responsive header. */
+.brand img{transform:none;object-fit:contain;object-position:center;}
