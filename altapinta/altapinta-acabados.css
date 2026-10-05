@@ -45,3 +45,8 @@ img.wa-icon{display:inline-block;width:27px;height:27px;max-width:27px;max-heigh
 @media(max-width:760px) and (max-height:680px){.services{padding:10px 4% 12px}.services button{font-size:9.5px;min-height:94px;padding:8px 3px}}
 
 .hero .eyebrow{color:var(--blue);font-weight:700;text-shadow:0 1px 3px #ffffffd9,0 0 8px #ffffff70}
+
+/* Payment status banner below the main navigation. */
+.payment-notice{flex:0 0 auto;width:100%;display:flex;align-items:center;justify-content:center;padding:12px 20px;background:#ed101c;color:#fff;font-size:clamp(26px,2.6vw,38px);font-weight:800;line-height:1.15;text-align:center;box-sizing:border-box;}
+@media(max-width:760px){.payment-notice{padding:12px 16px;font-size:28px;line-height:1.1;}.page{height:auto;min-height:100svh;}main{flex:1 0 auto;}.hero{flex:1 0 auto;min-height:340px;}}
+@media(max-width:380px){.payment-notice{font-size:26px;}}
