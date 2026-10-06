@@ -1,20 +1,25 @@
-const dialog=document.querySelector('#panel'), title=document.querySelector('#panel-title'), content=document.querySelector('#panel-content');
-const wa='https://wa.me/5493624287871?text='+encodeURIComponent('Hola Emilio, vi la web de Alta Pinta. Quisiera solicitar un presupuesto sin cargo.');
-document.querySelectorAll('.whatsapp').forEach(a=>a.href=wa);
-const videos={pintura:['Pintura y terminaciones','Pintura de paredes con rodillo'],piscinas:['Reparación y pintura de piscinas','Trabajo en piscina'],espacios:['Conocé Alta Pinta','Presentación de servicios']};
-const contactLink=`<a class="button red" href="${wa}" target="_blank" rel="noopener"><img class="wa-icon" src="assets/images/whatsapp.png" width="27" height="27" alt="">Consultar por WhatsApp</a>`;
-function cleanup(){content.querySelectorAll('video').forEach(v=>{v.pause();v.removeAttribute('src');v.load()})}
-function show(heading,html){cleanup();title.textContent=heading;content.innerHTML=html;content.scrollTop=0;if(!dialog.open)dialog.showModal()}
-function openVideo(id){if(!videos[id])return;dialog.dataset.panel='video';show(videos[id][0],`<video class="modal-video" controls playsinline preload="metadata" poster="assets/images/${id}.jpg" src="assets/videos/${id}.mp4">Tu navegador no reproduce este video. <a href="assets/videos/${id}.mp4">Abrir video</a></video>`)}
-const serviceDetails={
-interiors:['Pintura de interiores y exteriores','Renovamos paredes y ambientes de casas, departamentos, oficinas y comercios. Preparamos las superficies y aplicamos pintura con terminaciones prolijas.'],
-facades:['Fachadas y terminaciones','Renovación de fachadas, puertas y rejas. Preparación de superficies y acabados texturados según las necesidades de cada trabajo.'],
-pools:['Reparación y pintura de piscinas','Preparación y lijado de la superficie, reparación de grietas y sellado cuando sea necesario. Pintura para renovar la terminación de la piscina.']
-};
-function openPanel(id){dialog.dataset.panel=id;if(serviceDetails[id]){const [heading,description]=serviceDetails[id];show(heading,`<div class="contact-detail"><p>${description}</p>${contactLink}</div>`)}
-else if(id==='services')show('Servicios de Alta Pinta',`<div class="service-detail"><article><h3>Interiores y exteriores</h3><p>Pintura para casas, departamentos, oficinas y comercios. Renovamos tus espacios con profesionalismo y prolijidad.</p></article><article><h3>Fachadas y terminaciones</h3><p>Pintura de fachadas, puertas y rejas. Acabados texturados y preparación de superficies según las necesidades de cada trabajo.</p></article><article><h3>Reparación y pintura de piscinas</h3><p>Preparación, lijado, reparación de grietas y sellado cuando sea necesario, y pintura de piscinas.</p></article></div><p class="service-note">20 años de experiencia · Presupuesto sin cargo</p>${contactLink}`);
-else if(id==='works')show('Fotos y videos de nuestros servicios',`<p class="gallery-note">Tocá un video para reproducirlo aquí.</p><div class="video-list">${Object.entries(videos).map(([key,[label,alt]])=>`<button data-video="${key}"><img src="assets/images/${key}.jpg" alt="${alt}"><span>▶ ${label}</span></button>`).join('')}</div>`);
-else if(id==='contact')show('Contactá a Emilio Liska',`<div class="contact-detail"><h3>Alta Pinta · Servicio de pinturas</h3><p><strong>Ubicación:</strong> Resistencia, Chaco, Argentina.<br><strong>WhatsApp:</strong> +54 9 362 428-7871<br><strong>Experiencia:</strong> 20 años.</p><p>Contanos qué espacio querés renovar. Podés enviar fotos y los detalles del trabajo para consultar por un presupuesto sin cargo.</p>${contactLink}<p><a href="https://www.google.com/maps/search/?api=1&query=Resistencia%2C%20Chaco%2C%20Argentina" target="_blank" rel="noopener">Ver Resistencia en el mapa ↗</a></p></div>`);
-else if(id==='menu')show('Alta Pinta',`<div class="menu-links"><a href="./">Inicio</a><button data-open="services">Servicios</button><button data-open="works">Trabajos y videos</button><button data-open="contact">Contacto y ubicación</button>${contactLink}</div>`)}
-document.addEventListener('click',e=>{const v=e.target.closest('[data-video]');if(v)return openVideo(v.dataset.video);const b=e.target.closest('[data-open]');if(b)openPanel(b.dataset.open)});
-document.querySelector('.close').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',cleanup);dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close()}});
+const dialog=document.querySelector('#panel');
+const title=document.querySelector('#panel-title');
+const content=document.querySelector('#panel-content');
+const notice='pagina bloqueada por pendiente de pago';
+function showBlocked(){
+ title.textContent=notice;
+ content.replaceChildren();
+ const banner=document.createElement('p');
+ banner.className='blocked-payment-banner';
+ banner.textContent=notice;
+ content.append(banner);
+ if(!dialog.open)dialog.showModal();
+}
+document.addEventListener('click',event=>{
+ const trigger=event.target.closest('[data-open], [data-video], .whatsapp');
+ if(!trigger)return;
+ event.preventDefault();
+ showBlocked();
+});
+document.querySelector('.close').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('click',event=>{
+ if(event.target!==dialog)return;
+ const rect=dialog.getBoundingClientRect();
+ if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)dialog.close();
+});
