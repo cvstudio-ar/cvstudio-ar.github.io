@@ -1,0 +1,17 @@
+{
+  "name": "viser-web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:sdk": "node build-sdk.cjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.2"
+  },
+  "private": true
+}

@@ -1,0 +1,1 @@
+const fs=require('fs');fs.writeFileSync('assets/supabase.js',fs.readFileSync('node_modules/@supabase/supabase-js/dist/umd/supabase.js','utf8')+'\nexport const createClient = supabase.createClient;\n');
