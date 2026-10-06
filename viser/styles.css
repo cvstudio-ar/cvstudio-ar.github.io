@@ -20,3 +20,26 @@
 @media(max-width:900px){.feature-grid article{padding:0 12px;gap:12px}.feature-grid .icon{width:56px;height:56px;border-radius:15px}.feature-grid .icon svg{width:36px;height:36px}}
 @media(max-width:600px){.feature-grid{padding:24px 0;gap:22px}.feature-grid article,.feature-grid article:first-child{padding:0 5px;gap:17px}.feature-grid .icon{width:58px;height:58px}.feature-grid h3{font-size:14px}.feature-grid p{font-size:13px}.energy-detail{mask-image:linear-gradient(180deg,transparent 25%,#000 45%,transparent 90%);opacity:.45}.energy-detail svg{width:190%;margin-left:-90%}}
 @media(prefers-reduced-motion:reduce){.energy-flow,.energy-flow path{animation:none;stroke-dasharray:none;opacity:.16}.feature-grid article{transition:none}.feature-grid article:hover{transform:none}}
+
+/* Encuadre de portada, pulso móvil y cierre compacto */
+.hero{background-image:none;background-color:#06244b}
+.hero:after{content:'';position:absolute;inset:0;z-index:0;background:var(--hero-image,url('assets/hero.webp')) right center/auto 100% no-repeat;pointer-events:none;mask-image:linear-gradient(180deg,transparent 0%,#000 9%,#000 88%,transparent 100%)}
+.hero:before{z-index:1;background:linear-gradient(90deg,#06244b 0%,#06244b 24%,rgba(6,36,75,.55) 42%,transparent 68%)}
+.hero-inner{z-index:3}.energy-detail{z-index:2}
+@media(max-width:600px){
+ .hero{background-color:#052553}
+ .hero:after{inset:120px 0 auto;height:clamp(245px,76vw,340px);background-position:right center;background-size:auto 100%;mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 88%,transparent 100%)}
+ .hero:before{background:linear-gradient(180deg,#052553 0%,rgba(5,37,83,.65) 25%,transparent 42%,transparent 80%,#052553 100%)}
+ .hero-inner{min-height:0;padding:22px 0}
+ .hero-actions{padding-top:clamp(210px,60vw,280px)}
+ .energy-detail{opacity:.95;mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 85%,transparent 100%)}
+ .energy-detail svg{width:100%;height:100%;margin-left:0}
+ .energy-tracks{opacity:.2;stroke-width:1.2}
+ .energy-flow{stroke-width:2.3;stroke-dasharray:55 925;filter:drop-shadow(0 0 5px #53cfff);animation-duration:9s}
+ .energy-flow path:nth-child(2){stroke-dasharray:40 814;animation-duration:12s}
+ .energy-flow path:nth-child(3){stroke-dasharray:35 697;animation-duration:14s}
+ .contact{padding:28px 0}
+ #contact-details p:last-child{margin-bottom:0}
+ footer{padding:22px 0 26px;gap:14px;padding-right:66px}
+}
+@media(prefers-reduced-motion:reduce){.energy-flow,.energy-flow path{animation:none;stroke-dasharray:none;opacity:.16}}
