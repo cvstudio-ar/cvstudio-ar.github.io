@@ -21,7 +21,7 @@
     const frequency=440*2**((k.midi-69)/12);[1,.36,.14,.055].forEach((amplitude,i)=>{const osc=ctx.createOscillator(),partial=ctx.createGain();osc.type='sine';osc.frequency.value=frequency*(i+1)*(i?1+i*.00035:1);partial.gain.value=amplitude;osc.connect(partial);partial.connect(gain);voice.oscs.push(osc);osc.start(now);osc.stop(now+1.3);if(i===0)osc.onended=()=>{voices.delete(voice);gain.disconnect()}});
     hero.style.setProperty('--piano-x',k.x+'px');hero.style.setProperty('--piano-y',k.y+'px');hero.classList.add('piano-note');clearTimeout(glowTimer);glowTimer=setTimeout(()=>hero.classList.remove('piano-note'),260);
   }
-  function play(event){prepare();if(!ctx||ctx.state!=='running'||event.target.closest('button,a,.hero-copy,.hero-packs')||document.querySelector('.audio-button.playing'))return;const k=keyAt(event.clientX,event.clientY);if(k)note(k);else lastKey=-1}
+  function play(event){prepare();if(!ctx||ctx.state!=='running'||event.target.closest('button,a,.hero-copy,.pack-art')||document.querySelector('.audio-button.playing'))return;const k=keyAt(event.clientX,event.clientY);if(k)note(k);else lastKey=-1}
   hero.addEventListener('pointermove',event=>{if(event.pointerType==='mouse')play(event)});hero.addEventListener('pointerdown',event=>{lastKey=-1;play(event)});hero.addEventListener('pointerleave',()=>{lastKey=-1;hero.classList.remove('piano-note')});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){quiet();if(ctx)ctx.suspend().catch(()=>{})}});
 })();
