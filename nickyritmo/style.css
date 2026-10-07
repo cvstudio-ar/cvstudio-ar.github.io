@@ -23,3 +23,6 @@
 @keyframes ambientRhythm{0%,100%{transform:translate(-8px,12px) rotate(-9deg);opacity:.07}50%{transform:translate(13px,-42px) rotate(10deg);opacity:.14}}
 @media(max-width:760px){.ambient-note{width:calc(var(--size)*.8);height:calc(var(--size)*.8)}.product-card{border-radius:13px}.product-card-body>h3{font-size:15px}.product-card .compatibility{font-size:10px}.product-card .audio-button{gap:6px}.product-card .button{font-size:10px;padding-left:5px;padding-right:5px;gap:5px}}
 @media(prefers-reduced-motion:reduce){.ambient-note{animation:none;opacity:.09}}
+
+/* Removable experimental piano interaction. */
+.piano-ripple{position:absolute;z-index:1;pointer-events:none;width:74px;height:74px;border-radius:50%;left:var(--piano-x,50%);top:var(--piano-y,70%);transform:translate(-50%,-50%);background:radial-gradient(circle,#78c6ff52,transparent 68%);opacity:0;transition:opacity .13s}.hero.piano-note .piano-ripple{opacity:1}
