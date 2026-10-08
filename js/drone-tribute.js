@@ -5,10 +5,10 @@
   const canvas = host.querySelector('canvas');
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
-  const messages = [['Mercado Libra'], ['Sancor Inseguros'], ['Mercado Pet'], ['Pedidos Chau'], ['Mortadela', 'la sabrosa'], ['Manolo'], ['Malula'], ['CVStudio'], ['Tqm leo, nv!']];
+  const messages = [['Mercado Libra'], ['Sancor Inseguros'], ['Mercado Pet'], ['Pedidos Chau'], ['Mortadela', 'la sabrosa'], ['Manolo'], ['Malula'], ['Tqm leo, nv!']];
   const palettes = [
     ['#ffe04d'], ['#ff4949'], ['#7bcef8'], ['#ff4949'], ['#c45379'],
-    ['#ffe04d', '#71dd65'], ['#c29670'], ['#5eafff', '#ffe04d'], ['#c4edff']
+    ['#ffe04d', '#71dd65'], ['#c29670'], ['#c4edff']
   ];
   const paletteAt = cycle => palettes[cycle % palettes.length];
   function labelFill(palette) {
