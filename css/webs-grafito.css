@@ -62,3 +62,13 @@ body:before{display:none}
 .design-card a:focus-visible{outline:3px solid #ff989b;outline-offset:-4px}
 @media(max-width:520px){.completed-project .card-foot{min-height:126px}}
 @media(prefers-reduced-motion:reduce){.project-preview img{transition:none}.project-preview:hover img{transform:none}}
+
+/* Equal gallery frames and footers across all examples. */
+.design-grid{align-items:stretch}
+.design-card{display:flex;flex-direction:column;min-width:0}
+.design-card .preview{flex:none;aspect-ratio:3/2}
+.design-card .card-foot{flex:1;min-height:142px;align-items:center}
+.design-card .card-foot>div{min-width:0}
+#ejemplo-hotel .project-preview img{object-fit:contain;object-position:center;background:#100e0c}
+@media(max-width:780px){.design-card .card-foot{min-height:142px}}
+@media(max-width:520px){.design-card .card-foot{min-height:126px}}
