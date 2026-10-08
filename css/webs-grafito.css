@@ -121,3 +121,10 @@ body:before{display:none}
 .hero-price>span{font:inherit;letter-spacing:inherit;color:inherit;text-shadow:inherit}
 @media(max-width:780px){.hero-price{font-size:clamp(34px,8vw,60px)}}
 @media(max-width:520px){.hero-price{font-size:clamp(30px,7.7vw,40px)}.hero-price>span{font:inherit;letter-spacing:inherit}}
+
+/* Compact hero after removing its redundant eyebrow. */
+.hero{min-height:0;padding:48px 0 62px}
+.hero h1{margin-top:0}
+.hero:after{bottom:25px}
+@media(max-width:780px){.hero{padding:38px 0 55px}}
+@media(max-width:520px){.hero{padding:32px 0 48px}.hero:after{bottom:20px}}
