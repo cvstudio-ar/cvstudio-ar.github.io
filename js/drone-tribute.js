@@ -41,6 +41,7 @@
     const duration = 9800, cycle = reduced.matches ? 0 : Math.floor(time / duration) % messages.length;
     const phase = reduced.matches ? 0 : time % duration;
     const points = formations[cycle], next = formations[(cycle + 1) % messages.length];
+    if (!points?.length || !next?.length) return;
     const count = phase > 8200 ? Math.max(points.length, next.length) : points.length;
     const scale = Math.min(width / 360, height / 160), ox = (width - 360 * scale) / 2, oy = (height - 160 * scale) / 2;
     // A faint continuous letter shape keeps the dotted formation readable on small screens.
@@ -67,7 +68,7 @@
   function tick(time) {
     frame = requestAnimationFrame(tick);
     if (!visible || document.hidden || reduced.matches || time - last < 33) return;
-    last = time; draw(time - startedAt);
+    last = time; draw(Math.max(0, time - startedAt));
   }
   const start = () => { startedAt = performance.now(); build(); host.classList.add('is-ready'); frame = requestAnimationFrame(tick); };
   const ready = document.fonts ? document.fonts.ready : Promise.resolve();
