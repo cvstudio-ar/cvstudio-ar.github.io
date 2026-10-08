@@ -59,3 +59,9 @@ body:before{display:none}.ash-field{display:none}
 @media(prefers-reduced-motion:reduce){.price-number{animation:none}.design-card,.project-preview img{transition:none}.design-card:hover{transform:none}.project-preview:hover img{transform:none}}
 
 .topbar{z-index:5}
+
+/* Service description below the benefits, before the portfolio. */
+.hero-summary.shell{max-width:950px;margin:26px auto 0;text-align:center;color:#d2e1eb;font-size:15px;line-height:1.75;text-wrap:pretty}
+.hero-summary+.section{padding-top:40px}
+@media(max-width:780px){.hero-summary.shell{margin-top:24px;font-size:13px;line-height:1.75}.hero-summary+.section{padding-top:32px}}
+@media(max-width:520px){.hero-summary.shell{font-size:12px}}
