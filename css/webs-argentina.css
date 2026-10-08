@@ -11,7 +11,7 @@ body:before{display:none}.ash-field{display:none}
 .intro-scene{position:relative;margin-top:-96px;padding-top:96px;isolation:isolate;background:none}
 .intro-scene:before{display:none}
 .hero{min-height:0;display:grid;grid-template-columns:31% minmax(0,1fr);align-items:stretch;gap:0;text-align:center;padding:50px 0 0}
-.hero{position:relative;isolation:isolate}.hero:before,.hero:after{content:"";display:block;position:absolute;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2);top:-96px;bottom:0;pointer-events:none;z-index:-1}.hero:before{background:url('/assets/images/monumental-fiesta-v3.webp') center bottom/cover no-repeat}.hero:after{background:linear-gradient(180deg,#06111d10 0%,#06111d30 45%,#06111d90 78%,#06111d10 90%,#06111d 100%),linear-gradient(90deg,#04101a05,#04101a15 45%,#04101a35)} 
+.hero{position:relative;isolation:isolate}.hero:before,.hero:after{content:"";display:block;position:absolute;left:calc((100% - 100vw)/2);right:calc((100% - 100vw)/2);top:-96px;bottom:0;pointer-events:none;z-index:-1}.hero:before{background:url('/assets/images/monumental-publico-v4.webp') center bottom/cover no-repeat}.hero:after{background:linear-gradient(180deg,#06111d10 0%,#06111d30 45%,#06111d90 78%,#06111d10 90%,#06111d 100%),linear-gradient(90deg,#04101a05,#04101a15 45%,#04101a35)} 
 .hero-copy{grid-column:2;grid-row:1;width:100%;max-width:none;display:flex;align-items:center;flex-direction:column;padding:16px 30px 112px}
 .hero h1{margin:0 0 19px;font-size:clamp(39px,4.8vw,66px);font-weight:800;letter-spacing:-.055em;line-height:1.08;white-space:normal}
 .hero h1 em,h2 em{color:#7bcef8}
@@ -65,3 +65,11 @@ body:before{display:none}.ash-field{display:none}
 .hero-summary+.section{padding-top:40px}
 @media(max-width:780px){.hero-summary.shell{margin-top:24px;font-size:13px;line-height:1.75}.hero-summary+.section{padding-top:32px}}
 @media(max-width:520px){.hero-summary.shell{font-size:12px}}
+
+/* Celeste price, animated sky, and a complete fade before the benefits. */
+.hero-price{color:#7bcef8}
+.hero:after{background:linear-gradient(180deg,#06111d18 0%,#06111d30 40%,#06111d55 62%,#06111dbf 78%,#06111d 94%,#06111d 100%),linear-gradient(90deg,#04101a05,#04101a15 45%,#04101a35)}
+.hero-fireworks{position:absolute;left:calc((100% - 100vw)/2);top:0;width:100vw;height:100%;pointer-events:none;z-index:0}
+.hero-copy,.tribute-stage{position:relative;z-index:1}
+@media(max-width:780px){.hero:after{background:linear-gradient(180deg,#06111d05 0%,#06111d15 45%,#06111d55 65%,#06111dbf 80%,#06111d 94%,#06111d 100%)}}
+@media(prefers-reduced-motion:reduce){.hero-fireworks{display:none}}
