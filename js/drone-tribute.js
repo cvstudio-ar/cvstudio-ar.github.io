@@ -5,7 +5,19 @@
   const canvas = host.querySelector('canvas');
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
-  const messages = [['Gracias por todo,', 'Capi'], ['Por siempre', 'Messi'], ['Te queremos']];
+  const messages = [['Mercado Libra'], ['Sancor Inseguros'], ['Mercado Pet'], ['Pedidos Chau'], ['Mortadela', 'la sabrosa'], ['Manolo'], ['Malula'], ['CVStudio'], ['Tqm leo, nv!']];
+  const palettes = [
+    ['#ffe04d'], ['#ff4949'], ['#7bcef8'], ['#ff4949'], ['#c45379'],
+    ['#ffe04d', '#71dd65'], ['#c29670'], ['#5eafff', '#ffe04d'], ['#c4edff']
+  ];
+  const paletteAt = cycle => palettes[cycle % palettes.length];
+  function labelFill(palette) {
+    if (palette.length === 1) return palette[0];
+    const gradient = ctx.createLinearGradient(70, 0, 290, 0);
+    gradient.addColorStop(0, palette[0]); gradient.addColorStop(.48, palette[0]);
+    gradient.addColorStop(.52, palette[1]); gradient.addColorStop(1, palette[1]);
+    return gradient;
+  }
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sample = document.createElement('canvas');
   sample.width = 360; sample.height = 160;
@@ -48,7 +60,7 @@
     const labelAlpha = phase <= 8200 ? .68 : phase < 8900 ? .68 * (1 - (phase - 8200) / 700) : .68 * ((phase - 8900) / 900);
     const labelLines = phase < 8900 ? messages[cycle] : messages[(cycle + 1) % messages.length];
     ctx.save(); ctx.translate(ox, oy); ctx.scale(scale, scale);
-    ctx.globalAlpha = labelAlpha; ctx.fillStyle = '#c4edff';
+    ctx.globalAlpha = labelAlpha; ctx.fillStyle = labelFill(paletteAt(phase < 8900 ? cycle : cycle + 1));
     ctx.font = '700 36px Poppins, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     labelLines.forEach((line, i) => ctx.fillText(line, 180, labelLines.length === 1 ? 80 : 57 + i * 47, 330));
     ctx.restore();
@@ -59,8 +71,10 @@
       if (phase > 8200 && phase <= 8900) { const t = ease((phase - 8200) / 700); x += (sx - x) * t; y += (sy - y) * t; }
       else if (phase > 8900) { const t = ease((phase - 8900) / 900); x = sx + (to.x - sx) * t; y = sy + (to.y - sy) * t; }
       const shimmer = reduced.matches ? 1 : .8 + .2 * Math.sin(time / 650 + i * 1.7);
-      ctx.globalAlpha = shimmer; ctx.fillStyle = i % 3 === 0 ? '#f2fbff' : '#8bd8ff';
-      ctx.shadowColor = '#5dc9ff'; ctx.shadowBlur = 2.5 * scale;
+      const palette = paletteAt(phase < 8900 ? cycle : cycle + 1);
+      const color = palette.length > 1 && x >= 180 ? palette[1] : palette[0];
+      ctx.globalAlpha = shimmer; ctx.fillStyle = color;
+      ctx.shadowColor = color; ctx.shadowBlur = 2.5 * scale;
       ctx.beginPath(); ctx.arc(ox + x * scale, oy + y * scale, Math.max(.7, .95 * scale), 0, Math.PI * 2); ctx.fill();
     }
     ctx.globalAlpha = 1; ctx.shadowBlur = 0;
