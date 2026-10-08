@@ -5,19 +5,7 @@
   const canvas = host.querySelector('canvas');
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
-  const messages = [['Mercado Libra'], ['Sancor Inseguros'], ['Mercado Pet'], ['Pedidos Chau'], ['Mortadela', 'la sabrosa'], ['Manolo'], ['Malula'], ['Tqm leo, nv!']];
-  const palettes = [
-    ['#ffe04d'], ['#ff4949'], ['#7bcef8'], ['#ff4949'], ['#c45379'],
-    ['#ffe04d', '#71dd65'], ['#c29670'], ['#c4edff']
-  ];
-  const paletteAt = cycle => palettes[cycle % palettes.length];
-  function labelFill(palette) {
-    if (palette.length === 1) return palette[0];
-    const gradient = ctx.createLinearGradient(70, 0, 290, 0);
-    gradient.addColorStop(0, palette[0]); gradient.addColorStop(.48, palette[0]);
-    gradient.addColorStop(.52, palette[1]); gradient.addColorStop(1, palette[1]);
-    return gradient;
-  }
+  const messages = [['Gracias por todo,', 'Capi'], ['Por siempre', 'Messi'], ['Te queremos']];
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sample = document.createElement('canvas');
   sample.width = 360; sample.height = 160;
@@ -50,17 +38,17 @@
   function draw(time) {
     if (!formations.length || !width || !height) return;
     ctx.clearRect(0, 0, width, height);
-    const duration = 1875, cycle = reduced.matches ? 0 : Math.floor(time / duration) % messages.length;
+    const duration = 9800, cycle = reduced.matches ? 0 : Math.floor(time / duration) % messages.length;
     const phase = reduced.matches ? 0 : time % duration;
     const points = formations[cycle], next = formations[(cycle + 1) % messages.length];
     if (!points?.length || !next?.length) return;
-    const count = phase > 1200 ? Math.max(points.length, next.length) : points.length;
+    const count = phase > 8200 ? Math.max(points.length, next.length) : points.length;
     const scale = Math.min(width / 360, height / 160), ox = (width - 360 * scale) / 2, oy = (height - 160 * scale) / 2;
     // A faint continuous letter shape keeps the dotted formation readable on small screens.
-    const labelAlpha = phase <= 1200 ? .68 : phase < 1475 ? .68 * (1 - (phase - 1200) / 275) : .68 * ((phase - 1475) / 400);
-    const labelLines = phase < 1475 ? messages[cycle] : messages[(cycle + 1) % messages.length];
+    const labelAlpha = phase <= 8200 ? .68 : phase < 8900 ? .68 * (1 - (phase - 8200) / 700) : .68 * ((phase - 8900) / 900);
+    const labelLines = phase < 8900 ? messages[cycle] : messages[(cycle + 1) % messages.length];
     ctx.save(); ctx.translate(ox, oy); ctx.scale(scale, scale);
-    ctx.globalAlpha = labelAlpha; ctx.fillStyle = labelFill(paletteAt(phase < 1475 ? cycle : cycle + 1));
+    ctx.globalAlpha = labelAlpha; ctx.fillStyle = '#c4edff';
     ctx.font = '700 36px Poppins, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     labelLines.forEach((line, i) => ctx.fillText(line, 180, labelLines.length === 1 ? 80 : 57 + i * 47, 330));
     ctx.restore();
@@ -68,13 +56,11 @@
       const from = points[i % points.length], to = next[i % next.length];
       let x = from.x, y = from.y;
       const sx = 10 + seed(i + 1) * 340, sy = 10 + seed(i + 401) * 140;
-      if (phase > 1200 && phase <= 1475) { const t = ease((phase - 1200) / 275); x += (sx - x) * t; y += (sy - y) * t; }
-      else if (phase > 1475) { const t = ease((phase - 1475) / 400); x = sx + (to.x - sx) * t; y = sy + (to.y - sy) * t; }
+      if (phase > 8200 && phase <= 8900) { const t = ease((phase - 8200) / 700); x += (sx - x) * t; y += (sy - y) * t; }
+      else if (phase > 8900) { const t = ease((phase - 8900) / 900); x = sx + (to.x - sx) * t; y = sy + (to.y - sy) * t; }
       const shimmer = reduced.matches ? 1 : .8 + .2 * Math.sin(time / 650 + i * 1.7);
-      const palette = paletteAt(phase < 1475 ? cycle : cycle + 1);
-      const color = palette.length > 1 && x >= 180 ? palette[1] : palette[0];
-      ctx.globalAlpha = shimmer; ctx.fillStyle = color;
-      ctx.shadowColor = color; ctx.shadowBlur = 2.5 * scale;
+      ctx.globalAlpha = shimmer; ctx.fillStyle = i % 3 === 0 ? '#f2fbff' : '#8bd8ff';
+      ctx.shadowColor = '#5dc9ff'; ctx.shadowBlur = 2.5 * scale;
       ctx.beginPath(); ctx.arc(ox + x * scale, oy + y * scale, Math.max(.7, .95 * scale), 0, Math.PI * 2); ctx.fill();
     }
     ctx.globalAlpha = 1; ctx.shadowBlur = 0;
