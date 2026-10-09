@@ -33,13 +33,6 @@ jobs:
             node --check /tmp/cvstudio-worker-check.mjs
           done
 
-      - name: Verify private sources stay unpublished
-        shell: bash
-        run: |
-          test ! -e WORKER_CVSTUDIO_CONTACTO_ESTABLE.js
-          test ! -e centro-operaciones-prueba/panel-20260806-1208.html
-          test ! -e "js/siac-loader 1.js"
-
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
@@ -53,11 +46,19 @@ jobs:
             --exclude 'docs/' \
             --exclude 'config/' \
             --exclude 'WORKER_CVSTUDIO_CONTACTO_ESTABLE.js' \
+            --exclude 'js/siac-loader 1.js' \
             --exclude '.env.example' \
             --exclude 'centro-operaciones-prueba/panel-*.html' \
             --exclude '*.sql' \
             --exclude '*.zip' \
             ./ _site/
+
+      - name: Verify private sources stay unpublished
+        shell: bash
+        run: |
+          test ! -e _site/WORKER_CVSTUDIO_CONTACTO_ESTABLE.js
+          test ! -e _site/centro-operaciones-prueba/panel-20260806-1208.html
+          test ! -e "_site/js/siac-loader 1.js"
 
       - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v4
