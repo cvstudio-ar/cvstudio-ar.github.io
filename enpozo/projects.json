@@ -1,0 +1,32 @@
+{
+  "projects": [
+    {
+      "name": "Altos de Sarsfield",
+      "type": "departamento",
+      "operation": "pozo",
+      "zone": "Santa Fe · Barrio Candioti",
+      "address": "Bv. Vélez Sarsfield 3344 · Santa Fe",
+      "image": "assets/altos-exterior.webp",
+      "rooms": "1 y 3 dorm.",
+      "area": "48 y 99 m²",
+      "feature": "SUM y terraza",
+      "price": "Consultar precio",
+      "description": "EL PROYECTO\nAltos de Sarsfield se ubica en Barrio Candioti, a pocos metros de Bv. Gálvez y cerca de la costanera, el puente colgante y el polo gastronómico de Santa Fe. El proyecto contempla una fachada de diseño propio, ingreso magnético, sensores lumínicos en palieres y ascensor de última generación.\n\nSEMIPISOS DE 1 DORMITORIO · 48 m²\nDos unidades por piso entre las plantas 1 y 8. Estar-comedor con cocina semisectorizada y barra, balcón al frente con orientación oeste y balcón al contrafrente con orientación este.\n• Ventilación cruzada y dormitorio con placard empotrado.\n• Cocina equipada con anafe, campana, calefactor y calefón a gas.\n• Mesada de granito, aberturas línea Módena y porcelanato símil madera.\n• Paredes terminadas en yeso, iluminación LED y griferías de alta prestación.\n\nPISOS DE 3 DORMITORIOS · 99 m²\nPisos completos entre las plantas 9 y 12. Amplio estar-comedor, cocina integrada y equipada, ventilación cruzada y cuatro balcones con orientación este y oeste.\n• Baño en suite y dormitorio principal con placard empotrado.\n• Cocina con alacenas, bajo mesada, campana, calefón, anafe y calefactor.\n• Barra en L y distribución que preserva la privacidad del sector íntimo.\n\nESPACIOS COMUNES\n• SUM con dos asadores, dos baños y espacios que pueden integrarse para reuniones de hasta 25 personas.\n• Terraza con patio seco, vistas a la ciudad y solárium húmedo con cascada.\n• Siete cocheras en planta baja, de 2,5 m de ancho.\n\nCONSULTAS\nConsultá disponibilidad de unidades, condiciones comerciales, valores y fecha de entrega con los asesores de En Pozo PROP. Las imágenes del proyecto son ilustrativas.",
+      "gallery": [
+        "assets/altos-fachada.webp",
+        "assets/altos-1-dormitorio.webp",
+        "assets/altos-3-dormitorios.webp",
+        "assets/altos-cocina.webp",
+        "assets/altos-dormitorio.webp",
+        "assets/altos-lobby.webp",
+        "assets/altos-ingreso.webp",
+        "assets/altos-sum.webp",
+        "assets/altos-terraza.webp"
+      ],
+      "position": 0,
+      "published": true,
+      "version": 1,
+      "id": "altos-de-sarsfield"
+    }
+  ]
+}

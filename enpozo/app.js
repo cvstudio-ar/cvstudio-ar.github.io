@@ -1,14 +1,4 @@
 'use strict';
-const locationText='Bv. Vélez Sarsfield 3344 · Santa Fe';
-const projectDescription='<p>Altos de Sarsfield se ubica en Barrio Candioti, a pocos metros de Bv. Gálvez y cerca de la costanera, el puente colgante y el polo gastronómico de la ciudad. El proyecto contempla una fachada de diseño propio, ingreso magnético, sensores lumínicos en palieres y ascensor de última generación.</p>';
-const properties = [
- {id:1,name:'Altos de Sarsfield',type:'departamento',operation:'pozo',location:'santa-fe',image:'altos-exterior',rooms:'1 y 3 dorm.',area:'48 y 99 m²',feature:'SUM y terraza',description:projectDescription+'<p>Dos tipologías: semipisos de un dormitorio en plantas 1 a 8 y pisos completos de tres dormitorios en plantas 9 a 12.</p><ul><li>SUM con dos asadores, dos baños y espacios que pueden integrarse para reuniones de hasta 25 personas.</li><li>Terraza con patio seco, vistas a la ciudad y solárium húmedo con cascada.</li><li>Siete cocheras en planta baja, de 2,5 m de ancho.</li></ul>',gallery:['altos-fachada','altos-lobby','altos-sum','altos-terraza']},
- {id:2,name:'Altos · 1 dormitorio',type:'departamento',operation:'pozo',location:'santa-fe',image:'altos-1-dormitorio',rooms:'1 dormitorio',area:'48 m²',feature:'2 balcones',description:'<p>Semipisos de un dormitorio, dos unidades por piso entre las plantas 1 y 8. Estar-comedor con cocina semisectorizada y barra, balcón al frente con orientación oeste y balcón al contrafrente con orientación este.</p><ul><li>Ventilación cruzada y dormitorio con placard empotrado.</li><li>Cocina equipada con anafe, campana, calefactor y calefón a gas.</li><li>Mesada de granito, aberturas línea Módena y porcelanato símil madera.</li><li>Paredes terminadas en yeso, iluminación LED y griferías de alta prestación.</li></ul>',gallery:['altos-cocina','altos-dormitorio','altos-lobby','altos-terraza']},
- {id:3,name:'Altos · 3 dormitorios',type:'departamento',operation:'pozo',location:'santa-fe',image:'altos-3-dormitorios',rooms:'3 dormitorios',area:'99 m²',feature:'4 balcones',description:'<p>Pisos completos de tres dormitorios entre las plantas 9 y 12. Amplio estar-comedor, cocina integrada y equipada, ventilación cruzada y cuatro balcones con orientación este y oeste.</p><ul><li>Baño en suite y dormitorio principal con placard empotrado.</li><li>Cocina con alacenas, bajo mesada, campana, calefón, anafe y calefactor.</li><li>Barra en L y distribución que preserva la privacidad del sector íntimo.</li><li>Acceso a los espacios comunes del desarrollo.</li></ul>',gallery:['altos-cocina','altos-sum','altos-terraza','altos-ingreso']},
- {id:4,name:'Departamento con balcón',type:'departamento',operation:'venta',location:'pending',image:'property-4',sample:true},
- {id:5,name:'Dúplex contemporáneo',type:'duplex',operation:'pozo',location:'pending',image:'property-5',sample:true},
- {id:6,name:'Nuevo desarrollo',type:'departamento',operation:'pozo',location:'pending',image:'property-6',sample:true}
-];
 const icons = {
  heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',
  pin:'<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
@@ -18,28 +8,54 @@ const icons = {
  wa:'<path d="M21 11.5a9 9 0 0 1-13.6 7.7L3 21l1.8-4.3A9 9 0 1 1 21 11.5Z"/><path d="M8 7c.4-.4.7-.2 1 .4l1 2-1 1c.5 1.5 1.8 2.7 3.4 3.2l1-1 2 .9c.6.3.8.6.4 1-1 1.3-2 1.4-3.9.7C10.3 15.1 8 12.8 7.5 10.2 7.2 8.8 7.4 7.8 8 7Z"/>'
 };
 const svg = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
-let favorites = new Set();
-try { const saved=JSON.parse(localStorage.getItem('enpozo-favorites')||'[]');if(Array.isArray(saved))favorites=new Set(saved.filter(n=>properties.some(p=>p.id===n))); } catch (_) {}
-let activeFilter='all',searchType='all',searchOperation='all',searchLocation='all';
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let properties=[],favorites=new Set(),activeFilter='all',searchType='all',searchOperation='all',searchLocation='all';
+try {const saved=JSON.parse(localStorage.getItem('enpozo-favorites')||'[]');if(Array.isArray(saved))favorites=new Set(saved);}catch{}
 const grid=document.getElementById('property-grid');
+const dialog=document.getElementById('property-dialog');
+const lightbox=document.getElementById('gallery-dialog');
+let gallery=[],galleryIndex=0;
 function contact(name){return `https://wa.me/5493425669944?text=${encodeURIComponent('Hola, quiero consultar por '+name+' que vi en En Pozo PROP.')}`;}
 function render(){
- let items=properties.filter(p=>(activeFilter==='all'||p.type===activeFilter||p.operation===activeFilter)&&(searchType==='all'||p.type===searchType)&&(searchOperation==='all'||searchOperation==='venta'||p.operation===searchOperation)&&(searchLocation==='all'||p.location===searchLocation));
+ let items=properties.filter(p=>(activeFilter==='all'||p.type===activeFilter||p.operation===activeFilter)&&(searchType==='all'||p.type===searchType)&&(searchOperation==='all'||(searchOperation==='venta'&&p.operation==='pozo')||p.operation===searchOperation)&&(searchLocation==='all'||p.zone===searchLocation));
  const sort=document.getElementById('sort').value;
  if(sort==='name')items.sort((a,b)=>a.name.localeCompare(b.name,'es'));
  if(sort==='favorites')items.sort((a,b)=>Number(favorites.has(b.id))-Number(favorites.has(a.id)));
- grid.innerHTML=items.map(p=>`<article class="card"><div class="card-photo"><img src="assets/${p.image}.webp" alt="Imagen ilustrativa: ${p.name}" width="480" height="300" loading="lazy">${p.sample?'':'<span class="property-tag">En pozo</span>'}<button class="favorite" data-favorite="${p.id}" aria-label="${favorites.has(p.id)?'Quitar de':'Agregar a'} favoritas: ${p.name}" aria-pressed="${favorites.has(p.id)}">${svg('heart')}</button></div><div class="card-body"><h3>${p.name}</h3>${p.sample?'<span class="sample-note">Propiedad de muestra · Imagen ilustrativa</span>':''}<p class="location">${svg('pin')}${p.sample?'Ubicación a confirmar':locationText}</p><div class="features"><span>${svg('rooms')}${p.rooms||'Ambientes'}</span><span>${svg('area')}${p.area||'Superficie'}</span><span>${svg('star')}${p.feature||'Características'}</span></div><div class="card-bottom"><span class="price">Consultar precio</span><button class="view" data-view="${p.id}">Ver propiedad <span aria-hidden="true">⟶</span></button><a class="card-wa" href="${contact(p.name)}" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp: ${p.name}">${svg('wa')}</a></div></div></article>`).join('');
+ grid.innerHTML=items.map(p=>`<article class="card"><div class="card-photo"><button class="photo-open" data-view="${esc(p.id)}" aria-label="Ver detalle completo: ${esc(p.name)}"><img src="${esc(p.image)}" alt="${esc(p.name)}" width="480" height="300" loading="lazy"><span class="photo-caption">Explorar proyecto <span aria-hidden="true">↗</span></span></button><span class="property-tag">${p.operation==='pozo'?'En pozo':p.operation==='venta'?'Venta':'Alquiler'}</span><button class="favorite" data-favorite="${esc(p.id)}" aria-label="${favorites.has(p.id)?'Quitar de':'Agregar a'} favoritas: ${esc(p.name)}" aria-pressed="${favorites.has(p.id)}">${svg('heart')}</button></div><div class="card-body"><h3><button class="title-open" data-view="${esc(p.id)}">${esc(p.name)}</button></h3><p class="location">${svg('pin')}${esc(p.address||p.zone)}</p><div class="features"><span>${svg('rooms')}${esc(p.rooms||'Consultar')}</span><span>${svg('area')}${esc(p.area||'Consultar')}</span><span>${svg('star')}${esc(p.feature||'Ver detalles')}</span></div><div class="card-bottom"><span class="price">${esc(p.price||'Consultar precio')}</span><button class="view" data-view="${esc(p.id)}">Ver proyecto <span aria-hidden="true">⟶</span></button><a class="card-wa" href="${contact(p.name)}" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp: ${esc(p.name)}">${svg('wa')}</a></div></div></article>`).join('');
  document.getElementById('empty').hidden=items.length>0;
+ document.querySelector('.section-heading .sample-label').textContent=`${properties.length} ${properties.length===1?'proyecto disponible':'proyectos disponibles'}`;
 }
 function filter(value){activeFilter=value;searchType='all';searchOperation='all';searchLocation='all';document.querySelectorAll('[data-filter]').forEach(b=>{const on=b.dataset.filter===value;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));});document.getElementById('catalog-status').hidden=true;render();}
 document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>filter(b.dataset.filter)));
 document.querySelectorAll('[data-nav-filter]').forEach(a=>a.addEventListener('click',()=>filter(a.dataset.navFilter)));
 document.getElementById('search-form').addEventListener('submit',e=>{e.preventDefault();filter('all');searchType=document.getElementById('type').value;searchOperation=document.getElementById('operation').value;searchLocation=document.getElementById('location').value;render();document.getElementById('propiedades').scrollIntoView({behavior:'smooth'});});
 document.getElementById('sort').addEventListener('change',render);
-document.getElementById('reset').addEventListener('click',()=>{document.getElementById('type').value='all';document.getElementById('operation').value='all';document.getElementById('location').value='all';filter('all');});
-const dialog=document.getElementById('property-dialog');
-grid.addEventListener('click',e=>{const f=e.target.closest('[data-favorite]');if(f){const id=Number(f.dataset.favorite);favorites.has(id)?favorites.delete(id):favorites.add(id);try{localStorage.setItem('enpozo-favorites',JSON.stringify([...favorites]));}catch(_){}render();return;}const v=e.target.closest('[data-view]');if(v){const p=properties.find(p=>p.id===Number(v.dataset.view));document.getElementById('dialog-title').textContent=p.name;document.getElementById('dialog-image').src=`assets/${p.image}.webp`;document.getElementById('dialog-image').alt=`Imagen ilustrativa: ${p.name}`;document.getElementById('dialog-contact').href=contact(p.name);dialog.querySelector('.sample-label').textContent=p.sample?'Propiedad ilustrativa':'Altos de Sarsfield · Desarrollo en pozo';document.getElementById('dialog-location').textContent=p.sample?'Ubicación a confirmar':locationText;document.getElementById('dialog-description').innerHTML=p.description||'<p>Esta imagen forma parte del catálogo de muestra. Los datos, precios y características se incorporarán con la información de los proyectos reales.</p>';document.getElementById('dialog-gallery').innerHTML=(p.gallery||[]).map(name=>`<a href="assets/${name}.webp" target="_blank" rel="noopener" aria-label="Ampliar imagen del desarrollo"><img src="assets/${name}.webp" alt="Render ilustrativo de Altos de Sarsfield" loading="lazy"></a>`).join('');dialog.showModal();}});
-dialog.querySelector('.close').addEventListener('click',()=>dialog.close());
-dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
-document.getElementById('more-properties').addEventListener('click',()=>{filter('all');document.getElementById('catalog-status').hidden=false;});
-render();
+document.getElementById('reset').addEventListener('click',()=>{document.getElementById('search-form').reset();filter('all');});
+function openProject(id){
+ const p=properties.find(p=>p.id===id);if(!p)return;
+ document.getElementById('dialog-title').textContent=p.name;
+ document.getElementById('dialog-image').src=p.image;
+ document.getElementById('dialog-image').alt=p.name;
+ document.getElementById('dialog-contact').href=contact(p.name);
+ dialog.querySelector('.sample-label').textContent=p.operation==='pozo'?'Desarrollo en pozo':p.operation==='venta'?'Propiedad en venta':'Propiedad en alquiler';
+ document.getElementById('dialog-location').textContent=p.address||p.zone;
+ document.getElementById('dialog-facts').innerHTML=[p.rooms,p.area,p.feature,p.price].filter(Boolean).map(t=>`<span>${esc(t)}</span>`).join('');
+ document.getElementById('dialog-description').innerHTML=p.description.split(/\n\s*\n/).map(block=>`<p>${esc(block).replaceAll('\n','<br>')}</p>`).join('');
+ gallery=[p.image,...(p.gallery||[]).filter(u=>u!==p.image)];
+ document.getElementById('dialog-gallery').innerHTML=gallery.map((url,i)=>`<button class="gallery-thumb" data-gallery="${i}" aria-label="Ampliar imagen ${i+1} de ${esc(p.name)}"><img src="${esc(url)}" alt="${esc(p.name)} · Imagen ${i+1}" loading="lazy"></button>`).join('');
+ dialog.showModal();dialog.scrollTop=0;
+}
+grid.addEventListener('click',e=>{const f=e.target.closest('[data-favorite]');if(f){const id=f.dataset.favorite;favorites.has(id)?favorites.delete(id):favorites.add(id);try{localStorage.setItem('enpozo-favorites',JSON.stringify([...favorites]));}catch{}f.setAttribute('aria-pressed',String(favorites.has(id)));f.setAttribute('aria-label',`${favorites.has(id)?'Quitar de':'Agregar a'} favoritas: ${properties.find(p=>p.id===id).name}`);if(document.getElementById('sort').value==='favorites')render();return;}const view=e.target.closest('[data-view]');if(view)openProject(view.dataset.view);});
+function showGallery(index){galleryIndex=(index+gallery.length)%gallery.length;document.getElementById('gallery-image').src=gallery[galleryIndex];document.getElementById('gallery-image').alt=`${document.getElementById('dialog-title').textContent} · Imagen ${galleryIndex+1}`;document.getElementById('gallery-counter').textContent=`${galleryIndex+1} / ${gallery.length}`;}
+document.getElementById('dialog-gallery').addEventListener('click',e=>{const b=e.target.closest('[data-gallery]');if(b){showGallery(Number(b.dataset.gallery));lightbox.showModal();}});
+document.getElementById('gallery-prev').onclick=()=>showGallery(galleryIndex-1);
+document.getElementById('gallery-next').onclick=()=>showGallery(galleryIndex+1);
+lightbox.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')showGallery(galleryIndex-1);if(e.key==='ArrowRight')showGallery(galleryIndex+1);});
+for(const d of [dialog,lightbox]){d.querySelector('.close').onclick=()=>d.close();d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});}
+document.getElementById('more-properties').onclick=()=>{filter('all');document.getElementById('catalog-status').hidden=false;};
+async function load(){
+ try{const response=await fetch(window.ENPOZO_API,{cache:'no-store',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error();properties=(await response.json()).projects;}
+ catch{try{properties=(await (await fetch('projects.json')).json()).projects;}catch{document.getElementById('empty').textContent='No se pudo cargar el catálogo. Recargá la página para volver a intentar.';}}
+ const location=document.getElementById('location');location.innerHTML='<option value="all">Seleccionar zona</option>'+[...new Set(properties.map(p=>p.zone).filter(Boolean))].map(zone=>`<option value="${esc(zone)}">${esc(zone)}</option>`).join('');render();
+}
+load();
