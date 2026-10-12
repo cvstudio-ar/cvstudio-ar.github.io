@@ -311,7 +311,7 @@
       'combo-cv-linkedin':'Combo CV + LinkedIn',
       'entrevistas':'Preparación para entrevistas',
       'kit-emprendedor':'Kit Emprendedor',
-      'kit-web':'Kit Emprendedor + Web'
+      'kit-web':'Kit Emprendedor + Web', 'web-basica':'Web de presentación — Pantalla única', 'web-panel':'Web de presentación + Panel administrativo básico', 'web-catalogo':'Web avanzada con catálogo y panel administrativo', 'web-tienda':'Web completa con Tiendanube'
     };
     const products=Object.fromEntries(Object.entries(priceKeyByProductId).map(([productId,key])=>[productId,Number(prices[key])]));
     return api('payments-admin-products-update',{products});

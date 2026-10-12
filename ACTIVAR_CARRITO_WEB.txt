@@ -1,0 +1,78 @@
+CVSTUDIO · ACTUALIZACIÓN DE WEBS PERSONALIZADAS · 12/10/2026
+
+EL ZIP ES UNA ACTUALIZACIÓN PARCIAL.
+Copiar sus carpetas sobre el proyecto actual, conservando todos los demás archivos.
+No reemplazar el repositorio completo ni eliminar otras secciones del sitio.
+
+INCLUIDO
+- Portada publicada de Messi conservada; diseño adaptable y márgenes fluidos.
+- Frases: ciclo 7,35 segundos, antes 9,8 (25% menos).
+- Planes: $65.000 / $85.000 / $120.000 / $180.000.
+- Preferencias de estilo, colores y detalles SIN RECARGOS.
+- 3 propuestas visuales antes de la programación; el cliente aprueba una.
+- Dominio propio incluido; entrega estimada 24 h desde material completo, según proyecto.
+- Pago inicial: seña 25% o total. Con pago por etapas: 25% publicación y 50% finalización.
+- Se conservan precio y preferencias del pedido aunque luego cambie el catálogo.
+- Nuevos precios en Centro de Operaciones > Administración > Editar precios.
+- Centro de Operaciones > Administración > Webs y Tiendanube: conexión, sincronización y etapas.
+
+ACTIVACIÓN (EL COBRO NO ESTÁ ACTIVO SOLAMENTE POR SUBIR EL ZIP)
+1. Base de datos: ejecutar config/WEB_COMMERCE_SETUP.sql en SQL Editor de Supabase.
+   Alternativa para despliegues con CLI: supabase/migrations/20261012223602_web_commerce.sql.
+   Ambos contienen el mismo SQL: usar UNO. No modifica precios existentes ni las tablas de CVs.
+2. Cloudflare: actualizar el Worker de contacto con config/cloudflare-worker-contacto.js.
+   Conservar sus secretos actuales y sus tareas programadas.
+   El código integra la verificación de cobros Tiendanube en la tarea scheduled existente.
+   Si no hay cron, configurar una ejecución cada 5 minutos: */5 * * * *.
+3. Mercado Pago:
+   - Conservar MERCADOPAGO_ACCESS_TOKEN (privado en Cloudflare).
+   - Agregar MERCADOPAGO_PUBLIC_KEY para activar el formulario de tarjetas en la web.
+   - Ambas claves deben pertenecer a la misma cuenta y entorno (prueba o producción).
+   - Sin Public Key, el botón lleva al checkout seguro de Mercado Pago.
+   - Verificar el webhook existente /webhooks/mercadopago.
+4. Tiendanube:
+   - Autorizar/instalar una aplicación de integración en la tienda de CVStudio.
+   - Permisos: write_products, write_draft_orders, read_orders.
+   - Configurar TIENDANUBE_STORE_ID y TIENDANUBE_ACCESS_TOKEN SOLO en Cloudflare.
+   - El token se obtiene con la autorización OAuth de la app. La contraseña del admin NO sirve como token.
+   - No pegar tokens privados en los archivos públicos, en el panel de precios ni en un chat.
+5. Publicar los archivos web de la actualización.
+6. Entrar al centro > Administración > Webs y Tiendanube.
+   Leer productos de Tiendanube y relacionar producto/variante con los cuatro servicios.
+   Guardar la conexión, sincronizar y verificar los precios en la tienda antes de habilitar pagos.
+   Al editar precios, el backend guarda en CVStudio e intenta actualizar la variante vinculada.
+   Si Tiendanube falla, el panel avisa y permite reintentar “Sincronizar precios”. No afirma éxito inexistente.
+
+CÓMO SE COBRAN LAS ETAPAS
+Mercado Pago: tarjetas dentro de CVStudio cuando está configurada la Public Key; la cuenta de
+Mercado Pago y otros métodos pueden abrir el entorno seguro de Mercado Pago.
+Tiendanube: el cliente completa el pago en el checkout de la tienda, con los medios habilitados
+allí (configurar tarjetas/transferencias en Pago Nube o la pasarela elegida).
+El backend genera un producto oculto de importe fijo para CADA pago del proyecto y su pedido
+preliminar. Es una seña/etapa, NO un descuento del 75% sobre el trabajo. El total se conserva
+separado. No modifica el precio de otros proyectos cuando cambia el catálogo.
+Los productos ocultos permanecerán en Tiendanube para conservar el historial de las etapas.
+Cada etapa sólo admite un proveedor una vez iniciado el checkout; no crear un nuevo pago
+alternativo mientras el anterior está pendiente.
+El segundo y el tercer pago se habilitan desde “Webs y Tiendanube” después de verificar el anterior.
+El panel genera un enlace exclusivo para copiar y enviar al cliente. No lo comparte automáticamente.
+La verificación automática de Tiendanube depende de activar el cron. También existe el botón
+“Verificar pagos en Tiendanube”. Un comprobante de transferencia pendiente no se marca pagado.
+
+ANTES DE COBRAR A CLIENTES
+- Probar con cuentas/credenciales de prueba de Mercado Pago.
+- Verificar que 65.000 genera 16.250 / 16.250 / 32.500 y que el estilo no cambia el total.
+- Validar en la tienda real que el pedido preliminar admite un producto de servicio oculto,
+  que los medios deseados están disponibles y que no hay promociones/cargos que alteren la etapa.
+  El sistema rechaza un total diferente al esperado; no abrir al público antes de esa prueba.
+- Probar un pedido completo por etapas y comprobarlo en el centro de operaciones.
+- Acordar la disponibilidad y renovación del dominio y los gastos externos antes de contratar.
+
+VERIFICACIÓN REALIZADA EN ESTE PAQUETE
+Pruebas locales del servidor: importes, precio contratado, precio recibido desde el servidor,
+checkout reutilizado, permisos, producto desactivado, seña de Tiendanube, rechazo de totales
+incorrectos y comprobación de pagos. Se usaron respuestas simuladas: NO se cobró dinero real.
+JavaScript y referencias de archivos comprobados. No se ejecutó prueba visual en navegador
+ni SQL contra la base de producción desde esta sesión.
+La herramienta CLI de migración creó el archivo, pero su telemetría fue bloqueada por la
+revisión automática. No se reintentó ni se envió telemetría; el SQL queda disponible para instalación.

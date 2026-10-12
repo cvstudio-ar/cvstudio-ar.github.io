@@ -22,7 +22,7 @@ const SUPABASE_URL = 'https://eqepkoegzyqklpxkrkhm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZXBrb2Vnenlxa2xweGtya2htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTc1MzcsImV4cCI6MjEwMDQzMzUzN30.dy-gMZJRMTQyr--kCq5JsEaDzazcDXFUkxQdiLQBFx8';
 const ADMIN_USER_ID = '3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
 const CONTACT_EMAIL = 'contacto@cvstudio.com.ar';
-const WORKER_RELEASE = 'v2.14.0-official-prices';
+const WORKER_RELEASE = 'v2.15.0-web-commerce';
 const FORM_NOTIFICATION_EMAIL = 'cvstudioargentina@gmail.com';
 const getFormNotificationEmail = () => FORM_NOTIFICATION_EMAIL;
 const DEFAULT_RESEND_RECEIVING_DOMAIN = 'iokioalkuu.resend.app';
@@ -50,13 +50,17 @@ const MP_PRODUCT_DEFAULTS = Object.freeze({
   'combo-cv-linkedin': { title: 'Combo CV + LinkedIn', unit_price: 28000, sort_order: 90 },
   'entrevistas': { title: 'Preparación para entrevistas', unit_price: 10000, sort_order: 100 },
   'kit-emprendedor': { title: 'Kit Emprendedor', unit_price: 35000, sort_order: 110 },
-  'kit-web': { title: 'Kit Emprendedor + Web', unit_price: 80000, sort_order: 120 }
+  'kit-web': { title: 'Kit Emprendedor + Web', unit_price: 80000, sort_order: 120 },
+  'web-basica': {title:'Web de presentación — Pantalla única',unit_price:65000,sort_order:130},
+  'web-panel': {title:'Web de presentación + Panel administrativo básico',unit_price:85000,sort_order:140},
+  'web-catalogo': {title:'Web avanzada con catálogo y panel administrativo',unit_price:120000,sort_order:150},
+  'web-tienda': {title:'Web completa con Tiendanube',unit_price:180000,sort_order:160}
 });
 const effectiveProductPrice=product=>Number(product?.test_mode&&Number(product?.test_price)>0?product.test_price:product?.unit_price||0);
 async function getPaymentProducts(env){
   try{
     const rows=await supabaseService(env,'servicios_precios?select=product_id,title,unit_price,active,test_mode,test_price,sort_order,updated_at&order=sort_order.asc',{method:'GET'});
-    if(Array.isArray(rows)&&rows.length)return Object.fromEntries(rows.map(row=>[row.product_id,{...row,unit_price:Number(row.unit_price),test_price:row.test_price==null?null:Number(row.test_price)}]));
+    if(Array.isArray(rows)&&rows.length)return Object.fromEntries([...Object.entries(MP_PRODUCT_DEFAULTS).map(([product_id,row])=>[product_id,{product_id,...row,active:true,test_mode:false,test_price:null}]),...rows.map(row=>[row.product_id,{...row,unit_price:Number(row.unit_price),test_price:row.test_price==null?null:Number(row.test_price)}])]);
   }catch(error){console.warn('No se pudieron cargar precios desde Supabase:',error.message)}
   return Object.fromEntries(Object.entries(MP_PRODUCT_DEFAULTS).map(([product_id,row])=>[product_id,{product_id,...row,active:true,test_mode:false,test_price:null}]));
 }
@@ -124,6 +128,7 @@ async function handleMercadoPagoWebhook(request,env){
     const response=await fetch(`https://api.mercadopago.com/v1/payments/${encodeURIComponent(paymentId)}`,{headers:{Authorization:`Bearer ${env.MERCADOPAGO_ACCESS_TOKEN}`}}),payment=await response.json().catch(()=>({}));
     if(!response.ok)throw new Error(payment?.message||`Mercado Pago devolvió ${response.status}`);
     const externalReference=cleanText(payment.external_reference,180),status=cleanText(payment.status,50),statusDetail=cleanText(payment.status_detail,100),approved=status==='approved';
+    if(String(externalReference).startsWith('WEB:'))await commerceRecordMP(env,payment);
     const rows=await updatePaymentOrder(env,externalReference,{mercadopago_payment_id:String(payment.id),estado_pago:status,detalle_estado:statusDetail,estado_pedido:approved?'Pago recibido':['pending','in_process','authorized'].includes(status)?'Pendiente de pago':'Pago no aprobado',medio_pago:cleanText(payment.payment_method_id||payment.payment_type_id||'Mercado Pago',80),importe:Number(payment.transaction_amount||0),fecha_aprobacion:payment.date_approved||null,updated_at:new Date().toISOString()});
     const order=rows?.[0];
     await addPaymentEvent(env,externalReference,approved?'payment_approved':'payment_updated',approved?'Pago aprobado por Mercado Pago':`Estado de pago actualizado: ${status}`,{payment_id:String(payment.id),status,status_detail:statusDetail,method:payment.payment_method_id||payment.payment_type_id||'',amount:Number(payment.transaction_amount||0)});
@@ -373,20 +378,21 @@ async function handlePaymentProductUpdate(request,env,origin,body){
   if(!Number.isFinite(unitPrice)||unitPrice<1||unitPrice>10000000)return jsonResponse({ok:false,message:'Ingresá un precio comercial válido.'},400,origin);
   if(testPrice!=null&&(!Number.isFinite(testPrice)||testPrice<1||testPrice>10000000))return jsonResponse({ok:false,message:'Ingresá un precio de prueba válido.'},400,origin);
   const record={product_id:productId,title:defaults.title,unit_price:unitPrice,active:body.active!==false,test_mode:Boolean(body.testMode),test_price:testPrice,sort_order:defaults.sort_order,updated_at:new Date().toISOString()};
-  try{const rows=await supabaseService(env,'servicios_precios?on_conflict=product_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify(record)});return jsonResponse({ok:true,product:rows?.[0]||record},200,origin)}catch(error){return jsonResponse({ok:false,message:`No se pudo guardar el precio: ${error.message}`},502,origin)}
+  try{const rows=await supabaseService(env,'servicios_precios?on_conflict=product_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify(record)});const sync=WEB_PRODUCTS[productId]?await commerceSyncPrice(env,record):null;return jsonResponse({ok:true,product:rows?.[0]||record,sync},200,origin)}catch(error){return jsonResponse({ok:false,message:`No se pudo guardar el precio: ${error.message}`},502,origin)}
 }
 async function handlePaymentProductsBulkUpdate(request,env,origin,body){
   const admin=await verifyAdmin(request);if(!admin)return jsonResponse({ok:false,message:'Sesión administrativa inválida o vencida.'},401,origin);
   const incoming=body.products&&typeof body.products==='object'?body.products:{};
   const now=new Date().toISOString(),records=[];
   for(const [productId,defaults] of Object.entries(MP_PRODUCT_DEFAULTS)){
+    if(!(productId in incoming))continue;
     const value=Math.round(Number(incoming[productId]));
     if(!Number.isFinite(value)||value<1||value>10000000)return jsonResponse({ok:false,message:`Precio inválido para ${defaults.title}.`},400,origin);
     records.push({product_id:productId,title:defaults.title,unit_price:value,active:true,test_mode:false,test_price:null,sort_order:defaults.sort_order,updated_at:now});
   }
   try{
     const rows=await supabaseService(env,'servicios_precios?on_conflict=product_id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify(records)});
-    return jsonResponse({ok:true,products:Array.isArray(rows)?rows:records,updated:records.length},200,origin);
+    const sync=[];for(const record of records.filter(p=>WEB_PRODUCTS[p.product_id]))sync.push({productId:record.product_id,...await commerceSyncPrice(env,record)});return jsonResponse({ok:true,products:Array.isArray(rows)?rows:records,updated:records.length,sync},200,origin);
   }catch(error){return jsonResponse({ok:false,message:`No se pudieron guardar los precios: ${error.message}`},502,origin)}
 }
 async function handlePaymentsAdminUpdate(request,env,origin,body){
@@ -724,8 +730,153 @@ async function handleMetaCampaigns(request,env,origin){
   if(!env.META_MARKETING_ACCESS_TOKEN||!accountId)return jsonResponse({ok:false,message:'Meta Marketing todavía no está configurado.'},503,origin);
   try{const fields='id,name,status,effective_status,objective,daily_budget,lifetime_budget,start_time,stop_time,updated_time,insights.date_preset(last_30d){spend,impressions,reach,clicks,actions,cost_per_action_type}',data=await metaGraph(env,`act_${accountId}/campaigns`,{fields,limit:100});const campaigns=(data.data||[]).map(item=>{const insight=item.insights?.data?.[0]||{};return {id:item.id,name:item.name,status:item.status,effective_status:item.effective_status,objective:item.objective,start_time:item.start_time,stop_time:item.stop_time,updated_time:item.updated_time,budget:Number(item.daily_budget||item.lifetime_budget||0)/100,budgetType:item.daily_budget?'daily':item.lifetime_budget?'lifetime':null,spend:Number(insight.spend||0),impressions:Number(insight.impressions||0),reach:Number(insight.reach||0),clicks:Number(insight.clicks||0),results:metaResultCount(insight.actions),source:'Meta Ads',platform:'Facebook / Instagram'}});return jsonResponse({ok:true,connected:true,accountId:`act_${accountId}`,campaigns,summary:{spend:campaigns.reduce((sum,item)=>sum+item.spend,0),results:campaigns.reduce((sum,item)=>sum+item.results,0),impressions:campaigns.reduce((sum,item)=>sum+item.impressions,0)}},200,origin)}catch(error){return jsonResponse({ok:false,message:`No se pudieron leer las campañas de Meta: ${error.message}`},502,origin)}
 }
+// CVStudio web commerce: all prices and installments are calculated on the server.
+const WEB_PRODUCTS={
+ 'web-basica':{title:'Web de presentación — Pantalla única',unit_price:65000,sort_order:130},
+ 'web-panel':{title:'Web de presentación + Panel administrativo básico',unit_price:85000,sort_order:140},
+ 'web-catalogo':{title:'Web avanzada con catálogo y panel administrativo',unit_price:120000,sort_order:150},
+ 'web-tienda':{title:'Web completa con Tiendanube',unit_price:180000,sort_order:160}
+};
+const WEB_STAGES={deposit:'Seña del 25%',publication:'Publicación · 25%',balance:'Finalización · 50%',full:'Pago total'};
+const commerceRound=n=>Math.round(Number(n)*100)/100;
+function commerceAmount(total,stage){const first=commerceRound(total*.25);return stage==='full'?total:stage==='balance'?commerceRound(total-first*2):first;}
+async function commerceDB(env,path,options={}){return supabaseService(env,path,options);}
+async function commerceSettings(env){const rows=await commerceDB(env,'web_commerce_settings?id=eq.main&select=*',{method:'GET'});return rows?.[0]||{product_map:{}};}
+async function commerceTN(env,path,body,method='POST'){
+ if(!env.TIENDANUBE_ACCESS_TOKEN||!/^\d+$/.test(String(env.TIENDANUBE_STORE_ID||'')))throw new Error('Tiendanube todavía no está autorizada.');
+ const response=await fetch(`https://api.tiendanube.com/v1/${env.TIENDANUBE_STORE_ID}/${path}`,{method,headers:{Authentication:`bearer ${env.TIENDANUBE_ACCESS_TOKEN}`,'User-Agent':'CVStudio (contacto@cvstudio.com.ar)','Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});
+ const data=await response.json();if(!response.ok)throw new Error(`Tiendanube: ${data.description||data.message||response.status}`);return data;
+}
+async function commerceSyncPrice(env,product){
+ let settings;try{settings=await commerceSettings(env);}catch(e){return {state:'pending',message:'Precio guardado en CVStudio. Falta instalar la configuración de Tiendanube.'};}const mapping=settings.product_map?.[product.product_id];
+ if(!env.TIENDANUBE_ACCESS_TOKEN||!mapping)return {state:'pending',message:'Precio guardado en CVStudio. Falta conectar este producto con Tiendanube.'};
+ try{await commerceTN(env,`products/${mapping.product_id}/variants/${mapping.variant_id}`,{price:String(product.unit_price)},'PUT');return {state:'synced',message:'Precio actualizado en CVStudio y Tiendanube.'};}
+ catch(e){return {state:'error',message:`Precio guardado en CVStudio. No se actualizó Tiendanube: ${e.message}`};}
+}
+async function commerceGetProject(env,token){if(!/^[0-9a-f-]{36}$/.test(String(token||'')))throw new Error('El enlace del proyecto no es válido.');const rows=await commerceDB(env,`web_commerce_projects?access_token=eq.${encodeURIComponent(token)}&select=*`,{method:'GET'});if(!rows?.[0])throw new Error('El proyecto no existe.');return rows[0];}
+async function commercePaid(env,projectId){const rows=await commerceDB(env,`web_commerce_charges?project_id=eq.${projectId}&status=eq.approved&select=amount,stage`,{method:'GET'});return {rows:rows||[],total:commerceRound((rows||[]).reduce((n,x)=>n+Number(x.amount),0))};}
+function commerceValidateStage(project,stage,paid){
+ if(!WEB_STAGES[stage])throw new Error('Etapa inválida.');
+ if(project.payment_plan==='full'&&stage!=='full')throw new Error('Este proyecto se contrató con pago total.');
+ if(project.payment_plan==='deposit'&&stage==='full')throw new Error('Este proyecto se contrató por etapas.');
+ if(paid.rows.some(x=>x.stage===stage||x.stage==='full'))throw new Error('Este pago ya está aprobado.');
+ if(stage==='full'&&paid.total>0)throw new Error('El proyecto ya tiene pagos parciales. Usá el enlace de la etapa siguiente.');
+ if(stage==='publication'&&(!project.publication_enabled||!paid.rows.some(x=>x.stage==='deposit')))throw new Error('El pago de publicación todavía no está habilitado.');
+ if(stage==='balance'&&(!project.balance_enabled||!paid.rows.some(x=>x.stage==='deposit')||!paid.rows.some(x=>x.stage==='publication')))throw new Error('El pago final todavía no está habilitado.');
+ if(stage==='deposit'&&paid.total>0)throw new Error('El proyecto ya tiene un pago inicial.');
+}
+async function commerceHandle(request,env,origin,body){
+ const action=body.action;
+ try{
+ if(action==='web-commerce-catalog'){
+  const products=await getPaymentProducts(env),settings=await commerceSettings(env);
+  return jsonResponse({ok:true,products:Object.entries(WEB_PRODUCTS).map(([id,d])=>{const p=products[id]||d;return {product_id:id,title:p.title,effective_price:effectiveProductPrice(p),active:p.active!==false};}).filter(p=>p.active),mercadopago:Boolean(env.MERCADOPAGO_ACCESS_TOKEN),tiendanube:Boolean(env.TIENDANUBE_ACCESS_TOKEN&&env.TIENDANUBE_STORE_ID&&settings.enabled)},200,origin);
+ }
+ if(action==='web-commerce-project'){
+  const p=await commerceGetProject(env,body.projectToken),paid=await commercePaid(env,p.id);
+  return jsonResponse({ok:true,total:Number(p.total),title:p.product_title,productId:p.product_id,paid:paid.total},200,origin);
+ }
+ if(action.startsWith('web-commerce-admin')){
+  if(!await verifyAdmin(request))return jsonResponse({ok:false,message:'Sesión administrativa inválida.'},401,origin);
+  if(action==='web-commerce-admin-list'){
+   const [settings,projects,charges]=await Promise.all([commerceSettings(env),commerceDB(env,'web_commerce_projects?select=*&order=created_at.desc&limit=100',{method:'GET'}),commerceDB(env,'web_commerce_charges?select=*&order=created_at.desc&limit=500',{method:'GET'})]);
+   return jsonResponse({ok:true,settings,projects,charges,connected:Boolean(env.TIENDANUBE_ACCESS_TOKEN&&env.TIENDANUBE_STORE_ID)},200,origin);
+  }
+  if(action==='web-commerce-admin-refresh'){await commerceRefreshTN(env);return jsonResponse({ok:true},200,origin);}
+  if(action==='web-commerce-admin-products')return jsonResponse({ok:true,products:await commerceTN(env,'products?per_page=200',null,'GET')},200,origin);
+  if(action==='web-commerce-admin-config'){
+   const productMap={};for(const [key,value] of Object.entries(body.productMap||{})){if(!WEB_PRODUCTS[key]||!/^\d+$/.test(String(value.product_id))||!/^\d+$/.test(String(value.variant_id)))throw new Error('Revisá los identificadores de los productos.');productMap[key]={product_id:Number(value.product_id),variant_id:Number(value.variant_id)};}
+   const rows=await commerceDB(env,'web_commerce_settings?on_conflict=id',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify({id:'main',enabled:Boolean(body.enabled),product_map:productMap,updated_at:new Date().toISOString()})});
+   return jsonResponse({ok:true,settings:rows?.[0]},200,origin);
+  }
+  if(action==='web-commerce-admin-sync'){
+   const products=await getPaymentProducts(env),results=[];for(const key of Object.keys(WEB_PRODUCTS)){results.push({productId:key,...await commerceSyncPrice(env,{...(products[key]||WEB_PRODUCTS[key]),product_id:key})});}return jsonResponse({ok:true,results},200,origin);
+  }
+  if(action==='web-commerce-admin-stage'){
+   if(!['publication','balance'].includes(body.stage)||!/^[0-9a-f-]{36}$/.test(String(body.projectId)))throw new Error('Datos inválidos.');
+   const paid=await commercePaid(env,body.projectId);if(!paid.rows.some(x=>x.stage==='deposit')||(body.stage==='balance'&&!paid.rows.some(x=>x.stage==='publication')))throw new Error('Falta confirmar el pago de la etapa anterior.');
+   const rows=await commerceDB(env,`web_commerce_projects?id=eq.${body.projectId}`,{method:'PATCH',body:JSON.stringify({[body.stage+'_enabled']:true})});const p=rows?.[0];if(!p)throw new Error('Proyecto no encontrado.');
+   return jsonResponse({ok:true,url:`https://cvstudio.com.ar/otros-servicios/#project=${p.access_token}&stage=${body.stage}`},200,origin);
+  }
+ }
+ if(action==='web-commerce-checkout'){
+  const provider=body.provider;if(!['mercadopago','tiendanube'].includes(provider))throw new Error('Elegí un medio de pago.');
+  if(provider==='mercadopago'&&!env.MERCADOPAGO_ACCESS_TOKEN)throw new Error('Mercado Pago todavía no está configurado.');
+  if(provider==='tiendanube'){const s=await commerceSettings(env);if(!s.enabled||!env.TIENDANUBE_ACCESS_TOKEN)throw new Error('Tiendanube todavía no está conectada.');}
+  let project;
+  if(body.projectToken)project=await commerceGetProject(env,body.projectToken);
+  else{
+   const products=await getPaymentProducts(env),id=cleanText(body.productId,80),p=products[id];
+   if(!WEB_PRODUCTS[id]||!p||p.active===false)throw new Error('Servicio no disponible.');
+   const total=effectiveProductPrice(p);if(!Number.isFinite(total)||total<1)throw new Error('Precio no válido.');
+   const name=cleanText(body.customerName,100),email=cleanText(body.customerEmail,160).toLowerCase(),phone=normalizePhone(body.customerPhone);
+   if(name.length<3||!isValidEmail(email)||phone.replace(/\D/g,'').length<8)throw new Error('Revisá nombre, email y WhatsApp.');
+   const options=body.options||{},safe={};for(const key of ['business','style','color','palette','details'])safe[key]=cleanText(options[key],key==='details'?2000:160);safe.features=(Array.isArray(options.features)?options.features:[]).slice(0,8).map(x=>cleanText(x,60));
+   if(!safe.business)throw new Error('Ingresá el nombre o rubro de tu negocio.');
+   if(!['deposit','full'].includes(body.stage||'deposit'))throw new Error('La contratación comienza con seña o pago total.');
+   const record={payment_plan:body.stage||'deposit',id:crypto.randomUUID(),code:makeOrderCode(),access_token:crypto.randomUUID(),product_id:id,product_title:p.title,total,customer_name:name,customer_email:email,customer_phone:phone,options:safe};
+   const rows=await commerceDB(env,'web_commerce_projects',{method:'POST',body:JSON.stringify(record)});project=rows?.[0];if(!project)throw new Error('No se pudo registrar el proyecto.');
+  }
+  const stage=body.stage||'deposit',paid=await commercePaid(env,project.id);commerceValidateStage(project,stage,paid);
+  const amount=commerceAmount(Number(project.total),stage);if(amount<1)throw new Error('Importe inválido.');
+  const existing=await commerceDB(env,`web_commerce_charges?project_id=eq.${project.id}&stage=eq.${stage}&select=*`,{method:'GET'});
+  let charge=existing?.[0];
+  if(charge){if(charge.provider!==provider)throw new Error('Ya hay un pago iniciado para esta etapa. Completalo con el mismo medio de pago.');if(charge.status==='approved'||charge.status==='in_process'||charge.status==='pending_payment')throw new Error('Este pago ya está recibido o pendiente de confirmación.');if(charge.checkout_url)return jsonResponse({ok:true,checkoutId:charge.id,checkoutToken:charge.access_token,projectToken:project.access_token,checkoutUrl:charge.checkout_url,preferenceId:charge.preference_id,publicKey:provider==='mercadopago'?env.MERCADOPAGO_PUBLIC_KEY||null:null,amount,email:project.customer_email,stage},200,origin);}
+  else{const rows=await commerceDB(env,'web_commerce_charges',{method:'POST',body:JSON.stringify({id:crypto.randomUUID(),project_id:project.id,stage,provider,amount,access_token:crypto.randomUUID(),status:'created'})});charge=rows?.[0];if(!charge)throw new Error('No se pudo registrar el pago.');}
+  const title=`${WEB_STAGES[stage]} · ${project.product_title}`,reference=`WEB:${charge.id}`;
+  const now=new Date().toISOString();
+  await commerceDB(env,'pedidos_mercadopago?on_conflict=external_reference',{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify({codigo:project.code+'-'+stage,external_reference:reference,producto_id:project.product_id,producto_nombre:title,importe:amount,moneda:'ARS',cliente_nombre:project.customer_name,cliente_email:project.customer_email,cliente_whatsapp:project.customer_phone,estado_pago:'pending',estado_pedido:'Pendiente de pago',medio_pago:provider==='mercadopago'?'Mercado Pago':'Tiendanube',updated_at:now})});
+  let result;
+  if(provider==='mercadopago'){
+   const response=await fetch('https://api.mercadopago.com/checkout/preferences',{method:'POST',headers:{Authorization:`Bearer ${env.MERCADOPAGO_ACCESS_TOKEN}`,'Content-Type':'application/json','X-Idempotency-Key':charge.id},body:JSON.stringify({items:[{title,quantity:1,currency_id:'ARS',unit_price:amount}],payer:{name:project.customer_name,email:project.customer_email},external_reference:reference,metadata:{web_charge_id:charge.id},notification_url:'https://cvstudio-contacto.cvpro-duccionesar.workers.dev/webhooks/mercadopago',back_urls:{success:'https://cvstudio.com.ar/pago/aprobado/',pending:'https://cvstudio.com.ar/pago/pendiente/',failure:'https://cvstudio.com.ar/pago/rechazado/'},auto_return:'approved'})});const data=await response.json();if(!response.ok)throw new Error('No se pudo generar el pago de Mercado Pago.');
+   result={checkout_url:data.init_point,preference_id:data.id};
+  }else{
+   // A hidden, immutable product for this installment avoids pretending the 75% balance is a discount.
+   const product=await commerceTN(env,'products',{name:{es:title+' · '+project.code},description:{es:'Pago por etapa de un servicio personalizado de CVStudio. Total del proyecto: $'+project.total+'. '+JSON.stringify(project.options)},published:false,requires_shipping:false,variants:[{price:String(amount),stock_management:false,sku:'CVS-'+charge.id}]});
+   const parts=project.customer_name.split(' '),draft=await commerceTN(env,'draft_orders',{contact_name:parts.shift(),contact_lastname:parts.join(' ')||'-',contact_email:project.customer_email,contact_phone:project.customer_phone,payment_status:'pending',products:[{variant_id:product.variants[0].id,quantity:1,properties:{Proyecto:project.code,Etapa:WEB_STAGES[stage],Estilo:project.options.style||'',Colores:project.options.palette||project.options.color||''}}],note:`${project.code} · ${WEB_STAGES[stage]} · total ${project.total} · ${JSON.stringify(project.options)}`});
+   if(Math.abs(Number(draft.total)-amount)>.01)throw new Error('El total de Tiendanube no coincide. Revisá descuentos o cargos de la tienda antes de cobrar.');
+   const checkoutURL=new URL(draft.checkout_url);if(checkoutURL.protocol!=='https:')throw new Error('Tiendanube devolvió un enlace de pago inválido.');result={checkout_url:draft.checkout_url,tiendanube_draft_id:String(draft.id),tiendanube_product_id:String(product.id)};
+  }
+  await commerceDB(env,`web_commerce_charges?id=eq.${charge.id}`,{method:'PATCH',body:JSON.stringify(result)});
+  await addPaymentEvent(env,reference,'web_project_created','Proyecto web y pago por etapa',{project_code:project.code,total:Number(project.total),stage,options:project.options});
+  return jsonResponse({ok:true,checkoutId:charge.id,checkoutToken:charge.access_token,projectToken:project.access_token,checkoutUrl:result.checkout_url,preferenceId:result.preference_id,publicKey:provider==='mercadopago'?env.MERCADOPAGO_PUBLIC_KEY||null:null,amount,email:project.customer_email,stage},200,origin);
+ }
+ if(action==='web-commerce-pay'){
+  if(!/^[0-9a-f-]{36}$/.test(String(body.checkoutId))||!/^[0-9a-f-]{36}$/.test(String(body.checkoutToken)))throw new Error('Datos del pago inválidos.');
+  const rows=await commerceDB(env,`web_commerce_charges?id=eq.${body.checkoutId}&access_token=eq.${body.checkoutToken}&select=*`,{method:'GET'}),charge=rows?.[0];if(!charge||charge.provider!=='mercadopago')throw new Error('Pago no encontrado.');
+  if(['approved','pending_payment','in_process'].includes(charge.status))return jsonResponse({ok:true,status:charge.status==='pending_payment'?'pending':charge.status},200,origin);
+  const ps=await commerceDB(env,`web_commerce_projects?id=eq.${charge.project_id}&select=*`,{method:'GET'}),p=ps?.[0];commerceValidateStage(p,charge.stage,await commercePaid(env,p.id));
+  const f=body.formData||{},payer={email:p.customer_email};if(f.payer?.identification){payer.identification={type:cleanText(f.payer.identification.type,10),number:cleanText(f.payer.identification.number,30)}};
+  const payment={transaction_amount:Number(charge.amount),token:cleanText(f.token,200),payment_method_id:cleanText(f.payment_method_id,80),installments:Math.max(1,Math.min(24,Math.floor(Number(f.installments)||1))),payer,external_reference:`WEB:${charge.id}`,description:`${WEB_STAGES[charge.stage]} · ${p.product_title}`,notification_url:'https://cvstudio-contacto.cvpro-duccionesar.workers.dev/webhooks/mercadopago'};if(f.issuer_id)payment.issuer_id=cleanText(f.issuer_id,80);
+  if(!payment.token)throw new Error('No se recibió el token seguro de la tarjeta.');
+  const response=await fetch('https://api.mercadopago.com/v1/payments',{method:'POST',headers:{Authorization:`Bearer ${env.MERCADOPAGO_ACCESS_TOKEN}`,'Content-Type':'application/json','X-Idempotency-Key':charge.id+'-'+Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(payment.token)))).map(x=>x.toString(16).padStart(2,'0')).join('').slice(0,16)},body:JSON.stringify(payment)}),data=await response.json();if(!response.ok)throw new Error('No se pudo procesar la tarjeta. Revisá los datos o elegí otro medio.');
+  await commerceRecordMP(env,data);return jsonResponse({ok:true,status:data.status,paymentId:data.id},200,origin);
+ }
+ return jsonResponse({ok:false,message:'Operación comercial no válida.'},400,origin);
+ }catch(error){return jsonResponse({ok:false,message:error.message},400,origin);}
+}
+async function commerceRecordMP(env,payment){
+ if(!String(payment.external_reference||'').startsWith('WEB:'))return;
+ const id=String(payment.external_reference).slice(4);if(!/^[0-9a-f-]{36}$/.test(id))return;
+ const rows=await commerceDB(env,`web_commerce_charges?id=eq.${id}&select=*`,{method:'GET'}),charge=rows?.[0];if(!charge||charge.provider!=='mercadopago'||String(payment.currency_id)!=='ARS'||Math.abs(Number(payment.transaction_amount)-Number(charge.amount))>.01)throw new Error('El pago no coincide con el pedido.');
+ if(charge.status==='approved')return;
+ await commerceDB(env,`web_commerce_charges?id=eq.${id}`,{method:'PATCH',body:JSON.stringify({status:payment.status==='pending'?'pending_payment':payment.status,payment_id:String(payment.id),updated_at:new Date().toISOString()})});
+ await updatePaymentOrder(env,payment.external_reference,{estado_pago:payment.status,mercadopago_payment_id:String(payment.id),estado_pedido:payment.status==='approved'?'Pago recibido':'Pendiente de pago',medio_pago:payment.payment_method_id,fecha_aprobacion:payment.date_approved||null});
+}
+
+async function commerceRefreshTN(env){
+ const rows=await commerceDB(env,'web_commerce_charges?provider=eq.tiendanube&status=neq.approved&tiendanube_draft_id=not.is.null&select=*&limit=500',{method:'GET'});
+ for(const charge of rows||[]){
+  let order;try{order=await commerceTN(env,'orders/'+charge.tiendanube_draft_id,null,'GET');}catch(e){try{order=await commerceTN(env,'draft_orders/'+charge.tiendanube_draft_id,null,'GET');}catch(_){continue;}}
+  if(order.payment_status==='paid'&&order.currency==='ARS'&&Math.abs(Number(order.total)-Number(charge.amount))<.01){
+   await commerceDB(env,'web_commerce_charges?id=eq.'+charge.id,{method:'PATCH',body:JSON.stringify({status:'approved',payment_id:String(order.id),updated_at:new Date().toISOString()})});
+   await updatePaymentOrder(env,'WEB:'+charge.id,{estado_pago:'approved',estado_pedido:'Pago recibido',fecha_aprobacion:order.paid_at||new Date().toISOString()});
+  }
+ }
+}
+
 export default {
-async scheduled(_event,env,ctx){ctx.waitUntil(deleteExpiredSignatures(env));},
+async scheduled(_event,env,ctx){ctx.waitUntil(Promise.allSettled([deleteExpiredSignatures(env),commerceRefreshTN(env)]));},
 async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN),canvaConfigured:canvaConfigured(env),metaConfigured:Boolean(env.META_MARKETING_ACCESS_TOKEN&&env.META_AD_ACCOUNT_ID)},200,origin);if(url.pathname==='/oauth/canva/callback'&&request.method==='GET')return handleCanvaOAuthCallback(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}
 if(body?.action==='signature-public-get')return handleSignaturePublicGet(env,origin,body);
 if(body?.action==='signature-public-submit')return handleSignaturePublicSubmit(env,origin,body);
@@ -733,6 +884,7 @@ if(body?.action==='signature-admin-create')return handleSignatureAdminCreate(req
 if(body?.action==='signature-admin-list')return handleSignatureAdminList(request,env,origin,body);
 if(body?.action==='signature-admin-download')return handleSignatureAdminDownload(request,env,origin,body);
 if(body?.action==='whatsapp-admin-send')return handleWhatsAppAdminSend(request,env,origin,body);
+if(String(body?.action||'').startsWith('web-commerce-'))return commerceHandle(request,env,origin,body);
 if(body?.action==='mercadopago-products')return handlePaymentProductsPublic(env,origin);
 if(body?.action==='mercadopago-create-preference')return handleMercadoPagoPreference(env,origin,body);
 if(body?.action==='payments-admin-list')return handlePaymentsAdminList(request,env,origin);

@@ -17,13 +17,17 @@
     'Combo CV + LinkedIn': 28000,
     'Preparación para entrevistas': 10000,
     'Kit Emprendedor': 35000,
-    'Kit Emprendedor + Web': 80000
+    'Kit Emprendedor + Web': 80000,
+    'Web de presentación — Pantalla única':65000,
+    'Web de presentación + Panel administrativo básico':85000,
+    'Web avanzada con catálogo y panel administrativo':120000,
+    'Web completa con Tiendanube':180000
   };
   const PRODUCT_SERVICE_NAMES = Object.freeze({
     'cv-express':'CV Express','cv-basico':'CV Básico','cv-estandar':'CV Estándar','cv-avanzado':'CV Avanzado',
     'cv-profesional':'CV Profesional','cv-freelance':'CV Freelance','linkedin':'LinkedIn Completo',
     'combo-2-cv':'Combo 2 CV Profesionales','combo-cv-linkedin':'Combo CV + LinkedIn','entrevistas':'Preparación para entrevistas',
-    'kit-emprendedor':'Kit Emprendedor','kit-web':'Kit Emprendedor + Web'
+    'kit-emprendedor':'Kit Emprendedor','kit-web':'Kit Emprendedor + Web', 'web-basica':'Web de presentación — Pantalla única', 'web-panel':'Web de presentación + Panel administrativo básico', 'web-catalogo':'Web avanzada con catálogo y panel administrativo', 'web-tienda':'Web completa con Tiendanube'
   });
   const serviceToken = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9+]+/g,' ').trim().replace(/\s+/g,' ');
   const SERVICE_ALIASES = new Map([
@@ -76,7 +80,7 @@
         stored.jobs=(stored.jobs||[]).map(j=>({...j,service:canonicalServiceName(j.service)}));
         stored.payments=(stored.payments||[]).map(p=>({...p,service:canonicalServiceName(p.service)}));
         stored.collaborators.forEach(c=>{c.role=roleMap[c.role]||c.role||'Aprendiz';c.roleHistory=Array.isArray(c.roleHistory)?c.roleHistory:[];c.capabilities=Array.isArray(c.capabilities)?c.capabilities:[];c.permissions=Array.isArray(c.permissions)&&c.permissions.length?c.permissions:permissionsForRole(c.role);c.training=c.training&&typeof c.training==='object'?c.training:{};});
-        stored.prices={...SERVICE_DEFAULTS};
+        stored.prices={...SERVICE_DEFAULTS,...(stored.prices||{})};
         return stored;
       }
     } catch (_) {}
@@ -527,7 +531,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
         <section class="panel admin-chart-panel"><div class="panel-head"><div><h2>Ingresos y egresos</h2><p>${confirmedPayments().length} pagos confirmados · ${state.expenses.length} gastos</p></div><button class="button secondary small" data-action="register-expense">Registrar gasto</button></div>${lineSvg(['#35d07f','#ff5d73','#3b82f6'])}</section>
         <section class="panel admin-operations-panel">
           <div class="admin-compact-section"><div class="panel-head"><h2>Movimientos recientes</h2><button class="button secondary small" data-action="register-payment">Registrar pago</button></div><table class="data-table"><tr><th>Tipo</th><th>Detalle</th><th>Monto</th></tr>${[...confirmedPayments().map(p=>({type:'Ingreso',detail:`${p.client} · ${p.service} · ${p.paymentMethod||'Mercado Pago'}`,amount:p.amount})),...state.expenses.map(e=>({type:'Egreso',detail:e.description,amount:-e.amount}))].slice(-3).reverse().map(m=>`<tr><td>${m.type}</td><td>${esc(m.detail)}</td><td class="${m.amount<0?'negative':'positive'}">${m.amount<0?'-':''}${money(Math.abs(m.amount))}</td></tr>`).join('')||'<tr><td colspan="3">Sin movimientos registrados</td></tr>'}</table></div>
-          <div class="admin-compact-section admin-services-section"><div class="panel-head"><h2>Servicios y precios</h2><button class="button primary small" data-action="edit-prices">Editar precios</button></div><div class="admin-price-grid">${Object.entries(state.prices).slice(0,7).map(([name,value])=>`<div><span>${esc(name)}</span><b>${money(value)}</b></div>`).join('')}</div></div>
+          <div class="admin-compact-section admin-services-section"><div class="panel-head"><h2>Servicios y precios</h2><button class="button secondary small" data-action="web-commerce-tools">Webs y Tiendanube</button><button class="button primary small" data-action="edit-prices">Editar precios</button></div><div class="admin-price-grid">${Object.entries(state.prices).map(([name,value])=>`<div><span>${esc(name)}</span><b>${money(value)}</b></div>`).join('')}</div></div>
           <div class="admin-compact-section"><div class="panel-head"><h2>Colaboradores y comisiones</h2></div><div class="admin-collab-grid">${Object.entries(collaboratorRows).map(([name,row])=>`<div><span>${esc(name)} · ${row.jobs} trabajos</span><b>${money(row.commission)}</b></div>`).join('') || '<div><span>Sin ejecuciones entregadas</span><b>—</b></div>'}</div></div>
         </section>
       </section>
@@ -1227,7 +1231,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   function modalPricesOperational() {
     showForm('Editar precios','Estos valores se usan para pagos, comisiones y distribución de fondos.',Object.entries(state.prices).map(([name,value])=>input(`price_${encodeURIComponent(name)}`,name,'number',value)).join(''),'Guardar precios',data=>{
       Object.keys(state.prices).forEach(name=>state.prices[name]=Number(data.get(`price_${encodeURIComponent(name)}`))||0);
-      addActivity('settings','Precios actualizados','La tabla económica fue recalculada');saveState();closeModal();toast('Precios guardados y cálculos recalculados.');openModule('administracion');window.CVStudioRealBridge?.updatePrices(state.prices).then(()=>toast('Precios sincronizados con la web y Mercado Pago.')).catch(err=>{console.error(err);toast(`No se sincronizó la web: ${err.message}`);});
+      addActivity('settings','Precios actualizados','La tabla económica fue recalculada');saveState();closeModal();toast('Precios guardados y cálculos recalculados.');openModule('administracion');window.CVStudioRealBridge?.updatePrices(state.prices).then(result=>{const failures=(result.sync||[]).filter(x=>x.state!=='synced');toast(failures.length?'Precios guardados en la web. Tiendanube: hay conexiones pendientes; revisá Webs y Tiendanube.':'Precios sincronizados con la web y las conexiones habilitadas.');}).catch(err=>{console.error(err);toast(`No se sincronizó la web: ${err.message}`);});
     });
   }
   function modalExpense() {
@@ -1249,6 +1253,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(action==='more-actions') return modalClientMoreActions();
     if(action==='job-detail') return modalEditJob(el.closest('[data-job-id]')?.dataset.jobId);
     if(action==='change-status') return modalStatus();
+    if(action==='web-commerce-tools'){document.dispatchEvent(new Event('cvstudio:web-commerce-admin'));return;}
     if(action==='edit-prices') return modalPricesOperational();
     if(action==='register-expense') return modalExpense();
     if(action==='new-calendar-item') return modalCalendarItem();
