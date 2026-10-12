@@ -167,6 +167,12 @@
     [previousModel.image,nextModel.image].forEach((src) => { const preload = new Image(); preload.src = src; });
   };
 
+  document.querySelectorAll('[data-catalog-model]').forEach(link => link.addEventListener('click', event => {
+    event.preventDefault();
+    const index = models.findIndex(model => model.code === link.dataset.catalogModel);
+    if (index >= 0) { showModel(index); elements.featured.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',block:'start'}); }
+  }));
+
   const move = (direction) => showModel(currentIndex + direction);
 
   createTabs();

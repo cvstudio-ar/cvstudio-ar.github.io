@@ -51,3 +51,80 @@ body:before{display:none}
 @media(max-width:780px){.hero{min-height:0;padding:74px 0 88px}.hero h1{font-size:clamp(41px,8.2vw,64px)}.hero:after{bottom:35px}.benefits>div:nth-child(3),.benefits>div:nth-child(4){border-top-color:#ffffff26}}
 @media(max-width:520px){.hero{padding:63px 0 72px}.hero h1{font-size:clamp(37px,9vw,48px)}.hero-price{font-size:clamp(60px,14vw,77px)}.hero-copy>p{font-size:15px;line-height:1.55}.hero:after{bottom:24px}.button{min-height:54px}.features{margin-top:56px}}
 @media(prefers-reduced-motion:reduce){.ash-field span{animation:none}}
+
+/* Real project previews, consistent with the existing design gallery. */
+.design-card .project-preview{display:block;background:none!important;overflow:hidden;aspect-ratio:3/2;border-bottom:1px solid #55585e}
+.project-preview img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .35s ease}
+.project-preview:hover img{transform:scale(1.025)}
+.project-kind{display:block;margin-bottom:8px;color:#ff989b;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.completed-project .card-foot{min-height:142px;align-items:center}
+.completed-project .card-foot>div{min-width:0}
+.design-card a:focus-visible{outline:3px solid #ff989b;outline-offset:-4px}
+@media(max-width:520px){.completed-project .card-foot{min-height:126px}}
+@media(prefers-reduced-motion:reduce){.project-preview img{transition:none}.project-preview:hover img{transform:none}}
+
+/* Equal gallery frames and footers across all examples. */
+.design-grid{align-items:stretch}
+.design-card{display:flex;flex-direction:column;min-width:0}
+.design-card .preview{flex:none;aspect-ratio:3/2}
+.design-card .card-foot{flex:1;min-height:142px;align-items:center}
+.design-card .card-foot>div{min-width:0}
+#ejemplo-hotel .project-preview img{object-fit:contain;object-position:center;background:#100e0c}
+@media(max-width:780px){.design-card .card-foot{min-height:142px}}
+@media(max-width:520px){.design-card .card-foot{min-height:126px}}
+
+/* Refined service navigation, typography and icon system. */
+.topbar{gap:24px;border-color:#ffffff20;border-radius:16px;box-shadow:0 12px 32px #0003;background:#101114e8}
+.brand{display:flex;align-items:center;gap:0;white-space:nowrap}
+.brand small{margin-left:14px;padding-left:14px;border-left:1px solid #ffffff25;color:#b8bbc2;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.topbar nav{gap:clamp(14px,2vw,28px)}
+.topbar nav a{font-weight:500;font-size:12px}
+.topbar nav a:last-child{padding:10px 16px;border:1px solid #e94a5266;border-radius:30px;color:#ffb2b6}
+.web-mobile-menu{display:none}
+.hero-price{display:flex;align-items:baseline;justify-content:center;gap:18px;margin:13px 0 10px}
+.hero-price>span{font-size:clamp(20px,2.2vw,29px);font-weight:500;letter-spacing:-.035em;color:#cfd0d4;text-shadow:none}
+.hero-modern{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;color:#ffadb2;font-size:12px;font-weight:600;letter-spacing:.02em}
+.hero-modern i{display:block;width:3px;height:3px;background:#b27a7e;border-radius:50%}
+.hero-copy>p{font-size:17px}
+.benefit-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#372126,#211b20);border-color:#d75d6545;box-shadow:inset 0 1px 0 #ffffff0a;flex:none}
+.benefit-icon svg{width:24px;height:24px}
+.feature>span{border-radius:12px;background:linear-gradient(145deg,#362329,#261e23);border-color:#d75d6538}
+.feature>span svg{width:22px;height:22px}
+.features{border-color:#e7545f40;background:linear-gradient(150deg,#141518ed,#101114ed);box-shadow:inset 0 1px 0 #ffffff06,0 18px 40px #0003}
+.feature{background:linear-gradient(120deg,#202226,#1c1e22);border-color:#ffffff12;padding:20px 22px;min-height:90px}
+.feature h3{font-weight:600;font-size:13px}
+.feature p{line-height:1.65;color:#b8bbc2}
+.feature-grid{gap:12px 18px}
+.design-card{border-color:#ffffff25;border-radius:17px;box-shadow:0 12px 28px #0004}
+.design-card:hover{border-color:#e9535b85;box-shadow:0 18px 40px #0005;transform:translateY(-3px)}
+.project-kind{font-size:9px;letter-spacing:.11em;color:#f29ca2}
+.card-foot h3{font-weight:600;letter-spacing:-.02em}
+.card-foot a{width:36px;height:36px;border-color:#d65c6545;background:#302027}
+.ash-field span:nth-child(1){opacity:.36}.ash-field span:nth-child(2){opacity:.25}.ash-field span:nth-child(3){opacity:.2}
+@media(max-width:1000px){.brand small{display:none}.topbar nav{gap:14px}.topbar nav a{font-size:11px}}
+@media(max-width:780px){
+ .topbar>nav{display:none}.web-mobile-menu{display:block;position:relative}
+ .web-mobile-menu summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;color:#e2e3e6;font-size:12px;padding:10px 0}
+ .web-mobile-menu summary::-webkit-details-marker{display:none}
+ .web-mobile-menu summary span{font-size:18px;color:#f49ba2}
+ .web-mobile-menu nav{display:flex;position:absolute;right:0;top:calc(100% + 12px);width:min(270px,calc(100vw - 62px));flex-direction:column;align-items:stretch;gap:0;background:#15171bf7;border:1px solid #ffffff24;border-radius:14px;padding:10px;box-shadow:0 20px 40px #0007;z-index:10}
+ .web-mobile-menu nav a{font-size:13px;padding:13px 14px;border-radius:8px}
+ .web-mobile-menu nav a:hover{background:#ffffff08}
+ .web-mobile-menu nav a:last-child{border:0;border-top:1px solid #ffffff15;border-radius:0;color:#adb1ba;margin-top:5px}
+ .benefit-icon{width:38px;height:38px;border-radius:11px}.benefit-icon svg{width:20px;height:20px}
+ .hero-price{gap:12px}.hero-copy>p{font-size:15px}
+}
+@media(max-width:520px){.hero-modern{font-size:10px;gap:7px}.hero-price{font-size:clamp(48px,13vw,66px)}.hero-price>span{font-size:20px}.hero-copy>p{margin-top:19px}.feature{padding:18px 16px}.benefits>div{gap:9px}.benefit-icon{width:34px;height:34px}.benefit-icon svg{width:18px;height:18px}}
+
+/* Starting price uses one consistent type style. */
+.hero-price{font-size:clamp(42px,6.4vw,86px);letter-spacing:-.045em;gap:.2em;white-space:nowrap}
+.hero-price>span{font:inherit;letter-spacing:inherit;color:inherit;text-shadow:inherit}
+@media(max-width:780px){.hero-price{font-size:clamp(34px,8vw,60px)}}
+@media(max-width:520px){.hero-price{font-size:clamp(30px,7.7vw,40px)}.hero-price>span{font:inherit;letter-spacing:inherit}}
+
+/* Compact hero after removing its redundant eyebrow. */
+.hero{min-height:0;padding:48px 0 62px}
+.hero h1{margin-top:0}
+.hero:after{bottom:25px}
+@media(max-width:780px){.hero{padding:38px 0 55px}}
+@media(max-width:520px){.hero{padding:32px 0 48px}.hero:after{bottom:20px}}
