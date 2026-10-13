@@ -36,3 +36,20 @@ body{min-width:0;grid-template-rows:auto 1fr auto;overflow-wrap:break-word}
 @media(max-width:360px){.header-mark{display:none}.brand-tagline{font-size:7px}.service-copy{padding:8px}.card-symbol{margin-right:6px}}
 @media(max-height:500px) and (min-width:701px){.showcase-inner{gap:40px;min-height:0}}
 @media(max-width:380px){.schedule-card>div{flex-wrap:wrap;gap:6px}.dialog-head{gap:8px}.style-gallery{grid-template-columns:1fr}.style-photo{aspect-ratio:4/3}}
+/* Preserve the original wide-screen proportions as viewport and zoom change. */
+@media(min-width:1101px){
+.wrap{width:70%;max-width:none}
+.site-header,.header-inner{min-height:3.37vw}.header-inner{padding-block:.5vw}
+.brand{gap:.74vw}.brand img{width:2.32vw;height:2.32vw}.brand-line{height:1.42vw}
+.demo-label{font-size:.475vw}.brand-tagline{font-size:.422vw}.header-mark{font-size:.527vw}
+.showcase-inner{min-height:calc(100svh - 6.53vw);padding-top:3.42vw;padding-bottom:1.42vw;gap:2.32vw}
+.hero-content{max-width:37.4vw}.hero-content h1{font-size:4.11vw;margin:1.26vw 0 .95vw}
+.hero-content p{font-size:.949vw;max-width:20vw;line-height:1.45;margin-bottom:1.32vw}
+.hero-content .button{min-width:11.6vw;min-height:2.58vw;padding:0 1.32vw;font-size:.633vw;gap:1.32vw}.button span{font-size:1.055vw}
+.services-heading{gap:1.16vw;margin-bottom:.74vw}.services-heading>span{font-size:.527vw}.services h2{font-size:1.74vw}
+.service-grid{gap:.79vw}.service-card{min-height:6.11vw}.service-copy{padding:.53vw .37vw .53vw .84vw;gap:.264vw}
+.service-copy strong{font-size:.896vw}.service-copy small{font-size:.475vw}.service-copy>span{font-size:.58vw}
+.card-symbol{flex-basis:2.53vw;width:2.53vw;height:2.53vw;margin-right:.633vw}.card-symbol svg{width:1.58vw;height:1.58vw}
+.footer-inner{min-height:3.16vw;padding-block:.633vw}.footer-credit{font-size:.527vw}
+.social-icons{gap:.633vw}.social-icon{width:1.58vw;height:1.58vw}
+}
