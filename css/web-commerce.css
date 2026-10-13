@@ -8,3 +8,5 @@ html{scroll-padding-top:24px}.shell{width:calc(100% - clamp(24px,4vw,80px));max-
 .web-form-grid fieldset{margin:0;padding:0;border:0;min-width:0}.web-form-grid legend{font-size:13px;margin-bottom:12px;color:#d5e7f2}
 
 .web-demo-request{display:flex;align-items:center;justify-content:center;gap:9px;width:calc(100% - 32px);margin:0 16px 18px;padding:12px 14px;border:1px solid #ffd447;border-radius:12px;background:#ffd447;color:#101826;font:inherit;font-size:14px;font-weight:750;cursor:pointer;white-space:normal;line-height:1.35}.web-demo-request:hover{background:#ffe477}.web-demo-request:focus-visible{outline:3px solid #fff;outline-offset:3px}.web-demo-request svg{flex-shrink:0}.web-demo-reference{padding:12px 14px;border-radius:10px;border:1px solid #ffd447;background:#ffd44718;color:#fff}
+
+.web-pay-methods [hidden]{display:none!important}.web-platform-note{font-size:.86rem;line-height:1.5;color:#cad6e8;border-top:1px solid #ffffff24;padding-top:12px}.web-cart,.web-shop,.web-form-grid label{min-width:0}.web-cart p,.web-plan h3{overflow-wrap:anywhere}
