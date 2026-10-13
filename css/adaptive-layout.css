@@ -1,0 +1,19 @@
+/* All public sections share a fluid gutter instead of a fixed desktop canvas. */
+body{min-width:0}
+.section-container,.hero-container,.header-container,.footer-container,.footer-bottom{min-width:0}
+@media(min-width:901px){
+ :root{--container:calc(100% - clamp(48px,6vw,160px))}
+ body .section-container,body .hero-container,body .header .header-container,body .header.is-scrolled .header-container,body .footer-container,body .footer-bottom{width:calc(100% - clamp(48px,6vw,160px))!important;max-width:none!important;margin-inline:auto!important}
+ body .hero-content{min-width:0!important;width:min(100%,1100px)!important;max-width:1100px!important}
+ body .hero-container{gap:clamp(28px,4vw,76px)!important}
+ body .hero h1{max-width:min(100%,1100px)!important;font-size:clamp(48px,4.3vw,82px)!important}
+ body .hero-description{max-width:760px}
+ body .services-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ body .service-card,body .benefit-card,body .project-card{min-width:0}
+ body .contact-section .contact-card{width:calc(100% - clamp(48px,6vw,160px))!important;max-width:none!important;margin-inline:auto!important}
+ body .footer-container{gap:clamp(24px,3vw,56px)!important}
+}
+@media(min-width:901px) and (max-width:1150px){body .services-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:900px){
+ body .section-container,body .hero-container,body .footer-container,body .footer-bottom{width:calc(100% - 28px)!important;max-width:none!important;margin-inline:auto!important}
+}
