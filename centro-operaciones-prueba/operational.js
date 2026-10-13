@@ -174,7 +174,7 @@
     ].filter(Boolean);
     events.forEach(value=>{try{const day=byKey.get(argentinaDateKey(value));if(day)day.count++;}catch(_){}});
     const max=Math.max(1,...days.map(day=>day.count));
-    return `<div class="real-activity-chart" aria-label="Actividad real de los últimos siete días" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;align-items:end;min-height:210px;padding:22px 12px 4px">${days.map(day=>`<div style="display:grid;gap:8px;text-align:center;align-items:end"><b style="color:var(--text)">${day.count}</b><i style="display:block;min-height:4px;height:${Math.max(4,Math.round(day.count/max*130))}px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#9b5de5,#3b82f6)"></i><small style="color:var(--muted)">${day.label}</small></div>`).join('')}</div>`;
+    return `<div class="real-activity-chart" aria-label="Actividad real de los últimos siete días" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px;align-items:end;min-height:210px;padding:22px 12px 4px">${days.map(day=>`<div style="display:grid;gap:8px;text-align:center;align-items:end"><b style="color:var(--text)">${day.count}</b><i style="display:block;min-height:4px;height:max(4px,calc(${day.count/max} * var(--activity-bar-height,130px)));border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#9b5de5,#3b82f6)"></i><small style="color:var(--muted)">${day.label}</small></div>`).join('')}</div>`;
   }
 
   function dashboardRenderer() {

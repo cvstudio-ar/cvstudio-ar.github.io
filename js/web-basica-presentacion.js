@@ -2,7 +2,7 @@
 'use strict';
 function setup(){
  const card=document.querySelector('[data-basic-demo]'),modal=document.getElementById('basic-functions');if(!card||!modal)return;
- const url='https://wa.me/5492964652318?text='+encodeURIComponent('Hola CVStudio, quiero una web similar al modelo básico de barbería de $45.000, sin panel administrativo.');
+ const url='https://wa.me/5492964652318?text='+encodeURIComponent('Hola CVStudio, quiero una web similar al modelo básico de barbería de $65.000, sin panel administrativo.');
  // Keep one request action even if another catalog script inserted one.
  card.querySelectorAll('.web-demo-request').forEach(button=>button.remove());
  const request=document.createElement('a');request.className='web-demo-request';request.href=url;request.target='_blank';request.rel='noopener noreferrer';
