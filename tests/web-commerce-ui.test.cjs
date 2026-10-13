@@ -4,7 +4,7 @@ async function scenario({publicKey=null,failCheckout=false}={}){
  const values={business:'Panadería Ejemplo',style:'Minimalista',color:'#ffcc00',palette:'Dorado y negro',features:['WhatsApp','Galería'],details:'Tres propuestas',customerName:'Cliente Ejemplo',customerEmail:'cliente@example.com',customerPhone:'+5491112345678'};
  const fields=Object.entries(values).map(([name,value])=>({name,value,disabled:false}));
  const elements=Object.fromEntries(['webPlans','webPaymentStage','webCartSummary','webOrderForm','webPayMP','webPayTN','webCheckoutMessage','webBrickArea','webPayMethods','webCancelPayment','arma-tu-web'].map(id=>[id,{id,hidden:false,disabled:false,value:id==='webPaymentStage'?'deposit':'',innerHTML:'',textContent:'',scrollIntoView(){},addEventListener(){},querySelectorAll(){return[];}}]));
- elements.webOrderForm.querySelectorAll=()=>fields;elements.webOrderForm.reportValidity=()=>true;elements.webOrderForm.fields=fields;
+ elements.webOrderForm.querySelectorAll=()=>fields;elements.webOrderForm.querySelector=selector=>fields.find(f=>selector.includes(f.name));elements.webOrderForm.reportValidity=()=>true;elements.webOrderForm.fields=fields;
  const payloads=[],redirects=[];let callbacks;
  const document={getElementById:id=>elements[id],querySelectorAll:()=>[],querySelector:()=>null};
  const context={console,document,URLSearchParams,Intl,AbortSignal,location:{hash:'',assign:url=>redirects.push(url)},FormData:class{constructor(form){this.entries=form.fields.filter(f=>!f.disabled);}get(name){return this.entries.find(f=>f.name===name)?.value??null;}getAll(name){const v=this.get(name);return Array.isArray(v)?v:v?[v]:[];}},fetch:async(url,options)=>{
