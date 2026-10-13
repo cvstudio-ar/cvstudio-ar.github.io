@@ -4,9 +4,9 @@ body{min-width:0}
 @media(min-width:901px){
  :root{--container:calc(100% - clamp(48px,6vw,160px))}
  body .section-container,body .hero-container,body .header .header-container,body .header.is-scrolled .header-container,body .footer-container,body .footer-bottom{width:calc(100% - clamp(48px,6vw,160px))!important;max-width:none!important;margin-inline:auto!important}
- body .hero-content{min-width:0!important}
+ body .hero-content{min-width:0!important;width:min(100%,1100px)!important;max-width:1100px!important}
  body .hero-container{gap:clamp(28px,4vw,76px)!important}
- body .hero h1{max-width:min(100%,1100px)}
+ body .hero h1{max-width:min(100%,1100px)!important;font-size:clamp(48px,4.3vw,82px)!important}
  body .hero-description{max-width:760px}
  body .services-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
  body .service-card,body .benefit-card,body .project-card{min-width:0}
