@@ -3,7 +3,7 @@ const source=fs.readFileSync('js/web-commerce.js','utf8');
 async function scenario({publicKey=null,failCheckout=false}={}){
  const values={business:'Panadería Ejemplo',style:'Minimalista',color:'#ffcc00',palette:'Dorado y negro',features:['WhatsApp','Galería'],details:'Tres propuestas',customerName:'Cliente Ejemplo',customerEmail:'cliente@example.com',customerPhone:'+5491112345678'};
  const fields=Object.entries(values).map(([name,value])=>({name,value,disabled:false}));
- const elements=Object.fromEntries(['webPlans','webPaymentStage','webCartSummary','webOrderForm','webPayMP','webPayTN','webCheckoutMessage','webBrickArea','webPayMethods','webCancelPayment','arma-tu-web'].map(id=>[id,{id,hidden:false,disabled:false,value:id==='webPaymentStage'?'deposit':'',innerHTML:'',textContent:'',scrollIntoView(){},addEventListener(){},querySelectorAll(){return[];}}]));
+ const elements=Object.fromEntries(['webPlans','webPaymentStage','webCartSummary','webOrderForm','webPayMP','webPayTN','webCheckoutMessage','webBrickArea','webPayMethods','webCancelPayment','arma-tu-web','webPayTransfer','webTransferPanel','webTransferAmount','webTransferContact'].map(id=>[id,{id,hidden:false,disabled:false,value:id==='webPaymentStage'?'deposit':'',innerHTML:'',textContent:'',scrollIntoView(){},addEventListener(event,fn){this["on"+event]=fn;},querySelectorAll(){return[];}}]));
  elements.webOrderForm.querySelectorAll=()=>fields;elements.webOrderForm.querySelector=selector=>fields.find(f=>selector.includes(f.name));elements.webOrderForm.reportValidity=()=>true;elements.webOrderForm.fields=fields;
  const payloads=[],redirects=[];let callbacks;
  const document={getElementById:id=>elements[id],querySelectorAll:()=>[],querySelector:()=>null};
@@ -16,6 +16,8 @@ async function scenario({publicKey=null,failCheckout=false}={}){
   return {ok:result.ok,json:async()=>result};
  },MercadoPago:class{bricks(){return{create:async(type,id,settings)=>{callbacks=settings.callbacks;return{unmount:async()=>{}};}};}}};context.window=context;vm.runInNewContext(source,context);
  await new Promise(setImmediate);assert.equal(elements.webPayTN.hidden,true,'Disconnected provider is hidden');
+ elements.webPayTransfer.onclick();assert.equal(elements.webTransferPanel.hidden,false);assert.match(elements.webTransferAmount.textContent,/16.250/);assert.match(decodeURIComponent(elements.webTransferContact.href),/Panadería Ejemplo/);assert.match(elements.webTransferContact.href,/^https:\/\/wa\.me\/5492964652318/);assert.equal(payloads.filter(x=>x.action==='web-commerce-checkout').length,0,'Transfer instructions do not create or confirm a payment');
+ elements.webPaymentStage.value='full';elements.webPaymentStage.onchange();assert.match(elements.webTransferAmount.textContent,/65.000/);elements.webPaymentStage.value='deposit';elements.webPaymentStage.onchange();
  await elements.webPayMP.onclick();const checkout=payloads.find(x=>x.action==='web-commerce-checkout');assert.equal(checkout.customerName,values.customerName);assert.equal(checkout.options.business,values.business);assert.deepEqual(checkout.options.features,values.features);assert.equal(checkout.stage,'deposit');
  if(failCheckout){assert.equal(elements.webPayMP.disabled,false);assert.equal(fields.every(f=>!f.disabled),true);assert.match(elements.webCheckoutMessage.textContent,/generar/);}
  else if(!publicKey)assert.equal(redirects.length,1);
