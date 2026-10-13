@@ -19,7 +19,7 @@ const planVisuals={
 let shopStep=1;
 function showStep(next){
  if(busy||controller)return;
- shopStep=project?3:next;
+ shopStep=project?3:next;if(shopStep!==3&&$('webTransferPanel'))$('webTransferPanel').hidden=true;
  const panels={webPackagesPanel:shopStep===1,webCustomizePanel:shopStep===2,webCustomerPanel:shopStep===3,webCartPanel:shopStep===3};
  for(const [id,visible] of Object.entries(panels)){if($(id))$(id).hidden=!visible;}
  document.querySelectorAll('[data-shop-step]').forEach(b=>{if(Number(b.dataset.shopStep)===shopStep)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
@@ -51,11 +51,12 @@ function transfer(){
  panel.hidden=false;
  $('webTransferAmount').textContent=(stageLabels[stage()]||stageLabels.deposit)+': '+money(due);
  const business=$('webOrderForm').querySelector('[name="business"]')?.value?.trim();
- const text=['Hola CVStudio, quiero pagar por transferencia bancaria.',project?.title||selected.title,business?'Negocio: '+business:'',`${stageLabels[stage()]||stageLabels.deposit}: ${money(due)}`,selectedReference?'Referencia: '+selectedReference:'','¿Me comparten el alias o CVU y el titular de la cuenta?'].filter(Boolean).join('\n');
+ const text=['Hola CVStudio, quiero pagar por transferencia bancaria.',project?.title||selected.title,business?'Negocio: '+business:'',`${stageLabels[stage()]||stageLabels.deposit}: ${money(due)}`,selectedReference?'Referencia: '+selectedReference:'','Elegí transferencia a la cuenta de CVStudio (alias: cvstudioar). Quiero enviar el comprobante para verificar la acreditación.'].filter(Boolean).join('\n');
  $('webTransferContact').href='https://wa.me/5492964652318?text='+encodeURIComponent(text);
  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 $('webPayTransfer')?.addEventListener('click',transfer);
+document.querySelectorAll('[data-transfer-copy]').forEach(button=>button.addEventListener('click',async()=>{const status=$('webTransferCopyStatus');try{await navigator.clipboard.writeText(button.dataset.transferCopy);status.textContent=button.dataset.transferCopy==='cvstudioar'?'Alias copiado.':'CVU copiado.';}catch{status.textContent='No se pudo copiar automáticamente. Seleccioná y copiá el dato que aparece arriba.';}}));
 $('webPayMP').onclick=()=>pay('mercadopago');$('webPayTN').onclick=()=>pay('tiendanube');$('webPaymentStage').onchange=()=>{checkout=null;activeProjectToken=null;summary();if($('webTransferPanel')&&!$('webTransferPanel').hidden)transfer();};$('webCancelPayment').onclick=async()=>{await controller?.unmount();controller=null;$('webBrickArea').hidden=true;$('webPayMethods').hidden=false;message('');lock(false);};
 $('webOrderForm').addEventListener('input',()=>{activeProjectToken=null;summary();if($('webTransferPanel')&&!$('webTransferPanel').hidden)transfer();});
 $('webAddToCart')?.addEventListener('click',()=>{const fields=$('webCustomizePanel').querySelectorAll('input,select,textarea');for(const field of fields){if(!field.reportValidity())return;}showStep(3);$('arma-tu-web').scrollIntoView({behavior:'smooth',block:'start'});});
