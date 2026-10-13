@@ -10,18 +10,18 @@ const icons = {
 const svg = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let properties=[],favorites=new Set(),activeFilter='all',searchType='all',searchOperation='all',searchLocation='all';
-try {const saved=JSON.parse(localStorage.getItem('enpozo-favorites')||'[]');if(Array.isArray(saved))favorites=new Set(saved);}catch{}
+try {const saved=JSON.parse(localStorage.getItem('cvstudio-inmobiliaria-demo-favorites')||'[]');if(Array.isArray(saved))favorites=new Set(saved);}catch{}
 const grid=document.getElementById('property-grid');
 const dialog=document.getElementById('property-dialog');
 const lightbox=document.getElementById('gallery-dialog');
 let gallery=[],galleryIndex=0;
-function contact(name){return `https://wa.me/5493425669944?text=${encodeURIComponent('Hola, quiero consultar por '+name+' que vi en En Pozo PROP.')}`;}
+function contact(name){return `https://wa.me/5492964652318?text=${encodeURIComponent('Hola, quiero consultar por '+name+' que vi en la demo inmobiliaria de CVStudio.')}`;}
 function render(){
  let items=properties.filter(p=>(activeFilter==='all'||p.type===activeFilter||p.operation===activeFilter)&&(searchType==='all'||p.type===searchType)&&(searchOperation==='all'||(searchOperation==='venta'&&p.operation==='pozo')||p.operation===searchOperation)&&(searchLocation==='all'||p.zone===searchLocation));
  const sort=document.getElementById('sort').value;
  if(sort==='name')items.sort((a,b)=>a.name.localeCompare(b.name,'es'));
  if(sort==='favorites')items.sort((a,b)=>Number(favorites.has(b.id))-Number(favorites.has(a.id)));
- grid.innerHTML=items.map(p=>`<article class="card"><div class="card-photo"><button class="photo-open" data-view="${esc(p.id)}" aria-label="Ver detalle completo: ${esc(p.name)}"><img src="${esc(p.image)}" alt="${esc(p.name)}" width="480" height="300" loading="lazy"><span class="photo-caption">Explorar proyecto <span aria-hidden="true">↗</span></span></button><span class="property-tag">${p.operation==='pozo'?'En pozo':p.operation==='venta'?'Venta':'Alquiler'}</span><button class="favorite" data-favorite="${esc(p.id)}" aria-label="${favorites.has(p.id)?'Quitar de':'Agregar a'} favoritas: ${esc(p.name)}" aria-pressed="${favorites.has(p.id)}">${svg('heart')}</button></div><div class="card-body"><h3><button class="title-open" data-view="${esc(p.id)}">${esc(p.name)}</button></h3><p class="location">${svg('pin')}${esc(p.address||p.zone)}</p><div class="features"><span>${svg('rooms')}${esc(p.rooms||'Consultar')}</span><span>${svg('area')}${esc(p.area||'Consultar')}</span><span>${svg('star')}${esc(p.feature||'Ver detalles')}</span></div><div class="card-bottom"><span class="price">${esc(p.price||'Consultar precio')}</span><button class="view" data-view="${esc(p.id)}">Ver proyecto <span aria-hidden="true">⟶</span></button><a class="card-wa" href="${contact(p.name)}" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp: ${esc(p.name)}">${svg('wa')}</a></div></div></article>`).join('');
+ grid.innerHTML=items.map(p=>`<article class="card"><div class="card-photo"><div class="card-slider" tabindex="0" data-slider="${esc(p.id)}" aria-label="Galería de ${esc(p.name)}. Usá las flechas o deslizá para recorrer las fotos."><img src="${esc(p.image)}" alt="${esc(p.name)} · Imagen 1 de 5" width="480" height="300" loading="lazy"><button class="slide-prev" data-slide="-1" aria-label="Foto anterior de ${esc(p.name)}">‹</button><button class="slide-next" data-slide="1" aria-label="Foto siguiente de ${esc(p.name)}">›</button><span class="slide-count" aria-live="polite">1 / 5</span><div class="slide-dots">${[p.image,...p.gallery].map((_,i)=>`<button data-slide-to="${i}" aria-label="Ver foto ${i+1} de ${esc(p.name)}" aria-current="${i===0}"></button>`).join('')}</div></div><span class="property-tag">${p.operation==='pozo'?'En pozo':p.operation==='venta'?'Venta':'Alquiler'}</span><button class="favorite" data-favorite="${esc(p.id)}" aria-label="${favorites.has(p.id)?'Quitar de':'Agregar a'} favoritas: ${esc(p.name)}" aria-pressed="${favorites.has(p.id)}">${svg('heart')}</button></div><div class="card-body"><h3><button class="title-open" data-view="${esc(p.id)}">${esc(p.name)}</button></h3><p class="location">${svg('pin')}${esc(p.address||p.zone)}</p><div class="features"><span>${svg('rooms')}${esc(p.rooms||'Consultar')}</span><span>${svg('area')}${esc(p.area||'Consultar')}</span><span>${svg('star')}${esc(p.feature||'Ver detalles')}</span></div><div class="card-bottom"><span class="price">${esc(p.price||'Consultar precio')}</span><button class="view" data-view="${esc(p.id)}">Ver proyecto <span aria-hidden="true">⟶</span></button><a class="card-wa" href="${contact(p.name)}" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp: ${esc(p.name)}">${svg('wa')}</a></div></div></article>`).join('');
  document.getElementById('empty').hidden=items.length>0;
  document.querySelector('.section-heading .sample-label').textContent=`${properties.length} ${properties.length===1?'proyecto disponible':'proyectos disponibles'}`;
 }
@@ -45,7 +45,7 @@ function openProject(id){
  document.getElementById('dialog-gallery').innerHTML=gallery.map((url,i)=>`<button class="gallery-thumb" data-gallery="${i}" aria-label="Ampliar imagen ${i+1} de ${esc(p.name)}"><img src="${esc(url)}" alt="${esc(p.name)} · Imagen ${i+1}" loading="lazy"></button>`).join('');
  dialog.showModal();dialog.scrollTop=0;
 }
-grid.addEventListener('click',e=>{const f=e.target.closest('[data-favorite]');if(f){const id=f.dataset.favorite;favorites.has(id)?favorites.delete(id):favorites.add(id);try{localStorage.setItem('enpozo-favorites',JSON.stringify([...favorites]));}catch{}f.setAttribute('aria-pressed',String(favorites.has(id)));f.setAttribute('aria-label',`${favorites.has(id)?'Quitar de':'Agregar a'} favoritas: ${properties.find(p=>p.id===id).name}`);if(document.getElementById('sort').value==='favorites')render();return;}const view=e.target.closest('[data-view]');if(view)openProject(view.dataset.view);});
+grid.addEventListener('click',e=>{const slide=e.target.closest('[data-slide],[data-slide-to]');if(slide){const el=slide.closest('[data-slider]');changeSlide(el,slide.hasAttribute('data-slide-to')?Number(slide.dataset.slideTo):Number(el.dataset.index||0)+Number(slide.dataset.slide));return;}const f=e.target.closest('[data-favorite]');if(f){const id=f.dataset.favorite;favorites.has(id)?favorites.delete(id):favorites.add(id);try{localStorage.setItem('cvstudio-inmobiliaria-demo-favorites',JSON.stringify([...favorites]));}catch{}f.setAttribute('aria-pressed',String(favorites.has(id)));f.setAttribute('aria-label',`${favorites.has(id)?'Quitar de':'Agregar a'} favoritas: ${properties.find(p=>p.id===id).name}`);if(document.getElementById('sort').value==='favorites')render();return;}const view=e.target.closest('[data-view]');if(view)openProject(view.dataset.view);});
 function showGallery(index){galleryIndex=(index+gallery.length)%gallery.length;document.getElementById('gallery-image').src=gallery[galleryIndex];document.getElementById('gallery-image').alt=`${document.getElementById('dialog-title').textContent} · Imagen ${galleryIndex+1}`;document.getElementById('gallery-counter').textContent=`${galleryIndex+1} / ${gallery.length}`;}
 document.getElementById('dialog-gallery').addEventListener('click',e=>{const b=e.target.closest('[data-gallery]');if(b){showGallery(Number(b.dataset.gallery));lightbox.showModal();}});
 document.getElementById('gallery-prev').onclick=()=>showGallery(galleryIndex-1);
@@ -53,9 +53,19 @@ document.getElementById('gallery-next').onclick=()=>showGallery(galleryIndex+1);
 lightbox.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')showGallery(galleryIndex-1);if(e.key==='ArrowRight')showGallery(galleryIndex+1);});
 for(const d of [dialog,lightbox]){d.querySelector('.close').onclick=()=>d.close();d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});}
 document.getElementById('more-properties').onclick=()=>{filter('all');document.getElementById('catalog-status').hidden=false;};
-async function load(){
- try{const response=await fetch(window.ENPOZO_API,{cache:'no-store',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error();properties=(await response.json()).projects;}
- catch{try{properties=(await (await fetch('projects.json')).json()).projects;}catch{document.getElementById('empty').textContent='No se pudo cargar el catálogo. Recargá la página para volver a intentar.';}}
+function changeSlide(el,index){
+ const p=properties.find(p=>p.id===el.dataset.slider);if(!p)return;
+ const photos=[p.image,...p.gallery];index=(index+photos.length)%photos.length;el.dataset.index=index;
+ const img=el.querySelector('img');img.src=photos[index];img.alt=p.name+' · Imagen '+(index+1)+' de '+photos.length;
+ el.querySelector('.slide-count').textContent=(index+1)+' / '+photos.length;
+ el.querySelectorAll('[data-slide-to]').forEach((b,i)=>b.setAttribute('aria-current',String(i===index)));
+}
+grid.addEventListener('keydown',e=>{const el=e.target.closest('[data-slider]');if(el && ['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();changeSlide(el,Number(el.dataset.index||0)+(e.key==='ArrowRight'?1:-1));}});
+let swipeStart=null;
+grid.addEventListener('touchstart',e=>{const el=e.target.closest('[data-slider]');swipeStart=el?{el,x:e.touches[0].clientX,y:e.touches[0].clientY}:null;},{passive:true});
+grid.addEventListener('touchend',e=>{if(!swipeStart)return;const dx=e.changedTouches[0].clientX-swipeStart.x,dy=e.changedTouches[0].clientY-swipeStart.y;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))changeSlide(swipeStart.el,Number(swipeStart.el.dataset.index||0)+(dx<0?1:-1));swipeStart=null;},{passive:true});
+function load(){
+ properties=window.CVSTUDIO_DEMO_PROJECTS||[];
  const location=document.getElementById('location');location.innerHTML='<option value="all">Seleccionar zona</option>'+[...new Set(properties.map(p=>p.zone).filter(Boolean))].map(zone=>`<option value="${esc(zone)}">${esc(zone)}</option>`).join('');render();
 }
 load();
