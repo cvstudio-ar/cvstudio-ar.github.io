@@ -22,7 +22,7 @@ const SUPABASE_URL = 'https://eqepkoegzyqklpxkrkhm.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZXBrb2Vnenlxa2xweGtya2htIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4NTc1MzcsImV4cCI6MjEwMDQzMzUzN30.dy-gMZJRMTQyr--kCq5JsEaDzazcDXFUkxQdiLQBFx8';
 const ADMIN_USER_ID = '3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
 const CONTACT_EMAIL = 'contacto@cvstudio.com.ar';
-const WORKER_RELEASE = 'v2.15.0-web-commerce';
+const WORKER_RELEASE = 'v2.16.0-web-notifications';
 const FORM_NOTIFICATION_EMAIL = 'cvstudioargentina@gmail.com';
 const getFormNotificationEmail = () => FORM_NOTIFICATION_EMAIL;
 const DEFAULT_RESEND_RECEIVING_DOMAIN = 'iokioalkuu.resend.app';
@@ -39,18 +39,11 @@ const CANVA_SCOPES = [
 
 // === Mercado Pago · Checkout Pro + pedidos ===
 const MP_PRODUCT_DEFAULTS = Object.freeze({
-  'cv-express': { title: 'CV Express', unit_price: 6000, sort_order: 10 },
-  'cv-basico': { title: 'CV Básico', unit_price: 6500, sort_order: 20 },
-  'cv-estandar': { title: 'CV Estándar', unit_price: 7500, sort_order: 30 },
-  'cv-avanzado': { title: 'CV Avanzado', unit_price: 10500, sort_order: 40 },
-  'cv-profesional': { title: 'CV Profesional', unit_price: 12500, sort_order: 50 },
-  'cv-freelance': { title: 'CV Freelance', unit_price: 15000, sort_order: 60 },
-  'linkedin': { title: 'LinkedIn Completo', unit_price: 20000, sort_order: 70 },
-  'combo-2-cv': { title: 'Combo 2 CV Profesionales', unit_price: 20000, sort_order: 80 },
-  'combo-cv-linkedin': { title: 'Combo CV + LinkedIn', unit_price: 28000, sort_order: 90 },
-  'entrevistas': { title: 'Preparación para entrevistas', unit_price: 10000, sort_order: 100 },
-  'kit-emprendedor': { title: 'Kit Emprendedor', unit_price: 35000, sort_order: 110 },
-  'kit-web': { title: 'Kit Emprendedor + Web', unit_price: 80000, sort_order: 120 },
+  'cv-profesional': { title: 'CV Profesional', unit_price: 11500, sort_order: 10 },
+  'cv-freelance': { title: 'CV Freelance Profesional', unit_price: 16000, sort_order: 20 },
+  'linkedin': { title: 'Perfil Profesional de LinkedIn', unit_price: 19000, sort_order: 30 },
+  'combo-2-cv': { title: 'Combo 2 CV Profesionales', unit_price: 20000, sort_order: 40 },
+  'combo-cv-linkedin': { title: 'Combo CV + LinkedIn', unit_price: 25000, sort_order: 50 },
   'web-basica': {title:'Web de presentación — Pantalla única',unit_price:65000,sort_order:130},
   'web-panel': {title:'Web de presentación + Panel administrativo básico',unit_price:85000,sort_order:140},
   'web-catalogo': {title:'Web avanzada con catálogo y panel administrativo',unit_price:120000,sort_order:150},
@@ -128,14 +121,14 @@ async function handleMercadoPagoWebhook(request,env){
     const response=await fetch(`https://api.mercadopago.com/v1/payments/${encodeURIComponent(paymentId)}`,{headers:{Authorization:`Bearer ${env.MERCADOPAGO_ACCESS_TOKEN}`}}),payment=await response.json().catch(()=>({}));
     if(!response.ok)throw new Error(payment?.message||`Mercado Pago devolvió ${response.status}`);
     const externalReference=cleanText(payment.external_reference,180),status=cleanText(payment.status,50),statusDetail=cleanText(payment.status_detail,100),approved=status==='approved';
-    if(String(externalReference).startsWith('WEB:'))await commerceRecordMP(env,payment);
+    if(String(externalReference).startsWith('WEB:')){await commerceRecordMP(env,payment);return jsonResponse({ok:true,status});}
     const rows=await updatePaymentOrder(env,externalReference,{mercadopago_payment_id:String(payment.id),estado_pago:status,detalle_estado:statusDetail,estado_pedido:approved?'Pago recibido':['pending','in_process','authorized'].includes(status)?'Pendiente de pago':'Pago no aprobado',medio_pago:cleanText(payment.payment_method_id||payment.payment_type_id||'Mercado Pago',80),importe:Number(payment.transaction_amount||0),fecha_aprobacion:payment.date_approved||null,updated_at:new Date().toISOString()});
     const order=rows?.[0];
     await addPaymentEvent(env,externalReference,approved?'payment_approved':'payment_updated',approved?'Pago aprobado por Mercado Pago':`Estado de pago actualizado: ${status}`,{payment_id:String(payment.id),status,status_detail:statusDetail,method:payment.payment_method_id||payment.payment_type_id||'',amount:Number(payment.transaction_amount||0)});
     if(approved&&env.RESEND_API_KEY&&order?.cliente_email){
       await Promise.allSettled([
         sendResend(env,{from:'CVStudio Argentina <contacto@cvstudio.com.ar>',to:[order.cliente_email],reply_to:CONTACT_EMAIL,subject:`Pago aprobado · ${order.codigo} | CVStudio`,html:emailShell({eyebrow:'Pago confirmado',title:'¡Tu contratación fue confirmada!',requestCode:order.codigo,body:`<p>Recibimos correctamente el pago de <strong>${escapeHtml(order.producto_nombre)}</strong>.</p><p>Nos comunicaremos por WhatsApp o correo para solicitar la información necesaria y comenzar el trabajo.</p>`}),text:`Pago aprobado. Pedido ${order.codigo}.`}),
-        sendResend(env,{from:'CVStudio Pagos <contacto@cvstudio.com.ar>',to:[CONTACT_EMAIL],reply_to:order.cliente_email,subject:`💳 Pago aprobado · ${order.codigo} · ${order.producto_nombre}`,html:emailShell({eyebrow:'Nuevo pago aprobado',title:order.producto_nombre,requestCode:order.codigo,button:false,body:`<p><strong>Cliente:</strong> ${escapeHtml(order.cliente_nombre)}</p><p><strong>Email:</strong> ${escapeHtml(order.cliente_email)}</p><p><strong>WhatsApp:</strong> ${escapeHtml(order.cliente_whatsapp)}</p><p><strong>Importe:</strong> $${Number(order.importe).toLocaleString('es-AR')}</p>`}),text:`Pago aprobado ${order.codigo}`})
+        sendResend(env,{from:'CVStudio Pagos <contacto@cvstudio.com.ar>',to:[FORM_NOTIFICATION_EMAIL],reply_to:order.cliente_email,subject:`💳 Pago aprobado · ${order.codigo} · ${order.producto_nombre}`,html:emailShell({eyebrow:'Nuevo pago aprobado',title:order.producto_nombre,requestCode:order.codigo,button:false,body:`<p><strong>Cliente:</strong> ${escapeHtml(order.cliente_nombre)}</p><p><strong>Email:</strong> ${escapeHtml(order.cliente_email)}</p><p><strong>WhatsApp:</strong> ${escapeHtml(order.cliente_whatsapp)}</p><p><strong>Importe:</strong> $${Number(order.importe).toLocaleString('es-AR')}</p>`}),text:`Pago aprobado ${order.codigo}`})
       ]);
     }
     console.log('Mercado Pago payment verified',{id:payment.id,status,external_reference:externalReference,amount:payment.transaction_amount});
@@ -151,7 +144,7 @@ const nl2br=value=>escapeHtml(value).replace(/\n/g,'<br>');
 const getReceivingDomain=env=>cleanText(env.RESEND_RECEIVING_DOMAIN||DEFAULT_RESEND_RECEIVING_DOMAIN,253).toLowerCase();
 const inboundAddress=(env,code)=>`${String(code||'consulta').toLowerCase().replace(/[^a-z0-9-]/g,'')}@${getReceivingDomain(env)}`;
 
-async function sendResend(env,payload){const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify(payload)});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data?.message||`Resend devolvió ${response.status}`);return data}
+async function sendResend(env,payload,idempotencyKey){const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json',...(idempotencyKey?{'Idempotency-Key':idempotencyKey}:{})},body:JSON.stringify(payload)});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data?.message||`Resend devolvió ${response.status}`);return data}
 async function resendGet(env,path){const r=await fetch(`https://api.resend.com${path}`,{headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d?.message||`Resend devolvió ${r.status}`);return d?.data??d}
 async function verifyAdmin(request){const authorization=request.headers.get('Authorization')||'';if(!authorization.startsWith('Bearer '))return null;const response=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:SUPABASE_PUBLISHABLE_KEY,'Cache-Control':'no-store'}});if(!response.ok)return null;const user=await response.json().catch(()=>null);if(!user?.id)return null;const email=String(user.email||'').trim().toLowerCase();const role=String(user.app_metadata?.role||'').trim();return user.id===ADMIN_USER_ID||email==='pablexe@cvstudio.com.ar'||role==='Director'?user:null}
 async function verifyAuthenticatedUser(request){const authorization=request.headers.get('Authorization')||'';if(!authorization.startsWith('Bearer '))return null;const response=await fetch(`${SUPABASE_URL}/auth/v1/user`,{headers:{Authorization:authorization,apikey:SUPABASE_PUBLISHABLE_KEY,'Cache-Control':'no-store'}});if(!response.ok)return null;const user=await response.json().catch(()=>null);return user?.id?user:null}
@@ -402,7 +395,7 @@ async function handlePaymentsAdminUpdate(request,env,origin,body){
   try{const rows=await supabaseService(env,`pedidos_mercadopago?id=eq.${encodeURIComponent(id)}`,{method:'PATCH',body:JSON.stringify({estado_pedido:estadoPedido,updated_at:new Date().toISOString()})});const order=rows?.[0]||null;if(order)await addPaymentEvent(env,order.external_reference,'order_status_changed',`Estado interno actualizado: ${estadoPedido}`,{estado_pedido:estadoPedido});return jsonResponse({ok:true,order},200,origin)}catch(error){return jsonResponse({ok:false,message:`No se pudo actualizar el pedido: ${error.message}`},502,origin)}
 }
 
-async function handleAdminReply(request,env,origin,body){const user=await verifyAdmin(request);if(!user)return jsonResponse({ok:false,message:'Sesión administrativa inválida o vencida.'},401,origin);const to=cleanText(body.to,160).toLowerCase(),subject=cleanText(body.subject,180),message=cleanText(body.message,6000),clientName=cleanText(body.clientName,100)||'cliente',requestCode=cleanText(body.requestCode,80),service=cleanText(body.service,120);if(!isValidEmail(to)||subject.length<4||message.length<10)return jsonResponse({ok:false,message:'Revisá destinatario, asunto y mensaje.'},400,origin);const rawAttachments=Array.isArray(body.attachments)?body.attachments.slice(0,3):[];const attachments=rawAttachments.filter(a=>a&&typeof a.filename==='string'&&typeof a.content==='string'&&a.content.length<8000000).map(a=>({filename:cleanText(a.filename,180),content:a.content,content_type:cleanText(a.content_type,100)||'application/octet-stream'}));const bodyHtml=`<p>Hola <strong>${escapeHtml(clientName)}</strong>,</p><div>${nl2br(message)}</div>${service?`<p><strong>Servicio:</strong> ${escapeHtml(service)}</p>`:''}<p>Saludos,<br><strong>Equipo de CVStudio Argentina</strong></p>`;try{const result=await sendResend(env,{from:'CVStudio Argentina <contacto@cvstudio.com.ar>',to:[to],...(body.copyToSelf?{bcc:[CONTACT_EMAIL]}:{}),reply_to:inboundAddress(env,requestCode),subject,html:emailShell({eyebrow:'Respuesta de nuestro equipo',title:'Información sobre tu solicitud',body:bodyHtml,requestCode}),text:[`Hola ${clientName},`,'',message,'',`Código: ${requestCode}`].join('\n'),...(attachments.length?{attachments}:{})});return jsonResponse({ok:true,id:result.id||null,attachments:attachments.map(a=>({filename:a.filename,name:a.filename})),message:'Correo enviado correctamente.'},200,origin)}catch(error){return jsonResponse({ok:false,message:`No se pudo enviar el correo: ${error.message}`},502,origin)}}
+async function handleAdminReply(request,env,origin,body){const user=await verifyAdmin(request);if(!user)return jsonResponse({ok:false,message:'Sesión administrativa inválida o vencida.'},401,origin);const to=cleanText(body.to,160).toLowerCase(),subject=cleanText(body.subject,180),message=cleanText(body.message,6000),clientName=cleanText(body.clientName,100)||'cliente',requestCode=cleanText(body.requestCode,80),service=cleanText(body.service,120);if(!isValidEmail(to)||subject.length<4||message.length<10)return jsonResponse({ok:false,message:'Revisá destinatario, asunto y mensaje.'},400,origin);const rawAttachments=Array.isArray(body.attachments)?body.attachments.slice(0,3):[];const attachments=rawAttachments.filter(a=>a&&typeof a.filename==='string'&&typeof a.content==='string'&&a.content.length<8000000).map(a=>({filename:cleanText(a.filename,180),content:a.content,content_type:cleanText(a.content_type,100)||'application/octet-stream'}));const bodyHtml=`<p>Hola <strong>${escapeHtml(clientName)}</strong>,</p><div>${nl2br(message)}</div>${service?`<p><strong>Servicio:</strong> ${escapeHtml(service)}</p>`:''}<p>Saludos,<br><strong>Equipo de CVStudio Argentina</strong></p>`;try{const result=await sendResend(env,{from:'CVStudio Argentina <contacto@cvstudio.com.ar>',to:[to],...(body.copyToSelf?{bcc:[FORM_NOTIFICATION_EMAIL]}:{}),reply_to:inboundAddress(env,requestCode),subject,html:emailShell({eyebrow:'Respuesta de nuestro equipo',title:'Información sobre tu solicitud',body:bodyHtml,requestCode}),text:[`Hola ${clientName},`,'',message,'',`Código: ${requestCode}`].join('\n'),...(attachments.length?{attachments}:{})});return jsonResponse({ok:true,id:result.id||null,attachments:attachments.map(a=>({filename:a.filename,name:a.filename})),message:'Correo enviado correctamente.'},200,origin)}catch(error){return jsonResponse({ok:false,message:`No se pudo enviar el correo: ${error.message}`},502,origin)}}
 
 
 async function supabaseAuthAdmin(env,path,options={}){
@@ -608,7 +601,7 @@ async function handlePublicRequest(env,origin,body){
     return jsonResponse({ok:false,message:`No pudimos registrar la solicitud en el Centro de Operaciones: ${error.message}`},502,origin);
   }
   try{
-    await sendResend(env,{from:'CVStudio Web <contacto@cvstudio.com.ar>',to:[CONTACT_EMAIL],reply_to:email,subject:`Nueva consulta web${service?` · ${service}`:''}`,html:emailShell({eyebrow:'Nueva solicitud web',title:'Nueva consulta desde CVStudio',requestCode,button:false,body:`<p><strong>Nombre:</strong> ${escapeHtml(name)}</p><p><strong>Correo:</strong> ${escapeHtml(email)}</p><p><strong>WhatsApp:</strong> ${escapeHtml(phone)}</p><p><strong>Localidad:</strong> ${escapeHtml(city)}</p><p><strong>Servicio:</strong> ${escapeHtml(service||'No especificado')}</p><div>${nl2br(message)}</div>`}),text:message});
+    await sendResend(env,{from:'CVStudio Web <contacto@cvstudio.com.ar>',to:[FORM_NOTIFICATION_EMAIL],reply_to:email,subject:`Nueva consulta web${service?` · ${service}`:''}`,html:emailShell({eyebrow:'Nueva solicitud web',title:'Nueva consulta desde CVStudio',requestCode,button:false,body:`<p><strong>Nombre:</strong> ${escapeHtml(name)}</p><p><strong>Correo:</strong> ${escapeHtml(email)}</p><p><strong>WhatsApp:</strong> ${escapeHtml(phone)}</p><p><strong>Localidad:</strong> ${escapeHtml(city)}</p><p><strong>Servicio:</strong> ${escapeHtml(service||'No especificado')}</p><div>${nl2br(message)}</div>`}),text:message});
     try{await sendResend(env,{from:'CVStudio Argentina <contacto@cvstudio.com.ar>',to:[email],reply_to:inboundAddress(env,requestCode),subject:'✅ Recibimos tu solicitud | CVStudio',html:emailShell({eyebrow:'Solicitud registrada',title:`¡Hola ${name}!`,requestCode,body:`<p>Gracias por comunicarte con <strong>CVStudio Argentina</strong>.</p><p>Tu solicitud fue registrada correctamente en nuestro Centro de Operaciones.</p><p>Podés responder directamente este correo para agregar información.</p>`}),text:`Hola ${name}. Código: ${requestCode}`})}catch(e){console.warn(e.message)}
     return jsonResponse({ok:true,requestCode,clientId:persisted.client.id,requestId:persisted.request.id,existingClient:persisted.existingClient,message:'¡Consulta registrada correctamente!'},200,origin);
   }catch(error){
@@ -779,10 +772,10 @@ async function commerceHandle(request,env,origin,body){
  if(action.startsWith('web-commerce-admin')){
   if(!await verifyAdmin(request))return jsonResponse({ok:false,message:'Sesión administrativa inválida.'},401,origin);
   if(action==='web-commerce-admin-list'){
-   const [settings,projects,charges]=await Promise.all([commerceSettings(env),commerceDB(env,'web_commerce_projects?select=*&order=created_at.desc&limit=100',{method:'GET'}),commerceDB(env,'web_commerce_charges?select=*&order=created_at.desc&limit=500',{method:'GET'})]);
-   return jsonResponse({ok:true,settings,projects,charges,connected:Boolean(env.TIENDANUBE_ACCESS_TOKEN&&env.TIENDANUBE_STORE_ID)},200,origin);
+   const [settings,projects,charges,notices]=await Promise.all([commerceSettings(env),commerceDB(env,'web_commerce_projects?select=*&order=created_at.desc&limit=100',{method:'GET'}),commerceDB(env,'web_commerce_charges?select=*&order=created_at.desc&limit=500',{method:'GET'}),commerceDB(env,'web_notification_outbox?select=event_key,channel,status,last_error,sent_at&order=created_at.desc&limit=100',{method:'GET'})]);
+   return jsonResponse({ok:true,settings,projects,charges,notices,connected:Boolean(env.TIENDANUBE_ACCESS_TOKEN&&env.TIENDANUBE_STORE_ID)},200,origin);
   }
-  if(action==='web-commerce-admin-refresh'){await commerceRefreshTN(env);return jsonResponse({ok:true},200,origin);}
+  if(action==='web-commerce-admin-refresh'){await commerceScheduledNotifications(env);return jsonResponse({ok:true},200,origin);}
   if(action==='web-commerce-admin-products')return jsonResponse({ok:true,products:await commerceTN(env,'products?per_page=200',null,'GET')},200,origin);
   if(action==='web-commerce-admin-config'){
    const productMap={};for(const [key,value] of Object.entries(body.productMap||{})){if(!WEB_PRODUCTS[key]||!/^\d+$/.test(String(value.product_id))||!/^\d+$/.test(String(value.variant_id)))throw new Error('Revisá los identificadores de los productos.');productMap[key]={product_id:Number(value.product_id),variant_id:Number(value.variant_id)};}
@@ -811,7 +804,7 @@ async function commerceHandle(request,env,origin,body){
    const total=effectiveProductPrice(p);if(!Number.isFinite(total)||total<1)throw new Error('Precio no válido.');
    const name=cleanText(body.customerName,100),email=cleanText(body.customerEmail,160).toLowerCase(),phone=normalizePhone(body.customerPhone);
    if(name.length<3||!isValidEmail(email)||phone.replace(/\D/g,'').length<8)throw new Error('Revisá nombre, email y WhatsApp.');
-   const options=body.options||{},safe={};for(const key of ['business','style','color','palette','details'])safe[key]=cleanText(options[key],key==='details'?2000:160);safe.features=(Array.isArray(options.features)?options.features:[]).slice(0,8).map(x=>cleanText(x,60));
+   const options=body.options||{},safe={};for(const key of ['business','style','color','palette','details','reference'])safe[key]=cleanText(options[key],key==='details'?2000:160);safe.features=(Array.isArray(options.features)?options.features:[]).slice(0,8).map(x=>cleanText(x,60));
    if(!safe.business)throw new Error('Ingresá el nombre o rubro de tu negocio.');
    if(!['deposit','full'].includes(body.stage||'deposit'))throw new Error('La contratación comienza con seña o pago total.');
    const record={payment_plan:body.stage||'deposit',id:crypto.randomUUID(),code:makeOrderCode(),access_token:crypto.randomUUID(),product_id:id,product_title:p.title,total,customer_name:name,customer_email:email,customer_phone:phone,options:safe};
@@ -838,6 +831,7 @@ async function commerceHandle(request,env,origin,body){
    const checkoutURL=new URL(draft.checkout_url);if(checkoutURL.protocol!=='https:')throw new Error('Tiendanube devolvió un enlace de pago inválido.');result={checkout_url:draft.checkout_url,tiendanube_draft_id:String(draft.id),tiendanube_product_id:String(product.id)};
   }
   await commerceDB(env,`web_commerce_charges?id=eq.${charge.id}`,{method:'PATCH',body:JSON.stringify(result)});
+  await commerceNotifyRequest(env,project);
   await addPaymentEvent(env,reference,'web_project_created','Proyecto web y pago por etapa',{project_code:project.code,total:Number(project.total),stage,options:project.options});
   return jsonResponse({ok:true,checkoutId:charge.id,checkoutToken:charge.access_token,projectToken:project.access_token,checkoutUrl:result.checkout_url,preferenceId:result.preference_id,publicKey:provider==='mercadopago'?env.MERCADOPAGO_PUBLIC_KEY||null:null,amount,email:project.customer_email,stage},200,origin);
  }
@@ -859,9 +853,10 @@ async function commerceRecordMP(env,payment){
  if(!String(payment.external_reference||'').startsWith('WEB:'))return;
  const id=String(payment.external_reference).slice(4);if(!/^[0-9a-f-]{36}$/.test(id))return;
  const rows=await commerceDB(env,`web_commerce_charges?id=eq.${id}&select=*`,{method:'GET'}),charge=rows?.[0];if(!charge||charge.provider!=='mercadopago'||String(payment.currency_id)!=='ARS'||Math.abs(Number(payment.transaction_amount)-Number(charge.amount))>.01)throw new Error('El pago no coincide con el pedido.');
- if(charge.status==='approved')return;
+ if(charge.status==='approved'){await commerceNotifyPaid(env,charge);return;}
  await commerceDB(env,`web_commerce_charges?id=eq.${id}`,{method:'PATCH',body:JSON.stringify({status:payment.status==='pending'?'pending_payment':payment.status,payment_id:String(payment.id),updated_at:new Date().toISOString()})});
  await updatePaymentOrder(env,payment.external_reference,{estado_pago:payment.status,mercadopago_payment_id:String(payment.id),estado_pedido:payment.status==='approved'?'Pago recibido':'Pendiente de pago',medio_pago:payment.payment_method_id,fecha_aprobacion:payment.date_approved||null});
+ if(payment.status==='approved')await commerceNotifyPaid(env,charge);
 }
 
 async function commerceRefreshTN(env){
@@ -871,13 +866,55 @@ async function commerceRefreshTN(env){
   if(order.payment_status==='paid'&&order.currency==='ARS'&&Math.abs(Number(order.total)-Number(charge.amount))<.01){
    await commerceDB(env,'web_commerce_charges?id=eq.'+charge.id,{method:'PATCH',body:JSON.stringify({status:'approved',payment_id:String(order.id),updated_at:new Date().toISOString()})});
    await updatePaymentOrder(env,'WEB:'+charge.id,{estado_pago:'approved',estado_pedido:'Pago recibido',fecha_aprobacion:order.paid_at||new Date().toISOString()});
+   await commerceNotifyPaid(env,charge);
   }
  }
 }
 
+// Durable notices: fixed business destinations; client confirmation only after verified payment.
+const COMMERCE_WHATSAPP_RECIPIENT='5492964652318';
+async function commerceEnqueue(env,eventKey,channel,payload){
+ await commerceDB(env,'web_notification_outbox?on_conflict=event_key',{method:'POST',headers:{Prefer:'resolution=ignore-duplicates,return=representation'},body:JSON.stringify({event_key:eventKey,channel,payload})});
+}
+function commerceProjectDetails(p){const o=p.options||{};return [['Cliente',p.customer_name],['Email',p.customer_email],['WhatsApp',p.customer_phone],['Servicio',p.product_title],['Total del proyecto','$'+Number(p.total).toLocaleString('es-AR')],['Negocio',o.business],['Referencia',o.reference],['Estilo',o.style],['Colores',o.palette||o.color],['Opciones',(o.features||[]).join(', ')],['Detalles',o.details]].filter(x=>x[1]).map(([label,value])=>`<p><strong>${label}:</strong> ${escapeHtml(value)}</p>`).join('');}
+async function commerceNotifyRequest(env,p){
+ const key='request-'+p.id;
+ await commerceEnqueue(env,key+'-business','email',{from:'CVStudio Web <contacto@cvstudio.com.ar>',to:[FORM_NOTIFICATION_EMAIL],reply_to:p.customer_email,subject:`Nueva solicitud web · ${p.code}`,html:emailShell({eyebrow:'Nueva solicitud',title:p.product_title,requestCode:p.code,button:false,body:'<p>Solicitud registrada. El pago todavía debe confirmarse.</p>'+commerceProjectDetails(p)}),text:`Solicitud ${p.code}. ${p.customer_name}. ${p.product_title}. Pendiente de pago.`});
+ await commerceEnqueue(env,key+'-whatsapp','whatsapp',{code:p.code,name:p.customer_name,service:p.product_title});
+ await commerceFlushNotices(env);
+}
+async function commerceNotifyPaid(env,charge){
+ const rows=await commerceDB(env,'web_commerce_projects?id=eq.'+charge.project_id+'&select=*',{method:'GET'}),p=rows?.[0];if(!p)return;
+ const key='approved-'+charge.id,message='Tu pedido fue procesado correctamente. En breve nos pondremos en contacto contigo';
+ await commerceEnqueue(env,key+'-client','email',{from:'CVStudio Argentina <contacto@cvstudio.com.ar>',to:[p.customer_email],reply_to:CONTACT_EMAIL,subject:`Pago confirmado · ${p.code} | CVStudio`,html:emailShell({eyebrow:'Pago confirmado',title:'Tu pedido fue procesado correctamente',requestCode:p.code,body:`<p>${message}.</p><p><strong>${escapeHtml(WEB_STAGES[charge.stage])}:</strong> $${Number(charge.amount).toLocaleString('es-AR')}</p>${['deposit','full'].includes(charge.stage)?'<p>Prepararemos 3 propuestas visuales para que elijas tu diseño antes de comenzar a programar.</p>':''}`}),text:message+'. Pedido '+p.code+'.'});
+ await commerceEnqueue(env,key+'-business','email',{from:'CVStudio Pagos <contacto@cvstudio.com.ar>',to:[FORM_NOTIFICATION_EMAIL],reply_to:p.customer_email,subject:`Pago confirmado · ${p.code} · ${WEB_STAGES[charge.stage]}`,html:emailShell({eyebrow:'Pago confirmado',title:p.product_title,requestCode:p.code,button:false,body:`<p><strong>${escapeHtml(WEB_STAGES[charge.stage])}:</strong> $${Number(charge.amount).toLocaleString('es-AR')}</p>`+commerceProjectDetails(p)}),text:`Pago confirmado ${p.code}. ${WEB_STAGES[charge.stage]}. $${charge.amount}.`});
+ await commerceFlushNotices(env);
+}
+async function commerceFlushNotices(env){
+ const now=new Date().toISOString(),expired=new Date(Date.now()-300000).toISOString();
+ await commerceDB(env,'web_notification_outbox?status=eq.processing&updated_at=lt.'+encodeURIComponent(expired),{method:'PATCH',body:JSON.stringify({status:'pending',updated_at:now})});
+ const rows=await commerceDB(env,'web_notification_outbox?status=eq.pending&next_attempt_at=lte.'+encodeURIComponent(now)+'&order=created_at.asc&limit=20',{method:'GET'});
+ for(const row of rows||[]){
+  const missing=row.channel==='email'?!env.RESEND_API_KEY:!(env.WHATSAPP_ACCESS_TOKEN&&env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_NOTIFICATION_TEMPLATE);
+  if(missing){await commerceDB(env,'web_notification_outbox?event_key=eq.'+encodeURIComponent(row.event_key)+'&status=eq.pending',{method:'PATCH',body:JSON.stringify({last_error:row.channel==='email'?'Falta RESEND_API_KEY':'Falta autorización o plantilla de avisos de WhatsApp.',next_attempt_at:new Date(Date.now()+300000).toISOString(),updated_at:now})});continue;}
+  const claimed=await commerceDB(env,'web_notification_outbox?event_key=eq.'+encodeURIComponent(row.event_key)+'&status=eq.pending',{method:'PATCH',body:JSON.stringify({status:'processing',attempts:Number(row.attempts||0)+1,updated_at:now})});if(!claimed?.length)continue;
+  try{
+   let result;if(row.channel==='email')result=await sendResend(env,row.payload,row.event_key);
+   else{const p=row.payload;result=await whatsappGraph(env,env.WHATSAPP_PHONE_NUMBER_ID+'/messages',{method:'POST',body:JSON.stringify({messaging_product:'whatsapp',to:COMMERCE_WHATSAPP_RECIPIENT,type:'template',template:{name:env.WHATSAPP_NOTIFICATION_TEMPLATE,language:{code:env.WHATSAPP_NOTIFICATION_TEMPLATE_LANGUAGE||'es_AR'},components:[{type:'body',parameters:[p.code,p.name,p.service].map(value=>({type:'text',text:cleanText(value,120).replace(/\s+/g,' ')}))}]}})});}
+   await commerceDB(env,'web_notification_outbox?event_key=eq.'+encodeURIComponent(row.event_key),{method:'PATCH',body:JSON.stringify({status:'sent',provider_id:result.id||result.messages?.[0]?.id||null,last_error:null,sent_at:new Date().toISOString(),updated_at:new Date().toISOString()})});
+  }catch(e){console.warn('Aviso pendiente',row.event_key,e.message);await commerceDB(env,'web_notification_outbox?event_key=eq.'+encodeURIComponent(row.event_key),{method:'PATCH',body:JSON.stringify({status:'pending',last_error:cleanText(e.message,500),next_attempt_at:new Date(Date.now()+Math.min(3600000,60000*2**Math.min(Number(row.attempts||0),6))).toISOString(),updated_at:new Date().toISOString()})});}
+ }
+}
+async function commerceScheduledNotifications(env){
+ await commerceRefreshTN(env);
+ const since=new Date(Date.now()-86400000).toISOString(),charges=await commerceDB(env,'web_commerce_charges?status=eq.approved&updated_at=gte.'+encodeURIComponent(since)+'&select=*&limit=100',{method:'GET'});
+ for(const charge of charges||[])await commerceNotifyPaid(env,charge);
+ await commerceFlushNotices(env);
+}
+
 export default {
-async scheduled(_event,env,ctx){ctx.waitUntil(Promise.allSettled([deleteExpiredSignatures(env),commerceRefreshTN(env)]));},
-async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN),canvaConfigured:canvaConfigured(env),metaConfigured:Boolean(env.META_MARKETING_ACCESS_TOKEN&&env.META_AD_ACCOUNT_ID)},200,origin);if(url.pathname==='/oauth/canva/callback'&&request.method==='GET')return handleCanvaOAuthCallback(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}
+async scheduled(_event,env,ctx){ctx.waitUntil(Promise.allSettled([deleteExpiredSignatures(env),commerceScheduledNotifications(env)]));},
+async fetch(request,env){const origin=request.headers.get('Origin')||'';try{const url=new URL(request.url);if(request.method==='GET'&&url.pathname==='/health')return jsonResponse({ok:true,worker:WORKER_RELEASE,formRecipient:FORM_NOTIFICATION_EMAIL,whatsapp:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN),webCommerce:true,whatsappNotifications:Boolean(env.WHATSAPP_PHONE_NUMBER_ID&&env.WHATSAPP_ACCESS_TOKEN&&env.WHATSAPP_NOTIFICATION_TEMPLATE),canvaConfigured:canvaConfigured(env),metaConfigured:Boolean(env.META_MARKETING_ACCESS_TOKEN&&env.META_AD_ACCOUNT_ID)},200,origin);if(url.pathname==='/oauth/canva/callback'&&request.method==='GET')return handleCanvaOAuthCallback(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='GET')return handleWhatsAppVerification(request,env);if(url.pathname==='/webhooks/whatsapp'&&request.method==='POST')return handleWhatsAppWebhook(request,env);if(url.pathname==='/webhooks/resend/inbound'&&request.method==='POST')return handleInboundWebhook(request,env);if(url.pathname==='/webhooks/mercadopago'&&request.method==='POST')return handleMercadoPagoWebhook(request,env);if(request.method==='OPTIONS'){if(!isAllowedOrigin(origin))return jsonResponse({ok:false},403,origin);return new Response(null,{status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Methods':'POST, OPTIONS','Access-Control-Allow-Headers':'Content-Type, Authorization','Access-Control-Max-Age':'86400',Vary:'Origin'}})}if(request.method!=='POST')return jsonResponse({ok:false,message:'Método no permitido.'},405,origin);if(!isAllowedOrigin(origin))return jsonResponse({ok:false,message:'Origen no autorizado.'},403,origin);let body;try{body=await request.json()}catch{return jsonResponse({ok:false,message:'Datos inválidos.'},400,origin)}
 if(body?.action==='signature-public-get')return handleSignaturePublicGet(env,origin,body);
 if(body?.action==='signature-public-submit')return handleSignaturePublicSubmit(env,origin,body);
 if(body?.action==='signature-admin-create')return handleSignatureAdminCreate(request,env,origin,body);
