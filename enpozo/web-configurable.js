@@ -75,20 +75,22 @@ grid.addEventListener('keydown',e=>{const el=e.target.closest('[data-slider]');i
 let swipeStart=null;
 grid.addEventListener('touchstart',e=>{const el=e.target.closest('[data-slider]');swipeStart=el?{el,x:e.touches[0].clientX,y:e.touches[0].clientY}:null;},{passive:true});
 grid.addEventListener('touchend',e=>{if(!swipeStart)return;const dx=e.changedTouches[0].clientX-swipeStart.x,dy=e.changedTouches[0].clientY-swipeStart.y;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))changeSlide(swipeStart.el,Number(swipeStart.el.dataset.index||0)+(dx<0?1:-1));swipeStart=null;},{passive:true});
+const demoPreview=new URLSearchParams(location.search).get('vista')==='demo';
 let loading=false;
 async function load(){
  if(loading)return;loading=true;
  try{
-  const response=await fetch(window.ENPOZO_API,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+  const previewToken=demoPreview?sessionStorage.getItem('enpozo-session'):null;
+  const response=await fetch(window.ENPOZO_API+(demoPreview?'?action=admin':''),{cache:'no-store',signal:AbortSignal.timeout(15000),headers:previewToken?{'x-enpozo-session':previewToken}:{}});
   if(!response.ok)throw Error('No se pudo cargar el catálogo.');const data=await response.json();
-  if(!Array.isArray(data.projects))throw Error('Catálogo inválido.');properties=data.projects;window.applySiteSettings?.(data.settings);
+  if(!Array.isArray(data.projects))throw Error('Catálogo inválido.');if(demoPreview&&data.role!=='demo')throw Error('Esta vista requiere un usuario de demostración.');properties=data.projects.filter(p=>!p.deletedAt);window.applySiteSettings?.(data.settings);if(demoPreview)document.querySelector('.demo-note').textContent='Vista privada de demostración · tus cambios no afectan el catálogo público.';
   const location=document.getElementById('location'),selected=location.value;
   const zones=[...new Set(properties.map(p=>p.zone).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
   location.innerHTML='<option value="all">Seleccionar zona</option>'+zones.map(zone=>`<option value="${esc(zone)}">${esc(zone)}</option>`).join('');
   location.value=zones.includes(selected)?selected:'all';
   document.getElementById('empty').innerHTML='No encontramos propiedades con esos filtros. <button id="reset">Ver todas</button>';
   document.getElementById('reset').onclick=()=>{document.getElementById('search-form').reset();filter('all');};applyFilters();
- }catch(error){if(!properties.length){document.getElementById('empty').hidden=false;document.getElementById('empty').textContent='No se pudo cargar el catálogo. Recargá la página para volver a intentar.';}}
+ }catch(error){if(!properties.length){document.getElementById('empty').hidden=false;document.getElementById('empty').textContent=demoPreview?'Ingresá al panel con tu usuario de demostración para ver tu vista previa.':'No se pudo cargar el catálogo. Recargá la página para volver a intentar.';}}
  finally{loading=false;}
 }
 window.addEventListener('pageshow',load);window.addEventListener('focus',load);
