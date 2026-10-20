@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#21151e"><meta name="robots" content="noindex,nofollow">
+<title>Radio Demo · CVStudio</title><meta name="description" content="Probá tu próxima radio online. Una demo de CVStudio para escuchar desde cualquier lugar.">
+<meta property="og:title" content="Tu próxima radio online · Demo"><meta property="og:description" content="Una propuesta de CVStudio. Abrí la demo y conocé el reproductor."><meta property="og:type" content="website">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke-linejoin="round"/></symbol>
+<symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="4"/></symbol>
+<symbol id="i-volume" viewBox="0 0 24 24"><path d="m11 5-6 5H2v4h3l6 5zM15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+<symbol id="i-mute" viewBox="0 0 24 24"><path d="m11 5-6 5H2v4h3l6 5zM16 9l6 6m0-6-6 6"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m9 10 6-3M9 14l6 3"/></symbol>
+</defs></svg>
+<div class="scenery" aria-hidden="true"><div class="sun"></div><div class="skyline"></div><div class="horizon"></div><div class="road"></div><div class="lights"></div><div class="grain"></div></div>
+<div class="page">
+<header class="topbar"><a class="wordmark" href="./" aria-label="Radio Demo, inicio"><span class="tiny-wave"><i></i><i></i><i></i><i></i><i></i></span>RADIO<span>DEMO</span></a><div class="header-actions"><button class="install" id="install"><svg><use href="#i-download"/></svg><span>Instalar radio</span></button><button class="icon-button" id="menu" aria-label="Abrir menú" aria-haspopup="dialog"><svg><use href="#i-menu"/></svg></button></div></header>
+<main>
+<div class="station"><div class="station-ring"><div class="station-face"><span class="station-kicker">TU MUNDO. TU MÚSICA.</span><svg class="radio-mark" viewBox="0 0 160 130" aria-hidden="true"><rect x="65" y="8" width="30" height="68" rx="15"/><path d="M53 55v8a27 27 0 0 0 54 0v-8M80 90v23m-18 0h36M38 35a50 50 0 0 0 0 51m84-51a50 50 0 0 1 0 51M23 22a70 70 0 0 0 0 76m114-76a70 70 0 0 1 0 76"/><path d="M73 23h14m-14 10h14m-14 10h14" class="mic-grille"/></svg><span class="station-name">RADIO<span>DEMO</span></span><span class="station-caption">ONLINE</span></div></div></div>
+<div class="station-intro"><p class="eyebrow">EL SONIDO QUE TE ACOMPAÑA</p><h1>Tu próxima radio.</h1><p class="subtitle">Donde estés, siempre cerca.</p></div>
+<section class="player" aria-label="Reproductor de radio"><div class="player-status" id="status" role="status" aria-live="polite"><span class="status-dot"></span><span id="statusText">Audio de demostración pendiente</span></div><div class="equalizer" id="equalizer" aria-hidden="true"></div><button class="play-button" id="play" aria-label="Reproducir audio de demostración" aria-disabled="true"><svg><use id="playIcon" href="#i-play"/></svg></button><div class="volume"><button class="volume-button" id="mute" aria-label="Silenciar"><svg><use id="volumeIcon" href="#i-volume"/></svg></button><label class="sr-only" for="volume">Volumen</label><input id="volume" type="range" min="0" max="100" value="70" aria-valuetext="70 por ciento"><output id="volumeValue" for="volume">70%</output></div><p class="audio-caption" id="audioCaption">Muy pronto vas a poder escuchar la muestra acá.</p></section>
+</main>
+<footer><div class="footer-actions"><button class="footer-link" id="share"><svg><use href="#i-share"/></svg>Compartir radio</button><button class="footer-link" id="tryAudio"><svg><use href="#i-upload"/></svg>Probar un audio</button></div><p>Propuesta de referencia <span>·</span> <a href="https://cvstudio.com.ar/otros-servicios/" target="_blank" rel="noopener">Desarrollado por <b>CVStudio</b></a></p></footer>
+</div>
+<audio id="audio" preload="metadata" loop></audio><input type="file" id="audioFile" accept="audio/*,.mp3,.m4a,.ogg,.wav,.aac" hidden>
+<dialog id="menuDialog"><div class="dialog-head"><span>Tu radio online</span><button class="icon-button close-dialog" aria-label="Cerrar menú"><svg><use href="#i-close"/></svg></button></div><h2>Una radio a tu medida.</h2><p>Esta es una demostración. El nombre, logo, fondo y contactos se adaptan a tu emisora.</p><button class="dialog-action" id="chooseAudio"><svg><use href="#i-upload"/></svg>Elegir audio de prueba</button><p class="fineprint">El archivo elegido se reproduce solo en este dispositivo. No se sube ni queda publicado para otros oyentes.</p><button class="dialog-action" id="installFromMenu"><svg><use href="#i-download"/></svg>Agregar al inicio</button><a class="dialog-action" href="https://wa.me/5492964652318" target="_blank" rel="noopener">Consultar a CVStudio ↗</a></dialog>
+<dialog id="installDialog"><div class="dialog-head"><span>Llevá tu radio con vos</span><button class="icon-button close-dialog" aria-label="Cerrar instrucciones"><svg><use href="#i-close"/></svg></button></div><h2>Un toque. Tu radio.</h2><p id="installHelp"></p><p class="fineprint">Necesitás conexión a internet para escuchar. Si abriste la demo desde WhatsApp o Instagram, primero abrila en el navegador del celular.</p></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script src="./config.js"></script><script src="./app.js"></script>
+</body></html>
