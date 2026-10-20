@@ -853,3 +853,15 @@
 @media(max-width:1100px){.evaluation-template-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:850px){.evaluation-head-actions{width:100%}.evaluation-head-actions .button{flex:1}.evaluation-detail-summary,.evaluation-self-report{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.evaluation-notice{display:grid}.evaluation-template-grid{grid-template-columns:1fr}.evaluation-detail-summary,.evaluation-self-report,.evaluation-dimensions,.evaluation-comparison>div{grid-template-columns:1fr}.evaluation-analysis-head{display:grid}.evaluation-analysis-head .button{width:100%}.evaluation-open-review{grid-template-columns:1fr}.evaluation-delivery-actions .button{width:100%}}
+
+/* v1.8.5 — perfil y balance administrativo */
+.profile-card{grid-template-columns:32px minmax(0,1fr) 8px auto}
+.profile-session-light{width:8px;height:8px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8;animation:profile-session-blink 2.4s ease-in-out infinite}
+@keyframes profile-session-blink{0%,35%,100%{opacity:1;box-shadow:0 0 8px #38bdf8}50%,85%{opacity:0;box-shadow:none}}
+@media(prefers-reduced-motion:reduce){.profile-session-light{animation:none}}
+.finance-summary{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;margin-bottom:10px}
+.finance-summary b{margin-left:4px}
+.finance-example-note{color:#ffd23f;font-size:11px;margin:0 0 8px}
+.finance-chart .chart-premium-body{grid-template-columns:78px minmax(0,1fr)}
+.finance-chart .chart-y-axis{font-size:10px}
+.finance-chart .chart-premium-legend{flex-wrap:wrap;gap:8px 16px}

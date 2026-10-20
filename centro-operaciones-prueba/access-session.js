@@ -85,7 +85,7 @@ async function bootstrapSession(){
     return;
   }
   window.CVStudioAccess?.set(accessLevel,collab);
-  if(profile){profile.querySelector('strong').textContent=name;profile.querySelector('.avatar').textContent=name.charAt(0).toUpperCase();profile.querySelector('small').textContent=accessLevel;profile.onclick=()=>{if(confirm('¿Cerrar sesión del Centro de Operaciones?'))logout('manual');};}
+  if(profile){profile.querySelector('strong').textContent=name;profile.querySelector('.avatar').textContent=name.charAt(0).toUpperCase();profile.querySelector('small').textContent=accessLevel==='Director'?'Administrador':accessLevel;profile.onclick=()=>{if(confirm('¿Cerrar sesión del Centro de Operaciones?'))logout('manual');};}
   await updatePresence('online').catch(()=>{});
   ['pointerdown','keydown','touchstart','scroll'].forEach(type=>window.addEventListener(type,()=>registerActivity(),{passive:true,capture:true}));
   armTimers(); presenceTimer=setInterval(()=>updatePresence(away?'away':'online').catch(()=>{}),60000);

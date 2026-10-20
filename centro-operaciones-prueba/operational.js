@@ -505,6 +505,29 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
 
 
 
+  let showFinanceExample = true;
+  function financeChartData(payments, expenses, now = new Date(), example = false) {
+    const today=argentinaDateKey(now);
+    const end=new Date(`${today}T12:00:00-03:00`);
+    const days=Array.from({length:7},(_,i)=>{const d=new Date(end);d.setUTCDate(d.getUTCDate()-6+i);return argentinaDateKey(d);});
+    const entries=[...payments.map(p=>({...p,kind:'income'})),...expenses.map(e=>({...e,kind:'expense'}))].filter(e=>Number.isFinite(Number(e.amount)) && Number.isFinite(Date.parse(e.createdAt)));
+    if(example) entries.push({kind:'income',amount:100000,createdAt:`${days[0]}T12:00:00-03:00`});
+    let income=0,expense=0;
+    const series=[[],[],[]];
+    days.forEach(day=>{income=0;expense=0;entries.forEach(e=>{if(argentinaDateKey(e.createdAt)<=day){if(e.kind==='income')income+=Number(e.amount);else expense+=Number(e.amount);}});series[0].push(income);series[1].push(expense);series[2].push(income-expense);});
+    return {days,series,income,expense,balance:income-expense};
+  }
+  function financeChart() {
+    const data=financeChartData(confirmedPayments(),state.expenses,new Date(),showFinanceExample);
+    const labels=data.days.map(day=>new Intl.DateTimeFormat('es-AR',{day:'numeric',month:'short',timeZone:'America/Argentina/Buenos_Aires'}).format(new Date(`${day}T12:00:00-03:00`)));
+    const colors=['#35d07f','#ff5d73','#38bdf8'],names=['Ingresos','Egresos','Saldo'];
+    const uid=`finance-${Date.now()}`,width=1000,height=220,pad=12;
+    const min=Math.min(0,...data.series.flat()),max=Math.max(1,...data.series.flat());
+    const x=i=>18+i*(width-36)/6,y=v=>pad+(max-v)/(max-min)*(height-pad*2);
+    const path=arr=>arr.map((v,i)=>`${i?'L':'M'} ${x(i)} ${y(v)}`).join(' ');
+    return `<div class="finance-summary"><span>Ingresos<b class="positive">${money(data.income)}</b></span><span>Egresos<b class="negative">${money(data.expense)}</b></span><span>Saldo<b>${money(data.balance)}</b></span></div>${showFinanceExample?'<p class="finance-example-note">Ejemplo: incluye un ingreso ilustrativo de $100.000. No registra un pago ni modifica los fondos.</p>':''}<div class="chart-premium finance-chart"><div class="chart-premium-legend">${names.map((name,i)=>`<span style="--c:${colors[i]}"><i></i>${name}</span>`).join('')}</div><div class="chart-premium-body"><div class="chart-y-axis">${[1,.75,.5,.25,0].map(t=>`<b>${money(min+(max-min)*t)}</b>`).join('')}</div><div class="chart-premium-plot"><svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="Ingresos, egresos y saldo acumulados en pesos, últimos siete días${showFinanceExample?', con ingreso de ejemplo de cien mil pesos':''}"><defs><linearGradient id="${uid}" x2="0" y2="1"><stop stop-color="#35d07f" stop-opacity=".18"/><stop offset="1" stop-color="#35d07f" stop-opacity="0"/></linearGradient></defs><g class="chart-premium-grid">${[0,.25,.5,.75,1].map(t=>`<line x1="0" x2="${width}" y1="${y(min+(max-min)*t)}" y2="${y(min+(max-min)*t)}"/>`).join('')}</g>${data.series.map((arr,i)=>`<path class="chart-premium-line" d="${path(arr)}" stroke="${colors[i]}" ${i===2?'stroke-dasharray="7 5"':''}/>${arr.map((v,j)=>`<circle class="chart-premium-point" cx="${x(j)}" cy="${y(v)}" r="4" fill="${colors[i]}"><title>${names[i]} · ${labels[j]}: ${money(v)}</title></circle>`).join('')}`).join('')}</svg><div class="chart-x-axis">${labels.map(l=>`<b>${l}</b>`).join('')}</div></div></div></div>`;
+  }
+
   function adminRenderer() {
     const revenue = totalRevenue();
     const r = state.rules;
@@ -528,7 +551,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       ${panel('Fondos y disponibilidad',`<div class="funds"><div class="fund-row"><span>Disponible Empresa</span><b>${money(allocations.company)}</b></div><div class="fund-row"><span>Fondo de Colaboradores</span><b>${money(allocations.colab)}</b></div><div class="fund-row"><span>Fondo de Crecimiento</span><b>${money(growthAvailable)}</b></div><div class="fund-row"><span>Reserva de Seguridad</span><b>${money(allocations.reserve)}</b></div></div>`)}
       ${panel('Configuración de distribución',`<div class="slider-row" style="--c:#9b5de5"><span>Colaboradores</span><input data-fund="colab" type="range" min="0" max="40" value="${r.colab}"><b id="colabValue">${r.colab}%</b></div><div class="slider-row" style="--c:#3b82f6"><span>Fondo de Crecimiento</span><input data-fund="growth" type="range" min="0" max="40" value="${r.growth}"><b id="growthValue">${r.growth}%</b></div><div class="slider-row" style="--c:#ffd23f"><span>Reserva</span><input data-fund="reserve" type="range" min="0" max="20" value="${r.reserve}"><b id="reserveValue">${r.reserve}%</b></div><div class="slider-row" style="--c:#35d07f"><span>Empresa</span><input data-fund="company" type="range" min="20" max="100" value="${r.company}"><b id="companyValue">${r.company}%</b></div><p class="rules-total">Total: <strong id="rulesTotal">100%</strong></p><button class="button primary" data-action="save-funds">Guardar cambios</button>`)}
       <section class="admin-lower-grid span-3">
-        <section class="panel admin-chart-panel"><div class="panel-head"><div><h2>Ingresos y egresos</h2><p>${confirmedPayments().length} pagos confirmados · ${state.expenses.length} gastos</p></div><button class="button secondary small" data-action="register-expense">Registrar gasto</button></div>${lineSvg(['#35d07f','#ff5d73','#3b82f6'])}</section>
+        <section class="panel admin-chart-panel"><div class="panel-head"><div><h2>Ingresos y egresos</h2><p>Acumulado al cierre de cada día · últimos 7 días</p></div><button class="button secondary small" data-finance-toggle>${showFinanceExample?'Ver balance real':'Ver ejemplo $100.000'}</button><button class="button secondary small" data-action="register-expense">Registrar gasto</button></div>${financeChart()}</section>
         <section class="panel admin-operations-panel">
           <div class="admin-compact-section"><div class="panel-head"><h2>Movimientos recientes</h2><button class="button secondary small" data-action="register-payment">Registrar pago</button></div><table class="data-table"><tr><th>Tipo</th><th>Detalle</th><th>Monto</th></tr>${[...confirmedPayments().map(p=>({type:'Ingreso',detail:`${p.client} · ${p.service} · ${p.paymentMethod||'Mercado Pago'}`,amount:p.amount})),...state.expenses.map(e=>({type:'Egreso',detail:e.description,amount:-e.amount}))].slice(-3).reverse().map(m=>`<tr><td>${m.type}</td><td>${esc(m.detail)}</td><td class="${m.amount<0?'negative':'positive'}">${m.amount<0?'-':''}${money(Math.abs(m.amount))}</td></tr>`).join('')||'<tr><td colspan="3">Sin movimientos registrados</td></tr>'}</table></div>
           <div class="admin-compact-section admin-services-section"><div class="panel-head"><h2>Servicios y precios</h2><button class="button secondary small" data-action="web-commerce-tools">Webs y Tiendanube</button><button class="button primary small" data-action="edit-prices">Editar precios</button></div><div class="admin-price-grid">${Object.entries(state.prices).map(([name,value])=>`<div><span>${esc(name)}</span><b>${money(value)}</b></div>`).join('')}</div></div>
@@ -822,6 +845,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       if(newBtn)newBtn.onclick=openNewUrlModal;
     }
     if(id==='administracion') {
+      document.querySelector('[data-finance-toggle]')?.addEventListener('click',()=>{showFinanceExample=!showFinanceExample;openModule('administracion');});
       const updateTotal=()=>{
         const values=[...document.querySelectorAll('input[data-fund]')].reduce((sum,input)=>sum+Number(input.value),0);
         const out=document.getElementById('rulesTotal');
