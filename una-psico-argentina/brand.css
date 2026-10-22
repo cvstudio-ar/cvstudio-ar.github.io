@@ -67,3 +67,27 @@ header:not(.top){background:var(--navy);color:var(--paper)}
   .admin-brand img{width:62px;height:64px}.admin-brand{gap:12px}
 }
 @media(max-width:370px){.top .brand strong{font-size:18px}.brand .logo-image{width:55px;height:57px}.brand small{font-size:5.5px}}
+
+/* Each space keeps its identity on its card and its detail page. */
+.space-card:nth-child(1),.detail-view[data-space="1"]{--space-color:#1e3857;--space-ink:#fafafa;--space-accent:#1e3857;--space-soft:#e8edf2}
+.space-card:nth-child(2),.detail-view[data-space="2"]{--space-color:#75a5c2;--space-ink:#0c2550;--space-accent:#75a5c2;--space-soft:#e8f1f6}
+.space-card:nth-child(3),.detail-view[data-space="3"]{--space-color:#b87040;--space-ink:#151515;--space-accent:#b87040;--space-soft:#f5e9df}
+.space-card:nth-child(4),.detail-view[data-space="4"]{--space-color:#ffedc1;--space-ink:#1e3857;--space-accent:#b87040;--space-soft:#fff6df}
+.space-card:nth-child(5),.detail-view[data-space="5"]{--space-color:#fafafa;--space-ink:#1e3857;--space-accent:#1e3857;--space-soft:#f0f3f6}
+.space-card:nth-child(6),.detail-view[data-space="6"]{--space-color:#0c2550;--space-ink:#fafafa;--space-accent:#75a5c2;--space-soft:#e8f1f6}
+.space-card{background:var(--space-color);color:var(--space-ink);border:1px solid var(--space-accent);border-top-width:4px}
+.space-card:before{display:none}
+.space-card .space-icon{color:inherit}
+.space-card:hover{border-color:var(--space-accent)}
+.space-card:nth-child(6){background:linear-gradient(145deg,#0c2550 25%,#1e3857 70%,#416f8c)}
+.space-card:nth-child(6) .space-icon{color:#75a5c2}
+.space-card .more{background:#fafafa;color:#1e3857;border-color:#1e3857}
+.space-card:hover .more{background:#ffedc1;color:#1e3857;border-color:#1e3857}
+.space-card:focus-within{outline:3px solid var(--terracotta);outline-offset:4px}
+.detail-view[data-space]:not([data-space=""]){background:var(--space-soft);color:#1e3857}
+.detail-view[data-space]:not([data-space=""]) .detail-inner{background:#fafafa;border-top:8px solid var(--space-accent);border-radius:16px;padding:clamp(24px,4vw,54px);box-shadow:0 8px 28px #1e38570a}
+.detail-view[data-space]:not([data-space=""]) .detail-inner>.tag{display:inline-block;background:var(--space-color);color:var(--space-ink);padding:9px 14px;border-radius:6px;letter-spacing:.08em}
+.detail-view[data-space="4"] .detail-inner{border-top-color:#ffedc1}
+.detail-view[data-space="5"] .detail-inner>.tag{border:1px solid #1e3857}
+.detail-view[data-space="6"] .season-card{border-top-color:#75a5c2;background:#e8f1f6}
+@media(max-width:700px){.detail-view[data-space]:not([data-space=""]) .detail-inner{padding:26px 20px;border-radius:12px}.detail-view[data-space]:not([data-space=""]) .detail-inner>.tag{font-size:10px;line-height:1.7}}
