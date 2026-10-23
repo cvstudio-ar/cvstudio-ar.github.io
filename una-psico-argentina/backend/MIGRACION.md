@@ -46,3 +46,11 @@ Los formularios conservan la versión `2026-10-v1` y la autorización de recepci
 Los audios de Recursos se conservan en la misma biblioteca privada de episodios con `kind: resource`. Se administran en Podcast y recursos y se muestran en la tarjeta Recursos dentro de Podcast. Se mantienen los nombres de archivos al trasladar el bucket privado.
 
 El dominio de CVStudio continúa siendo la beta. Los pagos reales, sus credenciales y webhooks siguen pendientes de confirmación; completar la admisión no realiza un cobro ni activa el acceso.
+
+## Estadísticas de admisión
+El panel carga todas las páginas de resúmenes de admisiones mediante la API autenticada; los gráficos se calculan sobre el conjunto filtrado completo, no solo las 25 filas visibles. País de residencia, nacionalidad y país de origen migratorio se guardan como códigos ISO en el payload; los anteriores sin estos campos se muestran como Sin informar. Los resúmenes no incluyen motivo de consulta, DNI ni medicación. El detalle conserva acceso administrativo. Edad actual desde fecha de nacimiento; estadísticas múltiples indican su base. No se cambia la activación de suscripciones.
+
+## Gestión y datos de demostración
+Aplicar admision-gestion.sql después de admision-digital.sql. Migrar las nuevas columnas de modificación, archivo y demostración y la función psico_manage_admission con permisos solo service_role. Eliminar desde Admisiones archiva el formulario, desactiva la cuenta de suscriptor y revoca sus sesiones en una transacción. Restaurar conserva la cuenta desactivada hasta intervención administrativa. CSV exporta directorio y estadísticas de todos los registros filtrados; JSON exporta formularios completos, solo bajo autenticación administrativa. Preparar correo usa mailto y resume estadísticas; el envío y los adjuntos los confirma el operador en su aplicación de correo. No hay proveedor de email configurado. Los tres registros de demo-admisiones.sql son ficticios e inactivos, identificados con is_demo; excluirlos con el filtro Datos o eliminarlos antes de la entrega.
+
+La distribución final de Admisiones muestra el directorio a la izquierda y un único gráfico a la derecha. El selector Variable del gráfico cambia la agrupación y todos los filtros se aplican a la lista completa, no solo a la página visible.
