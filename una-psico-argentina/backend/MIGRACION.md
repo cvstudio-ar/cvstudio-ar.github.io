@@ -11,7 +11,7 @@ La beta usa la carpeta `una-psico-argentina` del repositorio de CVStudio y el pr
 
 ## Datos y recursos propios del proyecto
 
-Copiar únicamente las tablas `psico_site_content`, `psico_admin_accounts`, `psico_admin_sessions` y `psico_login_attempts`, sus índices y reglas de acceso. No exportar toda la base de CVStudio porque contiene otros proyectos. Las sesiones y los intentos de acceso son temporales: iniciar sesiones nuevas en destino.
+Copiar únicamente las tablas `psico_site_content`, `psico_admin_accounts`, `psico_admin_sessions`, `psico_login_attempts` y `psico_admissions`, sus índices y reglas de acceso. No exportar toda la base de CVStudio porque contiene otros proyectos. Las sesiones y los intentos de acceso son temporales: iniciar sesiones nuevas en destino.
 
 Migrar los contenidos y registros de cuentas conservando los hashes, sales e iteraciones de contraseña. Nunca exportar contraseñas en texto plano. Revisar las políticas y permisos de las tablas antes de habilitar el destino.
 
@@ -34,3 +34,15 @@ Cloudflare publica o dirige la web; la cuenta y su vigencia se consultan en Supa
 5. Coordinar el cambio definitivo y evitar nuevas escrituras en la beta durante la copia final.
 6. Verificar el dominio definitivo y entregar accesos al cliente.
 7. Solo después de validar la entrega, retirar la carpeta y los recursos exclusivos de Una Psico Argentina de CVStudio. No borrar ni modificar recursos compartidos por otros proyectos.
+
+
+
+## Admisiones digitales y biblioteca de recursos
+
+Aplicar también `admision-digital.sql` al preparar un destino nuevo que ya tenga las tablas base. Incluir la función `psico_register_with_admission`, sus permisos exclusivos de service_role y el acceso cerrado de `psico_admissions`. Las cuentas y admisiones nuevas se crean en una sola transacción. No exportar respuestas a archivos de código ni a repositorios; migrar los registros confidenciales por un canal privado.
+
+Los formularios conservan la versión `2026-10-v1` y la autorización de recepción de las respuestas. El panel muestra un aviso sin respuestas clínicas; solo administradores autenticados pueden abrir los formularios. Ninguna respuesta provoca una decisión clínica automática. Los usuarios no pueden consultar las respuestas de otros usuarios.
+
+Los audios de Recursos se conservan en la misma biblioteca privada de episodios con `kind: resource`. Se administran en Podcast y recursos y se muestran en la tarjeta Recursos dentro de Podcast. Se mantienen los nombres de archivos al trasladar el bucket privado.
+
+El dominio de CVStudio continúa siendo la beta. Los pagos reales, sus credenciales y webhooks siguen pendientes de confirmación; completar la admisión no realiza un cobro ni activa el acceso.
