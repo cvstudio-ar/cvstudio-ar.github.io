@@ -16,8 +16,8 @@ h1,h2,h3,.brand strong,header strong{font-family:var(--font-heading)}
 .brand small{line-height:1.6}
 .menu a:hover,.footer-links a:hover{color:var(--terracotta)}
 /* Keep the color wash across the full hero height, independent of text height. */
-.hero{background-color:var(--cream);isolation:isolate}
-.hero:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,#ffedc1fa 0%,#ffedc1fa 33%,#ffedc100 58%)}
+.hero{background-color:#f1f1f1;isolation:isolate}
+.hero:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,#f1f1f1fa 0%,#f1f1f1fa 33%,#f1f1f100 58%)}
 .hero-copy{background:transparent}
 .hero:after{background:var(--paper);z-index:2;pointer-events:none}
 .btn,.more{color:var(--navy);background:var(--paper);border:1px solid var(--navy);box-shadow:none}
@@ -62,7 +62,7 @@ header:not(.top){background:var(--navy);color:var(--paper)}
   .brand .logo-image{width:64px;height:66px}.top .brand{gap:10px}.top .brand strong{font-size:20px}
   .brand small{font-size:6px;letter-spacing:.65px}.top{padding-top:12px;padding-bottom:12px}
   .hero-copy{background:transparent}
-  .hero:before{background:linear-gradient(180deg,#ffedc1 0%,#ffedc1fa 42%,#ffedc1b3 58%,#ffedc100 80%)}
+  .hero:before{background:linear-gradient(180deg,#f1f1f1 0%,#f1f1f1fa 42%,#f1f1f1b3 58%,#f1f1f100 80%)}
   .footer .brand{flex-basis:100%}.footer .logo-image{width:84px;height:86px}
   .admin-brand img{width:62px;height:64px}.admin-brand{gap:12px}
 }
