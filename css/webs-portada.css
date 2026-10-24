@@ -1,0 +1,57 @@
+/* Portada aprobada: composición editorial y recorridos de luz suaves. */
+.intro-scene{margin-top:0;padding-top:0;isolation:isolate;background:radial-gradient(ellipse at 75% 45%,#0c365766,transparent 55%)}
+.intro-scene:before{display:none}
+.hero-light{position:absolute;inset:-115px 0 0;width:100%;height:calc(100% + 115px);z-index:-1;overflow:hidden;pointer-events:none}
+.hero-light svg{width:100%;height:100%;display:block;overflow:visible}
+.light-track{fill:none;stroke:#329cd0;stroke-width:1.2;opacity:.34;vector-effect:non-scaling-stroke}
+.light-track.bright{stroke:#93e7ff;opacity:.68}
+.light-run{fill:none;stroke:#baf3ff;stroke-width:2;stroke-linecap:round;stroke-dasharray:48 952;animation:light-travel 16s linear infinite;filter:url(#hero-light-glow);vector-effect:non-scaling-stroke}
+.light-run.second{stroke:#64cfff;stroke-width:1.6;stroke-dasharray:32 968;animation-duration:21s;animation-delay:-11s}
+.light-run.third{stroke:#a6eaff;stroke-dasharray:26 974;animation-duration:24s;animation-delay:-6s;opacity:.65}
+@keyframes light-travel{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
+.light-stopped .light-run{animation-play-state:paused}
+.intro-scene .hero{display:grid;grid-template-columns:minmax(0,.91fr) minmax(0,1.09fr);gap:12px;align-items:center;min-height:clamp(490px,calc(100svh - 225px),700px);padding:36px 0 30px;text-align:left;isolation:auto}
+.intro-scene .hero:before,.intro-scene .hero:after{display:none}
+.intro-scene .hero-copy{grid-column:1;grid-row:1;align-items:flex-start;padding:0 0 0 4px;max-width:none;width:100%;z-index:1}
+.hero-copy .hero-kicker{font-size:10px;letter-spacing:.27em;color:#afc9d8;line-height:1.7;margin:0 0 20px;text-transform:uppercase}
+.intro-scene .hero h1{font-size:clamp(40px,4.15vw,72px);line-height:1.08;letter-spacing:-.055em;margin:0;font-weight:800;white-space:normal;text-wrap:balance}
+.intro-scene .hero h1 em{color:#79e5fc;white-space:nowrap}
+.intro-scene .hero-copy>p{font-size:clamp(14px,1.28vw,19px);line-height:1.65;max-width:540px;margin:24px 0 30px;color:#c2d4e1;text-wrap:pretty}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px}
+.hero-actions .button{border-radius:12px;min-height:52px;padding:14px 25px;font-size:13px;min-width:170px}
+.hero-actions .button.primary{background:linear-gradient(120deg,#74eaff,#38cee9);box-shadow:0 8px 26px #12bfd323;color:#041b25}
+.hero-actions .button.secondary{border:1px solid #6ae2fa;background:#04141dc9;box-shadow:none;color:#fff}
+.hero-art{margin:0 -16px 0 0;min-width:0;position:relative;z-index:1;align-self:center}
+.hero-art:after{content:"";position:absolute;left:9%;right:0;bottom:2%;height:12%;border-radius:50%;background:#48b6d61a;filter:blur(20px);z-index:-1}
+.hero-art img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 22px #0004)}
+.hero-art figcaption{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.intro-scene .benefits{border-radius:0;border-inline:0;background:linear-gradient(90deg,#061521da,#071b2cdd);box-shadow:none;backdrop-filter:none}
+.intro-scene .benefits>div{min-height:90px;padding:18px 20px;gap:15px}
+.intro-scene .benefits b{font-size:12px;font-weight:500}
+.intro-scene .benefit-icon{color:#64dff7}
+.intro-scene .benefit-icon svg{width:32px;height:32px}
+.hero-motion-toggle{display:flex;align-items:center;justify-content:center;position:absolute;right:18px;bottom:102px;width:30px;height:30px;padding:0;border:1px solid #83d2f43b;border-radius:50%;background:#061521b3;color:#a6ccdd;font:14px system-ui;cursor:pointer;z-index:2}
+.hero-motion-toggle:hover{background:#153448;color:#fff}
+.hero-motion-toggle:focus-visible,.hero-actions a:focus-visible{outline:2px solid #8eefff;outline-offset:5px}
+.hero-motion-toggle[hidden]{display:none}
+.topbar{border-color:#76c8ed55;background:#04121ee6;border-radius:20px;min-height:70px}
+.topbar>nav a[href="#arma-tu-web"]{border-radius:10px}
+@media(min-width:1550px){.shell{width:min(1600px,calc(100% - 100px))}.intro-scene .hero{gap:25px}.hero-art{margin-right:-10px}.intro-scene .benefits b{font-size:14px}}
+@media(min-width:781px) and (max-width:1050px){.intro-scene .hero{grid-template-columns:1fr 1fr;min-height:470px}.intro-scene .hero h1{font-size:40px}.hero-actions{gap:10px}.hero-actions .button{min-width:140px;padding-inline:18px}.intro-scene .benefits>div{padding:15px 10px;gap:8px}.intro-scene .benefits b{font-size:10px}}
+@media(max-width:780px){
+ .intro-scene .hero{display:flex;flex-direction:column;gap:14px;min-height:0;padding:36px 0 20px;text-align:center}
+ .intro-scene .hero-copy{padding:0;align-items:center}
+ .hero-copy .hero-kicker{font-size:9px;margin-bottom:15px;letter-spacing:.2em}
+ .intro-scene .hero h1{font-size:clamp(36px,7.2vw,53px);line-height:1.1;max-width:590px}
+ .intro-scene .hero-copy>p{font-size:14px;line-height:1.65;margin:19px 0 22px;max-width:460px}
+ .hero-actions{justify-content:center;width:100%;gap:11px}
+ .hero-actions .button{min-width:145px;font-size:12px;min-height:48px;padding:12px 20px;width:auto}
+ .hero-art{margin:0;width:min(100%,590px)}
+ .hero-light{inset:-90px 0 0;height:calc(100% + 90px)}
+ .intro-scene .benefits>div{min-height:82px;padding:14px 10px;gap:9px}
+ .intro-scene .benefits b{font-size:10px;line-height:1.5}
+ .intro-scene .benefit-icon{width:25px;height:25px}.intro-scene .benefit-icon svg{width:25px;height:25px}
+ .hero-motion-toggle{right:10px;bottom:180px}
+}
+@media(max-width:390px){.intro-scene .hero h1{font-size:33px}.hero-actions .button{min-width:0;flex:1;padding-inline:10px}.intro-scene .hero-copy>p{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.light-run{animation:none;stroke-dasharray:none;opacity:.2;filter:none}.hero-motion-toggle{display:none}.hero-actions .button{transition:none}.hero-actions .button:hover{transform:none}}
