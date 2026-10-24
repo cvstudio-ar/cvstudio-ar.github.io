@@ -17,18 +17,40 @@
     }));
   }
   const kicker = document.querySelector('.hero-kicker');
-  if (kicker && !kicker.querySelector('.kicker-rotator')) {
-    kicker.setAttribute('aria-label', 'Diseño web a tu medida');
+  if (kicker) {
+    const phrases = ['Diseño web a tu medida', 'Rapidez', 'Modernización', 'Estrategia de venta', 'Diseño personalizado', 'Tu negocio a otro nivel', 'CVStudio'];
+    let phraseIndex = 0;
     const rotator = document.createElement('span');
     rotator.className = 'kicker-rotator';
     rotator.setAttribute('aria-hidden', 'true');
-    ["Diseño web a tu medida", "Rapidez", "Modernización", "Estrategia de venta", "Diseño personalizado", "Tu negocio a otro nivel", "CVStudio"].forEach((text, index) => {
-      const phrase = document.createElement('span');
-      phrase.textContent = text;
-      phrase.style.setProperty('--phrase-delay', `${index * 2}s`);
-      rotator.append(phrase);
-    });
+    rotator.textContent = phrases[0];
+    kicker.setAttribute('aria-label', 'Diseño web a tu medida');
     kicker.replaceChildren(rotator);
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // El texto también cambia con movimiento reducido; solo se omite el difuminado.
+    let transitionTimer;
+    let interval;
+    function advancePhrase() {
+      if (document.hidden) return;
+      const change = () => {
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        rotator.textContent = phrases[phraseIndex];
+        rotator.classList.remove('is-changing');
+      };
+      if (motionPreference.matches) { change(); return; }
+      rotator.classList.add('is-changing');
+      transitionTimer = window.setTimeout(change, 180);
+    }
+    function syncTicker() {
+      window.clearInterval(interval);
+      window.clearTimeout(transitionTimer);
+      rotator.classList.remove('is-changing');
+      if (!document.hidden) interval = window.setInterval(advancePhrase, 2000);
+    }
+    document.addEventListener('visibilitychange', syncTicker);
+    window.addEventListener('pageshow', syncTicker);
+    window.addEventListener('pagehide', () => { window.clearInterval(interval); window.clearTimeout(transitionTimer); });
+    syncTicker();
   }
   const scene = document.querySelector('.intro-scene');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -37,7 +59,8 @@
     scene?.classList.toggle('light-stopped', reduced.matches || !visible || document.hidden);
   }
   document.addEventListener('visibilitychange', updateMotion);
-  reduced.addEventListener('change', updateMotion);
+  if (reduced.addEventListener) reduced.addEventListener('change', updateMotion);
+  else if (reduced.addListener) reduced.addListener(updateMotion);
   if (scene && 'IntersectionObserver' in window) {
     new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; updateMotion(); }).observe(scene);
   }
