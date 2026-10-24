@@ -43,6 +43,7 @@
     return 10;
   };
   function status(text, mode='connected') {
+    if (window.CVStudioSyncHealth) { window.CVStudioSyncHealth.report('production', text, mode); return; }
     const el = document.getElementById(STATUS_ID);
     if (!el) return;
     el.dataset.mode = mode;
@@ -344,6 +345,8 @@
       return false;
     }finally{liveSyncRunning=false;}
   }
+
+  window.CVStudioRetryRealSync = () => refreshReal('real-bridge-retry');
 
   window.addEventListener('DOMContentLoaded',async()=>{
     await waitForStageReady();

@@ -1366,7 +1366,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }).sort((a,b)=>new Date(b.createdAt||b.time||0)-new Date(a.createdAt||a.time||0));
   };
   function updateFormNotificationBadge(announce=false){
-    const count=unreadFormAlerts().length;
+    const count=unreadFormAlerts().length+(window.CVStudioSyncHealth?.count()||0);
     if(notificationCount){notificationCount.textContent=String(count);notificationCount.hidden=count===0;}
     notificationButton?.classList.toggle('is-read',!count);
     if(announce&&count>lastFormAlertCount)toast(count===1?'Nuevo formulario recibido.':`${count} formularios nuevos recibidos.`);
@@ -1376,7 +1376,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const forms=unreadFormAlerts(),activityItems=(state.activities||[]).slice(0,Math.max(0,5-forms.length));
     const formContent=forms.map(client=>`<div class="header-notification-item"><span style="--c:#ffd23f">${icon('file')}</span><div><strong>Nuevo formulario: ${esc(client.name)}</strong><small>${esc(client.service||'Solicitud web')}${client.files?.length?` · ${client.files.length} archivo(s)`:''}</small></div><time>${formatDateTime(client.createdAt||client.time)}</time></div>`).join('');
     const activityContent=activityItems.map(item=>`<div class="header-notification-item"><span style="--c:${activityColor(item.type)}">${icon(typeIcon(item.type))}</span><div><strong>${esc(item.title)}</strong><small>${esc(item.detail)}</small></div><time>${formatDateTime(item.at||item.createdAt)}</time></div>`).join('');
-    const content=formContent||activityContent||`<div class="header-notification-item"><span style="--c:#35d07f">${icon('database')}</span><div><strong>Sin formularios nuevos</strong><small>El Centro está sincronizado con Supabase.</small></div></div>`;
+    const syncContent=window.CVStudioSyncHealth?.count()?window.CVStudioSyncHealth.html():'';
+    const content=syncContent+(formContent||activityContent||`<div class="header-notification-item"><span style="--c:#35d07f">${icon('database')}</span><div><strong>Sin formularios nuevos</strong><small>${esc(window.CVStudioSyncHealth?.summary()||'Conexión sin verificar')}</small></div></div>`);
     openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('bell')}</span><h2 id="modalTitle">Notificaciones</h2></div><small>Formularios y movimientos recientes</small></div><div class="header-notification-list">${content}</div>`);
     if(forms.length){
       const seen=readSeenFormAlerts();forms.forEach(client=>seen.add(formAlertId(client)));
@@ -1384,6 +1385,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }
     notificationButton.classList.add('is-read');updateFormNotificationBadge(false);
   };
+  window.addEventListener('cvstudio:sync-health',()=>updateFormNotificationBadge(false));
   updateFormNotificationBadge(false);
 
   const miniCalendarHtml=()=>{
