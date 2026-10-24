@@ -25,7 +25,7 @@
     ["Diseño web a tu medida", "Rapidez", "Modernización", "Estrategia de venta", "Diseño personalizado", "Tu negocio a otro nivel", "CVStudio"].forEach((text, index) => {
       const phrase = document.createElement('span');
       phrase.textContent = text;
-      phrase.style.setProperty('--phrase-delay', `${index * 4}s`);
+      phrase.style.setProperty('--phrase-delay', `${index * 2}s`);
       rotator.append(phrase);
     });
     kicker.replaceChildren(rotator);
