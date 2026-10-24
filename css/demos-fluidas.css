@@ -1,0 +1,28 @@
+/* A shared fluid gutter keeps content close to the viewport at every width. */
+.demo-barberia,.demo-juridico{min-width:0;overflow-wrap:break-word;grid-template-rows:auto minmax(0,1fr) auto}
+.demo-barberia .wrap,.demo-juridico .wrap{width:calc(100% - clamp(32px,5vw,112px));max-width:none;margin-inline:auto}
+.demo-barberia .hero-content,.demo-juridico .hero-content{min-width:0}
+.demo-barberia .hero-content h1{font-size:clamp(34px,5.7vw,88px)}
+.demo-juridico .hero-content h1{font-size:clamp(38px,5.7vw,88px)}
+.demo-juridico .showcase-inner{height:auto;min-height:calc(100svh - 124px)}
+.demo-juridico .footer-inner{flex-wrap:wrap;gap:12px;min-height:56px;padding-block:12px}
+.demo-juridico .explore,.demo-barberia .services{min-width:0}
+@media(min-width:1101px){
+ .demo-barberia .hero-content{max-width:760px}
+ .demo-barberia .hero-content p{font-size:clamp(16px,1.2vw,20px);max-width:400px}
+ .demo-barberia .hero-content .button{font-size:12px;min-height:48px;min-width:220px}
+ .demo-barberia .demo-label{font-size:9px}.demo-barberia .brand-tagline{font-size:8px}.demo-barberia .header-mark{font-size:10px}
+ .demo-barberia .service-copy strong{font-size:clamp(16px,1.2vw,21px)}
+ .demo-barberia .service-copy small{font-size:9px}.demo-barberia .service-copy>span{font-size:12px}
+ .demo-barberia .footer-credit{font-size:10px}
+}
+@media(max-width:700px){
+ .demo-barberia .wrap,.demo-juridico .wrap{width:calc(100% - 32px)}
+ .demo-barberia .hero-content h1{font-size:clamp(32px,9vw,55px)}
+ .demo-juridico .hero-content h1{font-size:clamp(31px,8.9vw,48px)}
+ .demo-juridico .showcase-inner{height:auto;min-height:calc(100svh - 110px);padding:24px 0;gap:48px}
+ .demo-juridico .explore-card{height:auto;min-height:60px;padding-block:10px}
+ .demo-juridico .card-copy{min-width:0}.demo-juridico .card-copy>span{font-size:11px;line-height:1.4}
+ .demo-juridico .footer-inner{justify-content:center;text-align:center}
+}
+@media(max-height:600px){.demo-juridico .showcase-inner,.demo-barberia .showcase-inner{height:auto;min-height:0;gap:36px}}
