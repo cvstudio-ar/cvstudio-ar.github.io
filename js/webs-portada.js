@@ -94,8 +94,8 @@
     picker.dataset.currency = currency;
     document.documentElement.dataset.preferredCurrency = currency;
     try { localStorage.setItem(storageKey, currency); } catch (_) { /* Funciona sin almacenamiento. */ }
-    notice.hidden = currency === 'ARS';
-    notice.textContent = currency === 'ARS' ? '' : `Tu moneda de preferencia es ${names[currency]}. Por ahora, los precios publicados y el pago online están expresados en ARS. Consultanos por WhatsApp para recibir tu presupuesto en ${names[currency]}.`;
+    notice.hidden = true;
+    notice.textContent = '';
     document.dispatchEvent(new CustomEvent('cvstudio:currencychange', { detail: { currency } }));
   }
   options.forEach(option => option.addEventListener('click', () => {

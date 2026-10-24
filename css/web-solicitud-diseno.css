@@ -23,3 +23,10 @@
 @media(max-width:800px){.web-shop-intro{grid-template-columns:1fr;gap:24px;padding:24px 0 30px}.web-concept{max-width:560px}.concept-copy>strong{font-size:clamp(27px,5.5vw,43px)}}
 @media(max-width:420px){.web-concept-top{padding:12px;gap:9px;font-size:8px}.concept-responsive{font-size:7px}.concept-page{padding:14px}.concept-nav{padding-bottom:14px}.concept-nav>strong{font-size:22px}.concept-nav>span{font-size:6px}.concept-nav strong span{font-size:5px}.concept-hero{gap:12px;padding:18px 0}.concept-copy>small{font-size:6px;letter-spacing:.07em}.concept-copy>strong{font-size:28px;margin:12px 0}.web-shop-intro .concept-copy p{font-size:8px;margin-bottom:13px}.concept-cta{font-size:7px;gap:8px;padding:8px}.concept-art{border-top-left-radius:55px}.concept-art>span{font-size:5px;left:6px;bottom:6px;padding:5px}.concept-services{font-size:8px;gap:6px}.concept-services span{gap:4px}.concept-services b{font-size:6px}.web-concept figcaption{padding:12px;font-size:10px}.web-concept figcaption small{display:none}}
 @media(max-width:340px){.concept-nav>span{display:none}.concept-copy>strong{font-size:24px}.concept-cta{font-size:6px;gap:5px}.concept-hero{gap:8px}.concept-services{font-size:7px}}
+
+/* Premium visual fills the composition, without an enclosing photo frame. */
+.web-shop-intro{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(24px,3vw,58px);padding-block:28px 36px}
+.web-concept--premium{max-width:850px;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+.web-shop-intro .web-concept--premium img{display:block;width:100%;height:auto;max-height:none;object-fit:contain;filter:none;mask-image:linear-gradient(to bottom,transparent,#000 6%,#000 88%,transparent),linear-gradient(to right,transparent,#000 3%,#000 97%,transparent);mask-composite:intersect}
+.web-concept--premium figcaption{display:block;text-align:center;font-size:11px;padding:0 8px 8px;color:#9bc9dd;letter-spacing:.04em}
+@media(max-width:800px){.web-shop-intro{grid-template-columns:1fr;gap:14px}.web-concept--premium{max-width:720px}.web-concept--premium figcaption{font-size:10px}}
