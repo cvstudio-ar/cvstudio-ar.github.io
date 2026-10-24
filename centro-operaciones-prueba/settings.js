@@ -1,8 +1,9 @@
 (function(){
 'use strict';
 const KEY='cvstudio.sprint1.settings.v1';
-const APP_RELEASE={version:'v1.8.6',build:'20261024-sync-health-v186',date:'24/10/2026',name:'Sincronización verificada y alertas visibles'};
+const APP_RELEASE={version:'v1.8.7',build:'20261024-live-prices-v187',date:'24/10/2026',name:'Sincronización verificada y alertas visibles'};
 const CHANGELOG=[
+ {version:'v1.8.7',date:'24/10/2026',items:['Precios de todas las categorías conectados con el catálogo público.','Guardado confirmado por lectura del servidor y alertas de cambios pendientes.']},
  {version:'v1.8.6',date:'24/10/2026',items:['Identificadores de servicios estables al reordenar precios.','Errores de sincronización visibles en pantalla y notificaciones.','Cambios pendientes conservados para reintentar el guardado.']},
  {version:'v1.8.2',date:'12/09/2026',items:['Acceso anónimo eliminado de los datos operativos.','Panel oculto hasta validar la sesión.','Métricas simuladas reemplazadas por actividad registrada.','Respaldos falsos retirados y exportación local identificada correctamente.']},
  {version:'v1.4.65',date:'15/08/2026',items:['Campañas de Meta filtradas por estado efectivo y fecha de finalización.','Desplazamiento interno habilitado en Campañas activas.','Logos transparentes y personalizados restaurados en Integraciones.']},

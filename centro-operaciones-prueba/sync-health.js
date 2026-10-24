@@ -3,7 +3,7 @@
   'use strict';
   const sources = new Map();
   const timers = new Map();
-  const labels = {operations:'Guardado operativo',production:'Lectura de datos reales'};
+  const labels = {prices:'Publicación de precios',operations:'Guardado operativo',production:'Lectura de datos reales'};
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const issues = () => [...sources].filter(([,s]) => s.error);
   const summary = () => issues().length ? 'Sincronización con errores' : [...sources.values()].some(s=>s.mode==='syncing') ? 'Sincronizando…' : sources.size ? 'Conexión verificada' : 'Sin verificar';
@@ -45,7 +45,7 @@
     const button=e.target.closest('[data-sync-retry]');
     if(!button)return;
     button.disabled=true;button.textContent='Reintentando…';
-    try { await window.CVStudioRetryOperationalSync?.(); await window.CVStudioRetryRealSync?.(); }
+    try { await window.CVStudioRetryPriceSync?.(); await window.CVStudioRetryOperationalSync?.(); await window.CVStudioRetryRealSync?.(); }
     finally {render();if(button.isConnected){button.disabled=false;button.textContent='Reintentar sincronización';}}
   });
 })();

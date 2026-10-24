@@ -2,6 +2,8 @@
   'use strict';
 
   const whatsapp = '5492964652318';
+  const priceApi='https://eqepkoegzyqklpxkrkhm.supabase.co/functions/v1/cvstudio-prices';
+  const priceProductIds={express:'cv-express',basico:'cv-basico',estandar:'cv-estandar',avanzado:'cv-avanzado',profesional:'cv-profesional'};
 
   const categories = [
     {
@@ -35,6 +37,8 @@
       benefits: ['Análisis integral de la información.','Redacción profesional completa.','Estructura y colores definidos a medida.','Selección de habilidades y palabras clave.','Adaptación al sector y al objetivo laboral.','Entrega final en formato PDF.']
     }
   ];
+
+  categories.forEach(category=>{category.price='Consultar';category.verified=false;});
 
   const models = [
     { code:'EXP-01', category:'express', title:'Azul Ejecutivo', image:'/assets/cv-disponibles/exp-01.webp', description:'Diseño sobrio en azul oscuro, con estructura de dos columnas y lectura directa.' },
@@ -88,7 +92,7 @@
   let touchStartY = 0;
 
   const requestLink = (model, category) => {
-    const message = `Hola CVStudio, quiero solicitar el modelo ${model.code} — ${category.name} de ${category.price}. ¿Cómo puedo comenzar?`;
+    const message = `Hola CVStudio, quiero solicitar el modelo ${model.code} — ${category.name}${category.verified?' de '+category.price:''}. ¿Cómo puedo comenzar?`;
     return `https://wa.me/${whatsapp}?text=${encodeURIComponent(message)}`;
   };
 
@@ -203,4 +207,36 @@
     const deltaY = event.changedTouches[0].clientY - touchStartY;
     if (Math.abs(deltaX) > 55 && Math.abs(deltaX) > Math.abs(deltaY)) move(deltaX > 0 ? -1 : 1);
   }, { passive:true });
+  let pricesLoading=false,lastPriceFetch=0;
+  async function refreshPrices(){
+    if(pricesLoading)return;
+    pricesLoading=true;lastPriceFetch=Date.now();
+    let note=document.getElementById('catalogPriceStatus');
+    if(!note){note=document.createElement('p');note.id='catalogPriceStatus';note.setAttribute('role','status');note.style.cssText='font-size:13px;margin-top:10px';elements.tabs.after(note);}
+    try{
+      const response=await fetch(priceApi,{cache:'no-store',signal:AbortSignal.timeout(15000)});
+      const data=await response.json();
+      if(!response.ok||!data.ok||!Array.isArray(data.products))throw new Error('Catálogo no disponible.');
+      const prices=new Map(data.products.map(p=>[p.product_id,Number(p.effective_price)]));
+      for(const category of categories){
+        const value=prices.get(priceProductIds[category.key]);
+        category.verified=Number.isFinite(value)&&value>0;
+        category.price=category.verified?new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(value):'Consultar';
+      }
+      if(categories.some(category=>!category.verified))throw new Error('Faltan precios confirmados.');
+      note.hidden=true;
+    }catch(error){
+      console.warn('No se pudieron verificar los precios del catálogo:',error);
+      note.hidden=false;note.textContent='No pudimos verificar la última actualización de precios. Consultanos por WhatsApp.';
+    }finally{
+      createTabs();showModel(currentIndex);
+      document.querySelectorAll('.catalog-overview details summary').forEach((summary,index)=>{const category=categories[index];if(category)summary.textContent=category.name+' · '+category.price;});
+      if(elements.dialog.open){const model=models[currentIndex],category=categoryByKey.get(model.category);elements.dialogSubtitle.textContent=category.name+' · '+category.price;}
+      pricesLoading=false;
+    }
+  }
+  refreshPrices();
+  window.setInterval(()=>{if(document.visibilityState==='visible')refreshPrices();},60000);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&Date.now()-lastPriceFetch>10000)refreshPrices();});
+
 })();

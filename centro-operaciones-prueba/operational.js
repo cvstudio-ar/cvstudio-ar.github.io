@@ -1253,9 +1253,26 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }catch(err){openModal(`<h2>No se pudo abrir Firmas</h2><p style="color:var(--muted)">${esc(err.message)}</p><div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button></div>`);}
   }
   function modalPricesOperational() {
-    showForm('Editar precios','Estos valores se usan para pagos, comisiones y distribución de fondos.',Object.entries(state.prices).map(([name,value])=>input(`price_${encodeURIComponent(name)}`,name,'number',value)).join(''),'Guardar precios',data=>{
-      Object.keys(state.prices).forEach(name=>state.prices[name]=Number(data.get(`price_${encodeURIComponent(name)}`))||0);
-      addActivity('settings','Precios actualizados','La tabla económica fue recalculada');saveState();closeModal();toast('Precios guardados y cálculos recalculados.');openModule('administracion');window.CVStudioRealBridge?.updatePrices(state.prices).then(result=>{const failures=(result.sync||[]).filter(x=>x.state!=='synced');toast(failures.length?'Precios guardados en la web. Tiendanube: hay conexiones pendientes; revisá Webs y Tiendanube.':'Precios sincronizados con la web y las conexiones habilitadas.');}).catch(err=>{console.error(err);toast(`No se sincronizó la web: ${err.message}`);});
+    showForm('Editar precios','Los cambios se confirman contra el catálogo publicado antes de informar que fueron guardados.',Object.entries(state.prices).map(([name,value])=>input('price_'+encodeURIComponent(name),name,'number',value)).join(''),'Guardar precios',async(data,form)=>{
+      const prices={};
+      for(const name of Object.keys(state.prices)){
+        const value=Number(data.get('price_'+encodeURIComponent(name)));
+        if(!Number.isInteger(value)||value<1||value>10000000){toast('Ingresá importes enteros mayores que cero.');return;}
+        if(value!==Number(state.prices[name]))prices[name]=value;
+      }
+      if(!Object.keys(prices).length){closeModal();return;}
+      const button=form.querySelector('[type="submit"]');button.disabled=true;button.textContent='Guardando y verificando…';
+      form.querySelector('[data-price-error]')?.remove();
+      try{
+        if(!window.CVStudioRealBridge)throw new Error('La conexión de precios no está disponible.');
+        const result=await window.CVStudioRealBridge.updatePrices(prices);
+        state.prices={...state.prices,...prices};
+        addActivity('settings','Precios actualizados','Guardado confirmado en el catálogo');saveState();closeModal();openModule('administracion');
+        const failures=(result.sync||[]).filter(x=>x.state!=='synced');
+        toast(failures.length?'Precios publicados. Revisá la conexión de Tiendanube.':'Precios guardados y verificados en la web.');
+      }catch(error){
+        console.error(error);const message=document.createElement('p');message.dataset.priceError='';message.setAttribute('role','alert');message.style.cssText='grid-column:1/-1;color:#ff8193';message.textContent='No se confirmó el cambio: '+error.message;form.appendChild(message);
+      }finally{button.disabled=false;button.textContent='Guardar precios';}
     });
   }
   function modalExpense() {

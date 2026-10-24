@@ -1,6 +1,6 @@
 {
-  "version": "1.8.6",
-  "build": "20261024-sync-health-v186",
+  "version": "1.8.7",
+  "build": "20261024-live-prices-v187",
   "date": "2026-10-24",
   "description": "Identificadores estables de servicios y alertas visibles de sincronización"
 }
