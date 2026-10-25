@@ -1,7 +1,7 @@
 // Public price reads and authenticated administrative updates.
 // Web/Tiendanube updates continue through the existing commerce Worker.
 const ALLOWED = new Set(['cv-express','cv-basico','cv-estandar','cv-avanzado','entrevistas','kit-emprendedor','kit-web']);
-const ADMIN_ID='3a8b4d50-305a-4da5-9fde-64bd2c8ed68d';
+const ADMIN_IDS=new Set(['3a8b4d50-305a-4da5-9fde-64bd2c8ed68d','6a608be9-da9f-4fb6-941c-4a14ac62a865']);
 Deno.serve(async req => {
   const origin=req.headers.get('origin')||'';
   const permitted=['https://cvstudio.com.ar','https://www.cvstudio.com.ar','https://cvstudio-ar.github.io'];
@@ -31,7 +31,7 @@ Deno.serve(async req => {
     const auth=await fetch(url+'/auth/v1/user',{headers:{apikey:publicKey,Authorization:authorization}});
     const user=auth.ok?await auth.json():null;
     if(!user?.id)return reply({ok:false,message:'Sesión inválida o vencida.'},401);
-    if(user.id!==ADMIN_ID && user.app_metadata?.role!=='Director')return reply({ok:false,message:'Se requiere acceso de administración.'},403);
+    if(!ADMIN_IDS.has(user.id) && user.app_metadata?.role!=='Director')return reply({ok:false,message:'Se requiere acceso de administración.'},403);
     const body=await req.json(),entries=Object.entries(body.products||{});
     if(!entries.length||entries.length>ALLOWED.size)return reply({ok:false,message:'Seleccioná precios válidos.'},400);
     for(const [id,value] of entries)if(!ALLOWED.has(id)||typeof value!=='number'||!Number.isInteger(value)||value<1||value>10000000)return reply({ok:false,message:'Servicio o precio inválido.'},400);
