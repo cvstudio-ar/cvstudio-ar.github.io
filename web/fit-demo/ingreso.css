@@ -3,3 +3,12 @@
 .fit-control>.fit-input-caption{display:flex;align-items:center}.fit-input-caption>button{margin-left:auto;white-space:nowrap}.fit-auth .fit-password{display:block}.fit-auth .fit-password .icon{width:18px;height:18px}.fit-student-main .plan-heading{margin-bottom:22px}
 
 @media(max-width:760px){.fit-student-actions{gap:5px}.fit-student-actions button{width:30px;height:30px}.fit-student-actions [data-access="steps"],.fit-student-actions [data-access="download"]{display:none}.fit-mobile-brand .fit-logo{font-size:17px;gap:6px}.fit-mobile-brand .fede-mark{width:24px;height:24px}.fit-mobile-brand .fede-mark img{width:58px;left:-14px;top:-11px}}
+
+/* Escaneo radiográfico: una banda de luz revela la trama sin cubrir el contenido. */
+.fit-story{background:radial-gradient(ellipse at 86% 18%,#a1d62920,transparent 55%),linear-gradient(#ffffff04 1px,transparent 1px),linear-gradient(90deg,#ffffff04 1px,transparent 1px),#101313;background-size:auto,24px 24px,24px 24px,auto}
+.fit-story:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;will-change:transform,opacity;background:radial-gradient(circle at 72% 38%,#ddff9e 0 2px,#b1ed3550 3px,transparent 12px),radial-gradient(circle at 27% 58%,#c9ff76 0 1px,#b1ed3530 2px,transparent 10px),linear-gradient(0deg,#b1ed3530 1px,transparent 1px),linear-gradient(90deg,#b1ed3528 1px,transparent 1px),linear-gradient(180deg,transparent 35%,#79b60c0b 42%,#b1ed3520 49.7%,#dcff945e 50%,#b1ed3518 50.2%,transparent 65%);background-size:auto,auto,24px 24px,24px 24px,auto;mask-image:linear-gradient(180deg,transparent 34%,#0004 43%,#000 49%,#000 51%,#0004 58%,transparent 66%);-webkit-mask-image:linear-gradient(180deg,transparent 34%,#0004 43%,#000 49%,#000 51%,#0004 58%,transparent 66%);animation:fit-xray-scan 10s cubic-bezier(.4,0,.25,1) infinite;filter:drop-shadow(0 0 7px #b1ed3535)}
+.fit-story:after{animation:fit-xray-trace 10s ease-in-out infinite;pointer-events:none}
+@keyframes fit-xray-scan{0%{transform:translateY(-65%);opacity:0}9%{opacity:.8}47%{opacity:1}85%{opacity:.65}94%,100%{transform:translateY(65%);opacity:0}}
+@keyframes fit-xray-trace{0%,100%{opacity:.5}45%,65%{opacity:1}}
+@media(max-width:760px){.fit-story:before{animation-duration:8s;opacity:.6}}
+@media(prefers-reduced-motion:reduce){.fit-story:before{animation:none;transform:none;opacity:.3;will-change:auto}.fit-story:after{animation:none;opacity:.7}}
