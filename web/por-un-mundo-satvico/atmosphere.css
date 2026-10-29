@@ -23,8 +23,6 @@ html[data-atmosphere="day"] .ambient-aurora{opacity:.3}
 .ambient-switch[aria-checked="true"] .switch-track>span{transform:translateX(25px);color:#6b3f84}
 .day-switch{border-color:#c4b15a80;box-shadow:0 0 22px #ffe7a62b;background:linear-gradient(120deg,#fffdf4,#f0f3dce6);color:#426047}
 .day-switch .switch-track{background:#e2e5c8;border-color:#b6bd8d}.day-switch[aria-checked="true"] .switch-track{background:#8caa7a;box-shadow:0 0 20px #d9f29977}
-.ambient-sound{position:fixed;right:20px;bottom:18px;z-index:20;max-width:calc(100vw - 32px);display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:11px 15px;border-radius:18px;border:1px solid #d3b9e357;background:#142238ed;color:#f3eaf9;box-shadow:0 8px 28px #0003;backdrop-filter:blur(16px);font-size:11px}
-.ambient-sound[hidden]{display:none}.ambient-sound button{background:transparent;color:inherit;border:1px solid #e0c6f05c;border-radius:20px;padding:5px 10px;font-size:11px}.ambient-sound label{display:flex;align-items:center;gap:8px}.ambient-sound input{width:75px;accent-color:#dab6ee}.ambient-sound .ambient-reset{border:0;text-decoration:underline;text-underline-offset:3px}.sound-state{font-size:11px;color:#ede0c6}
 html:is([data-atmosphere="night"],[data-atmosphere="day"]){--ink:#f1e9f6;--muted:#d1c7df;--line:#ddd2f333;--lavender:#27314a;--cream:#122137}
 html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.hero,.private-section,.about-line,.demo-caption,footer){background:transparent}
 html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(header,.demo-strip){background:#101c30ed;color:#f4eafa;border-color:#d7c5f126;backdrop-filter:blur(20px)}
@@ -55,3 +53,25 @@ html[data-atmosphere="day"] .ambient-world{--ambient-image:url('assets/ambiente-
 html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.hero-badges span,.text-link,.sample-note,.demo-caption,.category-copy p){color:#dcd0e7}
 html:is([data-atmosphere="night"],[data-atmosphere="day"]) .ambient-sound label{color:#f3eaf9}
 html:is([data-atmosphere="night"],[data-atmosphere="day"]) .header-actions .ghost{background:#ffffff12;border-color:#d4b4e5}
+
+/* V9: panoramas continuos y una única figura para ambas atmósferas. */
+.ambient-world:before,.ambient-scene:before{display:none}
+.ambient-night,.ambient-day{inset:0;left:0;right:0;width:100%;height:100%;transform:none;mask-image:none;-webkit-mask-image:none;background-size:cover;background-position:50% 50%;background-repeat:no-repeat}
+.ambient-night{background-image:url('assets/noche-panorama.webp');background-color:#061426}
+.ambient-day{background-image:url('assets/bosque-panorama.webp');background-color:#153a35}
+.ambient-person{position:absolute;left:50%;top:75.8%;width:28vmin;height:25vmin;transform:translate(-50%,-50%);background:url('assets/figura-meditacion.webp') center/contain no-repeat;filter:drop-shadow(0 0 8px #ffd38a45);pointer-events:none}
+.ambient-world canvas{opacity:1}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) footer{padding-bottom:36px}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) .check-list li{color:#ddd5e9}
+html.ambient-still :is(.ambient-aurora,.ambient-sun){animation:none}
+@media(max-width:700px){.ambient-night,.ambient-day{background-position:50% 50%;background-size:cover}.ambient-person{top:76%;width:47vw;height:28vh}}
+/* Misma geometría respecto del lienzo cover en cualquier relación de pantalla. */
+.ambient-person{left:50%;top:calc(50% + max(13.23vw,23.5vh));width:max(15.6vw,27.7vh);height:max(12.94vw,23vh);transform:translate(-50%,-50%)}
+
+/* El lienzo sigue la línea del título, independientemente del interruptor. */
+.practice-title-scene{position:relative;display:flow-root;margin-bottom:15px;isolation:isolate}
+#practicas .practice-title-scene h2{position:relative;z-index:1;margin:0}
+#practicas .practice-title-scene .practice-ribbon{top:50%;transform:translateY(-50%);height:210px;left:-28px;right:-28px;z-index:0}
+@media(max-width:1150px){#practicas .practice-title-scene .practice-ribbon{height:195px;left:-20px;right:-20px}}
+@media(max-width:560px){#practicas .practice-title-scene .practice-ribbon{height:150px;left:-16px;right:-16px}}
+#practicas .practice-title-scene .practice-ribbon{left:50%;right:auto;width:calc(100vw - 4px);transform:translate(-50%,-50%)}

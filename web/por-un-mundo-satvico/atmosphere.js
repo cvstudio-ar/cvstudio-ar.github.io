@@ -6,20 +6,11 @@
   const root = document.documentElement;
   const layer = document.createElement('div');
   layer.className = 'ambient-world'; layer.setAttribute('aria-hidden', 'true');
-  layer.innerHTML = '<div class="ambient-scene ambient-night"></div><div class="ambient-scene ambient-day"></div><div class="ambient-aurora"></div><div class="ambient-sun"></div><canvas></canvas>';
+  layer.innerHTML = '<div class="ambient-scene ambient-night"></div><div class="ambient-scene ambient-day"></div><div class="ambient-aurora"></div><div class="ambient-sun"></div><div class="ambient-person"></div><canvas></canvas>';
   document.body.prepend(layer);
   const canvas = layer.querySelector('canvas'), pen = canvas.getContext('2d');
-  const controls = document.createElement('aside');
-  controls.className = 'ambient-sound'; controls.setAttribute('aria-label', 'Sonido ambiental');
-  controls.hidden = true;
-  controls.innerHTML = '<span class="sound-state" role="status" aria-live="polite"></span><button type="button" class="ambient-mute" aria-pressed="false">Activar sonido</button><label>Volumen<input type="range" min="0" max="60" value="28" aria-label="Volumen ambiental"></label><button type="button" class="ambient-reset">Volver al diseño original</button>';
-  document.body.append(controls);
   function sync() {
     root.dataset.atmosphere = mode;
-    controls.hidden = !mode;
-    controls.querySelector('.ambient-mute').textContent = muted ? 'Activar sonido' : 'Silenciar';
-    controls.querySelector('.ambient-mute').setAttribute('aria-pressed', String(!muted));
-    controls.querySelector('.sound-state').textContent = mode === 'night' ? 'Noche · calma interior' : 'Día · brisa del bosque';
     document.querySelectorAll('[data-ambient]').forEach(b => {
       b.setAttribute('aria-checked', String(mode === b.dataset.ambient));
     });
@@ -76,7 +67,7 @@
       windFilter.frequency.setTargetAtTime(mode==='night'?420:850,ctx.currentTime,2);
       waterFilter.frequency.setTargetAtTime(mode==='night'?800:1400,ctx.currentTime,2);
     } catch {
-      muted=true;controls.querySelector('.sound-state').textContent='El sonido no está disponible en este navegador.';
+      muted=true;
       return false;
     }
     return true;
@@ -98,6 +89,10 @@
       row.innerHTML='<button type="button" class="ambient-switch day-switch" role="switch" aria-checked="false" data-ambient="day"><span class="switch-track"><span>☀</span></span><span><strong>Encendé la luz</strong><small>Respirá la calma del bosque</small></span></button>';
       bottom.before(row);
     }
+    if(top && !top.querySelector('.practice-title-scene')) {
+      const heading=top.querySelector('.section-heading'), title=heading?.querySelector('h2'), ribbon=top.querySelector('.practice-ribbon');
+      if(title&&ribbon){const frame=document.createElement('div');frame.className='practice-title-scene';title.before(frame);frame.append(ribbon,title);}
+    }
     document.querySelectorAll('[data-ambient]').forEach(b=>b.setAttribute('aria-checked',String(mode===b.dataset.ambient)));
     root.classList.toggle('ambient-admin',location.hash.startsWith('#admin'));
     root.classList.toggle('ambient-still',!!document.querySelector('.practice-ribbon.is-still'));
@@ -106,16 +101,13 @@
   document.addEventListener('click', e=>{
     const b=e.target.closest('[data-ambient]');if(b)activate(b.dataset.ambient);
   });
-  controls.querySelector('.ambient-mute').onclick=async()=>{if(muted){if(await sound())sync();}else{muted=true;sync();}};
-  controls.querySelector('input').oninput=e=>{volume=Number(e.target.value)/100;gain();};
-  controls.querySelector('.ambient-reset').onclick=()=>{mode='';muted=true;sync();};
   document.addEventListener('play',gain,true);document.addEventListener('pause',gain,true);document.addEventListener('ended',gain,true);
   document.addEventListener('visibilitychange',()=>{gain();paint();});
   let w=0,h=0, particles=[];
   function resize() {
     w=innerWidth;h=innerHeight;const dpr=Math.min(devicePixelRatio||1,1.5);
     canvas.width=w*dpr;canvas.height=h*dpr;pen.setTransform(dpr,0,0,dpr,0,0);
-    particles=Array.from({length:w<700?32:65},()=>({x:Math.random()*w,y:Math.random()*h,r:.6+Math.random()*1.5,v:5+Math.random()*12,phase:Math.random()*7}));paint();
+    particles=Array.from({length:Math.round((w<700?32:65)*1.25)},()=>({x:Math.random()*w,y:Math.random()*h,r:.7+Math.random()*1.8,v:5+Math.random()*12,phase:Math.random()*7}));paint();
   }
   let last=0;
   function draw(t) {
@@ -123,9 +115,9 @@
     const night=mode==='night';
     particles.forEach(p=>{
       if(!reduced.matches&&!root.classList.contains('ambient-still')){p.y-=p.v*dt;p.x+=Math.sin(t*.00025+p.phase)*dt*5;if(p.y < -8)p.y=h+8;}
-      const glow=.25+.5*(.5+.5*Math.sin(t*.0006+p.phase));
+      const glow=.4+.55*(.5+.5*Math.sin(t*.0006+p.phase));
       pen.beginPath();pen.fillStyle=night?`rgba(255,211,148,${glow})`:`rgba(221,255,177,${glow})`;
-      pen.shadowColor=night?'#ffc684':'#caffb0';pen.shadowBlur=10;pen.arc(p.x,p.y,p.r,0,Math.PI*2);pen.fill();
+      pen.shadowColor=night?'#ffc684':'#caffb0';pen.shadowBlur=18;pen.arc(p.x,p.y,p.r,0,Math.PI*2);pen.fill();
     });
     if(mode&&!document.hidden&&!reduced.matches&&!root.classList.contains('ambient-still'))frame=requestAnimationFrame(draw);
   }
