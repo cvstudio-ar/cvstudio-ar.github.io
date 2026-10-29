@@ -1,7 +1,6 @@
 {
-  "version": "1.8.5",
-  "build": "20261020-admin-balance-v185",
-  "releasedAt": "2026-10-20T11:15:00Z",
-  "channel": "production",
-  "name": "Administrador, indicador intermitente y balance actualizado"
+  "version": "1.8.8",
+  "build": "20261024-alert-layout-v188",
+  "date": "2026-10-24",
+  "description": "Identificadores estables de servicios y alertas visibles de sincronización"
 }

@@ -1253,9 +1253,26 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }catch(err){openModal(`<h2>No se pudo abrir Firmas</h2><p style="color:var(--muted)">${esc(err.message)}</p><div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button></div>`);}
   }
   function modalPricesOperational() {
-    showForm('Editar precios','Estos valores se usan para pagos, comisiones y distribución de fondos.',Object.entries(state.prices).map(([name,value])=>input(`price_${encodeURIComponent(name)}`,name,'number',value)).join(''),'Guardar precios',data=>{
-      Object.keys(state.prices).forEach(name=>state.prices[name]=Number(data.get(`price_${encodeURIComponent(name)}`))||0);
-      addActivity('settings','Precios actualizados','La tabla económica fue recalculada');saveState();closeModal();toast('Precios guardados y cálculos recalculados.');openModule('administracion');window.CVStudioRealBridge?.updatePrices(state.prices).then(result=>{const failures=(result.sync||[]).filter(x=>x.state!=='synced');toast(failures.length?'Precios guardados en la web. Tiendanube: hay conexiones pendientes; revisá Webs y Tiendanube.':'Precios sincronizados con la web y las conexiones habilitadas.');}).catch(err=>{console.error(err);toast(`No se sincronizó la web: ${err.message}`);});
+    showForm('Editar precios','Los cambios se confirman contra el catálogo publicado antes de informar que fueron guardados.',Object.entries(state.prices).map(([name,value])=>input('price_'+encodeURIComponent(name),name,'number',value)).join(''),'Guardar precios',async(data,form)=>{
+      const prices={};
+      for(const name of Object.keys(state.prices)){
+        const value=Number(data.get('price_'+encodeURIComponent(name)));
+        if(!Number.isInteger(value)||value<1||value>10000000){toast('Ingresá importes enteros mayores que cero.');return;}
+        if(value!==Number(state.prices[name]))prices[name]=value;
+      }
+      if(!Object.keys(prices).length){closeModal();return;}
+      const button=form.querySelector('[type="submit"]');button.disabled=true;button.textContent='Guardando y verificando…';
+      form.querySelector('[data-price-error]')?.remove();
+      try{
+        if(!window.CVStudioRealBridge)throw new Error('La conexión de precios no está disponible.');
+        const result=await window.CVStudioRealBridge.updatePrices(prices);
+        state.prices={...state.prices,...prices};
+        addActivity('settings','Precios actualizados','Guardado confirmado en el catálogo');saveState();closeModal();openModule('administracion');
+        const failures=(result.sync||[]).filter(x=>x.state!=='synced');
+        toast(failures.length?'Precios publicados. Revisá la conexión de Tiendanube.':'Precios guardados y verificados en la web.');
+      }catch(error){
+        console.error(error);const message=document.createElement('p');message.dataset.priceError='';message.setAttribute('role','alert');message.style.cssText='grid-column:1/-1;color:#ff8193';message.textContent='No se confirmó el cambio: '+error.message;form.appendChild(message);
+      }finally{button.disabled=false;button.textContent='Guardar precios';}
     });
   }
   function modalExpense() {
@@ -1366,7 +1383,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }).sort((a,b)=>new Date(b.createdAt||b.time||0)-new Date(a.createdAt||a.time||0));
   };
   function updateFormNotificationBadge(announce=false){
-    const count=unreadFormAlerts().length;
+    const count=unreadFormAlerts().length+(window.CVStudioSyncHealth?.count()||0);
     if(notificationCount){notificationCount.textContent=String(count);notificationCount.hidden=count===0;}
     notificationButton?.classList.toggle('is-read',!count);
     if(announce&&count>lastFormAlertCount)toast(count===1?'Nuevo formulario recibido.':`${count} formularios nuevos recibidos.`);
@@ -1376,7 +1393,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const forms=unreadFormAlerts(),activityItems=(state.activities||[]).slice(0,Math.max(0,5-forms.length));
     const formContent=forms.map(client=>`<div class="header-notification-item"><span style="--c:#ffd23f">${icon('file')}</span><div><strong>Nuevo formulario: ${esc(client.name)}</strong><small>${esc(client.service||'Solicitud web')}${client.files?.length?` · ${client.files.length} archivo(s)`:''}</small></div><time>${formatDateTime(client.createdAt||client.time)}</time></div>`).join('');
     const activityContent=activityItems.map(item=>`<div class="header-notification-item"><span style="--c:${activityColor(item.type)}">${icon(typeIcon(item.type))}</span><div><strong>${esc(item.title)}</strong><small>${esc(item.detail)}</small></div><time>${formatDateTime(item.at||item.createdAt)}</time></div>`).join('');
-    const content=formContent||activityContent||`<div class="header-notification-item"><span style="--c:#35d07f">${icon('database')}</span><div><strong>Sin formularios nuevos</strong><small>El Centro está sincronizado con Supabase.</small></div></div>`;
+    const syncContent=window.CVStudioSyncHealth?.count()?window.CVStudioSyncHealth.html():'';
+    const content=syncContent+(formContent||activityContent||`<div class="header-notification-item"><span style="--c:#35d07f">${icon('database')}</span><div><strong>Sin formularios nuevos</strong><small>${esc(window.CVStudioSyncHealth?.summary()||'Conexión sin verificar')}</small></div></div>`);
     openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('bell')}</span><h2 id="modalTitle">Notificaciones</h2></div><small>Formularios y movimientos recientes</small></div><div class="header-notification-list">${content}</div>`);
     if(forms.length){
       const seen=readSeenFormAlerts();forms.forEach(client=>seen.add(formAlertId(client)));
@@ -1384,6 +1402,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }
     notificationButton.classList.add('is-read');updateFormNotificationBadge(false);
   };
+  window.addEventListener('cvstudio:sync-health',()=>updateFormNotificationBadge(false));
   updateFormNotificationBadge(false);
 
   const miniCalendarHtml=()=>{

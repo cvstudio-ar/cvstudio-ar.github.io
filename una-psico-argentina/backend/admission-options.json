@@ -1,0 +1,95 @@
+{
+  "emotions": [
+    "Alegría / entusiasmo",
+    "Tristeza / nostalgia",
+    "Miedo / inseguridad",
+    "Ansiedad / incertidumbre",
+    "Soledad",
+    "Enojo / frustración",
+    "Culpa",
+    "Alivio / tranquilidad",
+    "Esperanza / confianza",
+    "Sensación de no pertenecer",
+    "Me resulta difícil identificar lo que siento",
+    "Otras",
+    "Prefiero no responder"
+  ],
+  "sensations": [
+    "Tensión o rigidez muscular",
+    "Presión u opresión en el pecho",
+    "Nudo en la garganta",
+    "Sensación de vacío o molestias en el abdomen",
+    "Respiración agitada o superficial",
+    "Cansancio, pesadez o falta de energía",
+    "Inquietud corporal o dificultad para permanecer en reposo",
+    "Sensación de desconexión o adormecimiento corporal",
+    "Liviandad o expansión",
+    "Calma o relajación",
+    "No identifico sensaciones particulares",
+    "Otras",
+    "Prefiero no responder"
+  ],
+  "strategies": [
+    "Hablar con alguien de confianza",
+    "Moverme o realizar actividad física",
+    "Descansar",
+    "Realizar actividades creativas o recreativas",
+    "Mantener contacto con personas de mi entorno",
+    "Estar en contacto con la naturaleza",
+    "Respirar, meditar o realizar prácticas corporales",
+    "Todavía no encontré algo que me ayude",
+    "Otras",
+    "Prefiero no responder"
+  ],
+  "substances": [
+    "Tabaco",
+    "Consumo problemático de bebidas alcohólicas",
+    "Consumo problemático de otras sustancias",
+    "Prefiero no responder"
+  ],
+  "supportArgentina": [
+    "Familia",
+    "Pareja",
+    "Amigxs",
+    "Comunidad religiosa/espiritual",
+    "Profesionales de salud mental",
+    "No siento que tenga una red de apoyo",
+    "Otro"
+  ],
+  "supportMigrantes": [
+    "Familia en el país de origen",
+    "Familia en el país de residencia",
+    "Pareja",
+    "Amigxs",
+    "Comunidad migrante",
+    "Comunidad religiosa/espiritual",
+    "Profesionales de salud mental",
+    "No siento que tenga una red de apoyo",
+    "Otro"
+  ],
+  "migrationStage": [
+    "Pre-migración: estoy planificando mi partida y organizando el proyecto migratorio",
+    "Llegada reciente: etapa de adaptación (menos de 6 meses)",
+    "Período de integración (6 meses a 2 años)",
+    "Estabilización a largo plazo (más de 2 años)",
+    "Estoy planificando el retorno a mi país de origen",
+    "Ya regresé a mi país de origen y transito el proceso de retorno"
+  ],
+  "migrationReasons": [
+    "Trabajo",
+    "Estudios, capacitaciones o intercambios",
+    "Situación familiar",
+    "Situación económica en mi país de origen",
+    "Seguridad: situaciones de violencia o amenazas a la integridad psicofísica",
+    "Factores políticos o humanitarios",
+    "Proyecto personal",
+    "Otro"
+  ],
+  "residenceTime": [
+    "Menos de 6 meses",
+    "6 meses a 1 año",
+    "1 a 3 años",
+    "3 a 5 años",
+    "Más de 5 años"
+  ]
+}

@@ -1,0 +1,44 @@
+/* Referencias reales: tres tarjetas, imágenes consistentes y funciones sin precios. */
+.portfolio-showcase.shell{width:calc(100% - clamp(32px,4vw,96px));max-width:1760px;padding-top:65px}
+.portfolio-showcase .section-head{align-items:end;gap:30px;margin-bottom:30px}
+.portfolio-showcase .section-head h2{font-size:clamp(32px,3.2vw,52px);line-height:1.12}
+.portfolio-showcase .section-head>p{max-width:430px;font-size:14px;line-height:1.7;color:#bcd1df}
+.portfolio-showcase .eyebrow{font-size:11px;color:#8bdff6;letter-spacing:.17em}
+.work-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}
+.work-card{display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid #8fcce83d;border-radius:18px;background:linear-gradient(145deg,#0c2132,#071622);box-shadow:0 14px 32px #0003}
+.work-cover{display:block;flex:none;aspect-ratio:3/2;overflow:hidden;background:#071621;border-bottom:1px solid #81c3df35}
+.work-cover img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.work-cover:hover img{transform:scale(1.025)}
+.work-body{display:flex;flex:1;flex-direction:column;padding:24px}
+.work-category{margin:0 0 8px;text-transform:uppercase;color:#8dcfe8;font-size:10px;font-weight:600;line-height:1.5;letter-spacing:.14em}
+.work-body h3{margin:0;color:#f5fbff;font-size:clamp(20px,1.7vw,26px);line-height:1.25;font-weight:600;letter-spacing:-.035em}
+.work-description{margin:12px 0 20px;min-height:64px;font-size:13px;line-height:1.65;color:#bad0de}
+.work-body h4{margin:0 0 13px;color:#dcecf5;font-size:12px;line-height:1.4;font-weight:500}
+.work-features{list-style:none;margin:0 0 19px;padding:0;display:grid;gap:10px}
+.work-features li{position:relative;padding-left:21px;color:#c7dce8;font-size:12px;line-height:1.55}
+.work-features li:before{content:"✓";position:absolute;left:0;top:0;color:#75def5;font-size:13px}
+.work-details{margin:0 0 20px;border-top:1px solid #92cbe52b;border-bottom:1px solid #92cbe52b}
+.work-details summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;padding:14px 0;font-size:12px;color:#9de6fa;cursor:pointer}
+.work-details summary::-webkit-details-marker{display:none}
+.work-details summary span{font-size:21px;font-weight:400;line-height:1}
+.work-details[open] summary span{transform:rotate(45deg)}
+.work-details ul{margin:0;padding:0 0 16px 18px;display:grid;gap:9px;color:#bed3df;font-size:12px;line-height:1.65}
+.work-visit{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:45px;margin-top:auto;padding:12px 16px;border:1px solid #6bd8f0aa;border-radius:10px;background:#0b3447;color:#b4f1ff;font-size:13px;font-weight:600;transition:background .2s}
+.work-visit span{font-size:19px;line-height:1}
+.work-visit:hover{background:#11495f;color:#fff}
+.work-cover:focus-visible,.work-visit:focus-visible,.work-details summary:focus-visible,
+.work-caption{margin:18px 0 0;color:#8faebf;font-size:11px;line-height:1.6}
+
+
+
+
+
+
+
+
+
+@media(min-width:701px) and (max-width:1099px){.work-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.work-body{padding:22px}.work-body h3{font-size:23px}}
+@media(max-width:700px){.portfolio-showcase.shell{width:calc(100% - 30px);padding-top:40px}.portfolio-showcase .section-head{display:block;margin-bottom:22px}.portfolio-showcase .section-head h2{font-size:33px}.portfolio-showcase .section-head>p{margin-top:16px;font-size:13px}.work-grid{grid-template-columns:minmax(0,1fr);gap:24px}.work-body{padding:23px}.work-body h3{font-size:25px}.work-description{min-height:0}.work-features li,.work-details ul,.work-details summary{font-size:13px}.work-visit{font-size:14px;min-height:48px}.work-caption{font-size:10px}}
+@media(prefers-reduced-motion:reduce){.work-cover img,.work-visit{transition:none}.work-cover:hover img{transform:none}}
+
+.demo-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin:45px 0 26px;padding-top:32px;border-top:1px solid #8fcce82b}.demo-heading h2{margin:12px 0 0;font-size:clamp(29px,2.8vw,44px);line-height:1.15;letter-spacing:-.045em}.demo-heading h2 em{font-style:normal;color:#79e5fc}.demo-heading>p{max-width:430px;font-size:14px;line-height:1.7;color:#bcd1df;margin:0}.work-card--demo .work-category{color:#a8cedf}@media(max-width:700px){.demo-heading{display:block;margin-top:32px;padding-top:27px}.demo-heading>p{font-size:13px;margin-top:16px}.demo-heading h2{font-size:32px}}

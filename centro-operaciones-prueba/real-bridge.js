@@ -43,6 +43,7 @@
     return 10;
   };
   function status(text, mode='connected') {
+    if (window.CVStudioSyncHealth) { window.CVStudioSyncHealth.report('production', text, mode); return; }
     const el = document.getElementById(STATUS_ID);
     if (!el) return;
     el.dataset.mode = mode;
@@ -224,7 +225,7 @@
         const key = window.CVStudioServiceNameByProductId?.[p.product_id] || normalizeService(p.title);
         mapped[key] = Number(p.test_mode && p.test_price ? p.test_price : p.unit_price);
       });
-      state.prices = {...state.prices, ...mapped};
+      state.prices = {...state.prices, ...mapped, ...pendingPrices()};
       state._realProducts = products;
     }
     state.portfolios=Array.isArray(portfoliosData.clients)?portfoliosData.clients:state.portfolios||[];
@@ -298,6 +299,9 @@
   async function updatePortfolioClient(portfolioId, changes) { return portfolioApi('portfolio-admin-update', {portfolioId, changes}); }
   async function resetPortfolioPassword(portfolioId, password) { return portfolioApi('portfolio-admin-reset-password', {portfolioId, password}); }
   async function deletePortfolioClient(portfolioId) { return portfolioApi('portfolio-admin-delete', {portfolioId}); }
+  const PRICE_PENDING_KEY='cvstudio_ops_pending_prices_v187';
+  const PRICE_API='https://eqepkoegzyqklpxkrkhm.supabase.co/functions/v1/cvstudio-prices';
+  function pendingPrices(){try{return JSON.parse(localStorage.getItem(PRICE_PENDING_KEY)||'{}');}catch{return {};}}
   async function updatePrices(prices) {
     const priceKeyByProductId = {
       'cv-express':'CV Express',
@@ -313,9 +317,41 @@
       'kit-emprendedor':'Kit Emprendedor',
       'kit-web':'Kit Emprendedor + Web', 'web-basica':'Web de presentación — Pantalla única', 'web-panel':'Web de presentación + Panel administrativo básico', 'web-catalogo':'Web avanzada con catálogo y panel administrativo', 'web-tienda':'Web completa con Tiendanube'
     };
-    const products=Object.fromEntries(Object.entries(priceKeyByProductId).map(([productId,key])=>[productId,Number(prices[key])]));
-    return api('payments-admin-products-update',{products});
+
+    const products=Object.fromEntries(Object.entries(priceKeyByProductId).filter(([,key])=>Object.hasOwn(prices,key)).map(([id,key])=>[id,Number(prices[key])]));
+    if(!Object.keys(products).length)return {ok:true,sync:[]};
+    if(Object.values(products).some(v=>!Number.isInteger(v)||v<1||v>10000000))throw new Error('Ingresá importes enteros mayores que cero.');
+    localStorage.setItem(PRICE_PENDING_KEY,JSON.stringify(prices));
+    window.CVStudioSyncHealth?.report('prices','Guardando y verificando precios…','syncing');
+    try{
+      const supplemental=new Set(['cv-express','cv-basico','cv-estandar','cv-avanzado','entrevistas','kit-emprendedor','kit-web']);
+      const extra=Object.fromEntries(Object.entries(products).filter(([id])=>supplemental.has(id)));
+      const legacy=Object.fromEntries(Object.entries(products).filter(([id])=>!supplemental.has(id)));
+      let result={ok:true,sync:[]};
+      if(Object.keys(extra).length){
+        const session=await currentSession(false);
+        if(!session?.access_token)throw new Error('Iniciá sesión nuevamente para modificar precios.');
+        const response=await fetch(PRICE_API,{method:'POST',cache:'no-store',signal:AbortSignal.timeout(20000),headers:{'Content-Type':'application/json',Authorization:'Bearer '+session.access_token},body:JSON.stringify({products:extra})});
+        const data=await response.json();
+        if(!response.ok||!data.ok)throw new Error(data.message||'No se pudieron guardar los precios.');
+      }
+      if(Object.keys(legacy).length)result=await api('payments-admin-products-update',{products:legacy});
+      const response=await fetch(PRICE_API,{cache:'no-store',signal:AbortSignal.timeout(20000)});
+      const actual=await response.json();
+      if(!response.ok||!actual.ok)throw new Error('No se pudo verificar el precio publicado.');
+      const saved=new Map(actual.products.map(p=>[p.product_id,Number(p.effective_price)]));
+      if(Object.entries(products).some(([id,price])=>saved.get(id)!==price))throw new Error('El servidor no confirmó todos los precios. El cambio continúa pendiente.');
+      localStorage.removeItem(PRICE_PENDING_KEY);
+      const state=getState();state.prices={...state.prices,...prices};setState(state);
+      window.CVStudioSyncHealth?.report('prices','Precios guardados y verificados en el catálogo','connected');
+      window.dispatchEvent(new CustomEvent('cvstudio:state-updated',{detail:{source:'prices-confirmed'}}));
+      return result;
+    }catch(error){
+      window.CVStudioSyncHealth?.report('prices','Precios pendientes: '+error.message,'warning');
+      throw error;
+    }
   }
+  window.CVStudioRetryPriceSync=async()=>{const prices=pendingPrices();if(Object.keys(prices).length)try{await updatePrices(prices);}catch(error){console.error(error);}};
 
   window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, connectCanva, metaStatus, metaCampaigns};
 
@@ -345,8 +381,11 @@
     }finally{liveSyncRunning=false;}
   }
 
+  window.CVStudioRetryRealSync = () => refreshReal('real-bridge-retry');
+
   window.addEventListener('DOMContentLoaded',async()=>{
     await waitForStageReady();
+    if(Object.keys(pendingPrices()).length)window.CVStudioSyncHealth?.report('prices','Hay cambios de precios pendientes de confirmar. Reintentá el guardado.','warning');
     await refreshReal('real-bridge-startup');
     window.setInterval(()=>{if(document.visibilityState==='visible')refreshReal('real-bridge-poll');},60000);
   },{once:true});

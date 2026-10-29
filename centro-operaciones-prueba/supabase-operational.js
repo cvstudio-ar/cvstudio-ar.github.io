@@ -7,6 +7,7 @@
 
   const STORE_KEY = 'cvstudio_ops_operational_v2';
   const STATUS_ID = 'opsSyncStatus';
+  const PENDING_KEY = 'cvstudio_ops_pending_sync_v1';
   const META_ID = 'centro-operaciones-prueba';
   const originalSetItem = Storage.prototype.setItem;
   let client = null;
@@ -44,6 +45,7 @@
   };
 
   function status(text, mode = 'local') {
+    if (window.CVStudioSyncHealth) { window.CVStudioSyncHealth.report('operations', text, mode); return; }
     let el = document.getElementById(STATUS_ID);
     if (!el) {
       const foot = document.querySelector('.sidebar-foot');
@@ -141,6 +143,26 @@
       || /network|failed to fetch|load failed|timeout|temporarily unavailable/i.test(message);
   }
 
+  async function syncServices(prices) {
+    const { data, error } = await client.from(TABLES.services).select('id,name').eq('workspace_id', META_ID);
+    if (error) throw error;
+    const ids = new Map((data || []).map(item => [item.name, Number(item.id)]));
+    const used = new Set((data || []).map(item => Number(item.id)));
+    const services = Object.entries(prices).map(([name, price]) => {
+      let id = ids.get(name);
+      if (!id) {
+        id = row({id: 'service:' + name}).id;
+        while (used.has(id)) id += 1;
+        used.add(id);
+      }
+      return { id, workspace_id: META_ID, name, price: Number(price || 0), active: true, updated_at: new Date().toISOString() };
+    });
+    if (services.length) {
+      const result = await client.from(TABLES.services).upsert(services, { onConflict: 'workspace_id,name' });
+      if (result.error) throw result.error;
+    }
+  }
+
   async function pushState(rawValue, isRetry = false) {
     if (!client || applyingRemote) return;
     if(pushInFlight){ pendingRawValue=rawValue; return; }
@@ -151,20 +173,14 @@
     if (!state) return;
 
     const serialized = JSON.stringify(state);
-    if (serialized === lastSerialized) return;
+    if (serialized === lastSerialized) {
+      if (localStorage.getItem(PENDING_KEY) === rawValue) localStorage.removeItem(PENDING_KEY);
+      status('Sincronización operativa', 'connected'); return;
+    }
     pushInFlight=true;
     status('Guardando cambios…', 'syncing');
 
     try {
-      const services = Object.entries(state.prices).map(([name, price], index) => ({
-        id: index + 1,
-        workspace_id: META_ID,
-        name,
-        price: Number(price || 0),
-        active: true,
-        updated_at: new Date().toISOString()
-      }));
-
       const meta = {
         id: META_ID,
         rules: { ...(state.rules || {}), __urlSpaces: state.urlSpaces || [], __templates: state.templates || [], __calendarItems: state.calendarItems || [], __hiddenClientRefs: state.hiddenClientRefs || [] },
@@ -180,9 +196,7 @@
         syncTable(TABLES.expenses, state.expenses, removedIds(previousState, state, 'expenses')),
         syncTable(TABLES.activities, state.activities, removedIds(previousState, state, 'activities')),
         syncTable(TABLES.collaborators, state.collaborators, removedIds(previousState, state, 'collaborators')),
-        services.length
-          ? client.from(TABLES.services).upsert(services, { onConflict: 'workspace_id,id' }).then(({ error }) => { if (error) throw error; })
-          : Promise.resolve()
+        syncServices(state.prices)
       ]);
 
       // La fila meta se confirma al final. Así Realtime nunca anuncia un
@@ -190,6 +204,7 @@
       const { error: metaError } = await client.from(TABLES.meta).upsert(meta, { onConflict: 'id' });
       if (metaError) throw metaError;
 
+      if (localStorage.getItem(PENDING_KEY) === rawValue) localStorage.removeItem(PENDING_KEY);
       lastSerialized = serialized;
       previousState = state;
       retryAttempt = 0;
@@ -206,7 +221,7 @@
       } else {
         const detail = String(error?.hint || error?.message || 'Error desconocido');
         console.error('[CVStudio RC5] Sincronización detenida:', detail);
-        status(navigator.onLine ? 'Error de sincronización · revisar' : 'Sin conexión · cambios pendientes', 'warning');
+        status(navigator.onLine ? `Guardado pendiente: ${detail}` : 'Sin conexión · cambios pendientes', 'warning');
       }
     } finally {
       pushInFlight=false;
@@ -219,6 +234,7 @@
   }
 
   function schedulePush(rawValue) {
+    originalSetItem.call(localStorage, PENDING_KEY, rawValue);
     clearTimeout(timer);
     clearTimeout(retryTimer);
     timer = setTimeout(() => pushState(rawValue), 500);
@@ -241,6 +257,7 @@
   }
 
   async function pullRemote() {
+    if (pushInFlight || localStorage.getItem(PENDING_KEY)) return;
     status('Cargando Supabase…', 'syncing');
     const { data: meta, error: metaError } = await client.from(TABLES.meta)
       .select('rules,version,updated_at')
@@ -309,6 +326,10 @@
       _sync: { updatedAt: meta.updated_at, source: 'supabase-normalized' }
     });
 
+    // Conservar una copia recuperable del navegador antes de aplicar datos remotos.
+    if (local && Object.keys(local).length) {
+      originalSetItem.call(localStorage, 'cvstudio_ops_before_remote_v186', JSON.stringify({at: new Date().toISOString(), state: local}));
+    }
     applyingRemote = true;
     originalSetItem.call(localStorage, STORE_KEY, JSON.stringify(remote));
     applyingRemote = false;
@@ -368,6 +389,8 @@
       );
       status('Verificando Supabase…', 'syncing');
       await verifySchema();
+      const pending = localStorage.getItem(PENDING_KEY);
+      if (pending) { initialized = true; await pushState(pending); }
       await pullRemote();
       startRealtime();
     } catch (error) {
@@ -387,6 +410,12 @@
     window.CVStudioStageReady = true;
     window.dispatchEvent(new CustomEvent('cvstudio:stage-ready'));
   }
+
+  window.CVStudioRetryOperationalSync = async () => {
+    const raw = localStorage.getItem(PENDING_KEY) || localStorage.getItem(STORE_KEY);
+    if (client && raw) { originalSetItem.call(localStorage, PENDING_KEY, raw); await pushState(raw); }
+    else await boot();
+  };
 
   window.addEventListener('online', () => { status('Reconectando Supabase…', 'syncing'); boot(); });
   window.addEventListener('offline', () => status('Sin conexión · modo local', 'warning'));

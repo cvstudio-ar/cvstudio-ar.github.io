@@ -1,0 +1,32 @@
+/* Purpose-built sample; no screenshots or photographic cutouts. */
+.web-shop-intro{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-items:center;gap:clamp(28px,4vw,76px);padding:36px 0 40px}
+.web-shop-intro>div{min-width:0}
+.web-concept{width:100%;max-width:560px;margin:0 auto;overflow:hidden;border:1px solid #70d4f544;border-radius:16px;background:#0b202d;box-shadow:0 20px 60px #0003,0 0 80px #0a9ec510}
+.web-concept-top{display:flex;align-items:center;gap:14px;padding:14px 18px;color:#a7d3e3;font-size:9px;font-weight:500;letter-spacing:.15em;border-bottom:1px solid #8fd4ee1c}
+.concept-dots{display:flex;gap:5px}.concept-dots i{width:5px;height:5px;border-radius:50%;background:#5c8494}.concept-dots i:first-child{background:#81d9f2}
+.concept-responsive{margin-left:auto;letter-spacing:.08em;font-size:8px;color:#82a3b3}
+.concept-page{padding:23px;background:#eeeade;color:#263b3d}
+.concept-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:18px;border-bottom:1px solid #203c3f24}
+.concept-nav>strong{font-family:Georgia,serif;font-size:26px;font-weight:400;line-height:1;letter-spacing:.12em}
+.concept-nav strong span{display:block;font-family:Arial,sans-serif;font-size:6px;letter-spacing:.16em;margin-top:8px}
+.concept-nav>span{font-size:8px;white-space:nowrap;color:#526266}
+.concept-hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;padding:22px 0}
+.concept-copy{min-width:0}.concept-copy>small{font-size:7px;letter-spacing:.14em;color:#526768}
+.concept-copy>strong{display:block;font-family:Georgia,serif;font-size:clamp(31px,3vw,48px);font-weight:400;line-height:1.1;letter-spacing:-.045em;margin:17px 0}
+.concept-copy em{font-style:italic;font-weight:400;color:#597569}
+.web-shop-intro .concept-copy p{font-family:Arial,sans-serif;font-size:10px;line-height:1.65;color:#536566;margin:0 0 20px;max-width:none}
+.concept-cta{display:inline-flex;gap:18px;align-items:center;padding:10px 12px;border-radius:3px;background:#294e48;color:#f5f0e6;font-size:8px;white-space:nowrap}.concept-cta b{font-size:13px;font-weight:400}
+.concept-art{position:relative;overflow:hidden;border-radius:80px 3px 3px 3px;background:#bcd3d8}.concept-art svg{display:block;width:100%;height:auto}.concept-art>span{position:absolute;bottom:10px;left:10px;font-family:Arial,sans-serif;font-size:7px;letter-spacing:.12em;color:#263f38;background:#f5f0e9d9;padding:6px 8px}
+.concept-services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding-top:13px;border-top:1px solid #203c3f24;font-size:9px}.concept-services span{display:flex;align-items:center;gap:7px;white-space:nowrap}.concept-services b{font-size:7px;color:#71847d;font-weight:400}
+.web-concept figcaption{display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:11px;color:#c0deea}.concept-check{color:#73e3cb}.web-concept figcaption small{font-size:8px;color:#82a3b3;margin-left:auto}
+@media(max-width:1000px) and (min-width:801px){.concept-page{padding:16px}.concept-hero{gap:12px}.concept-nav>span{display:none}.concept-copy>strong{font-size:30px}.concept-copy>small{font-size:6px}.concept-cta{padding:8px;font-size:7px;gap:7px}.web-concept figcaption small{display:none}}
+@media(max-width:800px){.web-shop-intro{grid-template-columns:1fr;gap:24px;padding:24px 0 30px}.web-concept{max-width:560px}.concept-copy>strong{font-size:clamp(27px,5.5vw,43px)}}
+@media(max-width:420px){.web-concept-top{padding:12px;gap:9px;font-size:8px}.concept-responsive{font-size:7px}.concept-page{padding:14px}.concept-nav{padding-bottom:14px}.concept-nav>strong{font-size:22px}.concept-nav>span{font-size:6px}.concept-nav strong span{font-size:5px}.concept-hero{gap:12px;padding:18px 0}.concept-copy>small{font-size:6px;letter-spacing:.07em}.concept-copy>strong{font-size:28px;margin:12px 0}.web-shop-intro .concept-copy p{font-size:8px;margin-bottom:13px}.concept-cta{font-size:7px;gap:8px;padding:8px}.concept-art{border-top-left-radius:55px}.concept-art>span{font-size:5px;left:6px;bottom:6px;padding:5px}.concept-services{font-size:8px;gap:6px}.concept-services span{gap:4px}.concept-services b{font-size:6px}.web-concept figcaption{padding:12px;font-size:10px}.web-concept figcaption small{display:none}}
+@media(max-width:340px){.concept-nav>span{display:none}.concept-copy>strong{font-size:24px}.concept-cta{font-size:6px;gap:5px}.concept-hero{gap:8px}.concept-services{font-size:7px}}
+
+/* Premium visual fills the composition, without an enclosing photo frame. */
+.web-shop-intro{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(24px,3vw,58px);padding-block:28px 36px}
+.web-concept--premium{max-width:850px;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+.web-shop-intro .web-concept--premium img{display:block;width:100%;height:auto;max-height:none;object-fit:contain;filter:none;mask-image:linear-gradient(to bottom,transparent,#000 6%,#000 88%,transparent),linear-gradient(to right,transparent,#000 3%,#000 97%,transparent);mask-composite:intersect}
+.web-concept--premium figcaption{display:block;text-align:center;font-size:11px;padding:0 8px 8px;color:#9bc9dd;letter-spacing:.04em}
+@media(max-width:800px){.web-shop-intro{grid-template-columns:1fr;gap:14px}.web-concept--premium{max-width:720px}.web-concept--premium figcaption{font-size:10px}}
