@@ -18,7 +18,7 @@
   }
   function gain() {
     if (!ctx || !master) return;
-    const mediaPlaying = [...document.querySelectorAll('audio,video')].some(m => !m.paused && !m.ended);
+    const mediaPlaying = [...document.querySelectorAll('audio,video')].some(m => !m.paused && !m.ended && !m.muted && m.volume>0);
     master.gain.setTargetAtTime(muted || !mode || document.hidden || mediaPlaying ? 0 : volume, ctx.currentTime, .65);
   }
   function noise(seconds) {
@@ -101,7 +101,7 @@
   document.addEventListener('click', e=>{
     const b=e.target.closest('[data-ambient]');if(b)activate(b.dataset.ambient);
   });
-  document.addEventListener('play',gain,true);document.addEventListener('pause',gain,true);document.addEventListener('ended',gain,true);
+  document.addEventListener('play',gain,true);document.addEventListener('pause',gain,true);document.addEventListener('ended',gain,true);document.addEventListener('volumechange',gain,true);
   document.addEventListener('visibilitychange',()=>{gain();paint();});
   let w=0,h=0, particles=[];
   function resize() {

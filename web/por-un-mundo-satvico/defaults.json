@@ -5,7 +5,7 @@
     "tagline": "YOGA · MEDITACIÓN · BIENESTAR",
     "heroTitle": "Un espacio para\nvolver a vos.",
     "heroText": "Practicá yoga, escuchá meditaciones y encontrá tu pausa, a tu ritmo.",
-    "heroImage": "assets/instructora-cuencos.webp",
+    "heroImage": "assets/portada-yoga.mp4",
     "logo": "assets/logo-transparente.png",
     "primary": "#773c96",
     "background": "#faf7f2",
@@ -22,7 +22,9 @@
     "showReflections": true,
     "showMembership": true,
     "showAbout": true,
-    "showAmbient": true
+    "showAmbient": true,
+    "heroMediaType": "video",
+    "heroAspectRatio": 1
   },
   "contents": [
     {
