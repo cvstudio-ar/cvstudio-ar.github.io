@@ -1,0 +1,12 @@
+/* Acentos manuscritos inspirados en la identidad del estudio. */
+@font-face{font-family:SatvicoHand;src:url('assets/fonts/handlee-regular.ttf') format('truetype');font-style:normal;font-weight:400;font-display:swap}
+.brand span{font-family:SatvicoHand,'Segoe Print',cursive;font-weight:400;letter-spacing:-.025em;font-size:clamp(23px,2.1vw,33px);color:#80449c}
+.handwritten{font-family:SatvicoHand,'Segoe Print',cursive;font-weight:400;letter-spacing:-.025em}
+.hero h1 .handwritten{display:inline-block;font-size:1.13em;line-height:1.03;letter-spacing:-.035em}
+.neon-violet{color:#8242a0;text-shadow:0 0 2px #a871bd35,0 0 9px #ba82d12e,0 0 22px #c9a2dd20}
+#practicas .section-heading h2.handwritten{font-family:SatvicoHand,'Segoe Print',cursive;font-size:clamp(39px,3.7vw,63px);line-height:1.15;letter-spacing:-.035em}
+.private-copy h2 .handwritten{display:inline-block;font-size:1.08em;line-height:1.15}
+.brand:hover span{text-shadow:0 0 10px #b983d22b}
+@media(max-width:1150px){.brand span{font-size:25px;max-width:190px}}
+@media(max-width:800px){.brand span{font-size:24px;max-width:180px}}
+@media(max-width:560px){.brand span{font-size:22px;max-width:154px}.hero h1 .handwritten{font-size:1.04em}#practicas .section-heading h2.handwritten{font-size:39px}.neon-violet{text-shadow:0 0 2px #a871bd2b,0 0 10px #ba82d124}}
