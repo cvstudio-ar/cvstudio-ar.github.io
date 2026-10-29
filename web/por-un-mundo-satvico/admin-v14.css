@@ -1,0 +1,28 @@
+/* Ventanas de espacios y administración del estudio. */
+.footer-links{font-size:12.6px}.footer-links button{font-size:12.6px}.footer-credit{font-size:10.5px}
+.footer-inner{padding-block:24px;align-items:center}.footer-links button:hover,.footer-links a:hover{text-decoration:underline;text-underline-offset:4px}
+.ambient-end{padding:0}.home-v12 .ambient-day-row{padding-top:12px;padding-bottom:28px}
+dialog.space-dialog{width:1060px;max-width:calc(100vw - 32px);padding:36px}
+dialog .space-description{max-width:790px;font-size:16px;line-height:1.65;margin-bottom:25px}
+.space-dialog .content-grid{grid-template-columns:repeat(auto-fit,minmax(min(255px,100%),1fr));gap:20px}
+.space-dialog .content-card .photo{height:210px}.space-dialog h2{padding-right:24px;font-size:clamp(30px,4vw,46px)}
+.space-studio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:25px 0}
+.space-studio-gallery figure{margin:0;min-width:0}.space-studio-gallery img{width:100%;height:240px;object-fit:cover;border-radius:14px}.space-studio-gallery figcaption{font-size:13px;margin-top:9px;color:var(--muted)}
+.location-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-block:15px}.location-grid section{border:1px solid var(--line);padding:22px;border-radius:14px;background:var(--cream)}
+#admin-login-form{display:grid;gap:17px;margin-top:25px}#admin-login-form label{display:grid;gap:7px}#admin-login-form input{width:100%}
+.admin-v14{max-width:none;width:calc(100% - clamp(32px,4vw,72px));grid-template-columns:230px minmax(0,1fr);gap:30px;padding-top:32px}
+.admin-v14 .sidebar{position:sticky;top:115px;align-self:start}.admin-v14 .app-content{min-width:0}.admin-v14 .panel{margin-bottom:25px}
+.admin-v14 .app-heading h1{font-size:43px}.admin-v14 .app-heading p{font-size:15px}.admin-v14 .sidebar button{font-size:14px}.admin-logout{margin-top:25px;color:var(--primary)}
+.admin-spaces-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:25px}
+.space-config-form{padding:22px;border:1px solid var(--line);border-radius:15px;display:grid;gap:13px;background:var(--cream);min-width:0}
+.space-config-form>img{width:100%;height:180px;object-fit:cover;border-radius:10px}.space-config-form>h3{margin:0;font:26px Georgia,serif}.space-config-form .button{justify-self:start;margin-top:5px}.space-config-form label{display:grid;gap:6px}
+.admin-storage-note{font-size:12px;color:var(--muted);padding:0 5px 15px;max-width:900px}
+.admin-v14 input,.admin-v14 textarea,.admin-v14 select{max-width:100%}
+html.ambient-admin .admin-v14 :is(.space-config-form,.location-grid section){background:#faf7f2}
+html.ambient-admin .admin-v14 :is(h2,h3,.eyebrow){color:#50335f;text-shadow:none}
+html.ambient-admin .admin-v14 :is(p,label,td,th,.admin-storage-note){color:#766779}
+@media(max-width:900px){.admin-v14{grid-template-columns:minmax(0,1fr)}.admin-v14 .sidebar{position:static;display:flex;flex-wrap:wrap;gap:9px}.admin-v14 .sidebar>.eyebrow{width:100%}.admin-v14 .sidebar button{width:auto;margin:0}.admin-spaces-grid{gap:15px}.space-studio-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}.space-studio-gallery figure:last-child{grid-column:1/-1}}
+@media(max-width:560px){.admin-v14{width:calc(100% - 32px);padding-top:22px;gap:20px}.admin-v14 .app-heading h1{font-size:34px}.admin-spaces-grid{grid-template-columns:minmax(0,1fr)}.space-config-form{padding:17px}.location-grid{grid-template-columns:minmax(0,1fr);gap:14px}.space-studio-gallery{grid-template-columns:minmax(0,1fr)}.space-studio-gallery figure:last-child{grid-column:auto}dialog.space-dialog{padding:25px 19px}.space-studio-gallery img{height:240px}.footer-links{gap:19px}.footer-credit{font-size:10.5px}.admin-v14 .sidebar button{font-size:13px}}
+.home-v12{background:var(--cream)}
+.admin-v14 .space-config-form input,.admin-v14 .space-config-form textarea{width:100%}
+.space-card[data-space]{cursor:pointer}.space-card:focus-within{outline:2px solid #9a72ad;outline-offset:4px}

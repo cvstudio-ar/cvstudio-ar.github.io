@@ -78,7 +78,7 @@
     if(await sound()) sync();
   }
   function mount() {
-    const top=document.querySelector('#practicas'), bottom=document.querySelector('.demo-caption');
+    const top=document.querySelector('#practicas'), bottom=document.querySelector('[data-ambient-end]');
     if(top && !top.querySelector('[data-ambient]')) {
       const row=document.createElement('div');row.className='ambient-trigger-row';
       row.innerHTML='<button type="button" class="ambient-switch" role="switch" aria-checked="false" data-ambient="night"><span class="switch-track"><span>☾</span></span><span><strong>Apagá la luz y presenciá la magia</strong><small>Una pausa de luz, calma y sonido</small></span></button>';
@@ -95,7 +95,7 @@
     }
     document.querySelectorAll('[data-ambient]').forEach(b=>b.setAttribute('aria-checked',String(mode===b.dataset.ambient)));
     root.classList.toggle('ambient-admin',location.hash.startsWith('#admin'));
-    root.classList.toggle('ambient-still',!!document.querySelector('.practice-ribbon.is-still'));
+    root.classList.toggle('ambient-still',!!document.querySelector('.practice-ribbon.is-still,.home-v12[data-still="true"]'));
   }
   new MutationObserver(mount).observe(document.querySelector('main'),{childList:true,subtree:true});mount();
   document.addEventListener('click', e=>{
