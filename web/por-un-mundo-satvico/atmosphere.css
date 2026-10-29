@@ -1,0 +1,57 @@
+/* Día y noche sobre la identidad original del estudio. */
+.ambient-world{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:0;background:#061426;transition:opacity 1.8s ease}
+body{isolation:isolate}html[data-atmosphere="night"] body,html[data-atmosphere="day"] body{background:transparent}
+html[data-atmosphere="night"] .ambient-world,html[data-atmosphere="day"] .ambient-world{opacity:1}
+.ambient-scene{position:absolute;inset:0;opacity:0;transition:opacity 2.4s ease;background-repeat:no-repeat;background-position:center,center;background-size:auto 100%,cover}
+.ambient-night{background-image:linear-gradient(90deg,#06142688,transparent 35%,transparent 65%,#06142688),url('assets/ambiente-noche.webp');background-size:100% 100%,auto 100%;background-color:#061426}
+.ambient-day{background-image:linear-gradient(90deg,#143b3688,transparent 30%,transparent 70%,#143b3688),url('assets/ambiente-bosque.webp');background-size:100% 100%,auto 100%;background-color:#153a35}
+html[data-atmosphere="night"] .ambient-night,html[data-atmosphere="day"] .ambient-day{opacity:1}
+.ambient-scene:before{content:"";position:absolute;inset:-50px;z-index:-1;background:inherit;background-size:cover;filter:blur(28px);opacity:.65}
+.ambient-world canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.8}
+.ambient-aurora{position:absolute;width:135%;height:75%;top:-20%;left:-20%;background:radial-gradient(ellipse at 35% 40%,#72e0d628,transparent 50%),radial-gradient(ellipse at 65% 40%,#a985ed3a,transparent 50%);filter:blur(45px);transform:rotate(-15deg);animation:aurora-flow 22s ease-in-out infinite alternate}
+.ambient-sun{position:absolute;inset:0;background:conic-gradient(from 155deg at 67% 0%,transparent 0deg,#fff7bc26 9deg,transparent 18deg,#eeffd924 25deg,transparent 34deg);opacity:0;animation:sun-breath 14s ease-in-out infinite alternate}
+html[data-atmosphere="day"] .ambient-sun{opacity:1}
+html[data-atmosphere="day"] .ambient-aurora{opacity:.3}
+.ambient-trigger-row{position:relative;z-index:3;display:flex;justify-content:flex-end;margin:0 0 22px;min-height:64px}
+.ambient-day-row{display:flex;justify-content:flex-end;padding-block:22px 28px}
+.ambient-switch{display:inline-flex;align-items:center;gap:14px;padding:12px 18px;border:1px solid #b993ce80;border-radius:19px;color:#64337c;background:linear-gradient(125deg,#fffc,#f0e3f9d9);box-shadow:0 6px 20px #68427b12,inset 0 1px 0 #fff;transition:box-shadow .4s,transform .4s;text-align:left}
+.ambient-switch:hover{transform:translateY(-2px);box-shadow:0 8px 28px #9b68b72b}
+.ambient-switch strong{display:block;font-size:14px;font-weight:600;line-height:1.45}.ambient-switch small{display:block;font-size:11px;opacity:.78;margin-top:2px}
+.switch-track{width:57px;height:31px;border-radius:30px;flex:none;border:1px solid #bd9ace;background:#e6d4ed;box-shadow:inset 0 2px 5px #5e2f7921;padding:3px;transition:background .7s}
+.switch-track>span{display:grid;place-items:center;width:23px;height:23px;background:#fff;border-radius:50%;font-size:16px;box-shadow:0 2px 6px #50276230;transition:transform .6s,color .6s}
+.ambient-switch[aria-checked="true"] .switch-track{background:#735496;box-shadow:0 0 18px #bca3ec55}
+.ambient-switch[aria-checked="true"] .switch-track>span{transform:translateX(25px);color:#6b3f84}
+.day-switch{border-color:#c4b15a80;box-shadow:0 0 22px #ffe7a62b;background:linear-gradient(120deg,#fffdf4,#f0f3dce6);color:#426047}
+.day-switch .switch-track{background:#e2e5c8;border-color:#b6bd8d}.day-switch[aria-checked="true"] .switch-track{background:#8caa7a;box-shadow:0 0 20px #d9f29977}
+.ambient-sound{position:fixed;right:20px;bottom:18px;z-index:20;max-width:calc(100vw - 32px);display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:11px 15px;border-radius:18px;border:1px solid #d3b9e357;background:#142238ed;color:#f3eaf9;box-shadow:0 8px 28px #0003;backdrop-filter:blur(16px);font-size:11px}
+.ambient-sound[hidden]{display:none}.ambient-sound button{background:transparent;color:inherit;border:1px solid #e0c6f05c;border-radius:20px;padding:5px 10px;font-size:11px}.ambient-sound label{display:flex;align-items:center;gap:8px}.ambient-sound input{width:75px;accent-color:#dab6ee}.ambient-sound .ambient-reset{border:0;text-decoration:underline;text-underline-offset:3px}.sound-state{font-size:11px;color:#ede0c6}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]){--ink:#f1e9f6;--muted:#d1c7df;--line:#ddd2f333;--lavender:#27314a;--cream:#122137}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.hero,.private-section,.about-line,.demo-caption,footer){background:transparent}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(header,.demo-strip){background:#101c30ed;color:#f4eafa;border-color:#d7c5f126;backdrop-filter:blur(20px)}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) #main{background:linear-gradient(90deg,#08172b99,#0c172f4d 50%,#08172b99)}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.category-card,.membership-card,.preview-window,.preview-card,.content-card,.panel,.empty-box){background:#15253ae8;border-color:#dec8ef44;color:#f3eaf9;box-shadow:0 10px 35px #0002;backdrop-filter:blur(12px)}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.category-copy,.preview-main,.preview-nav,.lock-label,.filters,.category-symbol){background:#202d44e6;color:#f2e5ff}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.brand span,.neon-violet,.eyebrow){color:#e4c0fc;text-shadow:0 0 18px #cdb5ff40}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.ghost,.footer-credit,.footer-links button){color:#ead7f8}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.hero-atmosphere,.practice-ribbon){opacity:.25}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) footer{padding-bottom:100px}
+html[data-atmosphere="day"]{--ink:#f4f6e7;--muted:#d8e6d6}
+html[data-atmosphere="day"] #main{background:linear-gradient(90deg,#0b272b99,#132b294d 50%,#0b272b99)}
+html[data-atmosphere="day"] :is(header,.demo-strip){background:#16352fed}
+html[data-atmosphere="day"] :is(.category-card,.membership-card,.preview-window,.preview-card,.content-card,.panel,.empty-box){background:#1c3b32e6;border-color:#e7f4bd44}
+html[data-atmosphere="day"] :is(.brand span,.neon-violet,.eyebrow){color:#e5efc2;text-shadow:0 0 18px #f5f4b83d}
+/* La administración conserva superficies claras para editar cómodamente. */
+html.ambient-admin #main{background:#faf7f2;--ink:#3f254d;--muted:#766779;--cream:#faf7f2;--lavender:#eee5f4;--line:#e7deea;color:var(--ink)}
+html.ambient-admin #main .panel{background:#fff;color:var(--ink);backdrop-filter:none}
+@keyframes aurora-flow{from{transform:translate(-3%,0) rotate(-15deg);opacity:.4}to{transform:translate(8%,12%) rotate(4deg);opacity:.9}}
+@keyframes sun-breath{from{transform:rotate(-3deg);filter:blur(3px)}to{transform:rotate(3deg);filter:blur(9px)}}
+@media(max-width:700px){.ambient-trigger-row{justify-content:center;margin-top:12px;margin-bottom:25px}.ambient-day-row{justify-content:center}.ambient-switch{width:100%;max-width:370px;padding:13px}.ambient-switch strong{font-size:13px}.ambient-sound{right:12px;bottom:10px;left:12px;padding:10px 12px;justify-content:center}.sound-state{width:100%;text-align:center}.ambient-scene{background-size:100% 100%,cover}.ambient-night,.ambient-day{background-position:center,center bottom}html:is([data-atmosphere="night"],[data-atmosphere="day"]) .nav.open{background:#14283a}html:is([data-atmosphere="night"],[data-atmosphere="day"]) footer{padding-bottom:160px}}
+@media(prefers-reduced-motion:reduce){.ambient-world,.ambient-scene,.ambient-switch,.switch-track>span{transition:none}.ambient-aurora,.ambient-sun{animation:none}}
+/* Fundido lateral de las referencias verticales en pantallas anchas. */
+.ambient-world:before{content:"";position:absolute;inset:-40px;background:var(--ambient-image) center/cover no-repeat;filter:blur(32px);opacity:.38}
+html[data-atmosphere="night"] .ambient-world{--ambient-image:url('assets/ambiente-noche.webp')}
+html[data-atmosphere="day"] .ambient-world{--ambient-image:url('assets/ambiente-bosque.webp')}
+@media(min-width:701px){.ambient-scene{width:calc(100vh * .61);left:50%;right:auto;transform:translateX(-50%);background-color:transparent;mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}.ambient-scene:before{display:none}}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(.hero-badges span,.text-link,.sample-note,.demo-caption,.category-copy p){color:#dcd0e7}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) .ambient-sound label{color:#f3eaf9}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) .header-actions .ghost{background:#ffffff12;border-color:#d4b4e5}
