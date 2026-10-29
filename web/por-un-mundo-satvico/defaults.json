@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "settings": {
+    "name": "Por Un Mundo Satvico",
+    "tagline": "YOGA · MEDITACIÓN · BIENESTAR",
+    "heroTitle": "Un espacio para\nvolver a vos.",
+    "heroText": "Practicá yoga, escuchá meditaciones y encontrá tu pausa, a tu ritmo.",
+    "heroImage": "assets/instructora-cuencos.webp",
+    "logo": "assets/logo.webp",
+    "primary": "#773c96",
+    "background": "#faf7f2",
+    "libraryTitle": "Elegí tu momento de bienestar",
+    "aboutTitle": "Un espacio para practicar, sentir y conectar.",
+    "aboutText": "Movimiento, respiración y momentos de calma. Un lugar para encontrarte con la práctica desde casa, respetando tu propio ritmo.",
+    "membershipTitle": "Membresía del estudio",
+    "membershipText": "Clases, meditaciones y reflexiones reunidas en tu biblioteca personal.",
+    "price": "",
+    "instagram": "https://www.instagram.com/porunmundosatvico_estudio/",
+    "whatsapp": "",
+    "email": "",
+    "showMeditation": true,
+    "showReflections": true,
+    "showMembership": true,
+    "showAbout": true
+  },
+  "contents": [
+    {
+      "id": "yoga-suave",
+      "title": "Yoga aéreo · vista de muestra",
+      "category": "yoga",
+      "description": "Recorrido fotográfico del estudio para probar el reproductor. El video de la práctica se carga desde el panel.",
+      "image": "assets/yoga-aereo.webp",
+      "media": "assets/video-muestra.mp4",
+      "duration": "12 s · muestra",
+      "access": "member",
+      "published": true,
+      "featured": true
+    },
+    {
+      "id": "pausa-consciente",
+      "title": "Una pausa consciente",
+      "category": "meditation",
+      "description": "Audio ambiental de demostración. Este recurso permite probar el reproductor; no pertenece al material original del estudio.",
+      "image": "assets/cuencos-estudio.webp",
+      "media": "assets/audio-muestra.mp3",
+      "duration": "30 s · muestra",
+      "access": "member",
+      "published": true,
+      "featured": true
+    },
+    {
+      "id": "un-dia",
+      "title": "Un día a la vez",
+      "category": "reflection",
+      "description": "Un momento para bajar el ritmo. Audio de muestra reemplazable por las reflexiones de la profesora.",
+      "image": "assets/rincon-estudio.webp",
+      "media": "assets/audio-muestra.mp3",
+      "duration": "30 s · muestra",
+      "access": "member",
+      "published": true,
+      "featured": true
+    },
+    {
+      "id": "bienvenida",
+      "title": "Conocé tu espacio de práctica",
+      "category": "yoga",
+      "description": "Recorrido fotográfico de muestra con imágenes del estudio. Permite probar el reproductor antes de incorporar el video de presentación.",
+      "image": "assets/sala-estudio.webp",
+      "media": "assets/video-muestra.mp4",
+      "duration": "12 s · muestra",
+      "access": "free",
+      "published": true,
+      "featured": false
+    }
+  ],
+  "member": {
+    "name": "Alumno de muestra",
+    "active": false,
+    "expires": "",
+    "favorites": [],
+    "progress": {}
+  },
+  "demoMembers": [
+    {
+      "id": "demo-01",
+      "name": "Alumno de muestra 01",
+      "active": true,
+      "expires": "2026-11-28"
+    },
+    {
+      "id": "demo-02",
+      "name": "Alumno de muestra 02",
+      "active": false,
+      "expires": "2026-10-20"
+    }
+  ],
+  "assetRevision": 2
+}
