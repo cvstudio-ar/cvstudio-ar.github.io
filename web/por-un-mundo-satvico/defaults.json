@@ -21,7 +21,8 @@
     "showMeditation": true,
     "showReflections": true,
     "showMembership": true,
-    "showAbout": true
+    "showAbout": true,
+    "showAmbient": true
   },
   "contents": [
     {
