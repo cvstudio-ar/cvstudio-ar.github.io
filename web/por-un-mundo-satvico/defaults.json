@@ -6,7 +6,7 @@
     "heroTitle": "Un espacio para\nvolver a vos.",
     "heroText": "Practicá yoga, escuchá meditaciones y encontrá tu pausa, a tu ritmo.",
     "heroImage": "assets/instructora-cuencos.webp",
-    "logo": "assets/logo.webp",
+    "logo": "assets/logo-transparente.png",
     "primary": "#773c96",
     "background": "#faf7f2",
     "libraryTitle": "Elegí tu momento de bienestar",
@@ -95,5 +95,6 @@
       "expires": "2026-10-20"
     }
   ],
-  "assetRevision": 2
+  "assetRevision": 2,
+  "visualRevision": 4
 }

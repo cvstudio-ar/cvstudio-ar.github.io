@@ -1,0 +1,27 @@
+/* Acabados limpios, iconografía vectorial y iluminación interior en los cuencos. */
+.brand img,.preview-nav img{mix-blend-mode:normal;filter:none;background:transparent;border:0;border-radius:0}
+.studio-gallery span{border:0;background:linear-gradient(0deg,#25172ed6 0%,#25172e8c 38%,#25172e00 100%);padding-top:55px;display:flex;align-items:flex-end;gap:12px}
+.studio-gallery button{border:0}
+.studio-gallery span .icon{margin-left:auto;width:25px;height:25px;align-self:flex-end}
+.category-photo{border-bottom:0}
+.category-photo:after,.category-card:after,.content-card:after,.hero-image:after{display:none}
+.hero-image{border:0}
+.section-heading:after{display:none}
+.category-copy>button{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#fffdfd,#eee1f3);border:1px solid #d2b6df;box-shadow:inset 0 1px 1px #fff,0 4px 13px #683a7c14;transition:background .25s,box-shadow .25s,transform .25s;color:#75418d}
+.category-copy>button .direction-icon{width:23px;height:23px;stroke-width:1.65;transition:transform .25s}
+.category-copy>button:hover{background:#784593;color:white;border-color:#784593;box-shadow:0 6px 17px #683a7c30;transform:translateY(-2px)}
+.category-copy>button:hover .direction-icon{transform:translateX(2px)}
+.button .direction-icon{width:25px;height:25px;stroke-width:1.6;transition:transform .25s}
+.button:hover .direction-icon{transform:translateX(3px)}
+.text-link,.footer-credit,.footer-links a,.demo-strip button{display:inline-flex;align-items:center;gap:8px}
+.text-link .direction-icon{width:20px;height:20px;stroke-width:1.6}
+.footer-credit .direction-icon,.footer-links .direction-icon,.demo-strip .direction-icon{width:14px;height:14px}
+.hero-scene{position:absolute;inset:0;width:100%;height:100%;display:block}
+.bowl-light{animation:bowl-inner-light 4.8s ease-in-out infinite;will-change:opacity}
+.light-1{animation-duration:5.7s;animation-delay:-2s}
+.light-2{animation-duration:4.3s;animation-delay:-3.1s}
+.hero-scene.is-still .bowl-light{animation:none;opacity:.85}
+@keyframes bowl-inner-light{0%,100%{opacity:.68}32%{opacity:.92}58%{opacity:.78}80%{opacity:1}}
+@media(max-width:800px){.category-copy>button{width:42px;height:42px}.category-copy{align-items:center}}
+@media(max-width:560px){.category-copy>button{width:44px;height:44px}.hero-image{min-height:340px}.studio-gallery span{padding-top:55px}}
+@media(prefers-reduced-motion:reduce){.bowl-light{animation:none}.button:hover .direction-icon,.category-copy>button:hover .direction-icon{transform:none}}
