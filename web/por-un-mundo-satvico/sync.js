@@ -1,6 +1,6 @@
 'use strict';
 window.SatvicoSync = (() => {
-  const endpoint = window.SATVICO_SYNC_CONFIG?.endpoint || 'https://eqepkoegzyqklpxkrkhm.supabase.co/functions/v1/satvico-sync';
+  const endpoint = window.SATVICO_SYNC_CONFIG?.endpoint;
   const key = 'satvico-sync-session-v1';
   let revision = null;
   function session() { try { return JSON.parse(sessionStorage.getItem(key) || 'null'); } catch { return null; } }

@@ -1,6 +1,6 @@
 # Portada compartida de Por Un Mundo Satvico
 
-La activación del cliente requiere desplegar y comprobar primero el servidor.
+Activado en CVStudio el 30/10/2026. Lectura pública, subida firmada, rechazo de escrituras sin sesión y control de versiones verificados. Al trasladar el sitio, desplegar y comprobar primero el servidor de destino.
 
 ## Activación
 
