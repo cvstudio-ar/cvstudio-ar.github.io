@@ -1,7 +1,7 @@
 /* Atmósferas de calma. El audio se genera localmente y comienza por gesto explícito. */
 'use strict';
 (() => {
-  let mode = '', muted = true, volume = .28, ctx, master, windFilter, waterFilter, audioTimer, frame;
+  let mode = '', muted = true, volume = .28, ctx, master, windFilter, waterFilter, audioTimer, frame, activation=0;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const root = document.documentElement;
   const layer = document.createElement('div');
@@ -9,6 +9,8 @@
   layer.innerHTML = '<div class="ambient-scene ambient-night"></div><div class="ambient-scene ambient-day"></div><div class="ambient-aurora"></div><div class="ambient-sun"></div><div class="ambient-person"></div><canvas></canvas>';
   document.body.prepend(layer);
   const canvas = layer.querySelector('canvas'), pen = canvas.getContext('2d');
+  const mediaPlaying=()=>[...document.querySelectorAll('audio,video')].some(m=>!m.paused&&!m.ended&&!m.muted&&m.volume>0);
+  const visible=()=>!!mode&&!document.hidden&&!root.classList.contains('ambient-admin');
   function sync() {
     root.dataset.atmosphere = mode;
     document.querySelectorAll('[data-ambient]').forEach(b => {
@@ -18,19 +20,21 @@
   }
   function gain() {
     if (!ctx || !master) return;
-    const mediaPlaying = [...document.querySelectorAll('audio,video')].some(m => !m.paused && !m.ended && !m.muted && m.volume>0);
-    master.gain.setTargetAtTime(muted || !mode || document.hidden || mediaPlaying ? 0 : volume, ctx.currentTime, .65);
+    const audible=!muted&&visible()&&!mediaPlaying();
+    master.gain.setTargetAtTime(audible?volume:0,ctx.currentTime,audible?.65:.02);
+    if(audible&&ctx.state==='suspended')ctx.resume().catch(()=>{});
+    if(!audible&&ctx.state==='running')ctx.suspend().catch(()=>{});
   }
   function noise(seconds) {
-    const buffer = ctx.createBuffer(2, ctx.sampleRate * seconds, ctx.sampleRate);
-    for (let c=0;c<2;c++) {
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate);
+    for (let c=0;c<buffer.numberOfChannels;c++) {
       const data = buffer.getChannelData(c); let brown=0;
       for(let i=0;i<data.length;i++){brown=(brown+.022*(Math.random()*2-1))/1.022;data[i]=brown*4;}
     }
     return buffer;
   }
   function bird() {
-    if (!ctx || muted || !mode || document.hidden) return;
+    if (!ctx || muted || !visible() || mediaPlaying() || ctx.state!=='running') return;
     const t=ctx.currentTime;
     if (mode==='day') {
       for(let k=0;k<2;k++) {
@@ -53,7 +57,7 @@
         const Audio = window.AudioContext || window.webkitAudioContext;
         if (!Audio) throw Error('Audio no disponible');
         ctx = new Audio();master=ctx.createGain();master.gain.value=0;master.connect(ctx.destination);
-        const buffer=noise(12);
+        const buffer=noise(2);
         function bed(type,freq,level,rate) {
           const src=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),g=ctx.createGain();
           src.buffer=buffer;src.loop=true;src.playbackRate.value=rate;filter.type=type;filter.frequency.value=freq;g.gain.value=level;
@@ -73,9 +77,12 @@
     return true;
   }
   async function activate(next) {
+    const request=++activation;
     if(mode===next){mode='';muted=true;sync();return;}
     mode=next;sync();
-    if(await sound()) sync();
+    const ready=await sound();
+    if(request!==activation){gain();return;}
+    if(ready)sync();
   }
   function mount() {
     const top=document.querySelector('#practicas'), bottom=document.querySelector('[data-ambient-end]');
@@ -94,34 +101,38 @@
       if(title&&ribbon){const frame=document.createElement('div');frame.className='practice-title-scene';title.before(frame);frame.append(ribbon,title);}
     }
     document.querySelectorAll('[data-ambient]').forEach(b=>b.setAttribute('aria-checked',String(mode===b.dataset.ambient)));
+    const wasAdmin=root.classList.contains('ambient-admin');
     root.classList.toggle('ambient-admin',location.hash.startsWith('#admin'));
+    if(wasAdmin!==root.classList.contains('ambient-admin'))requestAnimationFrame(()=>{gain();paint();});
     root.classList.toggle('ambient-still',!!document.querySelector('.practice-ribbon.is-still,.home-v12[data-still="true"]'));
   }
   new MutationObserver(mount).observe(document.querySelector('main'),{childList:true,subtree:true});mount();
   document.addEventListener('click', e=>{
-    const b=e.target.closest('[data-ambient]');if(b)activate(b.dataset.ambient);
+    const b=e.target.closest('[data-ambient]');if(b)activate(b.dataset.ambient).catch(()=>{muted=true;gain();});
   });
   document.addEventListener('play',gain,true);document.addEventListener('pause',gain,true);document.addEventListener('ended',gain,true);document.addEventListener('volumechange',gain,true);
   document.addEventListener('visibilitychange',()=>{gain();paint();});
   let w=0,h=0, particles=[];
   function resize() {
-    w=innerWidth;h=innerHeight;const dpr=Math.min(devicePixelRatio||1,1.5);
+    w=innerWidth;h=innerHeight;const dpr=1;
     canvas.width=w*dpr;canvas.height=h*dpr;pen.setTransform(dpr,0,0,dpr,0,0);
-    particles=Array.from({length:Math.round((w<700?32:65)*1.25)},()=>({x:Math.random()*w,y:Math.random()*h,r:.7+Math.random()*1.8,v:5+Math.random()*12,phase:Math.random()*7}));paint();
+    particles=Array.from({length:(w<700?16:32)},()=>({x:Math.random()*w,y:Math.random()*h,r:.7+Math.random()*1.8,v:5+Math.random()*12,phase:Math.random()*7}));paint();
   }
-  let last=0;
+  let last=0,lastPaint=0;
   function draw(t) {
-    const dt=Math.min((t-last)/1000,.05);last=t;pen.clearRect(0,0,w,h);
+    frame=0;if(!visible()){pen.clearRect(0,0,w,h);return;}
+    if(t-lastPaint<1000/30){frame=requestAnimationFrame(draw);return;}
+    lastPaint=t;const dt=Math.min((t-last)/1000,.05);last=t;pen.clearRect(0,0,w,h);
     const night=mode==='night';
     particles.forEach(p=>{
       if(!reduced.matches&&!root.classList.contains('ambient-still')){p.y-=p.v*dt;p.x+=Math.sin(t*.00025+p.phase)*dt*5;if(p.y < -8)p.y=h+8;}
       const glow=.4+.55*(.5+.5*Math.sin(t*.0006+p.phase));
       pen.beginPath();pen.fillStyle=night?`rgba(255,211,148,${glow})`:`rgba(221,255,177,${glow})`;
-      pen.shadowColor=night?'#ffc684':'#caffb0';pen.shadowBlur=18;pen.arc(p.x,p.y,p.r,0,Math.PI*2);pen.fill();
+      pen.shadowBlur=0;pen.arc(p.x,p.y,p.r,0,Math.PI*2);pen.fill();
     });
-    if(mode&&!document.hidden&&!reduced.matches&&!root.classList.contains('ambient-still'))frame=requestAnimationFrame(draw);
+    if(visible()&&!reduced.matches&&!root.classList.contains('ambient-still'))frame=requestAnimationFrame(draw);
   }
-  function paint(){cancelAnimationFrame(frame);if(mode&&!document.hidden){last=performance.now();draw(last);}else pen.clearRect(0,0,w,h);}
+  function paint(){cancelAnimationFrame(frame);frame=0;if(visible()){last=performance.now();lastPaint=last-1000;draw(last);}else pen.clearRect(0,0,w,h);}
   window.addEventListener('resize',resize);reduced.addEventListener('change',paint);resize();
   window.addEventListener('pageshow',e=>{if(e.persisted){if(ctx&&!muted&&mode)ctx.resume();clearInterval(audioTimer);if(ctx)audioTimer=setInterval(bird,11000);sync();}});
   window.addEventListener('pagehide',()=>{clearInterval(audioTimer);cancelAnimationFrame(frame);if(ctx)ctx.suspend();});

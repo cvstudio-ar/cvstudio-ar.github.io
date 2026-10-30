@@ -6,3 +6,11 @@ mask-image:linear-gradient(to right,transparent,#000 var(--hero-feather),#000 ca
 .home-v12 .intro-photo.has-video>video{display:block;position:static;width:100%;height:100%;object-fit:contain;border-radius:inherit}
 #settings-form video.image-preview{height:auto;width:100%;max-width:420px;max-height:320px;object-fit:contain;background:#17151a;border-radius:12px}
 @media(max-width:560px){.home-v12 .intro-photo.has-video{width:min(85%,var(--hero-width,58vh));height:auto;max-height:none;border-radius:17px;--hero-feather:10px}}
+
+.home-v12 .intro-photo.has-video{position:relative}
+.hero-sound-play{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;width:100%;height:100%;border:0;border-radius:inherit;background:linear-gradient(180deg,rgba(30,16,39,.08),rgba(30,16,39,.48));color:#fff;cursor:pointer;font:inherit;font-weight:600;text-shadow:0 1px 5px #24132f}
+.hero-sound-icon{display:grid;place-items:center;width:72px;height:72px;border:1px solid rgba(255,255,255,.65);border-radius:50%;background:rgba(91,43,117,.88);box-shadow:0 8px 30px #25132e44;transition:transform .2s,background .2s}
+.hero-sound-icon .icon{width:30px;height:30px;margin-left:4px}
+.hero-sound-play:hover .hero-sound-icon{transform:scale(1.06);background:#773c96}
+.hero-sound-play:focus-visible{outline:3px solid #fff;outline-offset:-8px}
+.hero-sound-play:disabled{cursor:wait}

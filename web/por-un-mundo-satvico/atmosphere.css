@@ -100,3 +100,13 @@ html[data-atmosphere="day"] .preview-card .progress span{background:#b9cc91}
 @media(max-width:380px){.preview-cards{grid-template-columns:minmax(0,1fr)}.preview-card img{height:155px}.preview-label{font-size:11px}.preview-card strong{font-size:17px}.header-actions .button{padding:10px;font-size:9px}.brand img{width:36px}.brand span{font-size:20px}}
 /* Las figuras decorativas no generan desplazamiento lateral. */
 html,body{overflow-x:clip}
+
+/* V19: escenas suaves con trabajo de pintura acotado, también en móviles. */
+.ambient-world{contain:layout paint;visibility:hidden}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) .ambient-world{visibility:visible}
+.ambient-aurora{filter:none;width:100%;height:70%;left:0;top:0;animation-play-state:paused}
+.ambient-sun{animation-play-state:paused}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]):not(.ambient-still):not(.ambient-admin) :is(.ambient-aurora,.ambient-sun){animation-play-state:running}
+html:is([data-atmosphere="night"],[data-atmosphere="day"]) :is(header,.demo-strip,.category-card,.membership-card,.preview-window,.preview-card,.content-card,.panel,.empty-box){backdrop-filter:none;-webkit-backdrop-filter:none}
+html.ambient-admin .ambient-world{visibility:hidden}
+@keyframes sun-breath{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
