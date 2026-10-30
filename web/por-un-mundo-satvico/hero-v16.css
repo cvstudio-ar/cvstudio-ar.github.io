@@ -9,8 +9,10 @@ mask-image:linear-gradient(to right,transparent,#000 var(--hero-feather),#000 ca
 
 .home-v12 .intro-photo.has-video{position:relative}
 .hero-sound-play{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;width:100%;height:100%;border:0;border-radius:inherit;background:linear-gradient(180deg,rgba(30,16,39,.08),rgba(30,16,39,.48));color:#fff;cursor:pointer;font:inherit;font-weight:600;text-shadow:0 1px 5px #24132f}
-.hero-sound-icon{display:grid;place-items:center;width:72px;height:72px;border:1px solid rgba(255,255,255,.65);border-radius:50%;background:rgba(91,43,117,.88);box-shadow:0 8px 30px #25132e44;transition:transform .2s,background .2s}
-.hero-sound-icon .icon{width:30px;height:30px;margin-left:4px}
-.hero-sound-play:hover .hero-sound-icon{transform:scale(1.06);background:#773c96}
+.hero-sound-icon{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:72px;height:72px;border:1px solid rgba(255,255,255,.65);border-radius:50%;background:rgba(91,43,117,.88);box-shadow:0 8px 30px #25132e44;transition:transform .2s,background .2s}
+.hero-sound-icon svg{display:block;width:30px;height:30px;margin:0;transform:none}
+.hero-sound-play:hover .hero-sound-icon{transform:translate(-50%,-50%) scale(1.06);background:#773c96}
 .hero-sound-play:focus-visible{outline:3px solid #fff;outline-offset:-8px}
 .hero-sound-play:disabled{cursor:wait}
+
+.hero-sound-label{position:absolute;left:50%;top:calc(50% + 46px);transform:translateX(-50%);white-space:nowrap;padding:5px 12px;border-radius:20px;background:#3f254dbf;font-size:13px;line-height:1.4}

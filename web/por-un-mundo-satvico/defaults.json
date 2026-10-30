@@ -24,7 +24,8 @@
     "showAbout": true,
     "showAmbient": true,
     "heroMediaType": "video",
-    "heroAspectRatio": 1
+    "heroAspectRatio": 1,
+    "heroPoster": "assets/portada-satvico.webp"
   },
   "contents": [
     {

@@ -7,7 +7,7 @@ test('presentation starts at zero with sound; failed playback keeps the start co
  const button={disabled:false,remove(){removed=true;}};
  const c={$:()=>video,notify:()=>notice=true,heroIsVideo:()=>true,esc:x=>x,media:x=>x,icon:()=>''};vm.createContext(c);vm.runInContext(functions,c);
  const markup=c.heroMediaMarkup({heroImage:'test.mp4'});
- assert(!markup.includes('autoplay'));assert(!markup.includes(' muted'));assert(markup.includes('play-hero-sound'));
+ assert(markup.includes('poster="assets/portada-satvico.webp"'));assert(c.heroMediaMarkup({heroImage:'test.mp4',heroPoster:'https://example.com/poster.webp'}).includes('poster="https://example.com/poster.webp"'));assert(!markup.includes('instructora-cuencos'));assert(!markup.includes('autoplay'));assert(!markup.includes(' muted'));assert(markup.includes('play-hero-sound'));
  await c.startHeroVideo(button);assert(removed);assert(video.controls);
  removed=false;video.play=async()=>{throw Error('blocked');};await c.startHeroVideo(button);assert(!removed);assert(!button.disabled);assert(notice);
 });

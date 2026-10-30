@@ -5,7 +5,7 @@ const bucket = 'satvico-public-media';
 const allowedOrigins = new Set((Deno.env.get('SATVICO_ALLOWED_ORIGINS') || 'https://cvstudio.com.ar,https://www.cvstudio.com.ar,https://cvstudio-ar.github.io').split(',').map(s=>s.trim()).filter(Boolean));
 const hash = async (s: string) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s))), b => b.toString(16).padStart(2, '0')).join('');
 const mimeExt: Record<string,string> = { 'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp', 'image/gif':'gif', 'video/mp4':'mp4', 'video/webm':'webm' };
-const fields = new Set(['name','tagline','heroTitle','heroText','heroImage','heroMediaType','heroAspectRatio','logo','primary','background','libraryTitle','aboutTitle','aboutText','membershipTitle','membershipText','price','instagram','whatsapp','email','showMeditation','showReflections','showMembership','showAbout','showAmbient','spaces','studioPhotos','address','city','hours','locationNote','mapsUrl','mapsEmbed']);
+const fields = new Set(['name','tagline','heroTitle','heroText','heroImage','heroPoster','heroMediaType','heroAspectRatio','logo','primary','background','libraryTitle','aboutTitle','aboutText','membershipTitle','membershipText','price','instagram','whatsapp','email','showMeditation','showReflections','showMembership','showAbout','showAmbient','spaces','studioPhotos','address','city','hours','locationNote','mapsUrl','mapsEmbed']);
 function validSettings(s: unknown): boolean {
   if (!s || typeof s !== 'object' || Array.isArray(s)) return false;
   if (Object.keys(s).some(k => !fields.has(k))) return false;
