@@ -32,6 +32,27 @@
 <link rel="stylesheet" href="/css/webs-catalogo.css?v=20261024-1">
 <link rel="preload" as="image" href="/assets/images/webs-portada-dispositivos-v2.webp" fetchpriority="high">
 <link rel="stylesheet" href="/css/web-solicitud-diseno.css?v=20261024-3">
+<!-- Google tag (gtag.js): CVStudio Web -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BJW9DQGWXV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BJW9DQGWXV');
+
+  // Count WhatsApp button clicks without sending visitor or message contents.
+  document.addEventListener('click', function(event) {
+    var link = event.target.closest && event.target.closest('a[href]');
+    if (!link) return;
+    var url;
+    try { url = new URL(link.href, window.location.href); } catch (_) { return; }
+    if (url.hostname !== 'wa.me' && url.hostname !== 'api.whatsapp.com' && url.hostname !== 'web.whatsapp.com') return;
+    gtag('event', 'whatsapp_click', {
+      page_path: window.location.pathname,
+      contact_method: 'whatsapp'
+    });
+  });
+</script>
 </head>
 <body>
 <div class="ash-field" aria-hidden="true"><span></span><span></span><span></span></div>
