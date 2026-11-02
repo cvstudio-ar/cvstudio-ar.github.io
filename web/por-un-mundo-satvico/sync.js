@@ -11,7 +11,7 @@ window.SatvicoSync = (() => {
     if(!response.ok){if(response.status===401 && body?.action!=='login')sessionStorage.removeItem(key);throw Error(result.error||'No se pudo conectar con el estudio.');}
     return result;
   }
-  async function read() { const data=await request(); revision=data.revision; return data; }
+  async function read() { const data=await request(signedIn()?{action:'read-admin'}:undefined); revision=data.revision; return data; }
   async function login(username,password) { const data=await request({action:'login',username,password});sessionStorage.setItem(key,JSON.stringify(data)); }
   async function logout() { const pending=request({action:'logout'});sessionStorage.removeItem(key);await pending; }
   async function upload(file,progress) {
@@ -47,5 +47,11 @@ window.SatvicoSync = (() => {
     const data=await request({action:'publish',settings:shared,revision:expected});revision=data.revision;
     return {settings:shared,revision};
   }
-  return {read,login,logout,signedIn,publish};
+  async function uploadLibrary(file,progress){
+    const data=await request({action:'library-upload',type:file.type,size:file.size});
+    await new Promise((resolve,reject)=>{const xhr=new XMLHttpRequest();xhr.open('PUT',data.signedUrl);xhr.timeout=300000;xhr.setRequestHeader('Content-Type',file.type);xhr.upload.onprogress=e=>{if(e.lengthComputable)progress?.(Math.round(e.loaded/e.total*100));};xhr.onload=()=>xhr.status>=200&&xhr.status<300?resolve():reject(Error('No se pudo subir el archivo.'));xhr.onerror=()=>reject(Error('Se interrumpió la subida.'));xhr.ontimeout=()=>reject(Error('La subida tardó demasiado. Volvé a intentar.'));xhr.send(file);});
+    return {privatePath:data.privatePath};
+  }
+  async function playLibrary(id){return request({action:'library-play',id});}
+  return {read,login,logout,signedIn,publish,uploadLibrary,playLibrary};
 })();
