@@ -29,3 +29,6 @@ El panel incluye una pantalla de ingreso para prueba con verificación PBKDF2 en
 Actualización v1.1: márgenes de escritorio ampliados, presentación como proyecto en desarrollo y textos de acceso administrativo actualizados. El guardado sigue siendo local en esta etapa.
 
 Acabados v1.2: íconos SVG independientes de fuentes de texto, botones, bordes y estados de interacción refinados.
+
+## Actualización LATAM · 4 de noviembre de 2026
+Portada con base en Argentina y alcance latinoamericano; retiro en USD como eje. Calculadora con edad de retiro elegible y comparación dinámica de inicio actual frente a diez años después. Los escenarios usan la tasa hipotética configurable del panel; no son una oferta o garantía. Se preservan las personalizaciones del navegador; solo se migran los textos originales sin editar.

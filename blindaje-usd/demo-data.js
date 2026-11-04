@@ -1,7 +1,7 @@
 'use strict';
 window.PuentesDemo = (() => {
   const key = 'cvstudio-blindaje-demo-v1';
-  const defaults = { annualRate: 7, retirementAge: 65, title: 'Tu presente protegido.\nTu futuro en perspectiva.', description: 'Conocé alternativas de protección familiar y planificación patrimonial en dólares, con asesoramiento personalizado según tu país y tus objetivos.', whatsapp: '5492996053700', email: 'puentesyasociados@gmail.com', hours: '10:00,11:00,14:00,16:00', video: '', mediaDescription: 'Este espacio permite incorporar los videos de YouTube del estudio, para compartir ideas y explicar cada propuesta.' };
+  const defaults = { annualRate: 7, retirementAge: 65, title: 'Tu futuro en dólares.\nTu retiro empieza hoy.', description: 'Planificá tu ahorro en moneda dura, protegé el ingreso de tu familia y proyectá tu retiro. Desde Argentina, te acompañamos a evaluar alternativas según tu país en LATAM.', whatsapp: '5492996053700', email: 'puentesyasociados@gmail.com', hours: '10:00,11:00,14:00,16:00', video: '', mediaDescription: 'Este espacio permite incorporar los videos de YouTube del estudio, para compartir ideas y explicar cada propuesta.' };
   function sanitize(input) {
     const d = {...defaults};
     if (!input || typeof input !== 'object') return d;
@@ -15,7 +15,7 @@ window.PuentesDemo = (() => {
     if (Number.isInteger(Number(input.retirementAge)) && Number(input.retirementAge)>=40 && Number(input.retirementAge)<=70) d.retirementAge=Number(input.retirementAge);
     return d;
   }
-  function load(){try{return sanitize(JSON.parse(localStorage.getItem(key)));}catch{return {...defaults};}}
+  function load(){try{const saved=JSON.parse(localStorage.getItem(key));if(saved&&saved.title==='Tu presente protegido.\nTu futuro en perspectiva.')saved.title=defaults.title;if(saved&&saved.description==='Conocé alternativas de protección familiar y planificación patrimonial en dólares, con asesoramiento personalizado según tu país y tus objetivos.')saved.description=defaults.description;return sanitize(saved);}catch{return {...defaults};}}
   function save(data){const clean=sanitize(data);localStorage.setItem(key,JSON.stringify(clean));return clean;}
   function reset(){localStorage.removeItem(key);return {...defaults};}
   return {key,defaults,load,save,reset,sanitize};
