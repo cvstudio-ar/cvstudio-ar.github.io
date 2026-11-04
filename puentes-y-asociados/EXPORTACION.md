@@ -29,3 +29,7 @@ El panel incluye una pantalla de ingreso para prueba con verificación PBKDF2 en
 Actualización v1.1: márgenes de escritorio ampliados, presentación como proyecto en desarrollo y textos de acceso administrativo actualizados. El guardado sigue siendo local en esta etapa.
 
 Acabados v1.2: íconos SVG independientes de fuentes de texto, botones, bordes y estados de interacción refinados.
+
+## Avance Neuquén · 4 de noviembre de 2026
+Imágenes elegidas: 12, 14, 06 y 08, desarrolladas individualmente. Origen: Neuquén capital y alcance nacional, con trayectoria informada por el estudio (+25 años). Se conserva celular y Gmail. Panel visual ampliado: imágenes por ubicación, carga de archivos optimizados y textos por sección, respaldo JSON. Los ajustes se guardan solo en el navegador; publicación compartida y autenticación definitiva pendientes de las cuentas del cliente. El formulario prepara WhatsApp; no confirma turnos automáticamente.
+Mapa: silueta Natural Earth 1:110m, dominio público, referencia cartográfica general; no delimita coberturas de productos. Fuente: https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_admin_0_countries.geojson

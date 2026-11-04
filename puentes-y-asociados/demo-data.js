@@ -1,7 +1,7 @@
 'use strict';
 window.PuentesDemo = (() => {
   const key = 'cvstudio-puentes-demo-v1';
-  const defaults = { title: 'Protegé tu presente.\nPlanificá tu futuro.', description: 'Tu familia, tu empresa y tus proyectos merecen un plan. Te acompañamos a encontrar la protección y las alternativas de ahorro que se adapten a vos.', whatsapp: '5492994689888', email: 'puentesyasociados@gmail.com', hours: '10:00,11:00,14:00,16:00', video: '', mediaDescription: 'Este espacio permite incorporar los videos de YouTube del estudio, para compartir ideas y explicar cada propuesta.' };
+  const defaults = { title: 'Protegé tu presente.\nPlanificá tu futuro.', description: 'Tu familia, tu empresa y tus proyectos merecen un plan. Te acompañamos a encontrar la protección y las alternativas de ahorro que se adapten a vos.', whatsapp: '5492994689888', email: 'puentesyasociados@gmail.com', hours: '10:00,11:00,14:00,16:00', video: '', images: {hero:'assets/familia-bebe.webp', retirement:'assets/retiro-patagonia.webp', family:'assets/familia-graduacion.webp', active:'assets/retiro-aventura.webp'}, content:{}, mediaDescription: 'Este espacio permite incorporar los videos de YouTube del estudio, para compartir ideas y explicar cada propuesta.' };
   function sanitize(input) {
     const d = {...defaults};
     if (!input || typeof input !== 'object') return d;
@@ -11,6 +11,9 @@ window.PuentesDemo = (() => {
     if (typeof input.email==='string' && /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(input.email)) d.email = input.email.slice(0,254);
     if (typeof input.hours==='string') { const hours=[...new Set(input.hours.split(',').map(s=>s.trim()).filter(s=>/^([01]\d|2[0-3]):[0-5]\d$/.test(s)))].sort(); if(hours.length) d.hours=hours.slice(0,24).join(','); }
     if(typeof input.video==='string' && input.video.trim()) {try {const u = new URL(input.video);if(u.protocol==='https:' && ['youtube.com','www.youtube.com','m.youtube.com','youtu.be'].includes(u.hostname)) d.video=u.href;}catch{}}
+    d.images={...defaults.images};d.content={};
+    if(input.images&&typeof input.images==='object')for(const k of Object.keys(defaults.images)){const v=input.images[k];if(typeof v!=='string'||v.length>650000)continue;let safe=/^assets\/[a-z0-9-]+\.webp$/.test(v)||/^data:image\/(webp|jpeg|png);base64,[A-Za-z0-9+/=]+$/.test(v);try{const u=new URL(v);safe=safe||(u.protocol==='https:'&&!u.username&&!u.password);}catch{}if(safe)d.images[k]=v;}
+    if(input.content&&typeof input.content==='object')for(const [k,v] of Object.entries(input.content).slice(0,120)){if(/^copy-\d{3}$/.test(k)&&typeof v==='string'&&v.trim())d.content[k]=v.trim().slice(0,1800);}
     return d;
   }
   function load(){try{return sanitize(JSON.parse(localStorage.getItem(key)));}catch{return {...defaults};}}
