@@ -5,3 +5,6 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
 @media(max-width:780px){.hero{min-height:760px}.hero-photo{height:360px;top:auto;bottom:0;object-position:80% center}.hero-shade{background:linear-gradient(180deg,#071a2a 0%,#071a2a 47%,#071a2a55 65%,#071a2a00 83%)}}
+
+/* Desarrollo v1.1: contenido amplio y márgenes laterales consistentes. */
+@media(min-width:1101px){.wrap{width:calc(100% - 80px);max-width:none}.section-heading{gap:60px}.service-grid{gap:24px}.retirement-grid{grid-template-columns:1fr 1.05fr;gap:clamp(40px,5vw,90px)}.producer-grid{gap:clamp(40px,6vw,100px)}.appointment-grid{gap:clamp(45px,6vw,110px)}.content-grid{gap:28px}.process{grid-template-columns:.7fr 1.3fr}.faq{grid-template-columns:.6fr 1.4fr;gap:60px}.hero h1{font-size:clamp(58px,4.5vw,84px)}}

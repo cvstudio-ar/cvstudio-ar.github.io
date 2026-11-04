@@ -1,4 +1,4 @@
-# Blindaje USD — muestra portable v1.0
+# Blindaje USD — muestra portable v1.1
 
 ## Qué contiene
 Proyecto estático independiente: index.html, panel de demostración admin.html, JavaScript, estilos y recursos propios en assets/. No requiere instalación ni compilación. Todas las referencias funcionales al proyecto son relativas. No necesita la otra muestra para funcionar.
@@ -25,3 +25,7 @@ Los archivos públicos, estilos y recursos se pueden trasladar sin enlaces funci
 
 ## Acceso de demostración
 El panel incluye una pantalla de ingreso para prueba con verificación PBKDF2 en el navegador y sesión local de hasta cuatro horas. No es autenticación de servidor y no protege datos privados. No reutilizar la clave demo para producción ni conectar este acceso de muestra con datos reales. Reemplazar por autenticación y permisos reales en la cuenta del cliente durante el desarrollo definitivo.
+
+Actualización v1.1: márgenes de escritorio ampliados, presentación como proyecto en desarrollo y textos de acceso administrativo actualizados. El guardado sigue siendo local en esta etapa.
+
+Acabados v1.2: íconos SVG independientes de fuentes de texto, botones, bordes y estados de interacción refinados.
