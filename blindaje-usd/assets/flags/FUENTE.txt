@@ -1,0 +1,3 @@
+Banderas SVG distribuidas con flag-icons de lipis, bajo licencia MIT.
+Fuente: https://github.com/lipis/flag-icons/tree/main/flags/4x3
+La licencia original se conserva en LICENSE.txt. Los recursos se alojan localmente y no dependen de fuentes emoji del dispositivo.
