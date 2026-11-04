@@ -1,7 +1,7 @@
 'use strict';
 window.PuentesDemo = (() => {
   const key = 'cvstudio-puentes-demo-v1';
-  const defaults = { title: 'Protegé tu presente.\nPlanificá tu futuro.', description: 'Tu familia, tu empresa y tus proyectos merecen un plan. Te acompañamos a encontrar la protección y las alternativas de ahorro que se adapten a vos.', whatsapp: '5492994689888', email: 'puentesyasociados@gmail.com', hours: '10:00,11:00,14:00,16:00', video: '', images: {hero:'assets/familia-bebe.webp', retirement:'assets/retiro-patagonia.webp', family:'assets/familia-graduacion.webp', active:'assets/retiro-aventura.webp'}, content:{}, mediaDescription: 'Este espacio permite incorporar los videos de YouTube del estudio, para compartir ideas y explicar cada propuesta.' };
+  const defaults = { title: "Lo que más querés,\nprotegido pase lo que pase.", description: "Tu familia depende de vos. Hablemos de cómo cuidarla si algún día no podés estar, o no podés trabajar.", whatsapp: '5492994689888', email: 'puentesyasociados@gmail.com', hours: '10:00,11:00,14:00,16:00', video: '', images: {hero:'assets/familia-bebe.webp', retirement:'assets/retiro-patagonia.webp', family:'assets/familia-graduacion.webp', active:'assets/retiro-aventura.webp', advisor:'assets/ivan-puentes.webp'}, content:{}, mediaDescription: 'Ideas y explicaciones para entender cómo proteger tu ingreso, construir un ahorro y planificar tu retiro.' };
   function sanitize(input) {
     const d = {...defaults};
     if (!input || typeof input !== 'object') return d;
@@ -16,7 +16,7 @@ window.PuentesDemo = (() => {
     if(input.content&&typeof input.content==='object')for(const [k,v] of Object.entries(input.content).slice(0,120)){if(/^copy-\d{3}$/.test(k)&&typeof v==='string'&&v.trim())d.content[k]=v.trim().slice(0,1800);}
     return d;
   }
-  function load(){try{return sanitize(JSON.parse(localStorage.getItem(key)));}catch{return {...defaults};}}
+  function load(){try{const saved=JSON.parse(localStorage.getItem(key));if(saved&&saved.title==='Protegé tu presente.\nPlanificá tu futuro.')saved.title=defaults.title;if(saved&&saved.description==='Tu familia, tu empresa y tus proyectos merecen un plan. Te acompañamos a encontrar la protección y las alternativas de ahorro que se adapten a vos.')saved.description=defaults.description;if(saved&&saved.mediaDescription==='Este espacio permite incorporar los videos de YouTube del estudio, para compartir ideas y explicar cada propuesta.')saved.mediaDescription=defaults.mediaDescription;return sanitize(saved);}catch{return {...defaults};}}
   function save(data){const clean=sanitize(data);localStorage.setItem(key,JSON.stringify(clean));return clean;}
   function reset(){localStorage.removeItem(key);return {...defaults};}
   return {key,defaults,load,save,reset,sanitize};
