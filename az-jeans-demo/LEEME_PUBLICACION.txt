@@ -1,0 +1,33 @@
+AZ JEANS - DEMO CVSTUDIO
+========================
+Carpetas / archivos:
+- index.html: tienda visual y carrito de consulta
+- admin.html: panel administrativo de demostración
+- style.css, admin.css, data.js, store.js, admin.js: diseño y lógica
+- assets/: logo recortado de la captura de Instagram y las 10 fotos aportadas
+
+1) Publicar
+Subir el contenido COMPLETO de esta carpeta a la ruta /az-jeans-demo/ del servicio donde está publicado cvstudio.com.ar.
+No subir el ZIP cerrado, sino extraer los archivos respetando carpetas y rutas.
+Acceso esperado cuando el despliegue esté configurado: https://cvstudio.com.ar/az-jeans-demo/
+Panel esperado: https://cvstudio.com.ar/az-jeans-demo/admin.html
+Estas URLs son rutas OBJETIVO, no confirmación de publicación.
+
+2) Acceso panel de demostración
+Usuario y contraseña: los suministrados por CVStudio en la conversación (no se vuelven a imprimir aquí).
+
+3) IMPORTANTE - LIMITACIONES
+Se trata de una DEMO ESTÁTICA funcional, NO una tienda comercial en producción.
+- El catálogo inicial incluye 10 productos con IMÁGENES REALES aportadas, pero los nombres, precios, talles y stock son ILUSTRATIVOS.
+- El carrito permite seleccionar talles y prepara un mensaje de WhatsApp, NO procesa pagos.
+- La administración se guarda en localStorage en el navegador que edita la información; otros equipos NO ven los cambios.
+- El login es SOLO demostrativo, sin backend ni control seguro de acceso. La cuenta y su verificación están presentes en el código cliente.
+- Para producción: implementar autenticación del lado servidor, BD, almacenamiento de imágenes, acceso de roles, registro de pedidos, sincronización, pasarela de pagos y políticas de privacidad.
+- La foto del logo se recortó de una captura. Reemplazar por archivo original de marca si lo envían.
+- En producción confirmar derechos de uso de las imágenes, datos y contenidos del negocio.
+
+4) Diseño responsive
+Usa márgenes exteriores 32px en escritorio y 14px en móvil para aprovechar los laterales, con 5 columnas de productos en pantallas amplias, 4 intermedias y 2 en móvil.
+
+5) Prueba local
+Abrir index.html directamente o iniciar un servidor simple en la carpeta (python -m http.server 8000) y navegar a http://localhost:8000/.
