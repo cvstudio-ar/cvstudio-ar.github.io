@@ -270,3 +270,29 @@ footer{padding-right:0;padding-bottom:78px}
  .hero{background-position:65% center!important}
  .hero-copy{background:linear-gradient(90deg,rgba(248,248,249,.96),rgba(248,248,249,.88) 76%,rgba(248,248,249,.28))}
 }
+
+/* Portada: la imagen elegida en Administración cubre el fondo ENTERO, sin recortes */
+.hero{
+  width:100%;
+  height:auto!important;
+  min-height:0!important;
+  aspect-ratio:var(--az-hero-ratio,3 / 1);
+  background-image:var(--az-custom-hero,url("assets/portada-az-jeans.webp"))!important;
+  background-size:100% 100%!important;
+  background-position:center center!important;
+  background-repeat:no-repeat!important;
+  position:relative;
+}
+.hero .hero-wrap{
+  height:100%!important;
+  min-height:0!important;
+  display:grid;
+  grid-template-columns:40% 60%;
+}
+.hero .hero-copy{position:relative;z-index:2;align-self:center;background:transparent}
+.hero .hero-visual{background:transparent!important;pointer-events:none}
+@media(max-width:900px){
+ .hero{aspect-ratio:auto;min-height:360px!important;background-size:100% 100%!important;background-position:center!important}
+ .hero .hero-wrap{min-height:360px!important;display:grid;grid-template-columns:1fr}
+ .hero .hero-copy{min-height:360px}
+}
