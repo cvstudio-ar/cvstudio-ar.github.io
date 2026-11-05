@@ -296,3 +296,79 @@ footer{padding-right:0;padding-bottom:78px}
  .hero .hero-wrap{min-height:360px!important;display:grid;grid-template-columns:1fr}
  .hero .hero-copy{min-height:360px}
 }
+
+/* AZ Jeans: mobile hero — legible copy above the models, never over them */
+@media(max-width:900px){
+  .hero{
+    aspect-ratio:auto!important;
+    height:auto!important;
+    min-height:0!important;
+    background-image:none!important;
+    background:#f5f5f6!important;
+    overflow:hidden;
+  }
+  .hero .hero-wrap{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    width:100%;
+    min-height:0!important;
+    height:auto!important;
+    gap:0!important;
+  }
+  .hero .hero-copy{
+    flex:none;
+    align-self:stretch!important;
+    min-height:0!important;
+    height:auto!important;
+    padding:32px max(20px,5vw) 24px!important;
+    background:linear-gradient(135deg,#f8f8f9,#f0f1f2)!important;
+    z-index:1;
+  }
+  .hero .hero-copy .eyebrow{font-size:11px;letter-spacing:.3em}
+  .hero .hero-copy h1{
+    font-size:clamp(35px,7.5vw,53px)!important;
+    line-height:1.08!important;
+    letter-spacing:-.055em!important;
+    margin:14px 0!important;
+    max-width:680px;
+  }
+  .hero .hero-copy p{
+    color:#565b61!important;
+    font-size:clamp(15px,3.6vw,18px)!important;
+    line-height:1.45!important;
+  }
+  .hero .hero-buttons{
+    margin-top:22px!important;
+    gap:10px!important;
+    display:flex;
+    flex-wrap:wrap;
+  }
+  .hero .hero-buttons .pill{width:auto}
+  .hero .hero-visual,
+  .hero.has-custom-hero .hero-visual{
+    display:block!important;
+    position:relative!important;
+    flex:none!important;
+    width:100%!important;
+    height:clamp(220px,62vw,370px)!important;
+    min-height:0!important;
+    background-image:var(--az-custom-hero,url("assets/portada-az-jeans.webp"))!important;
+    background-size:cover!important;
+    background-repeat:no-repeat!important;
+    background-position:72% center!important;
+    pointer-events:none;
+  }
+}
+@media(max-width:560px){
+  .hero .hero-copy{padding:26px 20px 23px!important}
+  .hero .hero-copy h1{font-size:clamp(32px,8vw,43px)!important}
+  .hero .hero-buttons{display:grid;grid-template-columns:1fr 1fr}
+  .hero .hero-buttons .pill{font-size:12px;padding:12px 8px;width:100%;min-width:0;white-space:normal;text-align:center}
+  .hero .hero-visual,
+  .hero.has-custom-hero .hero-visual{height:clamp(210px,68vw,300px)!important;background-position:73% center!important}
+  .section-header .underlink{font-size:12px;line-height:1.35;white-space:nowrap}
+}
+@media(max-width:365px){
+  .hero .hero-buttons{grid-template-columns:1fr}
+}
