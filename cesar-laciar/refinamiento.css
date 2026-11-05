@@ -98,3 +98,31 @@ body[data-palette="wine"] .btn-gold{color:#352231}
  .service-dialog{padding:28px 20px}.dialog-actions .btn{width:100%}
 }
 @media(prefers-reduced-motion:reduce){.service-card{transition:none}}
+
+/* Portada corregida: fotografía hasta el borde real de la pantalla y fondo vectorial nítido */
+.hero{isolation:isolate}
+.hero-texture{
+ background:
+ radial-gradient(ellipse 44% 75% at 22% 110%,rgba(185,150,95,.105),transparent 76%),
+ radial-gradient(ellipse 30% 70% at 55% -15%,rgba(255,255,255,.075),transparent 80%),
+ linear-gradient(118deg,#0b1825 0%,#162536 55%,#263443 100%)!important;
+}
+.hero-texture::before{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:repeating-linear-gradient(132deg,transparent 0,transparent 125px,rgba(255,255,255,.018) 126px,transparent 127px);
+ opacity:.55
+}
+.hero-image{
+ margin-right:calc(0px - max(clamp(16px,2.5vw,56px),calc((100vw - 1920px)/2)));
+ box-shadow:-22px 0 34px rgba(0,0,0,.09);
+}
+.hero-image>img{object-position:50% 38%;image-rendering:auto}
+body[data-palette="wine"] .hero-texture{
+ background:
+ radial-gradient(ellipse 45% 70% at 22% 110%,rgba(214,179,143,.12),transparent 76%),
+ linear-gradient(118deg,#241623 0%,#382535 56%,#513648 100%)!important
+}
+@media(max-width:700px){
+ .hero-image{margin-right:0;border-radius:18px 18px 0 0}
+ .hero-texture::before{opacity:.25}
+}
