@@ -1,0 +1,36 @@
+/* Una Psico Argentina | Fotos oficiales de Naty | 2026-11-05
+   Rutas relativas portables: los archivos están en assets/ */
+.detail-view[data-space]{position:relative;isolation:isolate;overflow:hidden}
+.detail-view[data-space="1"]{--naty-photo:url("assets/terapia.webp")}
+.detail-view[data-space="2"]{--naty-photo:url("assets/bitacora.webp")}
+.detail-view[data-space="3"]{--naty-photo:url("assets/encuentro.webp")}
+.detail-view[data-space="4"]{--naty-photo:url("assets/techo.webp")}
+.detail-view[data-space="5"]{--naty-photo:url("assets/inmersiva.webp")}
+.detail-view[data-space="6"]{--naty-photo:url("assets/podcast.webp")}
+.detail-view[data-space]:not([data-space=""]):before{
+ content:"";position:absolute;inset:0 0 auto auto;pointer-events:none;z-index:-1;
+ width:min(45vw,650px);height:610px;opacity:.24;
+ background-image:linear-gradient(90deg,#fafafae8,#fafafa16),var(--naty-photo);
+ background-size:cover;background-position:center;
+ mask-image:linear-gradient(#000 60%,transparent);
+}
+.detail-view[data-space]:not([data-space=""]) .detail-inner{
+ position:relative;z-index:1;border-radius:20px;
+ box-shadow:0 16px 44px #17395914;
+}
+.detail-view .editorial-copy{font-size:clamp(16px,1.25vw,18px);line-height:1.76}
+.detail-view .detail-actions .btn{border-radius:12px;transition:transform .2s ease,box-shadow .2s ease}
+.detail-view .detail-actions .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17395920}
+@media(min-width:900px){
+ .detail-view[data-space]:not([data-space=""]) .detail-inner:after{
+  content:"";float:right;width:min(30%,320px);height:400px;margin:0 0 24px 30px;
+  border:7px solid #fff;border-radius:140px 140px 24px 24px;
+  background-image:var(--naty-photo);background-size:cover;background-position:center;
+  box-shadow:0 15px 40px #17395922;
+ }
+}
+@media(max-width:899px){
+ .detail-view[data-space]:not([data-space=""]):before{width:100%;height:280px;opacity:.17}
+ .detail-view .editorial-copy{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){.detail-view .detail-actions .btn{transition:none}}
