@@ -1,0 +1,34 @@
+ESTUDIO LACIAR — DEMO CVSTUDIO
+Ruta de publicación: https://cvstudio.com.ar/cesar-laciar/
+
+Archivos: index.html, admin.html, styles.css, admin.css, data.js, site.js, admin.js y assets/.
+
+ACCESO DEMO SOLICITADO
+Usuario: Admin
+Contraseña: Cvstudio*26
+ATENCIÓN: en esta DEMO el acceso está validado por JavaScript dentro del navegador. NO es autenticación segura para uso comercial ni contiene protección real de un servidor. El panel debe migrarse a Supabase Auth (o equivalente) antes de entregarse como panel de producción.
+
+PANEL
+- Editar textos de portada, sobre el estudio y trayectoria.
+- Editar las cinco tarjetas de servicios; agregar/quitar servicios.
+- Editar teléfono, WhatsApp, ubicación, localidad, horarios, correo y enlaces de Instagram/Facebook/LinkedIn/Google Maps.
+- Elegir una de dos paletas: azul+dorado o bordó+champagne.
+- Subir una imagen de portada que se comprime y se guarda EN ESE NAVEGADOR.
+- Exportar/importar configuración JSON (sin foto personalizada en el JSON).
+
+ALCANCE Y LIMITACIONES
+- Solo el mismo navegador ve los cambios locales. Otras personas verán valores iniciales del repositorio.
+- La foto de la demo se recortó de una maqueta de referencia generada. Sustituirla por foto real autorizada del profesional.
+- No hay backend de formularios; se abre WhatsApp con mensaje prellenado.
+- Los textos de antecedentes, experiencia y servicios son EDITABLES, están redactados sin acreditar años, títulos especiales ni resultados específicos.
+- No publicitar este panel como autenticado/seguro. Para producción: Supabase Auth, reglas RLS, Storage, sesiones seguras, hosting Cloudflare, dominio personal y copia de seguridad.
+
+PARA MIGRACIÓN
+1. Crear cuentas Supabase y Cloudflare propias del cliente.
+2. Crear tablas de configuración, servicios, usuarios y medios; habilitar RLS.
+3. Mover foto a Supabase Storage y actualizar cover a URL pública autorizada.
+4. Sustituir la validación en JavaScript por Supabase Auth y proteger las operaciones de edición.
+5. Habilitar publicación sincronizada, dominio, SSL, privacidad y backups.
+6. La estructura index/admin CSS/JS es exportable; los datos se pueden exportar en JSON desde el panel.
+
+CVStudio Argentina — versión demostrativa, sin mensualidad de diseño. Costos externos de hosting, dominio y herramientas sujetos a planes/proveedores y condiciones comerciales pactadas.
