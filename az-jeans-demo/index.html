@@ -1,12 +1,170 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AZ Jeans | Tienda online - Demo CVStudio</title><meta name="description" content="Demo visual de AZ Jeans. Precios y stock ilustrativos."><link rel="stylesheet" href="style.css"></head><body>
-<div class="announcement">AZ JEANS · DEMOSTRACIÓN VISUAL · PRECIOS Y STOCK DE EJEMPLO</div>
-<header class="header"><div class="wide nav"><a class="brand" href="#inicio"><img src="assets/logo-instagram.png" alt="Logo AZ Jeans">AZ Jeans</a><nav class="navlinks" id="navlinks"><a href="#inicio">Inicio</a><a href="#catalogo">Catálogo</a><a href="#destacados">Destacados</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a><a href="admin.html" class="admin-nav-link">Administración</a></nav><div class="actions"><a class="iconbutton social" aria-label="Instagram" href="https://www.instagram.com/azjeans/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1" fill="currentColor"/></svg></a><a class="iconbutton social" aria-label="WhatsApp" href="https://wa.me/5491126637424" target="_blank" rel="noopener">☎</a><button class="iconbutton" aria-label="Abrir carrito" onclick="openCart()">🛍<span id="cart-count" style="font-size:10px">0</span></button><button class="iconbutton mobile-menu" aria-label="Abrir menú" onclick="document.getElementById('navlinks').classList.toggle('show')">☰</button></div></div></header>
-<main><section id="inicio" class="hero"><div class="wide hero-wrap"><div class="hero-copy"><div class="eyebrow">MODA URBANA · AZ JEANS</div><h1 id="hero-title">Tu estilo.<br>Tu tienda.<br>Tu momento.</h1><p id="hero-description">Jeans, remeras, buzos y mucho más. Prendas versátiles para cada día.</p><div class="hero-buttons"><a class="pill" href="#catalogo">Ver catálogo ↗</a><a class="pill outline" id="hero-whatsapp" target="_blank" rel="noopener">Consultar por WhatsApp</a></div></div><div class="hero-collage"><img src="assets/producto-01.webp" alt="Chomba rayada"><img src="assets/producto-03.webp" alt="Estilo AZ Jeans"><img src="assets/producto-02.webp" alt="Camisa estampada"></div></div></section>
-<section id="destacados" class="wide section"><div class="section-header"><div><h2>Destacados</h2><p class="muted">Una selección de nuestra colección</p></div><a href="#catalogo" class="underlink">Ver todo el catálogo ↗</a></div><div id="featured-grid" class="featured"></div><div class="categories" id="categories"></div></section>
-<section id="catalogo" class="wide section"><div class="section-header"><div><h2>Catálogo</h2><p class="muted">Descubrí todas las prendas</p></div><span class="small muted" id="products-result"></span></div><div class="tools"><input type="search" id="search" placeholder="Buscar por nombre o categoría..." aria-label="Buscar productos"><select id="sort" aria-label="Ordenar productos"><option value="default">Orden predeterminado</option><option value="asc">Menor precio</option><option value="desc">Mayor precio</option><option value="name">Nombre A-Z</option></select></div><div class="products" id="products-grid"></div></section>
-<section id="nosotros" class="about"><div class="wide"><div><div class="eyebrow">CONOCENOS</div><h2>Sobre AZ Jeans</h2></div><p>Moda urbana, prendas versátiles y estilos para todos los días. Conocé nuestra colección y encontrá lo que más va con vos. <br><small>Esta es una demostración visual realizada por CVStudio.</small></p><a class="pill outline" id="about-wa" target="_blank" rel="noopener">Hablemos ↗</a></div></section></main>
-<footer id="contacto"><div class="wide footer-grid"><a class="brand" href="#inicio"><img src="assets/logo-instagram.png" alt="AZ">AZ Jeans</a><span class="muted footer-copy">Demostración para evaluación · CVStudio Argentina</span><a class="footer-link" href="https://www.instagram.com/azjeans/" target="_blank" rel="noopener">◎ @azjeans</a><a class="footer-link" href="https://wa.me/5491126637424" target="_blank" rel="noopener">☎ +54 9 11 2663-7424</a><a class="footer-admin" href="admin.html">Administración</a></div></footer>
-<a class="floating-wa" id="floating-wa" target="_blank" rel="noopener">☎ WhatsApp</a><div id="toast" class="toast" role="status"></div>
-<div class="drawer-mask" id="cart-mask"><aside class="drawer"><div class="drawer-head"><h2>Tu carrito 🛍</h2><button class="iconbutton" onclick="closeCart()" aria-label="Cerrar">✕</button></div><p class="muted small">Carrito ilustrativo: la solicitud se envía a WhatsApp. No se cobran pagos online en esta demo.</p><div id="cart-lines"></div><div class="cart-total"><span>Total</span><span id="cart-total">$0</span></div><a id="checkout-link" class="pill" style="width:100%" target="_blank" rel="noopener">Enviar pedido por WhatsApp ↗</a><button class="pill outline" style="width:100%;margin-top:10px" onclick="clearCart()">Vaciar carrito</button></aside></div>
-<div class="modal-mask" id="product-mask"><div class="modal"><div style="display:flex;justify-content:flex-end"><button class="iconbutton" onclick="closeProduct()">✕</button></div><div id="product-modal"></div></div></div>
-<script src="data.js"></script><script src="store.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AZ Jeans | Tienda online - Demo CVStudio</title>
+  <meta name="description" content="Demo visual de AZ Jeans. Precios y stock ilustrativos.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="header">
+  <div class="wide nav">
+    <a class="brand" href="#inicio">
+      <img src="assets/logo-instagram.png" alt="Logo AZ Jeans">
+      <span>AZ Jeans</span>
+    </a>
+
+    <nav class="navlinks" id="navlinks">
+      <a href="#inicio" class="active">Inicio</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#destacados">Destacados</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+      <a href="admin.html" class="admin-nav-link">Administración</a>
+    </nav>
+
+    <div class="actions">
+      <a class="iconbutton social" aria-label="Instagram" href="https://www.instagram.com/azjeans/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="18" cy="6" r="1" fill="currentColor"/>
+        </svg>
+      </a>
+      <a class="iconbutton social" aria-label="WhatsApp" href="https://wa.me/5491126637424" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 11.5A8.5 8.5 0 1 1 4.43 16L3 21l5.14-1.35A8.5 8.5 0 1 1 20 11.5Z"></path>
+          <path d="M8.5 9.5c.2-.5.5-.5.8-.5h.6c.2 0 .5 0 .7.5l.5 1.2c.1.3.1.5-.1.7l-.5.7c-.1.1-.2.3 0 .6.4.8 1.1 1.5 1.9 2 .2.1.4.1.6 0l.8-.4c.2-.1.4-.1.7.1l1.2.6c.4.2.5.4.4.7l-.2.8c-.1.3-.4.5-.7.6-.5.1-1.1.2-1.6 0-2-.7-4.5-3-5.3-5-.2-.6-.2-1.1 0-1.6l.2-.7Z"></path>
+        </svg>
+      </a>
+      <button class="iconbutton cart-trigger" aria-label="Abrir carrito" onclick="openCart()">
+        <span>🛍</span>
+        <span id="cart-count" class="cart-count">0</span>
+      </button>
+      <button class="iconbutton mobile-menu" aria-label="Abrir menú" onclick="document.getElementById('navlinks').classList.toggle('show')">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="inicio" class="hero">
+    <div class="wide hero-wrap">
+      <div class="hero-copy">
+        <div class="eyebrow">MODA URBANA</div>
+        <h1 id="hero-title">Tu tienda online,<br>con estilo propio</h1>
+        <p id="hero-description">Jeans, remeras, buzos y más.<br>Prendas modernas y versátiles para todos los días.</p>
+        <div class="hero-buttons">
+          <a class="pill" href="#catalogo">Ver catálogo</a>
+          <a class="pill outline" id="hero-whatsapp" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-texture"></div>
+        <div class="hero-watermark">AZ</div>
+        <figure class="hero-model model-a"><img src="assets/producto-01.webp" alt=""></figure>
+        <figure class="hero-model model-b"><img src="assets/producto-03.webp" alt=""></figure>
+        <figure class="hero-model model-c"><img src="assets/producto-02.webp" alt=""></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="destacados" class="wide section section-top-tight">
+    <div class="section-header">
+      <div>
+        <h2>Destacados</h2>
+        <p class="muted">Lo más elegido de la temporada</p>
+      </div>
+      <a href="#catalogo" class="underlink">Ver catálogo completo →</a>
+    </div>
+    <div id="featured-grid" class="featured"></div>
+    <div class="categories" id="categories"></div>
+  </section>
+
+  <section id="catalogo" class="wide section section-catalog">
+    <div class="section-header">
+      <div>
+        <h2>Catálogo</h2>
+        <p class="muted">Descubrí toda nuestra colección</p>
+      </div>
+      <a href="#catalogo" class="underlink">Ver todo el catálogo →</a>
+    </div>
+
+    <div class="tools">
+      <input type="search" id="search" placeholder="Buscar por nombre o categoría..." aria-label="Buscar productos">
+      <div class="tools-right">
+        <span class="small muted" id="products-result"></span>
+        <select id="sort" aria-label="Ordenar productos">
+          <option value="default">Orden predeterminado</option>
+          <option value="asc">Menor precio</option>
+          <option value="desc">Mayor precio</option>
+          <option value="name">Nombre A-Z</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="products" id="products-grid"></div>
+  </section>
+
+  <section id="nosotros" class="about">
+    <div class="wide about-grid">
+      <div>
+        <div class="eyebrow">CONOCENOS</div>
+        <h2>Sobre AZ Jeans</h2>
+      </div>
+      <p>
+        Somos una marca de moda urbana que combina diseño, comodidad y tendencia.
+        Ofrecemos jeans, remeras, buzos y otras prendas pensadas para todos los días.
+      </p>
+      <a class="pill outline" id="about-wa" target="_blank" rel="noopener">Hablemos ↗</a>
+    </div>
+  </section>
+</main>
+
+<footer id="contacto">
+  <div class="wide footer-grid">
+    <a class="brand footer-brand" href="#inicio">
+      <img src="assets/logo-instagram.png" alt="AZ">
+      <span>AZ Jeans</span>
+    </a>
+    <a class="footer-nav" href="#inicio">Inicio</a>
+    <a class="footer-nav" href="#catalogo">Catálogo</a>
+    <a class="footer-nav" href="#destacados">Destacados</a>
+    <a class="footer-nav" href="#nosotros">Nosotros</a>
+    <a class="footer-nav" href="#contacto">Contacto</a>
+    <span class="footer-copy">© 2025 AZ Jeans. Demo de e-commerce desarrollada por CVStudio.</span>
+    <a class="footer-link" href="https://www.instagram.com/azjeans/" target="_blank" rel="noopener">◎ @azjeans</a>
+    <a class="footer-link" href="https://wa.me/5491126637424" target="_blank" rel="noopener">☎ +54 9 11 2663-7424</a>
+    <a class="footer-admin" href="admin.html">Administración</a>
+  </div>
+</footer>
+
+<a class="floating-wa" id="floating-wa" target="_blank" rel="noopener">WhatsApp</a>
+<div id="toast" class="toast" role="status"></div>
+
+<div class="drawer-mask" id="cart-mask">
+  <aside class="drawer">
+    <div class="drawer-head">
+      <h2>Tu carrito 🛍</h2>
+      <button class="iconbutton" onclick="closeCart()" aria-label="Cerrar">✕</button>
+    </div>
+    <p class="muted small">Carrito ilustrativo: la solicitud se envía a WhatsApp. No se cobran pagos online en esta demo.</p>
+    <div id="cart-lines"></div>
+    <div class="cart-total"><span>Total</span><span id="cart-total">$0</span></div>
+    <a id="checkout-link" class="pill" style="width:100%" target="_blank" rel="noopener">Enviar pedido por WhatsApp ↗</a>
+    <button class="pill outline" style="width:100%;margin-top:10px" onclick="clearCart()">Vaciar carrito</button>
+  </aside>
+</div>
+
+<div class="modal-mask" id="product-mask">
+  <div class="modal">
+    <div class="modal-close-row"><button class="iconbutton" onclick="closeProduct()">✕</button></div>
+    <div id="product-modal"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="store.js"></script>
+</body>
+</html>
