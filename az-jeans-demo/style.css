@@ -234,3 +234,9 @@ footer{padding-right:0;padding-bottom:78px}
 .footer-copy{font-size:12px}
 .footer-admin-inline{margin-left:8px;padding-left:8px}
 }
+
+/* Portada unificada, textos y botones siguen en HTML */
+.hero-wrap{grid-template-columns:40% 60%;height:clamp(330px,28vw,455px);min-height:0}
+.hero-copy{position:relative;z-index:2}
+.hero-visual{height:100%;min-height:0;background:#e6e7e9 url("assets/portada-az-jeans.webp") center center/cover no-repeat;overflow:hidden}
+@media(max-width:900px){.hero-wrap{height:auto;grid-template-columns:1fr}.hero-visual{height:clamp(215px,54vw,350px);min-height:0;background-size:cover;background-position:center}}
