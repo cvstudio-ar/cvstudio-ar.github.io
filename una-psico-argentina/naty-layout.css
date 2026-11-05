@@ -1,6 +1,7 @@
-/* Una Psico Argentina | Fotos oficiales de Naty | 2026-11-05
-   Rutas relativas portables: los archivos están en assets/ */
-.detail-view[data-space]{position:relative;isolation:isolate;overflow:hidden}
+/* Una Psico Argentina | Fondos de Naty | 2026-11-05
+   El diseño conserva las imagenes originales en assets/ y es portable
+   al futuro dominio y alojamiento de la clienta. */
+.detail-view[data-space]{position:relative;isolation:isolate}
 .detail-view[data-space="1"]{--naty-photo:url("assets/terapia.webp")}
 .detail-view[data-space="2"]{--naty-photo:url("assets/bitacora.webp")}
 .detail-view[data-space="3"]{--naty-photo:url("assets/encuentro.webp")}
@@ -8,30 +9,60 @@
 .detail-view[data-space="5"]{--naty-photo:url("assets/inmersiva.webp")}
 .detail-view[data-space="6"]{--naty-photo:url("assets/podcast.webp")}
 .detail-view[data-section="recursos"]{--naty-photo:url("assets/recursos.webp")}
-.detail-view[data-space]:not([data-space=""]):before{
- content:"";position:absolute;inset:0 0 auto auto;pointer-events:none;z-index:-1;
- width:min(45vw,650px);height:610px;opacity:.24;
- background-image:linear-gradient(90deg,#fafafae8,#fafafa16),var(--naty-photo);
- background-size:cover;background-position:center;
- mask-image:linear-gradient(#000 60%,transparent);
+
+/* Exterior: la fotografia es sutil pero mas visible que dentro del recuadro. */
+.detail-view[data-space]:not([data-space=""]){
+ background-color:var(--space-soft,#f4eee9);
+ background-image:
+   linear-gradient(120deg,rgba(248,241,235,.53),rgba(248,241,235,.69)),
+   var(--naty-photo);
+ background-repeat:no-repeat;
+ background-size:cover;
+ background-position:center center;
+ background-attachment:scroll;
+ color:#1e3857;
 }
+/* Se eliminan los dos adornos previos: mancha transparente y foto vertical. */
+.detail-view[data-space]:not([data-space=""]):before,
+.detail-view[data-space]:not([data-space=""]) .detail-inner:after{
+ content:none!important;
+ display:none!important;
+}
+/* Interior: la misma imagen, con velo claro para asegurar lectura del texto. */
 .detail-view[data-space]:not([data-space=""]) .detail-inner{
- position:relative;z-index:1;border-radius:20px;
- box-shadow:0 16px 44px #17395914;
+ position:relative;
+ z-index:1;
+ background-color:#fafafa;
+ background-image:
+   linear-gradient(120deg,rgba(250,250,250,.89),rgba(250,250,250,.92)),
+   var(--naty-photo);
+ background-repeat:no-repeat;
+ background-size:cover;
+ background-position:center top;
+ border-radius:20px;
+ box-shadow:0 16px 44px #17395916;
 }
-.detail-view .editorial-copy{font-size:clamp(16px,1.25vw,18px);line-height:1.76}
-.detail-view .detail-actions .btn{border-radius:12px;transition:transform .2s ease,box-shadow .2s ease}
-.detail-view .detail-actions .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17395920}
-@media(min-width:900px){
- .detail-view[data-space]:not([data-space=""]) .detail-inner:after{
-  content:"";float:right;width:min(30%,320px);height:400px;margin:0 0 24px 30px;
-  border:7px solid #fff;border-radius:140px 140px 24px 24px;
-  background-image:var(--naty-photo);background-size:cover;background-position:center;
-  box-shadow:0 15px 40px #17395922;
+/* Nunca insertar ilustraciones ni marcas de agua sobre los textos. */
+.detail-view .space-watermark{display:none!important}
+.detail-view .editorial-copy{max-width:none;font-size:clamp(16px,1.25vw,18px);line-height:1.78}
+.detail-view .detail-actions .btn{
+ border-radius:12px;
+ transition:transform .2s ease,box-shadow .2s ease;
+}
+.detail-view .detail-actions .btn:hover{
+ transform:translateY(-2px);box-shadow:0 8px 20px #17395920;
+}
+@media(max-width:800px){
+ .detail-view[data-space]:not([data-space=""]){
+   background-image:linear-gradient(rgba(248,241,235,.58),rgba(248,241,235,.69)),var(--naty-photo);
+   background-position:center top;
  }
-}
-@media(max-width:899px){
- .detail-view[data-space]:not([data-space=""]):before{width:100%;height:280px;opacity:.17}
+ .detail-view[data-space]:not([data-space=""]) .detail-inner{
+   background-image:linear-gradient(rgba(250,250,250,.91),rgba(250,250,250,.94)),var(--naty-photo);
+   background-position:center top;
+ }
  .detail-view .editorial-copy{font-size:16px}
 }
-@media(prefers-reduced-motion:reduce){.detail-view .detail-actions .btn{transition:none}}
+@media(prefers-reduced-motion:reduce){
+ .detail-view .detail-actions .btn{transition:none}
+}
