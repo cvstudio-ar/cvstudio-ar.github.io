@@ -187,3 +187,50 @@ footer{background:#12161a;color:#fff;padding:14px 0}
   .footer-grid{grid-template-columns:1fr;gap:12px}
   .footer-admin{justify-self:start}
 }
+
+/* CVStudio AZ Jeans | Corrección de portada y pie - 2026-11-05 */
+.hero{background:linear-gradient(115deg,#f9f9fa 0%,#f1f2f3 49%,#e3e5e7 100%);overflow:hidden}
+.hero-wrap{height:clamp(390px,31vw,490px);min-height:0;grid-template-columns:40% minmax(0,60%);position:relative}
+.hero-copy{align-self:center;padding:28px 4% 28px 18px;max-width:640px}
+.hero h1{font-size:clamp(39px,3.65vw,67px);line-height:1.04;letter-spacing:-.06em;margin:14px 0 14px}
+.hero p{font-size:clamp(15px,1.16vw,19px)}
+.hero-visual{position:relative;height:100%;min-height:0;isolation:isolate;overflow:hidden}
+.hero-texture{inset:0;background:linear-gradient(122deg,rgba(255,255,255,.80) 0%,rgba(225,227,230,.40) 35%,rgba(188,192,198,.35) 100%),radial-gradient(circle at 65% 30%,#fff 0,transparent 60%);clip-path:polygon(16% 0,100% 0,100% 100%,0 100%)}
+.hero-watermark{font-size:clamp(155px,17vw,285px);right:0;top:15%;color:rgba(255,255,255,.55);z-index:1;pointer-events:none}
+.hero-model{position:absolute;bottom:0;height:92%;margin:0;overflow:hidden;filter:none;isolation:isolate}
+.hero-model img{width:100%;height:100%;object-fit:cover;object-position:center top;mix-blend-mode:multiply;display:block}
+.model-a{left:10%;width:34%;height:88%;z-index:2}
+.model-b{left:38%;width:34%;height:97%;z-index:4}
+.model-c{left:66%;width:32%;height:90%;z-index:3}
+.footer-grid{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 22px}
+.footer-copy{flex:0 1 auto;justify-self:auto;white-space:normal;color:#d4d7db}
+.footer-admin-inline{display:inline;text-decoration:none;color:#fff;font-size:inherit;font-weight:700;margin-left:12px;padding-left:12px;border-left:1px solid #77808a}
+.footer-admin-inline:hover{text-decoration:underline;text-underline-offset:3px}
+footer{padding:16px 100px 16px 0}
+.floating-wa{bottom:18px;right:20px;z-index:30}
+@media(max-width:1400px){
+.hero-wrap{grid-template-columns:41% minmax(0,59%)}
+.footer-grid{display:flex;justify-content:space-between}
+}
+@media(max-width:1200px){
+.hero-wrap{grid-template-columns:43% minmax(0,57%)}
+.hero h1{font-size:clamp(36px,3.3vw,52px)}
+}
+@media(max-width:900px){
+.hero-wrap{height:auto;min-height:0;grid-template-columns:1fr}
+.hero-copy{padding:34px 8px 22px}
+.hero-visual{height:320px;min-height:0}
+.hero-texture{clip-path:none}
+.hero h1{font-size:clamp(39px,7vw,54px)}
+footer{padding-right:0;padding-bottom:78px}
+}
+@media(max-width:560px){
+.hero-visual{height:265px}
+.hero-model{height:94%}
+.model-a{left:0;width:36%;height:86%}
+.model-b{left:32%;width:37%;height:94%}
+.model-c{left:65%;width:36%;height:89%}
+.hero h1{font-size:42px}
+.footer-copy{font-size:12px}
+.footer-admin-inline{margin-left:8px;padding-left:8px}
+}
