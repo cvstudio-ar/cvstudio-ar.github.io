@@ -7,6 +7,7 @@
 .detail-view[data-space="4"]{--naty-photo:url("assets/techo.webp")}
 .detail-view[data-space="5"]{--naty-photo:url("assets/inmersiva.webp")}
 .detail-view[data-space="6"]{--naty-photo:url("assets/podcast.webp")}
+.detail-view[data-section="recursos"]{--naty-photo:url("assets/recursos.webp")}
 .detail-view[data-space]:not([data-space=""]):before{
  content:"";position:absolute;inset:0 0 auto auto;pointer-events:none;z-index:-1;
  width:min(45vw,650px);height:610px;opacity:.24;
