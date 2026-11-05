@@ -34,3 +34,5 @@ PARA MIGRACIÓN
 CVStudio Argentina — versión demostrativa, sin mensualidad de diseño. Costos externos de hosting, dominio y herramientas sujetos a planes/proveedores y condiciones comerciales pactadas.
 
 Publicación de recuperación: se inicia una ejecución nueva de GitHub Pages tras el fallo de artefactos duplicados de un reintento.
+
+Reintento de publicación con GitHub Pages configurado para GitHub Actions (sin cambios en la web).
