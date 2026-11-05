@@ -247,3 +247,26 @@ footer{padding-right:0;padding-bottom:78px}
 .actions .iconbutton{flex-shrink:0;position:relative;color:#191d22}
 .actions .cart-trigger{margin-left:2px}
 .actions .cart-count{font-family:system-ui,sans-serif;top:-6px;right:-6px}
+
+/* AZ Jeans: imagen panorámica continua, sin separación entre texto y modelos */
+.hero{
+  background-image:var(--az-custom-hero, url("assets/portada-az-jeans.webp")) !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  overflow:hidden;
+}
+.hero-wrap{grid-template-columns:40% minmax(0,60%);height:clamp(330px,28vw,455px)}
+.hero-copy{position:relative;z-index:2;background:transparent}
+.hero-visual{background:none!important;min-height:0;height:100%;pointer-events:none}
+.hero.has-custom-hero .hero-visual{background:none!important}
+@media(max-width:900px){
+ .hero{background-position:63% center!important}
+ .hero-wrap{grid-template-columns:1fr;height:auto;min-height:360px}
+ .hero-copy{background:linear-gradient(90deg,rgba(247,248,250,.95),rgba(247,248,250,.72) 72%,transparent);min-height:360px;display:flex;flex-direction:column;justify-content:center}
+ .hero-visual{display:none}
+}
+@media(max-width:560px){
+ .hero{background-position:65% center!important}
+ .hero-copy{background:linear-gradient(90deg,rgba(248,248,249,.96),rgba(248,248,249,.88) 76%,rgba(248,248,249,.28))}
+}
