@@ -32,3 +32,5 @@ PARA MIGRACIÓN
 6. La estructura index/admin CSS/JS es exportable; los datos se pueden exportar en JSON desde el panel.
 
 CVStudio Argentina — versión demostrativa, sin mensualidad de diseño. Costos externos de hosting, dominio y herramientas sujetos a planes/proveedores y condiciones comerciales pactadas.
+
+Publicación de recuperación: se inicia una ejecución nueva de GitHub Pages tras el fallo de artefactos duplicados de un reintento.
