@@ -6,7 +6,18 @@ function toggleMenu(b){const open=$('.top .menu').classList.toggle('open');b.set
 function shell(label,title,body){return '<div class="detail-inner"><a class="back-link" href="#espacios">← Volver a los espacios</a><div class="tag">'+esc(label)+'</div><h1>'+esc(title)+'</h1>'+body+'</div>'}
 
 const copyHeadings=new Set(['Información confiable','Comprender para actuar','Herramientas prácticas','Un espacio de reflexión guiada','Prevención y promoción del bienestar','Una mirada intercultural','A nivel social aspiramos a:','A nivel grupal, vincular e intercultural','A nivel individual','¿Cómo transitamos este camino?','Información clave para comprender nuestro marco de trabajo.','¿Qué trabajamos en estos encuentros?','Sumate a nuestro espacio.']);
-function copyMarkup(text){return '<div class="editorial-copy">'+String(text||'').split(/\n{2,}/).filter(Boolean).map(p=>copyHeadings.has(p)?'<h3>'+esc(p)+'</h3>':'<p>'+esc(p).replace(/\n/g,'<br>')+'</p>').join('')+'</div>'}
+function copyMarkup(text){
+ const input=String(text||'').replace(/\s*●\s*/g,'\n● ');
+ const blocks=input.split(/\n{2,}/).filter(Boolean);
+ const makeText=part=>copyHeadings.has(part.trim())?'<h3>'+esc(part.trim())+'</h3>':'<p>'+esc(part.trim()).replace(/\n/g,'<br>')+'</p>';
+ return '<div class="editorial-copy">'+blocks.map(block=>{
+  const lines=block.split('\n').map(x=>x.trim()).filter(Boolean);
+  if(!lines.some(x=>x.startsWith('● ')))return makeText(block);
+  const intro=lines.filter(x=>!x.startsWith('● ')).join('\n');
+  const items=lines.filter(x=>x.startsWith('● ')).map(x=>'<li>'+esc(x.slice(2).trim())+'</li>').join('');
+  return (intro?makeText(intro):'')+'<ul class="naty-bullet-list">'+items+'</ul>';
+ }).join('')+'</div>';
+}
 function editorialSection(id,open=false){const a=(content.articles||[]).find(a=>a.id===id);return a?'<details class="editorial-accordion"'+(open?' open':'')+'><summary>'+esc(a.title)+'</summary>'+copyMarkup(a.body)+'</details>':''}
 function contactLink(){return psicoCoordinatorLink(content)}
 
