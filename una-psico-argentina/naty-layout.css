@@ -1,13 +1,11 @@
-/* Una Psico Argentina | Fondos de Naty | 2026-11-05
-   El diseño conserva las imagenes originales en assets/ y es portable
-   al futuro dominio y alojamiento de la clienta. */
+/* Una Psico Argentina | Fondos por espacio y tamaño de pantalla. */
 .detail-view[data-space]{position:relative;isolation:isolate}
-.detail-view[data-space="1"]{--naty-photo:url("assets/terapia.webp")}
-.detail-view[data-space="2"]{--naty-photo:url("assets/bitacora.webp")}
-.detail-view[data-space="3"]{--naty-photo:url("assets/encuentro.webp")}
-.detail-view[data-space="4"]{--naty-photo:url("assets/techo.webp")}
-.detail-view[data-space="5"]{--naty-photo:url("assets/inmersiva.webp")}
-.detail-view[data-space="6"]{--naty-photo:url("assets/podcast.webp")}
+.detail-view[data-space="1"]{--naty-photo:url("assets/fondos/terapia-individual-escritorio.webp")}
+.detail-view[data-space="2"]{--naty-photo:url("assets/fondos/bitacora-migrante-escritorio.webp")}
+.detail-view[data-space="3"]{--naty-photo:url("assets/fondos/punto-de-encuentro-escritorio.webp")}
+.detail-view[data-space="4"]{--naty-photo:url("assets/fondos/bajo-el-mismo-techo-escritorio.webp")}
+.detail-view[data-space="5"]{--naty-photo:url("assets/fondos/experiencia-inmersiva-escritorio.webp")}
+.detail-view[data-space="6"]{--naty-photo:url("assets/fondos/podcast-escritorio.webp")}
 .detail-view[data-section="recursos"]{--naty-photo:url("assets/recursos.webp")}
 
 /* Exterior: la fotografia es sutil pero mas visible que dentro del recuadro. */
@@ -99,34 +97,38 @@
  .detail-view .editorial-copy .naty-bullet-list li{padding-left:22px}
 }
 
-/* Avioncito dibujado y estela, solo en Terapia Individual. */
-@media (prefers-reduced-motion: no-preference) {
- .detail-view[data-space="1"] {overflow:clip}
- .detail-view[data-space="1"]::after,
- .detail-view[data-space="1"] .detail-inner::before {
+/* Los seis espacios comparten una sola foto continua, debajo del panel de lectura. */
+.detail-view[data-space]:not([data-space=""]):not([data-section="recursos"]){
+ background-size:cover;
+ background-position:left center;
+}
+.detail-view[data-space]:not([data-space=""]):not([data-section="recursos"]) .detail-inner{
+ background:#fafafae8;
+}
+@media(max-width:800px){
+ .detail-view[data-space="1"]{--naty-photo:url("assets/fondos/terapia-individual-celular.webp")}
+ .detail-view[data-space="2"]{--naty-photo:url("assets/fondos/bitacora-migrante-celular.webp")}
+ .detail-view[data-space="3"]{--naty-photo:url("assets/fondos/punto-de-encuentro-celular.webp")}
+ .detail-view[data-space="4"]{--naty-photo:url("assets/fondos/bajo-el-mismo-techo-celular.webp")}
+ .detail-view[data-space="5"]{--naty-photo:url("assets/fondos/experiencia-inmersiva-celular.webp")}
+ .detail-view[data-space="6"]{--naty-photo:url("assets/fondos/podcast-celular.webp")}
+ .detail-view[data-space]:not([data-space=""]):not([data-section="recursos"]){
+   background-position:center center;
+ }
+}
+
+/* A viewport-sized photo stays framed while a long article scrolls. */
+@supports (clip-path:inset(0)){
+ .detail-view[data-space]:not([data-space=""]):not([data-section="recursos"]){
+   clip-path:inset(0);
+   background-image:none;
+ }
+ .detail-view[data-space]:not([data-space=""]):not([data-section="recursos"])::after{
    content:"";
-   position:absolute;
-   inset-inline:0;
-   aspect-ratio:1000 / 280;
-   background:url("assets/avion-papel.svg") center / 100% auto no-repeat;
-   pointer-events:none;
- }
- .detail-view[data-space="1"]::after {
-   top:clamp(100px,19vh,210px);
-   opacity:.46;
+   position:fixed;
+   inset:0;
    z-index:0;
- }
- .detail-view[data-space="1"] .detail-inner::before {
-   top:clamp(125px,23vh,250px);
-   opacity:.21;
-   z-index:-1;
- }
- @media (max-width:700px) {
-   .detail-view[data-space="1"] .detail-inner::before {
-     top:165px;
-     height:180px;
-     background-size:160% auto;
-     opacity:.17;
-   }
+   pointer-events:none;
+   background:linear-gradient(120deg,#f8f1eb38,#f8f1eb55),var(--naty-photo) center / cover no-repeat;
  }
 }
