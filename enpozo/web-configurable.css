@@ -97,6 +97,39 @@
 .featured-card:hover .featured-meta span,.featured-card:focus-within .featured-meta span{background:#fff;color:#102f35}
 @media(max-width:700px){
  .featured-section{padding-top:32px}
- .featured-grid{grid-template-columns:1fr}
- .featured-card{min-height:240px}
+ .featured-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .featured-card:nth-child(n+3){display:none}
+ .featured-card{min-height:clamp(196px,47vw,270px);padding:12px;border-radius:12px}
+ .featured-operation{top:10px;left:10px;padding:4px 9px}
+ .featured-copy h3{font-size:clamp(1.12rem,3.9vw,1.6rem)}
+ .featured-copy p{margin-bottom:8px;font-size:.77rem}
+ .featured-meta{font-size:.8rem;gap:5px 8px}
+ .featured-meta span{padding:2px 7px;font-size:.72rem}
 }
+
+
+/* La foto se acerca suavemente al entrar. El texto permanece fijo. */
+@media(prefers-reduced-motion:no-preference){
+ .hero-photo{transform-origin:70% 55%;animation:hero-reveal 5s ease-out both}
+ @keyframes hero-reveal{
+  from{transform:scale(1.015)}
+  to{transform:scale(1.075)}
+ }
+}
+.card{border-color:#e4e9e6;box-shadow:0 6px 20px #102f350e;transition:box-shadow .2s,border-color .2s}
+.card:hover,.card:focus-within{border-color:#cbdad4;box-shadow:0 12px 26px #102f351b}
+.card-body{padding:clamp(14px,1.5vw,22px)}
+.card h3{font-size:clamp(1.15rem,1.55vw,1.45rem)}
+.card .location{align-items:flex-start;color:#485d5b;margin-bottom:13px}
+.card .location svg{flex:none;margin-top:2px}
+.card .features{justify-content:flex-start;gap:6px;margin-bottom:14px}
+.card .features span{border:1px solid #e4ebe7;border-radius:7px;padding:4px 8px;background:#f4f7f5;color:#354b48}
+.card .features svg{width:15px;height:15px;color:var(--petrol)}
+.card-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;border-top-color:#e4ebe7}
+.card-bottom .price{min-width:0;max-width:none;font-size:clamp(.86rem,1.2vw,1.02rem);color:var(--petrol-dark)}
+.card-bottom .view,.card-bottom .card-wa{justify-content:center;min-height:44px;border:1px solid var(--petrol);border-radius:8px;padding:0 10px;text-decoration:none}
+.card-bottom .view{background:var(--petrol);color:#fff;font-weight:700}
+.card-bottom .view:hover{background:var(--petrol-dark)}
+.card-bottom .card-wa{min-width:44px}
+.card-bottom .card-wa:hover{background:#edf4f0}
+.card-bottom .card-wa[hidden]{display:none}
