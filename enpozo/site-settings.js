@@ -14,7 +14,8 @@ window.applySiteSettings=function(settings){
  const style=document.documentElement.style;style.setProperty('--petrol',settings.primaryColor||colors[0]);style.setProperty('--petrol-dark',settings.primaryColor||colors[1]);
  const admin=document.body.classList.contains('admin-page');
  const resolve=url=>url?.startsWith('assets/')?(admin?'../':'')+url:url;
- if(settings.heroImage)style.setProperty('--hero-image',`url(${JSON.stringify(resolve(settings.heroImage))})`);
+ const heroImage=settings.heroImage==='assets/hero.webp'?'assets/hero.webp?v=hd-20261106':settings.heroImage;
+ if(heroImage)style.setProperty('--hero-image',`url(${JSON.stringify(resolve(heroImage))})`);
  if(settings.logoImage)document.querySelectorAll('.brand img').forEach(img=>{img.src=resolve(settings.logoImage);img.alt='Logo de la web';});
  window.CVSTUDIO_WHATSAPP=settings.whatsapp||'';
  if(settings.businessName){document.querySelectorAll('.brand span').forEach(el=>el.textContent=settings.businessName);document.title=settings.businessName+' | Propiedades';}
