@@ -128,3 +128,9 @@ textarea { resize: vertical; }
 .import-label { position: relative; }
 .file-picker { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 .import-label:focus-within { outline: 3px solid #aa753b; outline-offset: 4px; }
+.cover-editor { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.cover-editor > div { min-width: 0; }
+.cover-editor input[type=file] { width: 100%; }
+@media (max-width: 540px) {
+  .cover-editor { grid-template-columns: minmax(0,1fr); }
+}

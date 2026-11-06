@@ -162,3 +162,18 @@ body:has(dialog[open]) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .info-card { transition: none; }
 }
+
+@media (max-width: 650px) {
+  .header-inner { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; }
+  .header-inner .brand { max-width: 100%; min-width: 0; }
+  .header-inner .brand strong { overflow-wrap: anywhere; }
+  .menu-toggle { width: 44px; min-height: 44px; justify-content: center; padding: 0; font-size: 0; }
+  .menu-toggle .icon { width: 22px; height: 22px; }
+  .header-inner nav { grid-column: 1 / -1; }
+  .hero-inner { min-height: 0; padding-block: 2.1rem 315px; }
+  .hero-copy h1 { font-size: clamp(2.15rem,9.5vw,3.3rem); max-width: none; }
+  .hero-copy .coverage { margin-bottom: 0; }
+  .hero-photo,.hero::after { inset: auto 0 0; height: 335px; }
+  .hero-photo { object-position: clamp(0%,calc(var(--hero-focus) + 7%),100%) center; }
+  .hero::after { background: linear-gradient(180deg,var(--paper),transparent 76px,transparent calc(100% - 73px),var(--paper)); }
+}
