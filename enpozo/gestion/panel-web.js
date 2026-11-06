@@ -23,14 +23,25 @@ function stateText(p){return !p.published?'Borrador':{disponible:'Publicada',res
 function statePill(p){return `<span class="pill ${!p.published?'draft':escapeHTML(p.status||'')}">${stateText(p)}</span>`;}
 function renderList(){const term=$('project-search').value.trim().toLowerCase();const items=activeProjects().filter(p=>(listFilter==='all'||listFilter==='published'&&p.published||listFilter==='draft'&&!p.published||p.status===listFilter)&&[p.name,p.zone,p.address].join(' ').toLowerCase().includes(term));$('project-list').innerHTML=items.map(p=>`<button type="button" class="project-item ${current?.id===p.id?'selected':''}" data-project="${escapeHTML(p.id)}"><img src="${escapeHTML(resolveImage(p.image))}" alt=""><span><strong>${escapeHTML(p.name)}</strong><small>${stateText(p)} · ${escapeHTML(p.zone||'Sin zona')}</small></span></button>`).join('')||'<p class="empty-note">No hay propiedades con estos filtros.</p>';}
 function renderDashboard(){const all=activeProjects();$('stat-published').textContent=all.filter(p=>p.published).length;$('stat-drafts').textContent=all.filter(p=>!p.published).length;$('stat-reserved').textContent=all.filter(p=>p.status==='reservada').length;$('stat-featured').textContent=all.filter(p=>p.featured).length;
- $('recent-list').innerHTML=all.length?`<table><thead><tr><th>Foto</th><th>Título y ubicación</th><th>Operación</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>${[...all].sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||''))).slice(0,5).map(p=>`<tr><td><img src="${escapeHTML(resolveImage(p.image))}" alt=""></td><td><strong>${escapeHTML(p.name)}</strong><small>${escapeHTML(p.zone||'Sin zona')}</small></td><td>${{venta:'Venta',alquiler:'Alquiler',pozo:'En pozo'}[p.operation]||''}</td><td>${statePill(p)}</td><td><button class="secondary" data-edit="${escapeHTML(p.id)}">Editar</button></td></tr>`).join('')}</tbody></table>`:'<p class="empty-note">Todavía no hay propiedades. Agregá la primera.</p>';
+ $('recent-list').innerHTML=all.length?`<table><thead><tr><th>Foto</th><th>Título y ubicación</th><th>Operación</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>${[...all].sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||''))).slice(0,5).map(p=>`<tr><td><img src="${escapeHTML(resolveImage(p.image))}" alt=""></td><td><strong>${escapeHTML(p.name)}</strong><small>${escapeHTML(p.zone||'Sin zona')}</small></td><td>${{venta:'Venta',alquiler:'Alquiler',pozo:'Operación anterior'}[p.operation]||''}</td><td>${statePill(p)}</td><td><button class="secondary" data-edit="${escapeHTML(p.id)}">Editar</button></td></tr>`).join('')}</tbody></table>`:'<p class="empty-note">Todavía no hay propiedades. Agregá la primera.</p>';
  $('activity-list').innerHTML=[...projects].filter(p=>p.updatedAt).sort((a,b)=>b.updatedAt.localeCompare(a.updatedAt)).slice(0,3).map(p=>`<div class="activity-row"><span>${p.deletedAt?'Movida a papelera':'Propiedad actualizada'}: <strong>${escapeHTML(p.name)}</strong></span><small>${escapeHTML(new Date(p.updatedAt).toLocaleString('es-AR'))}</small></div>`).join('')||'<p class="help">Los cambios de propiedades aparecerán aquí.</p>';}
 function renderTrash(){$('trash-list').innerHTML=projects.filter(p=>p.deletedAt).map(p=>`<article class="trash-row"><div><strong>${escapeHTML(p.name)}</strong><small>Eliminada el ${escapeHTML(new Date(p.deletedAt).toLocaleDateString('es-AR'))}</small></div><div class="user-controls"><button class="secondary" data-restore="${escapeHTML(p.id)}">Recuperar borrador</button>${role!=='editor'?`<button class="danger" data-purge="${escapeHTML(p.id)}">Eliminar definitivamente</button>`:''}</div></article>`).join('')||'<p class="empty-note">La papelera está vacía.</p>';}
 function resolveImage(url){return url?.startsWith('assets/')?'../'+url:url;}
 function mayDiscard(){return !(dirty||settingsDirty)||confirm('Tenés cambios sin guardar. ¿Querés descartarlos?');}
 function edit(project){
  current=project?structuredClone(project):null;images=project?[...new Set([project.image,...project.gallery].filter(Boolean))]:[];cover=project?.image||'';
- form.reset();for(const name of ['name','position','type','operation','zone','address','rooms','area','feature','price','description','status','advisorWhatsapp','assignedUser'])form.elements[name].value=project?.[name]??({type:'departamento',operation:'pozo',position:activeProjects().length,price:'Consultar precio',status:'disponible'}[name]??'');
+ for(const [field,legacyValue,label] of [['type','proyecto','Tipo anterior'],['operation','pozo','Operación anterior']]){
+  const select=form.elements[field];
+  select.querySelector('[data-legacy]')?.remove();
+  if(project?.[field]===legacyValue){
+   const option=document.createElement('option');
+   option.value=legacyValue;
+   option.textContent=label;
+   option.dataset.legacy='';
+   select.append(option);
+  }
+ }
+ form.reset();for(const name of ['name','position','type','operation','zone','address','rooms','area','feature','price','description','status','advisorWhatsapp','assignedUser'])form.elements[name].value=project?.[name]??({type:'departamento',operation:'venta',position:activeProjects().length,price:'Consultar precio',status:'disponible'}[name]??'');
  form.elements.published.checked=project?.published??false;form.elements.featured.checked=project?.featured??false;
  $('delete-project').hidden=!project;
  $('editor-title').textContent=project?'Editar propiedad':'Nueva propiedad';$('duplicate-project').hidden=!project;$('editor-state').textContent=project?.published?'Publicado':'Borrador';$('editor-empty').hidden=true;form.hidden=false;dirty=false;status('save-status','');status('upload-status','');renderImages();renderList();
@@ -43,7 +54,7 @@ $('cancel-edit').onclick=()=>{if(mayDiscard()){current=null;dirty=false;form.hid
 $('image-list').onclick=e=>{
  if(busy)return;const button=e.target.closest('button');if(!button)return;
  if(button.dataset.cover!==undefined)cover=images[Number(button.dataset.cover)];
- if(button.dataset.remove!==undefined){if(images.length<=1){status('upload-status','Agregá otra foto antes de eliminar la única imagen del proyecto.',true);return;}if(!confirm('¿Eliminar esta foto del proyecto? Se aplicará cuando guardes el proyecto.'))return;const index=Number(button.dataset.remove);const [removed]=images.splice(index,1);if(cover===removed)cover=images[0]||'';}
+ if(button.dataset.remove!==undefined){if(images.length<=1){status('upload-status','Agregá otra foto antes de eliminar la única imagen de la propiedad.',true);return;}if(!confirm('¿Eliminar esta foto de la propiedad? Se aplicará cuando guardes la propiedad.'))return;const index=Number(button.dataset.remove);const [removed]=images.splice(index,1);if(cover===removed)cover=images[0]||'';}
  if(button.dataset.move!==undefined){const from=Number(button.dataset.move),to=from+Number(button.dataset.direction);if(to>=0&&to<images.length)[images[from],images[to]]=[images[to],images[from]];}
  dirty=true;renderImages();
 };
@@ -52,7 +63,7 @@ $('upload-files').onchange=async e=>{
  if(images.length+files.length>30){status('upload-status','Podés incluir hasta 30 imágenes.',true);e.target.value='';return;}
  if(files.some(file=>file.size>6000000||!['image/jpeg','image/png','image/webp'].includes(file.type))){status('upload-status','Usá JPG, PNG o WebP de hasta 6 MB por foto.',true);e.target.value='';return;}
  lock(true);let uploaded=0;
- try{for(const file of files){status('upload-status',`Subiendo foto ${uploaded+1} de ${files.length}…`);const data=new FormData();data.append('file',file);const result=await api('upload',data);images.push(result.url);if(!cover)cover=result.url;uploaded++;dirty=true;}status('upload-status',`${uploaded} ${uploaded===1?'foto agregada':'fotos agregadas'}. Guardá el proyecto para publicar los cambios.`);}
+ try{for(const file of files){status('upload-status',`Subiendo foto ${uploaded+1} de ${files.length}…`);const data=new FormData();data.append('file',file);const result=await api('upload',data);images.push(result.url);if(!cover)cover=result.url;uploaded++;dirty=true;}status('upload-status',`${uploaded} ${uploaded===1?'foto agregada':'fotos agregadas'}. Guardá la propiedad para publicar los cambios.`);}
  catch(error){status('upload-status',`${error.message} ${uploaded?'Las fotos que ya se subieron están disponibles.':''}`,true);}
  finally{e.target.value='';renderImages();lock(false);}
 };

@@ -9,7 +9,7 @@ const icons = {
 };
 const svg = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]}</svg>`;
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let properties=[],favorites=new Set(),activeFilter='all',searchType='all',searchOperation='all',searchLocation='all';
+let properties=[],favorites=new Set(),searchType='all',searchOperation='all',searchLocation='all';
 try {const saved=JSON.parse(localStorage.getItem('cvstudio-inmobiliaria-demo-favorites')||'[]');if(Array.isArray(saved))favorites=new Set(saved);}catch{}
 const grid=document.getElementById('property-grid');
 const dialog=document.getElementById('property-dialog');
@@ -17,23 +17,25 @@ const lightbox=document.getElementById('gallery-dialog');
 let gallery=[],galleryIndex=0;
 function contact(name,number){return `https://wa.me/${number||window.CVSTUDIO_WHATSAPP||'5492964652318'}?text=${encodeURIComponent('Hola, quiero consultar por '+name+' que vi en la web inmobiliaria.')}`;}
 function render(){
- let items=properties.filter(p=>(activeFilter==='all'||p.type===activeFilter||p.operation===activeFilter)&&(searchType==='all'||p.type===searchType)&&(searchOperation==='all'||p.operation===searchOperation)&&(searchLocation==='all'||p.zone===searchLocation));
+ let items=properties.filter(p=>(searchType==='all'||p.type===searchType)&&(searchOperation==='all'||p.operation===searchOperation)&&(searchLocation==='all'||p.zone===searchLocation));
  const sort=document.getElementById('sort').value;
  if(sort==='default')items.sort((a,b)=>Number(!!b.featured)-Number(!!a.featured));
  if(sort==='name')items.sort((a,b)=>a.name.localeCompare(b.name,'es'));
  if(sort==='favorites')items.sort((a,b)=>Number(favorites.has(b.id))-Number(favorites.has(a.id)));
- grid.innerHTML=items.map(p=>`<article class="card"><div class="card-photo"><div class="card-slider" tabindex="0" data-slider="${esc(p.id)}" aria-label="Galería de ${esc(p.name)}. Usá las flechas o deslizá para recorrer las fotos."><img src="${esc(p.image)}" alt="${esc(p.name)} · Imagen 1 de ${1+(p.gallery||[]).length}" width="480" height="300" loading="lazy"><button class="slide-prev" data-slide="-1" aria-label="Foto anterior de ${esc(p.name)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg></button><button class="slide-next" data-slide="1" aria-label="Foto siguiente de ${esc(p.name)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg></button><span class="slide-count" aria-live="polite">1 / ${1+(p.gallery||[]).length}</span><div class="slide-dots">${[p.image,...p.gallery].map((_,i)=>`<button data-slide-to="${i}" aria-label="Ver foto ${i+1} de ${esc(p.name)}" aria-current="${i===0}"></button>`).join('')}</div></div><span class="property-tag">${p.operation==='pozo'?'En pozo':p.operation==='venta'?'Venta':'Alquiler'}</span>${p.status&&p.status!=='disponible'?`<span class="availability-tag">${esc({reservada:'Reservada',vendida:'Vendida',alquilada:'Alquilada'}[p.status]||'')}</span>`:''}${p.featured?'<span class="featured-tag">★ Destacada</span>':''}<button class="favorite" data-favorite="${esc(p.id)}" aria-label="${favorites.has(p.id)?'Quitar de':'Agregar a'} favoritas: ${esc(p.name)}" aria-pressed="${favorites.has(p.id)}">${svg('heart')}</button></div><div class="card-body"><h3><button class="title-open" data-view="${esc(p.id)}">${esc(p.name)}</button></h3><p class="location">${svg('pin')}${esc(p.address||p.zone)}</p><div class="features"><span>${svg('rooms')}${esc(p.rooms||'Consultar')}</span><span>${svg('area')}${esc(p.area||'Consultar')}</span><span>${svg('star')}${esc(p.feature||'Ver detalles')}</span></div><div class="card-bottom"><span class="price">${esc(p.price||'Consultar precio')}</span><button class="view" data-view="${esc(p.id)}">Ver proyecto <span aria-hidden="true">⟶</span></button><a class="card-wa" href="${contact(p.name,p.advisorWhatsapp)}" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp: ${esc(p.name)}">${svg('wa')}</a></div></div></article>`).join('');
+ grid.innerHTML=items.map(p=>`<article class="card"><div class="card-photo"><div class="card-slider" tabindex="0" data-slider="${esc(p.id)}" aria-label="Galería de ${esc(p.name)}. Usá las flechas o deslizá para recorrer las fotos."><img src="${esc(p.image)}" alt="${esc(p.name)} · Imagen 1 de ${1+(p.gallery||[]).length}" width="480" height="300" loading="lazy"><button class="slide-prev" data-slide="-1" aria-label="Foto anterior de ${esc(p.name)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"/></svg></button><button class="slide-next" data-slide="1" aria-label="Foto siguiente de ${esc(p.name)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"/></svg></button><span class="slide-count" aria-live="polite">1 / ${1+(p.gallery||[]).length}</span><div class="slide-dots">${[p.image,...p.gallery].map((_,i)=>`<button data-slide-to="${i}" aria-label="Ver foto ${i+1} de ${esc(p.name)}" aria-current="${i===0}"></button>`).join('')}</div></div><span class="property-tag">${p.operation==='venta'?'Venta':'Alquiler'}</span>${p.status&&p.status!=='disponible'?`<span class="availability-tag">${esc({reservada:'Reservada',vendida:'Vendida',alquilada:'Alquilada'}[p.status]||'')}</span>`:''}${p.featured?'<span class="featured-tag">★ Destacada</span>':''}<button class="favorite" data-favorite="${esc(p.id)}" aria-label="${favorites.has(p.id)?'Quitar de':'Agregar a'} favoritas: ${esc(p.name)}" aria-pressed="${favorites.has(p.id)}">${svg('heart')}</button></div><div class="card-body"><h3><button class="title-open" data-view="${esc(p.id)}">${esc(p.name)}</button></h3><p class="location">${svg('pin')}${esc(p.address||p.zone)}</p><div class="features"><span>${svg('rooms')}${esc(p.rooms||'Consultar')}</span><span>${svg('area')}${esc(p.area||'Consultar')}</span><span>${svg('star')}${esc(p.feature||'Ver detalles')}</span></div><div class="card-bottom"><span class="price">${esc(p.price||'Consultar precio')}</span><button class="view" data-view="${esc(p.id)}">Ver ficha <span aria-hidden="true">⟶</span></button><a class="card-wa" href="${contact(p.name,p.advisorWhatsapp)}" target="_blank" rel="noopener" aria-label="Consultar por WhatsApp: ${esc(p.name)}">${svg('wa')}</a></div></div></article>`).join('');
  document.getElementById('empty').hidden=items.length>0;if(window.CVSTUDIO_WHATSAPP==='')grid.querySelectorAll('.card-wa').forEach((a,i)=>a.hidden=!items[i].advisorWhatsapp);
- document.querySelector('.section-heading .sample-label').textContent=`${items.length} de ${properties.length} ${items.length===1?'proyecto disponible':'proyectos disponibles'}`;
+ const count=document.querySelector('.section-heading .sample-label');
+ count.hidden=false;count.textContent=items.length===1?'1 propiedad':items.length+' propiedades';
 }
 function applyFilters(){
- activeFilter='all';searchType=document.getElementById('type').value;searchOperation=document.getElementById('operation').value;searchLocation=document.getElementById('location').value;
- document.querySelectorAll('[data-filter]').forEach(b=>{const value=b.dataset.filter;const on=value==='all'?searchType==='all'&&searchOperation==='all':value==='pozo'?searchOperation==='pozo':searchType===value;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));});
+ searchType=document.getElementById('type').value;searchOperation=document.getElementById('operation').value;searchLocation=document.getElementById('location').value;
+ document.querySelectorAll('[data-filter]').forEach(b=>{const value=b.dataset.filter;const on=searchOperation===value;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));});
+ document.querySelectorAll('.header [data-nav-filter]').forEach(a=>a.setAttribute('aria-current',String(a.dataset.navFilter===searchOperation)));
  document.getElementById('catalog-status').hidden=true;render();
 }
 function filter(value){
- document.getElementById('type').value=value==='all'||value==='pozo'?'all':value;
- document.getElementById('operation').value=value==='pozo'?'pozo':'all';
+ document.getElementById('type').value='all';
+ document.getElementById('operation').value=value;
  document.getElementById('location').value='all';applyFilters();
 }
 document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>filter(b.dataset.filter)));
@@ -48,7 +50,7 @@ function openProject(id){
  document.getElementById('dialog-image').src=p.image;
  document.getElementById('dialog-image').alt=p.name;
  document.getElementById('dialog-contact').href=contact(p.name,p.advisorWhatsapp);document.getElementById('dialog-contact').hidden=window.CVSTUDIO_WHATSAPP===''&&!p.advisorWhatsapp;
- dialog.querySelector('.sample-label').textContent=p.operation==='pozo'?'Desarrollo en pozo':p.operation==='venta'?'Propiedad en venta':'Propiedad en alquiler';
+ dialog.querySelector('.sample-label').textContent=p.operation==='venta'?'Propiedad en venta':'Propiedad en alquiler';
  document.getElementById('dialog-location').textContent=p.address||p.zone;
  document.getElementById('dialog-facts').innerHTML=[p.rooms,p.area,p.feature,p.price].filter(Boolean).map(t=>`<span>${esc(t)}</span>`).join('');
  document.getElementById('dialog-description').innerHTML=p.description.split(/\n\s*\n/).map(block=>`<p>${esc(block).replaceAll('\n','<br>')}</p>`).join('');
@@ -83,7 +85,7 @@ async function load(){
   const previewToken=demoPreview?sessionStorage.getItem('enpozo-session'):null;
   const response=await fetch(window.ENPOZO_API+(demoPreview?'?action=admin':''),{cache:'no-store',signal:AbortSignal.timeout(15000),headers:previewToken?{'x-enpozo-session':previewToken}:{}});
   if(!response.ok)throw Error('No se pudo cargar el catálogo.');const data=await response.json();
-  if(!Array.isArray(data.projects))throw Error('Catálogo inválido.');if(demoPreview&&data.role!=='demo')throw Error('Esta vista requiere un usuario de demostración.');properties=data.projects.filter(p=>!p.deletedAt);window.applySiteSettings?.(data.settings);if(demoPreview)document.querySelector('.demo-note').textContent='Vista privada de demostración · tus cambios no afectan el catálogo público.';
+  if(!Array.isArray(data.projects))throw Error('Catálogo inválido.');if(demoPreview&&data.role!=='demo')throw Error('Esta vista requiere un usuario de demostración.');properties=data.projects.filter(p=>!p.deletedAt&&p.type!=='proyecto'&&['venta','alquiler'].includes(p.operation));window.applySiteSettings?.(data.settings);if(demoPreview)document.querySelector('.demo-note').textContent='Vista privada de demostración · tus cambios no afectan el catálogo público.';
   const location=document.getElementById('location'),selected=location.value;
   const zones=[...new Set(properties.map(p=>p.zone).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
   location.innerHTML='<option value="all">Seleccionar zona</option>'+zones.map(zone=>`<option value="${esc(zone)}">${esc(zone)}</option>`).join('');
