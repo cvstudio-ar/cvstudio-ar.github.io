@@ -76,3 +76,27 @@
  .header .brand,.footer-inner .brand{min-width:0;white-space:normal}
  .brand span{overflow-wrap:anywhere}
 }
+
+.featured-section{padding:46px 0 14px}
+.featured-heading{display:flex;align-items:end;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;margin-bottom:20px}
+.featured-heading h2{margin:4px 0 0;color:var(--petrol-dark);font-family:Georgia,serif;font-weight:500;font-size:clamp(1.9rem,4vw,3.25rem);line-height:1.06}
+.featured-heading a{display:inline-flex;align-items:center;min-height:44px;color:var(--petrol-dark);font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.featured-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2vw,24px)}
+.featured-card{position:relative;isolation:isolate;display:grid;align-content:end;min-height:clamp(230px,24vw,375px);padding:clamp(16px,2vw,28px);border-radius:16px;background:var(--petrol-dark);color:#fff}
+.featured-card img,.featured-card::before{position:absolute;inset:0;width:100%;height:100%;border-radius:inherit}
+.featured-card img{object-fit:cover;z-index:-2}
+.featured-card::before{content:'';background:linear-gradient(180deg,#081d2908 16%,#081d29b8 62%,#081d29f5);z-index:-1}
+.featured-operation{position:absolute;top:14px;left:14px;padding:5px 12px;border-radius:20px;background:#fff;color:var(--petrol-dark);font-size:.8rem;font-weight:700}
+.featured-copy{min-width:0;overflow-wrap:anywhere}
+.featured-copy h3{margin:0 0 4px;font-family:Georgia,serif;font-weight:500;font-size:clamp(1.4rem,2.2vw,2.35rem);line-height:1.1}
+.featured-copy button{padding:0;border:0;background:none;color:inherit;font:inherit;text-align:left}
+.featured-copy button::after{content:'';position:absolute;inset:0;border-radius:inherit}
+.featured-copy p{margin:0 0 14px;color:#f0f4f5;font-size:.9rem}
+.featured-meta{display:flex;justify-content:space-between;align-items:center;gap:6px 16px;flex-wrap:wrap}
+.featured-meta span{border:1px solid #ffffffa0;border-radius:20px;padding:4px 10px;font-size:.78rem}
+.featured-card:hover .featured-meta span,.featured-card:focus-within .featured-meta span{background:#fff;color:#102f35}
+@media(max-width:700px){
+ .featured-section{padding-top:32px}
+ .featured-grid{grid-template-columns:1fr}
+ .featured-card{min-height:240px}
+}

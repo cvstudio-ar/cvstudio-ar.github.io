@@ -12,6 +12,7 @@ const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<
 let properties=[],favorites=new Set(),searchType='all',searchOperation='all',searchLocation='all';
 try {const saved=JSON.parse(localStorage.getItem('cvstudio-inmobiliaria-demo-favorites')||'[]');if(Array.isArray(saved))favorites=new Set(saved);}catch{}
 const grid=document.getElementById('property-grid');
+const featuredGrid=document.getElementById('featured-grid');
 const dialog=document.getElementById('property-dialog');
 const lightbox=document.getElementById('gallery-dialog');
 let gallery=[],galleryIndex=0;
@@ -27,6 +28,31 @@ function render(){
  const count=document.querySelector('.section-heading .sample-label');
  count.hidden=false;count.textContent=items.length===1?'1 propiedad':items.length+' propiedades';
 }
+function renderFeatured(){
+ const available=properties.filter(p=>(!p.status||p.status==='disponible')&&p.published!==false);
+ const marked=available.filter(p=>p.featured);
+ const picks=marked.length?marked:[
+  available.find(p=>p.operation==='venta'),
+  available.find(p=>p.operation==='alquiler'),
+  available.find(p=>p.type==='duplex')
+ ];
+ const featured=[...new Set([...picks,...(marked.length?[]:available)].filter(Boolean))].slice(0,3);
+ document.getElementById('destacadas').hidden=!featured.length;
+ featuredGrid.innerHTML=featured.map(p=>`<article class="featured-card">
+  <img src="${esc(p.image)}" alt="" width="480" height="300" loading="lazy">
+  <span class="featured-operation">${p.operation==='venta'?'Venta':'Alquiler'}</span>
+  <div class="featured-copy">
+   <h3><button type="button" data-featured-view="${esc(p.id)}">${esc(p.name)}</button></h3>
+   <p>${esc(p.zone||p.address)}</p>
+   <div class="featured-meta"><strong>${esc(p.price||'Consultar precio')}</strong><span aria-hidden="true">Ver ficha</span></div>
+  </div>
+ </article>`).join('');
+}
+featuredGrid.addEventListener('click',event=>{
+ const button=event.target.closest('[data-featured-view]');
+ if(button)openProject(button.dataset.featuredView);
+});
+
 function applyFilters(){
  searchType=document.getElementById('type').value;searchOperation=document.getElementById('operation').value;searchLocation=document.getElementById('location').value;
  document.querySelectorAll('[data-filter]').forEach(b=>{const value=b.dataset.filter;const on=searchOperation===value;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));});
@@ -91,7 +117,7 @@ async function load(){
   location.innerHTML='<option value="all">Seleccionar zona</option>'+zones.map(zone=>`<option value="${esc(zone)}">${esc(zone)}</option>`).join('');
   location.value=zones.includes(selected)?selected:'all';
   document.getElementById('empty').innerHTML='No encontramos propiedades con esos filtros. <button id="reset">Ver todas</button>';
-  document.getElementById('reset').onclick=()=>{document.getElementById('search-form').reset();filter('all');};applyFilters();
+  document.getElementById('reset').onclick=()=>{document.getElementById('search-form').reset();filter('all');};renderFeatured();applyFilters();
  }catch(error){if(!properties.length){document.getElementById('empty').hidden=false;document.getElementById('empty').textContent=demoPreview?'Ingresá al panel con tu usuario de demostración para ver tu vista previa.':'No se pudo cargar el catálogo. Recargá la página para volver a intentar.';}}
  finally{loading=false;}
 }
