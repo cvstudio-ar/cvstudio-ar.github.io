@@ -98,3 +98,50 @@
  .detail-view .editorial-copy .naty-bullet-list{gap:12px;margin:16px 0 23px}
  .detail-view .editorial-copy .naty-bullet-list li{padding-left:22px}
 }
+
+/* Terapia Individual: avioncitos de papel sobre la foto, detrás de la lectura. */
+@media (prefers-reduced-motion: no-preference) {
+ .detail-view[data-space="1"] {
+   --paper-plane: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'%3E%3Cpath d='M3 21 60 5 47 42 32 32 24 40 21 29Z' fill='%23d9e6ee' stroke='%23334e67' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M21 29 60 5 29 31 24 40Z' fill='%2399b5c8' stroke='%23334e67' stroke-width='1.8' stroke-linejoin='round'/%3E%3Cpath d='m29 31 3 1' fill='none' stroke='%23334e67' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+   overflow:clip;
+ }
+ .detail-view[data-space="1"]::after,
+ .detail-view[data-space="1"] .detail-inner::before {
+   content:"";
+   position:absolute;
+   inset-inline:0;
+   height:64px;
+   background:var(--paper-plane) center / var(--plane-size) auto no-repeat;
+   pointer-events:none;
+   animation:naty-paper-flight var(--flight-time) linear infinite;
+   animation-delay:var(--flight-delay);
+ }
+ .detail-view[data-space="1"]::after {
+   --plane-size:clamp(34px,4vw,56px);
+   --flight-time:24s;
+   --flight-delay:-5s;
+   --flight-opacity:.42;
+   top:clamp(155px,32vh,330px);
+   z-index:0;
+ }
+ .detail-view[data-space="1"] .detail-inner::before {
+   --plane-size:clamp(29px,3.2vw,44px);
+   --flight-time:28s;
+   --flight-delay:-12s;
+   --flight-opacity:.15;
+   top:clamp(125px,36vh,360px);
+   z-index:-1;
+ }
+ @keyframes naty-paper-flight {
+   0% { transform:translate(-62%,35px); opacity:0; }
+   13% { opacity:var(--flight-opacity); }
+   52% { transform:translate(2%,-2px); }
+   87% { opacity:var(--flight-opacity); }
+   100% { transform:translate(62%,-45px); opacity:0; }
+ }
+ @media (max-width:700px) {
+   .detail-view[data-space="1"] .detail-inner::before {
+     --flight-opacity:.12;
+   }
+ }
+}
