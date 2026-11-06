@@ -5,11 +5,28 @@
   const menu = document.querySelector('#menu');
   const toggle = document.querySelector('.menu-toggle');
   const socialLinks = document.querySelectorAll('[data-social]');
-  const icons = [
-    '<circle cx="8" cy="7" r="3"/><circle cx="17" cy="8" r="2.5"/><path d="M2 20v-2a6 6 0 0 1 12 0v2m2-7a5 5 0 0 1 6 5v2"/>',
-    '<path d="M6 3h9l4 4v14H6zM9 10h7M9 14h7M9 18h5"/>',
-    '<path d="m4 12 2-6h12l2 6M4 12h16l2 2v5h-3v-2H5v2H2v-5zM6 14h2m8 0h2"/>',
-    '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V4h8v3M3 11l9 3 9-3"/>'
+  const serviceDetails = [
+    ['familia', ['Contanos qué situación familiar querés abordar.', 'Si ya hay acuerdos o actuaciones previas, podés mencionarlos en la entrevista.']],
+    ['sucesiones', ['Comentanos qué bienes o trámites motivan tu consulta.', 'Si el trámite ya empezó, indicá en qué etapa está.']],
+    ['transito', ['Anotá cuándo y dónde ocurrió el siniestro.', 'Tené a mano las comunicaciones del seguro y los comprobantes que conserves.']],
+    ['laboral', ['Contanos cuál era tu relación laboral y qué situación se presentó.', 'Si recibiste comunicaciones o tenés recibos, podés revisarlos con el estudio.']]
+  ];
+  const articles = [
+    {
+      category: 'Familia', title: 'Autorización de viaje de menores', art: 'viaje',
+      summary: 'Qué conversar con el estudio si tu hijo o hija tiene previsto viajar.',
+      details: ['Destino, fechas y quién acompañará al menor.', 'Documentación que ya tenés y si hay algún acuerdo previo sobre el viaje.']
+    },
+    {
+      category: 'Familia', title: 'Divorcios', art: 'divorcio',
+      summary: 'Un espacio de orientación para conversar sobre tu situación.',
+      details: ['Qué aspectos te interesa resolver primero: vivienda, hijos, bienes u otros acuerdos.', 'Si ya hubo una presentación o algún acuerdo, contanos en qué etapa está.']
+    },
+    {
+      category: 'Sucesiones', title: 'Bienes y sucesión', art: 'bienes',
+      summary: 'Consultá por los pasos a evaluar cuando hay bienes familiares.',
+      details: ['Qué bienes conocés y con qué documentación contás.', 'Si ya hay una sucesión iniciada o una operación pendiente sobre algún bien.']
+    }
   ];
   const serviceContainer = document.querySelector('#services');
   const topic = document.querySelector('#topic');
@@ -50,17 +67,90 @@
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
   });
-  data.services.forEach(({name, description}, index) => {
+  const dialog = document.querySelector('#detail-dialog');
+  const closeDetail = document.querySelector('#close-detail');
+  const consultDetail = document.querySelector('#detail-contact');
+  let activeCard;
+  let activeSubject;
+  let movingToContact = false;
+
+  function illustration(art) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const use = document.createElementNS(svg.namespaceURI, 'use');
+    svg.setAttribute('viewBox', '0 0 160 90');
+    svg.setAttribute('aria-hidden', 'true');
+    use.setAttribute('href', 'assets/ilustraciones.svg#' + art);
+    svg.append(use);
+    return svg;
+  }
+
+  function renderCard(container, details, action) {
     const article = document.createElement('article');
-    article.className = 'service';
-    article.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + icons[index % icons.length] + '</svg>';
+    article.className = 'info-card';
+    const art = document.createElement('div');
+    art.className = 'card-art';
+    art.append(illustration(details.art));
+    const copy = document.createElement('div');
+    copy.className = 'card-copy';
+    const category = document.createElement('small');
+    category.textContent = details.category;
     const title = document.createElement('h3');
-    title.textContent = name;
-    const copy = document.createElement('p');
-    copy.textContent = description;
-    article.append(title, copy);
-    serviceContainer.append(article);
+    title.textContent = details.title;
+    const summary = document.createElement('p');
+    summary.textContent = details.summary;
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'card-action';
+    button.setAttribute('aria-haspopup', 'dialog');
+    button.setAttribute('aria-label', action + ': ' + details.title);
+    button.innerHTML = '<span></span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+    button.firstElementChild.textContent = action;
+    button.addEventListener('click', () => {
+      activeCard = button;
+      activeSubject = details.subject;
+      document.querySelector('#detail-art').replaceChildren(illustration(details.art));
+      document.querySelector('#detail-kicker').textContent = details.category;
+      document.querySelector('#detail-title').textContent = details.title;
+      document.querySelector('#detail-intro').textContent = details.summary;
+      document.querySelector('#detail-list').replaceChildren(...details.details.map(text => {
+        const item = document.createElement('li');
+        item.textContent = text;
+        return item;
+      }));
+      dialog.showModal();
+      closeDetail.focus();
+    });
+    copy.append(category, title, summary, button);
+    article.append(art, copy);
+    container.append(article);
+  }
+
+  data.services.forEach(({name, description}) => {
+    const matched = serviceDetails.find(([key]) =>
+      name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes(key));
+    const [art, details] = matched || ['sucesiones', ['Contanos qué necesitás resolver.', 'Si tenés documentación vinculada con la consulta, podés mencionarla al coordinar.']];
+    renderCard(serviceContainer, {category: 'Área de práctica', title: name, art,
+      summary: description, details, subject: name}, 'Ver detalles');
     topic.add(new Option(name));
+  });
+  articles.forEach(article => renderCard(document.querySelector('#articles'),
+    {...article, subject: article.category}, 'Leer más'));
+
+  closeDetail.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('close', () => {
+    if (!movingToContact) activeCard?.focus();
+    movingToContact = false;
+  });
+  consultDetail.addEventListener('click', () => {
+    movingToContact = true;
+    topic.value = [...topic.options].some(option => option.value === activeSubject)
+      ? activeSubject : 'Consulta general';
+    dialog.close();
+    document.querySelector('#contacto').scrollIntoView();
+    document.querySelector('[name=nombre]').focus({preventScroll: true});
   });
 
   function closeMenu() {
