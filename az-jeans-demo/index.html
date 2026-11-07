@@ -1,18 +1,18 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-AR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AZ Jeans | Tienda online - Demo CVStudio</title>
-  <meta name="description" content="Demo visual de AZ Jeans. Precios y stock ilustrativos.">
-  <link rel="stylesheet" href="style.css?v=movil-legible-6">
+  <title>Tienda de ropa online | Demo CVStudio</title>
+  <meta name="description" content="Probá la tienda de ropa online de CVStudio Argentina. Catálogo, talles, carrito y pedidos de demostración por WhatsApp.">
+  <link rel="stylesheet" href="style.css?v=cvstudio-moda-1">
 </head>
 <body>
 <header class="header">
   <div class="wide nav">
     <a class="brand" href="#inicio">
-      <img src="assets/logo-instagram.png" alt="Logo AZ Jeans">
-      <span>AZ Jeans</span>
+      <img src="/assets/favicons/android-chrome-512x512.png" alt="">
+      <span>CVStudio</span>
     </a>
 
     <nav class="navlinks" id="navlinks">
@@ -25,14 +25,14 @@
     </nav>
 
     <div class="actions">
-      <a class="iconbutton social" aria-label="Instagram" href="https://www.instagram.com/azjeans/" target="_blank" rel="noopener">
+      <a class="iconbutton social" aria-label="Instagram" data-instagram href="https://www.instagram.com/cvstudioargentina" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="2" y="2" width="20" height="20" rx="5"/>
           <circle cx="12" cy="12" r="4"/>
           <circle cx="18" cy="6" r="1" fill="currentColor"/>
         </svg>
       </a>
-      <a class="iconbutton social" aria-label="WhatsApp" href="https://wa.me/5491126637424" target="_blank" rel="noopener">
+      <a class="iconbutton social" aria-label="WhatsApp" data-whatsapp href="https://wa.me/5492964652318" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 0 1-13.2 7.9L3 21l1.6-4.8A9 9 0 1 1 21 11.5Z"/><path d="M8.4 8.2c-.4.5-.6 1-.5 1.6.3 2.2 3.5 5.3 5.7 5.6.7.1 1.2-.1 1.8-.6l-1.7-1.6-1.1.7c-1.1-.4-2.1-1.4-2.6-2.5l.7-1.1-1.7-2.1Z"/></svg>
       </a>
       <button class="iconbutton cart-trigger" aria-label="Abrir carrito" title="Ver carrito" onclick="openCart()">
@@ -48,9 +48,9 @@
   <section id="inicio" class="hero">
     <div class="wide hero-wrap">
       <div class="hero-copy">
-        <div class="eyebrow">MODA URBANA</div>
-        <h1 id="hero-title">Tu tienda online,<br>con estilo propio</h1>
-        <p id="hero-description">Jeans, remeras, buzos y más.<br>Prendas modernas y versátiles para todos los días.</p>
+        <div class="eyebrow">DEMO CVSTUDIO · INDUMENTARIA</div>
+        <h1 id="hero-title">Tu tienda de ropa, online</h1>
+        <p id="hero-description">Explorá prendas, elegí tu talle y probá cómo funciona un pedido por WhatsApp.</p>
         <div class="hero-buttons">
           <a class="pill" href="#catalogo">Ver catálogo</a>
           <a class="pill outline" id="hero-whatsapp" target="_blank" rel="noopener">Consultar por WhatsApp</a>
@@ -65,7 +65,7 @@
     <div class="section-header">
       <div>
         <h2>Destacados</h2>
-        <p class="muted">Lo más elegido de la temporada</p>
+        <p class="muted">Una selección de prendas de muestra</p>
       </div>
       <a href="#catalogo" class="underlink">Ver catálogo completo →</a>
     </div>
@@ -77,7 +77,7 @@
     <div class="section-header">
       <div>
         <h2>Catálogo</h2>
-        <p class="muted">Descubrí toda nuestra colección</p>
+        <p class="muted">Precios y stock de muestra para probar la experiencia de compra.</p>
       </div>
       <a href="#catalogo" class="underlink">Ver todo el catálogo →</a>
     </div>
@@ -101,24 +101,27 @@
   <section id="nosotros" class="about">
     <div class="wide about-grid">
       <div>
-        <div class="eyebrow">CONOCENOS</div>
-        <h2>Sobre AZ Jeans</h2>
+        <div class="eyebrow">CVSTUDIO ARGENTINA</div>
+        <h2>Una tienda para tu marca de ropa</h2>
       </div>
       <p>
-        Somos una marca de moda urbana que combina diseño, comodidad y tendencia.
-        Ofrecemos jeans, remeras, buzos y otras prendas pensadas para todos los días.
+        Esta es una demo de CVStudio. Probá cómo mostrar tus prendas, organizar el catálogo por categorías, ofrecer talles y recibir pedidos por WhatsApp.
       </p>
-      <a class="pill outline" id="about-wa" target="_blank" rel="noopener">Hablemos ↗</a>
+      <a class="pill outline" id="about-wa" target="_blank" rel="noopener">Consultar por mi tienda</a>
     </div>
   </section>
 </main>
 
 <footer id="contacto">
   <div class="wide footer-grid">
-    <a class="brand footer-brand" href="#inicio"><img src="assets/logo-instagram.png" alt="AZ"><span>AZ Jeans</span></a>
-    <span class="footer-copy">Demostración para evaluación · CVStudio Argentina <a class="footer-admin-inline" href="admin.html">Administración</a></span>
-    <a class="footer-link" href="https://www.instagram.com/azjeans/" target="_blank" rel="noopener">◎ @azjeans</a>
-    <a class="footer-link" href="https://wa.me/5491126637424" target="_blank" rel="noopener">☎ +54 9 11 2663-7424</a>
+    <a class="brand footer-brand" href="#inicio"><img src="/assets/favicons/android-chrome-512x512.png" alt=""><span>CVStudio</span></a>
+    <span class="footer-copy">Demo de indumentaria · CVStudio Argentina <a class="footer-admin-inline" href="admin.html">Administración</a></span>
+    <a class="footer-link" data-instagram href="https://www.instagram.com/cvstudioargentina" target="_blank" rel="noopener">Instagram</a>
+    <a class="footer-link" data-whatsapp href="https://wa.me/5492964652318" target="_blank" rel="noopener">WhatsApp</a>
+    <div class="store-location" id="store-location" hidden>
+      <span id="store-address"></span>
+      <a class="footer-link" id="store-maps" target="_blank" rel="noopener" hidden>Ver en Google Maps ↗</a>
+    </div>
   </div>
 </footer>
 
@@ -131,10 +134,10 @@
       <h2>Tu carrito 🛍</h2>
       <button class="iconbutton" onclick="closeCart()" aria-label="Cerrar">✕</button>
     </div>
-    <p class="muted small">Carrito ilustrativo: la solicitud se envía a WhatsApp. No se cobran pagos online en esta demo.</p>
+    <p class="muted small">Carrito de demostración. Podés abrir una consulta de prueba en el WhatsApp de CVStudio.</p>
     <div id="cart-lines"></div>
     <div class="cart-total"><span>Total</span><span id="cart-total">$0</span></div>
-    <a id="checkout-link" class="pill" style="width:100%" target="_blank" rel="noopener">Enviar pedido por WhatsApp ↗</a>
+    <a id="checkout-link" class="pill" style="width:100%" target="_blank" rel="noopener">Probar pedido por WhatsApp ↗</a>
     <button class="pill outline" style="width:100%;margin-top:10px" onclick="clearCart()">Vaciar carrito</button>
   </aside>
 </div>
@@ -146,7 +149,7 @@
   </div>
 </div>
 
-<script src="data.js?v=fix-20261105-2"></script>
-<script src="store.js?v=portada-completa-5"></script>
+<script src="data.js?v=cvstudio-moda-1"></script>
+<script src="store.js?v=cvstudio-moda-1"></script>
 </body>
 </html>

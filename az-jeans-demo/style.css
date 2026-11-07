@@ -17,7 +17,7 @@ a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-.wide{width:min(100% - 56px,1560px);margin-inline:auto}
+.wide{width:calc(100% - 2 * clamp(16px, 2vw, 44px));margin-inline:auto}
 .small{font-size:12px}
 .muted{color:var(--muted)}
 .hidden{display:none!important}
@@ -149,7 +149,7 @@ footer{background:#12161a;color:#fff;padding:14px 0}
   .footer-copy{justify-self:start;text-align:left}
 }
 @media(max-width:900px){
-  .wide{width:min(100% - 26px,1560px)}
+  .wide{width:calc(100% - 26px)}
   .mobile-menu{display:grid}
   .navlinks{display:none;position:absolute;left:0;right:0;top:74px;background:#fff;border-bottom:1px solid var(--line);padding:18px;box-shadow:0 10px 20px rgba(0,0,0,.08);flex-direction:column;align-items:flex-start;gap:14px}
   .navlinks.show{display:flex}
@@ -206,7 +206,7 @@ footer{background:#12161a;color:#fff;padding:14px 0}
 .footer-copy{flex:0 1 auto;justify-self:auto;white-space:normal;color:#d4d7db}
 .footer-admin-inline{display:inline;text-decoration:none;color:#fff;font-size:inherit;font-weight:700;margin-left:12px;padding-left:12px;border-left:1px solid #77808a}
 .footer-admin-inline:hover{text-decoration:underline;text-underline-offset:3px}
-footer{padding:16px 100px 16px 0}
+footer{padding:16px 0 72px}
 .floating-wa{bottom:18px;right:20px;z-index:30}
 @media(max-width:1400px){
 .hero-wrap{grid-template-columns:41% minmax(0,59%)}
@@ -238,7 +238,7 @@ footer{padding-right:0;padding-bottom:78px}
 /* Portada unificada, textos y botones siguen en HTML */
 .hero-wrap{grid-template-columns:40% 60%;height:clamp(330px,28vw,455px);min-height:0}
 .hero-copy{position:relative;z-index:2}
-.hero-visual{height:100%;min-height:0;background:#e6e7e9 url("assets/portada-az-jeans.webp") center center/cover no-repeat;overflow:hidden}
+.hero-visual{height:100%;min-height:0;background:#e6e7e9 url("assets/portada-cvstudio-moda.webp") center center/cover no-repeat;overflow:hidden}
 @media(max-width:900px){.hero-wrap{height:auto;grid-template-columns:1fr}.hero-visual{height:clamp(215px,54vw,350px);min-height:0;background-size:cover;background-position:center}}
 
 /* Imagen seleccionada por la administradora en este navegador */
@@ -250,7 +250,7 @@ footer{padding-right:0;padding-bottom:78px}
 
 /* AZ Jeans: imagen panorámica continua, sin separación entre texto y modelos */
 .hero{
-  background-image:var(--az-custom-hero, url("assets/portada-az-jeans.webp")) !important;
+  background-image:var(--az-custom-hero, url("assets/portada-cvstudio-moda.webp")) !important;
   background-position:center center !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
@@ -277,7 +277,7 @@ footer{padding-right:0;padding-bottom:78px}
   height:auto!important;
   min-height:0!important;
   aspect-ratio:var(--az-hero-ratio,3 / 1);
-  background-image:var(--az-custom-hero,url("assets/portada-az-jeans.webp"))!important;
+  background-image:var(--az-custom-hero,url("assets/portada-cvstudio-moda.webp"))!important;
   background-size:100% 100%!important;
   background-position:center center!important;
   background-repeat:no-repeat!important;
@@ -353,7 +353,7 @@ footer{padding-right:0;padding-bottom:78px}
     width:100%!important;
     height:clamp(220px,62vw,370px)!important;
     min-height:0!important;
-    background-image:var(--az-custom-hero,url("assets/portada-az-jeans.webp"))!important;
+    background-image:var(--az-custom-hero,url("assets/portada-cvstudio-moda.webp"))!important;
     background-size:cover!important;
     background-repeat:no-repeat!important;
     background-position:72% center!important;
@@ -372,3 +372,11 @@ footer{padding-right:0;padding-bottom:78px}
 @media(max-width:365px){
   .hero .hero-buttons{grid-template-columns:1fr}
 }
+
+.footer-grid .store-location{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;color:#d4d7db}
+.footer-grid .store-location[hidden],.store-location a[hidden]{display:none}
+.brand img,.login-card img,.sidebar-logo img{object-fit:contain}
+.hero .hero-copy{padding-inline:0}
+@media(min-width:901px){.hero:not(.has-custom-hero){background-size:cover!important;background-position:right center!important}}
+@media(max-width:900px){.hero:not(.has-custom-hero) .hero-visual{background-position:right center!important}}
+@media(max-width:560px){.section-header{flex-wrap:wrap;row-gap:8px}}
