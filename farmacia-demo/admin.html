@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex">
+<title>Administración | Farmacia Demo CVStudio</title><link rel="icon" href="assets/cross.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css"><script src="data.js" defer></script><script src="admin.js" defer></script>
+</head>
+<body>
+<div class="demo-strip">ADMINISTRACIÓN DE MUESTRA · CVSTUDIO ARGENTINA</div>
+<header class="site-header"><div class="wide nav"><a class="brand" href="./"><img src="assets/cross.svg" width="44" height="44" alt=""><span class="brand-label"><strong data-brand>Farmacia Demo</strong><small>CVStudio Argentina</small></span></a><a class="button outline" href="./">Ver tienda ↗</a></div></header>
+<main class="wide admin-main">
+ <div class="section-title"><div><p class="kicker">CVSTUDIO · FARMACIAS</p><h1>Panel de administración</h1></div></div>
+ <p class="info">Panel abierto para probar la demo. Los cambios, pedidos y estados se guardan en este navegador.</p>
+ <div class="admin-layout">
+  <nav class="admin-nav" aria-label="Secciones de administración">
+   <button class="chip" type="button" data-tab="overview">Resumen</button>
+   <button class="chip" type="button" data-tab="products">Productos y stock</button>
+   <button class="chip" type="button" data-tab="orders">Pedidos y seguimiento</button>
+   <button class="chip" type="button" data-tab="design">Diseño y contacto</button>
+   <button class="chip" type="button" data-tab="settings">Pagos y entregas</button>
+  </nav>
+  <section class="admin-panel" id="admin-content" aria-live="polite"></section>
+ </div>
+</main>
+<footer class="wide footer"><a class="signature" href="https://cvstudio.com.ar/">Una web desarrollada por <strong>CVStudio Argentina</strong></a></footer>
+<dialog id="editor" aria-labelledby="editor-title"><button type="button" class="close" id="close-editor" aria-label="Cerrar editor">×</button><div id="editor-content"></div></dialog>
+<div id="notice" class="notice" role="status" hidden></div>
+</body>
+</html>

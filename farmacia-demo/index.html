@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Demo de tienda online para farmacias, desarrollada por CVStudio Argentina. Catálogo, carrito y seguimiento de pedidos de muestra.">
+<title>Farmacia Demo | CVStudio</title><link rel="icon" href="assets/cross.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css"><script src="data.js" defer></script><script src="store.js" defer></script>
+</head>
+<body>
+<div class="demo-strip">DEMO INTERACTIVA DE CVSTUDIO <span>·</span> Productos y precios de muestra</div>
+<header class="site-header">
+ <div class="wide nav">
+  <a class="brand" href="./"><img src="assets/cross.svg" width="44" height="44" alt=""><span class="brand-label"><strong data-brand>Farmacia Demo</strong><small>CVStudio Argentina</small></span></a>
+  <nav aria-label="Principal"><a href="#catalogo">Catálogo</a><a href="#seguimiento">Seguimiento</a></nav>
+  <button class="button solid" id="cart-open" type="button">Carrito <span id="cart-count">0</span></button>
+ </div>
+</header>
+<main class="wide">
+ <section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+   <p class="kicker">FARMACIA ONLINE · DEMO</p>
+   <h1 id="hero-title">Cuidado de todos los días.</h1>
+   <p id="hero-intro">Explorá productos de higiene, cuidado personal y dermocosmética.</p>
+   <div class="actions"><a class="button solid" href="#catalogo">Explorar catálogo <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 4l8 8m0-6v6H6"/></svg></a><a class="button outline" href="#seguimiento">Seguir mi pedido</a></div>
+  </div>
+  <div class="hero-photo"><img id="hero-image" src="assets/portada.webp" alt="" width="1320" height="880" fetchpriority="high"></div>
+ </section>
+ <div class="perks"><span><b>01</b> Retiro y entrega de prueba</span><span><b>02</b> Pagos simulados</span><span><b>03</b> Seguimiento por código</span></div>
+ <section id="catalogo" class="section" aria-labelledby="catalog-title">
+  <div class="section-title"><div><p class="kicker">HIGIENE Y CUIDADO PERSONAL</p><h2 id="catalog-title">Catálogo de productos</h2></div><span class="muted" id="product-count" role="status"></span></div>
+  <div class="catalog-tools"><label class="search"><span class="sr-only">Buscar productos</span><input id="search" type="search" placeholder="Buscá un producto o código"></label><label><span class="sr-only">Ordenar</span><select id="sort"><option value="default">Destacados primero</option><option value="low">Menor precio</option><option value="high">Mayor precio</option><option value="name">Nombre A–Z</option></select></label></div>
+  <div class="chips" id="categories" aria-label="Categorías"></div>
+  <div class="products" id="products"></div>
+ </section>
+ <section id="seguimiento" class="tracking" aria-labelledby="tracking-title">
+  <div><p class="kicker">ESTADO DE LA COMPRA</p><h2 id="tracking-title">Seguí tu pedido</h2><p>Usá el código que recibís al confirmar una compra de prueba.</p></div>
+  <form id="track-form"><label for="track-code">Código de pedido</label><div class="inline"><input id="track-code" name="code" required maxlength="24" placeholder="FAR-XXXXXXXX"><button class="button solid">Buscar</button></div></form>
+  <div id="track-result" class="tracking-result" aria-live="polite"></div>
+ </section>
+</main>
+<footer class="wide footer">
+ <div class="brand"><img src="assets/cross.svg" width="42" height="42" alt=""><span data-brand>Farmacia Demo</span></div>
+ <div id="location" hidden><span id="address"></span> <a id="map" target="_blank" rel="noopener" hidden>Ver mapa ↗</a></div>
+ <div class="footer-links"><a href="https://www.instagram.com/cvstudioargentina" target="_blank" rel="noopener">Instagram</a><a id="whatsapp" target="_blank" rel="noopener">WhatsApp CVStudio</a><a href="admin.html">Administración</a></div>
+ <a class="signature" href="https://cvstudio.com.ar/">Una web desarrollada por <strong>CVStudio Argentina</strong></a>
+</footer>
+<dialog id="product-dialog" aria-labelledby="product-dialog-title"><button type="button" class="close" data-close aria-label="Cerrar ficha">×</button><div id="product-detail"></div></dialog>
+<dialog id="cart-dialog" aria-labelledby="cart-title"><button type="button" class="close" data-close aria-label="Cerrar carrito">×</button><h2 id="cart-title">Tu carrito</h2><div id="cart-lines"></div><form id="checkout"><p class="muted">Pedido de prueba. Usá las opciones de muestra.</p><div class="form-grid"><label>Entrega<select id="delivery" required></select></label><label>Medio de pago<select id="payment" required></select></label></div><div id="order-total"></div><button type="submit" class="button solid">Confirmar pedido demo</button><p id="checkout-error" class="error" role="status"></p></form></dialog>
+<div id="notice" class="notice" role="status" hidden></div>
+</body>
+</html>
