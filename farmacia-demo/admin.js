@@ -1,6 +1,8 @@
 'use strict';
 const $ = selector => document.querySelector(selector);
 let state=read(),tab='overview',search='',orderFilter='', productEditor=null;
+const SESSION_KEY='cvstudio-pharmacy-admin-session';
+let signedIn=sessionStorage.getItem(SESSION_KEY)==='active';
 let noticeTimer;
 function toast(message){
  const notice=$('#notice');notice.textContent=message;notice.hidden=false;
@@ -58,6 +60,7 @@ function settings(){
  <div class="actions full"><button class="button solid">Guardar pagos y entregas</button></div></form>`;
 }
 function render(){
+ if(!signedIn)return;
  state=read();applyBrand(state.settings);
  document.querySelectorAll('.admin-nav [data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===tab)));
  $('#admin-content').innerHTML={overview,products,orders,design,settings}[tab]();
@@ -147,7 +150,7 @@ async function save(form){
 }
 document.addEventListener('click',async event=>{
  const b=event.target.closest('button');
- if(!b)return;
+ if(!b||!signedIn)return;
  if(b.dataset.tab){tab=b.dataset.tab;render()}
  if(b.hasAttribute('data-product'))editProduct(b.dataset.product);
  if(b.dataset.order)editOrder(b.dataset.order);
@@ -166,11 +169,44 @@ $('#admin-content').addEventListener('input',event=>{
 });
 $('#admin-content').addEventListener('change',event=>{if(event.target.id==='order-filter'){orderFilter=event.target.value;render()}});
 document.addEventListener('submit',async event=>{
- event.preventDefault();const button=event.submitter;
+ event.preventDefault();
+ const button=event.submitter;
+ if(event.target.id==='login-form'){
+  button.disabled=true;
+  $('#login-error').textContent='';
+  try{
+   const credentials=$('#login-user').value.trim()+':'+$('#login-password').value;
+   const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(credentials));
+   const hash=[...new Uint8Array(bytes)].map(b=>b.toString(16).padStart(2,'0')).join('');
+   if(hash!=='4c8813b9040a28b552cceca0fce9f40087d0a7f208fa2bd345e44e2b88fa8ad3')throw Error('Usuario o contraseña incorrectos.');
+   sessionStorage.setItem(SESSION_KEY,'active');
+   signedIn=true;
+   $('#login-password').value='';
+   showAccess();
+  }catch(error){$('#login-error').textContent=error.message}
+  finally{button.disabled=false}
+  return;
+ }
+ if(!signedIn)return;
  if(button.disabled)return;
  button.disabled=true;
  try{await save(event.target);$('#editor').close();render();toast('Cambios guardados en este navegador.')}
  catch(error){toast(error.name==='QuotaExceededError'?'Sin espacio para guardar. Probá con imágenes más livianas.':error.message);button.disabled=false}
 });
 addEventListener('storage',event=>{if((event.key===STORAGE||event.key===null)&&['overview','products','orders'].includes(tab)&&!$('#editor').open)render()});
-render();
+function showAccess(){
+ $('#login-panel').hidden=signedIn;
+ $('#admin-shell').hidden=!signedIn;
+ $('#logout').hidden=!signedIn;
+ if(signedIn)render();
+}
+$('#logout').onclick=()=>{
+ sessionStorage.removeItem(SESSION_KEY);
+ signedIn=false;
+ $('#editor').close();
+ $('#admin-content').replaceChildren();
+ tab='overview';
+ showAccess();
+ $('#login-user').focus();
+};
+showAccess();
