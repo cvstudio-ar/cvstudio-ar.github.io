@@ -153,10 +153,13 @@ body{isolation:isolate}
  45%{transform:translate3d(23px,-55vh,0) rotate(24deg)}
  100%{transform:translate3d(-15px,calc(-100vh - 170px),0) rotate(55deg);opacity:0}
 }
-.brand-mark{display:block;width:44px;height:44px;flex:none}
-.brand-mark svg{width:100%;height:100%;display:block}
-.brand-mark path{transform-origin:50% 50%;animation:brand-turn 24s linear infinite}
-@keyframes brand-turn{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+/* Cartel de cruz neón con volumen y rotación en profundidad. */
+.brand-mark{display:grid;place-items:center;width:50px;height:50px;flex:none;perspective:190px;border-radius:13px;background:radial-gradient(circle,#173d28,#0b2015 76%);box-shadow:0 0 14px #26e47726,inset 0 0 8px #53ff8426}
+.neon-sign{position:relative;display:block;width:36px;height:36px;transform-style:preserve-3d;animation:neon-turn 18s linear infinite}
+.neon-layer,.neon-front{position:absolute;inset:0;width:100%;height:100%}
+.neon-layer{background:#158740;clip-path:polygon(37.5% 9.375%,62.5% 9.375%,62.5% 37.5%,90.625% 37.5%,90.625% 62.5%,62.5% 62.5%,62.5% 90.625%,37.5% 90.625%,37.5% 62.5%,9.375% 62.5%,9.375% 37.5%,37.5% 37.5%);transform:translateZ(var(--depth))}
+.neon-front{transform:translateZ(8.5px);filter:drop-shadow(0 0 2px #93ffb1) drop-shadow(0 0 5px #24e863)}
+@keyframes neon-turn{from{transform:rotateX(-12deg) rotateY(0deg)}to{transform:rotateX(-12deg) rotateY(360deg)}}
 .hero{position:relative;isolation:isolate;border-radius:28px;border-color:#d4e7da;box-shadow:0 16px 44px #234c3410}
 .hero-copy{position:relative;z-index:1;padding-right:clamp(15px,2.5vw,45px)}
 .hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--mint) 0%,color-mix(in srgb,var(--mint) 80%,transparent) 7%,color-mix(in srgb,var(--mint) 30%,transparent) 23%,transparent 50%)}
@@ -167,9 +170,6 @@ body{isolation:isolate}
 .button:focus-visible{outline-offset:4px}
 .product{border-radius:20px;border-color:#d9e7dc;box-shadow:0 5px 15px #16483109;transition:box-shadow .2s,border-color .2s}
 .product:hover,.product:focus-within{box-shadow:0 12px 30px #16483117;border-color:#b9d4c4}
-.product-art:has(.product-photo){aspect-ratio:1}
-.product-photo{display:block;position:absolute;inset:0;background-image:url("assets/productos-foto.webp");background-repeat:no-repeat;background-size:400% 200%}
-.detail-art:has(.product-photo){max-height:none;max-width:270px;aspect-ratio:1;margin:0 auto 18px}
 .product-art .badge{box-shadow:0 2px 8px #16483112;border:1px solid #ffffffc9}
 .product-body{border-top:1px solid #edf3ee}
 .product h3{line-height:1.23}
@@ -177,17 +177,19 @@ body{isolation:isolate}
 .product .price{color:#1b523b;font-size:clamp(1.1rem,1.7vw,1.5rem);letter-spacing:-.025em}
 .product-actions{padding-top:10px;border-top:1px solid #edf3ee;gap:8px}
 .product-actions .button{min-height:44px}
-.motion-tools{display:flex;justify-content:flex-end;padding-top:5px}
-.motion-toggle{min-height:32px;border:0;background:transparent;color:#456c58;font-size:.75rem;text-decoration:underline;text-underline-offset:3px}
-.motion-paused .floating-crosses i,.motion-paused .brand-mark path{animation-play-state:paused}
 @media(max-width:750px){
  .hero-copy{padding-right:25px}
  .hero-photo::after{background:linear-gradient(180deg,var(--mint) 0%,color-mix(in srgb,var(--mint) 70%,transparent) 9%,transparent 40%)}
 }
-@media(max-width:520px){.brand-mark{width:35px;height:35px}.floating-crosses i:nth-child(n+5){display:none}}
+@media(max-width:520px){.brand-mark{width:42px;height:42px}.neon-sign{width:30px;height:30px}.floating-crosses i:nth-child(n+5){display:none}}
 @media(prefers-reduced-motion:reduce){
  .floating-crosses{display:none}
- .brand-mark path{animation:none}
- .motion-tools{display:none}
+ .neon-sign{animation:none;transform:rotateX(-12deg) rotateY(-18deg)}
  .button,.product{transition:none}
 }
+
+.product-art:has(.real-product-photo){aspect-ratio:1;background:#fff}
+.product-art img.real-product-photo{object-fit:contain;width:100%;height:100%;padding:22px}
+.detail-art:has(.real-product-photo){max-height:none;max-width:280px;aspect-ratio:1;margin:0 auto 18px}
+.photo-credit{font-size:.78rem;color:var(--muted)}
+@media(max-width:520px){.product-art img.real-product-photo{padding:15px}}

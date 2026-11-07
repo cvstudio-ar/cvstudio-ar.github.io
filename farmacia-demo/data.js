@@ -29,7 +29,7 @@ function imageURL(value){
  return /^data:image\/(webp|png|jpeg);base64,[a-z0-9+/=]+$/i.test(value||'')?value:httpsURL(value);
 }
 function read(){
- try{const value=JSON.parse(localStorage.getItem(STORAGE));if(value)return value}catch{}
+ try{const value=JSON.parse(localStorage.getItem(STORAGE));if(value)return upgradeCatalog(value)}catch{}
  return structuredClone(defaults);
 }
 async function change(mutator){
@@ -79,14 +79,33 @@ function setOrderStatus(state,code,status,payState){
  }
  if(Object.hasOwn(paymentStates,payState))order.payState=payState;
 }
-const productPhotos={solar:0,cream:1,soap:2,water:3,brush:4,body:5,baby:6,shampoo:7};
+const productPhotos={
+ solar:{name:'NIVEA Sun Facial FPS 50',size:'50 ml',source:'https://www.falabella.com.co/falabella-co/product/125120326/Bloqueador-Solar-Nivea-Sun-Protect-Fps50-X-50Ml/125120327'},
+ cream:{name:'NIVEA Creme en lata',size:'60 ml',source:'https://www.eurosupermercados.com.co/crema-nivea-lata-x-60ml-5c4/p'},
+ soap:{name:'Dove Jabón líquido para manos',size:'250 ml',source:'https://www.sanroque.com.uy/catalogo/dove-jabon-liquido-para-manos_93540_93540'},
+ water:{name:'Garnier Agua micelar',size:'400 ml',source:'https://bellisima.mx/products/skin-active-agua-micelar-todo-en-1-todo-tipo-de-piel-400ml-garnier'},
+ brush:{name:'Colgate Ultra Soft',size:'1 unidad',source:'https://drogueriasmultifarma.com/products/cepillo-dental-colgate-ultra-soft-x-1-uni-paquete-x-1-und'},
+ body:{name:'NIVEA Hidratación Express',size:'250 ml',source:'https://farmacorp.com/products/90611'},
+ baby:{name:'Huggies Triple Protección',size:'48 unidades',source:'https://www.farmacity.com/toallas-humedas-huggies-triple-proteccion-x-48-un-/p'},
+ shampoo:{name:"Johnson’s Baby Shampoo",size:'200 ml',source:'https://www.farmacenter.com.py/catalogo/johnson-sha-clasico-fr-x-200-ml_10001182_10001182'}
+};
+const legacyNames=Object.fromEntries(defaults.products.map(p=>[p.id,p.name]));
+for(const product of defaults.products){
+ const detail=productPhotos[product.id];
+ if(detail)Object.assign(product,{name:detail.name,size:detail.size,description:'Producto de referencia del catálogo de demostración. Precio y stock de muestra.'});
+}
+function upgradeCatalog(state){
+ state.products=state.products.map(product=>{
+  const info=productPhotos[product.id];
+  if(info&&product.name===legacyNames[product.id])return {...product,name:info.name,size:info.size,description:'Producto de referencia del catálogo de demostración. Precio y stock de muestra.'};
+  return product;
+ });
+ return state;
+}
 function productArt(product){
  const custom=imageURL(product.image);
  if(custom)return `<img src="${escapeHTML(custom)}" alt="" loading="lazy">`;
- if(Object.hasOwn(productPhotos,product.id)){
-  const tile=productPhotos[product.id];
-  return `<span class="product-photo" style="background-position:${tile%4*100/3}% ${tile<4?0:100}%" aria-hidden="true"></span>`;
- }
+ if(Object.hasOwn(productPhotos,product.id))return `<img class="real-product-photo" src="assets/productos/${product.id}.webp" alt="" loading="lazy">`;
  const shapes={
   tube:'<path d="M31 14h58l-7 65H38z"/><rect x="39" y="79" width="42" height="15" rx="3"/>',
   bottle:'<rect x="43" y="10" width="34" height="17" rx="4"/><rect x="33" y="26" width="54" height="70" rx="15"/>',

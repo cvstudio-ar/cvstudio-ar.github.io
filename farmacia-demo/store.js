@@ -41,7 +41,7 @@ function renderCatalog(){
 function openProduct(id){
  const p=state.products.find(product=>product.id===id&&product.visible);
  if(!p)return;
- $('#product-detail').innerHTML=`<div class="product-art detail-art" style="--art:${safeColor(p.color)}">${productArt(p)}</div><p class="kicker">${escapeHTML(p.category)}</p><h2 id="product-dialog-title">${escapeHTML(p.name)}</h2><p>${escapeHTML(p.description)}</p><p class="muted">${escapeHTML(p.size)} · ${p.stock?'Stock de muestra: '+p.stock:'Sin stock'}</p><p class="price">${money(p.price)}</p><button type="button" class="button solid" data-add="${escapeHTML(p.id)}" ${p.stock?'':'disabled'}>Agregar al carrito</button>`;
+ $('#product-detail').innerHTML=`<div class="product-art detail-art" style="--art:${safeColor(p.color)}">${productArt(p)}</div><p class="kicker">${escapeHTML(p.category)}</p><h2 id="product-dialog-title">${escapeHTML(p.name)}</h2><p>${escapeHTML(p.description)}</p>${productPhotos[p.id]&&!imageURL(p.image)?`<p class="photo-credit"><a href="${escapeHTML(productPhotos[p.id].source)}" target="_blank" rel="noopener">Fuente de la fotografía del producto ↗</a></p>`:''}<p class="muted">${escapeHTML(p.size)} · ${p.stock?'Stock de muestra: '+p.stock:'Sin stock'}</p><p class="price">${money(p.price)}</p><button type="button" class="button solid" data-add="${escapeHTML(p.id)}" ${p.stock?'':'disabled'}>Agregar al carrito</button>`;
  $('#product-dialog').showModal();
 }
 function editCart(id,amount){
@@ -113,9 +113,3 @@ $('#checkout').onsubmit=async event=>{
 addEventListener('storage',event=>{if(event.key===STORAGE||event.key===null)refresh()});
 refresh();
 
-const motionButton=document.getElementById('motion-toggle');
-motionButton.onclick=()=>{
- const paused=document.documentElement.classList.toggle('motion-paused');
- motionButton.setAttribute('aria-pressed',String(paused));
- motionButton.textContent=paused?'Reanudar animaciones':'Pausar animaciones';
-};
