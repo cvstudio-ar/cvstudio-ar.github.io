@@ -4,13 +4,14 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Demo de tienda online para farmacias, desarrollada por CVStudio Argentina. Catálogo, carrito y seguimiento de pedidos de muestra.">
 <title>Farmacia Demo | CVStudio</title><link rel="icon" href="assets/cross.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css"><script src="data.js" defer></script><script src="store.js" defer></script>
+<link rel="stylesheet" href="style.css?v=acabados-foto-2"><script src="data.js?v=acabados-foto-2" defer></script><script src="store.js?v=acabados-foto-2" defer></script>
 </head>
 <body>
+<div class="floating-crosses" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="demo-strip">DEMO INTERACTIVA DE CVSTUDIO <span>·</span> Productos y precios de muestra</div>
 <header class="site-header">
  <div class="wide nav">
-  <a class="brand" href="./"><img src="assets/cross.svg" width="44" height="44" alt=""><span class="brand-label"><strong data-brand>Farmacia Demo</strong><small>CVStudio Argentina</small></span></a>
+  <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="17" fill="#e6f7eb"/><path d="M26 12h12v14h14v12H38v14H26V38H12V26h14z" fill="#17834b"/></svg></span><span class="brand-label"><strong data-brand>Farmacia Demo</strong><small>CVStudio Argentina</small></span></a>
   <nav aria-label="Principal"><a href="#catalogo">Catálogo</a><a href="#seguimiento">Seguimiento</a></nav>
   <button class="button solid" id="cart-open" type="button">Carrito <span id="cart-count">0</span></button>
  </div>
@@ -25,6 +26,7 @@
   </div>
   <div class="hero-photo"><img id="hero-image" src="assets/portada.webp" alt="" width="1320" height="880" fetchpriority="high"></div>
  </section>
+ <div class="motion-tools"><button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false">Pausar animaciones</button></div>
  <div class="perks"><span><b>01</b> Retiro y entrega de prueba</span><span><b>02</b> Pagos simulados</span><span><b>03</b> Seguimiento por código</span></div>
  <section id="catalogo" class="section" aria-labelledby="catalog-title">
   <div class="section-title"><div><p class="kicker">HIGIENE Y CUIDADO PERSONAL</p><h2 id="catalog-title">Catálogo de productos</h2></div><span class="muted" id="product-count" role="status"></span></div>

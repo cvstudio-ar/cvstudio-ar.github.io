@@ -134,3 +134,60 @@ fieldset{border:1px solid var(--line);border-radius:10px;min-width:0}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .brand-label{display:grid;gap:1px;line-height:1.12}
 .brand-label small{font-size:.68rem;color:var(--muted);letter-spacing:.025em}
+
+/* Integración de portada y refinado de la tienda. */
+body{isolation:isolate}
+.floating-crosses{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.floating-crosses i{position:absolute;bottom:-90px;left:5%;width:50px;height:50px;color:#32a26a;opacity:0;filter:blur(.2px);animation:cross-drift 29s linear infinite}
+.floating-crosses i::before,.floating-crosses i::after{content:"";position:absolute;border-radius:3px;background:currentColor;inset:0 34%}
+.floating-crosses i::after{inset:34% 0}
+.floating-crosses i:nth-child(2){left:20%;width:28px;height:28px;animation-duration:35s;animation-delay:-12s}
+.floating-crosses i:nth-child(3){left:38%;width:62px;height:62px;animation-duration:39s;animation-delay:-25s}
+.floating-crosses i:nth-child(4){left:56%;width:35px;height:35px;animation-duration:31s;animation-delay:-9s}
+.floating-crosses i:nth-child(5){left:73%;width:47px;height:47px;animation-duration:36s;animation-delay:-19s}
+.floating-crosses i:nth-child(6){left:89%;width:72px;height:72px;animation-duration:43s;animation-delay:-32s}
+.floating-crosses i:nth-child(7){left:97%;width:24px;height:24px;animation-duration:27s;animation-delay:-4s}
+@keyframes cross-drift{
+ 0%{transform:translate3d(-20px,0,0) rotate(-18deg);opacity:0}
+ 10%,80%{opacity:.105}
+ 45%{transform:translate3d(23px,-55vh,0) rotate(24deg)}
+ 100%{transform:translate3d(-15px,calc(-100vh - 170px),0) rotate(55deg);opacity:0}
+}
+.brand-mark{display:block;width:44px;height:44px;flex:none}
+.brand-mark svg{width:100%;height:100%;display:block}
+.brand-mark path{transform-origin:50% 50%;animation:brand-turn 24s linear infinite}
+@keyframes brand-turn{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.hero{position:relative;isolation:isolate;border-radius:28px;border-color:#d4e7da;box-shadow:0 16px 44px #234c3410}
+.hero-copy{position:relative;z-index:1;padding-right:clamp(15px,2.5vw,45px)}
+.hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--mint) 0%,color-mix(in srgb,var(--mint) 80%,transparent) 7%,color-mix(in srgb,var(--mint) 30%,transparent) 23%,transparent 50%)}
+.hero-photo{background:var(--mint)}
+.button{border-radius:12px;transition:background .18s,box-shadow .18s,filter .18s}
+.solid{box-shadow:0 3px 8px #1f5b3e15}
+.outline{border-color:#c2d9cb}
+.button:focus-visible{outline-offset:4px}
+.product{border-radius:20px;border-color:#d9e7dc;box-shadow:0 5px 15px #16483109;transition:box-shadow .2s,border-color .2s}
+.product:hover,.product:focus-within{box-shadow:0 12px 30px #16483117;border-color:#b9d4c4}
+.product-art:has(.product-photo){aspect-ratio:1}
+.product-photo{display:block;position:absolute;inset:0;background-image:url("assets/productos-foto.webp");background-repeat:no-repeat;background-size:400% 200%}
+.detail-art:has(.product-photo){max-height:none;max-width:270px;aspect-ratio:1;margin:0 auto 18px}
+.product-art .badge{box-shadow:0 2px 8px #16483112;border:1px solid #ffffffc9}
+.product-body{border-top:1px solid #edf3ee}
+.product h3{line-height:1.23}
+.product .meta{line-height:1.5}
+.product .price{color:#1b523b;font-size:clamp(1.1rem,1.7vw,1.5rem);letter-spacing:-.025em}
+.product-actions{padding-top:10px;border-top:1px solid #edf3ee;gap:8px}
+.product-actions .button{min-height:44px}
+.motion-tools{display:flex;justify-content:flex-end;padding-top:5px}
+.motion-toggle{min-height:32px;border:0;background:transparent;color:#456c58;font-size:.75rem;text-decoration:underline;text-underline-offset:3px}
+.motion-paused .floating-crosses i,.motion-paused .brand-mark path{animation-play-state:paused}
+@media(max-width:750px){
+ .hero-copy{padding-right:25px}
+ .hero-photo::after{background:linear-gradient(180deg,var(--mint) 0%,color-mix(in srgb,var(--mint) 70%,transparent) 9%,transparent 40%)}
+}
+@media(max-width:520px){.brand-mark{width:35px;height:35px}.floating-crosses i:nth-child(n+5){display:none}}
+@media(prefers-reduced-motion:reduce){
+ .floating-crosses{display:none}
+ .brand-mark path{animation:none}
+ .motion-tools{display:none}
+ .button,.product{transition:none}
+}

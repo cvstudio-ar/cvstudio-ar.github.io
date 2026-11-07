@@ -79,9 +79,14 @@ function setOrderStatus(state,code,status,payState){
  }
  if(Object.hasOwn(paymentStates,payState))order.payState=payState;
 }
+const productPhotos={solar:0,cream:1,soap:2,water:3,brush:4,body:5,baby:6,shampoo:7};
 function productArt(product){
  const custom=imageURL(product.image);
  if(custom)return `<img src="${escapeHTML(custom)}" alt="" loading="lazy">`;
+ if(Object.hasOwn(productPhotos,product.id)){
+  const tile=productPhotos[product.id];
+  return `<span class="product-photo" style="background-position:${tile%4*100/3}% ${tile<4?0:100}%" aria-hidden="true"></span>`;
+ }
  const shapes={
   tube:'<path d="M31 14h58l-7 65H38z"/><rect x="39" y="79" width="42" height="15" rx="3"/>',
   bottle:'<rect x="43" y="10" width="34" height="17" rx="4"/><rect x="33" y="26" width="54" height="70" rx="15"/>',

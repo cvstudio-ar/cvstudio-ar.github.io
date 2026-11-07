@@ -112,3 +112,10 @@ $('#checkout').onsubmit=async event=>{
 };
 addEventListener('storage',event=>{if(event.key===STORAGE||event.key===null)refresh()});
 refresh();
+
+const motionButton=document.getElementById('motion-toggle');
+motionButton.onclick=()=>{
+ const paused=document.documentElement.classList.toggle('motion-paused');
+ motionButton.setAttribute('aria-pressed',String(paused));
+ motionButton.textContent=paused?'Reanudar animaciones':'Pausar animaciones';
+};

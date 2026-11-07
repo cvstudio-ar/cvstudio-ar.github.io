@@ -77,7 +77,7 @@ function editProduct(id){
  <label>Color de ilustración<input name="color" type="color" value="${safeColor(p.color)}"></label>
  <label class="full">URL de imagen<input name="image" type="url" maxlength="2048" value="${esc(httpsURL(p.image))}" placeholder="https://…"></label>
  <label class="full">Subir imagen<input name="imageFile" type="file" accept="image/jpeg,image/png,image/webp"></label>
- <label class="check full"><input name="resetImage" type="checkbox"> Usar la ilustración en vez de la imagen</label>
+ <label class="check full"><input name="resetImage" type="checkbox"> Usar la imagen de muestra original</label>
  <label class="check"><input name="featured" type="checkbox" ${p.featured?'checked':''}> Destacado</label>
  <label class="check"><input name="visible" type="checkbox" ${p.visible?'checked':''}> Publicado</label>
  <div class="actions full"><button class="button solid">Guardar producto</button>${id?`<button class="button outline" type="button" data-remove="${esc(id)}">Eliminar</button>`:''}</div></form>`;
