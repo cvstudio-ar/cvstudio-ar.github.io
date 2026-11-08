@@ -9,7 +9,7 @@
 <script>
 (function(){
 "use strict";
-const KEY="escobar-online-shop-demo-v1", SESSION="escobar-admin-demo-session";
+const KEY="cvstudio.escobar.demo.v1", SESSION="escobar-admin-demo-session";
 const names=[["Lattafa Fakhar","Perfumes","Eau de Parfum masculino · 100 ml"],["Afnan Supremacy Collector’s Edition","Perfumes","Edición especial"],["Rasasi Hawas Kobra","Perfumes","100 ml"],["Rasasi Hawas Ice","Perfumes","100 ml"],["Afnan 9PM Elixir","Perfumes","100 ml"],["Armaf Odyssey Mega","Perfumes","Masculino"],["Armaf Club de Nuit Urban Elixir","Perfumes","Masculino"],["Afnan 9PM Night Out","Perfumes","Masculino"],["Armaf Club de Nuit Iconic","Perfumes","105 ml"],["Lattafa Asad EDP","Perfumes","Masculino"],["Maison Alhambra Philos Pura","Perfumes","Unisex"],["Medicube Deep Vita C Capsule Cream","Skincare","Crema facial"],["Medicube Zero Pore Pad","Skincare","70 discos"],["Medicube PDRN Pink Collagen Capsule Cream","Skincare","55 g"]];
 const defaults=names.map((x,i)=>({id:i+1,name:x[0],category:x[1],detail:x[2],price:0,wholesale:0,stock:0,active:true}));
 let data={catalog:defaults,orders:[],settings:{whatsapp:"",shipping:"Por coordinar",minimum:10}};
