@@ -1,8 +1,0 @@
-'use strict';
-(()=>{
- const key=window.PuentesDemo.key+'-requests';const box=document.getElementById('demo-requests');let rows=[];
- try{const saved=JSON.parse(localStorage.getItem(key));if(Array.isArray(saved))rows=saved.filter(r=>r&&typeof r.id==='string'&&['Pendiente','Confirmada','Finalizada','Cancelada'].includes(r.status)).slice(0,10);}catch{}
- function save(){try{localStorage.setItem(key,JSON.stringify(rows));}catch{}}
- function render(){box.replaceChildren();if(!rows.length){const p=document.createElement('p');p.textContent='Todavía no creaste solicitudes de ejemplo.';box.append(p);return;}for(const row of rows){const item=document.createElement('div');item.className='demo-request';const left=document.createElement('div');const title=document.createElement('strong');title.textContent='Solicitud de ejemplo';const text=document.createElement('small');text.textContent=`Ejemplo ${row.id.slice(-4)} · Entrevista virtual · Horario a coordinar`;left.append(title,text);const select=document.createElement('select');select.setAttribute('aria-label',`Estado de solicitud de ejemplo ${row.id.slice(-4)}`);for(const status of ['Pendiente','Confirmada','Finalizada','Cancelada']){const o=document.createElement('option');o.value=status;o.textContent=status;select.append(o);}select.value=row.status;select.addEventListener('change',()=>{row.status=select.value;save();});item.append(left,select);box.append(item);}}
- document.getElementById('add-demo-request').addEventListener('click',()=>{rows.unshift({id:String(Date.now()),status:'Pendiente'});rows=rows.slice(0,10);save();render();});render();
-})();

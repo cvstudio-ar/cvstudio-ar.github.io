@@ -1,1 +1,0 @@
-export const CONFIG = {"supabaseUrl":"https://eqepkoegzyqklpxkrkhm.supabase.co","supabaseKey":"sb_publishable_k-VAklYxdMXQ8C2bun1WoA_N7M98apd","whatsapp":"5493816355637","email":"info@viserint.com","instagram":"","facebook":""};

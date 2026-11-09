@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin.html
-Disallow: /LEEME-SUPABASE.txt
-Disallow: /REPARACION-SIAC.txt
-Disallow: /SUPABASE_SETUP_FINAL.sql
-
-Sitemap: https://cvstudio.com.ar/sitemap.xml
