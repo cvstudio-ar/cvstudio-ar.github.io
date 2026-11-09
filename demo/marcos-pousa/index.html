@@ -43,38 +43,49 @@
 .legal-icon svg{width:43px;height:43px;filter:drop-shadow(0 1px 4px #e7bd7140)}
 @media(max-width:630px){.legal-icon{width:68px;height:68px;border-radius:16px}.legal-icon svg{width:38px;height:38px}#serviceCards .tile{padding:24px}}
 
-/* Portada definitiva: titular en dos líneas y retrato sin panel superpuesto */
-.hero{overflow:hidden}
-.hero .grid{grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:clamp(8px,2vw,42px);align-items:stretch;padding-block:clamp(52px,5vw,85px)}
-.hero .intro{max-width:none;position:relative;z-index:2;align-self:center}
-.hero .intro h1{font-size:clamp(2rem,3.85vw,5.6rem);line-height:1.15;letter-spacing:-.027em;max-width:none;text-wrap:initial;margin-top:18px}
+
+/* Portada única: imagen vinculada a la sección completa, no a columnas del grid. */
+.hero{display:block;position:relative;overflow:hidden;min-height:0}
+.hero > .container.grid{display:flex;align-items:center;position:relative;z-index:2;
+  width:calc(100% - clamp(28px,3.7vw,90px));max-width:2100px;
+  min-height:clamp(495px,calc(100svh - 80px),760px);padding:46px 0;
+  margin-inline:auto}
+.hero .intro{width:57%;max-width:870px;align-self:auto;position:relative;z-index:2}
+.hero .intro h1{font-size:clamp(2rem,3.85vw,5.6rem);line-height:1.15;letter-spacing:-.027em;
+  text-wrap:initial;margin:18px 0 22px;max-width:none}
 .headline-second{white-space:nowrap;font-size:.91em}
 .hero .lead{max-width:690px}
-.hero .hero-visual{position:relative;width:100%;max-width:none;align-self:end;min-height:440px;height:100%;display:flex;justify-content:center;align-items:end;margin:0;pointer-events:none}
-.hero-visual .hero-cutout{display:block;position:relative;width:auto;max-width:100%;height:min(690px,73svh);max-height:720px;object-fit:contain;object-position:bottom center;filter:drop-shadow(-12px 14px 22px #0007);z-index:1}
+.hero > .hero-visual{position:absolute;z-index:1;inset:auto 1.5% 0 auto;width:42%;height:100%;
+  display:flex;align-items:flex-end;justify-content:flex-end;margin:0;padding:0;
+  max-width:none;min-height:0;line-height:0;pointer-events:none}
+.hero > .hero-visual #heroPortrait.hero-cutout{position:relative;display:block;
+  width:auto;height:min(100%,750px);max-width:100%;max-height:100%;object-fit:contain;
+  object-position:bottom right;vertical-align:bottom;margin:0;padding:0;
+  background:transparent;filter:drop-shadow(-12px 12px 20px #0007)}
 .portrait-card,.portrait-placeholder,.portrait-caption{display:none!important}
-@media(min-width:761px) and (max-width:1120px){.hero .grid{grid-template-columns:minmax(0,1.35fr) minmax(220px,.65fr)}.hero .intro h1{font-size:clamp(2rem,3.65vw,3.3rem)}.hero .hero-visual{min-height:340px}.hero-visual .hero-cutout{height:clamp(330px,54vw,570px)}}
-@media(max-width:760px){.hero .grid{grid-template-columns:1fr;gap:10px;padding-bottom:0}.hero .intro{max-width:100%}.hero .intro h1{font-size:clamp(2.12rem,6.7vw,3.5rem);text-wrap:balance}.headline-second{white-space:normal;font-size:1em}.hero .hero-visual{min-height:0;height:auto;width:100%;align-self:end;justify-content:center}.hero-visual .hero-cutout{height:auto;width:min(76vw,400px);max-height:430px}}
-@media(max-width:420px){.hero .intro h1{font-size:clamp(2rem,8.3vw,2.8rem)}.hero .lead{font-size:1rem}.hero-visual .hero-cutout{width:min(85vw,345px)}}
-
-/* Transparencia real de la fotografía (anula estilos previos por ID) */
-.hero-visual #heroPortrait.hero-cutout{display:block;width:auto;height:min(690px,73svh);max-height:720px;max-width:100%;object-fit:contain;object-position:bottom center;background:transparent;border:0;box-shadow:none;filter:drop-shadow(-12px 14px 22px #0007)}
-@media(min-width:761px) and (max-width:1120px){.hero-visual #heroPortrait.hero-cutout{height:clamp(330px,54vw,570px)}}
-@media(max-width:760px){.hero-visual #heroPortrait.hero-cutout{height:auto;width:min(76vw,400px);max-height:430px}}
-@media(max-width:420px){.hero-visual #heroPortrait.hero-cutout{width:min(85vw,345px)}}
-
-/* Ajuste de corte inferior: la figura termina exactamente contra el borde del hero. */
-.hero{display:block;position:relative;overflow:hidden}
-.hero > .container.grid{min-height:min(780px,calc(100svh - 80px));padding-bottom:0!important;align-items:stretch}
-.hero .hero-visual{align-self:end!important;justify-content:center;align-items:flex-end!important;margin-bottom:0!important;padding-bottom:0!important;line-height:0}
-.hero .hero-visual #heroPortrait.hero-cutout{vertical-align:bottom;margin-bottom:0!important;display:block!important}
+@media(min-width:761px) and (max-width:1120px){
+  .hero .intro{width:62%}
+  .hero .intro h1{font-size:clamp(2rem,3.65vw,3.3rem)}
+  .hero > .hero-visual{width:39%;right:0}
+}
 @media(max-width:760px){
-  .hero > .container.grid{min-height:0;padding-bottom:0!important}
-  .hero .hero-visual{align-self:end!important;line-height:0}
+  .hero > .container.grid{display:block;min-height:0;padding:42px 0 16px}
+  .hero .intro{width:100%;max-width:100%}
+  .hero .intro h1{font-size:clamp(2.12rem,6.7vw,3.5rem);text-wrap:balance}
+  .headline-second{white-space:normal;font-size:1em}
+  .hero > .hero-visual{position:relative;inset:auto;z-index:1;
+    width:100%;height:clamp(270px,80vw,420px);
+    justify-content:center;align-items:flex-end}
+  .hero > .hero-visual #heroPortrait.hero-cutout{width:auto;height:100%;max-width:95%}
+}
+@media(max-width:420px){
+  .hero .intro h1{font-size:clamp(2rem,8.3vw,2.8rem)}
+  .hero .lead{font-size:1rem}
+  .hero > .container.grid{padding-top:32px}
 }
 </style></head><body>
 <header class="top"><div class="container nav"><a class="brand" href="#inicio"><span class="brandmark"><img id="navLogo" src="assets/logo-mp.svg" alt="Logo MP"></span><span id="navTitle">ESTUDIO JURÍDICO · MARCOS A. POUSA</span></a><button class="menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">☰ Menú</button><nav class="navlinks" id="mainNav"><a href="#inicio">Inicio</a><a href="#especialidades">Especialidades</a><a href="#estudio">El estudio</a><a href="#ubicacion">Ubicación</a><a href="#contacto">Contacto</a><button class="btn small outline" onclick="openAdmin()">Administración</button></nav></div></header>
-<main><section class="hero" id="inicio"><div class="container grid"><div class="intro"><div class="eyebrow" id="heroEyebrow">Asesoramiento jurídico · Tigre, Buenos Aires</div><h1 id="heroTitle">Defensa, compromiso y atención personalizada.</h1><p class="lead" id="heroDescription">Asistencia profesional en derecho penal y derecho de familia. Cada situación merece escucha, confidencialidad y una estrategia jurídica adecuada.</p><div class="heroacts"><a class="btn" id="heroWa" href="#" target="_blank" rel="noopener">Realizar una consulta ↗</a><a class="btn outline" href="#especialidades">Conocer los servicios</a></div></div><div class="hero-visual"><img id="heroPortrait" class="hero-cutout" alt="Marcos Alberto Pousa" src="assets/marcos-pousa-hq-20261109.webp"></div></div></section>
+<main><section class="hero" id="inicio"><div class="container grid"><div class="intro"><div class="eyebrow" id="heroEyebrow">Asesoramiento jurídico · Tigre, Buenos Aires</div><h1 id="heroTitle">Defensa, compromiso y atención personalizada.</h1><p class="lead" id="heroDescription">Asistencia profesional en derecho penal y derecho de familia. Cada situación merece escucha, confidencialidad y una estrategia jurídica adecuada.</p><div class="heroacts"><a class="btn" id="heroWa" href="#" target="_blank" rel="noopener">Realizar una consulta ↗</a><a class="btn outline" href="#especialidades">Conocer los servicios</a></div></div></div><div class="hero-visual"><img id="heroPortrait" class="hero-cutout" alt="Marcos Alberto Pousa" src="assets/marcos-pousa-hq-20261109.webp"></div></section>
 <section class="section cream" id="especialidades"><div class="container"><div class="section-head"><span class="eyebrow">Áreas de práctica</span><h2>Servicios jurídicos</h2><p class="muted" id="servicesIntro">Asistencia en asuntos sensibles, con atención directa y tratamiento reservado de cada consulta.</p></div><div class="cols" id="serviceCards"></div></div></section>
 <section class="band"><div class="container"><strong>Tu consulta merece atención y claridad.</strong><a id="bandWa" class="btn outline" href="#" target="_blank" rel="noopener">Contactar por WhatsApp ↗</a></div></section>
 <section class="section" id="estudio"><div class="container about"><div><span class="eyebrow">Conocé el estudio</span><h2 id="aboutTitle">Marcos Alberto Pousa</h2><p class="muted" id="aboutText">Atención jurídica en Tigre, Buenos Aires, con enfoque en derecho penal y conflictos de familia. El objetivo es acompañar cada situación con seriedad y comunicación directa.</p><p style="color:var(--goldlight)">Atención de consultas las 24 horas por WhatsApp.</p><a class="btn outline" href="#contacto">Información de contacto</a></div><div class="about-art"><b>MP</b><span>Estudio jurídico · Tigre</span></div></div></section>
