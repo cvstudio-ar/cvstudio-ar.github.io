@@ -110,9 +110,40 @@
   font-weight:750;text-decoration:none;transition:background .2s ease,transform .2s ease}
 .approach-link:hover{background:#d3a55c21;transform:translateY(-2px)}
 @media(max-width:760px){.approach-card{padding:25px 23px}.approach-symbol{width:48px;height:48px}}
+
+/* Portada exclusiva para pantallas pequeñas: PC conserva íntegramente su composición. */
+.mobile-hero-actions{display:none}
+@media(max-width:760px){
+  .top .nav{min-height:76px;gap:12px}
+  .top .brand{max-width:calc(100% - 102px);font-size:clamp(.9rem,3.65vw,1.12rem);line-height:1.28;gap:10px}
+  .top .brand #navTitle{overflow-wrap:normal}
+  .top .brandmark{width:48px;height:48px}
+  .top .menu{min-width:65px;min-height:50px;padding:8px 10px;font-size:.84rem;line-height:1.2;justify-content:center}
+  .hero{min-height:0;background-image:linear-gradient(180deg,#07101bf8 0%,#0a131ee8 28%,#0c1520b8 64%,#141b24e2 100%),var(--office-image),linear-gradient(160deg,#0c1520,#272728);
+    background-position:center center;background-size:cover}
+  .hero > .container.grid{width:calc(100% - 42px);min-height:0;padding:38px 0 0;display:block}
+  .hero .intro{width:100%;max-width:none}
+  .hero .eyebrow{font-size:clamp(.69rem,2.7vw,.79rem);letter-spacing:.19em;line-height:1.65;margin:0 0 26px}
+  .hero .intro h1{font-size:clamp(2.22rem,8.4vw,3.75rem);line-height:1.13;letter-spacing:-.025em;margin:0 0 28px;text-wrap:balance}
+  .hero .intro .lead{font-size:clamp(1.03rem,3.8vw,1.18rem);line-height:1.75;margin:0 0 30px;color:#f2eee9;max-width:600px}
+  .hero .intro .heroacts{display:none}
+  .hero > .hero-visual{position:relative;inset:auto;width:100%;height:clamp(395px,120vw,620px);max-width:none;display:flex;align-items:flex-end;justify-content:center;padding:0;margin:0 auto;overflow:hidden;pointer-events:none;z-index:1}
+  .hero > .hero-visual #heroPortrait.hero-cutout{display:block;position:relative;object-fit:contain;object-position:bottom center;max-width:none;width:auto;height:100%;max-height:100%;margin:0;filter:drop-shadow(0 15px 24px #0008);background:transparent}
+  .mobile-hero-actions{display:flex;flex-direction:column;gap:13px;padding:22px 21px 29px;background:#0b111a;border-bottom:2px solid #cba565}
+  .mobile-hero-actions .btn{display:flex;width:100%;font-size:1rem;min-height:58px;text-align:center}
+  .mobile-hero-actions .btn.outline{background:#1b2028}
+  .wa-float{right:12px;bottom:16px;font-size:.77rem;padding:9px 12px;max-width:125px}
+}
+@media(max-width:380px){
+  .hero > .container.grid{width:calc(100% - 34px);padding-top:33px}
+  .hero .eyebrow{margin-bottom:22px}
+  .hero .intro h1{font-size:clamp(2rem,8.2vw,2.4rem)}
+  .hero > .hero-visual{height:clamp(370px,125vw,480px)}
+  .mobile-hero-actions{padding-inline:17px}
+}
 </style></head><body>
 <header class="top"><div class="container nav"><a class="brand" href="#inicio"><span class="brandmark"><img id="navLogo" src="assets/logo-mp.svg" alt="Logo MP"></span><span id="navTitle">ESTUDIO JURÍDICO · MARCOS A. POUSA</span></a><button class="menu" onclick="document.querySelector('.navlinks').classList.toggle('open')">☰ Menú</button><nav class="navlinks" id="mainNav"><a href="#inicio">Inicio</a><a href="#especialidades">Especialidades</a><a href="#estudio">El estudio</a><a href="#ubicacion">Ubicación</a><a href="#contacto">Contacto</a><button class="btn small outline" onclick="openAdmin()">Administración</button></nav></div></header>
-<main><section class="hero" id="inicio"><div class="container grid"><div class="intro"><div class="eyebrow" id="heroEyebrow">Asesoramiento jurídico · Tigre, Buenos Aires</div><h1 id="heroTitle">Defensa, compromiso y atención personalizada.</h1><p class="lead" id="heroDescription">Asistencia profesional en derecho penal y derecho de familia. Cada situación merece escucha, confidencialidad y una estrategia jurídica adecuada.</p><div class="heroacts"><a class="btn" id="heroWa" href="#" target="_blank" rel="noopener">Realizar una consulta ↗</a><a class="btn outline" href="#especialidades">Conocer los servicios</a></div></div></div><div class="hero-visual"><img id="heroPortrait" class="hero-cutout" alt="Marcos Alberto Pousa" src="assets/marcos-pousa-hq-20261109.webp"></div></section>
+<main><section class="hero" id="inicio"><div class="container grid"><div class="intro"><div class="eyebrow" id="heroEyebrow">Asesoramiento jurídico · Tigre, Buenos Aires</div><h1 id="heroTitle">Defensa, compromiso y atención personalizada.</h1><p class="lead" id="heroDescription">Asistencia profesional en derecho penal y derecho de familia. Cada situación merece escucha, confidencialidad y una estrategia jurídica adecuada.</p><div class="heroacts"><a class="btn" id="heroWa" href="#" target="_blank" rel="noopener">Realizar una consulta ↗</a><a class="btn outline" href="#especialidades">Conocer los servicios</a></div></div></div><div class="hero-visual"><img id="heroPortrait" class="hero-cutout" alt="Marcos Alberto Pousa" src="assets/marcos-pousa-hq-20261109.webp"></div></section><div class="mobile-hero-actions" aria-label="Acciones de contacto"><a class="btn" id="mobileHeroWa" href="#" target="_blank" rel="noopener">Realizar una consulta ↗</a><a class="btn outline" href="#especialidades">Conocer los servicios</a></div>
 <section class="section cream" id="especialidades"><div class="container"><div class="section-head"><span class="eyebrow">Áreas de práctica</span><h2>Servicios jurídicos</h2><p class="muted" id="servicesIntro">Asistencia en asuntos sensibles, con atención directa y tratamiento reservado de cada consulta.</p></div><div class="cols" id="serviceCards"></div></div></section>
 <section class="band"><div class="container"><strong>Tu consulta merece atención y claridad.</strong><a id="bandWa" class="btn outline" href="#" target="_blank" rel="noopener">Contactar por WhatsApp ↗</a></div></section>
 <section class="section" id="estudio"><div class="container about"><div><span class="eyebrow">Conocé el estudio</span><h2 id="aboutTitle">Marcos Alberto Pousa</h2><p class="muted" id="aboutText">Atención jurídica en Tigre, Buenos Aires, con enfoque en derecho penal y conflictos de familia. El objetivo es acompañar cada situación con seriedad y comunicación directa.</p><p style="color:var(--goldlight)">Atención de consultas las 24 horas por WhatsApp.</p><a class="btn outline" href="#contacto">Información de contacto</a></div><aside class="approach-card" aria-label="Cómo iniciar una consulta"><div class="approach-top"><span class="approach-kicker">ORIENTACIÓN JURÍDICA</span><svg class="approach-symbol" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 9v44M14 19h36M20 19l-10 17h20L20 19Zm24 0L34 36h20L44 19ZM18 53h28M22 58h20"/><path d="M10 36c2 9 18 9 20 0M34 36c2 9 18 9 20 0"/></svg></div><h3>Un camino claro para tu consulta.</h3><p class="approach-intro">Cada situación merece atención particular. Estos son los primeros pasos para comunicarte con el estudio.</p><div class="approach-steps"><div class="approach-step"><span class="approach-number">01</span><div><strong>Primer contacto</strong><p>Escribinos por WhatsApp y contanos brevemente el motivo de tu consulta.</p></div></div><div class="approach-step"><span class="approach-number">02</span><div><strong>Evaluación inicial</strong><p>Se revisa la información necesaria para comprender el asunto.</p></div></div><div class="approach-step"><span class="approach-number">03</span><div><strong>Orientación personalizada</strong><p>Se informa cómo avanzar y las alternativas de atención disponibles.</p></div></div></div><a class="approach-link" href="#contacto">Iniciar una consulta <span aria-hidden="true">↗</span></a></aside></div></section>
@@ -151,7 +182,7 @@ document.documentElement.style.setProperty('--ink',data.ink||base.ink);document.
 $('navTitle').textContent=data.name;$('heroEyebrow').textContent=data.eyebrow;$('heroTitle').innerHTML=data.headline==='Defensa, compromiso y atención personalizada.'?'Defensa, compromiso<br><span class="headline-second">y atención personalizada.</span>':esc(data.headline);$('heroDescription').textContent=data.description;$('aboutTitle').textContent=data.aboutTitle;$('aboutText').textContent=data.about;$('servicesIntro').textContent=data.servicesIntro;$('contactIntro').textContent=data.contactIntro;
 $('navLogo').src=data.logo||base.logo;$('heroPortrait').src=data.portrait||'assets/marcos-pousa-hq-20261109.webp';$('footerName').textContent=data.name;$('footerYear').textContent=new Date().getFullYear();$('phoneText').textContent=data.phone;$('hoursText').textContent=data.hours;$('addressText').textContent=data.address;
 const message='Hola Marcos, quisiera realizar una consulta sobre los servicios de tu estudio jurídico.';
-for(const id of ['heroWa','bandWa','contactWa','floatingWa'])$(id).href=wa(message);
+for(const id of ['heroWa','mobileHeroWa','bandWa','contactWa','floatingWa'])$(id).href=wa(message);
 $('emailLinks').innerHTML=[data.email,data.email2].filter(Boolean).map(s=>'<a href="mailto:'+encodeURIComponent(s)+'" style="text-decoration:underline">'+esc(s)+'</a>').join('<br>');
 $('igLink').href=data.instagram||'#';$('igLink').textContent=data.instagram?'Visitar Instagram ↗':'Instagram (espacio reservado)';$('igLink').onclick=data.instagram?null:function(e){e.preventDefault()};
 const mapq=encodeURIComponent(data.address);$('map').src='https://www.google.com/maps?q='+mapq+'&output=embed';$('mapsLink').href='https://www.google.com/maps/search/?api=1&query='+mapq;
