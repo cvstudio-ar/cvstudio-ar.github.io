@@ -5,3 +5,67 @@
 
 /* Iván: conversación personal, ahorro explicado y una próxima acción clara. */
 .hero-legal{display:block;max-width:430px;margin-top:24px;font-size:10px;color:#c3cecf;line-height:1.6}.hero h1{font-size:clamp(48px,4.4vw,77px);max-width:760px}.service-card h3{font-size:clamp(27px,2.6vw,39px)}.service-card .reinforcement{font-size:12px;color:#8b662a;min-height:0;font-weight:500}.service-card .product-note{font-size:11px;min-height:0;color:#6b7779;border-top:1px solid #ded8ca;padding-top:14px}.service-card .button{font-size:11px;margin-top:10px;gap:14px}.saving-benefits{padding-left:18px;color:#59716d;font-size:12px;margin:20px 0;line-height:1.8}.retirement-explainer{padding:65px 0;background:#eeeee5;border-block:1px solid #dbd9ca}.explain-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}.explain-grid article{border:1px solid #d6c8a6;border-radius:12px;padding:35px;background:#fffdf7;display:flex;flex-direction:column;align-items:flex-start}.explain-grid h3{font-size:38px;margin:10px 0 22px}.explain-grid p:not(.eyebrow){font-size:13px;line-height:1.8;color:#61716e}.explain-grid article:last-child{background:linear-gradient(135deg,#153446,#0b1e2e);color:#fff9e9;border-color:#335765}.explain-grid article:last-child p:not(.eyebrow){color:#c4d4d4}.explain-grid .button{margin-top:auto;font-size:12px}.retirement-explainer>.wrap>.fine-print{display:block;max-width:1000px;margin-top:23px;font-size:10px;line-height:1.8;color:#74766b}.section-meeting{grid-column:1/-1;margin-top:30px;display:flex;align-items:center}.section-meeting .button{font-size:12px}.producer-grid>.section-meeting{margin-top:0}.producer-grid h2{font-size:clamp(39px,4vw,58px)}.producer-grid .contract-note{font-size:12px;color:#c8c9b9}.appointment-grid h2{font-size:clamp(37px,3.7vw,56px);line-height:1.08}.advisor-profile{display:grid;grid-template-columns:155px 1fr;gap:24px;align-items:center;margin-top:28px;max-width:560px}.advisor-profile>img{width:155px;height:auto;aspect-ratio:800/775;object-fit:contain;border-radius:12px;border:1px solid #e9d3a766;background:#d8d9d3}.advisor-profile strong{display:block;font:31px var(--serif);color:#f5e6ba;margin-bottom:12px}.advisor-profile span{display:block;font-size:13px;line-height:1.8;color:#d4dedc}.advisor-profile p{font-size:11px;margin:14px 0 0;color:#d6b876}.personal-response{font-size:11px;color:#7c632b;margin:15px 0 10px}.proposal-section{padding:55px 0;background:#e8eee8;border-bottom:1px solid #d2dccf}.proposal-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}.proposal-grid h2{font-size:45px}.proposal-grid>div>p:not(.eyebrow){font-size:13px;color:#617168;max-width:520px}.proposal-grid form{background:#fffdf7;border:1px solid #c8ccb8;border-radius:12px;padding:30px}.proposal-grid form input{width:100%}.proposal-grid form .button{width:100%;margin-top:10px}.proposal-grid .form-note{font-size:10px;line-height:1.7}.footer-bottom{flex-wrap:wrap}.hero-copy{max-width:490px}@media(max-width:780px){.hero h1{font-size:clamp(40px,9vw,56px);max-width:540px}.hero-legal{font-size:9px;max-width:310px;margin-top:16px}.hero{min-height:820px}.retirement-explainer{padding:40px 0}.explain-grid{grid-template-columns:1fr;gap:18px}.explain-grid article{padding:27px}.explain-grid h3{font-size:34px}.advisor-profile{grid-template-columns:110px 1fr;gap:17px}.advisor-profile>img{width:110px}.advisor-profile strong{font-size:27px}.advisor-profile span{font-size:11px}.advisor-profile p{font-size:10px}.appointment-grid h2{font-size:42px}.proposal-grid{grid-template-columns:1fr;gap:25px}.proposal-grid h2{font-size:39px}.proposal-grid form{padding:24px}.proposal-grid .form-row{grid-template-columns:1fr}.service-card h3{font-size:33px}.hero .actions{flex-wrap:wrap}.section-meeting{margin-top:25px}}
+
+.medical-coverage {
+  padding-block: clamp(42px, 5vw, 84px);
+  background: var(--cream);
+}
+.medical-coverage-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  margin-bottom: 28px;
+}
+.medical-coverage h2 {
+  font-size: clamp(38px, 4vw, 64px);
+  margin: 0 0 14px;
+}
+.medical-coverage-intro p {
+  max-width: 54ch;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.medical-coverage-intro img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2.25;
+  object-fit: cover;
+  object-position: center 44%;
+  border-radius: 12px;
+}
+.medical-coverage article h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+.medical-coverage ul {
+  margin: 0 0 24px;
+  padding-left: 1.2em;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.medical-coverage li + li {
+  margin-top: 8px;
+}
+.medical-coverage > .wrap > .fine-print {
+  margin-top: 18px;
+}
+@media (781px <= width <= 1100px) {
+  .site-header #main-nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px 16px;
+  }
+  .site-header #main-nav > a {
+    white-space: nowrap;
+  }
+}
+@media (max-width: 780px) {
+  .medical-coverage-intro {
+    grid-template-columns: 1fr;
+  }
+  .medical-coverage-intro img {
+    aspect-ratio: 1.8;
+  }
+}
