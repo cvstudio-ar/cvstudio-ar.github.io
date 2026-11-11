@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es-AR">
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oscilogramas | Autosoluciones</title>
+<style>
+:root{font-family:"Instrument Sans",system-ui,sans-serif;color:#17293d;background:#edf2f6;line-height:1.5}
+*{box-sizing:border-box}body{margin:0}header{background:#12243b;color:#fff;padding:30px max(5vw,20px) 34px}.back{display:block;width:fit-content;color:#dce8f2;margin-bottom:16px;text-underline-offset:3px}header strong{color:#96d9ee}h1{font-size:clamp(2.3rem,6vw,4rem);margin:12px 0 0;line-height:1.05}header p{margin-bottom:0;color:#dce8f2}main{max-width:1200px;margin:auto;padding:24px 20px 48px}.search,.card,dialog{background:white;border:1px solid #d5e0e9;border-radius:14px}.search{padding:18px;display:grid;gap:8px}input,select,button{font:inherit}input,select{padding:10px 12px;border:1px solid #8095a8;border-radius:7px;background:white;color:#17293d;min-width:0}button{padding:8px 15px;border:1px solid transparent;border-radius:7px;background:#07557a;color:white;cursor:pointer;font-weight:650}button.secondary{background:#e8f0f5;color:#183954}button:disabled{opacity:.45;cursor:default}label{font-weight:700}.filters,.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.filters select{flex:1}.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,245px),1fr));gap:14px}.card{text-align:left;display:grid;padding:0;overflow:hidden;color:#17293d;font-weight:400}.card:hover{border-color:#07557a}.card img,.placeholder{display:block;width:100%;height:135px;object-fit:contain;background:#f4f7f9}.placeholder{display:grid;place-items:center;color:#42617a}.card span.details{padding:12px;display:grid;gap:3px}.card strong{font-size:1.06rem}.muted,small{color:#486076}dialog{width:min(900px,calc(100% - 24px));max-height:92vh;padding:18px}dialog::backdrop{background:#132335bb}.actions{justify-content:flex-end}.preview{overflow:auto;max-height:55vh;background:#f1f4f7;border-radius:8px;text-align:center}.preview img{display:block;margin:auto;max-width:none}.sheet h2{margin-bottom:0}.sheet p{margin:6px 0 14px}.paging{margin-top:16px}.status{margin:16px 0}.empty{display:none}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #369bd5;outline-offset:2px}
+@page{size:A4 landscape;margin:12mm}@media print{body{background:white}body>header,body>main,dialog .actions{display:none!important}dialog[open]{display:block;position:static;width:auto;max-width:none;max-height:none;border:0;padding:0;margin:0}dialog::backdrop{display:none}.preview{max-height:none;overflow:visible;background:white}.preview img{width:auto!important;max-width:100%;max-height:145mm;object-fit:contain}.sheet{break-inside:avoid}}
+</style>
+<header><a class="back" href="../">← Herramientas del taller</a><strong>AUTOSOLUCIONES</strong><h1>Oscilogramas</h1><p>Buscá, abrí e imprimí una ficha desde el navegador.</p></header>
+<main>
+<section class="search" aria-label="Buscar en el catálogo">
+<label for="query">Buscar oscilogramas</label>
+<input type="search" id="query" placeholder="Escribí una marca, modelo, señal o código">
+<div class="filters"><select id="group" aria-label="Filtrar por marca o muestras"><option value="">Todas las marcas y muestras</option></select><button class="secondary" id="clear">Limpiar búsqueda</button></div>
+<small id="notice"></small>
+</section>
+<p class="status" id="status" role="status"></p>
+<section class="results" id="results" aria-label="Resultados"></section>
+<div class="paging actions"><button class="secondary" id="prev">Anterior</button><span id="page-label"></span><button class="secondary" id="next">Siguiente</button></div>
+</main>
+<dialog id="detail" aria-labelledby="title">
+<div class="actions"><button class="secondary" id="zoom">Ampliar</button><button id="print">Imprimir ficha</button><button class="secondary" id="close">Cerrar</button></div>
+<article class="sheet"><h2 id="title"></h2><p id="meta" class="muted"></p><div class="preview" id="preview"><img id="image" alt="Oscilograma"></div><p id="unavailable" hidden>Esta ficha todavía no tiene una imagen vinculada.</p></article>
+</dialog>
+<script type="module">
+const byId = id => document.getElementById(id);
+async function loadCatalog() {
+  const response = await fetch("./catalogo.json.gz");
+  if (!response.ok || !response.body) throw new Error("Catálogo no disponible");
+  const stream = response.body.pipeThrough(new DecompressionStream("gzip"));
+  return new Response(stream).json();
+}
+let catalog;
+try {
+  catalog = await loadCatalog();
+} catch {
+  byId("status").textContent = "No se pudo cargar el catálogo. Recargá la página en Chrome o Edge.";
+  throw new Error("No se pudo cargar el catálogo");
+}
+const {entries, notice} = catalog;
+const normalize = value => value.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+const indexed = entries.map(entry => ({...entry, search: normalize([entry.title, entry.meta, entry.group, entry.code].join(" "))}));
+const pageSize = 24;
+let page = 0;
+for (const group of [...new Set(indexed.map(entry => entry.group))].sort()) {
+  byId("group").append(new Option(group, group));
+}
+byId("notice").textContent = notice;
+function show(entry) {
+  const image = byId("image");
+  image.style.width = "100%";
+  if (entry.image) image.src = entry.image;
+  else image.removeAttribute("src");
+  byId("title").textContent = entry.title;
+  byId("meta").textContent = entry.meta || entry.code;
+  byId("preview").hidden = !entry.image;
+  byId("unavailable").hidden = !!entry.image;
+  byId("print").disabled = !entry.image;
+  byId("zoom").disabled = !entry.image;
+  byId("zoom").textContent = "Ampliar";
+  byId("detail").showModal();
+}
+function render() {
+  const terms = normalize(byId("query").value).trim().split(/\s+/).filter(Boolean);
+  const group = byId("group").value;
+  const matches = indexed.filter(entry => (!group || entry.group === group) && terms.every(term => entry.search.includes(term)));
+  const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
+  page = Math.min(page, pageCount - 1);
+  byId("status").textContent = matches.length ? `${matches.length} resultados` : "No hay coincidencias. Probá con otro término.";
+  byId("page-label").textContent = `Página ${page + 1} de ${pageCount}`;
+  byId("prev").disabled = page === 0;
+  byId("next").disabled = page + 1 >= pageCount;
+  const results = byId("results");
+  results.replaceChildren();
+  for (const entry of matches.slice(page * pageSize, (page + 1) * pageSize)) {
+    const card = document.createElement("button");
+    card.className = "card";
+    const thumbnail = document.createElement(entry.image ? "img" : "span");
+    if (entry.image) {
+      thumbnail.src = entry.image;
+      thumbnail.loading = "lazy";
+      thumbnail.alt = "";
+    } else {
+      thumbnail.className = "placeholder";
+      thumbnail.textContent = "Imagen por vincular";
+    }
+    const details = document.createElement("span");
+    details.className = "details";
+    const title = document.createElement("strong");
+    title.textContent = entry.title;
+    const info = document.createElement("small");
+    info.textContent = entry.meta || entry.group;
+    details.append(title, info);
+    card.append(thumbnail, details);
+    card.addEventListener("click", () => show(entry));
+    results.append(card);
+  }
+}
+function resetPage() { page = 0; render(); }
+byId("query").addEventListener("input", resetPage);
+byId("group").addEventListener("change", resetPage);
+byId("clear").onclick = () => { byId("query").value = ""; byId("group").value = ""; resetPage(); byId("query").focus(); };
+byId("prev").onclick = () => { page--; render(); };
+byId("next").onclick = () => { page++; render(); };
+byId("close").onclick = () => byId("detail").close();
+byId("print").onclick = () => window.print();
+byId("zoom").onclick = () => {
+  const image = byId("image");
+  const expanded = image.style.width === "160%";
+  image.style.width = expanded ? "100%" : "160%";
+  byId("zoom").textContent = expanded ? "Ampliar" : "Reducir";
+};
+render();
+</script>
+</html>
