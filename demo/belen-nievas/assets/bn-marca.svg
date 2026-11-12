@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <title>Monograma BN</title>
+  <rect x="2" y="2" width="76" height="76" rx="22" fill="#fff6e8" stroke="#d4a27a" stroke-width="2"/>
+  <path d="M17 59V26h12c7 0 11 4 11 9 0 4-3 7-7 8 6 1 9 4 9 8 0 5-4 8-12 8H17Zm0-16h12M47 59V36l17 23V36" fill="none" stroke="#30432c" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M52 29c1-8 5-13 12-14-1 7-6 12-12 14Z" fill="#b14d29"/>
+  <path d="M52 29c-6-1-9-5-9-11 5 1 9 5 9 11Z" fill="#6a7851"/>
+</svg>

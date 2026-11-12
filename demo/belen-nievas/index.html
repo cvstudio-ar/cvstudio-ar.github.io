@@ -6,17 +6,17 @@
 <meta name="robots" content="noindex">
 <meta name="description" content="Consultas de nutrición clínica, bioimpedancia y seguimiento nutricional con la Lic. María Belén Nievas.">
 <title>Lic. M. Belén Nievas | Nutrición</title>
-<link rel="icon" href="assets/marca.svg" type="image/svg+xml">
+<link rel="icon" href="assets/bn-marca.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap">
-<link rel="stylesheet" href="style.css">
-<script defer src="config.js"></script>
-<script defer src="site.js"></script>
+<link rel="stylesheet" href="style-v3.css">
+<script defer src="config-v3.js"></script>
+<script defer src="site-v3.js"></script>
 </head>
 <body>
 <a class="skip" href="#contenido">Ir al contenido</a>
 <header class="top">
   <div class="wrap header-inner">
-    <a class="brand" href="./"><img src="assets/marca.svg" alt="" width="46" height="46"><span>M. Belén Nievas<small>Nutricionista · MN 5422 · MP 2467</small></span></a>
+    <a class="brand" href="./"><img src="assets/bn-marca.svg" alt="" width="46" height="46"><span>M. Belén Nievas<small>Nutricionista · MN 5422 · MP 2467</small></span></a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="nav" hidden>Menú</button>
     <nav id="nav" aria-label="Navegación principal">
       <a href="#sobre-belen">Sobre Belén</a><a href="#servicios">Servicios</a><a href="#bioimpedancia">Bioimpedancia</a><a href="#turnos">Turnos</a>
@@ -27,34 +27,34 @@
   <section class="hero" aria-labelledby="titulo">
     <div class="hero-copy">
       <p class="eyebrow">Nutrición clínica</p>
-      <h1 id="titulo">Nutrición a<br><em>tu medida</em></h1>
-      <p>Consultas nutricionales y evaluación de la composición corporal, con un plan adaptado a tu salud y tu rutina.</p>
+      <h1 id="titulo"><span data-copy="heroTitle">Nutrición a</span><br><em data-copy="heroAccent">tu medida</em></h1>
+      <p data-copy="heroText">Consultas nutricionales y evaluación de la composición corporal, con un plan adaptado a tu salud y tu rutina.</p>
       <a class="button" data-wa href="https://wa.me/5491153426093">Solicitar turno por WhatsApp <span aria-hidden="true">↗</span></a>
       <p class="location" data-locations>Tigre · San Fernando · Pacheco</p>
     </div>
-    <img class="hero-photo" src="assets/portada.webp" alt="Bowl con verduras, garbanzos y palta sobre una mesa con un cuaderno" fetchpriority="high" width="634" height="498">
+    <img data-cover class="hero-photo" src="assets/portada.webp" alt="Bowl con verduras, garbanzos y palta sobre una mesa con un cuaderno" fetchpriority="high" width="634" height="498">
   </section>
   <section class="wrap section services" id="servicios">
-    <p class="eyebrow">Servicios</p><h2>Cómo podemos trabajar</h2>
+    <p class="eyebrow">Servicios</p><h2 data-copy="servicesTitle">Cómo podemos trabajar</h2>
     <div class="cards">
-      <article><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h16v19H8zM12 7V4h8v3M12 13h8m-8 5h8m-8 5h5"/></svg></span><h3>Consulta nutricional</h3><p>Revisamos tus hábitos, tus horarios y tus objetivos. A partir de la consulta preparo un plan alimentario adaptado a tu día a día.</p></article>
-      <article><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="24" height="22" rx="5"/><path d="M10 15a6 6 0 0 1 12 0m-6 0 3-4M10 22h12"/></svg></span><h3>Bioimpedancia</h3><p>Evaluación de la composición corporal con un informe que recibís por WhatsApp en el momento.</p><a href="#bioimpedancia">Ver el informe de ejemplo →</a></article>
-      <article><span class="icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="24" height="21" rx="4"/><path d="M4 13h24M10 4v6m12-6v6m-11 11 4 4 7-8"/></svg></span><h3>Seguimiento nutricional</h3><p>En los controles revisamos cómo te fue con el plan, qué pudiste incorporar y qué ajustes necesitás para seguir.</p></article>
+      <article><img class="service-photo" src="assets/servicio-1.webp" alt="" width="480" height="310" loading="lazy"><h3 data-copy="card1Title">Consulta nutricional</h3><p data-copy="card1Text">Revisamos tus hábitos, tus horarios y tus objetivos. A partir de la consulta preparo un plan alimentario adaptado a tu día a día.</p></article>
+      <article><img class="service-photo" src="assets/servicio-2.webp" alt="" width="480" height="310" loading="lazy"><h3 data-copy="card2Title">Bioimpedancia</h3><p data-copy="card2Text">Evaluación de la composición corporal con un informe que recibís por WhatsApp en el momento.</p><a href="#bioimpedancia">Ver el informe de ejemplo →</a></article>
+      <article><img class="service-photo" src="assets/servicio-3.webp" alt="" width="480" height="310" loading="lazy"><h3 data-copy="card3Title">Seguimiento nutricional</h3><p data-copy="card3Text">En los controles revisamos cómo te fue con el plan, qué pudiste incorporar y qué ajustes necesitás para seguir.</p></article>
     </div>
   </section>
   <section class="about" id="sobre-belen">
     <div class="wrap section split">
       <img class="portrait" src="assets/belen.webp" alt="Retrato de la nutricionista María Belén Nievas" width="880" height="1100" loading="lazy">
-      <div><p class="eyebrow">Sobre Belén</p><h2>María Belén Nievas</h2><p class="matricula">Lic. en Nutrición · MN 5422 · MP 2467</p>
-      <p>Trabajo en nutrición clínica y atiendo en centros médicos de Zona Norte. En consulta busco que las recomendaciones se adapten a tus necesidades, tus horarios y tu manera de comer.</p>
+      <div><p class="eyebrow">Sobre Belén</p><h2 data-copy="aboutTitle">María Belén Nievas</h2><p class="matricula">Lic. en Nutrición · MN 5422 · MP 2467</p>
+      <p data-copy="aboutText">Trabajo en nutrición clínica y atiendo en centros médicos de Zona Norte. En consulta busco que las recomendaciones se adapten a tus necesidades, tus horarios y tu manera de comer.</p>
       <h3>Áreas de atención</h3><ul class="tags"><li>Diabetes</li><li>Hipertensión</li><li>Dislipidemia</li><li>Patologías digestivas y SIBO</li><li>Obesidad y bajo peso</li></ul></div>
     </div>
   </section>
   <section class="wrap section split bio" id="bioimpedancia">
-    <div><p class="eyebrow">Bioimpedancia</p><h2>Conocé tu composición corporal</h2><p>El informe reúne estimaciones de masa muscular, grasa corporal y agua corporal. Lo recibís por WhatsApp en el momento de la evaluación.</p><a class="button outline" href="informe.html">Ver ejemplo de informe <span aria-hidden="true">↗</span></a></div>
+    <div><p class="eyebrow">Bioimpedancia</p><h2 data-copy="bioTitle">Conocé tu composición corporal</h2><p data-copy="bioText">El informe reúne estimaciones de masa muscular, grasa corporal y agua corporal. Lo recibís por WhatsApp en el momento de la evaluación.</p><a class="button outline" href="informe.html">Ver ejemplo de informe <span aria-hidden="true">↗</span></a></div>
     <div class="report-card"><p class="eyebrow">Ejemplo ilustrativo</p><h3>Informe de composición corporal</h3><ul><li>Masa muscular</li><li>Grasa corporal</li><li>Agua corporal</li></ul></div>
   </section>
-  <section class="contact" id="turnos"><div class="wrap section"><p class="eyebrow">Turnos</p><h2>Coordiná tu consulta</h2><p>Escribime para consultar la sede y los horarios disponibles.</p><p data-locations>Tigre · San Fernando · Pacheco</p><a class="button" data-wa href="https://wa.me/5491153426093">Solicitar turno por WhatsApp <span aria-hidden="true">↗</span></a></div></section>
+  <section class="contact" id="turnos"><div class="wrap section"><p class="eyebrow">Turnos</p><h2 data-copy="contactTitle">Coordiná tu consulta</h2><p data-copy="contactText">Escribime para consultar la sede y los horarios disponibles.</p><p data-locations>Tigre · San Fernando · Pacheco</p><a class="button" data-wa href="https://wa.me/5491153426093">Solicitar turno por WhatsApp <span aria-hidden="true">↗</span></a></div></section>
 </main>
 <footer class="wrap footer">
   <span>M. Belén Nievas · Nutricionista</span>
