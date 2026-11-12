@@ -388,6 +388,10 @@ body[data-grilli-theme="coral"]{--pink:#ff6f83;--pink2:#ffacbb}
 body[data-grilli-theme="coral"] .btn{background:linear-gradient(110deg,#ed5570,#ffa0a8)}
 body[data-grilli-theme="coral"] .announcement{background:#ee597b}
 body[data-grilli-theme="coral"] .cats{background:linear-gradient(180deg,transparent,#59252f 30%,#b9526f)}
+
+/* Las redes sin URL no deben mostrarse ni ocupar lugar en el pie */
+.footer a[hidden],.footer span[hidden]{display:none!important}
+.footer .wrap>span:not([hidden])~span:not([hidden])::before{content:"·";margin-right:9px;color:#e98bb9}
 </style></head><body>
 <div class="site">
 <div class="announcement">🐾 ¡Todo para tus mejores amigos! • Pet Shop Grilli en Guernica</div>
@@ -460,9 +464,16 @@ function applySiteSettings(){
   const hero=document.querySelector('.hero');
   hero.style.setProperty('--hero-photo','url("'+photo.replace(/["\\]/g,'')+'")');
   document.body.dataset.grilliTheme=['pink','violet','coral'].includes(d.theme)?d.theme:'pink';
-  for(const [id,value] of [['instagramLink',d.instagram||'https://www.instagram.com/petshop_grilli/'],['facebookLink',d.facebook],['tiktokLink',d.tiktok]]){
-    const a=document.getElementById(id);if(a){const url=safeSocial(value);a.hidden=!url;if(url)a.href=url;}
+  for(const [id,value] of [['instagramLink',d.instagram===undefined?'https://www.instagram.com/petshop_grilli/':d.instagram],['facebookLink',d.facebook],['tiktokLink',d.tiktok]]){
+    const a=document.getElementById(id);
+    if(!a)continue;
+    const url=safeSocial(value);
+    a.hidden=!url;
+    if(url)a.href=url;else a.removeAttribute('href');
   }
+  const socialLinks=[...document.querySelectorAll('#instagramLink,#facebookLink,#tiktokLink')];
+  const group=document.getElementById('instagramLink')?.parentElement;
+  if(group)group.hidden=!socialLinks.some(link=>!link.hidden);
 }
 function openProduct(index){
   const p=d.products[index];if(!p)return;
