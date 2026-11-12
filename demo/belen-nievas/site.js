@@ -3,9 +3,20 @@ const message = 'Hola, Belén. Vi tu web y quisiera consultar disponibilidad par
 document.querySelectorAll('[data-wa]').forEach(link => {
   link.href = 'https://wa.me/' + settings.whatsapp + '?text=' + encodeURIComponent(message);
 });
-document.querySelectorAll('[data-facebook]').forEach(link => {
-  const url = new URL(settings.facebook, location.href);
-  if (url.protocol === 'https:') link.href = url.href;
+document.querySelectorAll('[data-social]').forEach(link => {
+  const key = link.dataset.social;
+  try {
+    const url = new URL(settings[key]);
+    if (url.protocol !== 'https:') return;
+    if (key === 'otherUrl') {
+      if (!settings.otherLabel.trim()) return;
+      link.textContent = settings.otherLabel;
+    }
+    link.href = url.href;
+    link.hidden = false;
+  } catch {
+    // Empty optional profiles stay hidden.
+  }
 });
 document.querySelectorAll('[data-locations]').forEach(label => {
   label.textContent = settings.locations;

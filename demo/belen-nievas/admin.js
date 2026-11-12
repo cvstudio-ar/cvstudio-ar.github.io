@@ -1,15 +1,21 @@
-const form = document.querySelector('form');
+const form = document.querySelector('#settings-form');
 const status = document.querySelector('#status');
 for (const [name, value] of Object.entries(window.belenSettings)) {
   const field = form.elements.namedItem(name);
   if (field) field.value = value;
 }
 function readSettings() {
-  const facebook = form.elements.facebook;
-  facebook.setCustomValidity(facebook.value.startsWith('https://') ? '' : 'Ingresá una dirección que empiece con https://.');
+  form.querySelectorAll('input[type=url]').forEach(field => {
+    field.setCustomValidity(!field.value || field.value.startsWith('https://') ? '' : 'Ingresá una dirección que empiece con https://.');
+  });
+  const other = form.elements.otherLabel;
+  other.setCustomValidity(form.elements.otherUrl.value && !other.value.trim() ? 'Ingresá un nombre para este enlace.' : '');
   return form.reportValidity() ? Object.fromEntries(new FormData(form)) : null;
 }
-form.elements.facebook.addEventListener('input', event => event.target.setCustomValidity(''));
+form.addEventListener('input', event => {
+  event.target.setCustomValidity('');
+  form.elements.otherLabel.setCustomValidity('');
+});
 form.addEventListener('submit', event => {
   event.preventDefault();
   const settings = readSettings();

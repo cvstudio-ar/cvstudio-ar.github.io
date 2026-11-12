@@ -1,12 +1,27 @@
 <!doctype html>
 <html lang="es-AR">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Administración de muestra | M. Belén Nievas</title><link rel="stylesheet" href="style.css"><script defer src="config.js"></script><script defer src="admin.js"></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Administración de muestra | M. Belén Nievas</title><link rel="stylesheet" href="style.css"><script defer src="config.js"></script><script defer src="admin.js"></script><script defer src="acceso.js"></script></head>
 <body><main class="wrap section inner"><a href="./">← Volver a la web</a>
+<section id="login" class="admin-login">
+<h2>Administración</h2><p>Ingresá para editar la vista previa.</p>
+<form id="login-form" class="admin-form">
+<label>Usuario<input name="username" autocomplete="username" required></label>
+<label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label>
+<div><button type="submit" class="button">Ingresar</button></div>
+</form><p id="login-status" role="status"></p></section>
+<section id="admin-content" hidden>
 <h2>Administración de muestra</h2><p>Probá los cambios en este navegador y descargá la configuración para la entrega. La versión pública se actualiza desde el proyecto.</p>
-<form class="admin-form">
+<form id="settings-form" class="admin-form">
 <label>WhatsApp con código de país<input name="whatsapp" required inputmode="tel" pattern="[0-9]{10,15}" maxlength="15"></label>
+<fieldset class="social-fields"><legend>Redes sociales</legend>
 <label>Facebook<input name="facebook" type="url" required></label>
+<label>Instagram<input name="instagram" type="url"></label>
+<label>TikTok<input name="tiktok" type="url"></label>
+<label>YouTube<input name="youtube" type="url"></label>
+<label>Nombre de otra red<input name="otherLabel" maxlength="32"></label>
+<label>Enlace de otra red<input name="otherUrl" type="url"></label>
+</fieldset>
 <label>Zonas de atención<input name="locations" required maxlength="120"></label>
 <div class="actions"><button class="button">Guardar vista previa</button><button class="button outline" type="button" id="export">Descargar configuración</button></div>
 <p role="status" id="status"></p>
-</form></main></body></html>
+</form><button id="logout" type="button" class="button outline">Cerrar sesión</button></section></main></body></html>
