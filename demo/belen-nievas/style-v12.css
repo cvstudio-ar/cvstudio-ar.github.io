@@ -232,7 +232,6 @@ th,td{text-align:left;padding:.7rem;border-bottom:1px solid var(--line)}
     margin-top: .4rem;
     text-align: right;
   }
-  .top .brand-logo { mix-blend-mode: normal; }
 }
 
 .top .brand {
@@ -247,7 +246,6 @@ th,td{text-align:left;padding:.7rem;border-bottom:1px solid var(--line)}
   position: relative;
   overflow: hidden;
   aspect-ratio: 1250 / 260;
-  mix-blend-mode: multiply;
 }
 .top .brand-logo img {
   position: absolute;
