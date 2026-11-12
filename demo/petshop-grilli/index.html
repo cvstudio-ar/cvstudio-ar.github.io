@@ -5,11 +5,56 @@
 #admin-screen{display:none;min-height:100vh;background:#f5f4f7;color:#201a23}body.adminmode .site{display:none}body.adminmode #admin-screen{display:block}.adminhead{background:#18141d;color:white;padding:20px}.adminhead .wrap{display:flex;justify-content:space-between;align-items:center}.adminbox{max-width:430px;margin:85px auto;background:white;padding:35px;border-radius:23px;box-shadow:0 20px 65px #2d173222}.adminbox h2{font-size:30px}.field{display:block;font-weight:700;margin:15px 0}.field input,.field textarea{width:100%;padding:13px 14px;border:1px solid #ccc6ce;border-radius:12px;margin-top:7px;background:white;color:#242024}.field textarea{min-height:90px}.adminpanel{max-width:1100px;margin:36px auto;padding:0 20px}.adminpanel h2{color:#1f1b21}.tabs{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}.tabs button{border:1px solid #e0d6e0;border-radius:50px;background:white;padding:10px 16px}.tabs button.active{background:#ff2d93;color:white}.panel{background:white;border-radius:18px;padding:26px;box-shadow:0 2px 16px #2d173211}.rowedit{display:grid;grid-template-columns:1fr 1fr;gap:12px}.error{color:#bb184e;font-size:13px}.hint{color:#756d7a;font-size:13px}.itemedit{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:15px 0;border-bottom:1px solid #eee}.itemedit input{max-width:130px;width:100%;border:1px solid #ccc;border-radius:8px;padding:8px}.small{padding:8px 15px;border:0;background:#ff3b99;color:white;border-radius:10px}.secondary{background:#e8e3ea;color:#27212c}
 @media(max-width:850px){.links{display:none}.menu{display:block;background:transparent;color:white;border:0;font-size:24px}.links.open{display:flex;position:absolute;top:76px;left:0;right:0;flex-direction:column;background:#16141c;padding:23px}.navrow>.btn{display:none}.hero .wrap{flex-direction:column;text-align:center;min-height:auto}.copy{padding:45px 0 0}.checks{text-align:left}.pets{min-width:0;width:100%;height:320px}.pets .dog{height:95%}.pets .cat{height:78%}.catgrid{grid-template-columns:repeat(3,1fr)}.products,.svcgrid{grid-template-columns:repeat(2,1fr)}.about,.contactgrid{grid-template-columns:1fr}.footer .wrap{flex-direction:column;text-align:center}}
 @media(max-width:520px){.announcement{font-size:11px}.copy h1{font-size:44px}.products,.svcgrid{grid-template-columns:1fr 1fr;gap:10px}.productart{height:120px;font-size:55px}.productbody{padding:12px}.product h3{font-size:15px}.product .bottom{flex-direction:column;align-items:start}.catbox{font-size:12px;padding:13px 5px}.catbox b{font-size:26px}.section{padding:46px 0}.pets{height:280px}.rowedit{grid-template-columns:1fr}}
+
+/* Ajuste visual de fidelidad a la propuesta aprobada */
+body{background:#100e15}
+.announcement{background:#ec2888}
+.nav{background:#101015;box-shadow:0 3px 15px #0008}
+.navrow{min-height:80px}.logo .paw{color:#ff4fa2}
+.hero{min-height:580px;background:linear-gradient(90deg,rgba(10,9,13,.97) 0%,rgba(18,11,17,.88) 35%,rgba(18,10,15,.3) 75%,rgba(12,8,12,.72) 100%),url('https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=1600&q=80') center/cover}
+.hero:before{background:radial-gradient(circle at 73% 85%,#ff4baa64,transparent 46%)}
+.hero .wrap{min-height:580px}
+.copy{width:48%;max-width:535px;padding:55px 0 95px}
+.copy h1{font-size:clamp(52px,5.2vw,73px);line-height:1.05;letter-spacing:-2px;text-shadow:0 4px 20px #0007}
+.copy h1 span{color:#ff66b0}
+.copy p{max-width:410px;color:#f0e4ec}
+.copy .checks{max-width:410px;font-size:16px}
+.pets{height:540px;align-self:flex-end;min-width:490px;overflow:visible}
+.pets img{border-radius:0;object-fit:cover;box-shadow:none;position:absolute;mask-image:radial-gradient(ellipse 68% 80% at 50% 52%,#000 46%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse 68% 80% at 50% 52%,#000 46%,transparent 100%);filter:contrast(1.04) saturate(1.1)}
+.pets .dog{width:72%;height:92%;left:0;bottom:0;z-index:2;object-position:center 38%}
+.pets .cat{width:56%;height:76%;right:-4%;bottom:0;z-index:3;object-position:center 48%}
+.cats{position:relative;z-index:2;margin-top:-55px;padding:18px 0 38px;background:linear-gradient(180deg,transparent,#e74695 90%)}
+.catgrid{gap:13px}
+.catbox{background:linear-gradient(#fff,#fff0f8);border:1px solid #fff8;box-shadow:0 11px 20px #2f112d56;border-radius:16px;min-height:140px}
+.catbox b{font-size:44px;line-height:1.2}
+.catbox:hover{transform:translateY(-5px);transition:transform .2s}
+.section#productos{background:#100e14}
+.section#productos h2,.section#servicios h2{letter-spacing:-1px}
+.products{gap:16px}
+.product{background:#1d1922;border-radius:15px;border:1px solid #44313e;box-shadow:0 12px 28px #0004}
+.productart{height:190px;border-bottom:3px solid #e84091}
+.productbody{background:#17151b}
+.services{background:#101014}
+.svc{background:#1b1920;border:1px solid #5c4a57;min-height:175px}
+.svc b{color:#ff59a7}
+.aboutpic{background:linear-gradient(130deg,#35111e,#fc54a5)}
+.footer{border-top:1px solid #fa398d}
+@media(max-width:850px){
+.hero{min-height:0;background:linear-gradient(180deg,#131017,#421a30)}
+.hero .wrap{min-height:0;gap:0}
+.copy{width:100%;padding:38px 0 0}
+.copy h1{font-size:clamp(42px,9vw,65px)}
+.pets{min-width:0;height:340px;align-self:center;max-width:550px}
+.pets .dog{width:68%;height:100%;left:3%}.pets .cat{width:55%;height:83%;right:0}
+.cats{margin-top:0;padding:24px 0;background:linear-gradient(180deg,#ab2962,#e84698)}
+.catbox{min-height:112px}
+}
+@media(max-width:520px){.copy .checks{font-size:13px}.pets{height:275px}.catbox{min-height:92px}.catbox b{font-size:30px}.catgrid{gap:9px}}
 </style></head><body>
 <div class="site">
 <div class="announcement">🐾 ¡Todo para tus mejores amigos! • Pet Shop Grilli en Guernica</div>
 <header class="nav"><div class="wrap navrow"><a class="logo" href="#inicio"><span class="paw">🐾</span><span><em>Pet Shop</em><strong>GRILLI</strong></span></a><nav class="links" id="links"><a href="#inicio">Inicio</a><a href="#productos">Productos</a><a href="#servicios">Servicios</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></nav><a class="btn" data-wa target="_blank" rel="noopener">Consultá por WhatsApp ↗</a><button class="menu" onclick="document.getElementById('links').classList.toggle('open')">☰</button></div></header>
-<main><section class="hero" id="inicio"><div class="wrap"><div class="copy"><div class="eyebrow">BIENVENIDOS A PET SHOP GRILLI</div><h1 id="heading">Todo para<br><span>tu mascota 🐾</span></h1><p id="subtitle">Productos, accesorios y mucho amor para los que llenan de alegría tu hogar.</p><div class="checks"><span>Alimentos</span><span>Accesorios</span><span>Salud y cuidado</span><span>Higiene</span></div><a class="btn" href="#productos">Ver productos →</a></div><div class="pets"><img class="dog" src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=850&q=85" alt="Perro golden retriever"><img class="cat" src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=550&q=85" alt="Gato"></div></div></section>
+<main><section class="hero" id="inicio"><div class="wrap"><div class="copy"><div class="eyebrow">PET SHOP GRILLI · GUERNICA</div><h1 id="heading">Todo para<br><span>tu mascota 🐾</span></h1><p id="subtitle">Productos, accesorios y mucho amor para los que llenan de alegría tu hogar.</p><div class="checks"><span>Alimentos</span><span>Accesorios</span><span>Salud y cuidado</span><span>Higiene</span></div><a class="btn" href="#productos">Ver productos →</a></div><div class="pets"><img class="dog" src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=1100&q=90" alt="Perro golden retriever"><img class="cat" src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=900&q=90" alt="Gato"></div></div></section>
 <section class="cats"><div class="wrap catgrid" id="cats"></div></section>
 <section class="section" id="productos"><div class="wrap"><h2>🐾 Productos <em>destacados</em></h2><p class="muted">Encontrá todo lo que necesitás para consentirlos.</p><div class="products" id="products"></div></div></section>
 <section class="section services" id="servicios"><div class="wrap"><h2>✨ Nuestros <em>servicios</em></h2><div class="svcgrid" id="services"></div></div></section>
