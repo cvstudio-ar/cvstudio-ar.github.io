@@ -477,9 +477,23 @@ function openProduct(index){
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-product-id]');if(b)openProduct(Number(b.dataset.productId));});
 document.getElementById('product-dialog').addEventListener('click',e=>{if(e.target.id==='product-dialog')e.target.close()});
-document.querySelector('.catalog-toolbar').addEventListener('input',e=>{if(e.target.id==='filter-search'){catalogFilter.search=e.target.value;render()}});
-document.querySelector('.catalog-toolbar').addEventListener('change',e=>{if(e.target.id==='filter-category')catalogFilter.category=e.target.value;if(e.target.id==='filter-sort')catalogFilter.sort=e.target.value;render()});
-document.getElementById('filter-clear').onclick=()=>{catalogFilter.search='';catalogFilter.category='';catalogFilter.sort='default';document.getElementById('filter-search').value='';document.getElementById('filter-sort').value='default';render()};
+// Eventos delegados: la barra del catálogo se crea más adelante en renderCatalog().
+document.addEventListener('input',e=>{
+  if(e.target.id==='filter-search'){catalogFilter.search=e.target.value;render();}
+});
+document.addEventListener('change',e=>{
+  if(e.target.id==='filter-category')catalogFilter.category=e.target.value;
+  else if(e.target.id==='filter-sort')catalogFilter.sort=e.target.value;
+  else return;
+  render();
+});
+document.addEventListener('click',e=>{
+  if(e.target.id!=='filter-clear')return;
+  catalogFilter.search='';catalogFilter.category='';catalogFilter.sort='default';
+  document.getElementById('filter-search').value='';
+  document.getElementById('filter-sort').value='default';
+  render();
+});
 function editSettings(){
   const text=(label,name,value)=>'<label class="field">'+label+'<input name="'+name+'" value="'+esc(value??'')+'"></label>';
   editor.innerHTML='<h2>Configuración del sitio</h2><p class="hint">Editá la portada, textos, contacto, redes y estilo desde un solo lugar. Los cambios se guardan únicamente en este navegador (modo demo).</p><form id="settings-form">'+
