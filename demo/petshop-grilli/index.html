@@ -50,6 +50,53 @@ body{background:#100e15}
 .catbox{min-height:112px}
 }
 @media(max-width:520px){.copy .checks{font-size:13px}.pets{height:275px}.catbox{min-height:92px}.catbox b{font-size:30px}.catgrid{gap:9px}}
+
+/* CVStudio · distribución de ancho amplio y refinamiento visual */
+:root{--edge:clamp(18px,3.25vw,78px);--line:rgba(255,151,202,.25)}
+html,body{max-width:100%;overflow-x:clip}
+.wrap{width:calc(100% - 2 * var(--edge));max-width:1840px;margin-inline:auto}
+.navrow{gap:clamp(14px,2.3vw,42px)}
+.navrow .links{gap:clamp(14px,2vw,36px)}
+.hero .wrap{gap:clamp(28px,4vw,100px)}
+.copy{width:47%;max-width:720px;flex:0 1 47%;padding-left:clamp(0px,1.3vw,22px);padding-bottom:90px}
+.copy h1{font-size:clamp(54px,5.6vw,103px);letter-spacing:-.055em}
+.copy p{font-size:clamp(16px,1.2vw,21px);max-width:565px}
+.copy .checks{max-width:590px;gap:15px 35px}
+.pets{flex:1;min-width:0;max-width:930px;height:clamp(450px,36vw,665px)}
+.pets .dog{left:4%;height:94%;width:68%}
+.pets .cat{right:-2%;width:54%;height:79%}
+.catgrid{gap:clamp(12px,1.25vw,24px)}
+.catbox{position:relative;isolation:isolate;overflow:hidden;border:1px solid rgba(255,255,255,.85);border-radius:22px;min-height:158px;padding:22px 11px;box-shadow:0 10px 25px #12000e45, inset 0 2px 0 #fff}
+.catbox:after{content:"";position:absolute;inset:1px;pointer-events:none;border-radius:20px;border:1px solid #f7a5cf55}
+.catbox b{font-family:"Segoe UI Emoji","Apple Color Emoji",sans-serif;font-size:clamp(29px,3vw,53px);filter:drop-shadow(0 3px 2px #d3639b30)}
+.catbox:hover{transform:translateY(-6px);box-shadow:0 18px 32px #2400146b,0 0 0 2px #ffb0d5;transition:transform .2s,box-shadow .2s}
+.section{padding-block:clamp(62px,5.5vw,105px)}
+.products{gap:clamp(16px,1.8vw,30px);margin-top:36px}
+.product{position:relative;border:1px solid #78445f88;border-radius:23px;overflow:hidden;background:linear-gradient(150deg,#282029,#17131b);box-shadow:0 12px 26px #0007,0 0 0 1px #ffffff09;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.product:hover{transform:translateY(-7px);border-color:#fd77b8;box-shadow:0 18px 40px #0008,0 0 25px #ed469325}
+.product:after{content:"";position:absolute;inset:1px;pointer-events:none;border-radius:21px;border:1px solid #ffffff12}
+.productart{height:clamp(170px,16vw,280px);background:radial-gradient(circle at 42% 30%,#fff,#ffe5f2 64%,#ffc5e1);font-family:"Segoe UI Emoji","Apple Color Emoji",sans-serif;font-size:clamp(68px,6vw,108px);border-bottom:1px solid #ff80be}
+.productbody{padding:clamp(18px,1.6vw,27px);background:linear-gradient(145deg,#201b23,#131116)}
+.product h3{font-size:clamp(18px,1.4vw,24px)}
+.product p{font-size:15px}
+.product .bottom{padding-top:16px;border-top:1px solid #ffffff16}
+.svcgrid{gap:clamp(16px,1.8vw,28px)}
+.svc{position:relative;border-radius:22px;padding:clamp(22px,2vw,35px);min-height:210px;background:linear-gradient(140deg,#29232d,#14131a);box-shadow:0 12px 28px #0005;border:1px solid #a45a8066;transition:transform .2s,border-color .2s}
+.svc:before{content:"";pointer-events:none;position:absolute;inset:3px;border-radius:18px;border:1px solid #ffffff10}
+.svc:hover{transform:translateY(-5px);border-color:#fc72b6}
+.svc b{font-family:"Segoe UI Emoji","Apple Color Emoji",sans-serif;font-size:47px}
+.svc h3{font-size:clamp(19px,1.4vw,23px)}
+.svc p{max-width:320px;font-size:15px}
+.about{gap:clamp(40px,5vw,100px)}
+.aboutpic{height:clamp(320px,28vw,485px);border:1px solid #ff9ac7a6;box-shadow:0 25px 55px #0005;border-radius:28px}
+.about p{font-size:clamp(16px,1.15vw,19px)}
+.contactgrid{gap:clamp(24px,2.8vw,55px)}
+.contactinfo,.map{border:1px solid #ff93c044;box-shadow:0 17px 38px #0004}
+.footer .wrap{min-height:50px}
+@media(min-width:1900px){.copy h1{font-size:110px}.hero .wrap{min-height:710px}.pets{height:710px}}
+@media(max-width:1100px){.copy h1{font-size:clamp(45px,5.6vw,70px)}.pets{height:470px}.copy{padding-bottom:70px}.catbox{min-height:135px}.products{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:850px){.wrap{width:calc(100% - 36px)}.hero .wrap{gap:0}.copy{width:100%;max-width:none;flex:auto;padding:44px 0 15px}.copy h1{font-size:clamp(45px,8vw,67px)}.copy p{margin-inline:auto}.pets{height:350px;max-width:590px}.products,.svcgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.catgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.catbox{min-height:115px}}
+@media(max-width:520px){.wrap{width:calc(100% - 28px)}.navrow{min-height:70px}.copy{padding:34px 0 10px}.copy h1{font-size:clamp(40px,11vw,56px)}.copy p{font-size:15px}.copy .checks{gap:9px;font-size:13px}.pets{height:280px}.catgrid{gap:9px}.catbox{border-radius:15px;min-height:105px;padding:15px 7px}.catbox:after{border-radius:13px}.catbox b{font-size:29px}.products,.svcgrid{gap:12px}.product{border-radius:17px}.productart{height:134px;font-size:61px}.productbody{padding:14px}.product h3{font-size:16px}.product p{font-size:13px}.svc{padding:17px;min-height:185px;border-radius:17px}.svc b{font-size:33px}.svc h3{font-size:16px}.svc p{font-size:12px}.section{padding-block:52px}}
 </style></head><body>
 <div class="site">
 <div class="announcement">🐾 ¡Todo para tus mejores amigos! • Pet Shop Grilli en Guernica</div>
