@@ -337,6 +337,57 @@ html,body{max-width:100%;overflow-x:clip}
   .hero .copy h1 { font-size: 35px; }
   .hero .copy .checks { gap: 9px 6px; padding: 14px 10px; }
 }
+
+/* Catálogo profesional, modal de producto y configuración */
+.catalog-toolbar{display:grid;grid-template-columns:minmax(150px,1.3fr) minmax(145px,1fr) minmax(175px,1fr) auto;gap:12px;align-items:end;margin:24px 0 9px}
+.catalog-toolbar label{font-size:13px;color:#ead8e4;font-weight:700;display:grid;gap:8px}
+.catalog-toolbar input,.catalog-toolbar select{min-width:0;width:100%;background:#24202a;color:#fff;border:1px solid #9c5b7b66;border-radius:12px;padding:13px}
+.reset-filter{background:#382536;color:#fff;border:1px solid #a45883;border-radius:12px;padding:13px 17px;white-space:nowrap}
+.catalog-count{color:#efb7d1;font-size:13px}
+.catalog-empty{grid-column:1/-1;padding:35px 12px;text-align:center;color:#fae6f1}
+.product-open{border:0;background:transparent;color:inherit;padding:0;width:100%;text-align:left;display:block;cursor:pointer}
+.product-open:hover .product-more{color:#fff}
+.product-more{color:#ffa7d3;font-size:13px;font-weight:750;margin-top:9px}
+.product-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 20px 18px;border-top:1px solid #ffffff16}
+.product-bottom a{font-size:13px;font-weight:700;color:#ffa3d0}
+.product .productbody{min-height:165px}
+.product .productart{overflow:hidden}
+.product-open:focus-visible{outline:3px solid #ff4ca5;outline-offset:-3px}
+.product-dialog{border:0;background:transparent;padding:20px;max-width:min(940px,98vw);width:100%;max-height:94vh;color:#fff}
+.product-dialog::backdrop{background:#050308d9;backdrop-filter:blur(7px)}
+.detail-layout{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #8b5270;border-radius:22px;background:#1e1823;overflow:hidden;box-shadow:0 30px 80px #0009}
+.detail-image{background:radial-gradient(circle,#fff,#f8dce9);min-height:330px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.detail-image img{width:100%;max-height:570px;object-fit:contain}
+.detail-image .catalog-art{width:100%;aspect-ratio:1.5}
+.detail-info{padding:clamp(24px,3vw,42px)}
+.detail-info h2{font-size:clamp(25px,3vw,39px)}
+.detail-info p{line-height:1.65;color:#e5d6e1}
+.detail-info dl{display:grid;grid-template-columns:auto 1fr;gap:11px 16px;font-size:14px;padding:18px 0;border-top:1px solid #ffffff22}
+.detail-info dt{color:#fca6cc;font-weight:700}.detail-info dd{margin:0}
+.detail-close{position:absolute;z-index:2;right:12px;top:12px;border:1px solid #fff8;background:#1b1320e0;color:#fff;border-radius:50%;height:38px;width:38px;font-size:23px}
+.detail-thumbs{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}
+.detail-thumbs button{border:1px solid #ff90c0;background:#362536;color:#fff;border-radius:10px;padding:8px 12px;font-size:13px}
+.settings-section{background:#fff7fb;border:1px solid #efd3e2;border-radius:16px;padding:22px;margin:0 0 18px}
+.settings-section h3{margin:0 0 14px;color:#6f214c}
+.settings-section p{font-size:13px;color:#775e70}
+.settings-preview{margin-top:12px;width:min(330px,100%);aspect-ratio:1.8;object-fit:cover;border-radius:12px;border:1px solid #f1bbd5}
+.theme-swatches{display:flex;flex-wrap:wrap;gap:10px}
+.theme-swatches label{cursor:pointer;border:1px solid #e5bed2;padding:10px 14px;border-radius:13px;display:flex;gap:8px;align-items:center}
+.theme-swatches input{accent-color:#d22178}
+.theme-sample{display:inline-block;border-radius:50%;width:21px;height:21px}
+@media(max-width:850px){.catalog-toolbar{grid-template-columns:1fr 1fr}.reset-filter{width:100%}.detail-layout{grid-template-columns:1fr}.detail-image{min-height:180px;max-height:360px}.detail-info{padding:24px}}
+@media(max-width:520px){.catalog-toolbar{grid-template-columns:1fr;gap:10px}.product-bottom{padding:12px;flex-wrap:wrap}.product .productbody{min-height:165px}.product-dialog{padding:8px}.detail-image{min-height:160px}.detail-info dl{grid-template-columns:1fr;gap:5px}.settings-section{padding:15px}}
+.hero::before{background-image:linear-gradient(0deg,#160f17 0%,transparent 34%),linear-gradient(90deg,#100e14 0%,rgba(16,14,20,.94) 24%,rgba(16,14,20,.62) 43%,transparent 65%),var(--hero-photo,url("hero-grilli.webp"))}
+@media(max-width:850px){.hero::before{background-image:linear-gradient(0deg,#160f17 6%,#160f17ed 33%,#160f1780 57%,transparent 79%),var(--hero-photo,url("hero-grilli.webp"))}}
+@media(max-width:650px){.hero::before{background-image:linear-gradient(to bottom,rgba(16,12,18,.08) 0%,rgba(16,12,18,.02) 48%,rgba(22,15,23,.5) 78%,#160f17 100%),var(--hero-photo,url("hero-grilli.webp"))}}
+body[data-grilli-theme="violet"]{--pink:#bf65f5;--pink2:#d49afa}
+body[data-grilli-theme="violet"] .btn{background:linear-gradient(110deg,#8d3ac7,#bd7af6)}
+body[data-grilli-theme="violet"] .announcement{background:#8630b3}
+body[data-grilli-theme="violet"] .cats{background:linear-gradient(180deg,transparent,#3b2054 30%,#6b3788)}
+body[data-grilli-theme="coral"]{--pink:#ff6f83;--pink2:#ffacbb}
+body[data-grilli-theme="coral"] .btn{background:linear-gradient(110deg,#ed5570,#ffa0a8)}
+body[data-grilli-theme="coral"] .announcement{background:#ee597b}
+body[data-grilli-theme="coral"] .cats{background:linear-gradient(180deg,transparent,#59252f 30%,#b9526f)}
 </style></head><body>
 <div class="site">
 <div class="announcement">🐾 ¡Todo para tus mejores amigos! • Pet Shop Grilli en Guernica</div>
@@ -349,11 +400,11 @@ html,body{max-width:100%;overflow-x:clip}
 <section class="section contact" id="contacto"><div class="wrap"><h2>📍 Nuestra <em>tienda</em></h2><div class="contactgrid"><div class="contactinfo"><span class="contact-icon"><svg viewBox="0 0 32 32" aria-hidden="true" fill="currentColor"><path d="M16 3a12.8 12.8 0 0 0-11 19.4L3.2 29l6.8-1.8A12.9 12.9 0 1 0 16 3Zm0 23.5a10.5 10.5 0 0 1-5.4-1.5l-.4-.2-4 1 1-3.9-.2-.4A10.6 10.6 0 1 1 16 26.5Zm5.8-7.9c-.3-.2-1.9-1-2.2-1.1s-.5-.2-.7.2-.8 1.1-1 1.2-.4.2-.7 0a8.6 8.6 0 0 1-4.2-3.6c-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.6l-1-2.4c-.2-.6-.5-.5-.7-.5h-.6c-.3 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6s1.1 3 1.3 3.2c.2.2 2.2 3.5 5.5 4.8 2 .8 2.8.9 3.8.7 1-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5l-.7-.3Z"/></svg></span><h3>¡Vení a conocernos!</h3><p>📍 <span id="address"></span></p><p>🕐 <span id="hours"></span></p><p>💬 Escribinos para consultar productos, precios y disponibilidad.</p><a class="btn" data-wa target="_blank" rel="noopener">Hablar por WhatsApp ↗</a></div><a class="map" id="maps" target="_blank" rel="noopener"><span class="map-pin"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M37 20c0 9-13 21-13 21S11 29 11 20a13 13 0 1 1 26 0Z"/><circle cx="24" cy="20" r="4.5"/></svg></span><b>Pet Shop GRILLI</b><p>Guernica, Buenos Aires</p><u>Abrir Google Maps ↗</u></a></div></div></section></main>
 <footer class="footer"><div class="wrap">
 <span>© 2026 Pet Shop GRILLI</span>
-<span><a href="https://www.instagram.com/petshop_grilli/" target="_blank" rel="noopener">Instagram</a></span>
+<span><a id="instagramLink" href="https://www.instagram.com/petshop_grilli/" target="_blank" rel="noopener">Instagram</a> <a id="facebookLink" target="_blank" rel="noopener" hidden>Facebook</a> <a id="tiktokLink" target="_blank" rel="noopener" hidden>TikTok</a></span>
 <span><a data-wa target="_blank" rel="noopener">WhatsApp</a></span>
 <span><a href="?admin=1">Administración</a></span>
 <span><a href="https://cvstudio.com.ar/">Web desarrollada por CVStudio</a></span>
-</div></footer><a class="float" data-wa aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" aria-hidden="true" fill="currentColor"><path d="M16 3a12.8 12.8 0 0 0-11 19.4L3.2 29l6.8-1.8A12.9 12.9 0 1 0 16 3Zm0 23.5a10.5 10.5 0 0 1-5.4-1.5l-.4-.2-4 1 1-3.9-.2-.4A10.6 10.6 0 1 1 16 26.5Zm5.8-7.9c-.3-.2-1.9-1-2.2-1.1s-.5-.2-.7.2-.8 1.1-1 1.2-.4.2-.7 0a8.6 8.6 0 0 1-4.2-3.6c-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.6l-1-2.4c-.2-.6-.5-.5-.7-.5h-.6c-.3 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6s1.1 3 1.3 3.2c.2.2 2.2 3.5 5.5 4.8 2 .8 2.8.9 3.8.7 1-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5l-.7-.3Z"/></svg></a>
+</div></footer><dialog id="product-dialog" class="product-dialog" aria-label="Detalles del producto"></dialog><a class="float" data-wa aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" aria-hidden="true" fill="currentColor"><path d="M16 3a12.8 12.8 0 0 0-11 19.4L3.2 29l6.8-1.8A12.9 12.9 0 1 0 16 3Zm0 23.5a10.5 10.5 0 0 1-5.4-1.5l-.4-.2-4 1 1-3.9-.2-.4A10.6 10.6 0 1 1 16 26.5Zm5.8-7.9c-.3-.2-1.9-1-2.2-1.1s-.5-.2-.7.2-.8 1.1-1 1.2-.4.2-.7 0a8.6 8.6 0 0 1-4.2-3.6c-.3-.5.3-.5.8-1.6.1-.2 0-.4 0-.6l-1-2.4c-.2-.6-.5-.5-.7-.5h-.6c-.3 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.6s1.1 3 1.3 3.2c.2.2 2.2 3.5 5.5 4.8 2 .8 2.8.9 3.8.7 1-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5l-.7-.3Z"/></svg></a>
 </div>
 <section id="admin-screen">
 <div class="adminpanel">
@@ -365,6 +416,7 @@ html,body{max-width:100%;overflow-x:clip}
 <button type="button" data-section="add">Agregar producto</button>
 <button type="button" data-section="categories">Categorías</button>
 <button type="button" data-section="preview">Vista previa del catálogo</button>
+<button type="button" data-section="settings">⚙ Configuración del sitio</button>
 </nav>
 <div id="editor" class="panel"></div>
 </div></section>
@@ -383,6 +435,77 @@ for (const key of ['products','categories','services']) {
 }
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
 const wa=(s='¡Hola! Quisiera consultar por los productos de Pet Shop Grilli.')=>'https://wa.me/'+String(d.phone).replace(/\D/g,'')+'?text='+encodeURIComponent(s);
+
+/* Extensiones catálogo, ficha de producto y configuración editable */
+const catalogFilter={search:'',category:'',sort:'default'};
+function numericPrice(value){const t=String(value??'').replace(/[^0-9,.]/g,'');if(!t)return NaN;return Number(t.replace(/\./g,'').replace(',','.'))}
+function filteredProducts(items){
+  let out=items.filter(p=>(!catalogFilter.category||p.category===catalogFilter.category)&&(!catalogFilter.search||(p.name+' '+p.category+' '+p.description).toLocaleLowerCase('es').includes(catalogFilter.search.toLocaleLowerCase('es'))));
+  if(catalogFilter.sort==='name-asc')out.sort((a,b)=>a.name.localeCompare(b.name,'es'));
+  if(catalogFilter.sort==='name-desc')out.sort((a,b)=>b.name.localeCompare(a.name,'es'));
+  if(catalogFilter.sort==='category')out.sort((a,b)=>a.category.localeCompare(b.category,'es')||a.name.localeCompare(b.name,'es'));
+  if(catalogFilter.sort.startsWith('price-'))out.sort((a,b)=>{const pa=numericPrice(a.price),pb=numericPrice(b.price);if(!Number.isFinite(pa))return 1;if(!Number.isFinite(pb))return -1;return catalogFilter.sort==='price-asc'?pa-pb:pb-pa});
+  return out;
+}
+function syncCategoryOptions(){
+  const el=document.getElementById('filter-category');if(!el)return;
+  const names=d.categories.map(x=>x.name).sort((a,b)=>a.localeCompare(b,'es'));
+  const key=names.join('|');
+  if(el.dataset.options!==key){el.innerHTML='<option value="">Todas las categorías</option>'+names.map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');el.dataset.options=key;}
+  el.value=catalogFilter.category;
+}
+const safeSocial=value=>{const url=imageURL(value);return url&&url.startsWith('https://')?url:''};
+function applySiteSettings(){
+  const photo=imageURL(d.heroImage)||'hero-grilli.webp';
+  const hero=document.querySelector('.hero');
+  hero.style.setProperty('--hero-photo','url("'+photo.replace(/["\\]/g,'')+'")');
+  document.body.dataset.grilliTheme=['pink','violet','coral'].includes(d.theme)?d.theme:'pink';
+  for(const [id,value] of [['instagramLink',d.instagram||'https://www.instagram.com/petshop_grilli/'],['facebookLink',d.facebook],['tiktokLink',d.tiktok]]){
+    const a=document.getElementById(id);if(a){const url=safeSocial(value);a.hidden=!url;if(url)a.href=url;}
+  }
+}
+function openProduct(index){
+  const p=d.products[index];if(!p)return;
+  const dialog=document.getElementById('product-dialog');const category=d.categories.find(c=>c.name===p.category);
+  const imgs=[p.image,p.image2,p.image3].map(imageURL).filter(Boolean);
+  const large=(src)=>src?'<img src="'+esc(src)+'" alt="Imagen de '+esc(p.name)+'">':productArt(p);
+  const details=[['Categoría',p.category],['Precio',p.price],['Medidas / tamaños',p.sizes||'Consultar'],['Colores disponibles',p.colors||'Consultar'],['Material / presentación',p.material||'Consultar'],['Stock',p.stock||'Consultar']];
+  dialog.innerHTML='<div class="detail-layout"><button class="detail-close" type="button" aria-label="Cerrar">×</button><div class="detail-image" id="detail-image">'+large(imgs[0])+'</div><div class="detail-info"><small>'+esc(category?.name||p.category)+'</small><h2>'+esc(p.name)+'</h2><p>'+esc(p.description||'Consultanos por más información.')+'</p><dl>'+details.map(([a,b])=>'<dt>'+esc(a)+'</dt><dd>'+esc(b)+'</dd>').join('')+'</dl><div class="detail-thumbs">'+imgs.map((src,i)=>'<button type="button" data-photo="'+i+'">Imagen '+(i+1)+'</button>').join('')+'</div><a class="btn" target="_blank" rel="noopener" href="'+wa('Hola, quisiera consultar por '+p.name)+'">Consultar por WhatsApp ↗</a></div></div>';
+  dialog.querySelector('.detail-close').onclick=()=>dialog.close();
+  dialog.querySelectorAll('[data-photo]').forEach(b=>b.onclick=()=>{dialog.querySelector('#detail-image').innerHTML=large(imgs[Number(b.dataset.photo)])});
+  if(!dialog.open)dialog.showModal();
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-product-id]');if(b)openProduct(Number(b.dataset.productId));});
+document.getElementById('product-dialog').addEventListener('click',e=>{if(e.target.id==='product-dialog')e.target.close()});
+document.querySelector('.catalog-toolbar').addEventListener('input',e=>{if(e.target.id==='filter-search'){catalogFilter.search=e.target.value;render()}});
+document.querySelector('.catalog-toolbar').addEventListener('change',e=>{if(e.target.id==='filter-category')catalogFilter.category=e.target.value;if(e.target.id==='filter-sort')catalogFilter.sort=e.target.value;render()});
+document.getElementById('filter-clear').onclick=()=>{catalogFilter.search='';catalogFilter.category='';catalogFilter.sort='default';document.getElementById('filter-search').value='';document.getElementById('filter-sort').value='default';render()};
+function editSettings(){
+  const text=(label,name,value)=>'<label class="field">'+label+'<input name="'+name+'" value="'+esc(value??'')+'"></label>';
+  editor.innerHTML='<h2>Configuración del sitio</h2><p class="hint">Editá la portada, textos, contacto, redes y estilo desde un solo lugar. Los cambios se guardan únicamente en este navegador (modo demo).</p><form id="settings-form">'+
+  '<section class="settings-section"><h3>🖼 Portada</h3><p>Podés subir una imagen liviana o pegar una dirección HTTPS. La portada se adapta al celular.</p><div class="business-fields">'+text('URL de imagen de portada','heroImage',d.heroImage?.startsWith('data:')?'':d.heroImage)+
+  '<label class="field">Subir imagen de portada<input type="file" name="heroFile" accept="image/jpeg,image/png,image/webp"></label></div><img class="settings-preview" id="hero-preview" src="'+esc(imageURL(d.heroImage)||'hero-grilli.webp')+'" alt="Vista previa de portada"></section>'+
+  '<section class="settings-section"><h3>✏️ Textos del sitio</h3><div class="business-fields">'+text('Título de portada','title',d.title)+text('Descripción principal','subtitle',d.subtitle)+
+  '<label class="field">Texto sobre el negocio<textarea name="about">'+esc(d.about)+'</textarea></label></div></section>'+
+  '<section class="settings-section"><h3>📍 Contacto y horarios</h3><div class="business-fields">'+text('WhatsApp con código de país','phone',d.phone)+text('Dirección','address',d.address)+text('Horarios','hours',d.hours)+'</div></section>'+
+  '<section class="settings-section"><h3>🔗 Redes sociales</h3><div class="business-fields">'+text('Instagram (URL https)','instagram',d.instagram||'https://www.instagram.com/petshop_grilli/')+
+  text('Facebook (URL https)','facebook',d.facebook)+text('TikTok (URL https)','tiktok',d.tiktok)+'</div></section>'+
+  '<section class="settings-section"><h3>🎨 Paletas predeterminadas</h3><div class="theme-swatches">'+
+  [['pink','#ff3298','Rosa Grilli'],['violet','#b85af0','Violeta'],['coral','#fa6a8c','Coral']].map(([id,color,label])=>'<label><input type="radio" name="theme" value="'+id+'"'+((d.theme||'pink')===id?' checked':'')+'><span class="theme-sample" style="background:'+color+'"></span>'+label+'</label>').join('')+
+  '</div></section><div class="admin-actions"><button class="btn" type="submit">Guardar configuración</button></div></form>';
+  const form=document.getElementById('settings-form'),file=form.elements.heroFile,preview=document.getElementById('hero-preview');let uploaded='';
+  file.addEventListener('change',()=>{const f=file.files[0];if(!f)return;if(f.size>1300000||!/^image\/(jpeg|png|webp)$/.test(f.type)){status.textContent='La imagen debe ser JPEG, PNG o WebP de máximo 1,3 MB.';file.value='';return;}const reader=new FileReader();reader.onload=()=>{uploaded=String(reader.result);preview.src=uploaded};reader.readAsDataURL(f)});
+  form.elements.heroImage.addEventListener('change',()=>{if(!uploaded)preview.src=imageURL(form.elements.heroImage.value)||'hero-grilli.webp'});
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const fields=Object.fromEntries(new FormData(form));delete fields.heroFile;
+    for(const k of ['instagram','facebook','tiktok'])if(fields[k]&&!safeSocial(fields[k])){status.textContent='La URL de '+k+' debe comenzar con https://';return;}
+    if(fields.heroImage&&!imageURL(fields.heroImage)){status.textContent='La imagen de portada necesita una URL válida.';return;}
+    fields.heroImage=uploaded||fields.heroImage||d.heroImage||'';
+    commitDemo(next=>Object.assign(next,fields),'settings');
+  });
+}
+
 const catalogImages = ['🥣','🦮','🦴','🧴','🫧','🪴'];
 function catalogArt(icon) {
   const index = catalogImages.indexOf(icon);
@@ -448,16 +571,16 @@ function renderCatalog() {
   const section = document.querySelector('#productos');
   if (section.querySelector('#catalog')) return;
   const featured = section.querySelector('#products');
-  featured.insertAdjacentHTML('afterend','<p class="empty-featured" hidden>Por el momento no hay productos destacados.</p><h3 class="catalog-heading">Catálogo</h3><div class="products" id="catalog"></div>');
+  featured.insertAdjacentHTML('afterend','<p class="empty-featured" hidden>Por el momento no hay productos destacados.</p><h3 class="catalog-heading">Catálogo completo</h3><div class="catalog-toolbar"><label>Buscar producto<input id="filter-search" type="search" placeholder="Buscar por nombre..."></label><label>Categoría<select id="filter-category"><option value="">Todas las categorías</option></select></label><label>Ordenar por<select id="filter-sort"><option value="default">Orden del catálogo</option><option value="name-asc">Nombre A → Z</option><option value="name-desc">Nombre Z → A</option><option value="price-asc">Precio: menor a mayor</option><option value="price-desc">Precio: mayor a menor</option><option value="category">Categoría A → Z</option></select></label><button type="button" class="reset-filter" id="filter-clear">Limpiar filtros</button></div><p id="catalog-count" class="catalog-count" aria-live="polite"></p><div class="products" id="catalog"></div>');
 }
 renderCatalog();
-function render(){document.getElementById('heading').innerHTML=esc(d.title).replace('tu mascota','<span>tu mascota 🐾</span>');for(const k of ['subtitle','about','address','hours'])document.getElementById(k).textContent=d[k];document.querySelectorAll('[data-wa]').forEach(a=>a.href=wa());document.getElementById('maps').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(d.address);document.getElementById('cats').innerHTML=orderedCategories().map(c=>'<a class="catbox" href="#productos">'+categoryArt(c)+''+esc(c.name)+'</a>').join('');const cards = (items) => items.map(p=>'<article class="product"><div class="productart">'+productArt(p)+'</div><div class="productbody"><small>'+esc(p.category)+'</small><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p><div class="bottom"><strong>'+esc(p.price)+'</strong><a target="_blank" rel="noopener" href="'+wa('Hola, quisiera consultar por '+p.name)+'">Consultar ↗</a></div></div></article>').join('');const active = orderedProducts().filter(p=>p.active!==false); const featured = active.filter(p=>p.featured!==false); document.getElementById('products').innerHTML=cards(featured); document.querySelector('.empty-featured').hidden=featured.length>0; document.getElementById('catalog').innerHTML=active.length?cards(active):'<p>Por el momento no hay productos disponibles.</p>';document.getElementById('services').innerHTML=d.services.map(s=>'<article class="svc"><b>'+serviceIcon(s.icon)+'</b><h3>'+esc(s.name)+'</h3><p>'+esc(s.description)+'</p></article>').join('')}
+function render(){applySiteSettings();document.getElementById('heading').innerHTML=esc(d.title).replace('tu mascota','<span>tu mascota 🐾</span>');for(const k of ['subtitle','about','address','hours'])document.getElementById(k).textContent=d[k];document.querySelectorAll('[data-wa]').forEach(a=>a.href=wa());document.getElementById('maps').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(d.address);document.getElementById('cats').innerHTML=orderedCategories().map(c=>'<a class="catbox" href="#productos">'+categoryArt(c)+''+esc(c.name)+'</a>').join('');const cards = (items) => items.map(p=>'<article class="product"><button type="button" class="product-open" data-product-id="'+d.products.indexOf(p)+'" aria-label="Ver detalles de '+esc(p.name)+'"><div class="productart">'+productArt(p)+'</div><div class="productbody"><small>'+esc(p.category)+'</small><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p><div class="product-more">Ver imágenes y detalles ↗</div></div></button><div class="product-bottom"><strong>'+esc(p.price)+'</strong><a target="_blank" rel="noopener" href="'+wa('Hola, quisiera consultar por '+p.name)+'">Consultar ↗</a></div></article>').join('');const active = orderedProducts().filter(p=>p.active!==false); const featured = active.filter(p=>p.featured!==false); document.getElementById('products').innerHTML=cards(featured); document.querySelector('.empty-featured').hidden=featured.length>0; const matching=filteredProducts(active);document.getElementById('catalog').innerHTML=matching.length?cards(matching):'<p class="catalog-empty">No encontramos productos con esos filtros.</p>';document.getElementById('catalog-count').textContent=matching.length+' productos mostrados';syncCategoryOptions();document.getElementById('services').innerHTML=d.services.map(s=>'<article class="svc"><b>'+serviceIcon(s.icon)+'</b><h3>'+esc(s.name)+'</h3><p>'+esc(s.description)+'</p></article>').join('')}
 function orderedProducts() { return [...d.products].sort((a,b) => Number(a.order ?? 0) - Number(b.order ?? 0)); }
 render();
 const editor = document.querySelector('#editor');
 const adminNav = document.querySelector('.tabs');
 const status = document.querySelector('#admin-status');
-const sectionNames = {home:'Resumen',products:'Productos',add:'Agregar producto',categories:'Categorías',preview:'Vista previa del catálogo'};
+const sectionNames = {home:'Resumen',products:'Productos',add:'Agregar producto',categories:'Categorías',preview:'Vista previa del catálogo',settings:'Configuración del sitio'};
 
 function button(text, action, index = '') {
   return '<button type="button" class="admin-action" data-action="'+action+'" data-index="'+index+'">'+text+'</button>';
@@ -493,6 +616,7 @@ function openAdmin(section) {
     }).join('') || '<p>Todavía no hay productos.</p>')+'</div>';
   }
   if (section === 'add') editProduct();
+  if (section === 'settings') editSettings();
   if (section === 'categories') {
     editor.innerHTML += button('Crear categoría','edit-category',-1)+'<div class="admin-list">'+(orderedCategories().map(item=>{
       const index = d.categories.indexOf(item);
@@ -548,6 +672,7 @@ function bindForm(item, art, onSave) {
     if (!fields.name) { status.textContent = 'Ingresá un nombre.'; return; }
     fields.image = uploaded || fields.image.trim() || (item.image?.startsWith('data:') ? item.image : '');
     if (fields.image && !imageURL(fields.image)) { status.textContent = 'Ingresá una URL de imagen válida.'; return; }
+    for(const k of ['image2','image3'])if(fields[k] && !imageURL(fields[k])){status.textContent='Revisá la URL de '+k;return;}
     fields.order = Number(fields.order || 0);
     onSave({...item,...fields});
   });
@@ -561,8 +686,10 @@ function editProduct(index = -1) {
     input('Nombre','name',item.name,'text',true)+
     '<label class="field">Categoría<select name="category" required>'+options.map(name=>'<option'+(name===item.category?' selected':'')+'>'+esc(name)+'</option>').join('')+'</select></label>'+
     input('Precio','price',item.price,'text',true)+input('Orden','order',item.order??0,'number')+
+    input('Medidas / tamaños','sizes',item.sizes??'')+input('Colores disponibles','colors',item.colors??'')+input('Material / presentación','material',item.material??'')+input('Stock / disponibilidad','stock',item.stock??'Consultar')+
     '<label class="field description-field">Descripción corta<textarea name="description" maxlength="240">'+esc(item.description)+'</textarea></label>'+
     imageFields(item,productArt)+
+    input('Otra imagen (URL opcional)','image2',item.image2??'')+input('Tercera imagen (URL opcional)','image3',item.image3??'')+
     '<label class="field admin-toggle"><input name="featured" type="checkbox"'+(item.featured!==false?' checked':'')+'> Destacado</label>'+
     '<label class="field admin-toggle"><input name="active" type="checkbox"'+(item.active!==false?' checked':'')+'> Activo</label>'+
     '</div><div class="admin-actions"><button class="btn">Guardar producto</button>'+button('Cancelar','products')+'</div></form>';
