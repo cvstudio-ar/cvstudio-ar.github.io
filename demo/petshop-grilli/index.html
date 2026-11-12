@@ -171,7 +171,7 @@ html,body{max-width:100%;overflow-x:clip}
 .catbox::after{content:none}
 .catbox:hover{transform:translateY(-3px);box-shadow:0 12px 26px #380c2955}
 .uploaded-art{display:block;width:100%;height:100%;max-height:230px;object-fit:contain}
-.uploaded-art[hidden],.uploaded-art:not([hidden])+.catalog-art,.uploaded-art:not([hidden])+.no-photo{display:none}
+.uploaded-art[hidden],.uploaded-art:not([hidden]) + .catalog-art{display:none}
 .catbox .uploaded-art{height:auto;aspect-ratio:1.5;margin-bottom:8px}
 .productart{display:flex;justify-content:center;min-height:120px;aspect-ratio:1.65;background:radial-gradient(ellipse at 50% 28%,#fff9fc,#f6dce9)}
 .no-photo{display:grid;justify-items:center;gap:8px;font:600 .8rem/1.3 system-ui;color:#684154;text-align:center}
@@ -205,6 +205,32 @@ html,body{max-width:100%;overflow-x:clip}
 .record-fields .catalog-art,.record-fields .uploaded-art,.record-fields .no-photo{grid-column:1/-1;max-width:180px}
 @media(max-width:580px){.business-fields,.record-fields{grid-template-columns:minmax(0,1fr)}.tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.tabs button{padding:8px;font-size:.85rem}}
 
+.productart{position:relative;isolation:isolate;padding:0;background:#ffedf5}
+.productart .catalog-art{width:100%;height:100%;border-radius:0}
+.productart .uploaded-art{position:absolute;inset:0;max-height:none}
+.admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 20px}
+.admin-stats div{display:grid;gap:4px;padding:clamp(10px,2vw,24px);background:#fff4fa;border:1px solid #eed7e5;border-radius:14px}
+.admin-stats strong{font-size:clamp(23px,4vw,42px);color:#882857}
+.admin-stats span{font-size:clamp(11px,2vw,16px)}
+.admin-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.admin-action{padding:8px 12px;border:1px solid #ecd2e1;background:#fff3fa;border-radius:9px;color:#75244e;font:inherit;font-weight:650;cursor:pointer}
+.admin-action:hover{background:#f6d7e8}
+.admin-list{display:grid;gap:8px;margin-top:16px}
+.admin-row{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:10px;border:1px solid #e9dbe4;border-radius:12px}
+.admin-row .admin-actions{margin-left:auto}
+.admin-thumb{position:relative;width:70px;aspect-ratio:1.5;background:#ffedf5;border-radius:9px;overflow:hidden}
+.admin-thumb .uploaded-art{position:absolute;inset:0}
+.admin-state{font-size:.82rem;color:#63324d}
+.admin-form .field select{display:block;width:100%;margin-top:7px;padding:13px;border:1px solid #ccc6ce;border-radius:12px;background:#fff;color:#242024}
+.admin-form .description-field{grid-column:1/-1}
+.admin-form .admin-toggle{display:flex;align-items:center;gap:9px}
+.admin-form .admin-toggle input{width:auto;margin:0;accent-color:#b82771}
+.admin-form .form-preview{width:min(180px,100%);grid-column:1/-1}
+.admin-form .admin-actions{margin-top:20px}
+.admin-preview{margin-top:18px;color:#fff}
+.admin-preview .productart{min-height:0}
+@media(max-width:580px){.admin-row .admin-actions{margin-left:0}.admin-row{gap:9px}.admin-form .description-field{grid-column:auto}}
+
 </style></head><body>
 <div class="site">
 <div class="announcement">🐾 ¡Todo para tus mejores amigos! • Pet Shop Grilli en Guernica</div>
@@ -226,19 +252,29 @@ html,body{max-width:100%;overflow-x:clip}
 <section id="admin-screen">
 <div class="adminpanel">
 <header class="adminhead"><div><strong>Pet Shop GRILLI</strong><h1>Administración</h1></div><a href="./">Salir ↗</a></header>
-<p class="admin-status" role="status">Vista previa. La edición requiere un servicio de autenticación y almacenamiento compartido.</p>
+<p class="admin-status" role="status" id="admin-status">Modo demo · Los cambios se guardan en este navegador.</p>
 <nav class="tabs" aria-label="Secciones de administración">
-<button type="button" data-section="content">◈ Datos del negocio</button>
-<button type="button" data-section="products">□ Productos</button>
-<button type="button" data-section="categories">◇ Categorías</button>
-<button type="button" data-section="services">✦ Servicios</button>
+<button type="button" data-section="home">Resumen</button>
+<button type="button" data-section="products">Productos</button>
+<button type="button" data-section="add">Agregar producto</button>
+<button type="button" data-section="categories">Categorías</button>
+<button type="button" data-section="preview">Vista previa del catálogo</button>
 </nav>
 <div id="editor" class="panel"></div>
 </div></section>
 <script>
 const KEY='grilli_demo_public_v1';
 const base={title:'Todo para tu mascota',subtitle:'Productos, accesorios y mucho amor para los que llenan de alegría tu hogar.',about:'En Pet Shop Grilli nos encanta acompañarte en el cuidado de tus mascotas. Contamos con alimentos, accesorios, artículos de higiene, plantas y atención personalizada.',address:'Av. Hipólito Yrigoyen 24589, Guernica, Buenos Aires',hours:'Lunes a sábados de 9:30 a 14:00 y de 16:30 a 19:30 hs',phone:'5491166758277',categories:[{name:'Alimentos',icon:'🥣'},{name:'Accesorios',icon:'🦮'},{name:'Juguetes',icon:'🦴'},{name:'Salud y cuidado',icon:'🧴'},{name:'Higiene',icon:'🫧'},{name:'Plantas',icon:'🪴'}],services:[{name:'Envíos a domicilio',icon:'🚚',description:'Consultá por zonas de entrega y disponibilidad.'},{name:'Guardería canina',icon:'🐕',description:'Consultá las condiciones y disponibilidad del servicio.'},{name:'Plantas y jardín',icon:'🌿',description:'Plantas y flores para tu hogar.'},{name:'Asesoramiento',icon:'🐾',description:'Te ayudamos a elegir productos para tus mascotas.'}],products:[{name:'Alimento balanceado',category:'Alimentos',icon:'🥣',description:'Opciones para perros y gatos.',price:'Consultar'},{name:'Collares y correas',category:'Accesorios',icon:'🦮',description:'Para paseos seguros y cómodos.',price:'Consultar'},{name:'Juguetes',category:'Juguetes',icon:'🦴',description:'Diversión para tu mejor amigo.',price:'Consultar'},{name:'Higiene y cuidado',category:'Higiene',icon:'🧴',description:'Productos para su bienestar.',price:'Consultar'}]};
-let d;try{d={...base,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{d={...base}}
+base.products.push(
+  {name:'Suplemento para mascotas',category:'Salud y cuidado',icon:'🧴',description:'Muestra de la línea de bienestar.',price:'Consultar'},
+  {name:'Planta de interior',category:'Plantas',icon:'🪴',description:'Muestra de la sección de jardín.',price:'Consultar'}
+);
+let saved;
+try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch {}
+let d = {...structuredClone(base), ...saved};
+for (const key of ['products','categories','services']) {
+  if (!Array.isArray(d[key])) d[key] = structuredClone(base[key]);
+}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
 const wa=(s='¡Hola! Quisiera consultar por los productos de Pet Shop Grilli.')=>'https://wa.me/'+String(d.phone).replace(/\D/g,'')+'?text='+encodeURIComponent(s);
 const catalogImages = ['🥣','🦮','🦴','🧴','🫧','🪴'];
@@ -274,6 +310,7 @@ function serviceIcon(icon) {
 
 function imageURL(value) {
   if (!value || typeof value !== 'string') return '';
+  if (/^data:image\/(png|jpeg|webp|gif);base64,[a-z0-9+/=]+$/i.test(value)) return value;
   try {
     const url = new URL(value, location.href);
     return url.protocol === 'https:' || (url.protocol === 'http:' && url.origin === location.origin) ? url.href : '';
@@ -285,7 +322,10 @@ function uploadedArt(src, fallback) {
   return src ? '<img class="uploaded-art" alt="" loading="lazy" src="'+esc(src)+'">'+fallback : fallback;
 }
 function productArt(product) {
-  return uploadedArt(imageURL(product.image), '<span class="no-photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="9" r="1.5"/><path d="m3 17 5-4 4 3 4-5 5 6"/></svg>Imagen no disponible</span>');
+  const category = d.categories.find(item => item.name === product.category);
+  const initial = base.categories.find(item => item.name === product.category);
+  const icon = initial?.icon ?? category?.icon ?? product.icon;
+  return uploadedArt(imageURL(product.image), catalogArt(catalogImages.includes(icon) ? icon : '🥣'));
 }
 function categoryArt(category) {
   return uploadedArt(imageURL(category.image), catalogArt(category.icon));
@@ -305,50 +345,170 @@ function renderCatalog() {
   featured.insertAdjacentHTML('afterend','<p class="empty-featured" hidden>Por el momento no hay productos destacados.</p><h3 class="catalog-heading">Catálogo</h3><div class="products" id="catalog"></div>');
 }
 renderCatalog();
-function render(){document.getElementById('heading').innerHTML=esc(d.title).replace('tu mascota','<span>tu mascota 🐾</span>');for(const k of ['subtitle','about','address','hours'])document.getElementById(k).textContent=d[k];document.querySelectorAll('[data-wa]').forEach(a=>a.href=wa());document.getElementById('maps').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(d.address);document.getElementById('cats').innerHTML=orderedCategories().map(c=>'<a class="catbox" href="#productos">'+categoryArt(c)+''+esc(c.name)+'</a>').join('');const cards = (items) => items.map(p=>'<article class="product"><div class="productart">'+productArt(p)+'</div><div class="productbody"><small>'+esc(p.category)+'</small><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p><div class="bottom"><strong>'+esc(p.price)+'</strong><a target="_blank" rel="noopener" href="'+wa('Hola, quisiera consultar por '+p.name)+'">Consultar ↗</a></div></div></article>').join('');const active = d.products.filter(p=>p.active!==false); const featured = active.filter(p=>p.featured!==false); document.getElementById('products').innerHTML=cards(featured); document.querySelector('.empty-featured').hidden=featured.length>0; document.getElementById('catalog').innerHTML=active.length?cards(active):'<p>Por el momento no hay productos disponibles.</p>';document.getElementById('services').innerHTML=d.services.map(s=>'<article class="svc"><b>'+serviceIcon(s.icon)+'</b><h3>'+esc(s.name)+'</h3><p>'+esc(s.description)+'</p></article>').join('')}
+function render(){document.getElementById('heading').innerHTML=esc(d.title).replace('tu mascota','<span>tu mascota 🐾</span>');for(const k of ['subtitle','about','address','hours'])document.getElementById(k).textContent=d[k];document.querySelectorAll('[data-wa]').forEach(a=>a.href=wa());document.getElementById('maps').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(d.address);document.getElementById('cats').innerHTML=orderedCategories().map(c=>'<a class="catbox" href="#productos">'+categoryArt(c)+''+esc(c.name)+'</a>').join('');const cards = (items) => items.map(p=>'<article class="product"><div class="productart">'+productArt(p)+'</div><div class="productbody"><small>'+esc(p.category)+'</small><h3>'+esc(p.name)+'</h3><p>'+esc(p.description)+'</p><div class="bottom"><strong>'+esc(p.price)+'</strong><a target="_blank" rel="noopener" href="'+wa('Hola, quisiera consultar por '+p.name)+'">Consultar ↗</a></div></div></article>').join('');const active = orderedProducts().filter(p=>p.active!==false); const featured = active.filter(p=>p.featured!==false); document.getElementById('products').innerHTML=cards(featured); document.querySelector('.empty-featured').hidden=featured.length>0; document.getElementById('catalog').innerHTML=active.length?cards(active):'<p>Por el momento no hay productos disponibles.</p>';document.getElementById('services').innerHTML=d.services.map(s=>'<article class="svc"><b>'+serviceIcon(s.icon)+'</b><h3>'+esc(s.name)+'</h3><p>'+esc(s.description)+'</p></article>').join('')}
+function orderedProducts() { return [...d.products].sort((a,b) => Number(a.order ?? 0) - Number(b.order ?? 0)); }
 render();
-const businessFields = {
-  title: 'Título principal', subtitle: 'Descripción de portada', about: 'Descripción del petshop',
-  address: 'Dirección', hours: 'Horarios', phone: 'WhatsApp'
-};
-const adminSections = {
-  content: 'Datos del negocio', products: 'Productos', categories: 'Categorías', services: 'Servicios'
-};
 const editor = document.querySelector('#editor');
 const adminNav = document.querySelector('.tabs');
-function field(label, value) {
-  return '<label class="field">'+esc(label)+'<input readonly value="'+esc(value)+'"></label>';
+const status = document.querySelector('#admin-status');
+const sectionNames = {home:'Resumen',products:'Productos',add:'Agregar producto',categories:'Categorías',preview:'Vista previa del catálogo'};
+
+function button(text, action, index = '') {
+  return '<button type="button" class="admin-action" data-action="'+action+'" data-index="'+index+'">'+text+'</button>';
 }
-function adminDetails(item, section) {
-  if (section === 'products') {
-    return productArt(item)+field('Categoría', item.category)+field('Descripción', item.description)+
-      field('Precio', item.price)+field('Imagen', item.image)+
-      field('Estado', item.active === false ? 'Inactivo' : 'Activo')+
-      field('Destacado', item.featured === false ? 'No' : 'Sí');
-  }
-  if (section === 'categories') return categoryArt(item)+field('Imagen', item.image)+field('Orden', item.order ?? orderedCategories().indexOf(item)+1);
-  return field('Descripción', item.description)+field('Ícono', item.icon);
-}
-function showSection(section) {
-  if (!Object.hasOwn(adminSections, section)) return;
-  for (const button of adminNav.querySelectorAll('[data-section]')) {
-    if (button.dataset.section === section) button.setAttribute('aria-current','page');
-    else button.removeAttribute('aria-current');
-  }
-  const title = '<h2>'+adminSections[section]+'</h2>';
-  if (section === 'content') {
-    editor.innerHTML = title+'<div class="business-fields">'+Object.entries(businessFields).map(([key,label])=>field(label,d[key])).join('')+'</div>';
+function commitDemo(update, section) {
+  const next = structuredClone(d);
+  update(next);
+  try {
+    localStorage.setItem(KEY, JSON.stringify(next));
+  } catch {
+    status.textContent = 'No se pudieron guardar los cambios. Liberá espacio o elegí una imagen más liviana.';
     return;
   }
-  const items = section === 'categories' ? orderedCategories() : d[section];
-  editor.innerHTML = title+(items.length ? items.map(item=>'<details class="admin-record"><summary>'+esc(item.name)+'</summary><div class="record-fields">'+adminDetails(item, section)+'</div></details>').join('') : '<p>No hay elementos en esta sección.</p>');
+  d = next;
+  render();
+  openAdmin(section);
+  status.textContent = 'Cambios guardados en este navegador.';
+}
+function openAdmin(section) {
+  for (const link of adminNav.querySelectorAll('[data-section]')) {
+    if (link.dataset.section === section) link.setAttribute('aria-current','page');
+    else link.removeAttribute('aria-current');
+  }
+  editor.innerHTML = '<h2>'+sectionNames[section]+'</h2>';
+  if (section === 'home') {
+    const stats = [['Productos',d.products.length],['Categorías',d.categories.length],['Destacados',d.products.filter(item=>item.featured!==false).length]];
+    editor.innerHTML += '<div class="admin-stats">'+stats.map(([label,count])=>'<div><strong>'+count+'</strong><span>'+label+'</span></div>').join('')+'</div><div class="admin-actions">'+button('Agregar producto','add')+button('Ver catálogo','preview')+'</div>';
+  }
+  if (section === 'products') {
+    editor.innerHTML += button('Agregar producto','add')+'<div class="admin-list">'+(orderedProducts().map(item=>{
+      const index = d.products.indexOf(item);
+      return '<article class="admin-row"><div class="admin-thumb">'+productArt(item)+'</div><div><strong>'+esc(item.name)+'</strong><div class="hint">'+esc(item.category)+' · '+esc(item.price)+'</div></div><span class="admin-state">'+(item.active===false?'Inactivo':'Activo')+'</span><div class="admin-actions">'+button('Editar','edit-product',index)+button('Eliminar','delete-product',index)+'</div></article>';
+    }).join('') || '<p>Todavía no hay productos.</p>')+'</div>';
+  }
+  if (section === 'add') editProduct();
+  if (section === 'categories') {
+    editor.innerHTML += button('Crear categoría','edit-category',-1)+'<div class="admin-list">'+(orderedCategories().map(item=>{
+      const index = d.categories.indexOf(item);
+      return '<article class="admin-row"><div class="admin-thumb">'+categoryArt(item)+'</div><strong>'+esc(item.name)+'</strong><div class="admin-actions">'+button('Editar','edit-category',index)+button('Eliminar','delete-category',index)+'</div></article>';
+    }).join('') || '<p>Todavía no hay categorías.</p>')+'</div>';
+  }
+  if (section === 'preview') editor.innerHTML += '<p class="hint">Las imágenes de muestra son ilustrativas.</p><div class="admin-preview products">'+document.querySelector('#catalog').innerHTML+'</div>';
+}
+function input(label, name, value, type='text', required=false) {
+  return '<label class="field">'+label+'<input type="'+type+'" name="'+name+'" value="'+esc(value)+'"'+(required?' required':'')+'></label>';
+}
+function imageFields(item, art) {
+  return '<div class="admin-thumb form-preview" aria-label="Vista previa de imagen">'+art(item)+'</div>'+
+    input('URL de imagen','image',item.image?.startsWith('data:')?'':item.image)+
+    '<label class="field">O subir una imagen<input type="file" name="photo" accept="image/png,image/jpeg,image/webp,image/gif"></label>';
+}
+function bindForm(item, art, onSave) {
+  const form = editor.querySelector('form');
+  const photo = form.elements.photo;
+  let uploaded = '';
+  let failed = false;
+  function preview() {
+    const image = uploaded || form.elements.image.value.trim() || (item.image?.startsWith('data:') ? item.image : '');
+    form.querySelector('.form-preview').innerHTML = art({...item,image,category:form.elements.category?.value ?? item.category});
+  }
+  form.elements.image.addEventListener('input',preview);
+  form.elements.category?.addEventListener('change',preview);
+  let pending = Promise.resolve();
+  photo.addEventListener('change',()=>{
+    const file = photo.files[0];
+    uploaded = '';
+    failed = false;
+    if (!file) { pending = Promise.resolve(); preview(); return; }
+    if (file.size > 1500000 || !/^image\/(png|jpeg|webp|gif)$/.test(file.type)) {
+      failed = true;
+      status.textContent = 'Elegí un archivo PNG, JPEG, WebP o GIF de hasta 1,5 MB.';
+      return;
+    }
+    pending = new Promise(resolve=>{
+      const reader = new FileReader();
+      reader.onload = ()=>{ if(photo.files[0]===file){ uploaded = String(reader.result); preview(); } resolve(); };
+      reader.onerror = ()=>{ if(photo.files[0]===file){ failed = true; status.textContent = 'No se pudo leer el archivo.'; } resolve(); };
+      reader.readAsDataURL(file);
+    });
+  });
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();
+    await pending;
+    if (failed || !form.isConnected) return;
+    const fields = Object.fromEntries(new FormData(form));
+    delete fields.photo;
+    fields.name = fields.name.trim();
+    if (!fields.name) { status.textContent = 'Ingresá un nombre.'; return; }
+    fields.image = uploaded || fields.image.trim() || (item.image?.startsWith('data:') ? item.image : '');
+    if (fields.image && !imageURL(fields.image)) { status.textContent = 'Ingresá una URL de imagen válida.'; return; }
+    fields.order = Number(fields.order || 0);
+    onSave({...item,...fields});
+  });
+}
+function editProduct(index = -1) {
+  const item = d.products[index] ?? {category:d.categories[0]?.name,active:true,featured:false};
+  const options = [...new Set([...orderedCategories().map(category=>category.name), item.category].filter(Boolean))];
+  editor.innerHTML = '<h2>'+(index<0?'Agregar producto':'Editar producto')+'</h2>';
+  if (!options.length) { editor.innerHTML += '<p>Creá una categoría antes de agregar productos.</p>'+button('Ir a categorías','categories'); return; }
+  editor.innerHTML += '<form class="admin-form"><div class="business-fields">'+
+    input('Nombre','name',item.name,'text',true)+
+    '<label class="field">Categoría<select name="category" required>'+options.map(name=>'<option'+(name===item.category?' selected':'')+'>'+esc(name)+'</option>').join('')+'</select></label>'+
+    input('Precio','price',item.price,'text',true)+input('Orden','order',item.order??0,'number')+
+    '<label class="field description-field">Descripción corta<textarea name="description" maxlength="240">'+esc(item.description)+'</textarea></label>'+
+    imageFields(item,productArt)+
+    '<label class="field admin-toggle"><input name="featured" type="checkbox"'+(item.featured!==false?' checked':'')+'> Destacado</label>'+
+    '<label class="field admin-toggle"><input name="active" type="checkbox"'+(item.active!==false?' checked':'')+'> Activo</label>'+
+    '</div><div class="admin-actions"><button class="btn">Guardar producto</button>'+button('Cancelar','products')+'</div></form>';
+  bindForm(item,productArt,product=>{
+    product.featured = product.featured === 'on';
+    product.active = product.active === 'on';
+    commitDemo(next=>{ if(index<0) next.products.push(product); else next.products[index] = product; },'products');
+  });
+}
+function editCategory(index) {
+  const item = d.categories[index] ?? {icon:'🥣'};
+  editor.innerHTML = '<h2>'+(index<0?'Crear categoría':'Editar categoría')+'</h2><form class="admin-form"><div class="business-fields">'+
+    input('Nombre','name',item.name,'text',true)+input('Orden','order',item.order??Math.max(index,d.categories.length),'number')+
+    imageFields(item,categoryArt)+'</div><div class="admin-actions"><button class="btn">Guardar categoría</button>'+button('Cancelar','categories')+'</div></form>';
+  bindForm(item,categoryArt,category=>{
+    if (d.categories.some((other,i)=>i!==index && other.name.toLowerCase()===category.name.toLowerCase())) {
+      status.textContent = 'Ya existe una categoría con ese nombre.'; return;
+    }
+    commitDemo(next=>{
+      if(index<0) next.categories.push(category);
+      else {
+        next.categories[index] = category;
+        for (const product of next.products) if (product.category===item.name) product.category=category.name;
+      }
+    },'categories');
+  });
 }
 if (new URLSearchParams(location.search).get('admin') === '1') {
   document.body.classList.add('adminmode');
-  adminNav.addEventListener('click', event => {
-    const button = event.target.closest('[data-section]');
-    if (button) showSection(button.dataset.section);
+  adminNav.addEventListener('click',event=>{
+    const target = event.target.closest('[data-section]');
+    if (target) openAdmin(target.dataset.section);
   });
-  showSection('content');
+  editor.addEventListener('click',event=>{
+    const target = event.target.closest('[data-action]');
+    if (!target) return;
+    const {action,index} = target.dataset;
+    const i = Number(index);
+    if (Object.hasOwn(sectionNames,action)) openAdmin(action);
+    if (action === 'edit-product') editProduct(i);
+    if (action === 'edit-category') editCategory(i);
+    if (action === 'delete-product' && confirm('¿Eliminar este producto de la demo?')) {
+      commitDemo(next=>next.products.splice(i,1),'products');
+    }
+    if (action === 'delete-category') {
+      if (d.products.some(product=>product.category===d.categories[i].name)) {
+        status.textContent = 'Reasigná los productos de esta categoría antes de eliminarla.';
+      } else if (confirm('¿Eliminar esta categoría?')) {
+        commitDemo(next=>next.categories.splice(i,1),'categories');
+      }
+    }
+  });
+  openAdmin('home');
 }
 </script></body></html>
