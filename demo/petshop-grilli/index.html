@@ -231,6 +231,112 @@ html,body{max-width:100%;overflow-x:clip}
 .admin-preview .productart{min-height:0}
 @media(max-width:580px){.admin-row .admin-actions{margin-left:0}.admin-row{gap:9px}.admin-form .description-field{grid-column:auto}}
 
+
+/* Ajuste específico de portada para teléfonos: imagen y texto sin solaparse */
+@media (max-width: 650px) {
+  .hero {
+    background: #160f17;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: clamp(245px, 69vw, 370px);
+    z-index: 0;
+    background:
+      linear-gradient(to bottom,
+        rgba(16,12,18,.08) 0%,
+        rgba(16,12,18,.02) 48%,
+        rgba(22,15,23,.5) 78%,
+        #160f17 100%),
+      url("hero-grilli.webp") center 46% / cover no-repeat;
+    pointer-events: none;
+  }
+  .hero .wrap {
+    display: block;
+    position: relative;
+    width: calc(100% - 36px);
+    min-height: 0;
+    padding: 0;
+    margin-inline: auto;
+  }
+  .hero .copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+    padding: clamp(252px, 71vw, 375px) 0 43px;
+    margin: 0;
+    gap: 0;
+  }
+  .hero .eyebrow {
+    font-size: clamp(10px, 2.65vw, 13px);
+    line-height: 1.45;
+    letter-spacing: .13em;
+    margin: 0 0 10px;
+  }
+  .hero .copy h1 {
+    font-size: clamp(37px, 9.4vw, 55px);
+    line-height: 1.08;
+    letter-spacing: -.045em;
+    max-width: 100%;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+  .hero .copy h1 span {
+    display: block;
+    white-space: normal;
+  }
+  .hero .copy p {
+    font-size: clamp(14px, 3.6vw, 17px);
+    line-height: 1.55;
+    margin: 0 auto 22px;
+    max-width: 36ch;
+    color: #f5e8ef;
+    text-wrap: pretty;
+  }
+  .hero .copy .checks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 360px);
+    gap: 12px 14px;
+    margin: 0 auto 28px;
+    padding: 17px 14px;
+    border: 1px solid rgba(255,140,194,.22);
+    border-radius: 17px;
+    background: linear-gradient(135deg,rgba(255,255,255,.07),rgba(255,84,158,.035));
+    text-align: left;
+    font-size: clamp(12px, 3.1vw, 15px);
+  }
+  .hero .checks span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: normal;
+    min-width: 0;
+  }
+  .hero .checks span::before {
+    flex: none;
+    margin-right: 0;
+    font-size: 17px;
+  }
+  .hero .copy > .btn {
+    margin: 0 auto;
+    min-height: 49px;
+    width: min(100%, 225px);
+    font-size: 15px;
+  }
+  .cats { margin-top: 0; }
+}
+@media (max-width: 365px) {
+  .hero .wrap { width: calc(100% - 26px); }
+  .hero .copy { padding-top: clamp(245px, 74vw, 275px); }
+  .hero .copy h1 { font-size: 35px; }
+  .hero .copy .checks { gap: 9px 6px; padding: 14px 10px; }
+}
 </style></head><body>
 <div class="site">
 <div class="announcement">🐾 ¡Todo para tus mejores amigos! • Pet Shop Grilli en Guernica</div>
