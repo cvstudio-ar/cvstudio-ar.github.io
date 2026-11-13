@@ -2,28 +2,15 @@
 const items=[
 ['Paisaje','drone-08.webp','Vista aérea del predio y pileta'],
 ['Paisaje','drone-11.webp','Instalaciones desde el aire'],
-['Paisaje','drone-01.webp','Paisaje de montaña'],
-['Paisaje','drone-07.webp','Panorámica del valle'],
 ['Paisaje','predio-02.webp','Predio del alojamiento'],
 ['Dormis','dormis-01.webp','Interior de dormi'],
 ['Dormis','dormis-03.webp','Habitación con vista al exterior'],
 ['Dormis','dormis-06.webp','Interior de alojamiento'],
 ['Dormis','dormis-05.webp','Detalle de dormi'],
-['Dormis','dormis-02.webp','Baño del dormi'],
 ['Cabaña','cabana-02.webp','Ambiente principal de cabaña'],
 ['Cabaña','cabana-04.webp','Dormitorio de cabaña'],
-['Cabaña','cabana-07.webp','Comedor de cabaña'],
-['Cabaña','cabana-09.webp','Cocina de cabaña'],
 ['Pileta y río','pileta-rio-03.webp','Pileta y entorno'],
-['Pileta y río','pileta-rio-01.webp','Espacios junto al agua'],
-['Pileta y río','pileta-rio-02.webp','Río de montaña'],
-['Pileta y río','pileta-rio-04.webp','Entorno natural'],
 ['Quincho','quincho-01.webp','Quincho del predio'],
-['Quincho','quincho-02.webp','Espacio de quincho'],
-['Predio','predio-01.webp','Espacios exteriores'],
-['Predio','predio-03.webp','Sector del predio'],
-['Predio','predio-06.webp','Instalaciones'],
-['Predio','predio-08.webp','Vista del predio']
 ];
 const tabs=document.getElementById('lmPhotoTabs'),grid=document.getElementById('lmGallery');if(!tabs||!grid)return;
 const base='assets/fotos/';let current='Todas';
