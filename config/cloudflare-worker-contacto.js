@@ -851,8 +851,8 @@ async function commerceHandle(request,env,origin,body){
  if(action.startsWith('web-commerce-admin')){
   if(!await verifyAdmin(request))return jsonResponse({ok:false,message:'Sesión administrativa inválida.'},401,origin);
   if(action==='web-commerce-admin-list'){
-   const [settings,projects,charges,notices]=await Promise.all([commerceSettings(env),commerceDB(env,'web_commerce_projects?select=*&order=created_at.desc&limit=100',{method:'GET'}),commerceDB(env,'web_commerce_charges?select=*&order=created_at.desc&limit=500',{method:'GET'}),commerceDB(env,'web_notification_outbox?select=event_key,channel,status,last_error,sent_at&order=created_at.desc&limit=100',{method:'GET'})]);
-   return jsonResponse({ok:true,settings,projects,charges,notices,connected:Boolean(env.TIENDANUBE_ACCESS_TOKEN&&env.TIENDANUBE_STORE_ID)},200,origin);
+   const [settings,projects,charges,notices,intakes]=await Promise.all([commerceSettings(env),commerceDB(env,'web_commerce_projects?select=*&order=created_at.desc&limit=100',{method:'GET'}),commerceDB(env,'web_commerce_charges?select=*&order=created_at.desc&limit=500',{method:'GET'}),commerceDB(env,'web_notification_outbox?select=event_key,channel,status,last_error,sent_at&order=created_at.desc&limit=100',{method:'GET'}),commerceDB(env,'cvstudio_web_intakes?select=reference,product_id,created_at,attribution&order=created_at.desc&limit=300',{method:'GET'})]);
+   return jsonResponse({ok:true,settings,projects,charges,notices,intakes,connected:Boolean(env.TIENDANUBE_ACCESS_TOKEN&&env.TIENDANUBE_STORE_ID)},200,origin);
   }
   if(action==='web-commerce-admin-refresh'){await commerceScheduledNotifications(env);return jsonResponse({ok:true},200,origin);}
   if(action==='web-commerce-admin-products')return jsonResponse({ok:true,products:await commerceTN(env,'products?per_page=200',null,'GET')},200,origin);
@@ -885,6 +885,13 @@ async function commerceHandle(request,env,origin,body){
    if(name.length<3||!isValidEmail(email)||phone.replace(/\D/g,'').length<8)throw new Error('Revisá nombre, email y WhatsApp.');
    const options=body.options||{},safe={};for(const key of ['business','style','color','palette','details','reference'])safe[key]=cleanText(options[key],key==='details'?2000:160);safe.features=(Array.isArray(options.features)?options.features:[]).slice(0,8).map(x=>cleanText(x,60));
    if(!safe.business)throw new Error('Ingresá el nombre o rubro de tu negocio.');
+   const intakeReference=cleanText(body.intakeReference,100);
+   if(intakeReference){
+     if(!/^CVS-[A-Z0-9-]{8,80}$/.test(intakeReference))throw new Error('La referencia del formulario es inválida.');
+     const rows=await commerceDB(env,'cvstudio_web_intakes?reference=eq.'+encodeURIComponent(intakeReference)+'&select=customer_email,product_id,reference&limit=1',{method:'GET'});
+     if(!rows?.length||rows[0].customer_email!==email||rows[0].product_id!==id)throw new Error('El formulario anterior no coincide con este pedido. Volvé a confirmar los datos.');
+     safe.intake_reference=intakeReference;
+   }
    if(!['deposit','full'].includes(body.stage||'deposit'))throw new Error('La contratación comienza con seña o pago total.');
    const record={payment_plan:body.stage||'deposit',id:crypto.randomUUID(),code:makeOrderCode(),access_token:crypto.randomUUID(),product_id:id,product_title:p.title,total,customer_name:name,customer_email:email,customer_phone:phone,options:safe,atribucion:cleanCampaignAttribution(body.attribution)};
    const rows=await commerceDB(env,'web_commerce_projects',{method:'POST',body:JSON.stringify(record)});project=rows?.[0];if(!project)throw new Error('No se pudo registrar el proyecto.');
