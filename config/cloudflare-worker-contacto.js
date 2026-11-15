@@ -770,9 +770,76 @@ function commerceValidateStage(project,stage,paid){
  if(stage==='balance'&&(!project.balance_enabled||!paid.rows.some(x=>x.stage==='deposit')||!paid.rows.some(x=>x.stage==='publication')))throw new Error('El pago final todavía no está habilitado.');
  if(stage==='deposit'&&paid.total>0)throw new Error('El proyecto ya tiene un pago inicial.');
 }
+
+const WEB_INTAKE_BUCKET='cvstudio-web-intakes';
+function validLogoMagic(bytes,mime){
+ const begins=arr=>arr.every((byte,i)=>bytes[i]===byte);
+ if(mime==='image/png')return begins([137,80,78,71,13,10,26,10]);
+ if(mime==='image/jpeg')return begins([255,216,255]);
+ if(mime==='image/webp')return begins([82,73,70,70])&&[87,69,66,80].every((byte,i)=>bytes[8+i]===byte);
+ if(mime==='application/pdf')return begins([37,80,68,70,45]);
+ return false;
+}
+async function handleWebCommerceIntake(env,origin,body){
+ const reference=cleanText(body.reference,100);
+ if(!/^CVS-[A-Z0-9-]{8,80}$/.test(reference))throw new Error('Referencia de solicitud inválida.');
+ const productId=cleanText(body.productId,80),currency=cleanText(body.currency,3),stage=cleanText(body.stage,20),provider=cleanText(body.provider,30);
+ if(!WEB_PRODUCTS[productId])throw new Error('Seleccioná un paquete web disponible.');
+ if(!['ARS','USD','EUR'].includes(currency))throw new Error('Moneda no disponible.');
+ if(!['deposit','full'].includes(stage))throw new Error('Etapa inicial inválida.');
+ if(!['mercadopago','tiendanube','paypal','transferencia'].includes(provider))throw new Error('Medio de pago inválido.');
+ if((currency==='ARS'&&provider==='paypal')||(currency!=='ARS'&&provider!=='paypal'))throw new Error('Medio de pago y moneda incompatibles.');
+ const name=cleanText(body.customerName,100),email=cleanText(body.customerEmail,160).toLowerCase(),phone=normalizePhone(body.customerPhone);
+ if(name.length<3||!isValidEmail(email)||phone.replace(/\D/g,'').length<8)throw new Error('Revisá nombre, correo y WhatsApp.');
+ const options=body.options||{};
+ const safe={};
+ for(const key of ['business','style','color','palette','details','reference'])safe[key]=cleanText(options[key],key==='details'?2000:160);
+ safe.features=(Array.isArray(options.features)?options.features:[]).slice(0,8).map(x=>cleanText(x,60));
+ if(!safe.business)throw new Error('Ingresá el negocio o nombre de tu proyecto.');
+ const existing=await commerceDB(env,'cvstudio_web_intakes?reference=eq.'+encodeURIComponent(reference)+'&select=id,customer_email&limit=1',{method:'GET'});
+ if(existing?.length){
+   if(existing[0].customer_email!==email)return jsonResponse({ok:false,message:'La referencia ya pertenece a otra solicitud.'},409,origin);
+   return jsonResponse({ok:true,reference,alreadyRegistered:true},200,origin);
+ }
+ let path=null,logoFilename=null;
+ if(body.logo!=null){
+   const logo=body.logo;
+   if(typeof logo!=='object'||Array.isArray(logo))throw new Error('Archivo adjunto inválido.');
+   const mime=cleanText(logo.type,100),data=logo.content;
+   if(typeof data!=='string'||data.length>2796208||data.length<8||!/^[A-Za-z0-9+/]+={0,2}$/.test(data))throw new Error('El logo supera los 2 MB o tiene formato inválido.');
+   const bytes=Uint8Array.from(atob(data),c=>c.charCodeAt(0));
+   if(bytes.length<8||bytes.length>2097152||!validLogoMagic(bytes,mime))throw new Error('El archivo no es una imagen o PDF válido, o supera los 2 MB.');
+   const extension={'image/png':'.png','image/jpeg':'.jpg','image/webp':'.webp','application/pdf':'.pdf'}[mime];
+   if(!extension)throw new Error('Formato de logo no permitido.');
+   logoFilename=cleanText(logo.name,140).replace(/[^\p{L}\p{N}._ -]/gu,'_')||('logo'+extension);
+   path=crypto.randomUUID()+'/logo'+extension;
+   if(!env.SUPABASE_SERVICE_ROLE_KEY)throw new Error('El almacenamiento privado no está configurado.');
+   const upload=await fetch(SUPABASE_URL+'/storage/v1/object/'+WEB_INTAKE_BUCKET+'/'+path,{
+     method:'POST',headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+env.SUPABASE_SERVICE_ROLE_KEY,'Content-Type':mime,'x-upsert':'false'},body:bytes
+   });
+   if(!upload.ok)throw new Error('No pudimos guardar el logo en el almacenamiento privado.');
+ }
+ try{
+   await commerceDB(env,'cvstudio_web_intakes',{method:'POST',body:JSON.stringify({
+     reference,product_id:productId,currency,stage,provider,
+     customer_name:name,customer_email:email,customer_phone:phone,options:safe,
+     attribution:cleanCampaignAttribution(body.attribution),logo_path:path,logo_filename:logoFilename
+   })});
+ }catch(error){
+   if(path&&env.SUPABASE_SERVICE_ROLE_KEY){
+     await fetch(SUPABASE_URL+'/storage/v1/object/'+WEB_INTAKE_BUCKET+'/'+path,{
+       method:'DELETE',headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+env.SUPABASE_SERVICE_ROLE_KEY}
+     }).catch(()=>{});
+   }
+   throw error;
+ }
+ return jsonResponse({ok:true,reference},200,origin);
+}
+
 async function commerceHandle(request,env,origin,body){
  const action=body.action;
  try{
+ if(action==='web-commerce-intake')return handleWebCommerceIntake(env,origin,body);
  if(action==='web-commerce-catalog'){
   const products=await getPaymentProducts(env),settings=await commerceSettings(env);
   return jsonResponse({ok:true,products:Object.entries(WEB_PRODUCTS).map(([id,d])=>{const p=products[id]||d;return {product_id:id,title:p.title,effective_price:effectiveProductPrice(p),active:p.active!==false};}).filter(p=>p.active),mercadopago:Boolean(env.MERCADOPAGO_ACCESS_TOKEN),tiendanube:Boolean(env.TIENDANUBE_ACCESS_TOKEN&&env.TIENDANUBE_STORE_ID&&settings.enabled)},200,origin);
