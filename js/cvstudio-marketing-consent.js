@@ -53,7 +53,11 @@
     try{localStorage.setItem(CONSENT_KEY,choice)}catch{}
     document.getElementById('cvAnalyticsNotice')?.remove();
     if(choice==='accepted'){rememberCampaign();loadAnalytics();tracking()}
-    else{try{sessionStorage.removeItem(CAMPAIGN_KEY)}catch{}}
+    else{
+      try{sessionStorage.removeItem(CAMPAIGN_KEY)}catch{}
+      // Una vez cargada una biblioteca de terceros, recargar detiene sus rastreadores activos.
+      if(loaded)location.reload();
+    }
   }
   function notice(){
     const root=document.createElement('aside');
