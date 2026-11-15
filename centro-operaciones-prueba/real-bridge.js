@@ -163,7 +163,7 @@
         color:['#9b5de5','#3b82f6','#35d07f','#ff8a1f'][index%4],
         time:r.fecha_actualizacion || r.fecha_creacion || 'Ahora', phone:c.telefono || '', email:c.email || '',
         city:c.ciudad || '', responsible:(r.responsable && r.responsable !== 'Exequiel') ? r.responsable : 'pablexe',
-        source:r.canal || 'Web', realRequestId:r.id, realClientId:r.cliente_id, code:r.codigo,
+        source:r.canal || 'Web', attribution:(r.datos?.atribucion && typeof r.datos.atribucion==='object' && !Array.isArray(r.datos.atribucion)) ? r.datos.atribucion : {}, realRequestId:r.id, realClientId:r.cliente_id, code:r.codigo,
         createdAt:r.fecha_creacion || r.fecha_actualizacion, notes:r.notas || '', files:r.archivos || [], formData:r.datos?.formulario || r.datos?.formData || r.datos || {}, imported:true
       };
     });
@@ -202,13 +202,13 @@
       let c = byEmail.get(esc(order.cliente_email).toLowerCase()) || byPhone.get(digits(order.cliente_whatsapp));
       if (!c) {
         const id = hashId(`mpclient:${order.cliente_email || order.cliente_whatsapp || order.id}`);
-        c = {id,name:order.cliente_nombre || 'Cliente Mercado Pago',initials:initials(order.cliente_nombre),service:normalizeService(order.producto_nombre),status:order.estado_pago==='approved'?'En proceso':'Esperando pago',color:['#35d07f','#3b82f6','#ff8a1f'][index%3],time:order.updated_at||order.created_at,phone:order.cliente_whatsapp||'',email:order.cliente_email||'',responsible:'pablexe',source:'Web',realOrderId:order.id,imported:true};
+        c = {id,name:order.cliente_nombre || 'Cliente Mercado Pago',initials:initials(order.cliente_nombre),service:normalizeService(order.producto_nombre),status:order.estado_pago==='approved'?'En proceso':'Esperando pago',color:['#35d07f','#3b82f6','#ff8a1f'][index%3],time:order.updated_at||order.created_at,phone:order.cliente_whatsapp||'',email:order.cliente_email||'',responsible:'pablexe',source:'Web',attribution:(order.atribucion && typeof order.atribucion==='object' && !Array.isArray(order.atribucion)) ? order.atribucion : {},realOrderId:order.id,imported:true};
         state.clients.push(c);
       }
       realPayments.push({
         id:hashId(`payment:${order.id}`),clientId:c.id,client:c.name,service:normalizeService(order.producto_nombre),
         amount:Number(order.importe||0),status:order.estado_pago==='approved'?'Confirmado':'Pendiente',
-        source:'Web',paymentMethod:'Mercado Pago',alias:'cvstudio.ar',priceSnapshot:Number(order.importe||0),
+        source:'Web',attribution:(order.atribucion && typeof order.atribucion==='object' && !Array.isArray(order.atribucion)) ? order.atribucion : {},paymentMethod:'Mercado Pago',alias:'cvstudio.ar',priceSnapshot:Number(order.importe||0),
         createdAt:order.fecha_aprobacion||order.created_at,realOrderId:order.id,externalReference:order.external_reference,
         orderStatus:order.estado_pedido,imported:true
       });
