@@ -32,9 +32,12 @@
       try{sessionStorage.setItem(CAMPAIGN_KEY,JSON.stringify(result))}catch{}
     }
   }
+  let clickTrackingBound=false;
   function tracking(){
+    if(clickTrackingBound)return;
     if(consent!=='accepted'||typeof window.gtag!=='function')return;
     if(document.documentElement.dataset.cvstudioPage==='webs'){
+      clickTrackingBound=true;
       document.addEventListener('click',event=>{
         const link=event.target.closest('a[href]');
         if(!link)return;
@@ -49,7 +52,7 @@
     consent=choice;
     try{localStorage.setItem(CONSENT_KEY,choice)}catch{}
     document.getElementById('cvAnalyticsNotice')?.remove();
-    if(choice==='accepted'){rememberCampaign();loadAnalytics()}
+    if(choice==='accepted'){rememberCampaign();loadAnalytics();tracking()}
     else{try{sessionStorage.removeItem(CAMPAIGN_KEY)}catch{}}
   }
   function notice(){
@@ -91,12 +94,6 @@
     preferences();
     if(consent==='accepted'){rememberCampaign();loadAnalytics();tracking()}
     else if(consent!=='rejected')notice();
-    // Al aceptar en la sesión actual, se habilita la medición de los clics siguientes.
-    document.addEventListener('click',event=>{
-      if(event.target?.id==='cvAnalyticsNotice')return;
-      if(consent==='accepted'&&!window.__cvstudioMarketingClickListener){
-        window.__cvstudioMarketingClickListener=true;tracking();
-      }
-    },{once:true});
+
   },{once:true});
 })();
