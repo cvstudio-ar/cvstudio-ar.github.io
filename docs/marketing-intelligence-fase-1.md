@@ -49,3 +49,10 @@ Fecha: 2026-11-15. **Rama de desarrollo:** `feature/marketing-intelligence`. **N
 - El Worker todavía debe pasar una prueba real por HTTPS desde el navegador con sesión y entorno de pruebas para verificar CORS, uploads y errores de pasarela.
 
 - Seguridad adicional: columna `visitor_hash` privada y índice por fecha. Prueba aislada: la décima solicitud previa produce HTTP 429 al intentar registrar una undécima. **Sin pruebas reales de Cloudflare**.
+
+## Validación automática en GitHub
+- `tests/marketing-intake.test.cjs` prueba idempotencia de referencias, cambios de producto o contacto, medios y monedas compatibles, antiabuso, firmas de archivos y sanitización UTM; pruebas sobre mocks, sin operaciones financieras ni llamadas externas.
+- `.github/workflows/marketing-validation.yml` ejecuta sintaxis y pruebas con Node.js 22 en Pull Requests (sin despliegues). **Última ejecución comprobada: success.**
+- Se actualizó `.github/workflows/validate.yml` para verificar exclusiones reales de archivos históricos en Pages: el antiguo test era incorrecto porque los archivos seguían presentes en `main`. **Última ejecución comprobada: success.**
+- Revisión contra `main`: rama por delante, sin divergencia; la publicación automática de Pages solo se activa al cambiar `main`.
+- Último recuento en Supabase CVStudio: 0 preparaciones, 3 proyectos web, 3 cargos web y 8 pedidos Mercado Pago. No se insertaron datos de prueba permanentes.
