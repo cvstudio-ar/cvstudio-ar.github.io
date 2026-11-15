@@ -24,7 +24,11 @@ Fecha: 2026-11-15. **Rama de desarrollo:** `feature/marketing-intelligence`. **N
 3. Probar un checkout de Mercado Pago en modalidad test: verificar que `pedidos_mercadopago.atribucion` persista y que el precio confirmado provenga del catálogo remoto; no hacer cargos reales.
 4. Abrir ambos sitios con consentimiento aceptado/rechazado: GA4 solo debe cargarse al aceptar, sin etiquetas duplicadas; comprobar clic a WhatsApp.
 5. Comprobar fuente y campaña en Clientes y Marketing; verificar el conteo con pagos acreditados y el filtrado de sesiones.
-6. El configurador independiente de `/otros-servicios/` todavía requiere integración de su flujo específico de pedido y presupuesto al sistema de atribución.
+6. El configurador independiente de `/otros-servicios/` ya tiene eventos de embudo y UTM. También está preparada en el Worker la acción `web-commerce-intake` (anteriormente ausente), que valida datos, logo y referencia de preparación. Se enlaza con el checkout y los pedidos de Webs Personalizadas.
+   - Se creó `cvstudio_web_intakes` (RLS, solo service_role) y el bucket privado `cvstudio-web-intakes` (2 MB por archivo).
+   - En `web_commerce_projects` se agregó `atribucion jsonb not null default '{}'`, separada de `options`, para no reenviar UTM a terceros mediante la descripción del servicio.
+   - El Centro de Operaciones puede recuperar métricas agregadas de preparaciones desde el Worker, sin incluir datos personales en la respuesta de estadísticas.
+   - Estas funciones no están desplegadas. Faltan prueba E2E con logo, prueba de pagos y mecanismos antispam / límites de solicitudes en Cloudflare antes de habilitar el endpoint públicamente.
 7. Meta Pixel/Conversions API: **pendientes**. No hay ID ni token configurado en esta fase, ni debe guardarse una credencial de Meta en el navegador.
 8. Publicar política de privacidad y controles adecuados para marketing y medición. No enviar PII a plataformas analíticas.
 9. No atribuir todos los pagos de origen genérico “Web” a campañas: solo los que tienen UTMs correctamente recibidas.
@@ -36,3 +40,9 @@ Fecha: 2026-11-15. **Rama de desarrollo:** `feature/marketing-intelligence`. **N
 - La comparación GitHub de la rama permite revisar exactamente qué archivos cambiarían en producción.
 
 **Este documento no certifica pruebas E2E con una sesión real ni el despliegue del Worker.**
+## Pruebas adicionales sobre Webs Personalizadas
+- Esquema: permisos `anon` y `authenticated` sin SELECT en `cvstudio_web_intakes`; `service_role` autorizado. Bucket de logos privado, límite de 2 MB.
+- Test transaccional de inserción: 1 fila visible durante la transacción y 0 registros ficticios persistidos tras `ROLLBACK`.
+- Registros existentes verificados sin borrado: 3 proyectos web y 3 pagos web.
+- Prueba aislada de Worker con base de datos simulada: registro correcto de referencia y UTM; moneda/proveedor incompatible rechazado; firma PNG válida aceptada por verificación de cabecera.
+- El Worker todavía debe pasar una prueba real por HTTPS desde el navegador con sesión y entorno de pruebas para verificar CORS, uploads y errores de pasarela.
