@@ -74,6 +74,17 @@ async function updatePaymentOrder(env,externalReference,changes){
   catch(error){console.warn('Pedido no actualizado en Supabase:',error.message);return null}
 }
 
+function cleanCampaignAttribution(raw){
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))return {};
+  const out={};
+  for(const key of ['utm_source','utm_medium','utm_campaign','utm_content','utm_term']){
+    const value=raw[key];
+    if(typeof value!=='string')continue;
+    const clean=value.trim();
+    if(clean.length>0&&clean.length<=120&&/^[a-z0-9 _.:/-]+$/i.test(clean))out[key]=clean;
+  }
+  return out;
+}
 async function handleMercadoPagoPreference(env,origin,body){
   if(!env.MERCADOPAGO_ACCESS_TOKEN)return jsonResponse({ok:false,message:'Mercado Pago todavía no está configurado en el servidor.'},503,origin);
   const productId=cleanText(body.productId,80),products=await getPaymentProducts(env),product=products[productId];
@@ -82,8 +93,9 @@ async function handleMercadoPagoPreference(env,origin,body){
   if(!Number.isFinite(unitPrice)||unitPrice<1)return jsonResponse({ok:false,message:'El servicio no tiene un precio válido.'},400,origin);
   const customerName=cleanText(body.customerName,100),customerEmail=cleanText(body.customerEmail,160).toLowerCase(),customerPhone=normalizePhone(body.customerPhone);
   if(customerName.length<3||!isValidEmail(customerEmail)||customerPhone.replace(/\D/g,'').length<8)return jsonResponse({ok:false,message:'Revisá tu nombre, correo y WhatsApp antes de continuar.'},400,origin);
+  const attribution=cleanCampaignAttribution(body.attribution);
   const orderCode=makeOrderCode(),externalReference=`${orderCode}:${productId}`;
-  await savePaymentOrder(env,{codigo:orderCode,external_reference:externalReference,producto_id:productId,producto_nombre:product.title,importe:unitPrice,moneda:'ARS',cliente_nombre:customerName,cliente_email:customerEmail,cliente_whatsapp:customerPhone,estado_pago:'pending',estado_pedido:'Pendiente de pago',medio_pago:'Mercado Pago · Checkout Pro',created_at:new Date().toISOString(),updated_at:new Date().toISOString()});
+  await savePaymentOrder(env,{codigo:orderCode,external_reference:externalReference,producto_id:productId,producto_nombre:product.title,importe:unitPrice,moneda:'ARS',cliente_nombre:customerName,cliente_email:customerEmail,cliente_whatsapp:customerPhone,estado_pago:'pending',estado_pedido:'Pendiente de pago',medio_pago:'Mercado Pago · Checkout Pro',atribucion:attribution,created_at:new Date().toISOString(),updated_at:new Date().toISOString()});
   await addPaymentEvent(env,externalReference,'order_created','Pedido creado y pendiente de pago',{product_id:productId,amount:unitPrice,test_mode:Boolean(product.test_mode)});
   const preference={
     items:[{id:productId,title:product.title,description:`Pedido ${orderCode} · Servicio profesional de CVStudio Argentina`,quantity:1,currency_id:'ARS',unit_price:unitPrice}],
@@ -546,11 +558,11 @@ async function findOrCreatePublicClient(env,{name,email,phone,city}){
   return {client:rows?.[0]||record,existing:false};
 }
 
-async function createPublicRequestRecord(env,{client,requestCode,service,message,formData,source}){
+async function createPublicRequestRecord(env,{client,requestCode,service,message,formData,source,attribution}){
   const now=new Date().toISOString();
   const record={
     id:crypto.randomUUID(),cliente_id:client.id,codigo:requestCode,servicio:service||'Solicitud web',subtipo:'',
-    descripcion:message,datos:{origen:source||'Formulario web',formulario:formData||{},localidad:client.ciudad||''},
+    descripcion:message,datos:{origen:source||'Formulario web',formulario:formData||{},localidad:client.ciudad||'',atribucion:cleanCampaignAttribution(attribution)},
     estado:'Nuevo formulario recibido',prioridad:'Normal',responsable:'Exequiel',asignado:'Sin definir',notas:'',
     canal:source||'Formulario web',fecha_creacion:now,fecha_actualizacion:now
   };
@@ -594,7 +606,7 @@ async function handlePublicRequest(env,origin,body){
   let persisted=null;
   try{
     const resolved=await findOrCreatePublicClient(env,{name,email,phone,city});
-    const requestRecord=await createPublicRequestRecord(env,{client:resolved.client,requestCode,service,message,formData:body.formData,source:cleanText(body.source,60)||'Formulario web'});
+    const requestRecord=await createPublicRequestRecord(env,{client:resolved.client,requestCode,service,message,formData:body.formData,source:cleanText(body.source,60)||'Formulario web',attribution:body.attribution});
     persisted={client:resolved.client,request:requestRecord,existingClient:resolved.existing};
   }catch(error){
     console.error('No se pudo crear automáticamente el cliente/solicitud',error);
