@@ -248,6 +248,8 @@
       storageDetail:storageResult?.error?storageResult.error.message:'Bucket privado verificado',
       payments:paymentsData._error?'error':'connected',
       paymentsDetail:paymentsData._error?paymentsData._error:`${orders.length} pedidos leídos`,
+      webCommerce:webCommerceData._error?'error':'connected',
+      webCommerceDetail:webCommerceData._error?webCommerceData._error:`${state.webIntakes.length} preparaciones de webs leídas`,
       portfolios:portfoliosData._error?'error':'connected',
       portfoliosDetail:portfoliosData._error?portfoliosData._error:`${state.portfolios.length} espacios leídos`,
       whatsapp:'configured',
