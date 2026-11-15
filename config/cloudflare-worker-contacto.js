@@ -780,7 +780,7 @@ function validLogoMagic(bytes,mime){
  if(mime==='application/pdf')return begins([37,80,68,70,45]);
  return false;
 }
-async function handleWebCommerceIntake(env,origin,body){
+async function handleWebCommerceIntake(request,env,origin,body){
  const reference=cleanText(body.reference,100);
  if(!/^CVS-[A-Z0-9-]{8,80}$/.test(reference))throw new Error('Referencia de solicitud inválida.');
  const productId=cleanText(body.productId,80),currency=cleanText(body.currency,3),stage=cleanText(body.stage,20),provider=cleanText(body.provider,30);
@@ -800,6 +800,17 @@ async function handleWebCommerceIntake(env,origin,body){
  if(existing?.length){
    if(existing[0].customer_email!==email)return jsonResponse({ok:false,message:'La referencia ya pertenece a otra solicitud.'},409,origin);
    return jsonResponse({ok:true,reference,alreadyRegistered:true},200,origin);
+ }
+ let visitorHash=null;
+ const ip=request.headers.get('CF-Connecting-IP')||'';
+ if(ip&&env.SUPABASE_SERVICE_ROLE_KEY){
+   const day=new Date().toISOString().slice(0,10);
+   const bytes=new TextEncoder().encode(day+':'+ip+':'+env.SUPABASE_SERVICE_ROLE_KEY);
+   const digest=await crypto.subtle.digest('SHA-256',bytes);
+   visitorHash=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
+   const since=new Date(Date.now()-15*60*1000).toISOString();
+   const recent=await commerceDB(env,'cvstudio_web_intakes?visitor_hash=eq.'+visitorHash+'&created_at=gte.'+encodeURIComponent(since)+'&select=id&limit=11',{method:'GET'});
+   if((recent||[]).length>=10)return jsonResponse({ok:false,message:'Se registraron demasiadas solicitudes recientemente. Probá nuevamente más tarde.'},429,origin);
  }
  let path=null,logoFilename=null;
  if(body.logo!=null){
@@ -823,7 +834,7 @@ async function handleWebCommerceIntake(env,origin,body){
    await commerceDB(env,'cvstudio_web_intakes',{method:'POST',body:JSON.stringify({
      reference,product_id:productId,currency,stage,provider,
      customer_name:name,customer_email:email,customer_phone:phone,options:safe,
-     attribution:cleanCampaignAttribution(body.attribution),logo_path:path,logo_filename:logoFilename
+     attribution:cleanCampaignAttribution(body.attribution),visitor_hash:visitorHash,logo_path:path,logo_filename:logoFilename
    })});
  }catch(error){
    if(path&&env.SUPABASE_SERVICE_ROLE_KEY){
@@ -839,7 +850,7 @@ async function handleWebCommerceIntake(env,origin,body){
 async function commerceHandle(request,env,origin,body){
  const action=body.action;
  try{
- if(action==='web-commerce-intake')return handleWebCommerceIntake(env,origin,body);
+ if(action==='web-commerce-intake')return handleWebCommerceIntake(request,env,origin,body);
  if(action==='web-commerce-catalog'){
   const products=await getPaymentProducts(env),settings=await commerceSettings(env);
   return jsonResponse({ok:true,products:Object.entries(WEB_PRODUCTS).map(([id,d])=>{const p=products[id]||d;return {product_id:id,title:p.title,effective_price:effectiveProductPrice(p),active:p.active!==false};}).filter(p=>p.active),mercadopago:Boolean(env.MERCADOPAGO_ACCESS_TOKEN),tiendanube:Boolean(env.TIENDANUBE_ACCESS_TOKEN&&env.TIENDANUBE_STORE_ID&&settings.enabled)},200,origin);
