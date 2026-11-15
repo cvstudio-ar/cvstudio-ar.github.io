@@ -796,9 +796,17 @@ async function handleWebCommerceIntake(request,env,origin,body){
  for(const key of ['business','style','color','palette','details','reference'])safe[key]=cleanText(options[key],key==='details'?2000:160);
  safe.features=(Array.isArray(options.features)?options.features:[]).slice(0,8).map(x=>cleanText(x,60));
  if(!safe.business)throw new Error('Ingresá el negocio o nombre de tu proyecto.');
- const existing=await commerceDB(env,'cvstudio_web_intakes?reference=eq.'+encodeURIComponent(reference)+'&select=id,customer_email&limit=1',{method:'GET'});
+ const existing=await commerceDB(env,'cvstudio_web_intakes?reference=eq.'+encodeURIComponent(reference)+'&select=id,customer_email,customer_phone,product_id,currency,stage,provider,options,attribution,logo_path&limit=1',{method:'GET'});
  if(existing?.length){
-   if(existing[0].customer_email!==email)return jsonResponse({ok:false,message:'La referencia ya pertenece a otra solicitud.'},409,origin);
+   const previous=existing[0];
+   const compare=(left,right)=>JSON.stringify(left??null)===JSON.stringify(right??null);
+   const matches=previous.customer_email===email&&previous.customer_phone===phone
+     &&previous.product_id===productId&&previous.currency===currency
+     &&previous.stage===stage&&previous.provider===provider
+     &&compare(previous.options,safe)
+     &&compare(previous.attribution,cleanCampaignAttribution(body.attribution))
+     &&Boolean(previous.logo_path)===Boolean(body.logo);
+   if(!matches)return jsonResponse({ok:false,message:'La referencia ya fue utilizada con otros datos. Reiniciá la preparación de tu pedido.'},409,origin);
    return jsonResponse({ok:true,reference,alreadyRegistered:true},200,origin);
  }
  let visitorHash=null;
