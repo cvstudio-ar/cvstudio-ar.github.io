@@ -992,6 +992,7 @@
         body: JSON.stringify({
           action: 'mercadopago-create-preference',
           productId: form.dataset.productId,
+          attribution: window.CVStudioCampaignAttribution?.getCampaign?.() || null,
           ...customer
         })
       });
