@@ -28,7 +28,8 @@ Fecha: 2026-11-15. **Rama de desarrollo:** `feature/marketing-intelligence`. **N
    - Se creó `cvstudio_web_intakes` (RLS, solo service_role) y el bucket privado `cvstudio-web-intakes` (2 MB por archivo).
    - En `web_commerce_projects` se agregó `atribucion jsonb not null default '{}'`, separada de `options`, para no reenviar UTM a terceros mediante la descripción del servicio.
    - El Centro de Operaciones puede recuperar métricas agregadas de preparaciones desde el Worker, sin incluir datos personales en la respuesta de estadísticas.
-   - Estas funciones no están desplegadas. Faltan prueba E2E con logo, prueba de pagos y mecanismos antispam / límites de solicitudes en Cloudflare antes de habilitar el endpoint públicamente.
+   - Se agregó un límite inicial en el Worker de 10 preparaciones nuevas por origen en 15 minutos, usando una huella seudonimizada y rotativa por día (sin guardar IP en claro). Esto **no reemplaza** Turnstile ni las reglas WAF, que deben verificarse antes de habilitar el endpoint públicamente.
+   - Estas funciones no están desplegadas. Faltan prueba E2E con logo, prueba de pagos y validación de protección antispam/WAF.
 7. Meta Pixel/Conversions API: **pendientes**. No hay ID ni token configurado en esta fase, ni debe guardarse una credencial de Meta en el navegador.
 8. Publicar política de privacidad y controles adecuados para marketing y medición. No enviar PII a plataformas analíticas.
 9. No atribuir todos los pagos de origen genérico “Web” a campañas: solo los que tienen UTMs correctamente recibidas.
@@ -46,3 +47,5 @@ Fecha: 2026-11-15. **Rama de desarrollo:** `feature/marketing-intelligence`. **N
 - Registros existentes verificados sin borrado: 3 proyectos web y 3 pagos web.
 - Prueba aislada de Worker con base de datos simulada: registro correcto de referencia y UTM; moneda/proveedor incompatible rechazado; firma PNG válida aceptada por verificación de cabecera.
 - El Worker todavía debe pasar una prueba real por HTTPS desde el navegador con sesión y entorno de pruebas para verificar CORS, uploads y errores de pasarela.
+
+- Seguridad adicional: columna `visitor_hash` privada y índice por fecha. Prueba aislada: la décima solicitud previa produce HTTP 429 al intentar registrar una undécima. **Sin pruebas reales de Cloudflare**.
