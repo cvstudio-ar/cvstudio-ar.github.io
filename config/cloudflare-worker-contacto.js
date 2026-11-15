@@ -799,7 +799,8 @@ async function handleWebCommerceIntake(request,env,origin,body){
  const existing=await commerceDB(env,'cvstudio_web_intakes?reference=eq.'+encodeURIComponent(reference)+'&select=id,customer_email,customer_phone,product_id,currency,stage,provider,options,attribution,logo_path&limit=1',{method:'GET'});
  if(existing?.length){
    const previous=existing[0];
-   const compare=(left,right)=>JSON.stringify(left??null)===JSON.stringify(right??null);
+   const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(key=>[key,canonical(value[key])])):value??null;
+   const compare=(left,right)=>JSON.stringify(canonical(left))===JSON.stringify(canonical(right));
    const matches=previous.customer_email===email&&previous.customer_phone===phone
      &&previous.product_id===productId&&previous.currency===currency
      &&previous.stage===stage&&previous.provider===provider
