@@ -119,7 +119,7 @@
     }
     status('Sincronizando datos reales…', 'syncing');
 
-    const [requestsResult, commsResult, storageResult, paymentsData, productsData, portfoliosData, canvaData, metaData] = await Promise.all([
+    const [requestsResult, commsResult, storageResult, paymentsData, productsData, portfoliosData, canvaData, metaData, webCommerceData] = await Promise.all([
       client.from('solicitudes').select('*, clientes(*), archivos(*)').order('fecha_creacion', {ascending:false}).limit(1000),
       client.from('comunicaciones').select('*').order('fecha_creacion', {ascending:false}).limit(3000),
       client.storage.from('cvstudio-archivos').list('',{limit:1}).catch(error=>({data:null,error})),
@@ -127,7 +127,8 @@
       api('payments-admin-products').catch(error => ({products:[], _error:error.message})),
       portfolioApi('portfolio-admin-list').catch(error => ({clients:[], _error:error.message})),
       api('canva-status').catch(error => ({configured:true,connected:false,_error:error.message})),
-      api('meta-campaigns').catch(error => ({connected:false,campaigns:[],_error:error.message}))
+      api('meta-campaigns').catch(error => ({connected:false,campaigns:[],_error:error.message})),
+      api('web-commerce-admin-list').catch(error => ({intakes:[],_error:error.message}))
     ]);
     if (requestsResult.error) throw requestsResult.error;
     if (commsResult.error) throw commsResult.error;
@@ -229,6 +230,14 @@
       state._realProducts = products;
     }
     state.portfolios=Array.isArray(portfoliosData.clients)?portfoliosData.clients:state.portfolios||[];
+    state.webIntakes=Array.isArray(webCommerceData.intakes)
+      ?webCommerceData.intakes.map(intake=>({
+          reference:String(intake.reference||'').slice(0,100),
+          productId:String(intake.product_id||'').slice(0,80),
+          createdAt:intake.created_at,
+          attribution:(intake.attribution&&typeof intake.attribution==='object'&&!Array.isArray(intake.attribution))?intake.attribution:{}
+        }))
+      :[];
     state.metaCampaigns=Array.isArray(metaData.campaigns)?metaData.campaigns:state.metaCampaigns||[];
     state.metaSummary=metaData.summary||state.metaSummary||{spend:0,results:0,impressions:0};
     state._integrationStatus={
