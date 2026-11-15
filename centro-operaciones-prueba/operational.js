@@ -566,6 +566,38 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const confirmed = confirmedPayments(), revenue = totalRevenue();
     const byChannel = {}; confirmed.forEach(p=>{const k=p.source||'Sin identificar';byChannel[k]=(byChannel[k]||0)+Number(p.amount||0)});
     const channels=Object.entries(byChannel).sort((a,b)=>b[1]-a[1]);
+    const leadCounts={};
+    for(const client of state.clients||[]){
+      if(!client?.name)continue;
+      const source=String(client.source||'Sin identificar').trim()||'Sin identificar';
+      leadCounts[source]=(leadCounts[source]||0)+1;
+    }
+    const leadEntries=Object.entries(leadCounts).sort((a,b)=>b[1]-a[1]);
+    const leadTotal=leadEntries.reduce((sum,item)=>sum+item[1],0);
+    const leadIdentified=leadTotal-(leadCounts['Sin identificar']||0);
+    const paidIdentified=confirmed.filter(p=>String(p.source||'').trim()&&!['Sin identificar','Desconocido'].includes(String(p.source).trim())).length;
+    const days=Array.from({length:7},(_,i)=>{
+      const date=new Date();date.setHours(12,0,0,0);date.setDate(date.getDate()-6+i);
+      const key=localDateKey(date);
+      const matching=confirmed.filter(p=>{
+        const when=new Date(p.createdAt||p.paidAt||0);
+        return !Number.isNaN(when.getTime())&&localDateKey(when)===key;
+      });
+      return {key,label:new Intl.DateTimeFormat('es-AR',{weekday:'short'}).format(date).replace('.',''),revenue:matching.reduce((n,p)=>n+Number(p.amount||0),0),count:matching.length};
+    });
+    const maxRevenue=Math.max(1,...days.map(d=>d.revenue));
+    const weekChart=days.some(d=>d.count)
+      ? '<div class="marketing-real-week" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));align-items:end;gap:8px;height:160px">'+days.map(d=>
+          '<div style="display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%;gap:6px" title="'+esc(d.key)+' · '+money(d.revenue)+'">'+
+          '<small style="font-size:11px">'+esc(money(d.revenue))+'</small>'+
+          '<div style="background:#35d07f;border-radius:5px 5px 0 0;width:70%;height:'+Math.max(3,Math.round(d.revenue/maxRevenue*105))+'px"></div>'+
+          '<small>'+esc(d.label)+'</small></div>'
+        ).join('')+'</div>'
+      : '<div class="empty-state empty-state-large"><strong>Sin pagos acreditados en los últimos 7 días</strong><span>El gráfico se actualizará cuando haya pagos confirmados.</span></div>';
+    const leadSourcePanel=leadEntries.length
+      ? '<div class="channel-grid">'+leadEntries.map(([name,total])=>'<div class="channel-card"><strong>'+esc(name)+'</strong><span>'+total+' contactos</span></div>').join('')+'</div>'
+      : '<div class="empty-state empty-state-large"><strong>Sin fuentes registradas</strong><span>El origen aparecerá cuando ingresen clientes.</span></div>';
+
     const metaSpend=Number(state.metaSummary?.spend||0),budget=revenue*Number(state.rules.growth||0)/100, spent=totalExpenses()+metaSpend, available=Math.max(0,budget-spent);
     const today=localDateKey(new Date()),manualCampaigns=calendarItems().filter(item=>item.type==='campaign'&&item.startDate<=today&&(item.endDate||item.startDate)>=today&&!['Completada','Cancelada'].includes(item.status));
     const now=Date.now();
@@ -578,7 +610,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const metaCampaigns=(Array.isArray(state.metaCampaigns)?state.metaCampaigns:[]).filter(isCurrentMetaCampaign),campaigns=[...metaCampaigns,...manualCampaigns.map(item=>({...item,source:'Calendario',budget:itemTotal(item)}))];
     const campaignCards=campaigns.map(item=>{const source=String(item.platform||item.channel||item.title||'').toLowerCase(),network=source.includes('instagram')?'instagram':'facebook';return `<article class="marketing-campaign-card"><span>${brand(network)}</span><div><strong>${esc(item.name||item.title)}</strong><small>${esc(item.source||'Meta Ads')} · ${dateLabel(item.startDate||item.start_time)}${item.endDate||item.stop_time?` → ${dateLabel(item.endDate||item.stop_time)}`:''}</small></div><b>${money(item.budget||item.totalBudget||item.spend||0)}</b><i>${esc(item.status||item.effective_status||'Activa')}</i></article>`;}).join('');
     const campaignList=campaignCards?`<div class="marketing-campaign-list">${campaignCards}</div>`:`<div class="empty-state empty-state-large"><strong>Sin campañas activas</strong><span>Creá una en Calendario o vinculá Meta Ads.</span></div>`;
-    return `<section class="grid kpi-grid">${kpi('chart','Inversión registrada',money(spent),`${state.expenses.length} movimientos`,'#3b82f6')}${kpi('megaphone','Campañas activas',campaigns.length,metaCampaigns.length?'Meta Ads + calendario':'registradas en calendario','#35d07f')}${kpi('file','Ventas generadas',confirmed.length,'pagos confirmados','#9b5de5')}${kpi('dollar','Ingreso promedio',confirmed.length?money(revenue/confirmed.length):money(0),'por venta confirmada','#ff8a1f')}${kpi('wallet','Fondo disponible',money(available),'crecimiento menos gastos','#28c2d8')}</section><section class="grid marketing-grid">${panel('Caja publicitaria · Fondo de Crecimiento',`<div class="donut-wrap">${donutChart(budget?Math.round(spent/budget*100)+'%':'0%','Ejecutado')}<div class="legend"><span><b>Asignado:</b> ${money(budget)}</span><span><b>Gastado:</b> ${money(spent)}</span><span><b>Disponible:</b> ${money(available)}</span></div></div>`)}<section class="panel span-2"><div class="panel-head"><div><h2>Inversión y resultados</h2><p>Movimientos reales de marketing y ventas.</p></div></div>${spent||confirmed.length?lineSvg():`<div class="empty-state empty-state-large"><strong>Sin datos suficientes</strong><span>Registrá gastos publicitarios y pagos confirmados.</span></div>`}</section>${panel('Rendimiento por canal',channels.length?`<div class="channel-grid">${channels.map(([name,val])=>`<div class="channel-card"><strong>${esc(name)}</strong><span>${confirmed.filter(p=>(p.source||'Sin identificar')===name).length} ventas</span><b>${money(val)}</b></div>`).join('')}</div>`:`<div class="empty-state empty-state-large"><strong>Sin canales medidos</strong><span>El origen aparecerá al confirmar pagos.</span></div>`)}${panel('Campañas activas',campaignCards||`<div class="empty-state empty-state-large"><strong>Sin campañas activas</strong><span>Creá una en Calendario o vinculá Meta Ads.</span></div>`)}${panel('Creatividades recientes',`<div class="empty-state empty-state-large"><strong>Sin creatividades registradas</strong><span>Podés asociarlas al cargar archivos de Marketing.</span></div>`)}</section>`;
+    return `<div class="panel" style="margin-bottom:12px;padding:12px 16px"><strong>Medición comercial real</strong><p class="muted">Contactos con origen identificado: ${leadIdentified} de ${leadTotal}. Pagos con canal registrado: ${paidIdentified} de ${confirmed.length}. Las fuentes manuales no equivalen a atribución publicitaria verificada.</p></div><section class="grid kpi-grid">${kpi('chart','Inversión registrada',money(spent),`${state.expenses.length} movimientos`,'#3b82f6')}${kpi('megaphone','Campañas activas',campaigns.length,metaCampaigns.length?'Meta Ads + calendario':'registradas en calendario','#35d07f')}${kpi('file','Ventas generadas',confirmed.length,'pagos confirmados','#9b5de5')}${kpi('dollar','Ingreso promedio',confirmed.length?money(revenue/confirmed.length):money(0),'por venta confirmada','#ff8a1f')}${kpi('wallet','Fondo disponible',money(available),'crecimiento menos gastos','#28c2d8')}</section><section class="grid marketing-grid">${panel('Caja publicitaria · Fondo de Crecimiento',`<div class="donut-wrap">${donutChart(budget?Math.round(spent/budget*100)+'%':'0%','Ejecutado')}<div class="legend"><span><b>Asignado:</b> ${money(budget)}</span><span><b>Gastado:</b> ${money(spent)}</span><span><b>Disponible:</b> ${money(available)}</span></div></div>`)}<section class="panel span-2"><div class="panel-head"><div><h2>Inversión y resultados</h2><p>Movimientos reales de marketing y ventas.</p></div></div>${weekChart}</section>${panel('Rendimiento por canal',channels.length?`<div class="channel-grid">${channels.map(([name,val])=>`<div class="channel-card"><strong>${esc(name)}</strong><span>${confirmed.filter(p=>(p.source||'Sin identificar')===name).length} ventas</span><b>${money(val)}</b></div>`).join('')}</div>`:`<div class="empty-state empty-state-large"><strong>Sin canales medidos</strong><span>El origen aparecerá al confirmar pagos.</span></div>`)}${panel('Campañas activas',campaignCards||`<div class="empty-state empty-state-large"><strong>Sin campañas activas</strong><span>Creá una en Calendario o vinculá Meta Ads.</span></div>`)}${panel('Origen de los contactos',leadSourcePanel)}${panel('Creatividades recientes',`<div class="empty-state empty-state-large"><strong>Sin creatividades registradas</strong><span>Podés asociarlas al cargar archivos de Marketing.</span></div>`)}</section>`;
   }
   const calendarTypeMeta={
     campaign:{label:'Campaña publicitaria',color:'#3b82f6',icon:'megaphone'},
