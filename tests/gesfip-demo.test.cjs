@@ -52,3 +52,15 @@ test('approved hero replaces unrelated stock and avoids redundant giant logo car
  assert.ok(picture.includes('data:image/webp;base64,'));
  assert.ok(read('admin/admin.js').includes('hero-aprobada.svg'));
 });
+
+test('admin displays the approved hero using its correct relative path',()=>{
+  const admin=read('admin/admin.js');
+  const page=read('admin/index.html');
+  const config=read('config.js');
+  assert.ok(admin.includes("value==='./hero-aprobada.svg'?'../hero-aprobada.svg':value"));
+  assert.ok(admin.includes("el.src=previewUrl(config.heroImage)"));
+  assert.ok(config.includes("/demo/gesfip/assets/gesfip-hero-approved.webp"));
+  assert.ok(page.includes('config.js?v=4'));
+  assert.ok(page.includes('admin.js?v=4'));
+  assert.ok(read('hero-aprobada.svg').includes('data:image/webp;base64,'));
+});
