@@ -48,7 +48,7 @@ def build():
                       '<rect x="2.5" y="2.5" width="19" height="19" rx="5"/>'
                       '<circle cx="12" cy="12" r="4"/>'
                       '<circle cx="17.7" cy="6.4" r="1" fill="currentColor" stroke="none"/></svg>')
-    cleaned = re.sub(r'<img\\b[^>]*\\bsrc=["\\']assets/icons/social-official/instagram\\.svg(?:\\?[^"\\']*)?["\\'][^>]*>', instagram_icon, cleaned, flags=re.I)
+    cleaned = re.sub(r"""<img\b[^>]*\bsrc=["']assets/icons/social-official/instagram\.svg(?:\?[^"']*)?["'][^>]*>""", instagram_icon, cleaned, flags=re.I)
     cleaned = re.sub(r"<form\b[^>]*>", '<div class="preview-inert-form">', cleaned, flags=re.I)
     cleaned = re.sub(r"</form\s*>", "</div>", cleaned, flags=re.I)
     cleaned = re.sub(r"\s+on[a-z]+\s*=\s*(?:\"[^\"]*\"|'[^']*')", "", cleaned, flags=re.I)
