@@ -38,20 +38,20 @@
  }
 
  const images=[
-   {slot:'hero',title:'01 · Portada principal',desc:'Imagen panorámica del inicio. Dejá espacio para el título a la izquierda.',field:'heroImage',minWidth:1600,minHeight:900},
+   {slot:'hero',title:'01 · Portada principal',desc:'Imagen panorámica del inicio. Dejá espacio para el título a la izquierda.',field:'heroImage',minWidth:1280,minHeight:650},
    {slot:'about',title:'02 · Sobre nosotros',desc:'Imagen institucional del equipo, prevención o vigilancia.',field:'aboutImage',minWidth:1100,minHeight:620},
-   {slot:'team',title:'03 · Nuestro equipo',desc:'Fotografía complementaria para la presentación del personal.',field:'teamImage',minWidth:1100,minHeight:620},
+   {slot:'team',title:'03 · Nuestro equipo',desc:'Fotografía complementaria para la presentación del personal.',field:'teamImage',minWidth:1100,minHeight:520},
    ...Array.from({length:8},(_,index)=>({
      slot:'service-'+String(index+1).padStart(2,'0'),
      title:String(index+4).padStart(2,'0')+' · '+(config.services?.[index]?.title||'Servicio '+(index+1)),
      desc:'Fotografía de fondo de la tarjeta '+(index+1)+'.',
-     index,minWidth:1100,minHeight:620
+     index,minWidth:720,minHeight:400
    })),
    ...Array.from({length:5},(_,index)=>({
      slot:'operation-'+String(index+1).padStart(2,'0'),
      title:String(index+12).padStart(2,'0')+' · '+(config.operations?.[index]||'Operación '+(index+1)),
      desc:'Imagen para la operación de seguridad '+(index+1)+'.',
-     operationIndex:index,minWidth:900,minHeight:620
+     operationIndex:index,minWidth:720,minHeight:400
    }))
  ];
  const initialImage=entry=>entry.operationIndex!=null ?
