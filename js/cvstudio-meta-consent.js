@@ -1,8 +1,11 @@
 (() => {
   'use strict';
-  // Meta Pixel isolated from payments, customer data and other analytics.
+  // Optional measurement: Meta Pixel, Google Analytics and Microsoft Clarity.
+  // None of these third-party tools may load before affirmative consent.
   const PIXEL_ID = '1486370042926294';
-  const STORAGE_KEY = 'cvstudio_meta_consent_v1';
+  const STORAGE_KEY = 'cvstudio_measurement_consent_v1';
+  const GA_ID = 'G-BJW9DQGWXV';
+  const CLARITY_ID = 'xs8qlx3zqn';
   const ALLOWED_HOSTS = new Set(['cvstudio.com.ar', 'www.cvstudio.com.ar']);
   const META_URL = 'https://connect.facebook.net/en_US/fbevents.js';
   if (!ALLOWED_HOSTS.has(location.hostname)) return;
@@ -11,6 +14,26 @@
   try { choice = localStorage.getItem(STORAGE_KEY); } catch {}
   let initialized = false;
   let clickListenerAdded = false;
+  function initAnalytics() {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID, { anonymize_ip: true });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.append(script);
+  }
+  function initClarity() {
+    // The Clarity loader is created only after consent, not in the page HTML.
+    window.clarity = window.clarity || function () {
+      (window.clarity.q = window.clarity.q || []).push(arguments);
+    };
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.clarity.ms/tag/' + CLARITY_ID;
+    document.head.append(script);
+  }
 
   function persist(value) {
     choice = value;
@@ -39,6 +62,9 @@
       try { url = new URL(anchor.href, location.href); } catch { return; }
       if (['wa.me', 'api.whatsapp.com', 'web.whatsapp.com'].includes(url.hostname)) {
         track('Contact', 'whatsapp');
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'whatsapp_click', { contact_method: 'whatsapp' });
+        }
       } else if (url.origin === location.origin) {
         if (/^\/otros-servicios\/?/.test(url.pathname)) track('ViewContent', 'webs');
         else if (/^\/(cv-profesional|cv-freelance|linkedin-profesional|cv-linkedin|dos-cv-profesionales|preparacion-entrevistas)\/?/.test(url.pathname)) {
@@ -64,6 +90,8 @@
       window.fbq('init', PIXEL_ID);
       window.fbq('track', 'PageView');
     }
+    initAnalytics();
+    initClarity();
     clicks();
   }
 
@@ -72,7 +100,7 @@
     const panel = document.createElement('aside');
     panel.id = 'cvMetaConsent';
     panel.setAttribute('role', 'region');
-    panel.setAttribute('aria-label', 'Preferencias del píxel de Meta');
+    panel.setAttribute('aria-label', 'Preferencias de medición');
     Object.assign(panel.style, {
       position:'fixed',bottom:'48px',left:'16px',right:'16px',margin:'auto',
       maxWidth:'500px',background:'#10192e',color:'#fff',padding:'18px',
@@ -80,13 +108,13 @@
       font:'14px/1.5 system-ui,sans-serif',boxShadow:'0 12px 42px #0008'
     });
     const heading = document.createElement('strong');
-    heading.textContent = 'Medición de campañas de Meta (opcional)';
+    heading.textContent = 'Estadísticas y medición (opcional)';
     const description = document.createElement('p');
-    description.textContent = 'Con tu permiso registramos visitas y clics de interés para evaluar nuestros anuncios. Podés rechazarlo y seguir usando la web normalmente.';
+    description.textContent = 'Solo si aceptás, utilizaremos Meta Pixel, Google Analytics y Microsoft Clarity para medir visitas, clics y mejorar nuestros servicios. Clarity también puede registrar interacciones de navegación. Podés rechazarlo y seguir usando la web normalmente.';
     Object.assign(description.style,{margin:'10px 0',fontSize:'13px'});
     const buttons = document.createElement('div');
     Object.assign(buttons.style,{display:'flex',gap:'10px',flexWrap:'wrap'});
-    for (const [label, value] of [['Rechazar', 'rejected'], ['Aceptar Meta Pixel', 'accepted']]) {
+    for (const [label, value] of [['Rechazar', 'rejected'], ['Aceptar medición', 'accepted']]) {
       const button = document.createElement('button');
       button.type = 'button';
       button.textContent = label;
@@ -102,8 +130,8 @@
   function preferences() {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.textContent = 'Privacidad · Meta';
-    btn.setAttribute('aria-label', 'Cambiar consentimiento de Meta');
+    btn.textContent = 'Privacidad y estadísticas';
+    btn.setAttribute('aria-label', 'Cambiar consentimiento de medición');
     Object.assign(btn.style,{position:'fixed',left:'10px',bottom:'8px',zIndex:'2147482999',
       font:'11px system-ui,sans-serif',background:'#fff',color:'#15223b',
       border:'1px solid #8997a7',borderRadius:'8px',padding:'5px 9px',cursor:'pointer'});
