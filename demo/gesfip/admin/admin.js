@@ -9,7 +9,7 @@
  const validUrl=value=>{
    const v=String(value||'');
    return v==='./hero-aprobada.svg'
-    || /^\.\/assets\/[a-z0-9-]+\.svg$/i.test(v)
+    || /^\.\/assets\/[a-z0-9-]+\.(?:svg|webp|png|jpe?g)$/i.test(v)
     || /^\/api\/media\/(?:hero|about|team|(?:service-0[1-8]|operation-0[1-5]))$/.test(v)
     || /^https:\/\/[a-z0-9.-]+\/[a-z0-9_./?=&%+-]*$/i.test(v);
  };
@@ -30,10 +30,6 @@
        if(input.dataset.field==='heroImage')renderImage();
        if(['gold','dark'].includes(input.dataset.field))renderColors();
      });
-   });
-   $('#operationEditor').value=(config.operations||[]).join('\n');
-   $('#operationEditor').addEventListener('input',()=>{
-     config.operations=$('#operationEditor').value.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,12);
    });
  }
 
@@ -131,6 +127,27 @@
      card.append(title,desc,frame,field,hint,feedback,reset);wrapper.append(card);
    }
  }
+ function renderOperations(){
+   const wrapper=$('#operationFields');if(!wrapper)return;
+   wrapper.replaceChildren();
+   if(!Array.isArray(config.operationDetails))config.operationDetails=[...api.defaults.operationDetails];
+   (config.operations||[]).slice(0,5).forEach((name,index)=>{
+     const card=document.createElement('article');card.className='card';
+     const heading=document.createElement('h3');heading.textContent='Operación '+String(index+1).padStart(2,'0');
+     const label=document.createElement('label');label.className='form-field';
+     const headingText=document.createElement('span');headingText.textContent='Título de la operación';
+     const input=document.createElement('input');input.maxLength=120;input.value=name;
+     input.addEventListener('input',()=>{config.operations[index]=input.value;});
+     label.append(headingText,input);
+     const details=document.createElement('label');details.className='form-field';
+     const desc=document.createElement('span');desc.textContent='Descripción y procedimiento';
+     const textarea=document.createElement('textarea');textarea.maxLength=900;
+     textarea.value=config.operationDetails[index]||'';
+     textarea.addEventListener('input',()=>{config.operationDetails[index]=textarea.value;});
+     details.append(desc,textarea);
+     card.append(heading,label,details);wrapper.append(card);
+   });
+ }
  function renderServices(){
    const wrapper=$('#serviceFields');wrapper.replaceChildren();
    (config.services||[]).forEach((item,index)=>{
@@ -160,8 +177,7 @@
  }
  function fill(){
    $$('[data-field]').forEach(input=>input.value=config[input.dataset.field]??'');
-   $('#operationEditor').value=(config.operations||[]).join('\n');
-   renderServices();renderColors();renderImage();renderImageSlots();
+   renderOperations();renderServices();renderColors();renderImage();renderImageSlots();
  }
  $$('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{
    $$('[data-tab]').forEach(el=>el.classList.toggle('active',el===btn));
@@ -171,7 +187,8 @@
  $('#saveConfig').addEventListener('click',async()=>{
    const next={...config};
    $$('[data-field]').forEach(input=>next[input.dataset.field]=safeField(input.dataset.field,input.value));
-   next.operations=$('#operationEditor').value.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,12);
+   next.operations=(config.operations||[]).slice(0,5);
+   next.operationDetails=(config.operationDetails||[]).slice(0,5);
    next.services=(config.services||[]).map((s,index)=>({
      title:String(s.title||'').slice(0,80),glyph:String(s.glyph||'◇').slice(0,5),
      short:String(s.short||'').slice(0,240),detail:String(s.detail||'').slice(0,1300),
@@ -201,7 +218,7 @@
      fill();status('Configuración cargada. Pulsá Guardar para conservarla en este navegador.');
    }catch{status('No se pudo importar este JSON. Comprobá el archivo.')}
  });
- bindFields();renderServices();renderColors();renderImage();renderImageSlots();
+ bindFields();renderOperations();renderServices();renderColors();renderImage();renderImageSlots();
  if(!api.localMode()){
    $('#status').textContent='Verificando acceso al panel…';
    $('#saveConfig').disabled=true;
