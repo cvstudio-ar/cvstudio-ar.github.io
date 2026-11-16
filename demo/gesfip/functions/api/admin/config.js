@@ -22,7 +22,7 @@ function normalize(source){
     output[key]=val.trim();
   }
   for(const k of ['gold','dark'])if(!/^#[a-f0-9]{6}$/i.test(output[k]))throw Error('Color inválido: '+k);
-  if(!(output.heroImage==='./hero-aprobada.svg' || /^https:\/\/[^\s"'\\<>()[\]{}]+$/i.test(output.heroImage))) throw Error('Portada inválida');
+  if(!(output.heroImage==='./hero-aprobada.svg' || output.heroImage==='/api/media/hero' || /^https:\/\/[^\s"'\\<>()[\]{}]+$/i.test(output.heroImage))) throw Error('Portada inválida');
   if(output.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(output.email))throw Error('Correo inválido');
   if(!Array.isArray(source.services)||source.services.length<1||source.services.length>16)throw Error('Servicios inválidos');
   output.services=source.services.map(s=>{
