@@ -2669,6 +2669,9 @@ html.scroll-ready #contacto .contact-trust-icon{animation: none !important;}}
 .footer-social-facebook{border-color:rgba(24,119,242,.38);background:rgba(24,119,242,.10);}
 .footer-social-linkedin{border-color:rgba(10,102,194,.42);background:rgba(10,102,194,.11);}
 .footer-social-email{border-color:rgba(245,197,66,.38);background:rgba(245,197,66,.08);}
+.footer-social-youtube{border-color:rgba(255,0,51,.42);background:rgba(255,0,51,.11);}
+.footer-social-tiktok{border-color:rgba(37,244,238,.35);background:rgba(37,244,238,.08);}
+
 .whatsapp-symbol img{width:20px;height:20px;display:block;}
 .footer-bottom{position: relative;
   z-index: 1;
