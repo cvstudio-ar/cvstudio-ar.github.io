@@ -43,11 +43,17 @@ def build():
     cleaned = re.sub(r"<iframe\b[^>]*>.*?</iframe\s*>", "", cleaned, flags=re.I | re.S)
     # Source Instagram SVG is empty; use a self-contained decorative icon in preview only.
     instagram_icon = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" '
-                      'width="20" height="20" fill="none" stroke="currentColor" '
-                      'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+                      'width="20" height="20" fill="none" stroke="url(#ig-gradient)" '
+                      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+                      '<defs><linearGradient id="ig-gradient" x1="0" y1="1" x2="1" y2="0">'
+                      '<stop offset="0" stop-color="#FEDA75"/>'
+                      '<stop offset=".36" stop-color="#FA7E1E"/>'
+                      '<stop offset=".64" stop-color="#D62976"/>'
+                      '<stop offset="1" stop-color="#4F5BD5"/>'
+                      '</linearGradient></defs>'
                       '<rect x="2.5" y="2.5" width="19" height="19" rx="5"/>'
                       '<circle cx="12" cy="12" r="4"/>'
-                      '<circle cx="17.7" cy="6.4" r="1" fill="currentColor" stroke="none"/></svg>')
+                      '<circle cx="17.7" cy="6.4" r="1" fill="#D62976" stroke="none"/></svg>')
     cleaned = re.sub(r"""<img\b[^>]*\bsrc=["']assets/icons/social-official/instagram\.svg(?:\?[^"']*)?["'][^>]*>""", instagram_icon, cleaned, flags=re.I)
     cleaned = re.sub(r"<form\b[^>]*>", '<div class="preview-inert-form">', cleaned, flags=re.I)
     cleaned = re.sub(r"</form\s*>", "</div>", cleaned, flags=re.I)
