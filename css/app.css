@@ -8447,3 +8447,17 @@ body{padding-bottom:0!important}
   .reference-showcase-card{min-height:520px!important}
   .section{padding-top:clamp(74px,5vw,94px)!important;padding-bottom:clamp(74px,5vw,94px)!important}
 }
+
+
+/* TikTok: high contrast icon based on the supplied reference, with a legible
+   22px artwork instead of a tiny 15px note. Scoped only to Contact footer. */
+.footer-contact .footer-social-tiktok{
+  width:22px!important;height:22px!important;flex:0 0 22px!important;
+  border:0!important;background:transparent!important;border-radius:7px!important;
+  overflow:visible!important;
+}
+.footer-contact .footer-social-tiktok img{
+  display:block!important;width:22px!important;height:22px!important;
+  max-width:22px!important;max-height:22px!important;
+  object-fit:contain!important;
+}
