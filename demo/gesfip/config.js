@@ -5,28 +5,84 @@ const defaults={
   eyebrow:"Empresa de seguridad privada",
   heroLine1:"Tu seguridad es",
   heroLine2:"nuestra prioridad",
-  heroDescription:"Soluciones profesionales de seguridad física y de personas, con personal capacitado, control y prevención.",
+  heroDescription:"Vigilancia, protección de personas y bienes, control de accesos y prevención de riesgos. Soluciones adaptadas a empresas, establecimientos, barrios privados y eventos.",
   heroImage:"./hero-aprobada.svg",
   aboutImage:"./assets/equipo-ejecutivo.svg",
   teamImage:"./assets/qr.svg",
   gold:"#eeb24c", dark:"#070d13",
   aboutTitle:"Compromiso, experiencia y confianza",
-  about:"Somos una empresa de seguridad comprometida con la protección de las personas y sus bienes. Diseñamos servicios a medida, con profesionales experimentados y un enfoque preventivo.",
-  mission:"Proteger y salvaguardar la integridad de las personas y sus bienes, proporcionando servicios de seguridad confiables y una respuesta efectiva.",
+  teamDescription:"GESFIP está liderada por personal militar retirado del Ejército Argentino y oficiales retirados de la Policía Federal Argentina. El equipo combina formación en seguridad pública, protección de personas, análisis de riesgos e instructores que desarrollan capacitaciones periódicas.",
+  history:"Fundada en Santa Fe en 2024, GESFIP trabaja para consolidar una propuesta de seguridad basada en la experiencia operativa, la capacitación y la mejora continua de sus servicios.",
+  about:"GESFIP es una empresa santafesina fundada en 2024 y especializada en seguridad física y protección de personas y bienes. Desarrollamos soluciones a medida, con prevención, planificación y atención responsable.",
+  mission:"Proteger a las personas y sus bienes mediante servicios confiables, personal capacitado y procedimientos orientados a anticipar riesgos y responder de manera efectiva.",
   phone:"3424762303",
   email:"gesfip.samsbert@gmail.com",
   address:"Santa Fe, Argentina",
   services:[
-    {title:"Seguridad Física",image:"./assets/accesos.svg",glyph:"⬡",short:"Vigilancia, prevención y protección de bienes e instalaciones.",detail:"Servicios de vigilancia y monitoreo, protección de personas e instalaciones y control de objetivos. Incluye presencia operativa, vigilancia de bienes y supervisión de medidas de prevención."},
-    {title:"Monitoreo",image:"./assets/qr.svg",glyph:"◉",short:"Vigilancia y supervisión de sistemas de seguridad.",detail:"Monitoreo de sistemas de seguridad para detectar incidentes, evaluar posibles riesgos y supervisar el cumplimiento de los procedimientos operativos."},
-    {title:"Gestión de Riesgos",image:"./assets/mercaderia.svg",glyph:"▥",short:"Análisis, planificación y protección integral.",detail:"Evaluación de amenazas y vulnerabilidades, asesoramiento especializado y planificación de estrategias de prevención para personas, empresas y propiedades."},
-    {title:"Custodia de Personas",image:"./assets/hotel.svg",glyph:"♢",short:"Protección, acompañamiento y escolta.",detail:"Protección personal, acompañamiento y escolta en desplazamientos y servicios de custodia VIP según las necesidades del cliente."},
-    {title:"Seguridad para Empresas",image:"./assets/accesos.svg",glyph:"▣",short:"Control de accesos y vigilancia de instalaciones.",detail:"Seguridad en establecimientos empresariales e industriales, control de ingresos, rondas perimetrales y registro de operaciones."},
-    {title:"Country y Barrios",image:"./assets/country.svg",glyph:"⌂",short:"Prevención y control en urbanizaciones privadas.",detail:"Vigilancia de accesos, controles de rondas y protección de bienes y residentes en countries y barrios privados."},
-    {title:"Silos y Campos",image:"./assets/rural.svg",glyph:"⌁",short:"Protección de instalaciones rurales y productivas.",detail:"Recorridos perimetrales, vigilancia de silos y campos y procedimientos para control de mercadería e ingresos."},
-    {title:"Hoteles y Eventos",image:"./assets/hotel.svg",glyph:"✧",short:"Seguridad operativa para huéspedes y asistentes.",detail:"Control de acceso y presencia preventiva en hoteles, eventos corporativos y reuniones, adaptados al entorno."}
+    {
+      "title": "Seguridad Física",
+      "image": "./assets/accesos.svg",
+      "glyph": "⬡",
+      "short": "Vigilancia preventiva, control de objetivos y protección de bienes.",
+      "detail": "Brindamos vigilancia y control en instalaciones, propiedades y objetivos específicos, con personal capacitado para prevenir incidentes, controlar accesos y ejecutar recorridos. Los procedimientos se adecuan a los riesgos y necesidades de cada servicio."
+    },
+    {
+      "title": "Monitoreo",
+      "image": "./assets/qr.svg",
+      "glyph": "◉",
+      "short": "Supervisión de sistemas, cámaras y registros operativos.",
+      "detail": "Monitoreamos y supervisamos sistemas de seguridad para detectar incidencias y verificar el cumplimiento de protocolos. Según el servicio, complementamos la tarea con controles de vigiladores mediante puntos QR y registros para generar informes operativos."
+    },
+    {
+      "title": "Gestión de Riesgos",
+      "image": "./assets/mercaderia.svg",
+      "glyph": "▥",
+      "short": "Análisis de vulnerabilidades y planificación preventiva.",
+      "detail": "Realizamos análisis de riesgos para identificar amenazas, reconocer puntos vulnerables y diseñar medidas de prevención. Asesoramos en procedimientos, planificación y organización de sistemas de seguridad ajustados a personas, empresas y bienes."
+    },
+    {
+      "title": "Custodia de Personas",
+      "image": "./assets/hotel.svg",
+      "glyph": "♢",
+      "short": "Acompañamiento, escoltas y protección personal o VIP.",
+      "detail": "Ofrecemos custodia de personas, protección de perfiles que requieren seguridad especial y acompañamiento en desplazamientos. Cada servicio se planifica conforme al entorno, la movilidad, las necesidades del cliente y los riesgos identificados."
+    },
+    {
+      "title": "Seguridad para Empresas",
+      "image": "./assets/accesos.svg",
+      "glyph": "▣",
+      "short": "Vigilancia de instalaciones, ingresos y mercadería.",
+      "detail": "Protegemos establecimientos comerciales e industriales mediante control de entradas y salidas, recorridos perimetrales, verificación de vehículos y documentación, y prevención de incidentes. Los registros facilitan la supervisión y el seguimiento de cada operación."
+    },
+    {
+      "title": "Country y Barrios",
+      "image": "./assets/country.svg",
+      "glyph": "⌂",
+      "short": "Control de accesos y recorridos en barrios privados.",
+      "detail": "Prestamos vigilancia para barrios y urbanizaciones privadas con verificación de visitantes, supervisión de accesos, patrullaje y protección de personas y propiedades. El esquema operativo se adapta a las características de cada complejo."
+    },
+    {
+      "title": "Silos y Campos",
+      "image": "./assets/rural.svg",
+      "glyph": "⌁",
+      "short": "Seguridad rural, perímetros y objetivos productivos.",
+      "detail": "Desarrollamos recorridos y controles en campos, silos y establecimientos rurales para proteger instalaciones, bienes y mercadería. Planificamos patrullajes por límites y puntos estratégicos según las condiciones de cada establecimiento."
+    },
+    {
+      "title": "Hoteles y Eventos",
+      "image": "./assets/hotel.svg",
+      "glyph": "✧",
+      "short": "Prevención y control para huéspedes, reuniones y eventos.",
+      "detail": "Organizamos servicios de vigilancia y control de accesos para hoteles, encuentros empresariales y eventos. El objetivo es proteger a huéspedes, trabajadores y asistentes con presencia preventiva y procedimientos adecuados al lugar."
+    }
+  ],  operations:["Recorridos perimetrales","Patrulla por límites","Control con QR","Control de ingresos","Control de mercadería con documentación cruzada"],
+  operationDetails:[
+    "Rondas preventivas en perímetros de establecimientos, campos e industrias. Recorridos planificados y detección de situaciones que requieran intervención.",
+    "Supervisión de límites, sectores sensibles y puntos de control con patrullaje adaptado a cada predio.",
+    "Registro de rondas mediante lectura de códigos QR en puntos estratégicos, con información trazable e informes de seguimiento.",
+    "Verificación de personas, visitantes, proveedores y vehículos. Control documentado de entradas y salidas.",
+    "Control de cargas y descargas mediante cotejo de remitos, registros y documentación de mercadería."
   ],
-  operations:["Recorridos perimetrales","Patrulla por límites","Control con QR","Control de ingresos","Control de mercadería con documentación cruzada"],
   operationImages:[
     "./assets/rural.svg",
     "./assets/accesos.svg",
@@ -56,6 +112,7 @@ function read(){
     image: typeof service.image==='string'&&service.image ? service.image : (baseServices[index]?.image||'')
   }));
   if(!Array.isArray(data.operations))data.operations=clone().operations;
+  if(!Array.isArray(data.operationDetails)||data.operationDetails.length!==5)data.operationDetails=clone().operationDetails;
   if(!Array.isArray(data.operationImages)||data.operationImages.length!==5)
     data.operationImages=clone().operationImages;
   return data;

@@ -13,6 +13,8 @@
   text('#aboutTitle',data.aboutTitle);
   text('#aboutDescription',data.about);
   text('#missionDescription',data.mission);
+  text('#historyDescription',data.history);
+  text('#teamDescription',data.teamDescription);
   text('#contactPhone',data.phone);
   text('#footerPhone',data.phone);
   text('#contactEmail',data.email);
@@ -20,7 +22,7 @@
   const validImage=url=>{
     const v=String(url||'');
     return v==='./hero-aprobada.svg'
-      || /^\.\/assets\/[a-z0-9-]+\.svg$/i.test(v)
+      || /^\.\/assets\/[a-z0-9-]+\.(?:svg|webp|png|jpe?g)$/i.test(v)
       || /^\/api\/media\/(?:hero|about|team|(?:service-0[1-8]|operation-0[1-5]))$/.test(v)
       || /^https:\/\/[a-z0-9.-]+\/[a-z0-9_./?=&%+-]*$/i.test(v);
   };
@@ -41,7 +43,7 @@
   // Draw consistent outline icons instead of emoji placeholders.
   const iconPaths=[
     ['Seguridad Física','M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4'],
-    ['Monitoreo','M3 10l17-6v12L3 10z M8 12l-2 8 M14 11l5 9'],
+    ['Monitoreo','M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z M8 21h8 M12 18v3 M7 8h2l1-1h4l1 1h2v6H7z M12 9.5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3z'],
     ['Gestión de Riesgos','M4 20V12 M10 20V8 M16 20V4 M22 20H2'],
     ['Custodia de Personas','M12 3a4 4 0 1 0 0 8a4 4 0 0 0 0-8z M4 21c0-5 3-8 8-8s8 3 8 8 M2 12l3-2 M22 12l-3-2'],
     ['Seguridad para Empresas','M4 21V7l8-4 8 4v14 M2 21h20 M8 10h1 M15 10h1 M8 14h1 M15 14h1 M11 21v-4h2'],
@@ -110,7 +112,8 @@
   if(operations){
     operations.replaceChildren();
     (data.operations||[]).forEach((name,index)=>{
-      const el=document.createElement('div');el.className='op';
+      const el=document.createElement('button');el.className='op';el.type='button';
+      el.setAttribute('aria-label','Conocer operación: '+name);
       const number=document.createElement('b');number.textContent=String(index+1).padStart(2,'0');
       const span=document.createElement('span');span.textContent=name;
       const photo=Array.isArray(data.operationImages) ? data.operationImages[index] : '';
@@ -118,7 +121,16 @@
         el.classList.add('op-photo');
         el.style.setProperty('--operation-photo','url("'+photo+'")');
       }
-      el.append(number,span);operations.append(el);
+      const details=Array.isArray(data.operationDetails)?data.operationDetails[index]:'';
+      el.append(number,span);
+      el.addEventListener('click',()=>{
+        lastActivator=el;
+        title.textContent=name;
+        detail.textContent=details||'Contactanos para conocer el alcance de este servicio.';
+        glyph.replaceChildren(serviceIcon('Seguridad Física'));
+        modal.showModal();
+      });
+      operations.append(el);
     });
   }
   const menu=$('#menuButton');
