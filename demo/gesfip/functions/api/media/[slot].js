@@ -1,4 +1,4 @@
-const SLOTS = new Set(['hero','about','team',...Array.from({length:8},(_,i)=>'service-'+String(i+1).padStart(2,'0'))]);
+const SLOTS = new Set(['hero','about','team',...Array.from({length:8},(_,i)=>'service-'+String(i+1).padStart(2,'0')),...Array.from({length:5},(_,i)=>'operation-'+String(i+1).padStart(2,'0'))]);
 export async function onRequestGet({params,env}) {
   const slot=String(params?.slot||'');
   if(!SLOTS.has(slot))return new Response('Recurso no encontrado',{status:404});
