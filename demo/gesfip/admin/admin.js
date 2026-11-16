@@ -6,7 +6,7 @@
  const $=q=>document.querySelector(q), $$=q=>Array.from(document.querySelectorAll(q));
  const status=message=>{$('#status').textContent=message};
  const validColor=value=>/^#[0-9a-f]{6}$/i.test(String(value||''));
- const validUrl=value=>/^https:\/\/[^"'<>\s]+$/i.test(String(value||'')) || value==='./hero-aprobada.svg';
+ const validUrl=value=>value==='/api/media/hero' || /^https:\/\/[^"'<>\s]+$/i.test(String(value||'')) || value==='./hero-aprobada.svg';
  const previewUrl=value=>value==='./hero-aprobada.svg'?'../hero-aprobada.svg':value;
  const safeField=(key,value)=>{
    if(['gold','dark'].includes(key))return validColor(value)?value:api.defaults[key];
