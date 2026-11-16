@@ -1,0 +1,26 @@
+name: Verify GESFIP demo
+on:
+  push:
+    branches: ["feature/demo-gesfip-web"]
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "demo/gesfip/**"
+      - "tests/gesfip-demo.test.cjs"
+      - ".github/workflows/gesfip-demo.yml"
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check scripts and test the GESFIP demo
+        run: |
+          node --check demo/gesfip/config.js
+          node --check demo/gesfip/app.js
+          node --check demo/gesfip/admin/admin.js
+          node --test tests/gesfip-demo.test.cjs
