@@ -1,13 +1,15 @@
 name: Validación de Marketing Intelligence
 
 on:
+  push:
+    branches: ['feature/marketing-intelligence']
   pull_request:
     paths:
       - 'config/cloudflare-worker-contacto.js'
       - 'js/**'
       - 'centro-operaciones-prueba/**'
       - 'otros-servicios/**'
-      - 'tests/marketing-intake.test.cjs'
+      - 'tests/marketing-*.test.cjs'
       - '.github/workflows/marketing-validation.yml'
   workflow_dispatch:
 
@@ -35,4 +37,4 @@ jobs:
           cp config/cloudflare-worker-contacto.js /tmp/cvstudio-marketing-worker.mjs
           node --check /tmp/cvstudio-marketing-worker.mjs
       - name: Pruebas aisladas (sin secretos, sin cobros ni escrituras externas)
-        run: node --test tests/marketing-intake.test.cjs
+        run: node --test tests/marketing-*.test.cjs
