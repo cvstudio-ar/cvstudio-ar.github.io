@@ -38,7 +38,7 @@ test('mobile hero uses content-first layout with restrained photo, CTAs and comp
  assert.ok(section.includes('.hero .actions .btn'));
  assert.ok(section.includes('min-height:47px'));
  assert.ok(section.includes('.mobile-menu::before'));
- assert.ok(html.includes('styles.css?v=gesfip-contenidos-20261116'));
+ assert.ok(html.includes('styles.css?v=gesfip-recorte-20261116'));
  assert.ok(html.includes('aria-label="Abrir menú de navegación"'));
 });
 
@@ -53,5 +53,14 @@ test('mobile image is independently rendered below text instead of behind calls 
  assert.ok(ref.includes('flex-direction:column!important'));
  assert.ok(ref.includes('#servicios .section-head h2{'));
  assert.ok(ref.includes('max-width:100%!important'));
- assert.ok(html.includes('styles.css?v=gesfip-contenidos-20261116'));
+ assert.ok(html.includes('styles.css?v=gesfip-recorte-20261116'));
+});
+
+test('service and operation photos crop promotional banners without deforming the image',()=>{
+ const css=read('styles.css');
+ const rules=css.slice(css.lastIndexOf('/* GESFIP: encuadre editorial'));
+ assert.match(rules,/#servicios \.service\s*\{[^}]*background-size:cover,auto 155%/);
+ assert.match(rules,/#operaciones \.op\.op-photo\s*\{[^}]*background-size:cover,auto 160%/);
+ assert.match(rules,/background-position:center,50% 50%/);
+ assert.doesNotMatch(rules,/transform:scale\(/);
 });

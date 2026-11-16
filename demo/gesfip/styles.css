@@ -521,3 +521,32 @@ body{overflow-x:hidden}
  #nosotros .about-qualities span{font-size:10.5px;padding:7px 9px}
  #nosotros .facts{margin-top:22px}
 }
+
+
+/* GESFIP: encuadre editorial de anuncios originales en tarjetas.
+ * Las piezas promocionales contienen títulos y franjas de contacto en sus bordes:
+ * mostrar el centro fotográfico, sin rebasar ni deformar su proporción. */
+#servicios .service {
+  background-size:cover,auto 155%;
+  background-position:center,50% 50%;
+  background-repeat:no-repeat;
+  background-color:#101924;
+}
+#operaciones .op.op-photo {
+  background-size:cover,auto 160%;
+  background-position:center,50% 50%;
+  background-repeat:no-repeat;
+}
+#servicios .service,
+#operaciones .op {
+  background-clip:padding-box;
+}
+#operaciones .op:focus-visible,
+#servicios .service:focus-visible{
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+}
+@media(max-width:700px) {
+  #servicios .service {background-size:cover,auto 150%;}
+  #operaciones .op.op-photo {background-size:cover,auto 160%;}
+}
