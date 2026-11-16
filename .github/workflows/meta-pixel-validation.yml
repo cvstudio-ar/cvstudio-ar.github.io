@@ -31,5 +31,7 @@ jobs:
       - name: Verify no third-party beacon is present in HTML
         run: |
           ! grep -E 'fbq\(|facebook.com/tr\?' index.html otros-servicios/index.html
+          ! grep -E 'googletagmanager.com/gtag/js|clarity.ms/tag/|gtag\(' index.html otros-servicios/index.html
+          grep -q 'cvstudio_measurement_consent_v1' js/cvstudio-meta-consent.js
           grep -q '/js/cvstudio-meta-consent.js' index.html
           grep -q '/js/cvstudio-meta-consent.js' otros-servicios/index.html
