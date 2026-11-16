@@ -99,12 +99,6 @@ def build():
     cleaned = cleaned.replace("</body>", '<div class="cvstudio-staging-banner">VISTA PREVIA DE CVSTUDIO · SOLO DISEÑO · SIN FORMULARIOS NI PAGOS</div>\n</body>', 1)
     DEST.mkdir(parents=True, exist_ok=True)
     (DEST / "index.html").write_text(cleaned, encoding="utf-8")
-    # Separate static walkthrough of the Marketing module; synthetic data only.
-    demo_source = ROOT / "staging/cloudflare/marketing-demo.html"
-    demo_target = DEST / "centro-operaciones-marketing" / "index.html"
-    demo_target.parent.mkdir(parents=True, exist_ok=True)
-    demo_target.write_text(demo_source.read_text(encoding="utf-8"), encoding="utf-8")
-    assert "SIMULACIÓN" in demo_target.read_text(encoding="utf-8")
 
     queue = list(reversed(list(refs(cleaned))))
     # Process stylesheets before optional imagery to preserve the layout under the size budget.
