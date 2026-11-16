@@ -7,6 +7,7 @@
  const status=message=>{$('#status').textContent=message};
  const validColor=value=>/^#[0-9a-f]{6}$/i.test(String(value||''));
  const validUrl=value=>/^https:\/\/[^"'<>\s]+$/i.test(String(value||'')) || value==='./hero-aprobada.svg';
+ const previewUrl=value=>value==='./hero-aprobada.svg'?'../hero-aprobada.svg':value;
  const safeField=(key,value)=>{
    if(['gold','dark'].includes(key))return validColor(value)?value:api.defaults[key];
    if(key==='heroImage')return validUrl(value)?value:api.defaults.heroImage;
@@ -45,9 +46,9 @@
  }
  function renderImage(){
    const img=$('#imagePreview');img.replaceChildren();
-   if(!validUrl(config.heroImage)){const note=document.createElement('span');note.textContent='Ingresá una dirección HTTPS válida.';img.append(note);return}
-   const el=document.createElement('img');el.src=config.heroImage;el.alt='Imagen de portada elegida';el.loading='lazy';
-   el.onerror=()=>{img.textContent='No se pudo cargar esta imagen. Comprobá la URL.'};
+   if(!validUrl(config.heroImage)){const note=document.createElement('span');note.textContent='Ingresá una URL HTTPS o utilizá la portada aprobada.';img.append(note);return}
+   const el=document.createElement('img');el.src=previewUrl(config.heroImage);el.alt='Imagen de portada elegida';el.loading='lazy';
+   el.onerror=()=>{img.textContent='No se pudo cargar esta imagen. Verificá la dirección indicada.'};
    img.append(el);
  }
  function renderColors(){
