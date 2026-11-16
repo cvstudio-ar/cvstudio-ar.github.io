@@ -11,8 +11,8 @@ export async function onRequestGet(context){
   const raw=await context.env.GESFIP_CONFIG.get('site-config');
   return respond({data:raw?JSON.parse(raw):null,configured:true});
 }
-const textKeys=['brand','eyebrow','heroLine1','heroLine2','heroDescription','heroImage','gold','dark','aboutTitle','about','mission','phone','email','address'];
-const maxLen={brand:80,eyebrow:150,heroLine1:140,heroLine2:140,heroDescription:1000,heroImage:600,gold:7,dark:7,aboutTitle:200,about:2000,mission:2000,phone:40,email:200,address:200};
+const textKeys=['brand','eyebrow','heroLine1','heroLine2','heroDescription','heroImage','aboutImage','teamImage','gold','dark','aboutTitle','about','mission','phone','email','address'];
+const maxLen={brand:80,eyebrow:150,heroLine1:140,heroLine2:140,heroDescription:1000,heroImage:600,aboutImage:600,teamImage:600,gold:7,dark:7,aboutTitle:200,about:2000,mission:2000,phone:40,email:200,address:200};
 function normalize(source){
   if(!source || typeof source!=='object' || Array.isArray(source))throw Error('Formato no válido');
   const output={};
@@ -22,17 +22,26 @@ function normalize(source){
     output[key]=val.trim();
   }
   for(const k of ['gold','dark'])if(!/^#[a-f0-9]{6}$/i.test(output[k]))throw Error('Color inválido: '+k);
-  if(!(output.heroImage==='./hero-aprobada.svg' || output.heroImage==='/api/media/hero' || /^https:\/\/[^\s"'\\<>()[\]{}]+$/i.test(output.heroImage))) throw Error('Portada inválida');
+  const safeImage=value=>{
+    return value==='./hero-aprobada.svg'
+      || /^\.\/assets\/[a-z0-9-]+\.svg$/i.test(value)
+      || /^\/api\/media\/(?:hero|about|team|service-0[1-8])$/.test(value)
+      || /^https:\/\/[a-z0-9.-]+\/[a-z0-9_./?=&%+-]*$/i.test(value);
+  };
+  for(const key of ['heroImage','aboutImage','teamImage']){
+    if(!safeImage(output[key]))throw Error('Imagen inválida: '+key);
+  }
   if(output.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(output.email))throw Error('Correo inválido');
   if(!Array.isArray(source.services)||source.services.length<1||source.services.length>16)throw Error('Servicios inválidos');
   output.services=source.services.map(s=>{
     if(!s||typeof s!=='object')throw Error('Servicio inválido');
     const o={};
-    for(const [k,n] of [['title',100],['short',350],['detail',1600],['glyph',10]]){
+    for(const [k,n] of [['title',100],['short',350],['detail',1600],['glyph',10],['image',600]]){
       if(typeof s[k]!=='string'||s[k].length>n)throw Error('Campo de servicio inválido');
       o[k]=s[k].trim();
     }
     if(!o.title)throw Error('El servicio necesita título');
+    if(!safeImage(o.image))throw Error('Imagen de servicio inválida');
     return o;
   });
   if(!Array.isArray(source.operations)||source.operations.length>15)throw Error('Operaciones inválidas');
