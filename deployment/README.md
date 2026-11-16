@@ -1,6 +1,6 @@
 # Despliegues CVStudio: pruebas y producción
 
-Preparado en `feature/marketing-intelligence`. No se fusionó a `main`, no se desplegó ningún Worker y no se modificó ninguna base remota. Fecha de preparación: 2026-11-15 (Argentina).
+Preparado en `feature/marketing-intelligence`. No se fusionó a `main`, no se desplegó ningún Worker y solo se aprovisionó la nueva base aislada de pruebas. Producción y los recursos de Javier no se modificaron. Actualizado: 2026-11-16 UTC.
 
 ## Qué está automatizado
 
@@ -16,7 +16,7 @@ Wrangler 4.162.0 está fijado con lockfile y las acciones de checkout, Node y ar
 |---|---|---|
 | Worker | `cvstudio-contacto-pruebas` | `cvstudio-contacto`, sin cambios |
 | GitHub Environment | `cvstudio-staging`, pendiente de configurar | `cvstudio-production`, pendiente de configurar |
-| Supabase | Nuevo proyecto propuesto `cvstudio-marketing-pruebas` | `cvstudio-core`, solo lectura durante esta tarea |
+| Supabase | `cvstudio-marketing-pruebas`, creado y verificado | `cvstudio-core`, solo lectura durante esta tarea |
 | Origen frontend | Nombre `cvstudio-marketing-pruebas.*` o `cvstudio-contacto-pruebas.*` | `cvstudio.com.ar`, rechazado en staging |
 | Credenciales | Secretos de staging, independientes | No se leyeron ni copiaron |
 | Correos/WhatsApp | Correo simulado explícitamente; WhatsApp bloqueado | Sin cambios |
@@ -48,13 +48,17 @@ La conexión GitHub disponible permite commits y PRs, pero no administra Environ
 | Secret opcional | `MERCADOPAGO_TEST_ACCESS_TOKEN` | Credencial TEST del vendedor de pruebas |
 | Secret opcional | `MERCADOPAGO_TEST_PUBLIC_KEY` | Clave pública TEST para pruebas del checkout |
 
-## Supabase: preparado, no aprovisionado
+## Supabase: aprovisionado y verificado
 
-Organización identificada: **CVStudio SIAC**, `pfmlorhbvmnngwyyuqid`. Solo existe `cvstudio-core`; no hay ramas de desarrollo. La creación de un nuevo proyecto requiere confirmar la organización y, si el proveedor cotiza un costo no nulo, su autorización. No se creó nada con cargos implícitos.
+Proyecto **cvstudio-marketing-pruebas**, referencia `csnfuhpbciybckabhqqp`, organización **CVStudio SIAC** (`pfmlorhbvmnngwyyuqid`), región `ca-central-1`, estado ACTIVE_HEALTHY. Creado con autorización del usuario condicionada a costo adicional cero. El proveedor completó la creación sin solicitar confirmación de costo; no se autorizó ningún cargo ni ampliación de plan.
 
-`staging-schema.sql` contiene únicamente estructura de 10 tablas relacionadas con formularios y pagos, claves/relaciones y un pequeño catálogo ficticio. Se extrajo metadata de esquema, no registros. Exige un esquema `public` vacío, funciona en una transacción, habilita RLS, revoca acceso a `anon`/`authenticated` y da acceso solo a `service_role`. No contiene usuarios, tokens, políticas de producción ni datos de Javier. Fue ejecutado y verificado en PostgreSQL local embebido; el intento de repetirlo se bloqueó correctamente.
+URL para `STAGING_SUPABASE_URL`: `https://csnfuhpbciybckabhqqp.supabase.co`. La clave publishable del proyecto fue obtenida; la clave service_role no fue extraída ni cargada en GitHub.
 
-Tras crear el proyecto aislado: aplicar este bootstrap una vez con la conexión Supabase de CVStudio, crear mediante Storage API el bucket privado `cvstudio-web-intakes` con límite de 2 MB y MIME PNG/JPEG/WebP/PDF, verificar RLS/permisos y asociar solamente las claves nuevas. El pipeline no aplica SQL automáticamente y no usa las migraciones generales del repositorio, que incluyen otros proyectos. Las políticas anónimas de SIAC no se copiaron: la prueba inicial usa el Worker autenticado por la clave de staging.
+Se aplicaron las migraciones `cvstudio_staging_bootstrap` y `cvstudio_staging_private_logos` exclusivamente en este proyecto nuevo. `staging-schema.sql` contiene estructura de 10 tablas relacionadas con formularios y pagos y un catálogo ficticio; no copia registros ni usuarios de producción. Las 10 tablas tienen RLS; anon/authenticated no tienen permisos sobre las tablas y service_role sí. El bucket `cvstudio-web-intakes` es privado, con límite de 2 MB y MIME PNG/JPEG/WebP/PDF.
+
+Se verificó una inserción de formulario con datos ficticios bajo service_role y se revirtió la transacción. Quedaron cero clientes, pedidos e intakes. El asesor de seguridad devolvió únicamente 10 avisos informativos de RLS sin políticas: es deliberado para estas tablas accesibles solo por el backend service_role; no abrir políticas públicas.
+
+El pipeline no aplica SQL automáticamente y no usa las migraciones generales del repositorio, que incluyen otros proyectos. Las políticas anónimas de SIAC no se copiaron. Aún falta configurar los secretos y variables del Environment de GitHub y desplegar el Worker para verificar el recorrido HTTPS completo.
 
 ## Producción: plantilla inactiva
 
@@ -70,6 +74,6 @@ Los archivos de despliegue quedan excluidos del paquete de Pages de esta rama. E
 - Wrangler dry-run aprobado; no hubo upload.
 - Runtime workerd local: health 200, entorno staging, acceso sin clave 401.
 - Bootstrap local: 10 tablas con RLS; roles públicos sin permisos; service_role habilitado; repetición rechazada.
-- Pendientes: entornos/secretos de GitHub, autorización del proyecto aislado y token Cloudflare; después, despliegue HTTPS y pruebas integrales con proveedores sandbox. No se certifican pagos ni medición remota real.
+- Pendientes: entornos/secretos de GitHub, token Cloudflare y credencial service_role del proyecto de pruebas; después, despliegue HTTPS y pruebas integrales con proveedores sandbox. No se certifican pagos ni medición remota real.
 
 Referencias: [Cloudflare GitHub Actions](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/), [Wrangler](https://developers.cloudflare.com/workers/wrangler/configuration/), [GitHub Environments](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments), [Supabase RLS](https://supabase.com/docs/guides/database/postgres/row-level-security).
