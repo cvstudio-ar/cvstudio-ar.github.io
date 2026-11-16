@@ -7,7 +7,7 @@ const defaults={
   heroLine2:"nuestra prioridad",
   heroDescription:"Soluciones profesionales de seguridad física y de personas, con personal capacitado, control y prevención.",
   heroImage:"./hero-aprobada.svg",
-  aboutImage:"./assets/accesos.svg",
+  aboutImage:"./assets/equipo-ejecutivo.svg",
   teamImage:"./assets/qr.svg",
   gold:"#eeb24c", dark:"#070d13",
   aboutTitle:"Compromiso, experiencia y confianza",
@@ -46,6 +46,8 @@ function read(){
     saved.heroImage.includes('/photos/36753422/') ||
     saved.heroImage.includes('/demo/gesfip/assets/gesfip-hero-approved.webp')
   )) saved.heroImage='./hero-aprobada.svg';
+  // Actualizar únicamente la imagen de ejemplo anterior; conservar imágenes personalizadas del administrador.
+  if(saved.aboutImage==='./assets/accesos.svg')saved.aboutImage='./assets/equipo-ejecutivo.svg';
   const data={...clone(),...saved};
   if(!Array.isArray(data.services)||data.services.length===0)data.services=clone().services;
   const baseServices=clone().services;

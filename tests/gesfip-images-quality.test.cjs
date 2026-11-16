@@ -35,3 +35,19 @@ test('existing safe modals and responsive layout are retained',()=>{
   assert.ok(s.includes('button.addEventListener(\'click\''));
   assert.ok(css.includes('@media(max-width:460px)'));
 });
+
+test('the about section has its own team photograph and a balanced layout',()=>{
+  const image=get('assets/equipo-ejecutivo.svg');
+  const html=get('index.html');
+  const css=get('styles.css');
+  const config=get('config.js');
+  assert.ok(image.startsWith('<svg'));
+  assert.ok(image.includes('width="960" height="640"'));
+  assert.ok(image.includes('data:image/webp;base64,'));
+  assert.ok(image.length>20000);
+  assert.ok(config.includes('aboutImage:"./assets/equipo-ejecutivo.svg"'));
+  assert.ok(html.includes('class="editorial-photo about-photo"'));
+  assert.ok(html.includes('class="about-qualities"'));
+  assert.ok(css.includes('#nosotros .about-photo{'));
+  assert.ok(css.includes('max-height:352px'));
+});
