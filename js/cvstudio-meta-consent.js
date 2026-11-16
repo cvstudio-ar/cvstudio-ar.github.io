@@ -103,7 +103,7 @@
     panel.setAttribute('aria-label', 'Preferencias de medición');
     Object.assign(panel.style, {
       position:'fixed',bottom:'48px',left:'16px',right:'16px',margin:'auto',
-      maxWidth:'500px',background:'#10192e',color:'#fff',padding:'18px',
+      maxWidth:'500px',maxHeight:'min(70vh, 390px)',overflowY:'auto',boxSizing:'border-box',background:'#10192e',color:'#fff',padding:'18px',
       border:'1px solid #53617d',borderRadius:'14px',zIndex:'2147483000',
       font:'14px/1.5 system-ui,sans-serif',boxShadow:'0 12px 42px #0008'
     });
