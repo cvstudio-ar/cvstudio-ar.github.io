@@ -31,7 +31,7 @@ test('styles have fluid containers and mobile breakpoints',()=>{
 });
 test('admin preserves local demo and supports authenticated persistent editing',()=>{
  const html=read('admin/index.html'),js=read('admin/admin.js');
- assert.match(html,/solo en este navegador/);
+ assert.match(html,/solo en tu navegador/);
  assert.match(js,/api\.persist\(next\)/);
  assert.match(js,/api\.localMode\(\)/);
  assert.match(read('functions/api/admin/_middleware.js'),/cloudflareAccessPlugin/);
