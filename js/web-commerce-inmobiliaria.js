@@ -3,13 +3,14 @@
 const root=document.getElementById('webPlans');if(!root)return;
 const endpoint='https://cvstudio-contacto.cvpro-duccionesar.workers.dev/';
 let plans=[
-{id:'web-basica',title:'Web de presentación — Pantalla única',price:65000,description:'Tu negocio en una página: presentación, servicios y contacto.'},
-{id:'web-panel',title:'Web de presentación + Panel administrativo básico',price:85000,description:'Presentación y acceso privado para actualizar el contenido acordado.'},
-{id:'web-catalogo',title:'Web avanzada con catálogo y panel administrativo',price:120000,description:'Catálogo de productos o servicios y gestión de su contenido.'},
-{id:'web-tienda',title:'Web completa con catálogo y panel administrativo',price:180000,description:'Tu negocio online con catálogo, carrito y un panel para gestionar su contenido.'}
+{id:'web-basica',title:'Web de presentación — Pantalla única',price:110000,description:'Tu negocio en una página: presentación, servicios y contacto.'},
+{id:'web-panel',title:'Web de presentación + Panel administrativo básico',price:155000,description:'Presentación y acceso privado para actualizar el contenido acordado.'},
+{id:'web-catalogo',title:'Web avanzada con catálogo y panel administrativo',price:210000,description:'Catálogo de productos o servicios y gestión de su contenido.'},
+{id:'web-tienda',title:'Web completa con catálogo y panel administrativo',price:290000,description:'Tu negocio online con catálogo, carrito y un panel para gestionar su contenido.'}
 ];
 const $=id=>document.getElementById(id),money=(n,code=orderCurrency())=>new Intl.NumberFormat('es-AR',{style:'currency',currency:code,currencyDisplay:'code',maximumFractionDigits:2,minimumFractionDigits:0}).format(n),esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let selected=plans[0],config=null,checkout=null,controller=null,busy=false,project=null,activeProjectToken=null,selectedReference="";
+let pricingMismatch=true; // Block new ARS checkout until backend prices match displayed November 2026 prices.
 const internationalPrices={
  'web-basica':{USD:110,EUR:100},
  'web-panel':{USD:140,EUR:130},
@@ -73,6 +74,7 @@ $('webLogoFile')?.addEventListener('change',()=>{
 $('webLogoRemove')?.addEventListener('click',()=>{resetLogo();$('webLogoFile').value='';$('webLogoPreview').hidden=true;$('webLogoStatus').textContent='Logo quitado.';logoReadTask=Promise.resolve();});
 async function ensureIntake(provider,data){
  if(project)return null;
+ if(!foreignOrder()&&pricingMismatch)throw new Error('Estamos actualizando los precios del sistema de cobros. Consultanos por WhatsApp para confirmar tu presupuesto.');
  await logoReadTask;
  if(logoError)throw new Error(logoError);
  if(!intakeReference)intakeReference='CVS-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase();
@@ -90,7 +92,7 @@ function summary(){if($('webSelectedPlan'))$('webSelectedPlan').textContent=sele
  currencyPaymentOptions();}
 function lock(value){busy=value;if($('webPayPalForm'))$('webPayPalForm').querySelectorAll('button').forEach(b=>b.disabled=value);if($('webPayTransfer'))$('webPayTransfer').disabled=value||Boolean(controller);root.querySelectorAll('button').forEach(b=>b.disabled=value||Boolean(project)||Boolean(controller));$('webOrderForm').querySelectorAll('input,select,textarea').forEach(x=>x.disabled=value||Boolean(project)||Boolean(controller));$('webPaymentStage').disabled=value||Boolean(project)||Boolean(controller);$('webPayMP').disabled=value||!config?.mercadopago;$('webPayTN').disabled=value||!config?.tiendanube;$('webPayTN').hidden=!config?.tiendanube;currencyPaymentOptions();document.querySelectorAll('#webCurrency [data-currency]').forEach(b=>b.disabled=value||Boolean(controller)||Boolean(project));}
 function message(text){$('webCheckoutMessage').textContent=text;}
-async function pay(provider){if(busy)return;if(foreignOrder()){message('Seleccioná Pagar con PayPal para continuar en la moneda elegida.');return;}const form=$('webOrderForm');if(!project&&!form.reportValidity())return;const f=new FormData(form);lock(true);message('Preparando tu pago seguro…');try{await ensureIntake(provider,f);const payload=(project||activeProjectToken)?{projectToken:project?.token||activeProjectToken,stage:stage(),provider}:{productId:selected.id,stage:$('webPaymentStage').value,provider,customerName:f.get('customerName'),customerEmail:f.get('customerEmail'),customerPhone:f.get('customerPhone'),options:{reference:selectedReference,business:f.get('business'),style:f.get('style'),color:f.get('color'),palette:f.get('palette'),features:f.getAll('features'),details:f.get('details')}};
+async function pay(provider){if(busy)return;if(!project&&!foreignOrder()&&pricingMismatch){message('Los precios del sistema de cobros se están actualizando. Consultanos por WhatsApp.');return;}if(foreignOrder()){message('Seleccioná Pagar con PayPal para continuar en la moneda elegida.');return;}const form=$('webOrderForm');if(!project&&!form.reportValidity())return;const f=new FormData(form);lock(true);message('Preparando tu pago seguro…');try{await ensureIntake(provider,f);const payload=(project||activeProjectToken)?{projectToken:project?.token||activeProjectToken,stage:stage(),provider}:{productId:selected.id,stage:$('webPaymentStage').value,provider,customerName:f.get('customerName'),customerEmail:f.get('customerEmail'),customerPhone:f.get('customerPhone'),options:{reference:selectedReference,business:f.get('business'),style:f.get('style'),color:f.get('color'),palette:f.get('palette'),features:f.getAll('features'),details:f.get('details')}};
 checkout=await api('web-commerce-checkout',payload);activeProjectToken=checkout.projectToken;
 if(provider==='tiendanube'||!checkout.publicKey){location.assign(checkout.checkoutUrl);return;}
 if(!window.MercadoPago)throw new Error('El formulario de pago no pudo cargarse. Volvé a intentarlo.');
@@ -100,6 +102,7 @@ $('webBrickArea').scrollIntoView({behavior:'smooth',block:'center'});
 }catch(e){message(e.message);lock(false);return;}lock(false);}
 function transfer(){
  if(busy||controller||foreignOrder())return;
+ if(!project&&pricingMismatch){message('La transferencia automática estará disponible cuando se sincronicen los nuevos precios. Consultanos por WhatsApp.');return;}
  const total=project?.total??planPrice(selected),cents=Math.round(total*100),first=Math.round(cents*.25),due=(stage()==='full'?cents:stage()==='balance'?cents-first*2:first)/100;
  const panel=$('webTransferPanel');if(!panel)return;
  panel.hidden=false;
@@ -162,5 +165,5 @@ document.addEventListener('cvstudio:currencychange',event=>{
  currency=next;message('');checkout=null;activeProjectToken=null;invalidateIntake();render();lock(false);
 });
 render();showStep(1);
-(async()=>{try{config=await api('web-commerce-catalog');plans=plans.filter(p=>config.products.some(x=>x.product_id===p.id));if(!plans.length)throw new Error("No hay servicios disponibles.");for(const p of plans){p.price=config.products.find(x=>x.product_id===p.id).effective_price;}selected=plans.find(p=>p.id===selected.id)||plans[0];const price=document.querySelector('.price-number');if(price)price.textContent=money(plans[0].price);const params=new URLSearchParams(location.hash.slice(1));if(params.has('project')){project=await api('web-commerce-project',{projectToken:params.get('project')});project.token=params.get('project');selected=plans.find(p=>p.id===project.productId)||selected;$('webOrderForm').hidden=true;root.hidden=true;$('webPaymentStage').hidden=true;document.getElementById('arma-tu-web').scrollIntoView();}render();showStep(project?3:shopStep);lock(false);if(!config.mercadopago&&!config.tiendanube&&!foreignOrder())message('Consultanos por WhatsApp para coordinar tu pedido.');}catch(e){message(foreignOrder()?'Podés continuar con el pago seguro de PayPal.':'El pago online está temporalmente fuera de servicio. Consultanos por WhatsApp.');}})();
+(async()=>{try{config=await api('web-commerce-catalog');plans=plans.filter(p=>config.products.some(x=>x.product_id===p.id));if(!plans.length)throw new Error("No hay servicios disponibles.");pricingMismatch=plans.some(p=>Number(config.products.find(x=>x.product_id===p.id)?.effective_price)!==p.price);selected=plans.find(p=>p.id===selected.id)||plans[0];const price=document.querySelector('.price-number');if(price)price.textContent=money(plans[0].price);const params=new URLSearchParams(location.hash.slice(1));if(params.has('project')){project=await api('web-commerce-project',{projectToken:params.get('project')});project.token=params.get('project');selected=plans.find(p=>p.id===project.productId)||selected;$('webOrderForm').hidden=true;root.hidden=true;$('webPaymentStage').hidden=true;document.getElementById('arma-tu-web').scrollIntoView();}render();showStep(project?3:shopStep);lock(false);if(!config.mercadopago&&!config.tiendanube&&!foreignOrder())message('Consultanos por WhatsApp para coordinar tu pedido.');}catch(e){message(foreignOrder()?'Podés continuar con el pago seguro de PayPal.':'El pago online está temporalmente fuera de servicio. Consultanos por WhatsApp.');}})();
 })();
