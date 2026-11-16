@@ -72,6 +72,17 @@ def build():
 [hidden], [aria-hidden="true"].cv-access-modal {display:none!important}
 .preview-inert-form :is(input,select,textarea,button),button:disabled{cursor:not-allowed!important}
 </style>"""
+    # Gentle CSS-only ambient motion is safe with scripts and network calls disabled.
+    insert += """
+<style id="cvstudio-preview-ambient-motion">
+@keyframes previewGlowOne {0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(7vw,4vh,0) scale(1.14)}}
+@keyframes previewGlowTwo {0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-8vw,-5vh,0) scale(1.10)}}
+@keyframes previewGridDrift {0%,100%{background-position:0 0}50%{background-position:32px 24px}}
+.page-background .light-one{animation:previewGlowOne 19s ease-in-out infinite!important}
+.page-background .light-two{animation:previewGlowTwo 23s ease-in-out infinite!important}
+.page-background .background-grid{animation:previewGridDrift 30s ease-in-out infinite!important}
+@media(prefers-reduced-motion:reduce){.page-background .light-one,.page-background .light-two,.page-background .background-grid{animation:none!important}}
+</style>"""
     cleaned = cleaned.replace("</head>", insert + "\n</head>", 1)
     cleaned = cleaned.replace("</body>", '<div class="cvstudio-staging-banner">VISTA PREVIA DE CVSTUDIO · SOLO DISEÑO · SIN FORMULARIOS NI PAGOS</div>\n</body>', 1)
     DEST.mkdir(parents=True, exist_ok=True)
