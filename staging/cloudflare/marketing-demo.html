@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>CVStudio · Centro de Operaciones · Demo de Marketing</title>
+<style>
+:root{color-scheme:dark;--bg:#080f1e;--surface:#121c30;--surface2:#17243a;--edge:#30405a;--text:#edf3ff;--dim:#a8b8d0;--gold:#f5c95f;--green:#42d6a5}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 70% -20%,#183955 0,transparent 45%),var(--bg);color:var(--text);font:14px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:inherit}header{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:17px 3vw;border-bottom:1px solid var(--edge);background:#0d1627}header strong{font-size:18px;letter-spacing:-.5px}.mark{color:var(--gold)}
+.pill{font-size:11px;border-radius:40px;border:1px solid #8a722d;color:#ffdd7d;padding:6px 11px;font-weight:700;background:#43341a}
+.layout{display:grid;grid-template-columns:215px minmax(0,1fr);min-height:calc(100vh - 64px)}aside{border-right:1px solid var(--edge);padding:22px 13px;background:#0c1424}aside p{font-size:10px;letter-spacing:.13em;font-weight:700;color:#8192ad;margin:12px 12px}aside a{display:block;padding:11px 13px;border-radius:10px;text-decoration:none;color:#bdc9dd}aside a.active{color:#fff;background:#263854;font-weight:700}main{padding:30px clamp(16px,3vw,48px);max-width:1600px;width:100%;margin:0 auto}
+.hero{display:flex;justify-content:space-between;gap:20px;align-items:start;flex-wrap:wrap}.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800}h1{font-size:clamp(27px,3.4vw,42px);margin:9px 0;letter-spacing:-.045em}p{color:var(--dim)}.hero p{max-width:760px;margin:0 0 14px}.period{border:1px solid var(--edge);border-radius:12px;padding:11px 15px;background:var(--surface);font-size:12px;color:#dce5f7}
+.alert{margin:20px 0 24px;background:#28251a;border:1px solid #6c5a2b;border-radius:12px;padding:13px 16px;color:#f5dfad;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.card,.panel{background:linear-gradient(135deg,#17233a,#111b2c);border:1px solid var(--edge);border-radius:16px}.card{padding:19px 17px}.card small{color:#adbed4}.card strong{display:block;font-size:clamp(20px,2.3vw,32px);letter-spacing:-.04em;margin:8px 0 2px}.card em{font-style:normal;color:var(--green);font-size:11px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}.panel{padding:23px;min-width:0}.panel h2{font-size:17px;margin:0 0 8px}.panel>p{font-size:12px;margin:0 0 20px}.bars{height:180px;display:flex;align-items:end;gap:13px;border-bottom:1px solid var(--edge);padding:12px 4px 0}.bars div{flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center;height:100%;gap:7px}.bars i{display:block;background:linear-gradient(#55d5c7,#287eae);width:55%;border-radius:8px 8px 0 0}.bars span{color:var(--dim);font-size:11px}.row{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid #30405a;padding:12px 0}.row:last-child{border-bottom:0}.row small{display:block;color:var(--dim)}.row b{white-space:nowrap}.stat-bar{height:9px;border-radius:40px;background:#24364a;overflow:hidden;margin:9px 0 4px}.stat-bar i{display:block;height:100%;background:linear-gradient(90deg,#5f9bff,#53d2be)}.source{margin:12px 0}.source-head{display:flex;justify-content:space-between}.source small{color:var(--dim)}.link{display:inline-flex;border:1px solid var(--edge);padding:10px 14px;text-decoration:none;border-radius:10px;font-size:12px;margin-top:8px;color:#d0e3ff}
+details{border-top:1px solid var(--edge);padding:13px 0}summary{cursor:pointer;font-weight:700}details p{font-size:13px;max-width:780px}.footer{font-size:11px;margin-top:22px;color:#9fb0c9}
+@media(max-width:1150px){.kpis{grid-template-columns:repeat(3,1fr)}}@media(max-width:800px){.layout{display:block}aside{padding:7px 12px;white-space:nowrap;overflow:auto;border-right:0;border-bottom:1px solid var(--edge)}aside p{display:none}aside a{display:inline-block}main{padding:22px 15px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.cards{grid-template-columns:1fr}}@media(max-width:420px){.kpis{grid-template-columns:1fr 1fr}.card{padding:13px}.card strong{font-size:23px}.period{width:100%}}
+</style>
+</head><body>
+<header><strong><span class="mark">CV</span>Studio <span style="font-weight:400;color:#9db0cc">/ Centro de Operaciones</span></strong><span class="pill">DEMO · DATOS FICTICIOS</span></header>
+<div class="layout">
+<aside aria-label="Navegación ilustrativa del Centro de Operaciones"><p>ESPACIOS</p><a href="#resumen">Inicio</a><a href="#campanas" class="active">Marketing</a><a href="#canales">Clientes</a><a href="#ayuda">Calendario</a><a href="#ayuda">Integraciones</a><p>VISTA DE EVALUACIÓN</p><a href="#ayuda">Cómo usar esta pantalla</a></aside>
+<main>
+<div class="hero" id="resumen"><div><div class="eyebrow">Marketing Intelligence · Ejemplo interactivo de lectura</div><h1>Rendimiento y crecimiento</h1><p>Conocé cómo se presentarían las campañas, las consultas y las ventas confirmadas dentro del Centro de Operaciones de CVStudio.</p></div><div class="period">Período ilustrativo · 7 días</div></div>
+<div class="alert"><strong>SIMULACIÓN, NO DATOS REALES.</strong> Estos valores son inventados para explicar el funcionamiento. No se consultaron cuentas de Meta, Analytics, Supabase ni datos de clientes. No se han activado pagos, formularios ni envíos de eventos.</div>
+<section class="kpis" aria-label="Indicadores de ejemplo">
+<div class="card"><small>Inversión publicitaria</small><strong>$42.000</strong><em>Ejemplo de gasto</em></div>
+<div class="card"><small>Visitas registradas</small><strong>1.240</strong><em>Después del consentimiento</em></div>
+<div class="card"><small>Contactos recibidos</small><strong>36</strong><em>Origen identificado: 29</em></div>
+<div class="card"><small>Ventas confirmadas</small><strong>4</strong><em>No incluye consultas pendientes</em></div>
+<div class="card"><small>Ingresos atribuidos</small><strong>$240.000</strong><em>Solo ventas verificadas</em></div>
+</section>
+<div class="cards">
+<section class="panel"><h2>Inversión y resultados</h2><p>Ejemplo de ingresos diarios confirmados, no previsiones.</p><div class="bars" aria-label="Gráfico ilustrativo de 7 días">
+<div><i style="height:26%"></i><span>Lun</span></div><div><i style="height:50%"></i><span>Mar</span></div><div><i style="height:18%"></i><span>Mié</span></div><div><i style="height:80%"></i><span>Jue</span></div><div><i style="height:33%"></i><span>Vie</span></div><div><i style="height:100%"></i><span>Sáb</span></div><div><i style="height:62%"></i><span>Dom</span></div>
+</div></section>
+<section class="panel" id="campanas"><h2>Campañas activas</h2><p>Permite revisar inversión y resultados de cada campaña.</p>
+<div class="row"><div><strong>Webs personalizadas</strong><small>Meta Ads · Campaña de ejemplo · Activa</small></div><b>$30.000</b></div>
+<div class="row"><div><strong>CV y LinkedIn</strong><small>Meta Ads · Campaña de ejemplo · Activa</small></div><b>$12.000</b></div>
+<div class="row"><div><strong>Presupuesto semanal</strong><small>Inversión publicitaria total</small></div><b>$42.000</b></div>
+</section>
+<section class="panel" id="canales"><h2>Origen de los contactos</h2><p>Separá los contactos con fuente registrada de aquellos sin identificar.</p>
+<div class="source"><div class="source-head"><strong>Instagram / Meta</strong><b>18</b></div><div class="stat-bar"><i style="width:50%"></i></div></div>
+<div class="source"><div class="source-head"><strong>Facebook / Meta</strong><b>8</b></div><div class="stat-bar"><i style="width:22%"></i></div></div>
+<div class="source"><div class="source-head"><strong>Google y directo</strong><b>3</b></div><div class="stat-bar"><i style="width:8%"></i></div></div>
+<div class="source"><div class="source-head"><strong>Sin identificar</strong><b>7</b></div><div class="stat-bar"><i style="width:20%;background:#a29aab"></i></div></div>
+</section>
+<section class="panel"><h2>Ventas atribuidas a campañas</h2><p>Una consulta a WhatsApp no se cuenta como venta; solo se registra cuando hay confirmación comercial.</p>
+<div class="row"><div><strong>Campaña: webs-noviembre</strong><small>2 ventas verificadas con UTM</small></div><b>$180.000</b></div>
+<div class="row"><div><strong>Campaña: cv-profesional</strong><small>2 ventas verificadas con UTM</small></div><b>$60.000</b></div>
+<div class="row"><div><strong>Ingresos atribuidos</strong><small>Datos ficticios del ejemplo</small></div><b>$240.000</b></div>
+</section>
+<section class="panel"><h2>Fondo de Crecimiento</h2><p>Compará el dinero asignado a publicidad con los gastos registrados.</p>
+<div class="row"><span>Asignado</span><b>$70.000</b></div>
+<div class="row"><span>Gastado</span><b>$42.000</b></div>
+<div class="row"><span>Disponible</span><b>$28.000</b></div>
+<div class="stat-bar"><i style="width:60%"></i></div>
+</section>
+<section class="panel"><h2>Configurador web y creatividades</h2><p>Esta sección podrá mostrar presupuestos preparados, campañas UTM y archivos creativos.</p>
+<div class="row"><div><strong>Solicitudes de webs</strong><small>Ejemplo: 9 solicitudes, 6 con campaña identificada</small></div><b>9</b></div>
+<div class="row"><div><strong>Creatividades recientes</strong><small>Diseños y publicaciones asociadas a campañas</small></div><b>3</b></div>
+</section>
+</div>
+<section class="panel" id="ayuda" style="margin-top:16px"><h2>Cómo utilizar Marketing Intelligence</h2><p>Seleccioná cada pregunta para conocer qué significará cuando conectemos las fuentes reales.</p>
+<details open><summary>¿Cómo sé si una campaña funciona?</summary><p>Compará lo gastado, las visitas, los contactos identificados y los pagos efectivamente confirmados. El volumen de clics solo indica interés; no garantiza ventas.</p></details>
+<details><summary>¿Qué es una UTM?</summary><p>Es una etiqueta en el enlace publicitario que permite registrar la fuente y la campaña de una visita o solicitud. No atribuyas una venta si falta la evidencia de su origen.</p></details>
+<details><summary>¿Qué mostrarán Meta Pixel, GA4 y Clarity?</summary><p>El píxel y GA4 aportarán eventos de navegación de usuarios que acepten el seguimiento. Clarity ayuda a estudiar el comportamiento agregado de navegación. Estos datos no equivalen a contratos ni pagos.</p></details>
+<details><summary>¿Cuándo aparecerán números reales?</summary><p>Después de publicar la medición aprobada, verificar recepción de eventos y conectar las fuentes de campañas, clientes y pagos confirmados con los permisos correspondientes. Hasta entonces esta pantalla es solamente una demostración.</p></details>
+</section>
+<p class="footer">CVStudio Argentina · Demostración educativa aislada · No es el Centro de Operaciones productivo y no contiene información real de clientes.</p>
+</main></div></body></html>
