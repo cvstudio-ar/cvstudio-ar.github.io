@@ -8,7 +8,7 @@ const src = fs.readFileSync(path.join(__dirname, '../js/cvstudio-meta-consent.js
 
 function fixture(host, stored) {
   const scripts=[], elements=[], documentEvents={}, store=new Map();
-  if(stored) store.set('cvstudio_meta_consent_v1',stored);
+  if(stored) store.set('cvstudio_measurement_consent_v1',stored);
   const mk=()=>({
     style:{}, children:[], textContent:'', id:'', closest(){return null;},
     setAttribute(){}, addEventListener(name,fn){this[name]=fn},
@@ -18,6 +18,7 @@ function fixture(host, stored) {
   const marker={parentNode:{insertBefore(node){scripts.push(node)}}};
   const document={
     body:{append(node){elements.push(node)}},
+    head:{append(node){scripts.push(node)}},
     createElement(){return mk()},
     getElementById(id){return elements.find(el=>el.id===id && !el.removed)},
     getElementsByTagName(){return [marker]},
@@ -41,31 +42,33 @@ test('before opt-in does not load Meta or send PageView',()=>{
   h.ready();
   assert.equal(h.scripts.length,0);
   assert.equal(h.window.fbq,undefined);
-  assert.ok(h.button('Aceptar Meta Pixel'));
+  assert.ok(h.button('Aceptar medición'));
 });
 test('rejection does not load Meta and stays rejected',()=>{
   const h=fixture('cvstudio.com.ar');
   h.ready();
   h.button('Rechazar').click();
-  assert.equal(h.store.get('cvstudio_meta_consent_v1'),'rejected');
+  assert.equal(h.store.get('cvstudio_measurement_consent_v1'),'rejected');
   assert.equal(h.scripts.length,0);
   assert.equal(h.window.fbq,undefined);
 });
 test('acceptance initializes Meta once, with PageView',()=>{
   const h=fixture('www.cvstudio.com.ar');
   h.ready();
-  h.button('Aceptar Meta Pixel').click();
-  assert.equal(h.scripts.length,1);
+  h.button('Aceptar medición').click();
+  assert.equal(h.scripts.length,3);
   assert.match(h.scripts[0].src,/connect\.facebook\.net\/en_US\/fbevents\.js$/);
-  assert.equal(h.store.get('cvstudio_meta_consent_v1'),'accepted');
+  assert.equal(h.store.get('cvstudio_measurement_consent_v1'),'accepted');
   assert.equal(h.window.fbq.queue.length,2);
   assert.equal(h.window.fbq.queue[0][1],'1486370042926294');
   assert.equal(h.window.fbq.queue[1][1],'PageView');
+  assert.ok(h.scripts.some(script => script.src.includes('googletagmanager.com/gtag/js')));
+  assert.ok(h.scripts.some(script => script.src.includes('clarity.ms/tag/')));
 });
 test('preaccepted consent loads once; staging loads never',()=>{
   const yes=fixture('cvstudio.com.ar','accepted');
   yes.ready(); yes.ready();
-  assert.equal(yes.scripts.length,1);
+  assert.equal(yes.scripts.length,3);
   const staging=fixture('cvstudio-marketing-pruebas.cvstudioargentina.workers.dev','accepted');
   staging.ready();
   assert.equal(staging.scripts.length,0);
@@ -73,7 +76,7 @@ test('preaccepted consent loads once; staging loads never',()=>{
 test('revoking consent stops an already initialized pixel by reloading',()=>{
   const h=fixture('cvstudio.com.ar','accepted');
   h.ready();
-  h.button('Privacidad · Meta').click();
+  h.button('Privacidad y estadísticas').click();
   h.button('Rechazar').click();
   assert.equal(h.reloads(),1);
 });
