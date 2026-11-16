@@ -46,6 +46,8 @@ jobs:
             --exclude 'tests/' \
             --exclude 'supabase/' \
             --exclude 'config/' \
+            --exclude 'deployment/' \
+            --exclude 'scripts/deploy/' \
             --exclude 'WORKER_CVSTUDIO_CONTACTO_ESTABLE.js' \
             --exclude 'js/siac-loader 1.js' \
             --exclude '.env.example' \
@@ -72,3 +74,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           artifact_name: github-pages-${{ github.run_attempt }}
+

@@ -550,6 +550,7 @@
       confirmButton.textContent = 'Registrando…';
     }
 
+    const campaign = window.CVStudioCampaignAttribution?.getCampaign?.() || null;
     const request = {
       code: createCode(),
       createdAt: new Date().toISOString(),
@@ -597,7 +598,7 @@
         servicio: request.service,
         subtipo: request.subtype,
         descripcion: 'Solicitud generada desde SIAC web',
-        datos: request.answers,
+        datos: campaign ? {...request.answers, atribucion:campaign} : request.answers,
         estado: request.status,
         prioridad: 'Normal',
         responsable: request.responsible,

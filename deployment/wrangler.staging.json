@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cvstudio-contacto-pruebas",
+  "main": "generated/staging-worker.mjs",
+  "compatibility_date": "2026-11-15",
+  "workers_dev": true,
+  "preview_urls": false,
+  "routes": [],
+  "triggers": { "crons": [] },
+  "observability": { "enabled": false }
+}

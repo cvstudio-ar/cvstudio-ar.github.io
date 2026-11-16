@@ -1,0 +1,41 @@
+name: Validación de Marketing Intelligence
+
+on:
+  push:
+    branches: ['feature/marketing-intelligence']
+  pull_request:
+    paths:
+      - 'config/cloudflare-worker-contacto.js'
+      - 'js/**'
+      - 'centro-operaciones-prueba/**'
+      - 'otros-servicios/**'
+      - 'tests/marketing-*.test.cjs'
+      - '.github/workflows/marketing-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener rama para revisión
+        uses: actions/checkout@v6
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Revisar sintaxis de JS del Worker y del frontend
+        run: |
+          node --check js/cvstudio-marketing-consent.js
+          node --check js/cvstudio-meta-pixel.js
+          node --check js/web-commerce-inmobiliaria.js
+          node --check js/app.js
+          node --check js/siac.js
+          node --check centro-operaciones-prueba/operational.js
+          node --check centro-operaciones-prueba/real-bridge.js
+          cp config/cloudflare-worker-contacto.js /tmp/cvstudio-marketing-worker.mjs
+          node --check /tmp/cvstudio-marketing-worker.mjs
+      - name: Pruebas aisladas (sin secretos, sin cobros ni escrituras externas)
+        run: node --test tests/marketing-*.test.cjs

@@ -25,9 +25,13 @@ jobs:
             node --check /tmp/cvstudio-worker-check.mjs
           done
 
-      - name: Verify removed internal files
+      - name: Verify private legacy files are excluded from Pages
         shell: bash
         run: |
-          test ! -e WORKER_CVSTUDIO_CONTACTO_ESTABLE.js
-          test ! -e centro-operaciones-prueba/panel-20260806-1208.html
+          # Los dos archivos históricos existen en main; nunca deben publicarse.
+          grep -Fq "WORKER_CVSTUDIO_CONTACTO_ESTABLE.js" .github/workflows/pages.yml
+          grep -Fq "centro-operaciones-prueba/panel-*.html" .github/workflows/pages.yml
           test ! -e "js/siac-loader 1.js"
+          # Confirmar que las exclusiones no sean eliminadas del flujo productivo.
+          grep -Fq -- "--exclude 'config/'" .github/workflows/pages.yml
+          grep -Fq -- "--exclude 'tests/'" .github/workflows/pages.yml

@@ -119,7 +119,7 @@
     }
     status('Sincronizando datos reales…', 'syncing');
 
-    const [requestsResult, commsResult, storageResult, paymentsData, productsData, portfoliosData, canvaData, metaData] = await Promise.all([
+    const [requestsResult, commsResult, storageResult, paymentsData, productsData, portfoliosData, canvaData, metaData, webCommerceData] = await Promise.all([
       client.from('solicitudes').select('*, clientes(*), archivos(*)').order('fecha_creacion', {ascending:false}).limit(1000),
       client.from('comunicaciones').select('*').order('fecha_creacion', {ascending:false}).limit(3000),
       client.storage.from('cvstudio-archivos').list('',{limit:1}).catch(error=>({data:null,error})),
@@ -127,7 +127,8 @@
       api('payments-admin-products').catch(error => ({products:[], _error:error.message})),
       portfolioApi('portfolio-admin-list').catch(error => ({clients:[], _error:error.message})),
       api('canva-status').catch(error => ({configured:true,connected:false,_error:error.message})),
-      api('meta-campaigns').catch(error => ({connected:false,campaigns:[],_error:error.message}))
+      api('meta-campaigns').catch(error => ({connected:false,campaigns:[],_error:error.message})),
+      api('web-commerce-admin-list').catch(error => ({intakes:[],_error:error.message}))
     ]);
     if (requestsResult.error) throw requestsResult.error;
     if (commsResult.error) throw commsResult.error;
@@ -163,7 +164,7 @@
         color:['#9b5de5','#3b82f6','#35d07f','#ff8a1f'][index%4],
         time:r.fecha_actualizacion || r.fecha_creacion || 'Ahora', phone:c.telefono || '', email:c.email || '',
         city:c.ciudad || '', responsible:(r.responsable && r.responsable !== 'Exequiel') ? r.responsable : 'pablexe',
-        source:r.canal || 'Web', realRequestId:r.id, realClientId:r.cliente_id, code:r.codigo,
+        source:r.canal || 'Web', attribution:(r.datos?.atribucion && typeof r.datos.atribucion==='object' && !Array.isArray(r.datos.atribucion)) ? r.datos.atribucion : {}, realRequestId:r.id, realClientId:r.cliente_id, code:r.codigo,
         createdAt:r.fecha_creacion || r.fecha_actualizacion, notes:r.notas || '', files:r.archivos || [], formData:r.datos?.formulario || r.datos?.formData || r.datos || {}, imported:true
       };
     });
@@ -202,13 +203,13 @@
       let c = byEmail.get(esc(order.cliente_email).toLowerCase()) || byPhone.get(digits(order.cliente_whatsapp));
       if (!c) {
         const id = hashId(`mpclient:${order.cliente_email || order.cliente_whatsapp || order.id}`);
-        c = {id,name:order.cliente_nombre || 'Cliente Mercado Pago',initials:initials(order.cliente_nombre),service:normalizeService(order.producto_nombre),status:order.estado_pago==='approved'?'En proceso':'Esperando pago',color:['#35d07f','#3b82f6','#ff8a1f'][index%3],time:order.updated_at||order.created_at,phone:order.cliente_whatsapp||'',email:order.cliente_email||'',responsible:'pablexe',source:'Web',realOrderId:order.id,imported:true};
+        c = {id,name:order.cliente_nombre || 'Cliente Mercado Pago',initials:initials(order.cliente_nombre),service:normalizeService(order.producto_nombre),status:order.estado_pago==='approved'?'En proceso':'Esperando pago',color:['#35d07f','#3b82f6','#ff8a1f'][index%3],time:order.updated_at||order.created_at,phone:order.cliente_whatsapp||'',email:order.cliente_email||'',responsible:'pablexe',source:'Web',attribution:(order.atribucion && typeof order.atribucion==='object' && !Array.isArray(order.atribucion)) ? order.atribucion : {},realOrderId:order.id,imported:true};
         state.clients.push(c);
       }
       realPayments.push({
         id:hashId(`payment:${order.id}`),clientId:c.id,client:c.name,service:normalizeService(order.producto_nombre),
         amount:Number(order.importe||0),status:order.estado_pago==='approved'?'Confirmado':'Pendiente',
-        source:'Web',paymentMethod:'Mercado Pago',alias:'cvstudio.ar',priceSnapshot:Number(order.importe||0),
+        source:'Web',attribution:(order.atribucion && typeof order.atribucion==='object' && !Array.isArray(order.atribucion)) ? order.atribucion : {},paymentMethod:'Mercado Pago',alias:'cvstudio.ar',priceSnapshot:Number(order.importe||0),
         createdAt:order.fecha_aprobacion||order.created_at,realOrderId:order.id,externalReference:order.external_reference,
         orderStatus:order.estado_pedido,imported:true
       });
@@ -229,6 +230,14 @@
       state._realProducts = products;
     }
     state.portfolios=Array.isArray(portfoliosData.clients)?portfoliosData.clients:state.portfolios||[];
+    state.webIntakes=Array.isArray(webCommerceData.intakes)
+      ?webCommerceData.intakes.map(intake=>({
+          reference:String(intake.reference||'').slice(0,100),
+          productId:String(intake.product_id||'').slice(0,80),
+          createdAt:intake.created_at,
+          attribution:(intake.attribution&&typeof intake.attribution==='object'&&!Array.isArray(intake.attribution))?intake.attribution:{}
+        }))
+      :[];
     state.metaCampaigns=Array.isArray(metaData.campaigns)?metaData.campaigns:state.metaCampaigns||[];
     state.metaSummary=metaData.summary||state.metaSummary||{spend:0,results:0,impressions:0};
     state._integrationStatus={
@@ -239,6 +248,8 @@
       storageDetail:storageResult?.error?storageResult.error.message:'Bucket privado verificado',
       payments:paymentsData._error?'error':'connected',
       paymentsDetail:paymentsData._error?paymentsData._error:`${orders.length} pedidos leídos`,
+      webCommerce:webCommerceData._error?'error':'connected',
+      webCommerceDetail:webCommerceData._error?webCommerceData._error:`${state.webIntakes.length} preparaciones de webs leídas`,
       portfolios:portfoliosData._error?'error':'connected',
       portfoliosDetail:portfoliosData._error?portfoliosData._error:`${state.portfolios.length} espacios leídos`,
       whatsapp:'configured',
