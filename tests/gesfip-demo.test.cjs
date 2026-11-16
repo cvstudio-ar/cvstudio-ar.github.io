@@ -29,10 +29,12 @@ test('styles have fluid containers and mobile breakpoints',()=>{
  assert.match(css,/@media\(max-width:460px\)/);
  assert.match(css,/border-radius:var\(--radius\)/);
 });
-test('admin is a local preview, not a fake password-protected editor',()=>{
+test('admin preserves local demo and supports authenticated persistent editing',()=>{
  const html=read('admin/index.html'),js=read('admin/admin.js');
- assert.match(html,/solo en este navegador/);
- assert.match(js,/api\.save\(next\)/);
+ assert.match(html,/solo en tu navegador/);
+ assert.match(js,/api\.persist\(next\)/);
+ assert.match(js,/api\.localMode\(\)/);
+ assert.match(read('functions/api/admin/_middleware.js'),/cloudflareAccessPlugin/);
  assert.match(js,/Exportar|gesfip-configuracion-demo\.json/);
  assert.doesNotMatch(html+js+read('config.js'),/Cvstudio\*26/);
 });
@@ -57,7 +59,7 @@ test('admin displays the approved hero using its correct relative path',()=>{
   const admin=read('admin/admin.js');
   const page=read('admin/index.html');
   const config=read('config.js');
-  assert.ok(admin.includes("value==='./hero-aprobada.svg'?'../hero-aprobada.svg':value"));
+  assert.ok(admin.includes("v.startsWith('./')?'../'+v.slice(2):v"));
   assert.ok(admin.includes("el.src=previewUrl(config.heroImage)"));
   assert.ok(config.includes("/demo/gesfip/assets/gesfip-hero-approved.webp"));
   assert.ok(page.includes('config.js?v=4'));

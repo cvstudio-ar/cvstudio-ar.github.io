@@ -21,7 +21,9 @@ test('six client-provided photos exist and are large enough for service cards',(
 });
 test('service cards use photographic backgrounds and prominent line art',()=>{
   const script=get('app.js'),css=get('styles.css');
-  assert.ok(script.includes("const photoByService="));
+  assert.ok(script.includes("const photo=item.image"));
+  assert.ok(script.includes('data.operationImages'));
+  assert.ok(css.includes('var(--operation-photo)'));
   assert.ok(script.includes("button.style.setProperty('--service-photo'"));
   assert.ok(css.includes('var(--service-photo,'));
   assert.ok(css.includes('width:56px!important;height:56px!important'));

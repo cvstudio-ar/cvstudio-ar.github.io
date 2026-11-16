@@ -1,6 +1,6 @@
-(() => {
+(async () => {
   'use strict';
-  const data=window.GESFIPDemo?.read?.();
+  const data=await window.GESFIPDemo?.load?.();
   if(!data)return;
   document.documentElement.style.setProperty('--gold',data.gold||'#eeb24c');
   document.documentElement.style.setProperty('--ink',data.dark||'#070d13');
@@ -17,10 +17,21 @@
   text('#footerPhone',data.phone);
   text('#contactEmail',data.email);
   text('#contactAddress',data.address);
-  const validImage=url=>/^https:\/\/[^"'<>\s]+$/i.test(String(url||''));
+  const validImage=url=>{
+    const v=String(url||'');
+    return v==='./hero-aprobada.svg'
+      || /^\.\/assets\/[a-z0-9-]+\.svg$/i.test(v)
+      || /^\/api\/media\/(?:hero|about|team|(?:service-0[1-8]|operation-0[1-5]))$/.test(v)
+      || /^https:\/\/[a-z0-9.-]+\/[a-z0-9_./?=&%+-]*$/i.test(v);
+  };
+  for(const [selector,url] of [['#aboutImage',data.aboutImage],['#teamImage',data.teamImage]]){
+    const image=$(selector);
+    if(image && validImage(url))image.src=url;
+  }
   if(validImage(data.heroImage)){
     const style=document.createElement('style');
-    style.textContent='.hero::before{background-image:linear-gradient(90deg,#080e15 2%,rgba(8,14,21,.96) 34%,rgba(8,14,21,.45) 75%),url("'+data.heroImage.replace(/\\/g,'')+'")}';
+    style.textContent='.hero::before{background-image:linear-gradient(90deg,#080e15 2%,rgba(8,14,21,.96) 34%,rgba(8,14,21,.45) 75%),url("'+data.heroImage+'")}';
+    style.textContent+='@media(max-width:800px){.hero-mobile-photo{background-image:linear-gradient(180deg,#080f16 0%,rgba(8,15,22,.03) 34%,rgba(8,15,22,.1) 70%,#080f16 100%),url("'+data.heroImage+'")!important}}';
     document.head.append(style);
   }
   const cleanPhone=String(data.phone||'').replace(/\D/g,'');
@@ -69,24 +80,15 @@
     if(!track)return;
     track.replaceChildren();
     const count=Math.min(shown(),services.length);
+    if (!services.length) { text('#carouselPosition',''); return; }
     for(let n=0;n<count;n++){
       const index=(offset+n)%services.length, item=services[index];
       const button=document.createElement('button');
       button.className='service';button.type='button';
       // Only local, client-provided photos are used; no URLs from editable content.
-      const photoByService={
-        'Seguridad Física':'qr',
-        'Monitoreo':'rural',
-        'Gestión de Riesgos':'mercaderia',
-        'Custodia de Personas':'hotel',
-        'Seguridad para Empresas':'accesos',
-        'Country y Barrios':'country',
-        'Silos y Campos':'rural',
-        'Hoteles y Eventos':'hotel'
-      };
-      const photo=photoByService[item.title];
-      if(photo)button.style.setProperty('--service-photo',"url('./assets/"+photo+".svg')");
-      const icon=document.createElement('span');icon.className='glyph';icon.textContent=item.glyph||'◇';
+      const photo=item.image;
+      if(validImage(photo))button.style.setProperty('--service-photo','url("'+photo+'")');
+      const icon=document.createElement('span');icon.className='glyph';icon.append(serviceIcon(item.title));
       const heading=document.createElement('strong');heading.textContent=item.title||'Servicio';
       const desc=document.createElement('span');desc.className='desc';desc.textContent=item.short||'';
       const more=document.createElement('span');more.className='more';more.textContent='Ver detalles  ↗';
@@ -96,8 +98,8 @@
     }
     text('#carouselPosition',services.length?((offset+1)+' / '+services.length):'');
   }
-  $('#nextService')?.addEventListener('click',()=>{offset=(offset+1)%services.length;renderCarousel()});
-  $('#prevService')?.addEventListener('click',()=>{offset=(offset-1+services.length)%services.length;renderCarousel()});
+  $('#nextService')?.addEventListener('click',()=>{if(!services.length)return;offset=(offset+1)%services.length;renderCarousel()});
+  $('#prevService')?.addEventListener('click',()=>{if(!services.length)return;offset=(offset-1+services.length)%services.length;renderCarousel()});
   let viewportWidth=window.innerWidth;
   window.addEventListener('resize',()=>{const w=window.innerWidth;if(Math.abs(w-viewportWidth)>25){viewportWidth=w;renderCarousel()}});
   modal?.addEventListener('close',()=>lastActivator?.focus?.());
@@ -111,6 +113,11 @@
       const el=document.createElement('div');el.className='op';
       const number=document.createElement('b');number.textContent=String(index+1).padStart(2,'0');
       const span=document.createElement('span');span.textContent=name;
+      const photo=Array.isArray(data.operationImages) ? data.operationImages[index] : '';
+      if(validImage(photo)){
+        el.classList.add('op-photo');
+        el.style.setProperty('--operation-photo','url("'+photo+'")');
+      }
       el.append(number,span);operations.append(el);
     });
   }

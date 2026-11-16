@@ -1,0 +1,15 @@
+{
+  "name": "gesfip-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node --check app.js && node --check config.js && node --check admin/admin.js && node --check functions/api/site-config.js && node --check functions/api/admin/config.js && node --check functions/api/admin/_middleware.js && node --check functions/api/admin/hero.js && node --check \"functions/api/admin/media/[slot].js\" && node --check \"functions/api/media/[slot].js\" && node --check scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "npm run check && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@cloudflare/pages-plugin-cloudflare-access": "^1.0.5"
+  }
+}
