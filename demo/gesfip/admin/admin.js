@@ -10,7 +10,7 @@
    const v=String(value||'');
    return v==='./hero-aprobada.svg'
     || /^\.\/assets\/[a-z0-9-]+\.svg$/i.test(v)
-    || /^\/api\/media\/(?:hero|about|team|service-0[1-8])$/.test(v)
+    || /^\/api\/media\/(?:hero|about|team|(?:service-0[1-8]|operation-0[1-5]))$/.test(v)
     || /^https:\/\/[a-z0-9.-]+\/[a-z0-9_./?=&%+-]*$/i.test(v);
  };
  const previewUrl=value=>{
