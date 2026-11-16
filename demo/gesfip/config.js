@@ -6,7 +6,7 @@ const defaults={
   heroLine1:"Tu seguridad es",
   heroLine2:"nuestra prioridad",
   heroDescription:"Soluciones profesionales de seguridad física y de personas, con personal capacitado, control y prevención.",
-  heroImage:"https://images.pexels.com/photos/36753422/pexels-photo-36753422.jpeg?auto=compress&cs=tinysrgb&w=1600",
+  heroImage:"./hero-aprobada.svg",
   gold:"#eeb24c", dark:"#070d13",
   aboutTitle:"Compromiso, experiencia y confianza",
   about:"Somos una empresa de seguridad comprometida con la protección de las personas y sus bienes. Diseñamos servicios a medida, con profesionales experimentados y un enfoque preventivo.",
@@ -31,6 +31,7 @@ const clone=()=>JSON.parse(JSON.stringify(defaults));
 function read(){
   let saved={};
   try{saved=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch{}
+  if(typeof saved.heroImage==='string' && saved.heroImage.includes('/photos/36753422/')) saved.heroImage='./hero-aprobada.svg';
   const data={...clone(),...saved};
   if(!Array.isArray(data.services)||data.services.length===0)data.services=clone().services;
   if(!Array.isArray(data.operations))data.operations=clone().operations;
