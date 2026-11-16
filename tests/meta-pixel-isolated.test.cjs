@@ -31,7 +31,7 @@ function fixture(host, stored) {
     setItem(k,v){store.set(k,v)}
   }});
   const ready=()=>documentEvents.DOMContentLoaded?.();
-  const button=(label)=>elements.flatMap(e=>e.children.flatMap(x=>x.children??[]))
+  const button=(label)=>elements.concat(elements.flatMap(e=>e.children.flatMap(x=>x.children??[])))
     .find(x=>x.textContent===label);
   return {document,window,location,scripts,elements,store,ready,button,reloads:()=>reloads};
 }
