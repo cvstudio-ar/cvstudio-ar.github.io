@@ -44,5 +44,32 @@ function read(){
 }
 function save(data){localStorage.setItem(KEY,JSON.stringify(data))}
 function reset(){localStorage.removeItem(KEY)}
-window.GESFIPDemo={defaults:clone(),read,save,reset};
+const localMode=()=>location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.pathname.startsWith('/demo/gesfip/');
+async function load(){
+  if(localMode())return read();
+  try{
+    const response=await fetch(new URL('./api/site-config',new URL('./',location.href)),{cache:'no-store'});
+    if(response.ok){
+      const body=await response.json();
+      if(body?.data && typeof body.data==='object')return {...clone(),...body.data};
+    }
+  }catch{}
+  return clone();
+}
+async function loadAdmin(){
+  if(localMode())return read();
+  const response=await fetch(new URL('../api/admin/config',location.href),{cache:'no-store'});
+  if(!response.ok)throw new Error('Acceso administrativo no configurado ('+response.status+').');
+  const body=await response.json();
+  return body?.data ? {...clone(),...body.data} : clone();
+}
+async function persist(data){
+  if(localMode()){save(data);return}
+  const response=await fetch(new URL('../api/admin/config',location.href),{
+    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),cache:'no-store'
+  });
+  const result=await response.json().catch(()=>({error:'Error en el servicio de configuración.'}));
+  if(!response.ok || !result.ok)throw new Error(result.error||'No se pudo guardar');
+}
+window.GESFIPDemo={defaults:clone(),read,save,reset,load,loadAdmin,persist,localMode};
 })();
