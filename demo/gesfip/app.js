@@ -13,6 +13,8 @@
   text('#aboutTitle',data.aboutTitle);
   text('#aboutDescription',data.about);
   text('#missionDescription',data.mission);
+  text('#historyDescription',data.history);
+  text('#teamDescription',data.teamDescription);
   text('#contactPhone',data.phone);
   text('#footerPhone',data.phone);
   text('#contactEmail',data.email);
