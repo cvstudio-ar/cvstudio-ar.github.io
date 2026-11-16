@@ -46,9 +46,9 @@ test('approved hero replaces unrelated stock and avoids redundant giant logo car
  const config=read('config.js');
  const picture=read('hero-aprobada.svg');
  assert.doesNotMatch(html, /class="visual"/);
- assert.doesNotMatch(css+config, /images\\.pexels\\.com/);
- assert.match(css, /hero-aprobada\\.svg/);
- assert.match(config, /hero-aprobada\\.svg/);
+ assert.ok(!((css+config).includes('images.pexels.com')));
+ assert.ok(css.includes('hero-aprobada.svg'));
+ assert.ok(config.includes('hero-aprobada.svg'));
  assert.ok(picture.includes('data:image/webp;base64,'));
- assert.match(read('admin/admin.js'), /hero-aprobada\\.svg/);
+ assert.ok(read('admin/admin.js').includes('hero-aprobada.svg'));
 });
