@@ -62,7 +62,7 @@ def build():
     # All navigation is inert except the explicitly provided public YouTube channel.
     def preview_link(match):
         tag, href = match.group(1), match.group(2)
-        if href == "https://www.youtube.com/@CVStudioArgentina":
+        if href == "https://www.youtube.com/@CVStudioArgentina" or (href.startswith("#") and len(href) > 1):
             return tag + ' href="' + href + '"'
         return tag + ' href="#"'
     cleaned = re.sub(r"""(<a\b[^>]*?)\s+href\s*=\s*["']([^"']*)["']""", preview_link, cleaned, flags=re.I)
