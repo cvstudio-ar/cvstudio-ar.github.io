@@ -10,7 +10,7 @@ test('service cards and modal use the same SVG illustration function',()=>{
  assert.match(js,/function serviceIcon\(title\)/);
  assert.match(js,/glyph\.replaceChildren\(serviceIcon\(item\.title\)\)/);
  assert.match(js,/modal\.showModal\(\)/);
- assert.match(js,/modal\\?\\.addEventListener\\('close'/);
+ assert.ok(js.includes("modal?.addEventListener('close'"));
  assert.doesNotMatch(js,/glyph\.textContent=item\.glyph/);
 });
 test('all service categories have custom vector paths',()=>{
