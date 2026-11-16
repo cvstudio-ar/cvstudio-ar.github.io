@@ -113,6 +113,11 @@
       const el=document.createElement('div');el.className='op';
       const number=document.createElement('b');number.textContent=String(index+1).padStart(2,'0');
       const span=document.createElement('span');span.textContent=name;
+      const photo=Array.isArray(data.operationImages) ? data.operationImages[index] : '';
+      if(validImage(photo)){
+        el.classList.add('op-photo');
+        el.style.setProperty('--operation-photo','url("'+photo+'")');
+      }
       el.append(number,span);operations.append(el);
     });
   }
