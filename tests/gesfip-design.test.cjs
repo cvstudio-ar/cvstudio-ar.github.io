@@ -38,6 +38,20 @@ test('mobile hero uses content-first layout with restrained photo, CTAs and comp
  assert.ok(section.includes('.hero .actions .btn'));
  assert.ok(section.includes('min-height:47px'));
  assert.ok(section.includes('.mobile-menu::before'));
- assert.ok(html.includes('styles.css?v=mobile-20261116-1'));
+ assert.ok(html.includes('styles.css?v=gesfip-mobile-27'));
  assert.ok(html.includes('aria-label="Abrir menú de navegación"'));
+});
+
+test('mobile image is independently rendered below text instead of behind calls to action',()=>{
+ const html=read('index.html'),css=read('styles.css');
+ assert.ok(html.includes('class="hero-mobile-photo"'));
+ const ref=css.slice(css.lastIndexOf('/* GESFIP mobile layout v27:'));
+ assert.ok(ref.includes('.hero::before{display:none!important}'));
+ assert.ok(ref.includes('.hero-mobile-photo{'));
+ assert.ok(ref.includes('height:clamp(140px,27vw,205px)'));
+ assert.ok(ref.includes('#servicios .section-head{'));
+ assert.ok(ref.includes('flex-direction:column!important'));
+ assert.ok(ref.includes('#servicios .section-head h2{'));
+ assert.ok(ref.includes('max-width:100%!important'));
+ assert.ok(html.includes('styles.css?v=gesfip-mobile-27'));
 });
