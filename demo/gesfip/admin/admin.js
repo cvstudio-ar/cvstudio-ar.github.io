@@ -44,17 +44,27 @@
    ...Array.from({length:8},(_,index)=>({
      slot:'service-'+String(index+1).padStart(2,'0'),
      title:String(index+4).padStart(2,'0')+' · '+(config.services?.[index]?.title||'Servicio '+(index+1)),
-     desc:'Fotografía de fondo del recuadro de servicio '+(index+1)+'.',
+     desc:'Fotografía de fondo de la tarjeta '+(index+1)+'.',
      index,minWidth:1100,minHeight:620
+   })),
+   ...Array.from({length:5},(_,index)=>({
+     slot:'operation-'+String(index+1).padStart(2,'0'),
+     title:String(index+12).padStart(2,'0')+' · '+(config.operations?.[index]||'Operación '+(index+1)),
+     desc:'Imagen para la operación de seguridad '+(index+1)+'.',
+     operationIndex:index,minWidth:900,minHeight:620
    }))
  ];
- const initialImage=entry=>entry.index==null ?
-   (config[entry.field]||api.defaults[entry.field]||''):
+ const initialImage=entry=>entry.operationIndex!=null ?
+   (config.operationImages?.[entry.operationIndex]||api.defaults.operationImages?.[entry.operationIndex]||'') :
+   entry.index==null ? (config[entry.field]||api.defaults[entry.field]||'') :
    (config.services?.[entry.index]?.image||api.defaults.services?.[entry.index]?.image||'');
- const defaultImage=entry=>entry.index==null ?
-   (api.defaults[entry.field]||''):(api.defaults.services?.[entry.index]?.image||'');
+ const defaultImage=entry=>entry.operationIndex!=null ?
+   (api.defaults.operationImages?.[entry.operationIndex]||'') :
+   entry.index==null ? (api.defaults[entry.field]||'') :
+   (api.defaults.services?.[entry.index]?.image||'');
  const changeImage=(entry,url)=>{
-   if(entry.index==null)config[entry.field]=url;
+   if(entry.operationIndex!=null)config.operationImages[entry.operationIndex]=url;
+   else if(entry.index==null)config[entry.field]=url;
    else if(config.services?.[entry.index])config.services[entry.index].image=url;
    if(entry.field==='heroImage'){
      const el=$('[data-field="heroImage"]');
@@ -67,6 +77,7 @@
    wrapper.replaceChildren();
    for(const entry of images){
      if(entry.index!=null)entry.title=String(entry.index+4).padStart(2,'0')+' · '+(config.services?.[entry.index]?.title||'Servicio '+(entry.index+1));
+   if(entry.operationIndex!=null)entry.title=String(entry.operationIndex+12).padStart(2,'0')+' · '+(config.operations?.[entry.operationIndex]||'Operación '+(entry.operationIndex+1));
      const card=document.createElement('article');card.className='image-slot';
      const title=document.createElement('h3');title.textContent=entry.title;
      const desc=document.createElement('p');desc.textContent=entry.desc;
