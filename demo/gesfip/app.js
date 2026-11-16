@@ -73,6 +73,19 @@
       const index=(offset+n)%services.length, item=services[index];
       const button=document.createElement('button');
       button.className='service';button.type='button';
+      // Only local, client-provided photos are used; no URLs from editable content.
+      const photoByService={
+        'Seguridad Física':'qr',
+        'Monitoreo':'rural',
+        'Gestión de Riesgos':'mercaderia',
+        'Custodia de Personas':'hotel',
+        'Seguridad para Empresas':'accesos',
+        'Country y Barrios':'country',
+        'Silos y Campos':'rural',
+        'Hoteles y Eventos':'hotel'
+      };
+      const photo=photoByService[item.title];
+      if(photo)button.style.setProperty('--service-photo',"url('./assets/"+photo+".svg')");
       const icon=document.createElement('span');icon.className='glyph';icon.textContent=item.glyph||'◇';
       const heading=document.createElement('strong');heading.textContent=item.title||'Servicio';
       const desc=document.createElement('span');desc.className='desc';desc.textContent=item.short||'';
