@@ -257,3 +257,94 @@ body{overflow-x:hidden}
   .mobile-menu{flex-basis:43px;width:43px}
   .hero h1{font-size:31px!important}
 }
+
+
+/* GESFIP mobile layout v27: typography and photograph do not overlap. */
+.hero-mobile-photo{display:none}
+@media (max-width:800px){
+  .top-inner{height:66px!important;min-height:66px!important}
+  .nav{top:66px!important}
+  .hero{
+    display:block!important;height:auto!important;min-height:0!important;
+    background:#080f16!important;
+  }
+  .hero::before{display:none!important}
+  .hero .wrap{width:calc(100% - 40px);max-width:100%}
+  .hero-content{
+    max-width:100%!important;width:100%;
+    padding:31px 0 27px!important;
+  }
+  .hero .eyebrow{
+    font-size:10px!important;letter-spacing:.14em!important;
+    line-height:1.45;margin:0;
+  }
+  .hero h1{
+    margin:17px 0 17px!important;
+    font-size:clamp(30px,8vw,43px)!important;
+    line-height:1.12!important;
+    letter-spacing:-.035em!important;
+  }
+  .hero p{
+    font-size:clamp(14px,3.7vw,16px)!important;
+    line-height:1.5!important;
+    max-width:40ch!important;
+  }
+  .hero .actions{
+    display:grid!important;grid-template-columns:1fr;
+    gap:10px!important;margin-top:22px!important;
+  }
+  .hero .actions .btn{
+    width:100%!important;min-height:45px!important;
+    padding:10px 16px!important;font-size:13.5px!important;
+    line-height:1.25!important;border-radius:999px!important;
+  }
+  .hero-mobile-photo{
+    display:block!important;position:relative;z-index:1;
+    width:100%;height:clamp(140px,27vw,205px);
+    background-image:
+      linear-gradient(180deg,#080f16 0%,rgba(8,15,22,.03) 34%,rgba(8,15,22,.1) 70%,#080f16 100%),
+      url('./hero-aprobada.svg?v=3');
+    background-size:cover,cover;
+    background-repeat:no-repeat;
+    background-position:center,center 38%;
+    opacity:.94;
+    border-bottom:1px solid rgba(238,178,76,.3);
+  }
+  #servicios.section{padding:39px 0 60px!important}
+  #servicios .section-head{
+    display:flex!important;flex-direction:column!important;
+    align-items:stretch!important;gap:10px!important;
+    margin-bottom:22px!important;
+  }
+  #servicios .section-head>div:first-child{min-width:0;width:100%}
+  #servicios .section-head h2{
+    max-width:100%!important;width:100%;
+    font-size:clamp(26px,6.8vw,35px)!important;
+    line-height:1.16!important;
+    margin:11px 0!important;
+    overflow-wrap:normal!important;
+  }
+  #servicios .section-head .lead{
+    max-width:100%;font-size:13px;line-height:1.5;
+    margin:0;
+  }
+  #servicios .carousel-controls{
+    align-self:flex-end;gap:10px;margin-top:0;
+  }
+  #servicios .carousel-controls .round{
+    width:38px;height:38px;
+    display:grid;place-items:center;
+  }
+}
+@media (max-width:420px){
+  .hero .wrap{width:calc(100% - 36px)}
+  .hero h1{font-size:clamp(30px,8.3vw,35px)!important}
+  .hero .eyebrow{font-size:9px!important;letter-spacing:.12em!important}
+  .hero .actions .btn{min-height:44px!important}
+  #servicios .section-head h2{font-size:clamp(26px,7.1vw,31px)!important}
+  #servicios.section{padding-top:34px!important}
+}
+@media (max-width:360px){
+  .hero h1{font-size:29px!important}
+  .hero-mobile-photo{height:135px}
+}
