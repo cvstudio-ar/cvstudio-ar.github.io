@@ -1,0 +1,26 @@
+name: Validate Marketing layout
+
+on:
+  push:
+    branches: ["fix/centro-marketing-layout"]
+  pull_request:
+    paths:
+      - "centro-operaciones-prueba/responsive-layout.css"
+      - "centro-operaciones-prueba/operational.js"
+      - "tests/centro-marketing-layout.test.cjs"
+      - ".github/workflows/centro-marketing-layout-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          node --check centro-operaciones-prueba/operational.js
+          node --test tests/centro-marketing-layout.test.cjs
