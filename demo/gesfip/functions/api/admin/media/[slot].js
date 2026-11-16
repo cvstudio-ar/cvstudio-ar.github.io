@@ -1,4 +1,4 @@
-const SLOTS = new Set(['hero','about','team',...Array.from({length:8},(_,i)=>'service-'+String(i+1).padStart(2,'0'))]);
+const SLOTS = new Set(['hero','about','team',...Array.from({length:8},(_,i)=>'service-'+String(i+1).padStart(2,'0')),...Array.from({length:5},(_,i)=>'operation-'+String(i+1).padStart(2,'0'))]);
 const FORMATS=['image/png','image/jpeg','image/webp'];
 const reply=(body,status=200)=>new Response(JSON.stringify(body),{status,headers:{
   'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',
