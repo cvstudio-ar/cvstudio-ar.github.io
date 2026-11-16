@@ -41,6 +41,14 @@ def build():
     # scripts, inline handlers, external form submissions and navigable links.
     cleaned = re.sub(r"<script\b[^>]*>.*?</script\s*>", "", raw, flags=re.I | re.S)
     cleaned = re.sub(r"<iframe\b[^>]*>.*?</iframe\s*>", "", cleaned, flags=re.I | re.S)
+    # Source Instagram SVG is empty; use a self-contained decorative icon in preview only.
+    instagram_icon = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" '
+                      'width="20" height="20" fill="none" stroke="currentColor" '
+                      'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+                      '<rect x="2.5" y="2.5" width="19" height="19" rx="5"/>'
+                      '<circle cx="12" cy="12" r="4"/>'
+                      '<circle cx="17.7" cy="6.4" r="1" fill="currentColor" stroke="none"/></svg>')
+    cleaned = re.sub(r'<img\\b[^>]*\\bsrc=["\\']assets/icons/social-official/instagram\\.svg(?:\\?[^"\\']*)?["\\'][^>]*>', instagram_icon, cleaned, flags=re.I)
     cleaned = re.sub(r"<form\b[^>]*>", '<div class="preview-inert-form">', cleaned, flags=re.I)
     cleaned = re.sub(r"</form\s*>", "</div>", cleaned, flags=re.I)
     cleaned = re.sub(r"\s+on[a-z]+\s*=\s*(?:\"[^\"]*\"|'[^']*')", "", cleaned, flags=re.I)
