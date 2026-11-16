@@ -37,6 +37,16 @@ jobs:
         run: npm run test
       - name: Compilar Pages sin activar dominio
         run: npm run build
+      - name: Comprobar dominio real sin desplegar
+        env:
+          GESFIP_PUBLIC_URL: https://gesfipsamsbert.com
+        run: |
+          npm run build
+          grep -q 'gesfipsamsbert.com' dist/index.html
+          grep -q 'sitemap.xml' dist/robots.txt
+          grep -q 'index,follow' dist/index.html
+      - name: Volver a compilar demo sin indexación
+        run: npm run build
       - name: Verificar archivos de salida
         run: |
           test -s dist/index.html
