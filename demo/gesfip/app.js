@@ -21,6 +21,7 @@
   if(validImage(data.heroImage)){
     const style=document.createElement('style');
     style.textContent='.hero::before{background-image:linear-gradient(90deg,#080e15 2%,rgba(8,14,21,.96) 34%,rgba(8,14,21,.45) 75%),url("'+data.heroImage+'")}';
+    style.textContent+='@media(max-width:800px){.hero-mobile-photo{background-image:linear-gradient(180deg,#080f16 0%,rgba(8,15,22,.03) 34%,rgba(8,15,22,.1) 70%,#080f16 100%),url("'+data.heroImage+'")!important}}';
     document.head.append(style);
   }
   const cleanPhone=String(data.phone||'').replace(/\D/g,'');
