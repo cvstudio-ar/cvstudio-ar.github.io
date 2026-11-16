@@ -52,3 +52,21 @@ test('nadie puede cargar portada sin autenticación administrativa',async()=>{
   });
   assert.equal((await uploadHero({...ctx('externo@example.org'),request})).status,403);
 });
+
+test('cada sección y operación tiene una imagen individual',()=>{
+  const site=mock.window.GESFIPDemo.read();
+  assert.equal(site.services.length,8);
+  assert.ok(site.services.every(s=>typeof s.image==='string'&&s.image.length>0));
+  assert.equal(site.operationImages.length,5);
+  assert.ok(site.operationImages.every(x=>typeof x==='string'&&x.length>0));
+  assert.ok(site.aboutImage);
+  assert.ok(site.teamImage);
+});
+test('las operaciones incorporan fotos y el panel permite reemplazarlas',()=>{
+  assert.match(app,/operationImages/);
+  assert.match(app,/--operation-photo/);
+  const admin=read('../admin/admin.js');
+  assert.match(admin,/renderImageSlots/);
+  assert.match(admin,/operationIndex/);
+  assert.match(admin,/\/api\/admin\/media\//);
+});
