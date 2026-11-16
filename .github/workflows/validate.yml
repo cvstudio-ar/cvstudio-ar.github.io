@@ -25,9 +25,13 @@ jobs:
             node --check /tmp/cvstudio-worker-check.mjs
           done
 
-      - name: Verify removed internal files
+      - name: Verify internal sources are excluded from GitHub Pages
         shell: bash
         run: |
-          test ! -e WORKER_CVSTUDIO_CONTACTO_ESTABLE.js
-          test ! -e centro-operaciones-prueba/panel-20260806-1208.html
-          test ! -e "js/siac-loader 1.js"
+          set -euo pipefail
+          # These files may exist in the repository but must never be published.
+          # Fail if the production Pages workflow stops excluding them.
+          grep -Fq -- "--exclude 'WORKER_CVSTUDIO_CONTACTO_ESTABLE.js'" .github/workflows/pages.yml
+          grep -Fq -- "--exclude 'centro-operaciones-prueba/panel-*.html'" .github/workflows/pages.yml
+          grep -Fq -- "--exclude 'js/siac-loader 1.js'" .github/workflows/pages.yml
+          echo "Verified production Pages exclusions for internal sources."
