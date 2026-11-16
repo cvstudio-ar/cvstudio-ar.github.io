@@ -7,6 +7,8 @@ const defaults={
   heroLine2:"nuestra prioridad",
   heroDescription:"Soluciones profesionales de seguridad física y de personas, con personal capacitado, control y prevención.",
   heroImage:"./hero-aprobada.svg",
+  aboutImage:"./assets/accesos.svg",
+  teamImage:"./assets/qr.svg",
   gold:"#eeb24c", dark:"#070d13",
   aboutTitle:"Compromiso, experiencia y confianza",
   about:"Somos una empresa de seguridad comprometida con la protección de las personas y sus bienes. Diseñamos servicios a medida, con profesionales experimentados y un enfoque preventivo.",
@@ -15,14 +17,14 @@ const defaults={
   email:"gesfip.samsbert@gmail.com",
   address:"Santa Fe, Argentina",
   services:[
-    {title:"Seguridad Física",glyph:"⬡",short:"Vigilancia, prevención y protección de bienes e instalaciones.",detail:"Servicios de vigilancia y monitoreo, protección de personas e instalaciones y control de objetivos. Incluye presencia operativa, vigilancia de bienes y supervisión de medidas de prevención."},
-    {title:"Monitoreo",glyph:"◉",short:"Vigilancia y supervisión de sistemas de seguridad.",detail:"Monitoreo de sistemas de seguridad para detectar incidentes, evaluar posibles riesgos y supervisar el cumplimiento de los procedimientos operativos."},
-    {title:"Gestión de Riesgos",glyph:"▥",short:"Análisis, planificación y protección integral.",detail:"Evaluación de amenazas y vulnerabilidades, asesoramiento especializado y planificación de estrategias de prevención para personas, empresas y propiedades."},
-    {title:"Custodia de Personas",glyph:"♢",short:"Protección, acompañamiento y escolta.",detail:"Protección personal, acompañamiento y escolta en desplazamientos y servicios de custodia VIP según las necesidades del cliente."},
-    {title:"Seguridad para Empresas",glyph:"▣",short:"Control de accesos y vigilancia de instalaciones.",detail:"Seguridad en establecimientos empresariales e industriales, control de ingresos, rondas perimetrales y registro de operaciones."},
-    {title:"Country y Barrios",glyph:"⌂",short:"Prevención y control en urbanizaciones privadas.",detail:"Vigilancia de accesos, controles de rondas y protección de bienes y residentes en countries y barrios privados."},
-    {title:"Silos y Campos",glyph:"⌁",short:"Protección de instalaciones rurales y productivas.",detail:"Recorridos perimetrales, vigilancia de silos y campos y procedimientos para control de mercadería e ingresos."},
-    {title:"Hoteles y Eventos",glyph:"✧",short:"Seguridad operativa para huéspedes y asistentes.",detail:"Control de acceso y presencia preventiva en hoteles, eventos corporativos y reuniones, adaptados al entorno."}
+    {title:"Seguridad Física",image:"./assets/accesos.svg",glyph:"⬡",short:"Vigilancia, prevención y protección de bienes e instalaciones.",detail:"Servicios de vigilancia y monitoreo, protección de personas e instalaciones y control de objetivos. Incluye presencia operativa, vigilancia de bienes y supervisión de medidas de prevención."},
+    {title:"Monitoreo",image:"./assets/qr.svg",glyph:"◉",short:"Vigilancia y supervisión de sistemas de seguridad.",detail:"Monitoreo de sistemas de seguridad para detectar incidentes, evaluar posibles riesgos y supervisar el cumplimiento de los procedimientos operativos."},
+    {title:"Gestión de Riesgos",image:"./assets/mercaderia.svg",glyph:"▥",short:"Análisis, planificación y protección integral.",detail:"Evaluación de amenazas y vulnerabilidades, asesoramiento especializado y planificación de estrategias de prevención para personas, empresas y propiedades."},
+    {title:"Custodia de Personas",image:"./assets/hotel.svg",glyph:"♢",short:"Protección, acompañamiento y escolta.",detail:"Protección personal, acompañamiento y escolta en desplazamientos y servicios de custodia VIP según las necesidades del cliente."},
+    {title:"Seguridad para Empresas",image:"./assets/accesos.svg",glyph:"▣",short:"Control de accesos y vigilancia de instalaciones.",detail:"Seguridad en establecimientos empresariales e industriales, control de ingresos, rondas perimetrales y registro de operaciones."},
+    {title:"Country y Barrios",image:"./assets/country.svg",glyph:"⌂",short:"Prevención y control en urbanizaciones privadas.",detail:"Vigilancia de accesos, controles de rondas y protección de bienes y residentes en countries y barrios privados."},
+    {title:"Silos y Campos",image:"./assets/rural.svg",glyph:"⌁",short:"Protección de instalaciones rurales y productivas.",detail:"Recorridos perimetrales, vigilancia de silos y campos y procedimientos para control de mercadería e ingresos."},
+    {title:"Hoteles y Eventos",image:"./assets/hotel.svg",glyph:"✧",short:"Seguridad operativa para huéspedes y asistentes.",detail:"Control de acceso y presencia preventiva en hoteles, eventos corporativos y reuniones, adaptados al entorno."}
   ],
   operations:["Recorridos perimetrales","Patrulla por límites","Control con QR","Control de ingresos","Control de mercadería con documentación cruzada"]
 };
@@ -39,6 +41,11 @@ function read(){
   )) saved.heroImage='./hero-aprobada.svg';
   const data={...clone(),...saved};
   if(!Array.isArray(data.services)||data.services.length===0)data.services=clone().services;
+  const baseServices=clone().services;
+  data.services=data.services.map((service,index)=>({
+    ...(baseServices[index]||{}),...service,
+    image: typeof service.image==='string'&&service.image ? service.image : (baseServices[index]?.image||'')
+  }));
   if(!Array.isArray(data.operations))data.operations=clone().operations;
   return data;
 }
