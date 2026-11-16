@@ -26,3 +26,18 @@ test('layout responds to mobile and accessible motion preferences',()=>{
  assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
  assert.match(css,/\.modal\{width:min\(92vw,630px\)/);
 });
+
+test('mobile hero uses content-first layout with restrained photo, CTAs and compact header',()=>{
+ const css=read('styles.css');
+ const html=read('index.html');
+ const section=css.slice(css.lastIndexOf('/* Mobile hero rescue:'));
+ assert.ok(section.length>900);
+ assert.ok(section.includes('.hero {'));
+ assert.ok(section.includes('min-height:0!important'));
+ assert.ok(section.includes('background-size:cover,auto 57%!important'));
+ assert.ok(section.includes('.hero .actions .btn'));
+ assert.ok(section.includes('min-height:47px'));
+ assert.ok(section.includes('.mobile-menu::before'));
+ assert.ok(html.includes('styles.css?v=mobile-20261116-1'));
+ assert.ok(html.includes('aria-label="Abrir menú de navegación"'));
+});

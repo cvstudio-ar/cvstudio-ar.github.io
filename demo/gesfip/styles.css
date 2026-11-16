@@ -179,3 +179,81 @@ body{overflow-x:hidden}
   #servicios .service strong{font-size:18px!important}
   #servicios .service .desc{font-size:12.5px!important}
 }
+
+
+/* Mobile hero rescue: prioritize a readable message and accessible CTAs.
+   Deliberately overrides earlier mobile/hero rules at the end of this file. */
+@media (max-width:800px) {
+  .top-inner {min-height:68px;height:68px;gap:10px}
+  .brand {gap:9px;flex:1 1 auto;min-width:0}
+  .brand .mark {width:42px;height:42px;flex:0 0 42px}
+  .brand strong {font-size:21px;line-height:1.08;letter-spacing:-.03em}
+  .brand small {font-size:8px;line-height:1.3;letter-spacing:.055em;max-width:225px}
+  .mobile-menu {
+    display:grid;place-items:center;flex:0 0 46px;
+    width:46px;height:44px;min-width:46px;padding:0;
+    font-size:0;line-height:0;border-radius:12px;
+    background:#101922;border:1px solid rgba(238,178,76,.25);
+  }
+  .mobile-menu::before {content:"☰";font-size:23px;line-height:1;color:#f5f6f8}
+  .nav {top:68px}
+  .hero {
+    display:block;min-height:0!important;height:auto!important;
+    overflow:hidden;background:#080f16;
+  }
+  .hero::before {
+    /* Keep the guard visible only as subdued context, never underneath text or CTAs. */
+    background-image:
+      linear-gradient(180deg,#080f16 0%,rgba(8,15,22,.99) 40%,rgba(8,15,22,.98) 72%,rgba(8,15,22,.8) 100%),
+      url('./hero-aprobada.svg?v=3')!important;
+    background-size:cover,auto 57%!important;
+    background-position:center,right bottom!important;
+    background-repeat:no-repeat!important;
+    opacity:1!important;filter:none!important;
+  }
+  .hero .wrap {position:relative;z-index:1}
+  .hero-content {
+    width:100%;max-width:100%!important;
+    padding:clamp(38px,6svh,58px) 0 46px!important;
+  }
+  .hero .eyebrow {
+    display:block;font-size:10px;line-height:1.5;
+    letter-spacing:.16em;max-width:100%;
+  }
+  .hero h1 {
+    font-size:clamp(33px,9vw,47px)!important;
+    line-height:1.08;letter-spacing:-.045em;
+    margin:18px 0!important;max-width:100%;
+    overflow-wrap:normal;
+  }
+  .hero h1 em {font-size:inherit}
+  .hero p {
+    font-size:clamp(14px,3.6vw,16px)!important;line-height:1.57;
+    margin:0;max-width:39ch;
+  }
+  .hero .actions {
+    display:flex;flex-direction:column;align-items:stretch;
+    gap:11px;margin-top:26px;width:100%;
+  }
+  .hero .actions .btn {
+    display:flex;min-height:47px;height:auto;max-width:100%;
+    margin:0;padding:11px 15px!important;
+    font-size:14px;line-height:1.4;white-space:normal;
+    border-radius:999px;text-align:center;
+  }
+}
+@media (max-width:420px) {
+  .top-inner {gap:6px}
+  .brand small{max-width:173px;font-size:7.5px}
+  .hero h1{font-size:clamp(32px,8.9vw,39px)!important}
+  .hero .eyebrow{font-size:9px;letter-spacing:.13em}
+  .hero .actions .btn{min-height:46px;font-size:13.5px}
+  .hero-content{padding-bottom:38px!important}
+}
+@media (max-width:360px) {
+  .brand .mark{width:37px;height:37px;flex-basis:37px}
+  .brand strong{font-size:19px}
+  .brand small{font-size:7px;max-width:150px}
+  .mobile-menu{flex-basis:43px;width:43px}
+  .hero h1{font-size:31px!important}
+}
