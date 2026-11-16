@@ -2670,7 +2670,8 @@ html.scroll-ready #contacto .contact-trust-icon{animation: none !important;}}
 .footer-social-linkedin{border-color:rgba(10,102,194,.42);background:rgba(10,102,194,.11);}
 .footer-social-email{border-color:rgba(245,197,66,.38);background:rgba(245,197,66,.08);}
 .footer-social-youtube{border-color:rgba(255,0,51,.42);background:rgba(255,0,51,.11);}
-.footer-social-tiktok{border-color:rgba(37,244,238,.35);background:rgba(37,244,238,.08);}
+.footer-social-tiktok{border-color:rgba(37,244,238,.45);background:#07090f;overflow:hidden;}
+.footer-social-tiktok img{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:contain!important;}
 
 .whatsapp-symbol img{width:20px;height:20px;display:block;}
 .footer-bottom{position: relative;
