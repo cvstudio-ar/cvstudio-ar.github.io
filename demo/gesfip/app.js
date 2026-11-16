@@ -17,7 +17,7 @@
   text('#footerPhone',data.phone);
   text('#contactEmail',data.email);
   text('#contactAddress',data.address);
-  const validImage=url=>url==='./hero-aprobada.svg' || /^https:\/\/[^"'<>\\\s()[\]{}]+$/i.test(String(url||''));
+  const validImage=url=>(url==='./hero-aprobada.svg'||url==='/api/media/hero') || /^https:\/\/[^"'<>\\\s()[\]{}]+$/i.test(String(url||''));
   if(validImage(data.heroImage)){
     const style=document.createElement('style');
     style.textContent='.hero::before{background-image:linear-gradient(90deg,#080e15 2%,rgba(8,14,21,.96) 34%,rgba(8,14,21,.45) 75%),url("'+data.heroImage+'")}';
