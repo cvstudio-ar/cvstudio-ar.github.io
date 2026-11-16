@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070d13">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="description" content="Demostración visual de sitio web institucional para GESFIP, preparada por CVStudio Argentina.">
+<title>GESFIP | Seguridad Física y de Personas · Demostración CVStudio</title>
+<link rel="stylesheet" href="./styles.css?v=1">
+<script defer src="./config.js?v=1"></script>
+<script defer src="./app.js?v=1"></script>
+</head>
+<body>
+<header class="top">
+ <div class="wrap top-inner">
+  <a class="brand" href="#inicio" aria-label="GESFIP - inicio">
+   <span class="mark" aria-hidden="true">🦉</span>
+   <span><strong>GESFIP</strong><small>Grupo Especial de Seguridad Física y de Personas</small></span>
+  </a>
+  <button id="menuButton" class="mobile-menu" type="button" aria-expanded="false" aria-controls="mainNav">☰ Menú</button>
+  <nav class="nav" id="mainNav" aria-label="Navegación principal">
+   <a href="#inicio">Inicio</a><a href="#nosotros">Nosotros</a><a href="#servicios">Servicios</a><a href="#operaciones">Operaciones</a><a href="#contacto">Contacto</a>
+  </nav>
+  <a class="outline-link" data-whatsapp href="https://wa.me/5493424762303" target="_blank" rel="noopener noreferrer">◉ WhatsApp</a>
+ </div>
+</header>
+<main>
+ <section class="hero" id="inicio" aria-labelledby="heroHeading">
+  <div class="wrap">
+   <div class="hero-content">
+    <span class="eyebrow" id="heroEyebrow">Empresa de seguridad privada</span>
+    <h1 id="heroHeading"><span id="heroTop">Tu seguridad es</span><br><em id="heroAccent">nuestra prioridad</em></h1>
+    <p id="heroDescription">Soluciones profesionales de seguridad física y de personas, con personal capacitado, control y prevención.</p>
+    <div class="actions">
+     <a class="btn gold" href="#contacto">Solicitar asesoramiento <span aria-hidden="true">→</span></a>
+     <a class="btn ghost" href="#servicios">Conocé nuestros servicios</a>
+    </div>
+   </div>
+  </div>
+ </section>
+ <section class="section dark" id="servicios">
+  <div class="wrap">
+   <div class="section-head">
+    <div><div class="eyebrow">Nuestros servicios</div><h2>Protección a la medida<br>de cada necesidad.</h2><p class="lead">Seleccioná cualquier servicio para descubrir su alcance sin salir de esta página.</p></div>
+    <div class="carousel-controls"><button class="round" id="prevService" aria-label="Servicios anteriores">←</button><button class="round" id="nextService" aria-label="Servicios siguientes">→</button></div>
+   </div>
+   <div class="slider" id="serviceTrack" aria-label="Servicios de GESFIP"></div>
+   <div class="dots" id="carouselPosition" aria-live="polite"></div>
+  </div>
+ </section>
+ <section class="section" id="nosotros">
+  <div class="wrap">
+   <div class="about">
+    <div>
+     <span class="eyebrow">Sobre nosotros</span>
+     <h2 id="aboutTitle">Compromiso, experiencia y confianza</h2>
+     <p id="aboutDescription">Somos una empresa de seguridad comprometida con la protección de las personas y sus bienes.</p>
+     <span class="eyebrow">Nuestra misión</span>
+     <p id="missionDescription">Proteger y salvaguardar la integridad de las personas y sus bienes, proporcionando servicios de seguridad confiables.</p>
+    </div>
+    <div class="visual" role="img" aria-label="Identidad corporativa GESFIP en tonos dorados">
+     <div class="seal"><span><b>🦉</b><br>GESFIP<br><small>SEGURIDAD</small></span></div>
+    </div>
+   </div>
+   <div class="facts">
+    <div class="fact"><b>Profesionalismo</b><span>Personal capacitado y compromiso en cada servicio.</span></div>
+    <div class="fact"><b>Prevención</b><span>Evaluación y planificación anticipada de riesgos.</span></div>
+    <div class="fact"><b>Confianza</b><span>Un vínculo responsable con cada cliente.</span></div>
+    <div class="fact"><b>Integridad</b><span>Protección de las personas y sus bienes.</span></div>
+   </div>
+  </div>
+ </section>
+ <section class="section dark" id="operaciones">
+  <div class="wrap">
+   <span class="eyebrow">Cómo trabajamos</span>
+   <h2>Operaciones de seguridad</h2>
+   <p class="lead">Procedimientos preventivos y controles adaptados al entorno de cada cliente.</p>
+   <div class="ops" id="operationList"></div>
+  </div>
+ </section>
+ <section class="section">
+  <div class="wrap">
+   <div class="team">
+    <div><span class="eyebrow">Nuestro equipo</span><h3>Experiencia puesta al servicio de la protección</h3>
+    <p>GESFIP reúne profesionales con formación y experiencia en seguridad física y protección de personas, orientados a ofrecer soluciones personalizadas y una atención responsable.</p></div>
+    <a class="btn gold" href="#contacto">Conversemos sobre tu seguridad →</a>
+   </div>
+  </div>
+ </section>
+ <section class="section dark" id="contacto">
+  <div class="wrap">
+   <span class="eyebrow">Contacto</span>
+   <h2>Tu tranquilidad empieza con una conversación.</h2>
+   <p class="lead">Contanos qué necesitás proteger y prepararemos una propuesta adecuada al contexto de tu empresa o propiedad.</p>
+   <div class="contacts">
+    <a data-whatsapp href="https://wa.me/5493424762303" target="_blank" rel="noopener noreferrer">✆ <span id="contactPhone">3424762303</span></a>
+    <a data-email href="mailto:gesfip.samsbert@gmail.com">✉ <span id="contactEmail">gesfip.samsbert@gmail.com</span></a>
+    <span>⌖ <span id="contactAddress">Santa Fe, Argentina</span></span>
+   </div>
+   <div class="actions"><a class="btn gold" data-whatsapp href="https://wa.me/5493424762303" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp →</a></div>
+  </div>
+ </section>
+</main>
+<footer>
+ <div class="wrap footer-in">
+  <div class="brand"><span class="mark" aria-hidden="true">🦉</span><span><strong>GESFIP</strong><small>Seguridad física y de personas</small></span></div>
+  <div><small><span id="footerPhone">3424762303</span> · Santa Fe, Argentina</small><small>Propuesta de diseño de <a href="https://cvstudio.com.ar/" target="_blank" rel="noopener noreferrer">CVStudio Argentina</a></small></div>
+  <div><a href="./admin/" style="font-size:12px;color:#b9c4cc">Administración (vista demostrativa)</a><small class="demo-note">Demostración visual sujeta a aprobación · no es el sitio oficial de GESFIP</small></div>
+ </div>
+</footer>
+<dialog class="modal" id="serviceModal" aria-labelledby="modalTitle">
+ <button class="modal-close" type="button" id="modalClose" aria-label="Cerrar ventana">×</button>
+ <div class="modal-inner">
+  <div class="modal-icon" id="modalGlyph" aria-hidden="true">◇</div>
+  <div class="eyebrow">GESFIP · Servicio</div>
+  <h2 id="modalTitle">Servicio</h2>
+  <p id="modalDetails"></p>
+  <a class="btn gold" href="#contacto" onclick="document.getElementById('serviceModal').close()">Solicitar asesoramiento →</a>
+ </div>
+</dialog>
+</body></html>
