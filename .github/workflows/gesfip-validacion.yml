@@ -44,3 +44,10 @@ jobs:
           test -s dist/hero-aprobada.svg
           test -s dist/assets/qr.svg
           grep -q 'noindex' dist/index.html
+      - name: Conservar versión de revisión de GESFIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: gesfip-web-revision
+          path: demo/gesfip/dist/
+          retention-days: 7
+          if-no-files-found: error
