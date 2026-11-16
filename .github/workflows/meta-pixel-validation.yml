@@ -1,0 +1,35 @@
+name: Validate isolated Meta Pixel
+
+on:
+  push:
+    branches: ["feature/meta-pixel-aislado"]
+  pull_request:
+    paths:
+      - "js/cvstudio-meta-consent.js"
+      - "tests/meta-pixel-isolated.test.cjs"
+      - "index.html"
+      - "otros-servicios/index.html"
+      - ".github/workflows/meta-pixel-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate isolated Meta script
+        run: |
+          node --check js/cvstudio-meta-consent.js
+          node --test tests/meta-pixel-isolated.test.cjs
+      - name: Verify no third-party beacon is present in HTML
+        run: |
+          ! grep -E 'fbq\(|facebook.com/tr\?' index.html otros-servicios/index.html
+          grep -q '/js/cvstudio-meta-consent.js' index.html
+          grep -q '/js/cvstudio-meta-consent.js' otros-servicios/index.html
