@@ -52,11 +52,23 @@ def build():
     insert = '''<meta name="robots" content="noindex,nofollow,noarchive">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; connect-src 'none'; form-action 'none'; frame-src 'none'; object-src 'none'; img-src 'self' data: https:; font-src 'self' data: https:; style-src 'self' 'unsafe-inline' https:; base-uri 'none'">
 <style>.cvstudio-staging-banner{position:fixed;z-index:2147483647;bottom:0;left:0;right:0;text-align:center;background:#12233e;color:white;font:600 13px system-ui;padding:9px;box-shadow:0 -2px 14px #0005}body{padding-bottom:36px!important}</style>'''
+    # Animate-on-scroll elements would otherwise remain invisible because all JS is disabled.
+    insert += """
+<style id="cvstudio-preview-visible">
+.reveal,.reveal-group,.reveal-group .reveal,.contact-trust-item,
+.hero-content,.hero-visual,.section-heading,.service-card,.process-item,
+.portfolio-grid,.benefits-content,.faq-item {
+  opacity:1!important;visibility:visible!important;filter:none!important;
+  transform:none!important;animation:none!important;transition:none!important;
+}
+[hidden], [aria-hidden="true"].cv-access-modal {display:none!important}
+.preview-inert-form :is(input,select,textarea,button),button:disabled{cursor:not-allowed!important}
+</style>"""
     cleaned = cleaned.replace("</head>", insert + "\n</head>", 1)
     cleaned = cleaned.replace("</body>", '<div class="cvstudio-staging-banner">VISTA PREVIA DE CVSTUDIO · SOLO DISEÑO · SIN FORMULARIOS NI PAGOS</div>\n</body>', 1)
     DEST.mkdir(parents=True, exist_ok=True)
     (DEST / "index.html").write_text(cleaned, encoding="utf-8")
-    queue = list(refs(cleaned))
+    queue = list(reversed(list(refs(cleaned))))
     # Process stylesheets before optional imagery to preserve the layout under the size budget.
     queue.sort(key=lambda item: 1 if urlsplit(item).path.lower().endswith('.css') else 0)
     done = set()
