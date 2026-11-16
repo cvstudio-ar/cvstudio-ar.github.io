@@ -57,6 +57,8 @@ def build():
     DEST.mkdir(parents=True, exist_ok=True)
     (DEST / "index.html").write_text(cleaned, encoding="utf-8")
     queue = list(refs(cleaned))
+    # Process stylesheets before optional imagery to preserve the layout under the size budget.
+    queue.sort(key=lambda item: 1 if urlsplit(item).path.lower().endswith('.css') else 0)
     done = set()
     total = 0
     skipped = []
