@@ -64,7 +64,7 @@
    $$('[data-panel]').forEach(el=>el.classList.toggle('hidden',el.dataset.panel!==btn.dataset.tab));
    if(window.innerWidth<820)window.scrollTo({top:0,behavior:'smooth'});
  }));
- $('#saveConfig').addEventListener('click',()=>{
+ $('#saveConfig').addEventListener('click',async()=>{
    const next={...config};
    $$('[data-field]').forEach(input=>next[input.dataset.field]=safeField(input.dataset.field,input.value));
    next.operations=$('#operationEditor').value.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,12);
@@ -72,12 +72,12 @@
      title:String(s.title||'').slice(0,80),glyph:String(s.glyph||'◇').slice(0,5),
      short:String(s.short||'').slice(0,240),detail:String(s.detail||'').slice(0,1300)
    }));
-   try{api.save(next);config=next;status('Guardado localmente. Abrí la vista pública desde este navegador para ver los cambios.');}
-   catch{status('No se pudo guardar. Comprobá el almacenamiento disponible del navegador.')}
+   try{await api.persist(next);config=next;status(api.localMode()?'Guardado solo para esta demostración.':'Cambios guardados. Ya están disponibles para los visitantes.');}
+   catch(err){status(err?.message || 'No se pudo guardar. Revisá el acceso administrativo.')}
  });
- $('#resetConfig').addEventListener('click',()=>{
+ $('#resetConfig').addEventListener('click',async()=>{
    if(!confirm('¿Restablecer la vista de demostración en este navegador?'))return;
-   api.reset();config=api.read();fill();status('Se restableció la versión original de la demostración.');
+   try{if(api.localMode()){api.reset();config=api.read()}else{await api.persist(api.defaults);config=api.defaults};fill();status('Se restauró el contenido inicial.')}catch(err){status(err?.message||'No se pudo restaurar.');}
  });
  $('#exportConfig').addEventListener('click',()=>{
    const text=JSON.stringify(config,null,2),blob=new Blob([text],{type:'application/json'});
@@ -97,4 +97,27 @@
    }catch{status('No se pudo importar este JSON. Comprobá el archivo.')}
  });
  bindFields();renderServices();renderColors();renderImage();
+ if(!api.localMode()){
+   $('#status').textContent='Verificando acceso al panel…';
+   $('#saveConfig').disabled=true;
+   api.loadAdmin().then(data=>{
+     config=data;fill();$('#saveConfig').disabled=false;
+     status('Panel conectado. Los cambios se guardarán en el sitio publicado.');
+   }).catch(err=>status('Panel no habilitado: '+(err?.message||'Configuración pendiente')));
+ }
+ const upload=$('#uploadHeroImage');
+ upload?.addEventListener('change',async()=>{
+   const file=upload.files?.[0];if(!file)return;
+   if(api.localMode()){status('La carga de imágenes funciona cuando se configure el panel definitivo en Cloudflare.');return}
+   if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>3000000){status('Usá JPG, PNG o WebP de hasta 3 MB.');return}
+   try{
+     status('Subiendo portada…');
+     const response=await fetch('../api/admin/hero',{method:'POST',headers:{'Content-Type':file.type},body:file});
+     const result=await response.json();
+     if(!response.ok||!result.ok)throw Error(result.error||'No se pudo subir la imagen.');
+     config.heroImage=result.url;
+     $('[data-field="heroImage"]').value=result.url;
+     renderImage();status('Imagen subida. Ahora pulsá Guardar cambios para aplicarla a la portada.');
+   }catch(error){status(error?.message||'No se pudo subir la imagen.');}
+ });
 })();
