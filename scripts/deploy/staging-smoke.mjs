@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { configuration } from './build-staging.mjs';
+const config = configuration();
+const response = await fetch(config.worker + '/health', { redirect: 'error', signal: AbortSignal.timeout(15000) });
+assert.equal(response.status, 200);
+const health = await response.json();
+assert.equal(health.environment, 'staging');
+assert.equal(health.worker, 'cvstudio-contacto-pruebas');
+assert.equal(health.revision, process.env.GITHUB_SHA);
+assert.equal(health.notifications, 'simulated');
+const denied = await fetch(config.worker, { method: 'POST', headers: { Origin: config.site, 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'mercadopago-products' }), redirect: 'error', signal: AbortSignal.timeout(15000) });
+assert.equal(denied.status, 401);
+console.log('HTTPS, revisión desplegada y acceso restringido verificados. No se crearon pedidos ni pagos.');

@@ -1,0 +1,91 @@
+name: CVStudio Worker - pruebas
+on:
+  push:
+    branches: ['feature/marketing-intelligence']
+    paths:
+      - 'config/cloudflare-worker-contacto.js'
+      - 'deployment/**'
+      - 'scripts/deploy/**'
+      - 'tests/marketing-*.test.cjs'
+      - '.github/workflows/worker-staging.yml'
+  pull_request:
+    paths:
+      - 'config/cloudflare-worker-contacto.js'
+      - 'deployment/**'
+      - 'scripts/deploy/**'
+      - 'tests/marketing-*.test.cjs'
+      - '.github/workflows/worker-staging.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cvstudio-worker-pruebas-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  WRANGLER_SEND_METRICS: 'false'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: deployment/package-lock.json
+      - run: npm ci --prefix deployment
+      - name: Pruebas sin conexiones externas
+        run: node --test tests/marketing-*.test.cjs
+      - name: Compilar con destinos ficticios
+        env:
+          STAGING_SUPABASE_URL: https://aaaaaaaaaaaaaaaaaaaa.supabase.co
+          STAGING_SUPABASE_PUBLISHABLE_KEY: fixture-public-key
+          STAGING_SITE_ORIGIN: https://cvstudio-marketing-pruebas.pages.dev
+          STAGING_WORKER_URL: https://cvstudio-contacto-pruebas.fixture.workers.dev
+        run: node scripts/deploy/build-staging.mjs
+      - name: Verificar bundle sin publicar
+        run: deployment/node_modules/.bin/wrangler deploy --dry-run --config deployment/wrangler.staging.json --outdir deployment/generated/bundle
+      - name: Ejecutar Worker localmente sin proveedores
+        run: node scripts/deploy/local-smoke.mjs
+      - name: Conservar bundle de validación (no desplegable)
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: worker-pruebas-validacion-${{ github.sha }}
+          path: |
+            deployment/generated/manifest.json
+            deployment/generated/bundle/
+          retention-days: 7
+  deploy:
+    needs: validate
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/feature/marketing-intelligence' && vars.CVSTUDIO_STAGING_DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: cvstudio-staging
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_STAGING_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      STAGING_SUPABASE_URL: ${{ vars.STAGING_SUPABASE_URL }}
+      STAGING_SUPABASE_PUBLISHABLE_KEY: ${{ vars.STAGING_SUPABASE_PUBLISHABLE_KEY }}
+      STAGING_SITE_ORIGIN: ${{ vars.STAGING_SITE_ORIGIN }}
+      STAGING_WORKER_URL: ${{ vars.STAGING_WORKER_URL }}
+      STAGING_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.STAGING_SUPABASE_SERVICE_ROLE_KEY }}
+      STAGING_ACCESS_KEY: ${{ secrets.STAGING_ACCESS_KEY }}
+      MERCADOPAGO_TEST_ACCESS_TOKEN: ${{ secrets.MERCADOPAGO_TEST_ACCESS_TOKEN }}
+      MERCADOPAGO_TEST_PUBLIC_KEY: ${{ secrets.MERCADOPAGO_TEST_PUBLIC_KEY }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: deployment/package-lock.json
+      - run: node scripts/deploy/staging-preflight.mjs
+      - run: npm ci --prefix deployment
+      - run: node scripts/deploy/build-staging.mjs
+      - name: Publicar exclusivamente cvstudio-contacto-pruebas
+        run: node scripts/deploy/deploy-staging.mjs
+      - name: Verificar HTTPS y revisión
+        run: node scripts/deploy/staging-smoke.mjs
+
