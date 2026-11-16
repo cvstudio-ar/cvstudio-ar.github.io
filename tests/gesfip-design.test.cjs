@@ -38,7 +38,7 @@ test('mobile hero uses content-first layout with restrained photo, CTAs and comp
  assert.ok(section.includes('.hero .actions .btn'));
  assert.ok(section.includes('min-height:47px'));
  assert.ok(section.includes('.mobile-menu::before'));
- assert.ok(html.includes('styles.css?v=mobile-20261116-1'));
+ assert.ok(html.includes('styles.css?v=gesfip-mobile-27'));
  assert.ok(html.includes('aria-label="Abrir menú de navegación"'));
 });
 
