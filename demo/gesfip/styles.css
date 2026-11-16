@@ -393,3 +393,59 @@ body{overflow-x:hidden}
   .team{padding:19px}
   .team h3{font-size:clamp(23px,6vw,29px)}
 }
+
+/* GESFIP - Operaciones ilustradas sin perder los números ni la lectura. */
+#operaciones .ops{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:12px;
+  padding:20px 0;
+  border:0;
+}
+#operaciones .op{
+  position:relative;
+  isolation:isolate;
+  min-width:0;
+  min-height:194px;
+  padding:18px 14px;
+  justify-content:flex-end;
+  overflow:hidden;
+  border:1px solid rgba(238,178,76,.33);
+  border-radius:16px;
+  background:#111b26;
+  color:#f5f6f7;
+}
+#operaciones .op.op-photo{
+  background-image:
+    linear-gradient(180deg,rgba(7,13,20,.1) 0%,rgba(7,13,20,.63) 49%,rgba(7,13,20,.96) 100%),
+    var(--operation-photo);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+#operaciones .op b{
+  font-size:24px;
+  line-height:1;
+  font-weight:700;
+  color:var(--gold);
+  text-shadow:0 1px 8px #080e15;
+}
+#operaciones .op span{
+  font-size:13px;
+  line-height:1.45;
+  font-weight:650;
+  text-shadow:0 1px 6px #080e15;
+}
+@media(max-width:1100px){
+  #operaciones .ops{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  #operaciones .ops{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #operaciones .op{min-height:178px}
+}
+@media(max-width:420px){
+  #operaciones .ops{gap:9px}
+  #operaciones .op{padding:13px 11px;min-height:155px;border-radius:12px}
+  #operaciones .op b{font-size:20px}
+  #operaciones .op span{font-size:12px}
+}
