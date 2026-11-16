@@ -17,7 +17,17 @@
   text('#footerPhone',data.phone);
   text('#contactEmail',data.email);
   text('#contactAddress',data.address);
-  const validImage=url=>(url==='./hero-aprobada.svg'||url==='/api/media/hero') || /^https:\/\/[^"'<>\\\s()[\]{}]+$/i.test(String(url||''));
+  const validImage=url=>{
+    const v=String(url||'');
+    return v==='./hero-aprobada.svg'
+      || /^\.\/assets\/[a-z0-9-]+\.svg$/i.test(v)
+      || /^\/api\/media\/(?:hero|about|team|service-0[1-8])$/.test(v)
+      || /^https:\/\/[a-z0-9.-]+\/[a-z0-9_./?=&%+-]*$/i.test(v);
+  };
+  for(const [selector,url] of [['#aboutImage',data.aboutImage],['#teamImage',data.teamImage]]){
+    const image=$(selector);
+    if(image && validImage(url))image.src=url;
+  }
   if(validImage(data.heroImage)){
     const style=document.createElement('style');
     style.textContent='.hero::before{background-image:linear-gradient(90deg,#080e15 2%,rgba(8,14,21,.96) 34%,rgba(8,14,21,.45) 75%),url("'+data.heroImage+'")}';
@@ -76,18 +86,8 @@
       const button=document.createElement('button');
       button.className='service';button.type='button';
       // Only local, client-provided photos are used; no URLs from editable content.
-      const photoByService={
-        'Seguridad Física':'qr',
-        'Monitoreo':'rural',
-        'Gestión de Riesgos':'mercaderia',
-        'Custodia de Personas':'hotel',
-        'Seguridad para Empresas':'accesos',
-        'Country y Barrios':'country',
-        'Silos y Campos':'rural',
-        'Hoteles y Eventos':'hotel'
-      };
-      const photo=photoByService[item.title];
-      if(photo)button.style.setProperty('--service-photo',"url('./assets/"+photo+".svg')");
+      const photo=item.image;
+      if(validImage(photo))button.style.setProperty('--service-photo','url("'+photo+'")');
       const icon=document.createElement('span');icon.className='glyph';icon.append(serviceIcon(item.title));
       const heading=document.createElement('strong');heading.textContent=item.title||'Servicio';
       const desc=document.createElement('span');desc.className='desc';desc.textContent=item.short||'';
