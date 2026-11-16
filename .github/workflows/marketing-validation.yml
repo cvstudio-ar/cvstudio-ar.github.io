@@ -29,6 +29,7 @@ jobs:
       - name: Revisar sintaxis de JS del Worker y del frontend
         run: |
           node --check js/cvstudio-marketing-consent.js
+          node --check js/cvstudio-meta-pixel.js
           node --check js/web-commerce-inmobiliaria.js
           node --check js/app.js
           node --check js/siac.js
