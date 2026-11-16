@@ -26,7 +26,14 @@ const defaults={
     {title:"Silos y Campos",image:"./assets/rural.svg",glyph:"⌁",short:"Protección de instalaciones rurales y productivas.",detail:"Recorridos perimetrales, vigilancia de silos y campos y procedimientos para control de mercadería e ingresos."},
     {title:"Hoteles y Eventos",image:"./assets/hotel.svg",glyph:"✧",short:"Seguridad operativa para huéspedes y asistentes.",detail:"Control de acceso y presencia preventiva en hoteles, eventos corporativos y reuniones, adaptados al entorno."}
   ],
-  operations:["Recorridos perimetrales","Patrulla por límites","Control con QR","Control de ingresos","Control de mercadería con documentación cruzada"]
+  operations:["Recorridos perimetrales","Patrulla por límites","Control con QR","Control de ingresos","Control de mercadería con documentación cruzada"],
+  operationImages:[
+    "./assets/rural.svg",
+    "./assets/accesos.svg",
+    "./assets/qr.svg",
+    "./assets/hotel.svg",
+    "./assets/mercaderia.svg"
+  ]
 };
 const KEY="gesfip-demo-config-v1";
 const clone=()=>JSON.parse(JSON.stringify(defaults));
@@ -47,6 +54,8 @@ function read(){
     image: typeof service.image==='string'&&service.image ? service.image : (baseServices[index]?.image||'')
   }));
   if(!Array.isArray(data.operations))data.operations=clone().operations;
+  if(!Array.isArray(data.operationImages)||data.operationImages.length!==5)
+    data.operationImages=clone().operationImages;
   return data;
 }
 function save(data){localStorage.setItem(KEY,JSON.stringify(data))}
