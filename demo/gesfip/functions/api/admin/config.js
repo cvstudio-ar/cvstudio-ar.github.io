@@ -25,7 +25,7 @@ function normalize(source){
   const safeImage=value=>{
     return value==='./hero-aprobada.svg'
       || /^\.\/assets\/[a-z0-9-]+\.svg$/i.test(value)
-      || /^\/api\/media\/(?:hero|about|team|service-0[1-8])$/.test(value)
+      || /^\/api\/media\/(?:hero|about|team|(?:service-0[1-8]|operation-0[1-5]))$/.test(value)
       || /^https:\/\/[a-z0-9.-]+\/[a-z0-9_./?=&%+-]*$/i.test(value);
   };
   for(const key of ['heroImage','aboutImage','teamImage']){
@@ -44,11 +44,16 @@ function normalize(source){
     if(!safeImage(o.image))throw Error('Imagen de servicio inválida');
     return o;
   });
-  if(!Array.isArray(source.operations)||source.operations.length>15)throw Error('Operaciones inválidas');
+  if(!Array.isArray(source.operations)||source.operations.length!==5)throw Error('Se necesitan cinco operaciones válidas');
   output.operations=source.operations.map(s=>{
-    if(typeof s!=='string'||s.length>220)throw Error('Operación inválida');
+    if(typeof s!=='string'||s.length>220||!s.trim())throw Error('Operación inválida');
     return s.trim();
-  }).filter(Boolean);
+  });
+  if(!Array.isArray(source.operationImages)||source.operationImages.length!==5)throw Error('Imágenes de operaciones inválidas');
+  output.operationImages=source.operationImages.map(src=>{
+    if(typeof src!=='string'||src.length>600||!safeImage(src))throw Error('Imagen de operación inválida');
+    return src;
+  });
   return output;
 }
 export async function onRequestPost(context){
