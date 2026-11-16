@@ -1,0 +1,26 @@
+name: Validate November 2026 website prices
+on:
+  pull_request:
+    paths:
+      - "index.html"
+      - "otros-servicios/index.html"
+      - "js/web-commerce-inmobiliaria.js"
+      - "js/web-basica-presentacion.js"
+      - "js/tienda-cvstudio-presentacion.js"
+      - "tests/webs-pricing-2026.test.cjs"
+      - ".github/workflows/web-pricing-2026.yml"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          node --check js/web-commerce-inmobiliaria.js
+          node --check js/web-basica-presentacion.js
+          node --check js/tienda-cvstudio-presentacion.js
+          node --test tests/webs-pricing-2026.test.cjs
