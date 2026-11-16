@@ -6,6 +6,14 @@ on:
       - cvstudio-marketing-pruebas
     paths:
       - "staging/cloudflare/**"
+      - "tools/build_staging_preview.py"
+      - "index.html"
+      - "css/**"
+      - "assets/images/**"
+      - "assets/icons/**"
+      - "assets/branding/**"
+      - "assets/favicons/**"
+      - "assets/fonts/**"
       - ".github/workflows/cvstudio-cloudflare-staging.yml"
   workflow_dispatch:
 
@@ -36,6 +44,14 @@ jobs:
           grep -Fxq 'name = "cvstudio-marketing-pruebas"' staging/cloudflare/wrangler.toml
           ! grep -Eq '^[[:space:]]*(routes?|zone_id)[[:space:]]*=' staging/cloudflare/wrangler.toml
           node --check staging/cloudflare/worker.js
+      - name: Build read-only marketing preview from public assets
+        run: |
+          python3 tools/build_staging_preview.py
+          test -s staging/cloudflare/public/index.html
+          test ! -d staging/cloudflare/public/js
+          test ! -d staging/cloudflare/public/config
+          test ! -d staging/cloudflare/public/supabase
+          test ! -d staging/cloudflare/public/centro-operaciones-prueba
       - name: Deploy staging Worker only
         uses: cloudflare/wrangler-action@v4
         with:
