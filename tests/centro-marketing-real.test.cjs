@@ -25,7 +25,7 @@ test('Marketing does not require manual payment entries',()=>{
 });
 test('a pending Meta connection never displays manual campaign figures as Meta metrics',()=>{
   const result=run({metaCampaigns:[{name:'Local',spend:9000,clicks:23}],_integrationStatus:{facebook:'pending'}});
-  assert.match(result,/Conexión pendiente/);
+  assert.match(result,/Meta Ads sin conexión confirmada/);
   assert.doesNotMatch(result,/9\.000/);
 });
 test('connected Meta campaign data appears in the comparison table',()=>{
