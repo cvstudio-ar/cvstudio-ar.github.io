@@ -1,0 +1,46 @@
+name: GESFIP - Validación aislada
+
+on:
+  push:
+    branches:
+      - feature/gesfip-entrega-dominio
+    paths:
+      - 'demo/gesfip/**'
+      - '.github/workflows/gesfip-validacion.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'demo/gesfip/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: demo/gesfip
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar dependencias
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Verificar sintaxis
+        run: npm run check
+      - name: Tests de seguridad y contenido
+        run: npm run test
+      - name: Compilar Pages sin activar dominio
+        run: npm run build
+      - name: Verificar archivos de salida
+        run: |
+          test -s dist/index.html
+          test -s dist/admin/index.html
+          test -s dist/hero-aprobada.svg
+          test -s dist/assets/qr.svg
+          grep -q 'noindex' dist/index.html
