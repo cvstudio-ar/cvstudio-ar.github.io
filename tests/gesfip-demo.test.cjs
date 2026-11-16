@@ -39,3 +39,16 @@ test('admin is a local preview, not a fake password-protected editor',()=>{
 test('client-provided emblem is embedded as asset',()=>{
  assert.match(read('logo.svg'),/data:image\/webp;base64,/);
 });
+
+test('approved hero replaces unrelated stock and avoids redundant giant logo card',()=>{
+ const html=read('index.html');
+ const css=read('styles.css');
+ const config=read('config.js');
+ const picture=read('hero-aprobada.svg');
+ assert.doesNotMatch(html, /class="visual"/);
+ assert.doesNotMatch(css+config, /images\\.pexels\\.com/);
+ assert.match(css, /hero-aprobada\\.svg/);
+ assert.match(config, /hero-aprobada\\.svg/);
+ assert.match(picture, /data:image\\/webp;base64,/);
+ assert.match(read('admin/admin.js'), /hero-aprobada\\.svg/);
+});
