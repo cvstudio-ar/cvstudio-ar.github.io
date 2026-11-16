@@ -1,0 +1,39 @@
+name: Validate CVStudio staging
+
+on:
+  push:
+    branches:
+      - cvstudio-marketing-pruebas
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cvstudio-staging-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate without deployment
+    runs-on: ubuntu-latest
+    environment: cvstudio-marketing-pruebas
+    steps:
+      - name: Checkout testing branch
+        uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          find . -type f -name '*.js' -not -path './.git/*' -not -path './config/*' -not -path './_site/*' -print0 | xargs -0 -r -n1 node --check
+          for file in config/*.js; do
+            [ -f "$file" ] || continue
+            cp "$file" /tmp/cvstudio-worker-check.mjs
+            node --check /tmp/cvstudio-worker-check.mjs
+          done
+      - name: Ensure testing does not deploy production
+        shell: bash
+        run: |
+          test "${GITHUB_REF_NAME}" = "cvstudio-marketing-pruebas"
+          test -f index.html
+          echo "Validated testing branch. No production deployment was performed."
