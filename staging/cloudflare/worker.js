@@ -7,7 +7,7 @@ export default {
         headers: {"content-type":"text/plain; charset=utf-8","cache-control":"no-store","x-robots-tag":"noindex, nofollow"}
       });
     }
-    return Response.json({project:"CVStudio",environment:"pruebas",status:"ok"}, {
+    return Response.json({project:"CVStudio",environment:"pruebas",status:"ok",deployedBy:"github-actions"}, {
       headers: {"cache-control":"no-store","x-robots-tag":"noindex, nofollow"}
     });
   }
