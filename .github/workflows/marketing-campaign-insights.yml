@@ -1,0 +1,25 @@
+name: Validate campaign-first Marketing
+on:
+  push:
+    branches: ["feature/marketing-campanas-primero"]
+  pull_request:
+    paths:
+      - "centro-operaciones-prueba/marketing-insights.js"
+      - "centro-operaciones-prueba/operational.js"
+      - "centro-operaciones-prueba/responsive-layout.css"
+      - "tests/marketing-campaign-insights.test.cjs"
+      - ".github/workflows/marketing-campaign-insights.yml"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: |
+          node --check centro-operaciones-prueba/marketing-insights.js
+          node --check centro-operaciones-prueba/operational.js
+          node --test tests/marketing-campaign-insights.test.cjs

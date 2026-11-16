@@ -563,83 +563,34 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
 
 
   function marketingOperationalRenderer() {
-    const confirmed = confirmedPayments(), revenue = totalRevenue();
-    const byChannel = {}; confirmed.forEach(p=>{const k=p.source||'Sin identificar';byChannel[k]=(byChannel[k]||0)+Number(p.amount||0)});
-    const channels=Object.entries(byChannel).sort((a,b)=>b[1]-a[1]);
-    const leadCounts={};
-    for(const client of state.clients||[]){
-      if(!client?.name)continue;
-      const source=String(client.source||'Sin identificar').trim()||'Sin identificar';
-      leadCounts[source]=(leadCounts[source]||0)+1;
-    }
-    const leadEntries=Object.entries(leadCounts).sort((a,b)=>b[1]-a[1]);
-    const leadTotal=leadEntries.reduce((sum,item)=>sum+item[1],0);
-    const leadIdentified=leadTotal-(leadCounts['Sin identificar']||0);
-    const paidIdentified=confirmed.filter(p=>p.attribution && typeof p.attribution.utm_source==='string'&&p.attribution.utm_source.trim()).length;
-    const campaignStats=new Map();
-    for(const payment of confirmed){
-      const attr=payment.attribution;
-      if(!attr||typeof attr.utm_campaign!=='string'||!attr.utm_campaign.trim())continue;
-      const key=[String(attr.utm_source||'No especificado').slice(0,100),String(attr.utm_campaign).slice(0,100)].join(' / ');
-      const current=campaignStats.get(key)||{sales:0,revenue:0};
-      current.sales+=1;current.revenue+=Number(payment.amount||0);
-      campaignStats.set(key,current);
-    }
-    const realCampaignRows=[...campaignStats.entries()].sort((a,b)=>b[1].revenue-a[1].revenue);
-    const campaignResults=realCampaignRows.length
-      ? '<div class="channel-grid">'+realCampaignRows.map(([name,results])=>
-          '<div class="channel-card"><strong>'+esc(name)+'</strong><span>'+results.sales+' ventas atribuidas</span><b>'+money(results.revenue)+'</b></div>'
-        ).join('')+'</div>'
-      : '<div class="empty-state empty-state-large"><strong>Sin ventas con UTM verificada</strong><span>Al recibirse ventas desde campañas etiquetadas y consentidas aparecerán aquí.</span></div>';
-    const days=Array.from({length:7},(_,i)=>{
-      const date=new Date();date.setHours(12,0,0,0);date.setDate(date.getDate()-6+i);
-      const key=localDateKey(date);
-      const matching=confirmed.filter(p=>{
-        const when=new Date(p.createdAt||p.paidAt||0);
-        return !Number.isNaN(when.getTime())&&localDateKey(when)===key;
-      });
-      return {key,label:new Intl.DateTimeFormat('es-AR',{weekday:'short'}).format(date).replace('.',''),revenue:matching.reduce((n,p)=>n+Number(p.amount||0),0),count:matching.length};
-    });
-    const maxRevenue=Math.max(1,...days.map(d=>d.revenue));
-    const weekChart=days.some(d=>d.count)
-      ? '<div class="marketing-real-week" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));align-items:end;gap:8px;height:160px">'+days.map(d=>
-          '<div style="display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%;gap:6px" title="'+esc(d.key)+' · '+money(d.revenue)+'">'+
-          '<small style="font-size:11px">'+esc(money(d.revenue))+'</small>'+
-          '<div style="background:#35d07f;border-radius:5px 5px 0 0;width:70%;height:'+Math.max(3,Math.round(d.revenue/maxRevenue*105))+'px"></div>'+
-          '<small>'+esc(d.label)+'</small></div>'
-        ).join('')+'</div>'
-      : '<div class="empty-state empty-state-large"><strong>Sin pagos acreditados en los últimos 7 días</strong><span>El gráfico se actualizará cuando haya pagos confirmados.</span></div>';
-    const webIntakes=Array.isArray(state.webIntakes)?state.webIntakes:[];
-    const intakesConnected=state._integrationStatus?.webCommerce==='connected';
-    const webIntakeSourceCount=webIntakes.filter(item=>item.attribution?.utm_campaign).length;
-    const webIntakeCounts={};
-    for(const item of webIntakes){
-      const product=String(item.productId||'Sin especificar').slice(0,80);
-      webIntakeCounts[product]=(webIntakeCounts[product]||0)+1;
-    }
-    const webIntakeContent=!intakesConnected
-      ? '<div class="empty-state empty-state-large"><strong>Sin conexión al registro de proyectos web</strong><span>La actualización del Worker se encuentra pendiente de despliegue y validación.</span></div>'
-      : '<p><strong>'+webIntakes.length+'</strong> preparaciones registradas, de las cuales <strong>'+webIntakeSourceCount+'</strong> incluyen campaña UTM.</p>'+
-        (Object.keys(webIntakeCounts).length
-          ? '<div class="channel-grid">'+Object.entries(webIntakeCounts).sort((a,b)=>b[1]-a[1]).map(([product,total])=>'<div class="channel-card"><strong>'+esc(product)+'</strong><span>'+total+' proyectos preparados</span></div>').join('')+'</div>'
-          : '<div class="empty-state"><strong>Sin preparaciones registradas</strong><span>Los formularios aparecerán cuando comience a usarse el configurador actualizado.</span></div>');
-    const leadSourcePanel=leadEntries.length
-      ? '<div class="channel-grid">'+leadEntries.map(([name,total])=>'<div class="channel-card"><strong>'+esc(name)+'</strong><span>'+total+' contactos</span></div>').join('')+'</div>'
-      : '<div class="empty-state empty-state-large"><strong>Sin fuentes registradas</strong><span>El origen aparecerá cuando ingresen clientes.</span></div>';
-
-    const metaSpend=Number(state.metaSummary?.spend||0),budget=revenue*Number(state.rules.growth||0)/100, spent=totalExpenses()+metaSpend, available=Math.max(0,budget-spent);
-    const today=localDateKey(new Date()),manualCampaigns=calendarItems().filter(item=>item.type==='campaign'&&item.startDate<=today&&(item.endDate||item.startDate)>=today&&!['Completada','Cancelada'].includes(item.status));
-    const now=Date.now();
-    const isCurrentMetaCampaign=item=>{
-      const status=String(item.effective_status||item.status||'').toUpperCase();
-      const start=Date.parse(item.start_time||item.startDate||'');
-      const end=Date.parse(item.stop_time||item.endDate||'');
-      return status==='ACTIVE'&&(!Number.isFinite(start)||start<=now)&&(!Number.isFinite(end)||end>=now);
-    };
-    const metaCampaigns=(Array.isArray(state.metaCampaigns)?state.metaCampaigns:[]).filter(isCurrentMetaCampaign),campaigns=[...metaCampaigns,...manualCampaigns.map(item=>({...item,source:'Calendario',budget:itemTotal(item)}))];
-    const campaignCards=campaigns.map(item=>{const source=String(item.platform||item.channel||item.title||'').toLowerCase(),network=source.includes('instagram')?'instagram':'facebook';return `<article class="marketing-campaign-card"><span>${brand(network)}</span><div><strong>${esc(item.name||item.title)}</strong><small>${esc(item.source||'Meta Ads')} · ${dateLabel(item.startDate||item.start_time)}${item.endDate||item.stop_time?` → ${dateLabel(item.endDate||item.stop_time)}`:''}</small></div><b>${money(item.budget||item.totalBudget||item.spend||0)}</b><i>${esc(item.status||item.effective_status||'Activa')}</i></article>`;}).join('');
-    const campaignList=campaignCards?`<div class="marketing-campaign-list">${campaignCards}</div>`:`<div class="empty-state empty-state-large"><strong>Sin campañas activas</strong><span>Creá una en Calendario o vinculá Meta Ads.</span></div>`;
-    return `<div class="panel" style="margin-bottom:12px;padding:12px 16px"><strong>Medición comercial real</strong><p class="muted">Contactos con origen identificado: ${leadIdentified} de ${leadTotal}. Ventas con UTM registrada: ${paidIdentified} de ${confirmed.length}. Un canal manual no demuestra atribución publicitaria.</p></div><section class="grid kpi-grid">${kpi('chart','Inversión registrada',money(spent),`${state.expenses.length} movimientos`,'#3b82f6')}${kpi('megaphone','Campañas activas',campaigns.length,metaCampaigns.length?'Meta Ads + calendario':'registradas en calendario','#35d07f')}${kpi('file','Ventas generadas',confirmed.length,'pagos confirmados','#9b5de5')}${kpi('dollar','Ingreso promedio',confirmed.length?money(revenue/confirmed.length):money(0),'por venta confirmada','#ff8a1f')}${kpi('wallet','Fondo disponible',money(available),'crecimiento menos gastos','#28c2d8')}</section><section class="grid marketing-grid">${panel('Caja publicitaria · Fondo de Crecimiento',`<div class="donut-wrap">${donutChart(budget<=0?'Sin fondo':spent>budget?'Excedido':Math.round(spent/budget*100)+'%','Ejecutado')}<div class="legend"><span><b>Asignado:</b> ${money(budget)}</span><span><b>Gastado:</b> ${money(spent)}</span><span><b>Disponible:</b> ${money(available)}</span></div></div>`)}<section class="panel span-2"><div class="panel-head"><div><h2>Inversión y resultados</h2><p>Movimientos reales de marketing y ventas.</p></div></div>${weekChart}</section>${panel('Rendimiento por canal',channels.length?`<div class="channel-grid">${channels.map(([name,val])=>`<div class="channel-card"><strong>${esc(name)}</strong><span>${confirmed.filter(p=>(p.source||'Sin identificar')===name).length} ventas</span><b>${money(val)}</b></div>`).join('')}</div>`:`<div class="empty-state empty-state-large"><strong>Sin canales medidos</strong><span>El origen aparecerá al confirmar pagos.</span></div>`)}${panel('Campañas activas',campaignCards||`<div class="empty-state empty-state-large"><strong>Sin campañas activas</strong><span>Creá una en Calendario o vinculá Meta Ads.</span></div>`)}${panel('Ventas por campaña UTM',campaignResults)}${panel('Configurador de Webs Personalizadas',webIntakeContent)}${panel('Origen de los contactos',leadSourcePanel)}${panel('Creatividades recientes',`<div class="empty-state empty-state-large"><strong>Sin creatividades registradas</strong><span>Podés asociarlas al cargar archivos de Marketing.</span></div>`)}</section>`;
+    const metaStatus=state._integrationStatus?.facebook||'pending';
+    const connected=metaStatus==='connected';
+    const insight=window.CVStudioMarketingInsights?.analyze?.(state.metaCampaigns||[],connected);
+    const num=value=>Number(value||0).toLocaleString('es-AR');
+    const decimal=value=>value==null?'Sin datos':Number(value).toLocaleString('es-AR',{maximumFractionDigits:2});
+    const peso=value=>value==null?'Sin datos':money(Number(value));
+    if(!insight)return '<section class="panel"><h2>Marketing</h2><p>El análisis publicitario todavía no está disponible. Revisá la configuración de la herramienta.</p></section>';
+    const summary=insight.totals;
+    const cards=summary
+      ? `${kpi('wallet','Inversión Meta Ads',peso(summary.spend),insight.period,'#3b82f6')}${kpi('eye','Impresiones',num(summary.impressions),'Meta Ads · '+insight.period,'#9b5de5')}${kpi('mouse-pointer','Clics',num(summary.clicks),'Meta Ads · '+insight.period,'#35d07f')}${kpi('chart','Resultados reportados',num(summary.results),'Según el objetivo de Meta','#ffb800')}`
+      : `${kpi('wallet','Inversión Meta Ads','—','Conexión pendiente','#3b82f6')}${kpi('eye','Impresiones','—','Conexión pendiente','#9b5de5')}${kpi('mouse-pointer','Clics','—','Conexión pendiente','#35d07f')}${kpi('chart','Resultados reportados','—','Conexión pendiente','#ffb800')}`;
+    const campaignRows=insight.rows.length?insight.rows.map(item=>{
+      const status=item.status.toUpperCase()==='ACTIVE'?'Activa':item.status.toUpperCase()==='PAUSED'?'Pausada':item.status;
+      return `<tr><td><strong>${esc(item.name)}</strong><small class="muted" style="display:block">${esc(status)} · ${esc(item.objective||'Objetivo no indicado')}</small></td><td>${peso(item.spend)}</td><td>${num(item.impressions)}</td><td>${num(item.clicks)}</td><td>${item.ctr==null?'—':decimal(item.ctr)+'%'}</td><td>${peso(item.cpc)}</td><td>${num(item.results)}</td><td>${peso(item.cpr)}</td></tr>`;
+    }).join(''):'<tr><td colspan="8" class="muted" style="padding:22px">No hay campañas disponibles para este período. No se muestran datos inventados.</td></tr>';
+    const suggestions=insight.suggestions.map(item=>
+      `<div class="marketing-advice"><strong>${esc(item.title)}</strong><p class="muted">${esc(item.text)}</p></div>`).join('');
+    const connection=connected
+      ? '<span class="status" style="--c:#35d07f">Meta Ads conectado · lectura de campañas</span>'
+      : '<span class="status" style="--c:#ffb800">Meta Ads sin conexión confirmada · revisá Integraciones</span>';
+    return `<div class="panel marketing-campaign-intro"><strong>Optimización de campañas · CVStudio</strong><p class="muted">Este espacio prioriza Meta Ads: gasto, alcance publicitario, clics y resultados. No necesitás registrar ventas para evaluar estos indicadores.</p>${connection}<p class="muted" style="margin-top:10px">Fuente: Meta Marketing API · Período: ${esc(insight.period)} · Última consulta: al sincronizar el Centro de Operaciones. Los resultados de Meta dependen del objetivo configurado y no equivalen necesariamente a clientes o ventas.</p></div>
+    <section class="grid kpi-grid">${cards}</section>
+    <div class="grid marketing-growth-layout">
+      <section class="panel marketing-campaign-table-panel"><div class="panel-head"><div><h2>Comparación de campañas</h2><p>CTR = clics / impresiones · CPC = gasto / clics · costo por resultado = gasto / resultados reportados.</p></div></div><div class="marketing-table-scroll"><table class="data-table marketing-campaign-table"><thead><tr><th>Campaña</th><th>Gasto</th><th>Impresiones</th><th>Clics</th><th>CTR</th><th>CPC</th><th>Resultados</th><th>Costo/result.</th></tr></thead><tbody>${campaignRows}</tbody></table></div></section>
+      <section class="panel"><h2>Oportunidades de mejora</h2><p class="muted">Sugerencias automáticas orientativas basadas únicamente en los datos disponibles. No se modifican anuncios ni presupuestos.</p>${suggestions}</section>
+      <section class="panel"><h2>Lectura del rendimiento</h2><div class="marketing-reading"><div><strong>CTR general</strong><b>${summary&&summary.ctr!=null?decimal(summary.ctr)+'%':'Sin datos'}</b></div><div><strong>CPC general</strong><b>${summary?peso(summary.cpc):'Sin datos'}</b></div><div><strong>Costo por resultado</strong><b>${summary?peso(summary.cpr):'Sin datos'}</b></div></div><p class="muted">Compará campañas con objetivos semejantes. El promedio global mezcla objetivos y debe interpretarse con cautela.</p></section>
+      <section class="panel"><h2>Datos pendientes de integrar</h2><p class="muted">Meta Pixel y Google Analytics permiten medir visitas y eventos web después del consentimiento. Una vez publicados y validados, podremos incorporar esa información sin confundir clics con consultas y ventas.</p><p class="muted">Las ventas y los pagos siguen disponibles en Administración, pero ya no son necesarios para analizar la eficiencia de los anuncios.</p></section>
+    </div>`;
   }
   const calendarTypeMeta={
     campaign:{label:'Campaña publicitaria',color:'#3b82f6',icon:'megaphone'},

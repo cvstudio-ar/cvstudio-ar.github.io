@@ -5,15 +5,23 @@ const fs=require('node:fs');
 const path=require('node:path');
 const css=fs.readFileSync(path.join(__dirname,'../centro-operaciones-prueba/responsive-layout.css'),'utf8');
 const js=fs.readFileSync(path.join(__dirname,'../centro-operaciones-prueba/operational.js'),'utf8');
-test('Marketing layout overrides fixed row count and has a scroll container',()=>{
-  assert.match(css,/#appMain\[data-module="marketing"\]\s*\{[\s\S]*?display:block!important/);
-  assert.match(css,/#appMain\[data-module="marketing"\]\s*\{[\s\S]*?overflow-y:auto!important/);
-  assert.match(css,/#appMain\[data-module="marketing"\]\s*>\s*\.marketing-grid\s*\{[\s\S]*?grid-template-rows:none!important/);
-  assert.match(css,/#appMain\[data-module="marketing"\]\s*>\s*\.kpi-grid\s*\{[\s\S]*?height:auto!important/);
+test('Marketing layout overrides fixed row count and scrolls',()=>{
+ assert.match(css,/#appMain\[data-module="marketing"\]\s*\{[\s\S]*?overflow-y:auto!important/);
+ assert.match(css,/#appMain\[data-module="marketing"\]\s*>\s*\.kpi-grid\s*\{[\s\S]*?height:auto!important/);
 });
-test('Marketing has mobile layout without overlapping grid tracks',()=>{
-  assert.match(css,/@media\(max-width:650px\)\s*\{[\s\S]*?#appMain\[data-module="marketing"\]\s*>\s*\.kpi-grid,[\s\S]*?grid-template-columns:1fr/);
+test('Campaign table is horizontally scrollable and panels expand naturally',()=>{
+ assert.match(css,/\.marketing-table-scroll\{[^}]*overflow-x:auto/);
+ assert.match(css,/\.marketing-growth-layout\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(css,/\.marketing-growth-layout>\.panel\{[^}]*height:auto!important/);
 });
-test('Growth ring flags exceeded or undefined budget instead of unbounded percentages',()=>{
-  assert.match(js,/budget<=0\?'Sin fondo':spent>budget\?'Excedido'/);
+test('Campaign layout collapses to one column on narrow screens',()=>{
+ assert.match(css,/@media\(max-width:1100px\)\{[^}]*\.marketing-growth-layout\{grid-template-columns:1fr/);
+});
+test('Marketing panels do not require a payment-derived growth gauge',()=>{
+ const start=js.indexOf('  function marketingOperationalRenderer() {');
+ const end=js.indexOf('  const calendarTypeMeta=',start);
+ const section=js.slice(start,end);
+ assert.match(section,/Meta Ads/);
+ assert.doesNotMatch(section,/donutChart\(/);
+ assert.doesNotMatch(section,/confirmedPayments\(/);
 });

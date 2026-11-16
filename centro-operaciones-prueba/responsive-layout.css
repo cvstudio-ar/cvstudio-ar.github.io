@@ -204,3 +204,22 @@
  #appMain[data-module="marketing"] .marketing-grid > .panel{padding:16px!important;min-height:0!important}
  #appMain[data-module="marketing"] .marketing-grid .marketing-real-week{overflow-x:auto}
 }
+
+
+/* Campaign-first Marketing: fluid, readable, no forced dashboard heights */
+#appMain[data-module="marketing"] .marketing-growth-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;grid-template-rows:auto!important;height:auto!important;min-height:0}
+#appMain[data-module="marketing"] .marketing-growth-layout>.panel{display:block!important;min-width:0;min-height:175px!important;height:auto!important;max-height:none!important;overflow:visible!important;padding:20px!important}
+#appMain[data-module="marketing"] .marketing-campaign-intro{min-height:0!important}
+#appMain[data-module="marketing"] .marketing-campaign-table-panel{grid-column:1/-1}
+#appMain[data-module="marketing"] .marketing-table-scroll{max-width:100%;overflow-x:auto;scrollbar-width:thin}
+#appMain[data-module="marketing"] .marketing-campaign-table{width:100%;min-width:800px}
+#appMain[data-module="marketing"] .marketing-campaign-table th,#appMain[data-module="marketing"] .marketing-campaign-table td{padding:12px 10px;white-space:nowrap}
+#appMain[data-module="marketing"] .marketing-campaign-table td:first-child{white-space:normal;min-width:190px}
+#appMain[data-module="marketing"] .marketing-advice{border-top:1px solid rgba(255,255,255,.09);padding:13px 0}
+#appMain[data-module="marketing"] .marketing-advice p{margin:4px 0 0;line-height:1.5}
+#appMain[data-module="marketing"] .marketing-reading{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:18px 0}
+#appMain[data-module="marketing"] .marketing-reading>div{padding:13px;border:1px solid rgba(255,255,255,.11);border-radius:12px}
+#appMain[data-module="marketing"] .marketing-reading strong{display:block;color:var(--muted);font-size:11px}
+#appMain[data-module="marketing"] .marketing-reading b{display:block;font-size:20px;margin-top:7px;overflow-wrap:anywhere}
+@media(max-width:1100px){#appMain[data-module="marketing"] .marketing-growth-layout{grid-template-columns:1fr}}
+@media(max-width:650px){#appMain[data-module="marketing"] .marketing-growth-layout>.panel{padding:15px!important;min-height:0!important}#appMain[data-module="marketing"] .marketing-reading{grid-template-columns:1fr}}
