@@ -99,3 +99,83 @@ body{overflow-x:hidden}
   .hero{min-height:640px}
   .service{min-height:188px}
 }
+
+
+/* GESFIP: photographic service cards sourced from the client's presentation.
+   Wide imagery and consistent large icons; responsive grid, not a tiny icon strip. */
+#servicios .service{
+  display:grid!important;
+  grid-template-columns:92px minmax(0,1fr);
+  grid-template-rows:auto auto auto;
+  column-gap:22px;
+  row-gap:8px;
+  align-content:center;
+  min-height:218px;
+  border-radius:20px;
+  padding:26px 24px;
+  background-image:
+     linear-gradient(90deg,rgba(7,14,22,.95) 0%,rgba(7,14,22,.86) 45%,rgba(7,14,22,.38) 100%),
+     var(--service-photo,linear-gradient(130deg,#1c2a35,#0b141f));
+  background-size:cover,cover;
+  background-position:center,center;
+  color:#fff;
+  border:1px solid rgba(235,177,88,.42);
+  box-shadow:inset 0 1px rgba(255,255,255,.07),0 15px 38px rgba(0,0,0,.16);
+  text-shadow:0 1px 6px rgba(0,0,0,.4);
+}
+#servicios .service::after{height:2px;opacity:.9}
+#servicios .service .glyph{
+  grid-column:1;grid-row:1/4;
+  width:82px;height:82px;
+  display:grid;place-items:center;
+  margin:0!important;
+  border-right:1px solid rgba(242,186,90,.48);
+  padding-right:15px;
+  align-self:center;
+}
+#servicios .service .service-svg{
+  display:block;
+  width:56px!important;height:56px!important;
+  stroke:var(--gold);
+  stroke-width:1.85;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.48));
+}
+#servicios .service strong{
+  grid-column:2;grid-row:1;
+  font-size:clamp(19px,1.45vw,24px)!important;
+  line-height:1.25;
+  margin:0!important;
+  font-weight:680;
+}
+#servicios .service .desc{
+  grid-column:2;grid-row:2;
+  font-size:13.5px!important;
+  color:#e3e7e9!important;
+  line-height:1.5!important;
+  margin:0!important;
+  max-width:32ch;
+}
+#servicios .service .more{
+  grid-column:2;grid-row:3;
+  margin:2px 0 0!important;
+  color:#ffd38b;
+  font-weight:700;
+  font-size:12.5px;
+}
+#servicios .service:hover,#servicios .service:focus-visible{
+  border-color:var(--gold);
+  box-shadow:0 14px 40px rgba(0,0,0,.31),inset 0 0 0 1px rgba(239,188,98,.14);
+}
+.modal-icon .service-svg{width:60px!important;height:60px!important}
+@media(max-width:1150px){
+  #servicios .service{grid-template-columns:82px minmax(0,1fr);column-gap:16px;min-height:206px}
+  #servicios .service .glyph{width:77px;height:77px;padding-right:10px}
+  #servicios .service .service-svg{width:51px!important;height:51px!important}
+}
+@media(max-width:460px){
+  #servicios .service{grid-template-columns:65px minmax(0,1fr);column-gap:14px;padding:23px 18px;min-height:195px}
+  #servicios .service .glyph{width:62px;height:68px;padding-right:8px}
+  #servicios .service .service-svg{width:43px!important;height:43px!important}
+  #servicios .service strong{font-size:18px!important}
+  #servicios .service .desc{font-size:12.5px!important}
+}
