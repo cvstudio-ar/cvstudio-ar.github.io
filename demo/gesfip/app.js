@@ -27,6 +27,28 @@
   const wa=cleanPhone?('https://wa.me/'+(cleanPhone.startsWith('54')?cleanPhone:'549'+cleanPhone)):'#contacto';
   document.querySelectorAll('[data-whatsapp]').forEach(a=>a.href=wa);
   document.querySelectorAll('[data-email]').forEach(a=>a.href='mailto:'+encodeURIComponent(data.email||'').replace('%40','@'));
+  // Draw consistent outline icons instead of emoji placeholders.
+  const iconPaths=[
+    ['Seguridad Física','M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M9 12l2 2 4-4'],
+    ['Monitoreo','M3 10l17-6v12L3 10z M8 12l-2 8 M14 11l5 9'],
+    ['Gestión de Riesgos','M4 20V12 M10 20V8 M16 20V4 M22 20H2'],
+    ['Custodia de Personas','M12 3a4 4 0 1 0 0 8a4 4 0 0 0 0-8z M4 21c0-5 3-8 8-8s8 3 8 8 M2 12l3-2 M22 12l-3-2'],
+    ['Seguridad para Empresas','M4 21V7l8-4 8 4v14 M2 21h20 M8 10h1 M15 10h1 M8 14h1 M15 14h1 M11 21v-4h2'],
+    ['Country y Barrios','M2 12l10-9 10 9 M5 10v11h14V10 M10 21v-7h4v7'],
+    ['Silos y Campos','M4 21V8l4-4 4 4v13 M14 21V7l3-3 3 3v14 M2 21h20 M4 10h8 M14 10h6'],
+    ['Hoteles y Eventos','M5 21V5h14v16 M2 21h20 M9 9h2 M15 9h2 M9 13h2 M15 13h2 M11 21v-4h2']
+  ];
+  function serviceIcon(title){
+    const ns='http://www.w3.org/2000/svg';
+    const svg=document.createElementNS(ns,'svg');
+    svg.setAttribute('viewBox','0 0 24 24'); svg.setAttribute('fill','none');
+    svg.setAttribute('stroke','currentColor'); svg.setAttribute('stroke-width','1.65');
+    svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');
+    svg.setAttribute('aria-hidden','true');svg.classList.add('service-svg');
+    const path=document.createElementNS(ns,'path');
+    path.setAttribute('d',(iconPaths.find(x=>x[0]===title)||iconPaths[0])[1]);
+    svg.append(path);return svg;
+  }
   const services=data.services||[];
   const track=$('#serviceTrack');
   const modal=$('#serviceModal');
@@ -40,7 +62,7 @@
     lastActivator=activator;
     title.textContent=item.title;
     detail.textContent=item.detail||item.short||'';
-    glyph.textContent=item.glyph||'◇';
+    glyph.replaceChildren(serviceIcon(item.title));
     modal.showModal();
   }
   function renderCarousel(){
