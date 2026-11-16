@@ -59,7 +59,13 @@ def build():
     cleaned = re.sub(r"</form\s*>", "</div>", cleaned, flags=re.I)
     cleaned = re.sub(r"\s+on[a-z]+\s*=\s*(?:\"[^\"]*\"|'[^']*')", "", cleaned, flags=re.I)
     cleaned = re.sub(r'\s+(?:action|formaction)\s*=\s*(?:"[^"]*"|\'[^\']*\')', "", cleaned, flags=re.I)
-    cleaned = re.sub(r'(<a\b[^>]*?)\s+href\s*=\s*(?:"[^"]*"|\'[^\']*\')', r'\1 href="#"', cleaned, flags=re.I)
+    # All navigation is inert except the explicitly provided public YouTube channel.
+    def preview_link(match):
+        tag, href = match.group(1), match.group(2)
+        if href == "https://www.youtube.com/@CVStudioArgentina":
+            return tag + ' href="' + href + '"'
+        return tag + ' href="#"'
+    cleaned = re.sub(r"""(<a\b[^>]*?)\s+href\s*=\s*["']([^"']*)["']""", preview_link, cleaned, flags=re.I)
     cleaned = re.sub(r'(<button\b)(?![^>]*\bdisabled\b)', r'\1 disabled', cleaned, flags=re.I)
     cleaned = re.sub(r'<meta\b[^>]*name=["\'](?:robots|googlebot)["\'][^>]*>', "", cleaned, flags=re.I)
     cleaned = re.sub(r'<link\b[^>]*rel=["\'](?:canonical|alternate|preconnect|dns-prefetch)["\'][^>]*>', "", cleaned, flags=re.I)
