@@ -1,0 +1,45 @@
+name: Deploy isolated CVStudio Cloudflare staging Worker
+
+on:
+  push:
+    branches:
+      - cvstudio-marketing-pruebas
+    paths:
+      - "staging/cloudflare/**"
+      - ".github/workflows/cvstudio-cloudflare-staging.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cvstudio-cloudflare-staging
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: cvstudio-marketing-pruebas
+    steps:
+      - name: Check Cloudflare credentials without printing them
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          test -n "$CF_TOKEN" || { echo "::error::Missing CLOUDFLARE_API_TOKEN environment secret"; exit 1; }
+          test -n "$CF_ACCOUNT" || { echo "::error::Missing CLOUDFLARE_ACCOUNT_ID environment variable"; exit 1; }
+      - name: Checkout isolated testing branch
+        uses: actions/checkout@v6
+      - name: Verify target is exclusively staging
+        run: |
+          test "$GITHUB_REF_NAME" = "cvstudio-marketing-pruebas"
+          grep -Fxq 'name = "cvstudio-marketing-pruebas"' staging/cloudflare/wrangler.toml
+          ! grep -Eq '^[[:space:]]*(routes?|zone_id)[[:space:]]*=' staging/cloudflare/wrangler.toml
+          node --check staging/cloudflare/worker.js
+      - name: Deploy staging Worker only
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: staging/cloudflare
+          command: deploy
