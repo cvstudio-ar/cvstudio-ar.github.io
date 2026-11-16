@@ -9,7 +9,7 @@ for(const name of ['index.html','styles.css','config.js','app.js','logo.svg','he
 const configuredUrl=String(process.env.GESFIP_PUBLIC_URL||'').trim();
 const siteUrl=configuredUrl.endsWith('/')?configuredUrl.slice(0,-1):configuredUrl;
 // Publicación definitiva solo al configurar explícitamente el dominio confirmado del cliente.
-const isProduction=/^https:\/\/[a-z0-9.-]+\.[a-z]{2,}$/i.test(siteUrl) && !siteUrl.includes('pages.dev') && !siteUrl.includes('cvstudio.com.ar');
+const isProduction=['https://gesfipsamsbert.com','https://www.gesfipsamsbert.com'].includes(siteUrl);
 const indexPath=new URL('../dist/index.html',import.meta.url);
 const {readFile}=await import('node:fs/promises');
 let html=await readFile(indexPath,'utf8');
