@@ -23,4 +23,4 @@ jobs:
           node --check demo/gesfip/config.js
           node --check demo/gesfip/app.js
           node --check demo/gesfip/admin/admin.js
-          node --test tests/gesfip-demo.test.cjs tests/gesfip-design.test.cjs
+          node --test tests/gesfip-demo.test.cjs tests/gesfip-design.test.cjs tests/gesfip-images-quality.test.cjs
