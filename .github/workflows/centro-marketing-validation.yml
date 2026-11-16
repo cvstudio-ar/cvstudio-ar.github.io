@@ -1,0 +1,26 @@
+name: Validate CVStudio Marketing panel
+
+on:
+  push:
+    branches: ["feature/centro-marketing-real"]
+  pull_request:
+    paths:
+      - "centro-operaciones-prueba/operational.js"
+      - "tests/centro-marketing-real.test.cjs"
+      - ".github/workflows/centro-marketing-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify marketing panel
+        run: |
+          node --check centro-operaciones-prueba/operational.js
+          node --test tests/centro-marketing-real.test.cjs
