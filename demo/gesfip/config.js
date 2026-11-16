@@ -31,7 +31,12 @@ const clone=()=>JSON.parse(JSON.stringify(defaults));
 function read(){
   let saved={};
   try{saved=JSON.parse(localStorage.getItem(KEY)||"{}")||{}}catch{}
-  if(typeof saved.heroImage==='string' && saved.heroImage.includes('/photos/36753422/')) saved.heroImage='./hero-aprobada.svg';
+  // Migrate the previous stock photograph and the incorrect URL supplied during setup.
+  // Keep valid custom images and all other administrator settings intact.
+  if(typeof saved.heroImage==='string' && (
+    saved.heroImage.includes('/photos/36753422/') ||
+    saved.heroImage.includes('/demo/gesfip/assets/gesfip-hero-approved.webp')
+  )) saved.heroImage='./hero-aprobada.svg';
   const data={...clone(),...saved};
   if(!Array.isArray(data.services)||data.services.length===0)data.services=clone().services;
   if(!Array.isArray(data.operations))data.operations=clone().operations;
