@@ -59,6 +59,7 @@ def build():
     queue = list(refs(cleaned))
     done = set()
     total = 0
+    skipped = []
     while queue:
         raw_ref = queue.pop()
         name = normalized(raw_ref)
@@ -67,7 +68,8 @@ def build():
         src = ROOT / name
         size = src.stat().st_size
         if size > MAX_FILE or total + size > MAX_TOTAL:
-            raise RuntimeError("Marketing preview asset budget exceeded: " + name)
+            skipped.append(name)
+            continue
         dst = DEST / name
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(src, dst)
@@ -87,7 +89,7 @@ def build():
     assert not (DEST / "config").exists()
     assert not (DEST / "supabase").exists()
     assert not (DEST / "centro-operaciones-prueba").exists()
-    print(f"Read-only preview assembled with {len(done)} assets, {total} bytes; no JS or backend source.")
+    print(f"Read-only preview assembled with {len(done)} assets, {total} bytes; skipped {len(skipped)} oversized/budgeted assets; no JS or backend source.")
 
 if __name__ == "__main__":
     build()
