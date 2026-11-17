@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#151619">
+  <meta name="description" content="InmoBank | Red inmobiliaria. Descubrí propiedades en venta y oportunidades comerciales. Consultanos para recibir asesoramiento.">
+  <meta property="og:title" content="InmoBank | Encontrá tu próximo lugar">
+  <meta property="og:description" content="Propiedades, oportunidades y atención cercana.">
+  <title>InmoBank · Red Inmobiliaria</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1116 0z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M21 11.5a9 9 0 01-13.2 8L3 21l1.5-4.6A9 9 0 1121 11.5z"/><path d="M8.5 8.3c.5 4.3 3 6.7 7.2 7.2l1.2-1.2-2.4-1.2-.9 1c-1.4-.5-2.6-1.7-3.1-3.1l1-1-1.3-2.4z"/></symbol>
+    <symbol id="i-insta" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8v10H3V11zM9 21v-8h6v8"/></symbol>
+    <symbol id="i-bed" viewBox="0 0 24 24"><path d="M3 19V5m0 12h18v2M3 10h7a3 3 0 013 3v4H3v-7zm10 3h8v4h-8"/></symbol>
+    <symbol id="i-bath" viewBox="0 0 24 24"><path d="M3 13h18v2a6 6 0 01-6 6H9a6 6 0 01-6-6v-2zM6 13V6a3 3 0 016 0v1M4 21h2m12 0h2"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 7h16M7 12h10m-7 5h4"/></symbol>
+  </svg>
+
+  <header class="site-header" id="inicio">
+    <div class="container header-inner">
+      <a class="brand" href="#inicio" aria-label="InmoBank inicio">
+        <span class="brand-icon" aria-hidden="true">★</span>
+        <span class="brand-lockup"><strong>Inmo<span>Bank</span></strong><small>RED INMOBILIARIA</small></span>
+      </a>
+      <nav class="top-nav" aria-label="Navegación principal">
+        <a href="#propiedades">Propiedades</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
+      </nav>
+      <a class="nav-cta" id="header-whatsapp" href="#contacto">Hablemos <svg><use href="#i-arrow"/></svg></a>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-bg" id="hero-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="container hero-inner">
+        <div class="hero-content">
+          <span class="eyebrow light"><span class="eyebrow-dot"></span> INMOBANK · RED INMOBILIARIA</span>
+          <h1 id="hero-heading">Tu próximo lugar<br><em>empieza acá.</em></h1>
+          <p id="hero-subtitle">Propiedades y oportunidades que se adaptan a tus planes. Descubrí las opciones disponibles.</p>
+          <div class="hero-buttons"><a href="#propiedades" class="button primary">Explorar catálogo <svg><use href="#i-arrow"/></svg></a><a href="#contacto" class="button text-light">Hacer una consulta <svg><use href="#i-chevron"/></svg></a></div>
+        </div>
+        <div class="hero-bottom"><span><i class="hero-pulse"></i> <span id="hero-stock">3 publicaciones para conocer</span></span><span class="hero-slide-caption">PROPIEDADES · COMERCIO · INVERSIÓN</span></div>
+      </div>
+    </section>
+
+    <section class="catalog-section section-pad" id="propiedades" aria-labelledby="catalog-title">
+      <div class="container">
+        <div class="section-head"><div><span class="eyebrow"><span class="eyebrow-dot"></span> CATÁLOGO INMOBILIARIO</span><h2 id="catalog-title">Encontrá lo que buscás<span class="title-period">.</span></h2><p>Explorá nuestras publicaciones y consultanos por más información.</p></div><div class="catalog-controls"><div class="pill-filter" role="group" aria-label="Filtrar publicaciones"><button type="button" class="active" data-filter="all">Todas</button><button type="button" data-filter="casa">Casas</button><button type="button" data-filter="comercio">Comercios</button></div></div></div>
+        <div class="catalog-grid" id="catalog-grid" aria-live="polite"></div>
+        <div id="empty-catalog" class="empty-catalog" hidden>No hay publicaciones en esta categoría por el momento.</div>
+        <p class="catalog-hint">¿Necesitás otra opción? <a href="#contacto">Contanos qué estás buscando <svg><use href="#i-arrow"/></svg></a></p>
+      </div>
+    </section>
+
+    <section class="about-section" id="nosotros" aria-labelledby="about-title"><div class="container about-grid">
+      <div class="about-image"><img src="./assets/comercio-interior.jpg" alt="Espacio comercial de una de las publicaciones de InmoBank" loading="lazy"><span class="about-image-detail">INMOBANK <b>★</b></span></div>
+      <div class="about-copy"><span class="eyebrow"><span class="eyebrow-dot"></span> SOBRE NOSOTROS</span><h2 id="about-title">Más que propiedades,<br><span>nuevas posibilidades.</span></h2><p id="about-text">En InmoBank conectamos personas con propiedades y oportunidades comerciales. Nuestro objetivo es ayudarte a encontrar lo que buscás con información clara y atención cercana.</p><div class="about-points"><span><svg><use href="#i-check"/></svg> Atención personalizada</span><span><svg><use href="#i-check"/></svg> Consultas sin compromiso</span><span><svg><use href="#i-check"/></svg> Oportunidades para cada proyecto</span></div><a class="underline-cta" href="#contacto">Conversemos sobre tu búsqueda <svg><use href="#i-arrow"/></svg></a></div>
+    </div></section>
+
+    <section class="contact-section" id="contacto" aria-labelledby="contact-title"><div class="container contact-inner"><div><span class="eyebrow light"><span class="eyebrow-dot"></span> ESTAMOS PARA AYUDARTE</span><h2 id="contact-title">Tu próximo paso<br>comienza con una <em>consulta.</em></h2><p>Escribinos para conocer disponibilidad, valores y coordinar una visita.</p><a id="contact-main-whatsapp" class="button primary" href="https://wa.me/5492658652005" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp <svg><use href="#i-arrow"/></svg></a></div><div class="contact-details"><div class="contact-detail"><span class="contact-detail-icon"><svg><use href="#i-pin"/></svg></span><div><small>UBICACIÓN</small><strong id="location-text">San Luis, Argentina</strong></div></div><div class="contact-detail"><span class="contact-detail-icon"><svg><use href="#i-whatsapp"/></svg></span><div><small>TELÉFONOS</small><div class="contact-phone-lines" id="phone-lines"><a href="tel:+542658652005">2658 65-2005</a></div></div></div><div class="contact-detail" id="insta-detail"><span class="contact-detail-icon"><svg><use href="#i-insta"/></svg></span><div><small>INSTAGRAM</small><a href="https://www.instagram.com/inmobank9/" target="_blank" rel="noopener noreferrer" id="insta-link">@inmobank9</a></div></div></div></div></section>
+  </main>
+
+  <footer class="footer"><div class="container footer-line"><span>© <span id="year"></span> InmoBank · Red Inmobiliaria</span><div class="footer-right"><a id="footer-instagram" href="https://www.instagram.com/inmobank9/" target="_blank" rel="noopener noreferrer">Instagram</a><span class="foot-separator"></span><a href="#administracion" id="admin-entry">Administración</a><span class="foot-separator"></span><span>Una web desarrollada por <a class="studio-link" href="https://cvstudio.com.ar/" target="_blank" rel="noopener noreferrer">CVStudio Argentina</a></span></div></div></footer>
+
+  <div class="modal-backdrop" id="property-modal" aria-hidden="true"><div class="modal property-modal" role="dialog" aria-modal="true" aria-labelledby="property-title"><button class="modal-close" type="button" data-close="property-modal" aria-label="Cerrar ficha"><svg><use href="#i-close"/></svg></button><div class="property-gallery"><img id="property-main-photo" src="" alt=""><button id="gallery-prev" class="gallery-arrow prev" type="button" aria-label="Foto anterior"><svg><use href="#i-chevron"/></svg></button><button id="gallery-next" class="gallery-arrow next" type="button" aria-label="Foto siguiente"><svg><use href="#i-chevron"/></svg></button><div id="gallery-counter" class="gallery-counter"></div></div><div class="property-details"><div class="property-topline"><span id="property-kind"></span><span id="property-status"></span></div><h3 id="property-title"></h3><div id="property-location" class="property-location"></div><div id="property-tags" class="property-tags"></div><p id="property-description"></p><h4>Detalles de la publicación</h4><div id="property-features" class="features-list"></div><div class="property-bottom"><strong id="property-price"></strong><a id="property-contact" class="button primary" target="_blank" rel="noopener noreferrer">Consultar <svg><use href="#i-arrow"/></svg></a></div></div></div></div>
+
+  <div class="modal-backdrop" id="login-modal" aria-hidden="true"><div class="modal login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title"><button class="modal-close" type="button" data-close="login-modal" aria-label="Cerrar"><svg><use href="#i-close"/></svg></button><div class="mini-logo"><span>★</span> InmoBank</div><span class="eyebrow">ACCESO ADMINISTRATIVO</span><h2 id="login-title">Ingresar al panel</h2><p>Administrá el contenido de la demostración.</p><form id="login-form"><label>Usuario<input name="username" type="text" placeholder="Usuario" autocomplete="username" required></label><label>Contraseña<input name="password" type="password" placeholder="Contraseña" autocomplete="current-password" required></label><p id="login-error" class="form-error" role="alert" hidden>Usuario o contraseña incorrectos.</p><button class="button primary full" type="submit">Ingresar a administración <svg><use href="#i-arrow"/></svg></button></form><small class="login-help">Acceso de prueba: <b>admin</b> / <b>InmoBankDemo26</b><br>Los cambios de esta demo se guardan únicamente en este navegador.</small></div></div>
+
+  <div id="admin-app" class="admin-app" hidden><div class="admin-shell"><aside class="admin-sidebar"><div class="admin-brand"><span>★</span><strong>InmoBank</strong><small>PANEL ADMINISTRATIVO</small></div><nav class="admin-nav" aria-label="Opciones administrativas"><button data-admin-tab="general" class="active">◈ &nbsp; Diseño y textos</button><button data-admin-tab="catalog">▦ &nbsp; Catálogo</button><button data-admin-tab="contact">◉ &nbsp; Contactos</button><button data-admin-tab="backup">⇩ &nbsp; Respaldo</button></nav><div class="admin-sidebar-foot"><button id="admin-preview" type="button">← Volver al sitio</button><button id="admin-logout" type="button">Cerrar sesión</button></div></aside><div class="admin-main"><header class="admin-top"><div><small>INMOBANK / ADMINISTRACIÓN</small><h2 id="admin-heading">Diseño y textos</h2></div><div class="admin-top-actions"><span class="admin-mode">MODO DEMO</span><button id="admin-save" class="button primary">Guardar cambios <svg><use href="#i-check"/></svg></button></div></header><div id="admin-alert" class="admin-alert"><strong>Panel de demostración:</strong> los cambios se conservan solo en este navegador. La autenticación y sincronización entre dispositivos requieren conectar un backend antes de entregar la web definitiva.</div><div class="admin-body">
+    <section class="admin-panel active" data-panel="general"><div class="admin-card"><h3>Portada principal</h3><p>Personalizá el mensaje y la foto destacada.</p><div class="admin-fields"><label>Título de portada<input id="edit-hero-title" maxlength="100"></label><label>Descripción<textarea id="edit-hero-subtitle" rows="3"></textarea></label><label>Imagen de portada<input id="edit-hero-file" type="file" accept="image/*"></label><div id="hero-preview" class="image-preview"></div></div></div><div class="admin-card"><h3>Identidad visual</h3><p>Elegí un color de acento y actualizá el texto institucional.</p><div class="admin-fields"><label>Color principal <input id="edit-accent" type="color" value="#f5c52e"></label><label>Título «Sobre nosotros»<input id="edit-about-title"></label><label>Descripción institucional<textarea id="edit-about-text" rows="5"></textarea></label></div></div></section>
+    <section class="admin-panel" data-panel="catalog"><div class="admin-card"><div class="admin-list-head"><div><h3>Publicaciones</h3><p>Agregá, editá, ocultá o eliminá propiedades.</p></div><button id="add-property" class="button primary">+ Nueva publicación</button></div><div id="admin-property-list" class="admin-property-list"></div></div><div class="admin-card" id="property-editor" hidden><h3 id="editor-title">Editar publicación</h3><form id="property-form" class="admin-fields"><input type="hidden" id="p-id"><div class="field-row"><label>Título de la publicación<input id="p-title" required></label><label>Tipo<select id="p-type"><option value="casa">Casa</option><option value="comercio">Fondo de comercio</option></select></label></div><div class="field-row"><label>Operación<select id="p-operation"><option value="Venta">Venta</option><option value="Alquiler">Alquiler</option></select></label><label>Estado<select id="p-state"><option value="Disponible">Disponible</option><option value="Reservada">Reservada</option><option value="Vendida">Vendida</option></select></label></div><div class="field-row"><label>Zona / ubicación<input id="p-location" placeholder="Ej. Barrio Colegiales"></label><label>Precio publicado<input id="p-price" placeholder="Ej. Consultar precio"></label></div><div class="field-row"><label>Dormitorios<input id="p-beds" placeholder="Ej. 3"></label><label>Baños<input id="p-baths" placeholder="Ej. 2"></label></div><label>Detalles breves, separados por coma<input id="p-highlights" placeholder="Ej. Patio, Piscina, Cocina"></label><label>Descripción<textarea id="p-description" rows="4" required></textarea></label><label>Detalles completos (uno por línea)<textarea id="p-features" rows="4"></textarea></label><label>Agregar fotografías<input id="p-photos" type="file" accept="image/*" multiple></label><div id="editor-photos" class="editor-photos"></div><label class="check-row"><input id="p-visible" type="checkbox"> Mostrar publicación en la web</label><div class="form-actions"><button class="button primary" type="submit">Aplicar publicación <svg><use href="#i-check"/></svg></button><button id="cancel-property" type="button" class="button ghost">Cancelar</button></div></form></div></section>
+    <section class="admin-panel" data-panel="contact"><div class="admin-card"><h3>Datos de contacto</h3><p>Se mostrarán en la parte inferior y en los enlaces de consulta.</p><div class="admin-fields"><label>Ubicación <input id="edit-location" placeholder="San Luis, Argentina"></label><label>Teléfono principal (solo números y código de área)<input id="edit-phone" placeholder="2658652005"></label><label>Teléfono secundario <input id="edit-phone2" placeholder="Opcional"></label><label>WhatsApp (número internacional, sin +)<input id="edit-wa" placeholder="5492658652005"></label><label>Link de Instagram<input id="edit-insta" placeholder="https://instagram.com/..."></label></div></div></section>
+    <section class="admin-panel" data-panel="backup"><div class="admin-card"><h3>Exportar o importar contenido</h3><p>Guardá una copia de los ajustes y publicaciones de esta demo para trasladarlos a otro navegador. Las fotos pueden hacer que el archivo sea grande.</p><div class="backup-actions"><button id="export-json" class="button primary">Descargar respaldo JSON <svg><use href="#i-arrow"/></svg></button><label class="button ghost">Importar respaldo<input id="import-json" type="file" accept="application/json" hidden></label></div></div><div class="admin-card danger-card"><h3>Restablecer contenido de ejemplo</h3><p>Esta opción borra únicamente los cambios guardados en este navegador y recupera las tres publicaciones originales.</p><button id="reset-demo" class="button danger">Restablecer la demo</button></div></section>
+  </div><div class="admin-toast" id="admin-toast" role="status" hidden>Datos guardados</div></div></div></div>
+</body>
+</html>
