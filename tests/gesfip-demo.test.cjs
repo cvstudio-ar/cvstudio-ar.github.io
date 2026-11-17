@@ -73,7 +73,7 @@ test('Luis updates include suited team hero, industrial photo and two contact ch
  assert.match(config,/teamImage:"\.\/assets\/equipo-ejecutivo\.svg"/);
  assert.match(config,/aboutImage:"\.\/assets\/patrullaje-industrial-hd\.svg"/);
  assert.match(config,/"\.\/assets\/patrullaje-industrial-hd\.svg",\s*"\.\/assets\/qr\.svg"/);
- assert.match(read('assets/patrullaje-industrial-hd.svg'),/data:image\/avif;base64,/);
+ assert.match(read('assets/patrullaje-industrial-limpio.svg'),/data:image\/avif;base64,/);
  assert.match(page,/contactSecondaryPhone/);
  assert.match(page,/contactInstagram/);
  assert.match(app,/data-secondary-phone/);
@@ -90,4 +90,26 @@ test('GESFIP publica el cierre definitivo con contactos ilustrados y sin cartele
  assert.match(html,/Web desarrollada por/);
  assert.match(css,/\.contact-tile/);
  assert.match(css,/\.contact-icon svg/);
+});
+
+test('contacto minimalista respeta los íconos dorados sin tarjetas ni botones añadidos',()=>{
+ const html=read('index.html'),css=read('styles.css');
+ const latest=css.slice(css.lastIndexOf('/* GESFIP · Cierre sobrio'));
+ assert.ok(latest.length>2500);
+ assert.doesNotMatch(html,/class="btn gold contact-main-action"/);
+ assert.match(latest,/#contacto \.contact-tile/);
+ assert.match(latest,/border:0!important/);
+ assert.match(latest,/background:none!important/);
+ assert.match(latest,/#contacto \.contact-icon svg/);
+ assert.match(latest,/stroke:#f4bd55!important/);
+ assert.match(latest,/#contacto \.contact-shell::after/);
+});
+test('la imagen corregida tiene 1600 pixeles de ancho y no usa la version reducida',()=>{
+ const config=read('config.js');
+ const img=read('assets/patrullaje-industrial-limpio.svg');
+ assert.ok(img.includes('width="1600" height="900"'));
+ assert.ok(img.includes('data:image/avif;base64,'));
+ assert.ok(img.length>65000,'La fotografía optimizada no debe quedar demasiado comprimida');
+ assert.ok(config.includes('aboutImage:"./assets/patrullaje-industrial-limpio.svg"'));
+ assert.ok(config.includes("historicImages.includes(saved.aboutImage)"));
 });
