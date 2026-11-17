@@ -64,6 +64,10 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .pose-frame .image-error{display:flex;align-items:center;justify-content:center;position:absolute;inset:7px;text-align:center;font-size:12px;color:#b5c8a7;background:#07100a}
 .pose-frame .image-error[hidden]{display:none}
 .pose-triple .pose-frame small{font-size:8px;padding:3px}
+.missing-exercise-image{height:100%;width:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;padding:12px;text-align:center;background:#111911;color:#c9d9bc;font-size:12px}
+.missing-exercise-image b{color:#adff19}
+.pose-frame .image-error{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;font-size:11px;line-height:1.25;padding:14px}
+.pose-frame .image-error small{position:static;background:none;border:none;font:10px/1.2 Arial;letter-spacing:0;color:#aab6a3}
 
 .muscle-tag{width:95%;min-height:110px;border-radius:10px;background:#121c14;border:1px solid #76a829;text-align:center;padding:12px 4px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px}
 .muscle-tag strong{color:var(--accent);font:16px/1.05 Impact,'Arial Black',sans-serif;overflow-wrap:anywhere;max-width:100%}
@@ -75,7 +79,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 <body>
 <div class="app">
 <aside class="editor">
- <div class="edit-top"><div class="logomark">FA</div><div><strong>EDITOR DE RUTINAS</strong><small>Fede Aguirre Fitness · Funciona sin internet</small></div></div>
+ <div class="edit-top"><div class="logomark">FA</div><div><strong>EDITOR DE RUTINAS</strong><small>Fede Aguirre Fitness · 415 ejercicios con imágenes 3D</small></div></div>
  <h2>01 · Identidad y portada</h2>
  <label class="field"><span>Nombre / marca del entrenador</span><input id="brand" maxlength="30" /></label>
  <label class="field"><span>Leyenda inferior del logo</span><input id="subbrand" maxlength="24" /></label>
@@ -103,10 +107,10 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
  <label class="field"><span>Descanso</span><input id="rest" maxlength="20" /></label>
  <p class="minihint">Al seleccionar un ejercicio del catálogo se actualizan el nombre y la posición ilustrada. Las series, repeticiones y descansos se pueden personalizar libremente. El modelo 3D requiere internet; las fotos de respaldo funcionan sin conexión.</p>
 
- <label class="field"><span>Tipo de imagen del ejercicio</span><select id="visualMode"><option value="3d">Humano 3D · Inicio y final (internet)</option><option value="photo">Fotografía orientativa · No representa siempre el ejercicio exacto</option></select></label>
+ <label class="field"><span>Tipo de imagen del ejercicio</span><select id="visualMode"><option value="3d">Humano 3D · Imagen exacta del ejercicio</option></select></label>
  <label class="field"><span>Reemplazar por foto propia de este ejercicio</span><input type="file" id="customPose" accept="image/png,image/jpeg,image/webp" /></label>
  <button class="btn full" id="resetPhoto" type="button">Quitar foto personalizada</button>
- <p class="minihint">Los modelos 3D muestran inicio y final y se cargan desde una biblioteca pública con conexión. También podés subir una foto propia para cada ejercicio; el archivo queda guardado en tu rutina.</p>
+ <p class="minihint">Cada ejercicio del catálogo usa su propia ilustración 3D (inicio, final o postura fija). Requiere internet. Si falla la carga, se indica en pantalla y no se muestra una foto equivocada. Podés cargar una imagen propia.</p>
  <h2>04 · Guardar y compartir</h2>
  <div class="actions">
   <button class="btn accent full" id="print">Imprimir / Guardar PDF</button>
@@ -154,14 +158,23 @@ function pictureHTML(url,alt,fb){
   const esc=String(alt||'Ejercicio').replaceAll('"','&quot;');
   return `<img src="${url||fb}" loading="lazy" alt="${esc}" onerror="this.onerror=null;this.src='${fb}';"/>`;
 }
+function retryExerciseImage(image){
+ if(image.dataset.retry!=='yes'){image.dataset.retry='yes';image.src=image.dataset.altSrc;return;}
+ image.onerror=null;image.style.display='none';
+ const warning=image.nextElementSibling;if(warning)warning.hidden=false;
+}
 function scene(item){
   if(item.customImage)return `<div class="pose-pair custom">${pictureHTML(null,item.name,item.customImage)}</div>`;
   const fallback=fallbackPhoto(item);
-  if(routine.visualMode==='photo')return `<div class="pose-pair photo">${pictureHTML(null,item.name,fallback)}</div>`;
+  // Modo catálogo: la imagen pertenece al ejercicio, no se usan fotografías genéricas.
   const id=remoteId(item),frames=id?CATALOG_IMAGES[id]:null;
-  if(!frames?.length)return `<div class="pose-pair photo">${pictureHTML(null,item.name,fallback)}</div>`;
+  if(!frames?.length)return `<div class="missing-exercise-image"><b>ILUSTRACIÓN NO DISPONIBLE</b><span>Podés subir una imagen propia.</span></div>`;
   const labels={start:'INICIO',mid:'MOVIMIENTO',end:'FINAL',hold:'POSTURA'};
-  const pics=frames.map(({label,path})=>`<div class="pose-frame"><img src="${IMG_BASE+path}" loading="lazy" alt="${String(item.name||'').replaceAll('"','&quot;')} · ${labels[label]}" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.hidden=false;"/><span class="image-error" hidden>IMAGEN NO DISPONIBLE</span><small>${labels[label]||label.toUpperCase()}</small></div>`).join('');
+  const pics=frames.map(({label,path})=>{
+  const primary='https://cdn.jsdelivr.net/gh/MarvinNazari/exercise-images@main/'+path;
+  const alternate=IMG_BASE+path;
+  return `<div class="pose-frame"><img src="${primary}" data-alt-src="${alternate}" loading="eager" decoding="async" alt="${safe(item.name||'EJERCICIO')} · ${labels[label]}" onerror="retryExerciseImage(this)"/><span class="image-error" hidden><b>ILUSTRACIÓN NO DISPONIBLE</b><small>Revisá tu conexión o cargá una imagen propia</small></span><small>${labels[label]||label.toUpperCase()}</small></div>`;
+ }).join('');
   return `<div class="pose-pair ${frames.length===1?'pose-single':''} ${frames.length===3?'pose-triple':''}">${pics}</div>`;
 }
 function targetSVG(muscle){return `<div class="muscle-tag"><span class="orb">●</span><strong>${MUSCLE_LABELS[muscle]||muscle.toUpperCase()}</strong><small>MÚSCULO OBJETIVO</small></div>`;}
@@ -172,7 +185,7 @@ const deep = obj => JSON.parse(JSON.stringify(obj));
 const defaultItem = ()=>({name:'NOMBRE DEL EJERCICIO',series:'__',reps:'__/__/__',rest:'__ s.',pose:'stand',muscle:'chest',id:null});
 const defaultData = ()=>({visualMode:'3d',brand:'FEDE AGUIRRE',subbrand:'FITNESS',day:'1',group:'PECTORAL',student:'',date:'',accent:'#adff19',items:FIRST_DAY.items.map(x=>({...x,id:null}))});
 let routine=defaultData(),active=0;
-try {const stored=localStorage.getItem('fede-fitness-editor-v2');if(stored){let data=JSON.parse(stored);if(Array.isArray(data.items)&&data.items.length>0)routine={...routine,...data,items:data.items.slice(0,6)};}} catch(e){}
+try {const stored=localStorage.getItem('fede-fitness-editor-v2');if(stored){let data=JSON.parse(stored);if(Array.isArray(data.items)&&data.items.length>0)routine={...routine,...data,visualMode:'3d',items:data.items.slice(0,6)};}} catch(e){}
 function save(){try{localStorage.setItem('fede-fitness-editor-v2',JSON.stringify(routine));}catch(e){}}
 function safe(s){return String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
 function updatePoster(){
@@ -206,15 +219,16 @@ function toast(msg){const el=byId('toast');el.textContent=msg;el.style.display='
 for(const key of ['brand','subbrand','day','group','student','date','accent']){
  byId(key).value=routine[key]||'';byId(key).addEventListener('input',e=>{routine[key]=e.target.value;save();updatePoster()});
 }
-byId('visualMode').value=routine.visualMode||'3d';
-byId('visualMode').addEventListener('change',e=>{routine.visualMode=e.target.value;save();updatePoster()});
+routine.visualMode='3d';byId('visualMode').value='3d';
+byId('visualMode').addEventListener('change',()=>{routine.visualMode='3d';save();updatePoster()});
 byId('category').innerHTML='<option value="TODAS">Todas las categorías</option>'+CATEGORIES.map(c=>`<option value="${safe(c)}">${safe(c)}</option>`).join('');
 byId('category').addEventListener('change',()=>fillExerciseSelect());
 byId('search').addEventListener('input',()=>{byId('category').value='TODAS';fillExerciseSelect()});
 byId('exerciseSelect').addEventListener('change',e=>{
  const ex=EXERCISES.find(x=>x.id===e.target.value);if(!ex)return;
  Object.assign(routine.items[active],{name:ex.name.toUpperCase(),pose:ex.pose,muscle:ex.muscle,id:ex.id,customImage:null});
- byId('name').value=routine.items[active].name;save();updatePoster();toast('Ejercicio e ilustración actualizados');
+ routine.visualMode='3d';byId('visualMode').value='3d';
+ byId('name').value=routine.items[active].name;save();updatePoster();toast('Ilustración 3D de '+ex.name+' seleccionada');
 });
 for(const key of ['name','series','reps','rest'])byId(key).addEventListener('input',e=>{if(!routine.items[active])return;routine.items[active][key]=e.target.value;save();updatePoster()});
 
@@ -238,8 +252,8 @@ function printPoster(){window.print()}
 byId('print').addEventListener('click',printPoster);byId('print2').addEventListener('click',printPoster);
 byId('export').addEventListener('click',()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(routine,null,2)],{type:'application/json'}));a.download=`rutina_${(routine.group||'fitness').toLowerCase().replace(/[^a-z0-9]+/gi,'_')}_dia_${routine.day||'1'}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000);toast('Rutina guardada como archivo JSON')});
 byId('importButton').addEventListener('click',()=>byId('importFile').click());
-byId('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{let data=JSON.parse(await f.text());if(!Array.isArray(data.items)||data.items.length===0)throw Error('Datos incompletos');routine={...defaultData(),...data,items:data.items.slice(0,6)};active=0;for(const key of ['brand','subbrand','day','group','student','date','accent'])byId(key).value=routine[key]||'';byId('visualMode').value=routine.visualMode||'3d';save();selectRow(0);toast('Rutina cargada')}catch(e){toast('No pude abrir ese archivo JSON')}e.target.value=''});
-byId('example').addEventListener('click',()=>{routine=defaultData();active=0;for(const key of ['brand','subbrand','day','group','student','date','accent'])byId(key).value=routine[key]||'';byId('visualMode').value=routine.visualMode||'3d';save();selectRow(0);toast('Día 1 restaurado')});
+byId('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{let data=JSON.parse(await f.text());if(!Array.isArray(data.items)||data.items.length===0)throw Error('Datos incompletos');routine={...defaultData(),...data,visualMode:'3d',items:data.items.slice(0,6)};active=0;for(const key of ['brand','subbrand','day','group','student','date','accent'])byId(key).value=routine[key]||'';routine.visualMode='3d';byId('visualMode').value='3d';save();selectRow(0);toast('Rutina cargada')}catch(e){toast('No pude abrir ese archivo JSON')}e.target.value=''});
+byId('example').addEventListener('click',()=>{routine=defaultData();active=0;for(const key of ['brand','subbrand','day','group','student','date','accent'])byId(key).value=routine[key]||'';routine.visualMode='3d';byId('visualMode').value='3d';save();selectRow(0);toast('Día 1 restaurado')});
 byId('blank').addEventListener('click',()=>{routine={...routine,day:'__',group:'GRUPO MUSCULAR',student:'',date:'',items:Array.from({length:6},defaultItem)};byId('day').value=routine.day;byId('group').value=routine.group;byId('student').value='';byId('date').value='';active=0;save();selectRow(0);toast('Hoja en blanco lista para editar')});
 updatePoster();refreshEditors();
 </script>
