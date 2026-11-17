@@ -71,8 +71,8 @@ test('Luis updates include suited team hero, industrial photo and two contact ch
  const config=read('config.js'), page=read('index.html'),app=read('app.js'),admin=read('admin/index.html');
  assert.match(config,/heroImage:"\.\/hero-aprobada\.svg"/);
  assert.match(config,/teamImage:"\.\/assets\/equipo-ejecutivo\.svg"/);
- assert.match(config,/aboutImage:"\.\/assets\/patrullaje-industrial-hd\.svg"/);
- assert.match(config,/"\.\/assets\/patrullaje-industrial-hd\.svg",\s*"\.\/assets\/qr\.svg"/);
+ assert.match(config,/aboutImage:"\.\/assets\/patrullaje-industrial-limpio\.svg"/);
+ assert.match(config,/"\.\/assets\/patrullaje-industrial-limpio\.svg",\s*"\.\/assets\/qr\.svg"/);
  assert.match(read('assets/patrullaje-industrial-limpio.svg'),/data:image\/avif;base64,/);
  assert.match(page,/contactSecondaryPhone/);
  assert.match(page,/contactInstagram/);
