@@ -7,7 +7,7 @@ const defaults={
   heroLine2:"nuestra prioridad",
   heroDescription:"Vigilancia, protección de personas y bienes, control de accesos y prevención de riesgos. Soluciones adaptadas a empresas, establecimientos, barrios privados y eventos.",
   heroImage:"./hero-aprobada.svg",
-  aboutImage:"./assets/patrullaje-industrial.svg",
+  aboutImage:"./assets/patrullaje-industrial-hd.svg",
   teamImage:"./assets/equipo-ejecutivo.svg",
   gold:"#eeb24c", dark:"#070d13",
   aboutTitle:"Compromiso, experiencia y confianza",
@@ -87,7 +87,7 @@ const defaults={
   ],
   operationImages:[
     "./assets/rural.svg",
-    "./assets/patrullaje-industrial.svg",
+    "./assets/patrullaje-industrial-hd.svg",
     "./assets/qr.svg",
     "./assets/hotel.svg",
     "./assets/mercaderia.svg"
@@ -107,9 +107,11 @@ function read(){
   // Actualizar únicamente la imagen de ejemplo anterior; conservar imágenes personalizadas del administrador.
   if(saved.heroImage==='./assets/equipo-ejecutivo.svg')saved.heroImage='./hero-aprobada.svg';
   if(saved.teamImage==='./assets/qr.svg')saved.teamImage='./assets/equipo-ejecutivo.svg';
-  if(['./assets/accesos.svg','./assets/equipo-ejecutivo.svg'].includes(saved.aboutImage))saved.aboutImage='./assets/patrullaje-industrial.svg';
+  if(saved.aboutImage==='./assets/patrullaje-industrial.svg')saved.aboutImage='./assets/patrullaje-industrial-hd.svg';
+  if(Array.isArray(saved.operationImages)&&saved.operationImages[1]==='./assets/patrullaje-industrial.svg')saved.operationImages[1]='./assets/patrullaje-industrial-hd.svg';
+  if(['./assets/accesos.svg','./assets/equipo-ejecutivo.svg'].includes(saved.aboutImage))saved.aboutImage='./assets/patrullaje-industrial-hd.svg';
   if(Array.isArray(saved.operationImages)&&saved.operationImages[1]==='./assets/accesos.svg')
-    saved.operationImages[1]='./assets/patrullaje-industrial.svg';
+    saved.operationImages[1]='./assets/patrullaje-industrial-hd.svg';
   const data={...clone(),...saved};
   if(!Array.isArray(data.services)||data.services.length===0)data.services=clone().services;
   const baseServices=clone().services;
