@@ -45,8 +45,8 @@ test('the about section uses the patrol photograph requested by Luis with a bala
   assert.ok(image.includes('width="960" height="640"'));
   assert.ok(image.includes('data:image/webp;base64,'));
   assert.ok(image.length>20000);
-  assert.ok(config.includes('aboutImage:"./assets/patrullaje-industrial.svg"'));
-  assert.ok(get('assets/patrullaje-industrial.svg').includes('data:image/webp;base64,'));
+  assert.ok(config.includes('aboutImage:"./assets/patrullaje-industrial-hd.svg"'));
+  assert.ok(get('assets/patrullaje-industrial-hd.svg').includes('data:image/avif;base64,'));
   assert.ok(html.includes('class="editorial-photo about-photo"'));
   assert.ok(html.includes('class="about-qualities"'));
   assert.ok(css.includes('#nosotros .about-photo{'));
