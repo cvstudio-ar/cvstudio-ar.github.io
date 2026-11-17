@@ -11,8 +11,8 @@ export async function onRequestGet(context){
   const raw=await context.env.GESFIP_CONFIG.get('site-config');
   return respond({data:raw?JSON.parse(raw):null,configured:true});
 }
-const textKeys=['brand','eyebrow','heroLine1','heroLine2','heroDescription','heroImage','aboutImage','teamImage','gold','dark','aboutTitle','about','mission','history','teamDescription','phone','email','address'];
-const maxLen={brand:80,eyebrow:150,heroLine1:140,heroLine2:140,heroDescription:1000,heroImage:600,aboutImage:600,teamImage:600,gold:7,dark:7,aboutTitle:200,about:2000,mission:2000,history:2000,teamDescription:2200,phone:40,email:200,address:200};
+const textKeys=['brand','eyebrow','heroLine1','heroLine2','heroDescription','heroImage','aboutImage','teamImage','gold','dark','aboutTitle','about','mission','history','teamDescription','phone','secondaryPhone','instagram','email','address'];
+const maxLen={brand:80,eyebrow:150,heroLine1:140,heroLine2:140,heroDescription:1000,heroImage:600,aboutImage:600,teamImage:600,gold:7,dark:7,aboutTitle:200,about:2000,mission:2000,history:2000,teamDescription:2200,phone:40,secondaryPhone:40,instagram:30,email:200,address:200};
 function normalize(source){
   if(!source || typeof source!=='object' || Array.isArray(source))throw Error('Formato no válido');
   const output={};
@@ -31,6 +31,8 @@ function normalize(source){
   for(const key of ['heroImage','aboutImage','teamImage']){
     if(!safeImage(output[key]))throw Error('Imagen inválida: '+key);
   }
+  if(output.secondaryPhone && !/^[+\d\s()\-]{7,40}$/.test(output.secondaryPhone))throw Error('Segundo teléfono inválido');
+  if(output.instagram && !/^[a-zA-Z0-9._]{1,30}$/.test(output.instagram))throw Error('Usuario de Instagram inválido');
   if(output.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(output.email))throw Error('Correo inválido');
   if(!Array.isArray(source.services)||source.services.length<1||source.services.length>16)throw Error('Servicios inválidos');
   output.services=source.services.map(s=>{
