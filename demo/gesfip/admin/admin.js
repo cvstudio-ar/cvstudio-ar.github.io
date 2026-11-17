@@ -194,17 +194,17 @@
      short:String(s.short||'').slice(0,240),detail:String(s.detail||'').slice(0,1300),
      image:validUrl(s.image)?s.image:(api.defaults.services?.[index]?.image||'')
    }));
-   try{await api.persist(next);config=next;status(api.localMode()?'Guardado solo para esta demostración.':'Cambios guardados. Ya están disponibles para los visitantes.');}
+   try{await api.persist(next);config=next;status(api.localMode()?'Guardado en este navegador; los cambios compartidos se activarán en el dominio oficial.':'Cambios guardados. Ya están disponibles para los visitantes.');}
    catch(err){status(err?.message || 'No se pudo guardar. Revisá el acceso administrativo.')}
  });
  $('#resetConfig').addEventListener('click',async()=>{
    if(!confirm('¿Restablecer la vista de demostración en este navegador?'))return;
-   try{if(api.localMode()){api.reset();config=api.read()}else{await api.persist(api.defaults);config=api.defaults};fill();status('Se restauró el contenido inicial.')}catch(err){status(err?.message||'No se pudo restaurar.');}
+   try{if(api.localMode()){api.reset();config=api.read()}else{await api.persist(api.defaults);config=api.defaults};fill();status('Contenido inicial restaurado.')}catch(err){status(err?.message||'No se pudo restaurar.');}
  });
  $('#exportConfig').addEventListener('click',()=>{
    const text=JSON.stringify(config,null,2),blob=new Blob([text],{type:'application/json'});
    const url=URL.createObjectURL(blob),a=document.createElement('a');
-   a.href=url;a.download='gesfip-configuracion-demo.json';a.click();
+   a.href=url;a.download='gesfip-configuracion.json';a.click();
    setTimeout(()=>URL.revokeObjectURL(url),2000);
    status('Se descargó la configuración.');
  });
