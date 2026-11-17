@@ -31,11 +31,11 @@ test('styles have fluid containers and mobile breakpoints',()=>{
 });
 test('admin preserves local demo and supports authenticated persistent editing',()=>{
  const html=read('admin/index.html'),js=read('admin/admin.js');
- assert.match(html,/solo en tu navegador/);
+ assert.match(html,/únicamente en tu navegador/);
  assert.match(js,/api\.persist\(next\)/);
  assert.match(js,/api\.localMode\(\)/);
  assert.match(read('functions/api/admin/_middleware.js'),/cloudflareAccessPlugin/);
- assert.match(js,/Exportar|gesfip-configuracion-demo\.json/);
+ assert.match(js,/Exportar|gesfip-configuracion\.json/);
  assert.doesNotMatch(html+js+read('config.js'),/Cvstudio\*26/);
 });
 test('client-provided emblem is embedded as asset',()=>{
@@ -71,13 +71,23 @@ test('Luis updates include suited team hero, industrial photo and two contact ch
  const config=read('config.js'), page=read('index.html'),app=read('app.js'),admin=read('admin/index.html');
  assert.match(config,/heroImage:"\.\/hero-aprobada\.svg"/);
  assert.match(config,/teamImage:"\.\/assets\/equipo-ejecutivo\.svg"/);
- assert.match(config,/aboutImage:"\.\/assets\/patrullaje-industrial\.svg"/);
- assert.match(config,/"\.\/assets\/patrullaje-industrial\.svg",\s*"\.\/assets\/qr\.svg"/);
- assert.match(read('assets/patrullaje-industrial.svg'),/data:image\/webp;base64,/);
+ assert.match(config,/aboutImage:"\.\/assets\/patrullaje-industrial-hd\.svg"/);
+ assert.match(config,/"\.\/assets\/patrullaje-industrial-hd\.svg",\s*"\.\/assets\/qr\.svg"/);
+ assert.match(read('assets/patrullaje-industrial-hd.svg'),/data:image\/avif;base64,/);
  assert.match(page,/contactSecondaryPhone/);
  assert.match(page,/contactInstagram/);
  assert.match(app,/data-secondary-phone/);
  assert.match(app,/data-instagram/);
  assert.match(admin,/data-field="secondaryPhone"/);
  assert.match(admin,/data-field="instagram"/);
+});
+
+test('GESFIP publica el cierre definitivo con contactos ilustrados y sin carteles de demostración',()=>{
+ const html=read('index.html');
+ const css=read('styles.css');
+ for(const marker of ['contact-shell','contact-grid','contact-icon','footer-admin','contactPhone','contactAddress']) assert.ok(html.includes(marker),marker);
+ assert.doesNotMatch(html,/Propuesta de diseño de|Demostración visual|vista demostrativa/i);
+ assert.match(html,/Web desarrollada por/);
+ assert.match(css,/\.contact-tile/);
+ assert.match(css,/\.contact-icon svg/);
 });
