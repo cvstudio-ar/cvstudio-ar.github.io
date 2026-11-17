@@ -1,11 +1,11 @@
-// Datos explícitos del audio transcripto y el folleto enviado por la clienta.
+// Datos de los audios de Yamila. El folleto de muestra no es una oferta vigente ni se publica.
 // Horarios exactos, dirección y redes quedan vacíos hasta confirmación.
 export const defaults = {
   identity: {
     name: 'Espacio Yoga', claim: 'Salud · Equilibrio · Bienestar',
     heroEyebrow: 'UN ESPACIO PARA VOS',
-    heroTitle: 'Un momento de calma. Un espacio para volver a vos.',
-    heroText: 'Un encuentro con tu cuerpo, tu respiración y tu bienestar. Descubrí las propuestas de yoga y meditación de la profe Yamila, desde donde estés o de manera presencial.',
+    heroTitle: 'Un espacio para volver a vos.',
+    heroText: 'Un encuentro con tu cuerpo, tu respiración y tu bienestar. Descubrí las clases de yoga y meditación con Yamila, online o presencial.',
     introTitle: 'Tu espacio, tu tiempo, tu yoga.',
     introText: 'Cada práctica es una invitación a escucharte, moverte a tu ritmo y encontrar un momento propio. Hay opciones online y presenciales para que puedas elegir la modalidad que mejor te acompañe.',
     aboutTitle: 'Hola, soy Yamila',
@@ -15,15 +15,15 @@ export const defaults = {
     featuredTitle: 'Yoga desde donde estés',
     featuredText: 'Clases online de yoga terapéutico y yoga en silla. Una propuesta para todas las edades, para practicar sin preocuparte por el viaje.',
     featuredSchedule: 'Clases de una hora, dos veces por semana. Turnos por la mañana o por la tarde.',
-    featuredPrice: '25.000', featuredCurrency: 'ARS', featuredPriceNote: 'Valor publicado en el folleto. Consultá vigencia y disponibilidad.',
-    featuredVisible: true
+    featuredPrice: '', featuredCurrency: 'ARS', featuredPriceNote: 'Valor publicado en el folleto. Consultá vigencia y disponibilidad.',
+    featuredVisible: false
   },
   contact: {
     whatsapp: '1168711268', instagram: '', facebook: '', email: '', address: '', mapUrl: '',
     locationText: 'Consultá dónde se realizan las clases presenciales.',
     whatsappText: 'Hola Yamila, vi la web de Espacio Yoga y quisiera consultar por las clases.'
   },
-  design: { palette: 'lavanda', logo: '/demo/yamila-espacio-yoga/assets/emblema-yoga.webp', heroImage: '', aboutImage: '', flyerImage: '/demo/yamila-espacio-yoga/assets/folleto-yamila.webp' },
+  design: { palette: 'lavanda', logo: '/demo/yamila-espacio-yoga/assets/emblema-yoga.webp', heroImage: '/demo/yamila-espacio-yoga/assets/hero-practica.webp', aboutImage: '', flyerImage: '/demo/yamila-espacio-yoga/assets/folleto-yamila.webp' },
   sections: { services: true, modalities: true, about: true, featured: true, benefits: true, schedules: true, faq: true },
   seo: { title: 'Espacio Yoga | Salud, equilibrio y bienestar', description: 'Clases online y presenciales de yoga en silla, restaurativo, terapéutico y meditación con la profe Yamila.' },
   services: [
@@ -33,7 +33,7 @@ export const defaults = {
     { id:'meditacion', name:'Meditación', label:'Respirar y conectar', description:'Un espacio para detenerte, acompañar la respiración y cultivar la atención al presente.', mode:'online y presencial', image:'', visible:true, order:4 }
   ],
   classes: [
-    {id:'clase-online', title:'Yoga en silla y terapéutico', mode:'Online', duration:'60 minutos', frequency:'2 veces por semana', days:'', time:'Mañana o tarde', price:'$25.000', notes:'Consultá cupos y horarios disponibles.', visible:true, order:1},
+    {id:'clase-online', title:'Yoga en silla y terapéutico', mode:'Online', duration:'60 minutos', frequency:'2 veces por semana', days:'', time:'Mañana o tarde', price:'', notes:'Consultá cupos y horarios disponibles.', visible:true, order:1},
     {id:'clase-presencial', title:'Clases presenciales', mode:'Presencial', duration:'', frequency:'', days:'', time:'', price:'A consultar', notes:'Consultá ubicación, horarios y disponibilidad.', visible:true, order:2}
   ],
   benefits: [
