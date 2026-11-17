@@ -135,7 +135,7 @@ body.theme-teal{--accent:#2a8b83;--accent-deep:#216960;--accent-soft:#e6f5f3}bod
 @media(max-width:650px){.about-section > .container.about-layout{width:calc(100% - 32px)!important}}
 
 /* PI25: franja SOBRE NOSOTROS compacta. Altura editorial controlada en responsive. */
-.about-section{min-height:360px!important;padding:0!important;background-size:100% 100%,cover!important;background-position:center center,right center!important;background-repeat:no-repeat!important}
+.about-section{min-height:360px!important;padding:0!important;background-size:100% 100%,auto 100%!important;background-position:center center,right center!important;background-repeat:no-repeat!important}
 .about-section>.container.about-layout{min-height:360px!important;padding-top:27px!important;padding-bottom:27px!important;align-items:center!important}
 .about-section .about-copy{padding:0!important;max-width:750px!important}
 .about-section .about-copy h2{font-size:clamp(27px,2.35vw,44px)!important;line-height:1.14!important;margin:10px 0 13px!important}
@@ -252,7 +252,7 @@ INLINE_IMAGES['assets/about-soft.webp']='data:image/avif;base64,AAAAIGZ0eXBhdmlm
 
 // PI25_BANNER_COMPACT_20261117: composición panorámica a partir de la fotografía editorial
 // de alta resolución ya integrada; sin texto rasterizado ni marcos.
-const pi25CompactBannerSvg='<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="470" viewBox="0 0 1800 470"><defs><linearGradient id="warm" x1="0" y1=".1" x2="1" y2=".8"><stop stop-color="#fff9f4"/><stop offset=".58" stop-color="#ffefe6"/><stop offset="1" stop-color="#f5bfaf"/></linearGradient><linearGradient id="fade"><stop stop-color="#fff8f2" stop-opacity="1"/><stop offset=".35" stop-color="#fff8f2" stop-opacity=".95"/><stop offset=".65" stop-color="#fff8f2" stop-opacity=".3"/><stop offset="1" stop-color="#fff8f2" stop-opacity="0"/></linearGradient></defs><rect width="1800" height="470" fill="url(#warm)"/><image x="875" y="-60" width="950" height="620" preserveAspectRatio="xMidYMid slice" href="'+INLINE_IMAGES['assets/about-soft.webp']+'"/><rect width="1800" height="470" fill="url(#fade)"/></svg>';
+const pi25CompactBannerSvg='<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="470" viewBox="0 0 1800 470"><defs><linearGradient id="warm" x1="0" y1=".1" x2="1" y2=".8"><stop stop-color="#fff9f4"/><stop offset=".58" stop-color="#ffefe6"/><stop offset="1" stop-color="#f5bfaf"/></linearGradient><linearGradient id="fade"><stop stop-color="#fff8f2" stop-opacity="1"/><stop offset=".35" stop-color="#fff8f2" stop-opacity=".95"/><stop offset=".65" stop-color="#fff8f2" stop-opacity=".3"/><stop offset="1" stop-color="#fff8f2" stop-opacity="0"/></linearGradient></defs><rect width="1800" height="470" fill="url(#warm)"/><image x="0" y="0" width="1800" height="470" preserveAspectRatio="xMidYMid slice" href="'+INLINE_IMAGES['assets/about-soft.webp']+'"/><rect width="1800" height="470" fill="url(#fade)"/></svg>';
 INLINE_IMAGES['assets/about-panorama.webp']='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(pi25CompactBannerSvg);
 
 const DEFAULT_SETTINGS={
