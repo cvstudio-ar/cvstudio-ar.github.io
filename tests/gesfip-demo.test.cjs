@@ -69,7 +69,8 @@ test('admin displays the approved hero using its correct relative path',()=>{
 
 test('Luis updates include suited team hero, industrial photo and two contact channels',()=>{
  const config=read('config.js'), page=read('index.html'),app=read('app.js'),admin=read('admin/index.html');
- assert.match(config,/heroImage:"\.\/assets\/equipo-ejecutivo\.svg"/);
+ assert.match(config,/heroImage:"\.\/hero-aprobada\.svg"/);
+ assert.match(config,/teamImage:"\.\/assets\/equipo-ejecutivo\.svg"/);
  assert.match(config,/aboutImage:"\.\/assets\/patrullaje-industrial\.svg"/);
  assert.match(config,/"\.\/assets\/patrullaje-industrial\.svg",\s*"\.\/assets\/qr\.svg"/);
  assert.match(read('assets/patrullaje-industrial.svg'),/data:image\/webp;base64,/);

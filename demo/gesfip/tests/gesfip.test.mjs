@@ -15,7 +15,7 @@ test('GESFIP mantiene identidad y servicios aprobados',()=>{
   const site=mock.window.GESFIPDemo.read();
   assert.equal(site.brand,'GESFIP');
   assert.equal(site.services.length,8);
-  assert.equal(site.heroImage,'./assets/equipo-ejecutivo.svg');
+  assert.equal(site.heroImage,'./hero-aprobada.svg');
   assert.equal(site.gold,'#eeb24c');
 });
 test('las tarjetas usan ilustraciones vectoriales reales',()=>{
