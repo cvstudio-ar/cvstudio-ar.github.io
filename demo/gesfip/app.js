@@ -16,6 +16,9 @@
   text('#historyDescription',data.history);
   text('#teamDescription',data.teamDescription);
   text('#contactPhone',data.phone);
+  text('#contactSecondaryPhone',data.secondaryPhone);
+  text('#footerSecondaryPhone',data.secondaryPhone);
+  text('#contactInstagram',data.instagram ? '@'+data.instagram.replace(/^@/,'') : '');
   text('#footerPhone',data.phone);
   text('#contactEmail',data.email);
   text('#contactAddress',data.address);
@@ -39,6 +42,17 @@
   const cleanPhone=String(data.phone||'').replace(/\D/g,'');
   const wa=cleanPhone?('https://wa.me/'+(cleanPhone.startsWith('54')?cleanPhone:'549'+cleanPhone)):'#contacto';
   document.querySelectorAll('[data-whatsapp]').forEach(a=>a.href=wa);
+  const secondaryDigits=String(data.secondaryPhone||'').replace(/\D/g,'');
+  document.querySelectorAll('[data-secondary-phone]').forEach(el=>{
+    if(!secondaryDigits){el.hidden=true;return}
+    const full=secondaryDigits.startsWith('54')?secondaryDigits:'54'+secondaryDigits;
+    el.href='tel:+'+full;
+  });
+  const ig=String(data.instagram||'').replace(/^@/,'').trim();
+  document.querySelectorAll('[data-instagram]').forEach(el=>{
+    if(!/^[a-zA-Z0-9._]{1,30}$/.test(ig)){el.hidden=true;return}
+    el.href='https://www.instagram.com/'+ig+'/';
+  });
   document.querySelectorAll('[data-email]').forEach(a=>a.href='mailto:'+encodeURIComponent(data.email||'').replace('%40','@'));
   // Draw consistent outline icons instead of emoji placeholders.
   const iconPaths=[

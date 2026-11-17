@@ -6,8 +6,8 @@ const defaults={
   heroLine1:"Tu seguridad es",
   heroLine2:"nuestra prioridad",
   heroDescription:"Vigilancia, protección de personas y bienes, control de accesos y prevención de riesgos. Soluciones adaptadas a empresas, establecimientos, barrios privados y eventos.",
-  heroImage:"./hero-aprobada.svg",
-  aboutImage:"./assets/equipo-ejecutivo.svg",
+  heroImage:"./assets/equipo-ejecutivo.svg",
+  aboutImage:"./assets/patrullaje-industrial.svg",
   teamImage:"./assets/qr.svg",
   gold:"#eeb24c", dark:"#070d13",
   aboutTitle:"Compromiso, experiencia y confianza",
@@ -16,6 +16,8 @@ const defaults={
   about:"GESFIP es una empresa santafesina fundada en 2024 y especializada en seguridad física y protección de personas y bienes. Desarrollamos soluciones a medida, con prevención, planificación y atención responsable.",
   mission:"Proteger a las personas y sus bienes mediante servicios confiables, personal capacitado y procedimientos orientados a anticipar riesgos y responder de manera efectiva.",
   phone:"3424762303",
+  secondaryPhone:"3426510714",
+  instagram:"gesfip.samsbert",
   email:"gesfip.samsbert@gmail.com",
   address:"Santa Fe, Argentina",
   services:[
@@ -85,7 +87,7 @@ const defaults={
   ],
   operationImages:[
     "./assets/rural.svg",
-    "./assets/accesos.svg",
+    "./assets/patrullaje-industrial.svg",
     "./assets/qr.svg",
     "./assets/hotel.svg",
     "./assets/mercaderia.svg"
@@ -103,7 +105,10 @@ function read(){
     saved.heroImage.includes('/demo/gesfip/assets/gesfip-hero-approved.webp')
   )) saved.heroImage='./hero-aprobada.svg';
   // Actualizar únicamente la imagen de ejemplo anterior; conservar imágenes personalizadas del administrador.
-  if(saved.aboutImage==='./assets/accesos.svg')saved.aboutImage='./assets/equipo-ejecutivo.svg';
+  if(saved.heroImage==='./hero-aprobada.svg')saved.heroImage='./assets/equipo-ejecutivo.svg';
+  if(['./assets/accesos.svg','./assets/equipo-ejecutivo.svg'].includes(saved.aboutImage))saved.aboutImage='./assets/patrullaje-industrial.svg';
+  if(Array.isArray(saved.operationImages)&&saved.operationImages[1]==='./assets/accesos.svg')
+    saved.operationImages[1]='./assets/patrullaje-industrial.svg';
   const data={...clone(),...saved};
   if(!Array.isArray(data.services)||data.services.length===0)data.services=clone().services;
   const baseServices=clone().services;
