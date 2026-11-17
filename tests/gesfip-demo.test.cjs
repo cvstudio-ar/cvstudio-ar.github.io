@@ -62,7 +62,21 @@ test('admin displays the approved hero using its correct relative path',()=>{
   assert.ok(admin.includes("v.startsWith('./')?'../'+v.slice(2):v"));
   assert.ok(admin.includes("el.src=previewUrl(config.heroImage)"));
   assert.ok(config.includes("/demo/gesfip/assets/gesfip-hero-approved.webp"));
-  assert.ok(page.includes('config.js?v=gesfip-contenidos-20261116'));
-  assert.ok(page.includes('admin.js?v=gesfip-contenidos-20261116'));
+  assert.ok(page.includes('config.js?v=gesfip-luis-20261117'));
+  assert.ok(page.includes('admin.js?v=gesfip-luis-20261117'));
   assert.ok(read('hero-aprobada.svg').includes('data:image/webp;base64,'));
+});
+
+test('Luis updates include suited team hero, industrial photo and two contact channels',()=>{
+ const config=read('config.js'), page=read('index.html'),app=read('app.js'),admin=read('admin/index.html');
+ assert.match(config,/heroImage:"\.\/assets\/equipo-ejecutivo\.svg"/);
+ assert.match(config,/aboutImage:"\.\/assets\/patrullaje-industrial\.svg"/);
+ assert.match(config,/"\.\/assets\/patrullaje-industrial\.svg",\s*"\.\/assets\/qr\.svg"/);
+ assert.match(read('assets/patrullaje-industrial.svg'),/data:image\/webp;base64,/);
+ assert.match(page,/contactSecondaryPhone/);
+ assert.match(page,/contactInstagram/);
+ assert.match(app,/data-secondary-phone/);
+ assert.match(app,/data-instagram/);
+ assert.match(admin,/data-field="secondaryPhone"/);
+ assert.match(admin,/data-field="instagram"/);
 });
