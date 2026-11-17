@@ -36,7 +36,7 @@ test('existing safe modals and responsive layout are retained',()=>{
   assert.ok(css.includes('@media(max-width:460px)'));
 });
 
-test('the about section has its own team photograph and a balanced layout',()=>{
+test('the about section uses the patrol photograph requested by Luis with a balanced layout',()=>{
   const image=get('assets/equipo-ejecutivo.svg');
   const html=get('index.html');
   const css=get('styles.css');
@@ -45,7 +45,8 @@ test('the about section has its own team photograph and a balanced layout',()=>{
   assert.ok(image.includes('width="960" height="640"'));
   assert.ok(image.includes('data:image/webp;base64,'));
   assert.ok(image.length>20000);
-  assert.ok(config.includes('aboutImage:"./assets/equipo-ejecutivo.svg"'));
+  assert.ok(config.includes('aboutImage:"./assets/patrullaje-industrial.svg"'));
+  assert.ok(get('assets/patrullaje-industrial.svg').includes('data:image/webp;base64,'));
   assert.ok(html.includes('class="editorial-photo about-photo"'));
   assert.ok(html.includes('class="about-qualities"'));
   assert.ok(css.includes('#nosotros .about-photo{'));
