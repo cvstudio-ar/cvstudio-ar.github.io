@@ -74,7 +74,7 @@ body.theme-teal{--accent:#2a8b83;--accent-deep:#216960;--accent-soft:#e6f5f3}bod
 .floating-wa svg.wa-logo-clean{width:28px!important;height:28px!important;display:block;stroke:#fff;fill:none;stroke-width:unset;flex-shrink:0}
 .floating-wa svg.wa-logo-clean path{fill:#fff!important;stroke:none!important}
 .about-section{--about-cover:linear-gradient(105deg,#fff7f0,#e8c4b9);background-image:linear-gradient(90deg,rgba(255,248,241,.98) 0%,rgba(255,246,238,.97) 30%,rgba(255,247,240,.74) 49%,rgba(255,245,239,.02) 85%),var(--about-cover);background-size:cover;background-repeat:no-repeat;background-position:center center;min-height:525px;display:flex;align-items:center;overflow:hidden}
-.about-section .about-layout{width:100%;display:flex;align-items:center;justify-content:flex-start;min-height:525px;padding-top:85px;padding-bottom:85px}
+.about-section .about-layout{width:min(1800px,calc(100% - clamp(36px,7.1vw,128px)));max-width:1800px;margin-left:auto;margin-right:auto;display:flex;align-items:center;justify-content:flex-start;min-height:525px;padding-top:85px;padding-bottom:85px}
 .about-section .about-media{display:none!important}
 .about-section .about-copy{max-width:625px;width:57%;min-width:0;padding:0;position:relative}
 .about-section .about-copy h2{font-size:clamp(35px,3.55vw,61px);line-height:1.07;letter-spacing:-.045em;max-width:620px}
@@ -129,6 +129,10 @@ body.theme-teal{--accent:#2a8b83;--accent-deep:#216960;--accent-soft:#e6f5f3}bod
 .about-edit-actions{display:flex;gap:15px;align-items:center;flex-wrap:wrap;margin-top:14px}
 @media(max-width:750px){.about-section{background-size:100% 100%,auto 57%!important;background-position:center center,right bottom!important}}
 
+
+/* PI25: margen lateral corregido en Sobre nosotros */
+.about-section > .container.about-layout{width:min(1800px,calc(100% - clamp(36px,7.1vw,128px)))!important;max-width:1800px!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
+@media(max-width:650px){.about-section > .container.about-layout{width:calc(100% - 32px)!important}}
 </style>
 </head>
 <body>
