@@ -4,7 +4,7 @@ export const defaults = {
   identity: {
     name: 'Espacio Yoga', claim: 'Salud · Equilibrio · Bienestar',
     heroEyebrow: 'UN ESPACIO PARA VOS',
-    heroTitle: 'Un espacio para volver a vos.',
+    heroTitle: 'Un espacio para\nvolver a vos.',
     heroText: 'Un encuentro con tu cuerpo, tu respiración y tu bienestar. Descubrí las clases de yoga y meditación con Yamila, online o presencial.',
     introTitle: 'Tu espacio, tu tiempo, tu yoga.',
     introText: 'Cada práctica es una invitación a escucharte, moverte a tu ritmo y encontrar un momento propio. Hay opciones online y presenciales para que puedas elegir la modalidad que mejor te acompañe.',
