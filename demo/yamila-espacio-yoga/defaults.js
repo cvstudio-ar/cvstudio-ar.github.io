@@ -23,7 +23,7 @@ export const defaults = {
     locationText: 'Consultá dónde se realizan las clases presenciales.',
     whatsappText: 'Hola Yamila, vi la web de Espacio Yoga y quisiera consultar por las clases.'
   },
-  design: { palette: 'lavanda', logo: '/demo/yamila-espacio-yoga/assets/emblema-yoga.webp', heroImage: '/demo/yamila-espacio-yoga/assets/hero-practica.webp', aboutImage: '', flyerImage: '/demo/yamila-espacio-yoga/assets/folleto-yamila.webp' },
+  design: { palette: 'lavanda', logo: '/demo/yamila-espacio-yoga/assets/emblema-yoga.webp', heroImage: '/demo/yamila-espacio-yoga/assets/yoga-portada-limpia.webp', aboutImage: '', flyerImage: '/demo/yamila-espacio-yoga/assets/folleto-yamila.webp' },
   sections: { services: true, modalities: true, about: true, featured: true, benefits: true, schedules: true, faq: true },
   seo: { title: 'Espacio Yoga | Salud, equilibrio y bienestar', description: 'Clases online y presenciales de yoga en silla, restaurativo, terapéutico y meditación con la profe Yamila.' },
   services: [
