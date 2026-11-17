@@ -6,9 +6,9 @@ const defaults={
   heroLine1:"Tu seguridad es",
   heroLine2:"nuestra prioridad",
   heroDescription:"Vigilancia, protección de personas y bienes, control de accesos y prevención de riesgos. Soluciones adaptadas a empresas, establecimientos, barrios privados y eventos.",
-  heroImage:"./assets/equipo-ejecutivo.svg",
+  heroImage:"./hero-aprobada.svg",
   aboutImage:"./assets/patrullaje-industrial.svg",
-  teamImage:"./assets/qr.svg",
+  teamImage:"./assets/equipo-ejecutivo.svg",
   gold:"#eeb24c", dark:"#070d13",
   aboutTitle:"Compromiso, experiencia y confianza",
   teamDescription:"GESFIP está liderada por personal militar retirado del Ejército Argentino y oficiales retirados de la Policía Federal Argentina. El equipo combina formación en seguridad pública, protección de personas, análisis de riesgos e instructores que desarrollan capacitaciones periódicas.",
@@ -105,7 +105,8 @@ function read(){
     saved.heroImage.includes('/demo/gesfip/assets/gesfip-hero-approved.webp')
   )) saved.heroImage='./hero-aprobada.svg';
   // Actualizar únicamente la imagen de ejemplo anterior; conservar imágenes personalizadas del administrador.
-  if(saved.heroImage==='./hero-aprobada.svg')saved.heroImage='./assets/equipo-ejecutivo.svg';
+  if(saved.heroImage==='./assets/equipo-ejecutivo.svg')saved.heroImage='./hero-aprobada.svg';
+  if(saved.teamImage==='./assets/qr.svg')saved.teamImage='./assets/equipo-ejecutivo.svg';
   if(['./assets/accesos.svg','./assets/equipo-ejecutivo.svg'].includes(saved.aboutImage))saved.aboutImage='./assets/patrullaje-industrial.svg';
   if(Array.isArray(saved.operationImages)&&saved.operationImages[1]==='./assets/accesos.svg')
     saved.operationImages[1]='./assets/patrullaje-industrial.svg';
