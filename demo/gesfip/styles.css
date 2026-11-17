@@ -550,3 +550,84 @@ body{overflow-x:hidden}
   #servicios .service {background-size:cover,auto 150%;}
   #operaciones .op.op-photo {background-size:cover,auto 160%;}
 }
+
+
+/* GESFIP | Contacto y cierre definitivo: identidad azul noche + dorado. */
+.contact-section{position:relative;overflow:hidden;padding:clamp(56px,7vw,104px) 0 58px!important;background:#08111d!important}
+.contact-section::before{
+  content:"";pointer-events:none;position:absolute;inset:0;
+  background:radial-gradient(ellipse 55% 80% at 95% 15%,rgba(183,126,46,.13),transparent 75%),
+             radial-gradient(ellipse 45% 80% at 0% 100%,rgba(52,106,145,.14),transparent 75%);
+}
+.contact-shell{isolation:isolate;position:relative;border:1px solid rgba(238,178,76,.32);border-radius:25px;overflow:hidden;
+  background:linear-gradient(115deg,rgba(18,31,47,.94),rgba(7,15,25,.98) 58%,rgba(15,27,39,.97));
+  box-shadow:0 32px 80px rgba(0,0,0,.28);padding:clamp(24px,4.7vw,60px)}
+.contact-shell::before{
+ content:"";pointer-events:none;position:absolute;inset:0;opacity:.32;
+ background-image:repeating-linear-gradient(35deg,transparent 0,transparent 65px,rgba(238,178,76,.065) 66px,transparent 67px),
+   radial-gradient(ellipse at 98% 0%,rgba(238,178,76,.22),transparent 45%);
+}
+.contact-shell::after{content:"";pointer-events:none;position:absolute;right:-75px;top:22px;width:clamp(160px,23vw,280px);
+ height:clamp(160px,23vw,280px);opacity:.1;background:url('./logo.svg') center/contain no-repeat;filter:sepia(1) saturate(3)}
+.contact-topline,.contact-intro,.contact-grid,.contact-footnote{position:relative;z-index:1}
+.contact-topline{display:flex;justify-content:space-between;align-items:center;gap:18px}
+.contact-security-mark{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.16em;font-weight:750;color:#d4b878}
+.contact-security-mark svg{height:24px;width:24px;color:var(--gold)}
+.contact-intro{display:flex;justify-content:space-between;align-items:end;gap:32px;margin:25px 0 32px}
+.contact-intro>div{max-width:690px}
+.contact-section h2{font-size:clamp(32px,3.8vw,56px);line-height:1.1;font-weight:620;letter-spacing:-.035em;margin:0 0 17px}
+.contact-intro .lead{margin:0;max-width:610px;font-size:clamp(14px,1.2vw,17px);line-height:1.6;color:#c4d1dd}
+.contact-main-action{min-height:54px;white-space:nowrap;box-shadow:0 0 0 5px rgba(238,178,76,.07)}
+.contact-main-action svg{width:18px;height:18px;flex-shrink:0}
+.contact-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.contact-tile{min-width:0;grid-column:span 2;display:flex;gap:14px;align-items:center;position:relative;
+ border:1px solid rgba(238,178,76,.18);border-radius:16px;background:rgba(13,26,39,.91);
+ padding:19px 17px;text-decoration:none;color:#e8f0f5;transition:border-color .2s,background .2s,transform .2s}
+.contact-tile:nth-child(n+4){grid-column:span 3}
+.contact-tile:is(a):hover{border-color:rgba(238,178,76,.65);background:#172a3d;transform:translateY(-2px)}
+.contact-tile:is(a):focus-visible{outline:2px solid #f2c46b;outline-offset:3px}
+.contact-icon{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;border-radius:13px;
+ color:#f3c768;background:linear-gradient(135deg,rgba(238,178,76,.19),rgba(238,178,76,.05));border:1px solid rgba(238,178,76,.36)}
+.contact-icon svg{width:25px;height:25px;stroke-width:1.9}
+.contact-tile-info{min-width:0;display:grid;gap:5px}
+.contact-tile-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#e4bd76;font-weight:800}
+.contact-tile-info strong{font-size:clamp(14px,1.25vw,17px);font-weight:690;letter-spacing:-.015em;overflow-wrap:anywhere}
+.contact-tile-info small{font-size:11px;line-height:1.4;color:#b1c0ca}
+.contact-arrow{color:var(--gold);position:absolute;right:12px;top:11px;font-size:17px;opacity:.74}
+.contact-footnote{display:flex;align-items:center;gap:18px;margin-top:28px;font-size:11px;letter-spacing:.09em;
+ text-transform:uppercase;font-weight:650;color:#b69c71}
+.contact-footnote-rule{display:block;flex:0 0 52px;height:1px;background:var(--gold)}
+footer{padding:28px 0!important;background:#050b12!important;border-top:1px solid rgba(238,178,76,.32)}
+footer .footer-in{align-items:center;gap:24px}
+footer .brand{display:flex;align-items:center;gap:12px}
+footer .brand .mark{width:45px;height:45px;flex:0 0 45px}
+footer .brand small{color:#bbc4cd}
+footer .footer-center small{margin:4px 0!important;color:#b9c8d3;font-size:12px}
+footer .footer-center a{color:#f1bc57;text-decoration:none}
+footer .footer-center a:hover{text-decoration:underline}
+footer .footer-admin a{display:inline-flex;align-items:center;min-height:36px;padding:8px 15px;border:1px solid rgba(238,178,76,.29);
+ border-radius:999px;color:#d6b681;text-decoration:none;font-size:12px;transition:background .2s}
+footer .footer-admin a:hover{background:rgba(238,178,76,.12);color:#f9d181}
+@media(max-width:1140px){
+ .contact-intro{flex-direction:column;align-items:flex-start}
+ .contact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .contact-tile,.contact-tile:nth-child(n+4){grid-column:span 1}
+}
+@media(max-width:680px){
+ .contact-section{padding:42px 0 35px!important}
+ .contact-shell{padding:23px 18px;border-radius:17px}
+ .contact-intro{margin:20px 0 25px;gap:20px}
+ .contact-section h2{font-size:clamp(28px,7.4vw,38px)}
+ .contact-section h2 br{display:none}
+ .contact-main-action{width:100%;min-height:48px}
+ .contact-security-mark{font-size:9px;letter-spacing:.08em}
+ .contact-grid{grid-template-columns:minmax(0,1fr);gap:9px}
+ .contact-tile,.contact-tile:nth-child(n+4){grid-column:auto;padding:14px 13px}
+ .contact-icon{width:43px;height:43px;flex-basis:43px}
+ .contact-icon svg{width:22px;height:22px}
+ .contact-tile-info strong{font-size:15px}
+ .contact-footnote{margin-top:22px;font-size:9px;letter-spacing:.04em}
+ .contact-footnote-rule{flex-basis:25px}
+ footer .footer-in{display:grid;grid-template-columns:1fr;justify-items:start;gap:14px}
+ footer .footer-center small{font-size:11px}
+}
