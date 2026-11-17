@@ -631,3 +631,161 @@ footer .footer-admin a:hover{background:rgba(238,178,76,.12);color:#f9d181}
  footer .footer-in{display:grid;grid-template-columns:1fr;justify-items:start;gap:14px}
  footer .footer-center small{font-size:11px}
 }
+
+
+/* GESFIP · Cierre sobrio solicitado: sin tarjetas, botones extras ni ilustración de fondo.
+ * Solo tipografía, enlaces y símbolos vectoriales dorados. */
+#contacto.contact-section {
+  background:#090f18!important;
+  padding:clamp(54px,6vw,90px) 0 clamp(42px,5vw,72px)!important;
+}
+#contacto.contact-section::before,
+#contacto .contact-shell::before,
+#contacto .contact-shell::after {
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+#contacto .contact-shell {
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  overflow:visible!important;
+}
+#contacto .contact-topline {
+  justify-content:flex-start;
+  gap:clamp(18px,4vw,58px);
+  flex-wrap:wrap;
+}
+#contacto .contact-security-mark {
+  color:#e8c788;
+  letter-spacing:.09em;
+}
+#contacto .contact-security-mark svg {
+  color:#f2b94c;
+}
+#contacto .contact-intro {
+  display:block!important;
+  max-width:850px;
+  margin:28px 0 34px!important;
+}
+#contacto .contact-intro h2 {
+  font-size:clamp(32px,3.7vw,51px);
+  max-width:760px;
+  line-height:1.12;
+}
+#contacto .contact-intro .lead {
+  max-width:720px;
+  color:#c6d1da;
+}
+#contacto .contact-grid {
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:clamp(22px,2.5vw,38px) clamp(22px,3.5vw,58px)!important;
+  padding:0!important;
+  margin:0!important;
+}
+#contacto .contact-tile,
+#contacto .contact-tile:nth-child(n+4) {
+  grid-column:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:13px!important;
+  min-height:55px;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  color:#f0f3f7!important;
+  text-decoration:none;
+  transition:color .18s ease;
+  transform:none!important;
+}
+#contacto a.contact-tile:hover {
+  color:#f5c467!important;
+  background:none!important;
+  transform:none!important;
+}
+#contacto a.contact-tile:focus-visible {
+  outline:2px solid #f1c067;
+  outline-offset:6px;
+}
+#contacto .contact-icon {
+  flex:0 0 38px!important;
+  width:38px!important;
+  height:38px!important;
+  display:grid;
+  place-items:center;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  color:#f4bd55!important;
+}
+#contacto .contact-icon svg {
+  display:block;
+  width:28px!important;
+  height:28px!important;
+  color:#f4bd55!important;
+  stroke:#f4bd55!important;
+  stroke-width:1.9;
+  filter:drop-shadow(0 0 1.5px rgba(246,187,86,.15));
+}
+#contacto .contact-tile-info {
+  display:grid;
+  min-width:0;
+  gap:3px;
+}
+#contacto .contact-tile-label {
+  font-size:10px;
+  color:#edbe63;
+  letter-spacing:.12em;
+}
+#contacto .contact-tile-info strong {
+  font-size:clamp(14px,1.1vw,17px);
+  font-weight:650;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+}
+#contacto .contact-tile-info small {
+  color:#aebdc7;
+  font-size:11px;
+}
+#contacto .contact-arrow {display:none!important}
+#contacto .contact-footnote {
+  margin-top:clamp(30px,4vw,48px);
+  letter-spacing:.08em;
+  color:#bda576;
+}
+footer .footer-admin a {
+  min-height:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#edbe63!important;
+}
+footer .footer-admin a:hover {
+  text-decoration:underline;
+  color:#ffd989!important;
+  background:transparent!important;
+}
+@media (max-width:980px) {
+  #contacto .contact-grid {grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media (max-width:620px) {
+  #contacto.contact-section {padding:42px 0 38px!important}
+  #contacto .contact-topline {gap:10px}
+  #contacto .contact-security-mark {font-size:8px}
+  #contacto .contact-intro {margin:22px 0 28px!important}
+  #contacto .contact-intro h2 {font-size:clamp(28px,7vw,38px)}
+  #contacto .contact-grid {grid-template-columns:minmax(0,1fr)!important;gap:22px!important}
+  #contacto .contact-icon {flex-basis:32px!important;width:32px!important;height:32px!important}
+  #contacto .contact-icon svg {width:25px!important;height:25px!important}
+  #contacto .contact-tile-info strong {font-size:15px}
+}

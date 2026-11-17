@@ -7,7 +7,7 @@ const defaults={
   heroLine2:"nuestra prioridad",
   heroDescription:"Vigilancia, protección de personas y bienes, control de accesos y prevención de riesgos. Soluciones adaptadas a empresas, establecimientos, barrios privados y eventos.",
   heroImage:"./hero-aprobada.svg",
-  aboutImage:"./assets/patrullaje-industrial-hd.svg",
+  aboutImage:"./assets/patrullaje-industrial-limpio.svg",
   teamImage:"./assets/equipo-ejecutivo.svg",
   gold:"#eeb24c", dark:"#070d13",
   aboutTitle:"Compromiso, experiencia y confianza",
@@ -87,7 +87,7 @@ const defaults={
   ],
   operationImages:[
     "./assets/rural.svg",
-    "./assets/patrullaje-industrial-hd.svg",
+    "./assets/patrullaje-industrial-limpio.svg",
     "./assets/qr.svg",
     "./assets/hotel.svg",
     "./assets/mercaderia.svg"
@@ -112,6 +112,12 @@ function read(){
   if(['./assets/accesos.svg','./assets/equipo-ejecutivo.svg'].includes(saved.aboutImage))saved.aboutImage='./assets/patrullaje-industrial-hd.svg';
   if(Array.isArray(saved.operationImages)&&saved.operationImages[1]==='./assets/accesos.svg')
     saved.operationImages[1]='./assets/patrullaje-industrial-hd.svg';
+  // Migrar SOLO imágenes antiguas de esta revisión; conservar reemplazos del administrador.
+  const historicImages=['./assets/patrullaje-industrial.svg','./assets/patrullaje-industrial-hd.svg'];
+  if(historicImages.includes(saved.aboutImage))
+    saved.aboutImage='./assets/patrullaje-industrial-limpio.svg';
+  if(Array.isArray(saved.operationImages)&&historicImages.includes(saved.operationImages[1]))
+    saved.operationImages[1]='./assets/patrullaje-industrial-limpio.svg';
   const data={...clone(),...saved};
   if(!Array.isArray(data.services)||data.services.length===0)data.services=clone().services;
   const baseServices=clone().services;
