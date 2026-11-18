@@ -33,3 +33,10 @@ jobs:
           grep -Fq -- "--exclude 'WORKER_CVSTUDIO_CONTACTO_ESTABLE.js'" .github/workflows/pages.yml
           grep -Fq -- "--exclude 'centro-operaciones-prueba/panel-*.html'" .github/workflows/pages.yml
           grep -Fq -- "--exclude 'js/siac-loader 1.js'" .github/workflows/pages.yml
+          # Regression checks: production publication must reject sensitive files.
+          grep -Fq -- "--exclude '.env'" .github/workflows/pages.yml
+          grep -Fq -- "--exclude '.env.*'" .github/workflows/pages.yml
+          grep -Fq -- "--exclude '.dev.vars'" .github/workflows/pages.yml
+          grep -Fq -- "--exclude '*.pem'" .github/workflows/pages.yml
+          grep -Fq -- "--exclude '*.key'" .github/workflows/pages.yml
+          grep -Fq -- "BLOCKED: sensitive file pattern" .github/workflows/pages.yml
