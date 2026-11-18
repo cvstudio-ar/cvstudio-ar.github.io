@@ -132,3 +132,51 @@ body[data-palette="wine"] .hero-texture{
 @media (min-width:760px) and (max-width:1499px){.services-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (min-width:520px) and (max-width:759px){.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:519px){.services-grid{grid-template-columns:1fr}}
+
+/* Portada panorámica 2026: foto completa, transición integrada sin marcos */
+.hero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(112deg,#0b1825 0%,#192a3b 72%,#142333 100%)}
+.hero .hero-texture{z-index:0;background:radial-gradient(ellipse at 5% 90%,rgba(198,160,105,.1),transparent 60%),linear-gradient(90deg,#0b1825 0%,#142637 60%,#182b3d 100%)!important}
+.hero .hero-layout{position:relative;display:block;min-height:clamp(520px,37vw,700px)}
+.hero .hero-content{position:relative;z-index:3;width:min(53%,900px);padding:clamp(70px,6.8vw,120px) 0;min-height:clamp(520px,37vw,700px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.hero .hero-content h1{font-size:clamp(37px,3.25vw,63px);line-height:1.18;max-width:780px}
+.hero .hero-content p{max-width:720px}
+.hero .hero-image{position:absolute;z-index:1;top:0;right:calc(-1 * max(clamp(16px,2.5vw,56px), (100vw - 1920px)/2));width:min(73vw,1340px);height:100%;min-height:0;overflow:visible;border:0;border-radius:0;box-shadow:none;margin:0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.3) 16%,#000 42%,#000 100%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.3) 16%,#000 42%,#000 100%)}
+.hero .hero-image>img{position:absolute;inset:0 0 0 auto;width:100%;height:100%;object-fit:contain;object-position:right center;filter:none;border:0;border-radius:0;image-rendering:auto}
+.hero .hero-image:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0f2031 0%,transparent 28%,transparent 85%,rgba(12,23,34,.08) 100%),linear-gradient(0deg,rgba(13,26,39,.35),transparent 18%,transparent 85%,rgba(13,26,39,.18))}
+.hero .hero-image-label{display:none}
+body[data-palette="wine"] .hero{background:#2b1c2a}
+body[data-palette="wine"] .hero .hero-texture{background:linear-gradient(90deg,#2b1c2a,#4a303d)!important}
+body[data-palette="wine"] .hero .hero-image:after{background:linear-gradient(90deg,#2b1c2a 0%,transparent 30%),linear-gradient(0deg,rgba(43,28,42,.28),transparent 25%)}
+@media(max-width:1100px) and (min-width:701px){
+ .hero .hero-content{width:58%}
+ .hero .hero-image{width:72vw}
+ .hero .hero-content h1{font-size:clamp(32px,3.9vw,46px)}
+}
+@media(max-width:700px){
+ .hero .hero-layout{min-height:0;display:flex;flex-direction:column}
+ .hero .hero-content{min-height:0;width:100%;padding:57px 0 32px}
+ .hero .hero-content h1{font-size:clamp(33px,8vw,47px);max-width:680px}
+ .hero .hero-image{position:relative;top:auto;right:auto;width:calc(100% + 44px);height:auto;min-height:0;aspect-ratio:1672/941;margin:0 -22px;overflow:hidden;border:0;border-radius:0;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 21%,#000 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 21%,#000 100%)}
+ .hero .hero-image>img{position:relative;width:100%;height:auto;object-fit:contain}
+ .hero .hero-image:after{background:linear-gradient(180deg,#0b1825 0%,transparent 24%)}
+ body[data-palette="wine"] .hero .hero-image:after{background:linear-gradient(180deg,#2b1c2a 0%,transparent 24%)}
+}
+@media(min-width:701px) and (max-width:900px){.hero .hero-content{width:56%}.hero .hero-content h1{font-size:35px}}
+/* Reseñas: enlace al perfil oficial sin inventar reseñas, autores ni puntuaciones */
+.google-reviews{padding:clamp(55px,5.6vw,100px) 0;background:#f3f0ea}
+.reviews-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,5vw,110px);align-items:center}
+.reviews-heading h2{font:400 clamp(31px,3vw,52px)/1.2 var(--title);margin:14px 0 17px;letter-spacing:-.035em}
+.reviews-heading p{font-size:clamp(16px,1.25vw,19px);color:#55606c;line-height:1.8;max-width:725px;margin-bottom:25px}
+.reviews-button{box-shadow:0 8px 20px rgba(13,28,38,.13)}
+.google-reviews-card{background:#fff;border:1px solid #e2dacd;border-radius:22px;padding:clamp(26px,3.3vw,54px);box-shadow:0 15px 40px rgba(17,34,52,.075);min-width:0}
+.reviews-google-brand{display:flex;align-items:center;gap:13px;color:#617083;font-size:14px}
+.reviews-google-brand strong{color:#233347}
+.google-g{font:bold 41px/1 "DM Sans",sans-serif;background:conic-gradient(#4285f4 0 95deg,#34a853 95deg 175deg,#fbbc05 175deg 255deg,#ea4335 255deg 320deg,#4285f4 320deg);-webkit-background-clip:text;background-clip:text;color:transparent}
+.review-line{height:1px;background:#e8e4de;margin:21px 0 23px}
+.reviews-card-icon{color:#b18a56;width:52px;height:52px}
+.reviews-card-icon svg{width:52px;height:52px}
+.google-reviews-card h3{font:400 clamp(21px,1.9vw,29px)/1.3 var(--title);margin:18px 0 12px}
+.google-reviews-card p{color:#566473;line-height:1.75;margin:0 0 20px;font-size:15px}
+.google-reviews-card>a{display:inline-flex;align-items:center;gap:8px;border-bottom:1px solid #b18a56;padding-bottom:5px;color:#6d522f;font-weight:800;font-size:14px}
+.google-reviews-card>a:hover{color:#0c2031}
+@media(max-width:830px){.reviews-layout{grid-template-columns:1fr;gap:30px}.google-reviews-card{max-width:650px}}

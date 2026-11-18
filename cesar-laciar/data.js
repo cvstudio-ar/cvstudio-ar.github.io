@@ -10,7 +10,7 @@ const initial={
  journeyTitle:'Trayectoria y confianza',journeyText:'Experiencia profesional, compromiso, atención y confidencialidad. Esta sección se completará con los antecedentes que nos indique el estudio.',
  location:'P. Noguera 831',city:'San Antonio de Padua, Buenos Aires',hours:'Horarios de atención a confirmar',
  phone:'+54 9 11 3826-7865',whatsapp:'5491138267865',email:'',instagram:'https://www.instagram.com/cesarlaciar_abog/',facebook:'',linkedin:'',maps:'',
- palette:'navy',cover:'assets/cesar-referencia.webp',
+ palette:'navy',cover:'assets/oficina-panoramica.webp',googleReviewsUrl:'https://share.google/UhSWFRwfFrRvYHRrx',
  services:[
  {name:'Civil y Comercial',description:'Consultas, contratos y asuntos civiles y comerciales.'},
  {name:'Penal',description:'Orientación jurídica y consultas en materia penal.'},
@@ -20,7 +20,7 @@ const initial={
  {name:'Accidentes de Tránsito',description:'Reclamos por choques, lesiones, daños materiales y siniestros viales en CABA y GBA.'}
  ]
 };
-function getData(){try{const value=JSON.parse(localStorage.getItem(KEY));if(value&&typeof value==='object'){const services=Array.isArray(value.services)?value.services.slice():initial.services.slice();if(!services.some(s=>/accidentes\s+de\s+tr[aá]nsito/i.test(s?.name||''))){services.push(initial.services.find(s=>s.name==='Accidentes de Tránsito'))}return {...initial,...value,services}}}catch{}return structuredClone(initial)}
+function getData(){try{const value=JSON.parse(localStorage.getItem(KEY));if(value&&typeof value==='object'){const services=Array.isArray(value.services)?value.services.slice():initial.services.slice();if(!services.some(s=>/accidentes\s+de\s+tr[aá]nsito/i.test(s?.name||''))){services.push(initial.services.find(s=>s.name==='Accidentes de Tránsito'))}return {...initial,...value,cover:value.cover==='assets/cesar-referencia.webp'?initial.cover:(value.cover||initial.cover),services}}}catch{}return structuredClone(initial)}
 function saveData(value){localStorage.setItem(KEY,JSON.stringify(value));}
 function clean(text){return String(text??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function safeUrl(url){try{const parsed=new URL(url);return ['https:','http:'].includes(parsed.protocol)?parsed.href:'#'}catch{return '#'}}
