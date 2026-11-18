@@ -42,4 +42,5 @@ jobs:
           grep -Fq -- "--exclude '.dev.vars'" .github/workflows/pages.yml
           grep -Fq -- "--exclude '*.pem'" .github/workflows/pages.yml
           grep -Fq -- "--exclude '*.key'" .github/workflows/pages.yml
+          grep -Fq -- "if: github.actor == 'cvstudio-ar' && github.ref == 'refs/heads/main'" .github/workflows/pages.yml
           grep -Fq -- "BLOCKED: sensitive file pattern" .github/workflows/pages.yml
