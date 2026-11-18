@@ -67,7 +67,7 @@ const cfg=window.EVANS_CONFIG, fallback=window.EVANS_DEFAULT;
 const $=id=>document.getElementById(id);
 const tabs={inicio:['Portada principal','Definí el mensaje inicial que verá cada visitante.'],estudio:['Sobre el estudio','Presentá la identidad, el enfoque y la matrícula profesional.'],servicios:['Áreas de práctica','Actualizá los servicios que presta el estudio.'],valores:['Compromiso','Cómo acompañamos cada consulta.'],proceso:['Cómo trabajamos','Explicá cada etapa del proceso.'],contacto:['Contacto y redes','Actualizá los medios por los que pueden encontrarte.'],apariencia:['Apariencia e imágenes','Mantené la identidad visual y la foto del profesional.'],faqs:['Preguntas frecuentes','Editá las preguntas, sus respuestas y agregá nuevas entradas cuando lo necesites.'],respaldo:['Respaldo y exportación','Descargá una copia del contenido de la web.']};
 let state=structuredClone(fallback),session=null,ready=false,dirty=false,saving=false,demoMode=false;
-const DEMO_USER='DemoEvans', DEMO_PASS='EvansDemo2026!', DEMO_DRAFT_KEY='evans_demo_draft_v1', DEMO_SESSION_KEY='evans_demo_mode';
+const DEMO_USER='DemoEvans', DEMO_PASS='EvansDemo2026!', DEMO_DRAFT_KEY='evans_demo_draft_v2', DEMO_SESSION_KEY='evans_demo_mode';
 const setText=(id,v)=>{if($(id))$(id).textContent=v};
 function message(text,isError=false,element='editor-message'){const el=$(element);el.textContent=text;el.className='message show'+(isError?' error':'');}
 function clearMessage(element='editor-message'){const el=$(element);el.textContent='';el.className='message'}
