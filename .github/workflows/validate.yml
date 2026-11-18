@@ -25,6 +25,9 @@ jobs:
             node --check /tmp/cvstudio-worker-check.mjs
           done
 
+      - name: Block accidental credential leaks
+        run: node scripts/scan-secrets.cjs
+
       - name: Verify internal sources are excluded from GitHub Pages
         shell: bash
         run: |
