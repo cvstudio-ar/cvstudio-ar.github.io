@@ -180,3 +180,61 @@ body[data-palette="wine"] .hero .hero-image:after{background:linear-gradient(90d
 .google-reviews-card>a{display:inline-flex;align-items:center;gap:8px;border-bottom:1px solid #b18a56;padding-bottom:5px;color:#6d522f;font-weight:800;font-size:14px}
 .google-reviews-card>a:hover{color:#0c2031}
 @media(max-width:830px){.reviews-layout{grid-template-columns:1fr;gap:30px}.google-reviews-card{max-width:650px}}
+
+/* 2026-11-18 · Foto panorámica definitiva con transición suave, sin uniones visibles.
+   La foto queda de borde a borde, sin object-fit:contain ni bandas duras. */
+.hero{background:#081827!important;isolation:isolate;overflow:hidden}
+.hero .hero-texture{background:linear-gradient(90deg,#081827 0%,#0b1b2b 48%,#102135 100%)!important}
+.hero .hero-layout{min-height:clamp(520px,34vw,710px)}
+.hero .hero-content{z-index:4;width:min(55%,920px)}
+.hero .hero-image{
+  position:absolute!important;
+  inset:0 calc(-1 * max(clamp(16px,2.5vw,56px),calc((100vw - 1920px)/2))) 0 auto!important;
+  width:calc(100% + max(clamp(16px,2.5vw,56px),calc((100vw - 1920px)/2)))!important;
+  height:100%!important;
+  margin:0!important;
+  overflow:hidden!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+}
+.hero .hero-image>img{
+  width:100%!important;height:100%!important;
+  position:absolute!important;inset:0!important;
+  object-fit:cover!important;object-position:center center!important;
+  max-width:none!important;
+}
+.hero .hero-image:after{
+  content:"";position:absolute;z-index:2;inset:0;pointer-events:none;
+  background:
+    linear-gradient(90deg,#081827 0%,rgba(8,24,39,.95) 18%,rgba(8,24,39,.70) 34%,rgba(8,24,39,.35) 49%,rgba(8,24,39,.06) 66%,transparent 78%),
+    linear-gradient(180deg,rgba(8,24,39,.12) 0%,transparent 15%,transparent 75%,rgba(8,24,39,.16) 100%)!important;
+}
+body[data-palette="wine"] .hero .hero-image:after{
+  background:linear-gradient(90deg,#281a27 0%,rgba(40,26,39,.93) 20%,rgba(40,26,39,.58) 43%,rgba(40,26,39,.06) 68%,transparent 81%)!important;
+}
+@media(max-width:1100px) and (min-width:701px){
+  .hero .hero-content{width:min(61%,720px)}
+  .hero .hero-image:after{background:linear-gradient(90deg,#081827 0%,rgba(8,24,39,.91) 21%,rgba(8,24,39,.55) 51%,transparent 83%)!important}
+}
+@media(max-width:700px){
+  .hero .hero-layout{min-height:0!important;display:flex!important;flex-direction:column!important}
+  .hero .hero-content{width:100%!important;min-height:0!important;padding:54px 0 12px!important}
+  .hero .hero-image{
+    position:relative!important;inset:auto!important;
+    width:calc(100% + 44px)!important;
+    height:clamp(240px,56vw,440px)!important;
+    min-height:240px!important;
+    margin:0 -22px!important;
+  }
+  .hero .hero-image>img{position:absolute!important;object-fit:cover!important;object-position:78% center!important}
+  .hero .hero-image:after{
+    background:linear-gradient(180deg,#081827 0%,rgba(8,24,39,.84) 16%,rgba(8,24,39,.34) 37%,transparent 67%),
+      linear-gradient(90deg,rgba(8,24,39,.20),transparent 45%)!important;
+  }
+  body[data-palette="wine"] .hero .hero-image:after{
+    background:linear-gradient(180deg,#281a27 0%,rgba(40,26,39,.78) 18%,transparent 66%)!important;
+  }
+}
