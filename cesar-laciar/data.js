@@ -16,10 +16,11 @@ const initial={
  {name:'Penal',description:'Orientación jurídica y consultas en materia penal.'},
  {name:'Laboral',description:'Asesoramiento sobre conflictos y cuestiones laborales.'},
  {name:'Familia',description:'Consultas sobre asuntos y relaciones familiares.'},
- {name:'Otros asuntos',description:'Consultá por otras cuestiones jurídicas.'}
+ {name:'Otros asuntos',description:'Consultá por otras cuestiones jurídicas.'},
+ {name:'Accidentes de Tránsito',description:'Reclamos por choques, lesiones, daños materiales y siniestros viales en CABA y GBA.'}
  ]
 };
-function getData(){try{const value=JSON.parse(localStorage.getItem(KEY));if(value&&typeof value==='object')return {...initial,...value,services:Array.isArray(value.services)?value.services:initial.services}}catch{}return structuredClone(initial)}
+function getData(){try{const value=JSON.parse(localStorage.getItem(KEY));if(value&&typeof value==='object')const services=Array.isArray(value.services)?value.services.slice():initial.services.slice();if(!services.some(s=>/accidentes\s+de\s+tr[aá]nsito/i.test(s?.name||''))){services.push(initial.services.find(s=>s.name==='Accidentes de Tránsito'))}return {...initial,...value,services}}catch{}return structuredClone(initial)}
 function saveData(value){localStorage.setItem(KEY,JSON.stringify(value));}
 function clean(text){return String(text??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function safeUrl(url){try{const parsed=new URL(url);return ['https:','http:'].includes(parsed.protocol)?parsed.href:'#'}catch{return '#'}}
