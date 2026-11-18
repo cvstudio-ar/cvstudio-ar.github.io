@@ -49,6 +49,28 @@ jobs:
             --exclude 'WORKER_CVSTUDIO_CONTACTO_ESTABLE.js' \
             --exclude 'js/siac-loader 1.js' \
             --exclude '.env.example' \
+            --exclude '.env' \
+            --exclude '.env.*' \
+            --exclude '.dev.vars' \
+            --exclude '.dev.vars.*' \
+            --exclude '.gitignore' \
+            --exclude '.wrangler/' \
+            --exclude 'node_modules/' \
+            --exclude 'private/' \
+            --exclude 'uploads-private/' \
+            --exclude 'backups/' \
+            --exclude 'exports/' \
+            --exclude '*.pem' \
+            --exclude '*.key' \
+            --exclude '*.p12' \
+            --exclude '*.pfx' \
+            --exclude '*.bak' \
+            --exclude '*.backup' \
+            --exclude '*.log' \
+            --exclude '*.sqlite' \
+            --exclude '*.db' \
+            --exclude '*.7z' \
+            --exclude '*.rar' \
             --exclude 'centro-operaciones-prueba/panel-*.html' \
             --exclude '*.sql' \
             --exclude '*.zip' \
@@ -60,6 +82,14 @@ jobs:
           test ! -e _site/WORKER_CVSTUDIO_CONTACTO_ESTABLE.js
           test ! -e _site/centro-operaciones-prueba/panel-20260806-1208.html
           test ! -e "_site/js/siac-loader 1.js"
+          # Fail closed if a future commit accidentally contains private assets.
+          if find _site -type f \( -name '.env' -o -name '.env.*' -o -name '.dev.vars' -o -name '.dev.vars.*' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name '*.pfx' -o -name '*.bak' -o -name '*.backup' -o -name '*.sql' -o -name '*.zip' -o -name '*.7z' -o -name '*.rar' -o -name '*.sqlite' -o -name '*.db' \) -print -quit | grep -q .; then
+            echo 'BLOCKED: sensitive file pattern detected in public Pages artifact'
+            exit 1
+          fi
+          for path in _site/.git _site/.github _site/config _site/supabase _site/backups _site/exports _site/private _site/uploads-private _site/node_modules _site/.wrangler; do
+            if test -e "$path"; then echo "BLOCKED: private directory in public Pages artifact: $path"; exit 1; fi
+          done
 
       - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v4
