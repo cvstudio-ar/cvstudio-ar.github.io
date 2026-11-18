@@ -238,3 +238,76 @@ body[data-palette="wine"] .hero .hero-image:after{
     background:linear-gradient(180deg,#281a27 0%,rgba(40,26,39,.78) 18%,transparent 66%)!important;
   }
 }
+
+/* Corrección de bandas superior e inferior · hero full-bleed v5 */
+@media (min-width:701px){
+  .hero .hero-image{
+    position:absolute!important;
+    top:0!important;
+    bottom:0!important;
+    left:0!important;
+    right:calc(-1 * max(clamp(16px,2.5vw,56px),calc((100vw - 1920px)/2)))!important;
+    width:auto!important;
+    height:auto!important;
+    min-height:0!important;
+    aspect-ratio:auto!important;
+    overflow:hidden!important;
+    margin:0!important;
+    border:0!important;
+    border-radius:0!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+  }
+  .hero .hero-image>img{
+    display:block!important;
+    position:absolute!important;
+    top:0!important;
+    bottom:0!important;
+    left:0!important;
+    right:0!important;
+    width:100%!important;
+    height:100%!important;
+    min-width:100%!important;
+    min-height:100%!important;
+    object-fit:cover!important;
+    object-position:right center!important;
+    border:0!important;
+  }
+  .hero .hero-image::after{
+    background:linear-gradient(90deg,
+      #081827 0%,
+      rgba(8,24,39,.97) 18%,
+      rgba(8,24,39,.82) 37%,
+      rgba(8,24,39,.44) 55%,
+      rgba(8,24,39,.12) 72%,
+      transparent 87%),
+      linear-gradient(180deg,rgba(8,24,39,.12),transparent 19%,transparent 83%,rgba(8,24,39,.14))!important;
+  }
+  body[data-palette="wine"] .hero .hero-image::after{
+    background:linear-gradient(90deg,#281a27 0%,rgba(40,26,39,.95) 18%,rgba(40,26,39,.77) 37%,rgba(40,26,39,.38) 57%,transparent 86%)!important;
+  }
+}
+@media (max-width:700px){
+  .hero .hero-image{
+    inset:auto!important;
+    width:calc(100% + 44px)!important;
+    height:clamp(240px,56vw,440px)!important;
+    min-height:240px!important;
+    aspect-ratio:auto!important;
+    margin:0 -22px!important;
+    border:0!important;
+    border-radius:0!important;
+    -webkit-mask-image:none!important;
+    mask-image:none!important;
+    overflow:hidden!important;
+  }
+  .hero .hero-image>img{
+    display:block!important;
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    object-fit:cover!important;
+    object-position:78% center!important;
+  }
+}
