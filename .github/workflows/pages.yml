@@ -16,6 +16,9 @@ concurrency:
 
 jobs:
   deploy:
+    # Prevent direct production deployments from non-owner accounts and non-main refs.
+    # Branch protection must be enabled separately to prevent this guard being edited.
+    if: github.actor == 'cvstudio-ar' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
