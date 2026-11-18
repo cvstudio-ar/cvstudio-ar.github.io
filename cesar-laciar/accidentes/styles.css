@@ -185,3 +185,157 @@
   .hero-photo figcaption{width:65%;bottom:13px}
   .hero h1{font-size:clamp(30px,8vw,34px)}
 }
+
+
+/* v3 · Hero de temática vial y jurídica: sin identidad fotográfica ficticia. */
+.hero .hero-grid{
+  grid-template-columns:minmax(0,1.06fr) minmax(330px,.94fr);
+  gap:clamp(22px,3.4vw,68px);
+  min-height:570px;
+}
+.hero .hero-content{padding:clamp(60px,5vw,86px) 0}
+.hero .hero-photo.hero-legal-visual{
+  position:relative;
+  isolation:isolate;
+  align-self:center;
+  display:block;
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:1024 / 680;
+  max-height:550px;
+  margin:0;
+  overflow:hidden;
+  border:1px solid rgba(221,183,124,.31);
+  border-radius:24px;
+  box-shadow:0 22px 65px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.06);
+  background:#0a1c2e;
+}
+.hero .hero-photo.hero-legal-visual::before{display:none}
+.hero .hero-photo.hero-legal-visual>img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  max-width:none;
+  height:100%;
+  margin:0;
+  display:block;
+  object-fit:cover;
+  object-position:center center;
+  filter:none;
+}
+.hero .hero-photo.hero-legal-visual::after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  inset:0;
+  height:auto;
+  background:linear-gradient(0deg,rgba(6,18,30,.94) 0%,rgba(6,18,30,.48) 18%,transparent 49%),
+    linear-gradient(90deg,rgba(7,22,37,.19),transparent 26%);
+  pointer-events:none;
+}
+.hero .hero-photo.hero-legal-visual figcaption{
+  position:absolute;
+  z-index:3;
+  bottom:20px;
+  left:24px;
+  right:24px;
+  width:auto;
+  border:0;
+  border-left:2px solid #EAC28B;
+  border-radius:0;
+  padding:3px 0 3px 15px;
+  background:transparent;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  box-shadow:none;
+}
+.hero .hero-photo.hero-legal-visual figcaption strong{
+  color:#fff;
+  font-size:clamp(16px,1.35vw,20px);
+  font-weight:800;
+}
+.hero .hero-photo.hero-legal-visual figcaption span{
+  color:#D2DCE6;
+  font-size:clamp(11px,.8vw,14px);
+}
+.footer-institutional{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:clamp(16px,3vw,48px);
+  margin:0;
+  padding:clamp(19px,2.4vw,30px);
+  border:1px solid rgba(235,196,135,.33);
+  border-radius:18px;
+  background:linear-gradient(110deg,rgba(28,60,82,.8),rgba(11,33,53,.85));
+  box-shadow:inset 0 1px rgba(255,255,255,.045);
+}
+.footer-institutional>span{
+  font-size:clamp(15px,1.1vw,18px);
+  line-height:1.6;
+  color:#F1F4F6;
+  font-weight:500;
+  max-width:940px;
+}
+.footer-institutional>a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  gap:12px;
+  min-height:51px;
+  padding:13px 21px;
+  border:1px solid #DDB679;
+  border-radius:999px;
+  color:#102233;
+  background:linear-gradient(135deg,#F2D6A7,#DDB679);
+  font-size:clamp(14px,1.02vw,16px);
+  font-weight:800;
+  text-align:center;
+  line-height:1.4;
+  text-decoration:none;
+  box-shadow:0 7px 24px rgba(0,0,0,.17);
+  transition:transform .2s ease,background .2s ease;
+}
+.footer-institutional>a:hover{
+  transform:translateY(-2px);
+  background:linear-gradient(135deg,#FFE6BD,#E5C18C);
+  color:#081827;
+}
+.footer-institutional>a span{font-size:20px}
+@media(max-width:1100px) and (min-width:761px){
+ .hero .hero-grid{grid-template-columns:minmax(0,1fr) minmax(275px,.95fr);min-height:520px}
+ .hero .hero-photo.hero-legal-visual{height:auto;min-height:0;aspect-ratio:1.25}
+ .footer-institutional{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:760px){
+ .hero .hero-grid{display:grid;grid-template-columns:minmax(0,1fr);min-height:0;gap:0}
+ .hero .hero-content{padding:39px 0 28px}
+ .hero .hero-photo.hero-legal-visual{
+   width:100%;
+   margin:0 0 34px;
+   min-height:0;
+   height:auto;
+   aspect-ratio:1.55;
+   max-height:380px;
+   border-radius:19px;
+ }
+ .hero .hero-photo.hero-legal-visual img{
+   position:absolute;
+   inset:0;
+   width:100%;
+   height:100%;
+   object-fit:cover;
+   object-position:center;
+ }
+ .hero .hero-photo.hero-legal-visual::after{
+   background:linear-gradient(0deg,rgba(6,18,30,.92),rgba(6,18,30,.17) 33%,transparent 65%);
+ }
+ .hero .hero-photo.hero-legal-visual figcaption{
+   left:17px;right:14px;bottom:13px;padding-left:12px;
+ }
+ .footer-institutional{flex-direction:column;align-items:stretch;gap:18px}
+ .footer-institutional>span{font-size:16px}
+ .footer-institutional>a{width:100%;flex-shrink:1;white-space:normal}
+}
