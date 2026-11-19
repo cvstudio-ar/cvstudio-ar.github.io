@@ -71,14 +71,6 @@
     h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(46px,5.1vw,83px);line-height:1.02;letter-spacing:-.032em;font-weight:500;margin:20px 0 25px}
     h2 em{font-style:italic;color:#9b805f}
     .lead{font-size:15px;line-height:2;color:#57645f;max-width:570px;margin:0}
-    .intro-section{display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;gap:clamp(60px,9vw,145px)}
-    .intro-section .copy{padding:20px 0}
-    .visual-stack{position:relative;min-height:565px}
-    .visual-stack .big{position:absolute;inset:0 58px 45px 0;width:calc(100% - 58px);height:calc(100% - 45px);object-fit:cover;object-position:center}
-    .visual-stack .small{position:absolute;right:0;bottom:0;width:43%;height:46%;object-fit:cover;border:9px solid var(--cream)}
-    .number-caption{margin:40px 0 0;display:flex;align-items:center;gap:25px;color:#a6885b}
-    .number-caption>span{font-family:'Cormorant Garamond',Georgia,serif;font-size:56px;line-height:.8}
-    .number-caption>p{max-width:255px;font-size:11px;color:#68716d;letter-spacing:.12em;line-height:1.8;margin:0;text-transform:uppercase;font-weight:700}
     .services{background:#e9e8e1}
     .section-heading{display:flex;justify-content:space-between;align-items:end;gap:50px;margin-bottom:56px}
     .section-heading h2{margin-bottom:0;max-width:700px}
@@ -102,27 +94,6 @@
     .photo strong{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:26px;line-height:1.1}
     .photo .plus{border:1px solid rgba(255,255,255,.8);width:33px;height:33px;display:grid;place-items:center;font-size:24px;font-weight:300;flex-shrink:0}
     .gallery-note{margin-top:20px;color:#768079;font-size:11px;line-height:1.7}
-    .national{min-height:470px;padding:85px var(--page);background:#102321;color:#f8f8f3;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;position:relative;overflow:hidden}
-    .national::after{content:'ARGENTINA';position:absolute;right:-35px;bottom:-18px;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(120px,18vw,300px);color:rgba(255,255,255,.022);letter-spacing:-.05em;pointer-events:none}
-    .national h2{margin-bottom:0;max-width:650px}
-    .national h2 em{color:#d9b78b}
-    .national .lead{color:#c0cbc2;max-width:500px;font-size:14px}
-    .national-ctas{margin-top:28px}
-    .process{background:#f7f5f0}
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:45px;border-top:1px solid var(--line)}
-    .step{padding-top:28px}
-    .step>span{color:#a78557;font-family:'Cormorant Garamond',Georgia,serif;font-size:43px}
-    .step h3{font-size:16px;letter-spacing:.02em;margin:15px 0 12px}
-    .step p{font-size:13px;line-height:1.85;color:#69746e;max-width:360px;margin:0}
-    .contact{padding:0;background:#11211e;color:#fff;display:grid;grid-template-columns:1fr 1fr;min-height:565px}
-    .contact-visual{position:relative;min-height:550px;overflow:hidden}
-    .contact-visual>img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-    .contact-copy{padding:clamp(75px,7vw,125px) clamp(35px,7vw,120px) 75px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
-    .contact-copy h2{font-size:clamp(55px,5.3vw,87px);margin-bottom:20px;max-width:600px}
-    .contact-copy h2 em{color:#d8b98f}
-    .contact-copy p{font-size:14px;line-height:1.9;color:#c3ccc6;max-width:470px;margin:0 0 30px}
-    .contact-direct{margin-top:30px;display:flex;gap:30px;flex-wrap:wrap;font-size:12px;line-height:1.9;color:#e0e3de}
-    .contact-direct a{text-decoration:underline;text-decoration-color:#8a806a;text-underline-offset:5px}
     footer{background:#091311;color:#b7c0b8;padding:34px var(--page);display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;font-size:11px}
     footer .footbrand{font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;letter-spacing:.29em;color:#e3c49a}
     footer .footer-links{display:flex;gap:25px;flex-wrap:wrap}
@@ -144,6 +115,60 @@
     @media(max-width:760px){:root{--page:22px}.topbar{font-size:9px;letter-spacing:.1em;padding:10px}.site-head{top:32px}.site-head .head-inner{min-height:84px}.brand img{width:134px;height:70px}.nav-links{position:absolute;top:84px;left:0;right:0;display:none;flex-direction:column;align-items:stretch;background:#0c1c1b;padding:25px var(--page) 29px;gap:0;box-shadow:0 18px 30px #0003}.nav-links.open{display:flex}.nav-links>a:not(.nav-action){padding:14px 0;border-bottom:1px solid #ffffff16}.nav-action{margin-top:22px;justify-content:center}.menu-button{display:block}.hero{min-height:740px;min-height:100svh}.hero-image{background-image:linear-gradient(0deg,rgba(3,18,20,.92) 0%,rgba(3,18,20,.66) 53%,rgba(3,18,20,.36) 100%),var(--luxzen-hero);background-position:48% center}.hero-content{padding-top:125px;padding-bottom:120px}.hero h1{font-size:clamp(63px,12vw,86px);margin:22px 0}.hero p{font-size:14px;line-height:1.85;max-width:425px}.eyebrow{font-size:9px;letter-spacing:.16em}.buttons{align-items:stretch}.btn{padding:17px 18px;font-size:10px}.hero-bottom{bottom:22px}.hero-bottom .scroll{display:none}.intro-strip{grid-template-columns:1fr;padding:9px var(--page)}.strip-item,.strip-item:first-child,.strip-item:last-child{padding:17px 0;justify-content:flex-start;border-right:0;border-bottom:1px solid rgba(255,255,255,.15)}.strip-item:last-child{border-bottom:0}.strip-item svg{width:26px}.section{padding:85px var(--page)}.intro-section{grid-template-columns:1fr;gap:40px}.intro-section .copy{padding:0}.visual-stack{min-height:440px}.visual-stack .big{inset:0 35px 35px 0;width:calc(100% - 35px);height:calc(100% - 35px)}.visual-stack .small{width:42%;height:45%;border:6px solid var(--cream)}h2{font-size:clamp(46px,10vw,66px)}.section-heading{display:block;margin-bottom:32px}.section-heading .lead{margin-top:22px}.services-grid{grid-template-columns:1fr;gap:11px}.service{min-height:0;padding:28px 26px}.service h3{font-size:29px;margin-top:24px}.gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:250px 240px 240px;gap:10px}.photo:first-child{grid-column:span 2;grid-row:span 1}.photo:nth-child(4){grid-column:span 2}.photo strong{font-size:24px}.photo .photolabel{left:15px;bottom:15px;right:15px}.national{grid-template-columns:1fr;gap:25px;min-height:0;padding:80px var(--page)}.national .lead{font-size:13px}.steps{grid-template-columns:1fr;gap:0}.step{padding-bottom:24px;border-bottom:1px solid var(--line)}.contact{grid-template-columns:1fr}.contact-visual{min-height:320px;order:2}.contact-copy{padding:77px var(--page) 72px}.contact-copy h2{font-size:65px}.contact-copy p{font-size:13px}.contact-direct{gap:8px;flex-direction:column}footer{display:flex;flex-direction:column;align-items:flex-start;gap:17px;padding:30px var(--page);padding-bottom:100px}.float-wapp{width:53px;height:53px;right:15px;bottom:16px}.lightbox{padding:75px 10px}.lightbox button{width:39px;height:39px}.lightbox .prev{left:5px}.lightbox .next{right:5px}}
     @media(max-width:440px){.hero h1{font-size:clamp(60px,15vw,69px)}.hero p{max-width:365px}.buttons{flex-direction:column;align-items:flex-start}.btn{min-width:260px}.gallery-grid{grid-template-rows:220px 190px 190px}.photo strong{font-size:20px}.visual-stack{min-height:340px}.contact-copy h2{font-size:55px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero-image{animation:none}*,*:before,*:after{transition:none!important}}
+
+    /* LUXZEN · versión representativa compacta */
+    .hero{min-height:670px;min-height:76svh;max-height:770px}
+    .hero-content{padding-top:105px;padding-bottom:80px;max-width:1040px}
+    .hero h1{font-size:clamp(55px,6.7vw,104px);max-width:1000px}
+    .hero p{max-width:640px}
+    .hero-bottom{display:none}
+    .strip-item{padding-top:23px;padding-bottom:23px}
+    .strip-marker{display:block;color:var(--gold);font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;min-width:32px}
+    .section{padding:clamp(52px,6vw,88px) var(--page)}
+    .section-heading{margin-bottom:31px;align-items:end}
+    .section-heading h2{font-size:clamp(43px,4.3vw,67px);margin-top:12px}
+    .section-heading .lead{font-size:13px;line-height:1.7}
+    .services-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .service{min-height:165px;padding:25px 28px 24px;box-shadow:none;justify-content:flex-start}
+    .service-number{color:#ae8d5f;font-size:11px;letter-spacing:.13em;font-weight:800}
+    .service h3{font-size:clamp(24px,2.1vw,29px);margin:12px 0 7px}
+    .service p{font-size:12px;line-height:1.55;margin:0}
+    .gallery-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:240px;gap:11px}
+    .photo:first-child,.photo:nth-child(4){grid-row:auto;grid-column:auto}
+    .photo .photolabel{bottom:14px;left:15px;right:15px}
+    .photo strong{font-size:21px}
+    .photo .plus{width:27px;height:27px;font-size:20px}
+    .gallery-note{margin:12px 0 0}
+    .gallery-cta{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid var(--line);margin-top:33px;padding-top:26px}
+    .gallery-cta strong{display:block;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(27px,3vw,37px);font-weight:600;line-height:1.1}
+    .gallery-cta span{font-size:12px;color:#607069;margin-top:7px;display:block}
+    .gallery-cta .btn span{display:inline;color:inherit;font-size:15px;margin:0}
+    footer{padding-top:26px;padding-bottom:26px;gap:24px}
+    footer .footer-links{gap:14px 25px}
+    @media(max-width:1160px){.services-grid{grid-template-columns:repeat(3,1fr)}.service{padding:22px}.gallery-grid{grid-template-rows:200px}}
+    @media(max-width:760px){
+      .hero{min-height:560px;max-height:none;min-height:76svh}
+      .hero-content{padding-top:112px;padding-bottom:55px}
+      .hero h1{font-size:clamp(51px,11vw,70px);max-width:500px}
+      .hero p{font-size:13px;line-height:1.7;max-width:460px}
+      .intro-strip{display:grid;grid-template-columns:1fr;gap:0;padding-top:7px;padding-bottom:7px}
+      .strip-item,.strip-item:first-child,.strip-item:last-child{padding:10px 0}
+      .strip-item strong{font-size:12px}.strip-item span{font-size:10px}
+      .section{padding:57px var(--page)}
+      .section-heading{margin-bottom:24px}.section-heading h2{font-size:clamp(41px,9vw,60px)}
+      .section-heading .lead{margin-top:8px}
+      .services-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+      .service{min-height:151px;padding:18px 15px}
+      .service h3{font-size:23px;margin:10px 0 6px}
+      .service p{font-size:11px;line-height:1.5}
+      .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:155px 155px;gap:8px}
+      .photo:first-child,.photo:nth-child(4){grid-column:auto;grid-row:auto}
+      .photo strong{font-size:18px}.photo .photolabel{bottom:9px;left:10px;right:10px}
+      .gallery-cta{flex-direction:column;align-items:flex-start;margin-top:23px;padding-top:21px;gap:19px}
+      .gallery-cta .btn{min-width:0;width:100%}
+      footer{padding-bottom:85px}
+    }
+    @media(max-width:400px){.hero h1{font-size:clamp(44px,10.8vw,60px)}.service h3{font-size:21px}.service{padding:16px 12px}.gallery-grid{grid-template-rows:135px 135px}}
   </style>
 </head>
 <body>
@@ -153,8 +178,8 @@
       <a class="brand" href="#inicio" aria-label="LUXZEN, ir al inicio"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="luxzen-logo-gold.png" alt="LUXZEN · Piscinas y Jacuzzis"></a>
       <button class="menu-button" id="menuButton" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
       <nav class="nav-links" id="navLinks" aria-label="Menú principal">
-        <a href="#nosotros">LUXZEN</a><a href="#servicios">Servicios</a><a href="#proyectos">Galería</a><a href="#cobertura">Cobertura nacional</a>
-        <a class="nav-action" href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quisiera%20recibir%20informaci%C3%B3n%20sobre%20sus%20piscinas%20y%20jacuzzis." target="_blank" rel="noopener noreferrer">Hablemos de tu proyecto <span aria-hidden="true">↗</span></a>
+        <a href="#servicios">Servicios</a><a href="#proyectos">Galería</a><a href="#contacto">Contacto</a>
+        <a class="nav-action" href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quisiera%20recibir%20informaci%C3%B3n%20sobre%20sus%20piscinas%20y%20jacuzzis." target="_blank" rel="noopener noreferrer">Consultar <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -164,51 +189,54 @@
       <div class="hero-image" aria-hidden="true"></div>
       <div class="hero-content shell">
         <div class="eyebrow">LUXZEN · Piscinas &amp; Jacuzzis</div>
-        <h1>Tu espacio.<br>Tu momento.<br><em>Tu paraíso.</em></h1>
-        <p>Transformamos espacios en lugares para disfrutar. Venta, construcción e instalación de piscinas y jacuzzis, con atención en todo el país.</p>
-        <div class="buttons"><a class="btn btn-primary" href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20me%20gustar%C3%ADa%20solicitar%20un%20presupuesto." target="_blank" rel="noopener noreferrer">Solicitar presupuesto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12h16m-7-7 7 7-7 7"/></svg></a><a class="btn btn-line" href="#proyectos">Explorar galería <span aria-hidden="true">↗</span></a></div>
+        <h1>Espacios únicos.<br><em>Momentos inolvidables.</em></h1>
+        <p>Venta e instalación de piscinas de fibra, construcción en hormigón, jacuzzis y diseño exterior. Envíos e instalaciones en toda Argentina.</p>
+        <div class="buttons">
+          <a class="btn btn-primary" href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quisiera%20solicitar%20un%20presupuesto." target="_blank" rel="noopener noreferrer">Solicitar presupuesto <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-line" href="#proyectos">Ver galería <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
-      <div class="hero-bottom"><div><span aria-hidden="true" style="color:#dcc09a">✦</span> Diseño para disfrutar</div><div class="scroll">Descubrí LUXZEN</div></div>
     </section>
 
-    <div class="intro-strip" aria-label="Beneficios">
-      <div class="strip-item"><svg viewBox="0 0 32 32"><path d="M3 21c4-9 8 9 13 0s9 9 13 0M3 26c4-9 8 9 13 0s9 9 13 0M16 4v11m-7-5 7-7 7 7"/></svg><div><strong>Piscinas y jacuzzis</strong><span>Distintas opciones para cada espacio</span></div></div>
-      <div class="strip-item"><svg viewBox="0 0 32 32"><path d="M3 20V7h18v13H3Zm18-8h4l4 5v3h-8m-14 0a3 3 0 1 0 6 0m13 0a3 3 0 1 0 6 0M3 25h2m9 0h10"/></svg><div><strong>Envíos a todo el país</strong><span>Consultá las opciones para tu localidad</span></div></div>
-      <div class="strip-item"><svg viewBox="0 0 32 32"><path d="m6 18 7 7L27 8M4 28h24M8 6h14"/></svg><div><strong>Servicio de instalación</strong><span>Coordinación y asesoramiento</span></div></div>
+    <div class="intro-strip" aria-label="Servicios destacados">
+      <div class="strip-item"><span class="strip-marker" aria-hidden="true">01</span><div><strong>Fibra y hormigón</strong><span>Piscinas a tu medida</span></div></div>
+      <div class="strip-item"><span class="strip-marker" aria-hidden="true">02</span><div><strong>Espacios exteriores</strong><span>Jacuzzis, pérgolas y jardines</span></div></div>
+      <div class="strip-item"><span class="strip-marker" aria-hidden="true">03</span><div><strong>Todo el país</strong><span>Envíos e instalaciones</span></div></div>
     </div>
 
-    <section class="section intro-section" id="nosotros">
-      <div class="copy"><div class="kicker">El concepto LUXZEN</div><h2>El placer de vivir <em>cada espacio.</em></h2><p class="lead">Una piscina es mucho más que agua. Es el punto de encuentro, los días de verano y los momentos que quedan. En LUXZEN te acompañamos a elegir la opción ideal para crear un espacio único en tu hogar.</p><div class="number-caption"><span>01.</span><p>Espacios pensados para disfrutarse de verdad.</p></div></div>
-      <div class="visual-stack"><img class="big" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="piscina-paisaje.webp" alt="Piscina LUXZEN de agua turquesa con entorno verde y vista a las sierras" loading="lazy"><img class="small" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="jacuzzi-premium.webp" alt="Jacuzzi exterior con deck e iluminación cálida" loading="lazy"></div>
-    </section>
-
-    <section class="section services" id="servicios">
-      <div class="section-heading"><div><div class="kicker">Qué hacemos</div><h2>Soluciones para <em>disfrutar.</em></h2></div><p class="lead">Desde el primer contacto hasta la instalación, te ayudamos a encontrar la alternativa que mejor se adapte a tu espacio.</p></div>
+    <section class="section services" id="servicios" aria-label="Servicios LUXZEN">
+      <div class="section-heading"><div><div class="kicker">Nuestros servicios</div><h2>Todo para tu <em>espacio ideal.</em></h2></div><p class="lead">Soluciones para renovar, construir y disfrutar tus espacios.</p></div>
       <div class="services-grid">
-        <article class="service"><svg viewBox="0 0 48 48"><rect x="5" y="14" width="38" height="26" rx="2"/><path d="M6 27c7-8 12 8 19 0s12 8 18 0M14 14V5h20v9"/></svg><h3>Venta de piscinas</h3><p>Piscinas para proyectos residenciales, con opciones para distintos espacios y necesidades.</p><a href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quiero%20consultar%20por%20las%20piscinas%20que%20tienen%20disponibles." target="_blank" rel="noopener noreferrer">Consultar opciones <span aria-hidden="true">↗</span></a></article>
-        <article class="service"><svg viewBox="0 0 48 48"><rect x="5" y="19" width="38" height="21" rx="2"/><path d="M12 18c-6-8 6-8 0-15m12 15c-6-8 6-8 0-15m12 15c-6-8 6-8 0-15M7 30c6-7 11 7 17 0s11 7 17 0"/></svg><h3>Jacuzzis &amp; minipiscinas</h3><p>Alternativas para sumar confort, relajación y diseño a interiores y exteriores.</p><a href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20me%20interesan%20los%20jacuzzis%20y%20minipiscinas." target="_blank" rel="noopener noreferrer">Consultar opciones <span aria-hidden="true">↗</span></a></article>
-        <article class="service"><svg viewBox="0 0 48 48"><path d="M5 40h38M8 40V15l16-9 16 9v25M14 22h20v18M18 10v12m12-12v12"/><path d="M24 25v11"/></svg><h3>Construcción e instalación</h3><p>Te acompañamos en el proceso para hacer realidad tu proyecto y coordinar su instalación.</p><a href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quisiera%20consultar%20por%20construcci%C3%B3n%20e%20instalaci%C3%B3n%20de%20una%20piscina." target="_blank" rel="noopener noreferrer">Pedir asesoramiento <span aria-hidden="true">↗</span></a></article>
-        <article class="service"><svg viewBox="0 0 48 48"><path d="M4 30h27V13H4v17Zm27-11h7l6 8v3H31M11 30a5 5 0 1 0 10 0m15 0a5 5 0 1 0 10 0M8 9h19M8 5h13"/></svg><h3>Envíos en toda Argentina</h3><p>Atención a clientes de todo el país, con envíos e instalaciones según cada proyecto.</p><a href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quisiera%20consultar%20por%20env%C3%ADo%20e%20instalaci%C3%B3n%20en%20mi%20localidad." target="_blank" rel="noopener noreferrer">Consultar mi localidad <span aria-hidden="true">↗</span></a></article>
+        <article class="service"><span class="service-number">01 /</span><h3>Piscinas de fibra</h3><p>Venta, envío e instalación de piscinas de fibra.</p></article>
+        <article class="service"><span class="service-number">02 /</span><h3>Piscinas de hormigón</h3><p>Construcción de piscinas personalizadas.</p></article>
+        <article class="service"><span class="service-number">03 /</span><h3>Jacuzzis</h3><p>Opciones para sumar bienestar y confort.</p></article>
+        <article class="service"><span class="service-number">04 /</span><h3>Reformas y reparaciones</h3><p>Adaptaciones, mantenimiento y mejoras.</p></article>
+        <article class="service"><span class="service-number">05 /</span><h3>Jardines y paisajismo</h3><p>Diseño de exteriores que armonizan cada ambiente.</p></article>
+        <article class="service"><span class="service-number">06 /</span><h3>Pérgolas</h3><p>Complementos para disfrutar tus espacios al aire libre.</p></article>
       </div>
     </section>
 
-    <section class="section gallery" id="proyectos"><div class="section-heading"><div><div class="kicker">Inspiración real</div><h2>Un mundo de <em>posibilidades.</em></h2></div><p class="lead">Explorá algunos de los espacios y propuestas visuales que definen el universo LUXZEN.</p></div>
+    <section class="section gallery" id="proyectos" aria-label="Galería LUXZEN">
+      <div class="section-heading"><div><div class="kicker">Galería</div><h2>Diseño para <em>inspirarte.</em></h2></div><p class="lead">Descubrí algunas de las posibilidades para tu próximo proyecto.</p></div>
       <div class="gallery-grid" id="galleryGrid">
-        <button class="photo" data-index="0" aria-label="Ampliar foto de piscina con pérgola"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="piscina-pergola.webp" alt="Piscina y deck de madera con pérgola" loading="lazy"><span class="photolabel"><strong>Piscinas para vivir</strong><span class="plus" aria-hidden="true">+</span></span></button>
-        <button class="photo" data-index="1" aria-label="Ampliar foto de piscina con playa húmeda"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="piscina-playa-humeda.webp" alt="Piscina exterior con playa húmeda integrada" loading="lazy"><span class="photolabel"><strong>Diseño &amp; amplitud</strong><span class="plus" aria-hidden="true">+</span></span></button>
-        <button class="photo" data-index="2" aria-label="Ampliar foto de piscina con paisaje"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="piscina-paisaje.webp" alt="Piscina moderna con vista a las sierras" loading="lazy"><span class="photolabel"><strong>Momentos únicos</strong><span class="plus" aria-hidden="true">+</span></span></button>
-        <button class="photo" data-index="3" aria-label="Ampliar foto de jacuzzi iluminado"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="jacuzzi-premium.webp" alt="Jacuzzi iluminado integrado en deck de madera al atardecer" loading="lazy"><span class="photolabel"><strong>Relajación con estilo</strong><span class="plus" aria-hidden="true">+</span></span></button>
-      </div><p class="gallery-note">Imágenes de referencia facilitadas para esta presentación. Los diseños, terminaciones y disponibilidad se consultan con LUXZEN.</p>
+        <button class="photo" data-index="0" aria-label="Ampliar foto de piscina con pérgola"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="piscina-pergola.webp" alt="Piscina y deck de madera con pérgola" loading="lazy"><span class="photolabel"><strong>Piscinas y decks</strong><span class="plus" aria-hidden="true">+</span></span></button>
+        <button class="photo" data-index="1" aria-label="Ampliar foto de piscina con playa húmeda"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="piscina-playa-humeda.webp" alt="Piscina exterior con playa húmeda integrada" loading="lazy"><span class="photolabel"><strong>Diseño</strong><span class="plus" aria-hidden="true">+</span></span></button>
+        <button class="photo" data-index="2" aria-label="Ampliar foto de piscina con paisaje"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="piscina-paisaje.webp" alt="Piscina moderna con vista a las sierras" loading="lazy"><span class="photolabel"><strong>Paisajismo</strong><span class="plus" aria-hidden="true">+</span></span></button>
+        <button class="photo" data-index="3" aria-label="Ampliar foto de jacuzzi iluminado"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="jacuzzi-premium.webp" alt="Jacuzzi iluminado integrado en deck de madera al atardecer" loading="lazy"><span class="photolabel"><strong>Jacuzzis</strong><span class="plus" aria-hidden="true">+</span></span></button>
+      </div>
+      <p class="gallery-note">Imágenes de referencia. Consultá diseños y disponibilidad.</p>
+      <div class="gallery-cta" id="contacto">
+        <div><strong>¿Tenés un proyecto en mente?</strong><span>Contanos tu idea. Trabajamos en todo el país.</span></div>
+        <a class="btn btn-primary" href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quisiera%20solicitar%20un%20presupuesto." target="_blank" rel="noopener noreferrer">Consultar por WhatsApp <span aria-hidden="true">↗</span></a>
+      </div>
     </section>
-
-    <section class="national" id="cobertura"><div><div class="kicker" style="color:#dab58b">Sin límites geográficos</div><h2>De nuestra propuesta <em>a tu hogar.</em></h2></div><div><p class="lead">Estés donde estés, podés consultar por tu próxima piscina o jacuzzi. LUXZEN ofrece <strong style="color:#fff">envíos e instalaciones en todo el territorio argentino</strong>. Contanos tu localidad y las características de tu proyecto para recibir atención personalizada.</p><div class="national-ctas"><a class="btn btn-primary" href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quiero%20consultar%20por%20un%20env%C3%ADo%20e%20instalaci%C3%B3n%20en%20mi%20ciudad." target="_blank" rel="noopener noreferrer">Consultar cobertura <span aria-hidden="true">↗</span></a></div></div></section>
-
-    <section class="section process" id="como-trabajamos"><div class="kicker">Cómo empezar</div><h2>Tu proyecto, <em>paso a paso.</em></h2><div class="steps"><div class="step"><span>01</span><h3>Contanos tu idea</h3><p>Escribinos por WhatsApp y comentanos qué tipo de piscina o jacuzzi necesitás y dónde estás.</p></div><div class="step"><span>02</span><h3>Exploramos opciones</h3><p>Te asesoramos sobre las alternativas disponibles y los detalles de tu proyecto.</p></div><div class="step"><span>03</span><h3>Coordinamos la instalación</h3><p>Evaluamos la logística de envío e instalación según la ubicación y la opción elegida.</p></div></div></section>
-
-    <section class="contact" id="contacto"><div class="contact-visual"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="jacuzzi-premium.webp" alt="Jacuzzi LUXZEN con iluminación cálida sobre deck de madera" loading="lazy"></div><div class="contact-copy"><div class="kicker" style="color:#d2b48c">Hablemos de tu proyecto</div><h2>El próximo verano <em>empieza hoy.</em></h2><p>¿Querés una piscina nueva? ¿Estás pensando en incorporar un jacuzzi? Contanos tu idea y empecemos a darle forma.</p><a class="btn btn-primary" href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quiero%20asesoramiento%20para%20mi%20proyecto." target="_blank" rel="noopener noreferrer">Hablar por WhatsApp <span aria-hidden="true">↗</span></a><div class="contact-direct"><a href="https://wa.me/5491176612293" target="_blank" rel="noopener noreferrer">+54 9 11 7661-2293</a><a href="https://www.instagram.com/luxzen.369/" target="_blank" rel="noopener noreferrer">Instagram @luxzen.369 ↗</a></div></div></section>
   </main>
 
-  <footer><div class="footbrand">LUXZEN</div><div class="footer-links"><a href="#nosotros">Nosotros</a><a href="#servicios">Servicios</a><a href="#proyectos">Galería</a><a href="#cobertura">Cobertura</a><a href="https://www.instagram.com/luxzen.369/" target="_blank" rel="noopener noreferrer">Instagram</a></div><div class="credit">© <span id="year"></span> LUXZEN · Diseño web: <a href="https://cvstudio.com.ar/" target="_blank" rel="noopener noreferrer">CVStudio Argentina</a></div></footer>
+  <footer>
+  <div class="footbrand">LUXZEN</div>
+  <div class="footer-links"><a href="#servicios">Servicios</a><a href="#proyectos">Galería</a><a href="https://www.instagram.com/luxzen.369/" target="_blank" rel="noopener noreferrer">Instagram @luxzen.369</a><a href="https://wa.me/5491176612293" target="_blank" rel="noopener noreferrer">+54 9 11 7661-2293</a></div>
+  <div class="credit">© <span id="year"></span> LUXZEN · Sitio creado por <a href="https://cvstudio.com.ar/" target="_blank" rel="noopener noreferrer">CVStudio Argentina</a></div>
+  </footer>
   <a class="float-wapp" href="https://wa.me/5491176612293?text=Hola%20LUXZEN%2C%20quisiera%20hacer%20una%20consulta." aria-label="Consultar a LUXZEN por WhatsApp" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.87 11.87 0 0 0 12.06 0C5.47 0 .1 5.36.1 11.95c0 2.12.56 4.2 1.62 6.04L0 24l6.17-1.62A11.94 11.94 0 0 0 12.06 24C18.65 24 24 18.64 24 12.05c0-3.2-1.24-6.21-3.48-8.57ZM12.06 21.9a9.86 9.86 0 0 1-5.04-1.38l-.36-.21-3.67.96.98-3.58-.23-.37a9.85 9.85 0 0 1-1.53-5.27c0-5.43 4.42-9.86 9.85-9.86a9.8 9.8 0 0 1 6.97 2.89A9.8 9.8 0 0 1 21.91 12c0 5.44-4.42 9.9-9.85 9.9Zm5.4-7.4c-.29-.14-1.72-.85-1.98-.94-.27-.1-.46-.14-.65.14-.19.28-.75.94-.92 1.13-.16.18-.33.21-.62.07-.29-.14-1.22-.45-2.33-1.44-.86-.77-1.44-1.72-1.6-2.01-.17-.28-.02-.44.12-.58.13-.13.29-.33.43-.5.15-.16.19-.28.29-.47.09-.18.05-.35-.02-.49-.07-.14-.65-1.57-.89-2.15-.23-.56-.47-.48-.65-.49h-.55c-.2 0-.5.07-.76.35-.26.28-1 1-1 2.44s1.02 2.83 1.17 3.03c.14.19 2.02 3.08 4.89 4.31.68.29 1.21.46 1.63.59.69.22 1.32.19 1.82.11.56-.09 1.72-.7 1.96-1.38.24-.68.24-1.27.17-1.39-.07-.12-.26-.19-.55-.33Z"/></svg></a>
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galería de imágenes LUXZEN" aria-hidden="true"><button class="close" id="lightboxClose" aria-label="Cerrar imagen">×</button><button class="prev" id="lightboxPrev" aria-label="Ver imagen anterior">‹</button><img id="lightboxImage" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-asset="piscina-pergola.webp" alt=""><button class="next" id="lightboxNext" aria-label="Ver imagen siguiente">›</button><div class="count" id="lightboxCount">01 / 04</div></div>
 <script>
