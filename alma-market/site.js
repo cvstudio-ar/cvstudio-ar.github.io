@@ -95,7 +95,8 @@
       const article=document.createElement('article');article.className='product-card';
       const visual=document.createElement('div');visual.className='product-visual '+colors[item.tile%colors.length];
       const label=document.createElement('span');label.className='product-badge';label.textContent=item.badge||'Elegidos Alma';
-      if(item.image){const img=document.createElement('img');img.src=item.image;img.loading='lazy';img.alt='Imagen ilustrativa de '+item.name;
+      const stockImage=/^p(?:0[1-9]|1[0-2])$/.test(item.id)?'assets/productos/'+item.id+'.webp':'';
+      if(item.image||stockImage){const img=document.createElement('img');img.src=item.image||stockImage;img.loading='lazy';img.alt='Fotografía de '+item.name;
        img.onerror=()=>{img.remove();visual.append(art(item));};visual.append(img);
       }else if(atlasReady){visual.append(photoTile(item.tile));}
       else{visual.append(art(item));}

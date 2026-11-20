@@ -75,7 +75,7 @@
       });
       top.append(title,del);card.append(top);
       const imgBox=document.createElement('div');imgBox.className='editor-photo';
-      if(prod.image){const img=document.createElement('img');img.src=prod.image;img.alt='Vista previa de '+prod.name;imgBox.append(img);}
+      if(prod.image||/^p(?:0[1-9]|1[0-2])$/.test(prod.id)){const img=document.createElement('img');img.src=prod.image||'../assets/productos/'+prod.id+'.webp';img.alt='Vista previa de '+prod.name;imgBox.append(img);}
       else{const fallback=document.createElement('span');fallback.textContent=symbols[i%symbols.length];imgBox.append(fallback);}
       card.append(imgBox);
       const upload=document.createElement('div');upload.className='editor-file-row';

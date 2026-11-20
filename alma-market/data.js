@@ -1,7 +1,7 @@
 /* Alma Market | Demo pública de CVStudio. Sin claves ni backend compartido. */
 (() => {
   'use strict';
-  const KEY = 'cvstudio_alma_market_demo_v1';
+  const KEY = 'cvstudio_alma_market_demo_v2';
   const defaults = {
     name: 'Alma Market',
     tagline: 'Tu almacén saludable & wellness',
@@ -25,18 +25,18 @@
     forest: '#285044',
     cream: '#FFF9F1',
     products: [
-      {id:'p01',name:'Yerba Mate Propósito · Moving',category:'Yerbas e infusiones',description:'Yerba mate funcional para acompañar tus momentos.',badge:'Rituales de cada día',price:'Consultar',tile:0,image:'',visible:true},
-      {id:'p02',name:'Yerba Mate Propósito · Focus',category:'Yerbas e infusiones',description:'Una alternativa distinta para quienes disfrutan el mate.',badge:'Elegidos Alma',price:'Consultar',tile:0,image:'',visible:true},
-      {id:'p03',name:'Yerba Mate Propósito · Relax',category:'Yerbas e infusiones',description:'Sabores para disfrutar de una pausa.',badge:'Momento relax',price:'Consultar',tile:0,image:'',visible:true},
-      {id:'p04',name:'Set de cuidado natural',category:'Cuidado personal',description:'Accesorios y productos para mimarte de manera consciente.',badge:'Regalá bienestar',price:'Consultar',tile:1,image:'',visible:true},
-      {id:'p05',name:'Cosmética natural · AguaCalma',category:'Cuidado personal',description:'Ideas de autocuidado: shampoo sólido, colonia y cuidado capilar.',badge:'Detalles que suman',price:'Consultar',tile:2,image:'',visible:true},
-      {id:'p06',name:'Infusiones Tenki Patagonia',category:'Yerbas e infusiones',description:'Variedades de té para transformar la pausa en un ritual.',badge:'Infusiones',price:'Consultar',tile:4,image:'',visible:true},
-      {id:'p07',name:'Tés e infusiones de autor',category:'Yerbas e infusiones',description:'Una selección de sabores, aromas y blends.',badge:'Momento té',price:'Consultar',tile:5,image:'',visible:true},
-      {id:'p08',name:'Barras CRUDDA · Avellanas',category:'Snacks saludables',description:'Snack con chocolate y avellanas para llevar.',badge:'Algo rico',price:'Consultar',tile:8,image:'',visible:true},
-      {id:'p09',name:'Barras CRUDDA · Coco',category:'Snacks saludables',description:'Una opción práctica para una pausa dulce.',badge:'Para llevar',price:'Consultar',tile:9,image:'',visible:true},
-      {id:'p10',name:'Barras CRUDDA · Banana Toffee',category:'Snacks saludables',description:'Barrita sabor banana y toffee.',badge:'Snack favorito',price:'Consultar',tile:10,image:'',visible:true},
-      {id:'p11',name:'Regalos con intención',category:'Regalos y bienestar',description:'Combinaciones de productos para regalar bienestar.',badge:'Ideas para regalar',price:'Consultar',tile:3,image:'',visible:true},
-      {id:'p12',name:'Productos del local',category:'Regalos y bienestar',description:'Conocé nuestra selección en el almacén de San Isidro.',badge:'En nuestro local',price:'Consultar',tile:11,image:'',visible:true}
+      {id:'p01',name:"K-Bar · Barras de distintos sabores",category:"Snacks saludables",description:"Barras individuales disponibles en distintas variedades. Consultá los sabores.",badge:"Variedades",price:'Consultar',tile:0,image:'',visible:true},
+      {id:'p02',name:"Laddubar · Frutos rojos",category:"Snacks saludables",description:"Barra de dátiles, arándanos rojos y cacao.",badge:"Frutos rojos",price:'Consultar',tile:1,image:'',visible:true},
+      {id:'p03',name:"Bravísima · Barra proteica",category:"Snacks saludables",description:"Barra proteica de la línea Bravísima.",badge:"Proteica",price:'Consultar',tile:2,image:'',visible:true},
+      {id:'p04',name:"Mix de frutos secos y pasas",category:"Frutos secos",description:"Combinación de frutos secos y frutas deshidratadas.",badge:"Mix natural",price:'Consultar',tile:3,image:'',visible:true},
+      {id:'p05',name:"Almendras, nueces y pecanas",category:"Frutos secos",description:"Selección de frutos secos para disfrutar o combinar.",badge:"Selección",price:'Consultar',tile:4,image:'',visible:true},
+      {id:'p06',name:"Mix de frutos secos",category:"Frutos secos",description:"Variedad de frutos secos y semillas para acompañar el día.",badge:"Para picar",price:'Consultar',tile:5,image:'',visible:true},
+      {id:'p07',name:"San Javier · Yogur natural",category:"Lácteos y refrigerados",description:"Yogur natural San Javier, presentación en frasco de 200 cc.",badge:"Natural",price:'Consultar',tile:6,image:'',visible:true},
+      {id:'p08',name:"Dannon Light + Fit · Yogures",category:"Lácteos y refrigerados",description:"Yogures Light + Fit en variedades frutales.",badge:"Variedades",price:'Consultar',tile:7,image:'',visible:true},
+      {id:'p09',name:"Tierra Florida · Kéfir",category:"Bebidas saludables",description:"Bebida de kéfir en diferentes sabores. Consultá disponibilidad.",badge:"Kéfir",price:'Consultar',tile:8,image:'',visible:true},
+      {id:'p10',name:"BC · Jugo multifruta",category:"Bebidas saludables",description:"Jugo multifruta BC en presentación de 200 ml.",badge:"Multifruta",price:'Consultar',tile:9,image:'',visible:true},
+      {id:'p11',name:"ENA · Plant Protein",category:"Proteínas y suplementos",description:"Proteína vegetal ENA Plant Protein.",badge:"Vegetal",price:'Consultar',tile:10,image:'',visible:true},
+      {id:'p12',name:"AMPK Nutri · Protein banana",category:"Proteínas y suplementos",description:"Producto proteico vegetal sabor banana.",badge:"Banana",price:'Consultar',tile:11,image:'',visible:true}
     ]
   };
   const clone=v=>JSON.parse(JSON.stringify(v));
