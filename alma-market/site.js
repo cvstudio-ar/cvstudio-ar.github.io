@@ -84,6 +84,70 @@
       root.append(btn);
     }
   }
+
+  // Las imágenes anexadas a la primera ficha se presentan como galería de variedades.
+  const kbarGallery=[
+    'assets/productos/p01.webp',
+    'assets/productos/p01-galeria-1.webp',
+    'assets/productos/p01-galeria-2.webp',
+    'assets/productos/p01-galeria-3.webp'
+  ];
+  function productPhotos(item){
+    if(item.image)return [item.image];
+    if(item.id==='p01')return kbarGallery;
+    return /^p(?:0[1-9]|1[0-2])$/.test(item.id)?['assets/productos/'+item.id+'.webp']:[];
+  }
+  function galleryButton(symbol,label,className){
+    const b=document.createElement('button');b.type='button';b.className=className;b.textContent=symbol;
+    b.setAttribute('aria-label',label);return b;
+  }
+  let lightbox=null,lightboxState=null;
+  function closeLightbox(){
+    if(!lightbox)return;
+    lightbox.remove();lightbox=null;document.body.classList.remove('lightbox-open');
+    lightboxState?.lastFocus?.focus?.();lightboxState=null;
+  }
+  function openLightbox(item,photos,start=0){
+    closeLightbox();
+    const lastFocus=document.activeElement;
+    let index=start;
+    const overlay=document.createElement('div');overlay.className='alma-lightbox';
+    overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');
+    overlay.setAttribute('aria-label','Galería ampliada: '+item.name);
+    const panel=document.createElement('div');panel.className='alma-lightbox-panel';
+    const image=document.createElement('img');image.className='alma-lightbox-image';image.alt='Imagen ampliada de '+item.name;
+    const close=galleryButton('×','Cerrar imagen ampliada','lightbox-close');
+    const heading=document.createElement('div');heading.className='alma-lightbox-heading';
+    const name=document.createElement('strong');name.textContent=item.name;
+    const number=document.createElement('span');heading.append(name,number);
+    const prev=galleryButton('‹','Imagen anterior','lightbox-prev');
+    const next=galleryButton('›','Imagen siguiente','lightbox-next');
+    function show(step=0){
+      index=(index+step+photos.length)%photos.length;image.src=photos[index];
+      number.textContent=photos.length>1?(index+1)+' / '+photos.length:'Imagen de producto';
+    }
+    close.addEventListener('click',closeLightbox);
+    prev.addEventListener('click',()=>show(-1));next.addEventListener('click',()=>show(1));
+    overlay.addEventListener('click',e=>{if(e.target===overlay)closeLightbox();});
+    if(photos.length===1){prev.hidden=true;next.hidden=true;}
+    panel.append(close,image,heading,prev,next);overlay.append(panel);
+    document.body.append(overlay);lightbox=overlay;lightboxState={show,lastFocus};show();
+    document.body.classList.add('lightbox-open');close.focus();
+  }
+  document.addEventListener('keydown',e=>{
+    if(!lightbox)return;
+    if(e.key==='Escape'){e.preventDefault();closeLightbox();}
+    if(e.key==='ArrowRight'){e.preventDefault();lightboxState?.show(1);}
+    if(e.key==='ArrowLeft'){e.preventDefault();lightboxState?.show(-1);}
+    if(e.key==='Tab'){
+      const focusable=[...lightbox.querySelectorAll('button:not([hidden])')];
+      if(!focusable.length)return;
+      const idx=focusable.indexOf(document.activeElement);
+      if(e.shiftKey&&idx<=0){e.preventDefault();focusable[focusable.length-1].focus();}
+      else if(!e.shiftKey&&idx===focusable.length-1){e.preventDefault();focusable[0].focus();}
+    }
+  });
+
   function renderProducts(){
     const root=$('products');if(!root)return;
     root.replaceChildren();
@@ -95,9 +159,29 @@
       const article=document.createElement('article');article.className='product-card';
       const visual=document.createElement('div');visual.className='product-visual '+colors[item.tile%colors.length];
       const label=document.createElement('span');label.className='product-badge';label.textContent=item.badge||'Elegidos Alma';
-      const stockImage=/^p(?:0[1-9]|1[0-2])$/.test(item.id)?'assets/productos/'+item.id+'.webp':'';
-      if(item.image||stockImage){const img=document.createElement('img');img.src=item.image||stockImage;img.loading='lazy';img.alt='Fotografía de '+item.name;
-       img.onerror=()=>{img.remove();visual.append(art(item));};visual.append(img);
+      const photos=productPhotos(item);
+      if(photos.length){
+        const frame=document.createElement('div');frame.className='gallery-frame';
+        const img=document.createElement('img');img.src=photos[0];img.loading='lazy';img.alt='Fotografía de '+item.name;
+        img.onerror=()=>{img.remove();frame.append(art(item));};
+        frame.append(img);visual.append(frame);
+        if(photos.length>1){
+          let current=0;
+          const counter=document.createElement('span');counter.className='gallery-count';
+          const previous=galleryButton('‹','Anterior imagen de '+item.name,'gallery-prev');
+          const next=galleryButton('›','Siguiente imagen de '+item.name,'gallery-next');
+          const change=step=>{current=(current+step+photos.length)%photos.length;img.src=photos[current];counter.textContent=(current+1)+' / '+photos.length;};
+          previous.addEventListener('click',()=>change(-1));
+          next.addEventListener('click',()=>change(1));
+          change(0);
+          visual.append(previous,next,counter);
+        }
+        const expand=galleryButton('⤢','Ampliar imagen de '+item.name,'gallery-expand');
+        expand.addEventListener('click',()=>openLightbox(item,photos,Math.max(0,photos.indexOf(img.getAttribute('src')))));
+        visual.append(expand);
+        frame.addEventListener('click',()=>openLightbox(item,photos,Math.max(0,photos.indexOf(img.getAttribute('src')))));
+        frame.setAttribute('role','button');frame.setAttribute('tabindex','0');frame.setAttribute('aria-label','Ampliar fotografía de '+item.name);
+        frame.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openLightbox(item,photos,Math.max(0,photos.indexOf(img.getAttribute('src'))));}});
       }else if(atlasReady){visual.append(photoTile(item.tile));}
       else{visual.append(art(item));}
       visual.append(label);

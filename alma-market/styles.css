@@ -77,3 +77,38 @@
 /* Fotografías reales de productos: sin recortes de envases ni fondos artificiales */
 .product-visual{background:#fff!important}
 .product-visual img{object-fit:contain!important;padding:12px;max-width:100%;max-height:100%;background:#fff}
+
+
+/* V5 · Catálogo Alma Market — tarjetas premium + galería y ampliación */
+.product-grid{gap:clamp(16px,1.75vw,27px);align-items:stretch}
+.product-card{border:1px solid #e1e8dc;border-radius:25px;background:#fff;box-shadow:0 7px 22px rgba(30,57,39,.055);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.product-card:hover{transform:translateY(-4px);border-color:#bbcfbd;box-shadow:0 19px 40px rgba(30,57,39,.12)}
+.product-visual{aspect-ratio:1.08;background:#fff!important;overflow:hidden;border-bottom:1px solid #edf1e9}
+.gallery-frame{position:absolute;inset:0;display:grid;place-items:center;cursor:zoom-in;padding:clamp(13px,1.8vw,27px);outline-offset:-5px}
+.gallery-frame img{height:100%;width:100%;object-fit:contain!important;padding:0!important;transition:transform .25s ease;background:transparent!important}
+.gallery-frame:hover img{transform:scale(1.035)}
+.gallery-prev,.gallery-next,.gallery-expand{position:absolute;z-index:4;width:37px;height:37px;display:grid;place-items:center;border-radius:50%;background:#fffef7f2;color:#285044;border:1px solid #d8e4d6;box-shadow:0 5px 15px #28504424;font-size:29px;line-height:1;transition:background .15s,transform .15s}
+.gallery-prev:hover,.gallery-next:hover,.gallery-expand:hover{background:#eaf4e5;transform:scale(1.06)}
+.gallery-prev{left:10px;top:50%;transform:translateY(-50%)}
+.gallery-next{right:10px;top:50%;transform:translateY(-50%)}
+.gallery-prev:hover,.gallery-next:hover{transform:translateY(-50%) scale(1.06)}
+.gallery-expand{right:12px;bottom:12px;font-size:23px}
+.gallery-count{position:absolute;bottom:14px;left:14px;z-index:3;padding:5px 11px;border-radius:40px;background:#fffdf2f2;color:#35574b;font-size:11px;font-weight:800;border:1px solid #e4e9df}
+.product-badge{top:13px;left:13px;background:#fffdf2f5;border:1px solid #f1f0e4;padding:7px 13px;box-shadow:0 4px 11px #27372a0c}
+.product-text{padding:21px 21px 22px}
+.product-text h3{font-size:clamp(20px,1.5vw,24px);line-height:1.23;min-height:2.35em}
+.product-text p{font-size:12.5px;line-height:1.7;color:#667c6e}
+.product-foot{padding-top:17px;border-top:1px solid #e7ede5}
+.product-foot button{width:42px;height:42px;transition:transform .2s ease,background .2s ease}
+.product-foot button:hover{transform:scale(1.09);background:var(--forest)}
+.alma-lightbox{position:fixed;inset:0;z-index:99999;background:rgba(12,30,23,.88);backdrop-filter:blur(9px);display:flex;align-items:center;justify-content:center;padding:clamp(14px,3vw,35px)}
+.alma-lightbox-panel{position:relative;width:min(840px,100%);height:min(84vh,820px);background:#fffefb;border-radius:25px;display:flex;align-items:center;justify-content:center;padding:58px clamp(20px,6vw,78px) 70px;box-shadow:0 25px 80px #0005}
+.alma-lightbox-image{width:100%;height:100%;object-fit:contain}
+.lightbox-close,.lightbox-prev,.lightbox-next{position:absolute;z-index:2;border:0;border-radius:50%;background:#ecf2e9;color:#254538;width:44px;height:44px;font-size:29px;display:grid;place-items:center;line-height:1}
+.lightbox-close{right:18px;top:16px}.lightbox-prev{left:13px;top:50%;transform:translateY(-50%)}.lightbox-next{right:13px;top:50%;transform:translateY(-50%)}
+.lightbox-close:hover,.lightbox-prev:hover,.lightbox-next:hover{background:#d8e9d4}
+.alma-lightbox-heading{position:absolute;bottom:21px;left:30px;right:30px;display:flex;align-items:center;justify-content:space-between;gap:15px;color:#2e4e3e;font-size:14px}
+.alma-lightbox-heading span{font-size:12px;font-weight:800;white-space:nowrap}
+.lightbox-open{overflow:hidden}
+@media(max-width:640px){.product-grid{gap:15px}.product-card{border-radius:20px}.gallery-prev,.gallery-next{width:33px;height:33px;font-size:25px}.gallery-prev{left:7px}.gallery-next{right:7px}.gallery-expand{width:34px;height:34px}.alma-lightbox-panel{height:min(76vh,670px);padding:62px 36px 78px}.lightbox-prev{left:5px;width:34px;height:38px}.lightbox-next{right:5px;width:34px;height:38px}.alma-lightbox-heading{left:17px;right:17px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){.product-card,.gallery-frame img{transition:none}}
