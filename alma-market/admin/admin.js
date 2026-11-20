@@ -38,12 +38,27 @@
   }
   function populate(){
     document.querySelectorAll('[data-field]').forEach(input=>input.value=typeof model[input.dataset.field]==='string'?model[input.dataset.field]:'');
-    updatePhotos();updateTheme();renderProducts();setTab(activeTab);
+    updatePhotos();updateTheme();renderProducts();renderWeeklyHoursEditor();setTab(activeTab);
   }
   function fieldSync(){
     document.querySelectorAll('[data-field]').forEach(input=>{
       model[input.dataset.field]=input.value.trim();
     });
+  }
+
+  function renderWeeklyHoursEditor(){
+    const root=$('weekly-hours-editor');if(!root)return;
+    root.replaceChildren();
+    const days=[["lunes","Lunes"],["martes","Martes"],["miercoles","Miércoles"],["jueves","Jueves"],["viernes","Viernes"],["sabado","Sábado"],["domingo","Domingo"]];
+    if(!model.weeklyHours)model.weeklyHours=clone(defaults.weeklyHours);
+    for(const [key,label] of days){
+      const row=document.createElement('label');row.className='weekly-hour-edit-row';
+      const name=document.createElement('span');name.textContent=label;
+      const input=document.createElement('input');input.type='text';input.maxLength=80;
+      input.placeholder='Ej.: 10:00 - 19:30 o Cerrado';input.value=model.weeklyHours[key]||'';
+      input.addEventListener('input',()=>{model.weeklyHours[key]=input.value.trim();});
+      row.append(name,input);root.append(row);
+    }
   }
   function control(labelText,value,onInput,opts={}){
     const label=document.createElement('label');label.textContent=labelText;

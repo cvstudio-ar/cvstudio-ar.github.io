@@ -7,8 +7,8 @@
 <link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css?v=4">
-<script defer src="../data.js?v=4"></script><script defer src="admin.js?v=4"></script>
+<link rel="stylesheet" href="admin.css?v=8">
+<script defer src="../data.js?v=8"></script><script defer src="admin.js?v=8"></script>
 </head>
 <body>
 <div class="layout">
@@ -59,12 +59,15 @@
   </section>
   <section class="tab-view" id="view-contact" hidden>
    <div class="panel"><div class="panel-heading"><span>05 / CONTACTO</span><h2>Que siempre sepan encontrarte.</h2><p>Los enlaces y datos se actualizarán en la vista previa de esta demo.</p></div>
-    <div class="form-grid"><label class="full">Dirección del local<input data-field="address" maxlength="300"></label><label class="full">Horarios de atención<textarea data-field="hours" rows="2" maxlength="300"></textarea></label>
+    <div class="form-grid"><label class="full">Dirección del local<input data-field="address" maxlength="300"></label>
       <label class="full">Envíos y zona de cobertura<textarea data-field="delivery" rows="2" maxlength="300"></textarea></label>
       <label class="full">Instagram<input data-field="instagram" type="url" maxlength="300"></label>
       <label class="full">Enlace de WhatsApp<input data-field="whatsapp" type="url" maxlength="300"></label>
       <label>Teléfono visible (opcional)<input data-field="phone" maxlength="80" placeholder="A completar"></label>
     </div>
+   </div>
+   <div class="panel"><div class="panel-heading"><span>HORARIOS DEL LOCAL</span><h2>Atención día por día.</h2><p>Modificá cada día por separado. Podés escribir un rango horario o “Cerrado”. Guardá los cambios para verlos en la web.</p></div>
+    <div id="weekly-hours-editor" class="weekly-hours-editor"></div>
    </div>
   </section>
   <section class="tab-view" id="view-style" hidden>

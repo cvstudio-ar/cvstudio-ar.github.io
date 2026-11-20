@@ -18,7 +18,8 @@
     instagram: 'https://www.instagram.com/almamarket.ar/',
     whatsapp: 'https://wa.me/message/ODU247JWJPHWN1',
     address: 'Alsina 132, San Isidro, Buenos Aires',
-    hours: 'Consultanos por los horarios de atención',
+    hours: 'Lunes a viernes 10:00 - 19:30 · Sábados 10:00 - 17:00 · Domingos cerrado',
+    weeklyHours: {lunes:'10:00 - 19:30',martes:'10:00 - 19:30',miercoles:'10:00 - 19:30',jueves:'10:00 - 19:30',viernes:'10:00 - 19:30',sabado:'10:00 - 17:00',domingo:'Cerrado'},
     delivery: 'Envíos disponibles · Consultanos por cobertura',
     phone: '',
     accent: '#E96D50',
@@ -54,6 +55,11 @@
     if(!input||typeof input!=='object'||Array.isArray(input))return d;
     for(const k of ['name','tagline','eyebrow','heroTitle','heroAccent','heroDescription','heroButton','aboutTitle','aboutText','address','hours','delivery','phone'])
       if(typeof input[k]==='string')d[k]=cleanString(input[k],k==='aboutText'?1400:400);
+    if(input.weeklyHours && typeof input.weeklyHours==='object' && !Array.isArray(input.weeklyHours)){
+      for(const day of ['lunes','martes','miercoles','jueves','viernes','sabado','domingo']){
+        if(typeof input.weeklyHours[day]==='string') d.weeklyHours[day]=cleanString(input.weeklyHours[day],80);
+      }
+    }
     for(const k of ['instagram','whatsapp'])if(typeof input[k]==='string')d[k]=url(input[k],defaults[k]);
     for(const k of ['accent','forest','cream'])if(/^#[\da-f]{6}$/i.test(input[k]||''))d[k]=input[k];
     for(const k of ['heroImage','aboutImage','logoImage'])d[k]=image(input[k]);

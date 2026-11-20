@@ -70,8 +70,25 @@
     if(frame)frame.src='https://www.google.com/maps?q='+encodeURIComponent(address)+'&output=embed';
     const link=$('maps-link');
     if(link)link.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(address);
-    renderStory();renderFilters();renderProducts();
+    renderStory();renderWeeklyHours();renderFilters();renderProducts();
     document.title=data.name+' · Tienda natural en San Isidro';
+  }
+
+  function renderWeeklyHours(){
+    const root=$('weekly-hours-list');if(!root)return;
+    root.replaceChildren();
+    const schedule=data.weeklyHours||{};
+    const days=[["lunes","Lunes"],["martes","Martes"],["miercoles","Miércoles"],["jueves","Jueves"],["viernes","Viernes"],["sabado","Sábado"],["domingo","Domingo"]];
+    for(const [key,label] of days){
+      const value=typeof schedule[key]==='string'?schedule[key]:'';
+      const row=document.createElement('div');row.className='weekly-hour-row';
+      const day=document.createElement('span');day.textContent=label;
+      const time=document.createElement('strong');time.textContent=value||'Consultar';
+      if(value.trim().toLowerCase()==='cerrado')time.classList.add('closed');
+      row.append(day,time);root.append(row);
+    }
+    const maps=$('footer-hours-maps');
+    if(maps)maps.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent((data.address||'Alsina 132, San Isidro')+', Argentina');
   }
   function renderFilters(){
     const root=$('filters');root.replaceChildren();
