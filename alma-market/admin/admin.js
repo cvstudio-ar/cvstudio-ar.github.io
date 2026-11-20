@@ -28,7 +28,7 @@
     const logoImg=document.createElement('img');logoImg.alt='Vista previa del logo';
     logoImg.src=model.logoImage||'../assets/logo.svg';logo.append(logoImg);
     const hero=$('hero-preview');hero.replaceChildren();
-    const hi=document.createElement('img');hi.alt='Vista previa de portada';hi.src=model.heroImage||'../assets/portada-natural.svg';hero.append(hi);
+    const hi=document.createElement('img');hi.alt='Vista previa de portada';hi.src=model.heroImage||'../assets/portada-alma-market.webp';hero.append(hi);
     const about=$('about-preview');about.replaceChildren();
     if(model.aboutImage){
       const img=document.createElement('img');img.alt='Vista previa del local o productos';img.src=model.aboutImage;about.append(img);

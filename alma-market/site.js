@@ -57,7 +57,7 @@
     if(primary){primary.replaceChildren(document.createTextNode((data.heroButton||'Explorar productos')+' '));
       const arrow=document.createElement('span');arrow.textContent='↗';arrow.setAttribute('aria-hidden','true');primary.append(arrow);
     }
-    const hero=$('hero-image');if(hero)hero.src=data.heroImage||'assets/portada-natural.svg';
+    const hero=$('hero-image');if(hero)hero.src=data.heroImage||'assets/portada-alma-market.webp';
     document.querySelectorAll('[data-alma-logo]').forEach(img=>{
       img.onerror=()=>{img.onerror=null;img.src='assets/logo.svg';};
       img.src=data.logoImage||'assets/logo.svg';
