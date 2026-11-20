@@ -163,3 +163,40 @@
 .weekly-hour-row strong{font-size:13px;font-weight:750;color:#264e3d;text-align:right}
 .weekly-hour-row strong.closed{color:#b26d5a}
 @media(max-width:740px){.footer-hours{grid-template-columns:1fr;gap:27px;padding:46px 0 36px}.footer-hours-card{padding:22px}.footer-hours-intro h2{font-size:38px}}
+
+/* Alma Market: horarios premium a pantalla ancha y pie compacto */
+.footer{background:#19372e;color:#f6f8ef}
+.footer .wrap{max-width:1800px;width:calc(100% - 2*clamp(20px,4.2vw,88px))}
+.footer-hours{display:block;max-width:1800px;padding:clamp(45px,5vw,76px) 0 35px;border-bottom:1px solid rgba(234,247,231,.17)}
+.footer-hours-header{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:32px}
+.footer-hours-intro{max-width:850px}
+.footer-hours-intro .eyebrow{color:#ff9e80;margin-bottom:11px;font-size:11px;letter-spacing:.18em}
+.footer-hours-intro h2{font:500 clamp(34px,3.5vw,60px)/1.11 var(--display);letter-spacing:-.048em;margin:0 0 9px;color:#f8f8ee}
+.footer-hours-intro h2 em{color:#ffc19f;font-style:italic}
+.footer-hours-intro>p:not(.eyebrow){color:#bcd9c8;font-size:14px;margin:0}
+.footer-visit-link{flex:none;display:flex;align-items:center;gap:14px;max-width:440px;padding:15px 19px;border:1px solid rgba(222,243,224,.22);background:rgba(235,253,228,.07);border-radius:18px;color:#f2f7ef;transition:background .2s,border-color .2s}
+.footer-visit-link:hover{background:rgba(235,253,228,.14);border-color:rgba(222,243,224,.5)}
+.footer-location-icon{display:grid;place-items:center;width:42px;height:42px;flex:none;border-radius:13px;background:#d4e8bb;color:#214e3b;font-size:25px}
+.footer-visit-link>span:nth-child(2){display:grid;gap:3px;min-width:0}
+.footer-visit-link small{font-size:9px;letter-spacing:.15em;font-weight:850;color:#bcd4bf}
+.footer-visit-link strong{font-size:12px;font-weight:700;line-height:1.4;color:#fbfdf8}
+.footer-visit-link>span:last-child{font-size:21px;color:#ffc19f}
+.footer-hours-card{padding:clamp(20px,2.6vw,34px);background:linear-gradient(115deg,#f3f5e9 0%,#fff9ed 58%,#f4eddb 100%);border:1px solid #f9efd8;border-radius:27px;box-shadow:0 22px 60px rgba(0,0,0,.12);color:#234a38;position:relative;overflow:hidden}
+.footer-hours-card:before{content:"";pointer-events:none;position:absolute;right:-60px;top:-120px;width:300px;height:300px;background:radial-gradient(circle,#e4eed1 0%,transparent 68%);opacity:.8}
+.footer-hours-card-title{position:relative;display:flex;justify-content:space-between;align-items:center;margin:0 0 19px;padding:0 0 18px;border-bottom:1px solid rgba(76,111,81,.16);gap:15px}
+.hours-title-kicker{font:850 10px/1.3 var(--sans);letter-spacing:.16em;color:#b56f5c}
+.footer-hours-card-title h3{font:550 clamp(22px,2vw,30px)/1.15 var(--display);letter-spacing:-.03em;margin:5px 0 0;color:#244a38}
+.hours-flower{font-size:31px;color:#df8d72}
+.weekly-hours-list{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(7px,.8vw,15px);position:relative}
+.weekly-hour-row{min-width:0;min-height:117px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:15px;padding:18px clamp(10px,1.2vw,19px);border:1px solid #dce8d8;border-radius:16px;background:linear-gradient(150deg,#ffffff 0%,#edf5e9 100%);color:#375c46;transition:transform .18s,border-color .18s,box-shadow .18s}
+.weekly-hour-row:hover{transform:translateY(-3px);border-color:#a2c29e;box-shadow:0 10px 20px rgba(31,67,42,.09)}
+.weekly-hour-row span{font-size:12px;font-weight:800;color:#4c6c56}
+.weekly-hour-row strong{font-size:clamp(11px,.95vw,15px);line-height:1.3;font-weight:850;text-align:left;color:#23533b;white-space:normal}
+.weekly-hour-row:last-child{background:linear-gradient(150deg,#fff5ed,#ffe2d6);border-color:#f3d1c1}
+.weekly-hour-row strong.closed{color:#a75c4f}
+.footer-main{padding:26px 0;flex-direction:row;align-items:center;justify-content:space-between;gap:25px}
+.footer-links{align-items:center;gap:clamp(14px,2vw,30px);font-size:12px}
+.footer-bottom{padding:16px 0 22px;flex-direction:row;align-items:center;justify-content:space-between;gap:15px}
+@media(max-width:1160px){.weekly-hours-list{grid-template-columns:repeat(4,minmax(0,1fr))}.footer-hours-header{align-items:flex-start}.footer-visit-link{max-width:360px}.weekly-hour-row{min-height:102px}}
+@media(max-width:850px){.footer-hours-header{flex-direction:column;align-items:stretch;gap:20px}.footer-visit-link{max-width:100%}.weekly-hours-list{grid-template-columns:repeat(3,minmax(0,1fr))}.footer-main{flex-direction:row;align-items:center}.footer-bottom{flex-wrap:wrap}}
+@media(max-width:540px){.footer-hours{padding-top:42px}.footer-hours-intro h2{font-size:clamp(34px,9vw,45px)}.footer-hours-card{padding:17px;border-radius:20px}.weekly-hours-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.weekly-hour-row{min-height:99px;padding:14px 12px}.weekly-hour-row strong{font-size:12px}.footer-main{flex-direction:column;align-items:flex-start;padding:25px 0;gap:18px}.footer-links{gap:15px}.footer-bottom{flex-direction:column;align-items:flex-start;gap:9px}.footer-visit-link{padding:13px}.footer-hours-card-title{margin-bottom:13px}}
