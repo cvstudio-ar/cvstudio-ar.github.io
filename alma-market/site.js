@@ -37,8 +37,11 @@
   function renderStory(){
     const el=$('about-image');if(!el)return;
     if(data.aboutImage){el.style.backgroundImage='url("'+data.aboutImage+'")';el.style.backgroundSize='cover';el.style.backgroundPosition='center';}
-    else if(atlasReady){el.style.backgroundImage='url("assets/catalogo-alma.svg")';el.style.backgroundSize='400% 300%';el.style.backgroundPosition='100% 100%';}
-    else{el.style.backgroundImage='linear-gradient(130deg,#f4ecd5,#a9c8ab 63%,#559278)';}
+    else{
+      el.style.backgroundImage='url("assets/local-alma.svg")';
+      el.style.backgroundSize='cover';
+      el.style.backgroundPosition='center';
+    }
   }
   function setData(){
     data=read();
@@ -60,6 +63,8 @@
       img.src=data.logoImage||'assets/logo.svg';
     });
     setLinks();
+    const phoneRow=$('phone-row');
+    if(phoneRow){phoneRow.hidden=!data.phone;const phoneText=$('phone-text');if(phoneText)phoneText.textContent=data.phone||'';}
     const frame=$('maps-frame');
     const address=(data.address||'San Isidro, Buenos Aires')+', Argentina';
     if(frame)frame.src='https://www.google.com/maps?q='+encodeURIComponent(address)+'&output=embed';
