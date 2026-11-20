@@ -112,3 +112,13 @@
 .lightbox-open{overflow:hidden}
 @media(max-width:640px){.product-grid{gap:15px}.product-card{border-radius:20px}.gallery-prev,.gallery-next{width:33px;height:33px;font-size:25px}.gallery-prev{left:7px}.gallery-next{right:7px}.gallery-expand{width:34px;height:34px}.alma-lightbox-panel{height:min(76vh,670px);padding:62px 36px 78px}.lightbox-prev{left:5px;width:34px;height:38px}.lightbox-next{right:5px;width:34px;height:38px}.alma-lightbox-heading{left:17px;right:17px;font-size:12px}}
 @media(prefers-reduced-motion:reduce){.product-card,.gallery-frame img{transition:none}}
+
+/* Alma Market: sección Conocenos sin ilustración ficticia */
+.story{background:#fff9f1;padding:clamp(70px,7vw,118px) 0}
+.story-layout{display:block;max-width:1050px;margin-inline:auto}
+.story-copy{max-width:100%;text-align:center}
+.story-copy h2{max-width:880px;margin:0 auto 26px}
+.story-copy>p:not(.eyebrow){max-width:750px;margin:0 auto 27px}
+.story-checks{justify-content:center}
+.story-copy>.btn{margin-top:15px}
+@media(max-width:640px){.story-copy{text-align:left}.story-copy h2,.story-copy>p:not(.eyebrow){margin-left:0;margin-right:0}.story-checks{justify-content:flex-start}}
