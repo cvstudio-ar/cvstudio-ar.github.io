@@ -122,3 +122,29 @@
 .story-checks{justify-content:center}
 .story-copy>.btn{margin-top:15px}
 @media(max-width:640px){.story-copy{text-align:left}.story-copy h2,.story-copy>p:not(.eyebrow){margin-left:0;margin-right:0}.story-checks{justify-content:flex-start}}
+
+/* Alma Market · contraste editorial en portada: halo verde bosque sutil, sin neon */
+.hero-shape-overlay{
+ background:
+ linear-gradient(90deg,rgba(9,32,24,.94) 0%,rgba(13,40,30,.88) 20%,rgba(17,44,34,.68) 39%,rgba(17,44,34,.31) 58%,rgba(17,44,34,.04) 76%,transparent 90%),
+ linear-gradient(0deg,rgba(10,34,25,.23),transparent 20%);
+}
+.hero-copy{isolation:isolate;text-shadow:none}
+.hero-copy::before{
+ content:"";position:absolute;z-index:-1;pointer-events:none;
+ inset:-45px -45px -40px -55px;
+ background:radial-gradient(ellipse at 30% 47%,rgba(10,42,29,.40) 0%,rgba(11,44,31,.25) 45%,transparent 78%);
+ filter:blur(22px);
+}
+.hero h1{color:#fffdf6;text-shadow:0 3px 14px rgba(2,21,12,.48),0 0 25px rgba(215,255,225,.13)}
+.hero h1 em{color:#ffd0b5;text-shadow:0 2px 13px rgba(2,21,12,.62)}
+.hero-description{text-shadow:0 2px 9px rgba(2,21,12,.7);font-weight:500}
+.hero-eyebrow,.hero-bottom{text-shadow:0 2px 7px rgba(2,21,12,.7)}
+@media(max-width:900px){
+ .hero-shape-overlay{background:linear-gradient(90deg,rgba(10,34,25,.92),rgba(12,38,28,.78) 51%,rgba(12,38,28,.17) 90%)}
+}
+@media(max-width:540px){
+ .hero-shape-overlay{background:linear-gradient(90deg,rgba(8,34,25,.88),rgba(10,39,28,.57)),linear-gradient(0deg,rgba(8,34,25,.70),transparent 70%)}
+ .hero-copy::before{inset:-20px -8px -25px -14px;filter:blur(14px)}
+ .hero h1{text-shadow:0 2px 12px rgba(2,21,12,.62)}
+}
