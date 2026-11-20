@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#f6f5ed">
+<title>Administración de prueba | Alma Market</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css?v=1">
+<script defer src="../data.js?v=1"></script><script defer src="admin.js?v=1"></script>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <a href="../" class="brand"><img src="../assets/logo.svg" alt="" width="56" height="56"><span><strong>Alma Market</strong><small>Panel de demostración</small></span></a>
+  <div class="sidebar-badge">✦ MODO DE PRUEBA</div>
+  <nav id="tabs" aria-label="Secciones de administración">
+    <button class="nav-button active" type="button" data-tab="general"><span>✺</span> Identidad & textos</button>
+    <button class="nav-button" type="button" data-tab="hero"><span>▧</span> Portada & fotos</button>
+    <button class="nav-button" type="button" data-tab="products"><span>◈</span> Catálogo</button>
+    <button class="nav-button" type="button" data-tab="contact"><span>⌖</span> Contacto & redes</button>
+    <button class="nav-button" type="button" data-tab="style"><span>◍</span> Colores & estilo</button>
+    <button class="nav-button" type="button" data-tab="backup"><span>▣</span> Respaldo & opciones</button>
+  </nav>
+  <div class="sidebar-footer"><a href="../" target="_blank" rel="noopener noreferrer">↗ Ver sitio público</a><span>Una demo de CVStudio Argentina</span></div>
+</aside>
+<main class="workspace">
+  <div class="topbar"><div class="title-wrap"><p class="eyebrow">ALMA MARKET / ADMINISTRACIÓN</p><h1 id="section-title">Identidad & textos</h1><p class="top-description">Una vista sencilla para que puedas imaginar cómo administrar tu sitio.</p></div><div class="top-actions"><a class="preview-button" href="../" target="_blank" rel="noopener noreferrer">Vista previa ↗</a><button id="save" type="button" class="save-button">Guardar cambios <span>✓</span></button></div></div>
+  <div class="notice"><span class="notice-icon">ⓘ</span><div><strong>Panel de prueba sin contraseña</strong><p>Podés probar libremente. Los cambios se guardan solo en este navegador: no modifican la web pública para otros visitantes. En la versión final se configura un panel privado y sincronizado.</p></div></div>
+  <section class="tab-view" id="view-general">
+    <div class="panel"><div class="panel-heading"><span>01 / IDENTIDAD</span><h2>Que todo tenga el sello de Alma.</h2><p>Podés cambiar el nombre, la presentación y el mensaje de la marca.</p></div>
+     <div class="form-grid"><label>Nombre del negocio<input data-field="name" maxlength="80"></label><label>Descripción breve de marca<input data-field="tagline" maxlength="120"></label>
+      <label class="full">Título de presentación<textarea data-field="aboutTitle" rows="2" maxlength="280"></textarea></label>
+      <label class="full">Sobre Alma Market<textarea data-field="aboutText" rows="6" maxlength="1400"></textarea></label>
+     </div>
+    </div>
+    <div class="upload-card"><div class="upload-photo logo-preview" id="logo-preview"><img src="../assets/logo.svg" alt="Vista previa del logo de Alma Market"></div><div><strong>Logo de Alma Market</strong><p>Podés cargar el logo definitivo en PNG, JPG o WebP. Un logo transparente funciona mejor sobre los fondos claros.</p><label class="file-button">Elegir logo<input id="logo-input" type="file" accept="image/jpeg,image/png,image/webp"></label><button id="logo-reset" type="button" class="subtle-button">Restaurar logo de muestra</button></div></div><div class="help-card"><span class="help-icon">✿</span><div><strong>Un sitio que crece con tu negocio</strong><p>La demo tiene contenidos de referencia: elegí lo que te represente y probá cómo se ve actualizado.</p></div></div>
+  </section>
+  <section class="tab-view" id="view-hero" hidden>
+    <div class="panel"><div class="panel-heading"><span>02 / PORTADA</span><h2>Tu primera impresión.</h2><p>Personalizá los textos y la imagen de bienvenida.</p></div>
+      <div class="form-grid"><label class="full">Etiqueta superior<input data-field="eyebrow" maxlength="110"></label>
+       <label class="full">Título principal<textarea data-field="heroTitle" rows="2" maxlength="150"></textarea></label>
+       <label class="full">Frase destacada<textarea data-field="heroAccent" rows="2" maxlength="150"></textarea></label>
+       <label class="full">Descripción<textarea data-field="heroDescription" rows="4" maxlength="450"></textarea></label>
+       <label>Texto del botón principal<input data-field="heroButton" maxlength="80"></label>
+      </div>
+      <div class="upload-card"><div class="upload-photo" id="hero-preview"><img src="../assets/portada-natural.svg" alt="Vista previa de portada"></div><div><strong>Imagen principal</strong><p>Subí una fotografía horizontal o vertical; se adapta a la portada. La foto se optimiza para no sobrecargar la demo.</p><label class="file-button">Elegir imagen<input id="hero-input" type="file" accept="image/jpeg,image/png,image/webp"></label><button id="hero-reset" type="button" class="subtle-button">Restaurar portada de referencia</button><small>JPG · PNG · WebP · Máximo 8 MB antes de comprimir.</small></div></div>
+    </div>
+    <div class="panel"><div class="panel-heading"><span>03 / EL LOCAL</span><h2>Una foto que cuente lo que sos.</h2><p>Podés cargar una imagen del local o de tus productos para la sección “Conocenos”.</p></div>
+     <div class="upload-card"><div class="upload-photo about-preview" id="about-preview"><span>✷</span></div><div><strong>Fotografía del local o productos</strong><p>Ideal para mostrar el espacio de Alma Market en San Isidro.</p><label class="file-button">Elegir fotografía<input id="about-input" type="file" accept="image/jpeg,image/png,image/webp"></label><button id="about-reset" type="button" class="subtle-button">Quitar imagen</button></div></div>
+    </div>
+  </section>
+  <section class="tab-view" id="view-products" hidden>
+   <div class="panel"><div class="panel-topline"><div class="panel-heading"><span>04 / CATÁLOGO</span><h2>Tus elegidos, siempre actualizados.</h2><p>Agregá, editá o quitá productos, cargá una foto y elegí qué se muestra.</p></div><button id="add-product" type="button" class="add-button">+ Agregar producto</button></div>
+    <div class="catalogue-notice">Esta es una <strong>muestra de catálogo</strong>. Los productos y sus valores son editables; la demo no procesa compras.</div><div id="product-editor" class="product-editor"></div>
+    <p id="product-counter" class="hint"></p>
+   </div>
+  </section>
+  <section class="tab-view" id="view-contact" hidden>
+   <div class="panel"><div class="panel-heading"><span>05 / CONTACTO</span><h2>Que siempre sepan encontrarte.</h2><p>Los enlaces y datos se actualizarán en la vista previa de esta demo.</p></div>
+    <div class="form-grid"><label class="full">Dirección del local<input data-field="address" maxlength="300"></label><label class="full">Horarios de atención<textarea data-field="hours" rows="2" maxlength="300"></textarea></label>
+      <label class="full">Envíos y zona de cobertura<textarea data-field="delivery" rows="2" maxlength="300"></textarea></label>
+      <label class="full">Instagram<input data-field="instagram" type="url" maxlength="300"></label>
+      <label class="full">Enlace de WhatsApp<input data-field="whatsapp" type="url" maxlength="300"></label>
+      <label>Teléfono visible (opcional)<input data-field="phone" maxlength="80" placeholder="A completar"></label>
+    </div>
+   </div>
+  </section>
+  <section class="tab-view" id="view-style" hidden>
+   <div class="panel"><div class="panel-heading"><span>06 / ESTILO</span><h2>Colores con personalidad.</h2><p>Probá otra combinación respetando la identidad de tu negocio.</p></div>
+     <div class="color-grid"><label><span>Color principal</span><input data-field="forest" type="color"></label><label><span>Color de acento</span><input data-field="accent" type="color"></label><label><span>Fondo claro</span><input data-field="cream" type="color"></label></div>
+     <div class="theme-presets"><button type="button" data-palette="alma">Original Alma</button><button type="button" data-palette="sunset">Atardecer natural</button><button type="button" data-palette="sage">Salvia & terracota</button></div>
+     <div class="theme-sample" id="theme-sample"><span>alma</span><strong>Rico, fresco y natural.</strong><small>Así se verán tus colores elegidos.</small></div>
+   </div>
+  </section>
+  <section class="tab-view" id="view-backup" hidden>
+   <div class="panel"><div class="panel-heading"><span>07 / TU DEMO</span><h2>Guardá tu propuesta.</h2><p>Podés descargar una copia de los contenidos de prueba e importarla en este navegador.</p></div>
+    <div class="backup-actions"><button id="export-json" type="button" class="backup-button">↓ Descargar configuración</button><label class="backup-button">↑ Importar configuración<input id="import-json" type="file" accept=".json,application/json"></label><button id="reset-demo" type="button" class="danger-button">Restablecer demo original</button></div>
+    <div class="backup-detail"><strong>¿Cómo funcionará el panel definitivo?</strong><p>Para el sitio final, CVStudio puede implementar acceso con contraseña y cambios sincronizados. Esta demo gratuita solo muestra el funcionamiento visual del editor, sin almacenar información de otros clientes.</p></div>
+   </div>
+  </section>
+  <div id="status" class="toast" aria-live="polite" role="status"></div>
+</main></div>
+</body></html>

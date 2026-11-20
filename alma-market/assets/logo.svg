@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" role="img" aria-labelledby="t">
+<title id="t">Alma Market · identidad natural</title>
+<rect width="220" height="220" rx="110" fill="#FFF6E8"/>
+<g stroke="#9C8F6D" stroke-width="3" fill="none" stroke-linecap="round">
+<path d="M37 121c-4-21 2-33 10-42 4 13 6 25 2 36M36 121c-15-14-18-26-17-37 15 6 22 14 25 25M43 122c2-19 10-28 20-34 0 13-5 25-12 34"/>
+<path d="M43 122c-8-3-15-3-22-1M44 122v-33"/>
+</g>
+<text x="110" y="125" text-anchor="middle" font-family="Georgia,serif" font-size="70" font-weight="bold" fill="#9F8261" letter-spacing="-4">Alma</text>
+<text x="111" y="159" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" letter-spacing="5" fill="#A89B82">MARKET</text>
+</svg>
