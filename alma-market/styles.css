@@ -21,3 +21,15 @@
 
 /* Ilustración del local basada en la identidad visual de Alma Market. */
 .story-image:after{display:none!important}
+
+/* Alma Market · portada panorámica con bordes fundidos (v2) */
+.hero{background:linear-gradient(110deg,#fff9f1 0%,#f3f2e6 50%,#e6eddd 100%)}
+.hero-layout{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:clamp(15px,2.5vw,44px);min-height:590px;padding-block:clamp(44px,5vw,90px)}
+.hero-picture{width:100%;align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+.hero-shape{width:100%;max-height:none;aspect-ratio:16/9;border-radius:0;box-shadow:none;background:transparent;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%),linear-gradient(0deg,transparent 0%,#000 17%,#000 92%,transparent 100%);-webkit-mask-composite:source-in;mask-image:radial-gradient(ellipse 73% 73% at 50% 43%,#000 50%,transparent 100%)}
+.hero-shape>img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(1.04)}
+.hero-shape-overlay{background:linear-gradient(to bottom,transparent 52%,#e6eddd99 100%);pointer-events:none}
+.hero-circle-sticker{right:1%;bottom:6%;width:108px;height:108px}
+.hero-caption{margin-top:10px}
+@media(max-width:900px){.hero-layout{grid-template-columns:1fr;padding-block:48px 34px;gap:14px;min-height:0}.hero-copy{max-width:700px}.hero-picture{max-width:100%;margin-top:12px}.hero-shape{aspect-ratio:16/9;max-height:none}.hero-circle-sticker{right:3%;bottom:10%}.hero-caption{margin-top:0}}
+@media(max-width:540px){.hero-shape{aspect-ratio:1.28}.hero-shape>img{object-fit:cover}.hero-picture{margin-inline:-12px;width:calc(100% + 24px)}.hero-circle-sticker{width:82px;height:82px}.hero-circle-sticker>b{font-size:23px}.hero-circle-sticker>span{font-size:8px}.hero-caption{font-size:10px}.hero-bottom{margin-top:30px}}
