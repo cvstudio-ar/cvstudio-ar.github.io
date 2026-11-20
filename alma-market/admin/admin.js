@@ -107,7 +107,7 @@
       if(prod.image){const remove=document.createElement('button');remove.type='button';remove.textContent='Quitar fotografía';remove.addEventListener('click',()=>{prod.image='';renderProducts();});upload.append(remove);}
       card.append(upload);
       card.append(control('Nombre del producto',prod.name,v=>prod.name=v,{max:95}));
-      card.append(control('Categoría',prod.category,v=>prod.category=v,{max:60,select:['Yerbas e infusiones','Snacks saludables','Cuidado personal','Regalos y bienestar']}));
+      card.append(control('Categoría',prod.category,v=>prod.category=v,{max:60,select:['Snacks saludables','Frutos secos','Lácteos y refrigerados','Bebidas saludables','Proteínas y suplementos','Yerbas e infusiones','Cuidado personal','Regalos y bienestar']}));
       card.append(control('Descripción',prod.description,v=>prod.description=v,{max:220,multi:true,rows:3}));
       const row=document.createElement('div');row.className='editor-row';
       row.append(control('Etiqueta',prod.badge,v=>prod.badge=v,{max:55}),control('Precio / Texto',prod.price,v=>prod.price=v,{max:50}));
