@@ -222,9 +222,9 @@ function renderPizza(){
 }
 
 const photographicSlots={carne:2,lechuga:3,tomate:4,huevo:5,queso:6,cheddar:6,paleta:8,mayonesa:9};
-const fallbackPhoto={pollo:2,bacon:2,cebolla:4,pepino:3,jamon:8,muzzextra:6,roqueextra:6,morronextra:4,albahaca:3,aceitunas:3,cebollacaramelizada:4};
+const fallbackPhoto={}; // Sin fotos equivocadas: los ingredientes pendientes conservan su icono y nombre.
 function photoThumb(id,emoji,className='food-thumb'){
- const slot=photographicSlots[id]??fallbackPhoto[id];
+ const slot=photographicSlots[id];
  if(slot===undefined)return element('span',className+' thumb-fallback',emoji||'✦');
  const pic=element('span',className);
  const row=Math.floor(slot/5),col=slot%5;
@@ -281,6 +281,7 @@ function renderPhotographicFood(){
  for(const item of data.additions){
    const chip=element('span','photo-tag');
    chip.append(photoThumb(item.id,item.emoji,'photo-tag-thumb food-thumb'),element('span','',item.name+(item.qty>1?' ×'+item.qty:'')));
+   if(!Object.hasOwn(realPhotoSlot,item.id))chip.classList.add('not-yet-photographed');
    tags.append(chip);
  }
  chips.append(tags);stage.append(chips);
@@ -294,6 +295,7 @@ function renderPhotographicFood(){
  const priorities=['mayonesa','carne','paleta','queso','cheddar','huevo','tomate','lechuga'];
  const photos=priorities.flatMap(id=>Array.from({length:selected[id]||0},()=>({id,slot:realPhotoSlot[id]})));
  const others=data.additions.filter(item=>!Object.hasOwn(realPhotoSlot,item.id));
+ chips.classList.toggle('contains-pending',others.length>0);
  // Maintain space for title and selected ingredient labels at every screen height.
  const upper=H*.24,lower=H*(data.additions.length?.77:.88);
  const available=Math.max(90,lower-upper);
