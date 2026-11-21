@@ -1,0 +1,57 @@
+/* Pintobajon — estética final inspirada en los modelos aprobados; mantiene controles reales. */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+:root{--neon:#baf51c;--neon-soft:#d0ff52;--olive:#26371b;--deep:#071107;--lime-border:#768b37}
+body{background:radial-gradient(circle at 56% 5%,#39431666,transparent 36%),radial-gradient(circle at 11% 93%,#24441b55,transparent 34%),linear-gradient(115deg,#080f08,#141c0c 55%,#08110a);color:#f9f6e8}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 62% -10%,#e3a26f10,transparent 40%),repeating-linear-gradient(135deg,#ffffff02 0 2px,transparent 2px 15px);opacity:.7}
+.site-header,main,footer{position:relative;z-index:1}
+.site-header{background:linear-gradient(90deg,#0a1208eF,#14200aeF);border-bottom:1px solid #81945155;box-shadow:0 7px 34px #0005}
+.brand{gap:8px}.brand-mark{border:1px solid #c2fc32;background:#132211;color:var(--neon);box-shadow:0 0 16px #95d6295c;width:48px;height:48px;border-radius:50%;font-family:Outfit;font-weight:900}.brand-copy{font:400 clamp(26px,3.2vw,48px)/1 'Pacifico',cursive;letter-spacing:-.045em;color:#fffef6;text-shadow:0 2px 8px #000a}.brand-copy:first-letter{color:#fdfdf3}.brand-copy small{font-family:Outfit,sans-serif;color:var(--neon);font-size:9px;letter-spacing:.23em;font-weight:800;padding-top:7px;text-shadow:none}
+.trial{color:#d5f3a1;font-weight:900}.btn-outline{border:1px solid #b6e7368f;background:#131d0e;color:#f6f5d8;border-radius:11px;box-shadow:inset 0 0 14px #9cf32118}.btn-outline:hover{color:#d9ff67;border-color:var(--neon)}
+.hero-intro{position:relative;justify-content:center;text-align:center;padding:10px 0 12px}.hero-intro h1{font:400 clamp(30px,3.35vw,52px)/1.12 'Pacifico',cursive;letter-spacing:-.03em;color:#fcfbed;text-shadow:0 5px 20px #0009}.hero-intro em{color:var(--neon);text-shadow:0 0 22px #bafa3059}.hero-intro p{color:#e0e4d7;font-size:13px}.hero-intro .eyebrow{color:#bcd89c}.hero-intro .intro-note{display:none}
+.builder{grid-template-columns:minmax(350px,1.18fr) minmax(350px,1.12fr) minmax(280px,.88fr);gap:12px}
+.config,.preview-card,.summary-card{background:linear-gradient(155deg,#172012ed,#0e170ddf);border:1px solid #a1ac6f92;border-radius:20px;box-shadow:inset 0 1px 0 #d4ef9533,0 18px 40px #0007}
+.config{padding:15px;scrollbar-color:#7da22e #182311}
+.section-top{margin:0 0 8px}.section-top .step{background:var(--neon);color:#172600;border-radius:50%;width:28px;height:28px;box-shadow:0 0 15px #b8fe3066}
+.section-top h2{color:#fcfcf0;font-size:21px;font-weight:900}
+.section-top .kicker{display:none}.top-space{margin-top:14px}
+.mode-switch{gap:8px}.mode{background:linear-gradient(180deg,#1b2415,#11170f);border:1px solid #6a755f;border-radius:13px;padding:9px 11px;min-height:62px;justify-content:center}.mode:hover{border-color:#b4ec36}.mode.active{background:linear-gradient(130deg,#617c18,#283f0d);border-color:var(--neon);box-shadow:0 0 0 1px #d5ff58b5,0 0 23px #b0ee2a67}.mode-icon{font-size:29px;background:transparent}.mode b{color:#fffdf5;font-size:15px;font-weight:900}.mode small{display:none}
+.ingredient-tabs{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 10px}.ingredient-tab{background:#111811;border:1px solid #566248;color:#e2e9d8;border-radius:999px;min-height:32px;padding:7px 13px;font-size:11px}.ingredient-tab.active{background:var(--neon);color:#152500;border-color:#c9ff46}.tab-count{background:#12250b;color:var(--neon)}
+.ingredient-group{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;background:transparent;border:0;overflow:visible}.ingredient-group .group-head{grid-column:1/-1;padding:0 0 3px;border:0}.ingredient-group .group-head h3{color:#d6f7ab;font-size:12px}.group-head small{color:#8c9d7b}
+.ingredient-row{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:2px;min-height:117px;min-width:0;text-align:center;padding:7px 5px 5px;background:linear-gradient(150deg,#283022,#141b12);border:1px solid #6b755e9a;border-radius:12px;transition:border-color .16s,box-shadow .16s}.ingredient-row.chosen{border-color:#c5fd39;box-shadow:inset 0 0 0 1px #b0e72544,0 0 14px #a9fa202d}
+.ingredient-icon{width:76px;height:48px;background:transparent;border-radius:7px;font-size:26px}
+.food-thumb{display:block;background-image:url('./ingredientes-foto.webp');background-size:500% 200%;background-repeat:no-repeat}
+.thumb-fallback{background-image:none;display:grid;place-items:center}
+.ingredient-info{width:100%}.ingredient-info strong{font-size:11px;line-height:1.18;color:#fcfcf0;overflow-wrap:anywhere}.ingredient-info small{font-size:10px;line-height:1.2;color:var(--neon);font-weight:800}
+.qty-control{margin-top:4px;width:100%;justify-content:space-between;background:#111810;border-color:#607255;border-radius:30px}.qty-control button{width:25px;height:22px;color:#eafae2;font-weight:800}.qty-control button:last-child{color:var(--neon)}.qty-control output{color:#fff;font-size:12px}
+.preview-card{display:flex;flex-direction:column;overflow:hidden;position:relative;background:radial-gradient(circle at 35% 70%,#4b341cb2,transparent 50%),radial-gradient(circle at 90% 0,#26381899,transparent 50%),#0c120a}
+.preview-head{padding:14px 16px 0;align-items:center;position:relative;z-index:9}.preview-head h2{font:400 clamp(23px,2.5vw,38px)/1.2 'Pacifico',cursive;color:#fcf8ef}.preview-head h2 span{color:var(--neon)}.preview-head .kicker{color:#d0f59b}.live-pill{background:#18320c;border-color:#a5ec37;color:#d0ff94}.live-pill span{background:var(--neon)}
+.food-stage{flex:1;background:radial-gradient(ellipse at 50% 72%,#67412188,transparent 59%),radial-gradient(circle at 78% 15%,#51612540,transparent 40%),linear-gradient(#11180e,#080d08);border-radius:12px;min-height:200px;margin:3px 8px 8px;overflow:hidden}
+.food-stage::before{content:"";position:absolute;width:80%;height:32%;bottom:8%;left:10%;border-radius:50%;background:radial-gradient(ellipse,#7650276e,transparent 71%);filter:blur(16px)}
+.stage-orbit{display:none}.stage-ground{background:radial-gradient(ellipse,#0009,transparent 70%)}.visual-label{font:400 23px 'Pacifico',cursive;letter-spacing:.01em;color:#f2ecdb;text-shadow:0 2px 6px #000;left:16px;top:9px}
+.photo-stack{inset:0;z-index:5}.photo-layer{left:50%;bottom:calc(16% + var(--layer-offset,0px));width:min(97%,540px);filter:drop-shadow(0 8px 6px #0006)}.photo-layer.bottom{bottom:12%}.photo-layer.top{filter:drop-shadow(0 11px 7px #0007)}.photo-stack.has-many .photo-layer{width:min(88%,470px)}
+.preview-footer{background:#16200f;border-top:1px solid #50642a;padding:10px 15px}.total-label span{color:#c4d0ba}.total-label strong{color:var(--neon);text-shadow:0 0 11px #b3fb3150}.price-meta{color:#acbc9c}
+.summary-card{padding:18px 14px;display:flex;flex-direction:column;min-height:0;background:linear-gradient(160deg,#171f12,#0c130a)}.summary-top{flex:none;padding-bottom:12px;border-bottom:1px solid #657248}.summary-top h3{font-size:25px;font-weight:900}.summary-top h3 span{color:#c6f781;background:#2e410f}.text-action{color:#c9ed8f}
+.summary-lines{display:flex;flex:1;min-height:0;overflow-y:auto;flex-direction:column;gap:0;margin:3px 0 9px;scrollbar-width:thin}.summary-row{display:grid;grid-template-columns:42px minmax(0,1fr) auto auto;align-items:center;min-height:52px;gap:7px;border-bottom:1px solid #ffffff1b;color:#fff;padding:7px 0}.summary-thumb{width:41px;height:33px;border-radius:5px}.summary-name{font-size:12px;color:#f1f3eb;font-weight:700}.summary-qty{color:#b9c8aa;font-size:11px}.summary-row b{font-size:12px;color:#fff}
+.summary-final{border-top:1px solid #b5bca88a;padding:15px 0 18px;font-size:16px}.summary-final strong{font-size:32px;color:var(--neon);text-shadow:0 0 13px #b1f82a66}
+#copy-order{background:linear-gradient(180deg,#c6ff34,#95d400);color:#121c04;border-radius:18px;min-height:54px;font-size:16px;box-shadow:0 0 17px #b4f92a88,inset 0 2px 0 #eaffb6}#copy-order:hover{background:#cafa4a}
+.status{color:#b8e59f}
+.disclaimer{border-color:#64754855}.disclaimer p{color:#adbaa2}
+footer{background:#0a1108;border-color:#475733}
+#pizza-varieties{margin-top:9px}#pizza-varieties .bread-options{grid-template-columns:repeat(2,1fr);gap:6px}#pizza-varieties .bread{background:#1c2816;color:#fff;border-color:#6b7754;min-height:56px}.bread.active{background:#405219;border-color:#c2f53b}.bread small{color:#d9ef95}.bread strong{color:#fff}
+@media(min-width:1100px) and (min-height:590px){
+ .shell{width:calc(100% - 32px)}
+ .site-header .header{min-height:62px}
+ .hero-intro{padding:7px 0 10px}
+ .hero-intro h1{font-size:clamp(28px,2.8vw,43px)}
+ .builder{grid-template-columns:minmax(340px,1.22fr) minmax(360px,1.18fr) minmax(270px,.94fr);gap:11px;padding-bottom:8px}
+ .config{padding:13px;overflow:auto}
+ .summary-card{padding:14px 12px}
+ .photo-layer{width:min(96%,510px)}
+ .photo-stack.has-many .photo-layer{width:min(85%,465px)}
+ .summary-row{min-height:43px}
+ .disclaimer{display:none}
+ .footer-inner{padding:7px 0}
+}
+@media(min-width:1100px) and (max-height:800px){.ingredient-row{min-height:98px;padding:3px}.ingredient-icon{height:39px;width:65px}.mode{min-height:49px}.preview-head h2{font-size:26px}.summary-row{min-height:35px;padding:3px 0}.summary-thumb{height:27px;width:35px}.photo-layer{width:min(90%,400px)}.photo-stack.has-many .photo-layer{width:min(79%,380px)}}
+@media(max-width:1099px){.builder{grid-template-columns:1fr}.config{padding:14px}.ingredient-group{grid-template-columns:repeat(4,minmax(0,1fr))}.summary-card{min-height:300px}.photo-layer{width:min(83%,390px)}}
+@media(max-width:650px){.site-header .header{min-height:71px}.brand-copy{font-size:26px}.brand-mark{width:37px;height:37px}.header-actions .btn{font-size:11px;padding:9px}.hero-intro h1{font-size:32px}.mode{min-height:49px;padding:6px}.mode-icon{font-size:19px}.mode b{font-size:11px}.ingredient-group{grid-template-columns:repeat(3,minmax(0,1fr))}.ingredient-row{min-height:112px}.ingredient-icon{width:69px;height:42px}.preview-col .sticky{display:grid;grid-template-columns:1fr}.food-stage{min-height:300px}.summary-card{min-height:280px}.brand-copy small{font-size:8px}}
