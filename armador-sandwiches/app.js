@@ -76,9 +76,11 @@ const selectedGroup={sandwich:'Proteínas',burger:'Proteínas',pizza:'Clásicos'
 const $=id=>document.getElementById(id);
 const element=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;};
 function drawBread(){
- $('base-title').textContent=mode==='pizza'?'Elegí tu pizza':'Primero, el pan';
- $('bread-options').setAttribute('aria-label',mode==='pizza'?'Elegí una variedad de pizza':'Elegí el pan');
+ $('pizza-varieties').hidden=mode!=='pizza';
  const root=$('bread-options');root.replaceChildren();
+ if(mode!=='pizza')return;
+ $('base-title').textContent='Elegí tu variedad';
+ root.setAttribute('aria-label','Elegí la variedad de pizza');
  catalog[mode].breads.forEach(b=>{
   const btn=element('button','bread'+(orders[mode].bread===b.id?' active':''));btn.type='button';btn.setAttribute('role','radio');btn.setAttribute('aria-checked',String(orders[mode].bread===b.id));
   btn.append(element('span','bread-emoji',b.emoji),element('strong','',b.name),element('small','',fmt(prices[mode][b.id])));
@@ -126,7 +128,7 @@ function summary(){
  $('item-count').textContent=d.count+' adicional'+(d.count===1?'':'es');
  const lines=$('order-summary');lines.replaceChildren();
  const row=(label,value)=>{const line=element('div','summary-row');line.append(element('span','',label),element('b','',fmt(value)));lines.append(line);};
- row((mode==='pizza'?'Pizza ':'Pan ')+d.bread.name,prices[mode][d.bread.id]);
+ row(mode==='pizza'?'Pizza '+d.bread.name:'Base de '+catalog[mode].label,prices[mode][d.bread.id]);
  d.additions.forEach(i=>row(i.name+(i.qty>1?' × '+i.qty:''),i.unit*i.qty));
  if(!d.additions.length)lines.append(element('p','helper','Todavía no elegiste adicionales.'));
 }
@@ -190,8 +192,37 @@ function renderPizza(){
  svg.innerHTML='<defs><radialGradient id="pizzaDough"><stop stop-color="#f0b66b"/><stop offset=".85" stop-color="#e8a057"/><stop offset="1" stop-color="#b67738"/></radialGradient><radialGradient id="pizzaCheese"><stop stop-color="#ffecc0"/><stop offset=".7" stop-color="#f5d788"/><stop offset="1" stop-color="#e0a748"/></radialGradient></defs><ellipse cx="260" cy="377" rx="206" ry="26" fill="#00000020"/><ellipse cx="260" cy="218" rx="221" ry="177" fill="#eae5dc" stroke="#faf6e9" stroke-width="7"/><ellipse cx="260" cy="211" rx="204" ry="160" fill="url(#pizzaDough)" stroke="#a86d32" stroke-width="6"/><ellipse cx="260" cy="211" rx="180" ry="140" fill="#bc4d2b"/><ellipse cx="260" cy="209" rx="174" ry="134" fill="url(#pizzaCheese)"/>'+herbs+parts.join('')+'<ellipse cx="260" cy="211" rx="176" ry="137" fill="none" stroke="#b9613377" stroke-width="4"/>';
  svg.setAttribute('aria-label','Pizza '+variety.name+' con '+details.additions.map(i=>i.name).join(', '));
 }
+
+const photographicSlots={carne:2,lechuga:3,tomate:4,huevo:5,queso:6,cheddar:7,paleta:8,mayonesa:9};
+function renderPhotographicFood(){
+ const svg=$('food-svg'),stack=$('photo-stack'),data=bill(),selected=orders[mode].ingredients;
+ svg.hidden=true;stack.hidden=false;stack.replaceChildren();
+ const slot=(number,layerClass,index)=>{
+  const row=Math.floor(number/5),column=number%5;
+  const el=element('div','photo-layer '+layerClass);
+  el.style.backgroundPosition=(column*25)+'% '+(row*100)+'%';
+  el.style.setProperty('--layer-offset',index*24+'px');
+  el.style.zIndex=String(index+1);
+  return el;
+ };
+ stack.append(slot(1,'bottom',0));
+ const order=['mayonesa','carne','paleta','queso','cheddar','huevo','tomate','lechuga'];
+ let i=0,missing=[];
+ order.forEach(id=>{
+  const qty=selected[id]||0;
+  for(let q=0;q<qty;q++){const el=slot(photographicSlots[id],'ingredient',i+1);el.title=id;stack.append(el);i++;}
+ });
+ for(const [id,q] of Object.entries(selected))if(q&&!Object.prototype.hasOwnProperty.call(photographicSlots,id))missing.push(id);
+ stack.append(slot(0,'top',i+2));
+ stack.setAttribute('aria-label',(mode==='burger'?'Hamburguesa':'Sándwich')+' con '+data.additions.map(a=>a.name).join(', '));
+ stack.classList.toggle('has-many',i>7);
+ const indicator=$('photo-pending');
+ if(indicator){indicator.textContent=missing.length?'Agregados en el precio (foto pendiente): '+data.additions.filter(a=>missing.includes(a.id)).map(a=>a.name).join(', '):'';indicator.hidden=!missing.length;}
+}
+
 function renderFood(){
- if(mode==='pizza'){renderPizza();return;}
+ if(mode==='pizza'){$('food-svg').hidden=false;$('photo-stack').hidden=true;const note=$('photo-pending');if(note)note.hidden=true;renderPizza();return;}
+ renderPhotographicFood();return;
  const svg=$('food-svg'),data=bill(),burger=mode==='burger',bread=orders[mode].bread;
  $('visual-label').textContent=burger?'TU HAMBURGUESA':'TU SÁNDWICH';
  const choices=[...catalog[mode].ingredients.filter(i=>(orders[mode].ingredients[i.id]||0)>0)].sort((a,b)=>['mayonesa','ketchup','mostaza','salsagolf','carne','pollo','paleta','bacon','queso','cheddar','huevo','pepino','cebolla','tomate','lechuga'].indexOf(a.id)-['mayonesa','ketchup','mostaza','salsagolf','carne','pollo','paleta','bacon','queso','cheddar','huevo','pepino','cebolla','tomate','lechuga'].indexOf(b.id));
@@ -211,7 +242,7 @@ function render(){
 document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>{mode=btn.dataset.mode;$('copy-status').textContent='';render();}));
 $('clear-order').addEventListener('click',()=>{orders[mode].ingredients={};render();$('copy-status').textContent='Pedido reiniciado.';});
 $('copy-order').addEventListener('click',async()=>{
- const d=bill(),text='Pedido de '+catalog[mode].label+'\n'+(mode==='pizza'?'Variedad: ':'Pan: ')+d.bread.name+'\n'+d.additions.map(i=>i.qty+' × '+i.name+' ('+fmt(i.qty*i.unit)+')').join('\n')+'\nTotal estimado: '+fmt(d.total)+'\nDemo CVStudio · precios referenciales';
+ const d=bill(),text='Pedido de '+catalog[mode].label+'\n'+(mode==='pizza'?'Variedad: '+d.bread.name:'Base de '+catalog[mode].label)+'\n'+d.additions.map(i=>i.qty+' × '+i.name+' ('+fmt(i.qty*i.unit)+')').join('\n')+'\nTotal estimado: '+fmt(d.total)+'\nDemo CVStudio · precios referenciales';
  try{await navigator.clipboard.writeText(text);$('copy-status').textContent='✓ Pedido copiado. Ya podés pegarlo.';}
  catch{const area=element('textarea');area.value=text;area.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();$('copy-status').textContent=ok?'✓ Pedido copiado.':'No se pudo copiar automáticamente.';}
 });
@@ -224,9 +255,9 @@ document.querySelectorAll('[data-edit-mode]').forEach(btn=>btn.addEventListener(
 function drawPricing(){
  document.querySelectorAll('[data-edit-mode]').forEach(b=>b.classList.toggle('active',b.dataset.editMode===editing));
  const root=$('pricing-fields');root.replaceChildren();$('pricing-status').textContent='';
- [...catalog[editing].breads,...catalog[editing].ingredients].forEach(item=>{
+ [...(editing==='pizza'?catalog[editing].breads:[catalog[editing].breads.find(b=>b.id===orders[editing].bread)]),...catalog[editing].ingredients].forEach(item=>{
   const field=element('label','price-field'),txt=element('span','',item.name),input=element('input');input.type='number';input.name=item.id;input.min='0';input.max='1000000';input.step='50';input.value=prices[editing][item.id];input.required=true;input.setAttribute('aria-label','Precio de '+item.name);
-  txt.append(element('small','',catalog[editing].breads.some(x=>x.id===item.id)?(editing==='pizza'?'VARIEDAD':'PAN'):item.group.toUpperCase()));
+  txt.append(element('small','',catalog[editing].breads.some(x=>x.id===item.id)?(editing==='pizza'?'VARIEDAD':'PRECIO BASE'):item.group.toUpperCase()));
   field.append(txt,input);root.append(field);
  });
 }
