@@ -201,7 +201,7 @@ function renderPhotographicFood(){
   const row=Math.floor(number/5),column=number%5;
   const el=element('div','photo-layer '+layerClass);
   el.style.backgroundPosition=(column*25)+'% '+(row*100)+'%';
-  el.style.setProperty('--layer-offset',index*24+'px');
+  el.style.setProperty('--layer-offset',index*12+'px');
   el.style.zIndex=String(index+1);
   return el;
  };
@@ -256,7 +256,7 @@ function drawPricing(){
  document.querySelectorAll('[data-edit-mode]').forEach(b=>b.classList.toggle('active',b.dataset.editMode===editing));
  const root=$('pricing-fields');root.replaceChildren();$('pricing-status').textContent='';
  [...(editing==='pizza'?catalog[editing].breads:[catalog[editing].breads.find(b=>b.id===orders[editing].bread)]),...catalog[editing].ingredients].forEach(item=>{
-  const field=element('label','price-field'),txt=element('span','',item.name),input=element('input');input.type='number';input.name=item.id;input.min='0';input.max='1000000';input.step='50';input.value=prices[editing][item.id];input.required=true;input.setAttribute('aria-label','Precio de '+item.name);
+  const field=element('label','price-field'),txt=element('span','',editing!=='pizza'&&catalog[editing].breads.some(x=>x.id===item.id)?'Base '+catalog[editing].label:item.name),input=element('input');input.type='number';input.name=item.id;input.min='0';input.max='1000000';input.step='50';input.value=prices[editing][item.id];input.required=true;input.setAttribute('aria-label','Precio de '+item.name);
   txt.append(element('small','',catalog[editing].breads.some(x=>x.id===item.id)?(editing==='pizza'?'VARIEDAD':'PRECIO BASE'):item.group.toUpperCase()));
   field.append(txt,input);root.append(field);
  });

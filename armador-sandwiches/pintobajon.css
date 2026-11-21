@@ -239,3 +239,8 @@ footer{background:#0e1913;border-top:1px solid #334439}
 @media(min-width:1100px) and (max-height:730px){.photo-layer{width:min(84%,320px)}}
 @media(max-width:1099px){.photo-layer{width:min(78%,380px)}}
 @media(max-width:650px){.photo-layer{width:min(90%,350px)}}
+
+/* Encuadre optimizado para que los panes y las capas se vean completos. */
+.photo-layer{width:min(83%,360px)}
+.photo-stack.has-many .photo-layer{width:min(72%,320px)}
+@media(max-height:730px) and (min-width:850px){.photo-layer{width:min(76%,300px)}.photo-stack.has-many .photo-layer{width:min(68%,270px)}}
