@@ -233,58 +233,99 @@ function photoThumb(id,emoji,className='food-thumb'){
  pic.setAttribute('aria-hidden','true');
  return pic;
 }
+// Photographic compositor: crops real transparent sprites from atlas into a responsive canvas.
+// No substitute photos: an ingredient without a suitable photo stays in the named ingredient strip.
+const realPhotoSlot={carne:2,lechuga:3,tomate:4,huevo:5,queso:6,cheddar:6,paleta:8,mayonesa:9};
+let atlas=null,atlasBounds=null;
+function loadAtlas(){
+ if(atlas)return;
+ atlas=new Image();
+ atlas.onload=()=>{
+  const cv=document.createElement('canvas');cv.width=1250;cv.height=290;
+  const context=cv.getContext('2d',{willReadFrequently:true});
+  if(!context)return;
+  context.drawImage(atlas,0,0);
+  const pixels=context.getImageData(0,0,1250,290).data;
+  atlasBounds=Array.from({length:10},(_,i)=>{
+   const px=(i%5)*250,py=Math.floor(i/5)*145;let minx=250,miny=145,maxx=0,maxy=0;
+   for(let y=0;y<145;y+=1)for(let x=0;x<250;x+=1){
+    if(pixels[((py+y)*1250+px+x)*4+3]>65){
+     minx=Math.min(minx,x);maxx=Math.max(maxx,x);miny=Math.min(miny,y);maxy=Math.max(maxy,y);
+    }
+   }
+   return {x:px+minx,y:py+miny,w:Math.max(1,maxx-minx+1),h:Math.max(1,maxy-miny+1)};
+  });
+  if(mode!=='pizza')renderPhotographicFood();
+ };
+ atlas.onerror=()=>{atlasBounds=null;};
+ atlas.src='./ingredientes-foto.webp';
+}
 function renderPhotographicFood(){
- const svg=$('food-svg'),stack=$('photo-stack'),data=bill(),selected=orders[mode].ingredients;
- const stage=document.querySelector('.food-stage');
+ const svg=$('food-svg'),stack=$('photo-stack'),data=bill(),stage=document.querySelector('.food-stage');
  svg.hidden=true;stack.hidden=false;stack.replaceChildren();
  $('visual-label').textContent=mode==='burger'?'TU HAMBURGUESA':'TU SÁNDWICH';
- // Cada capa mantiene el mismo tamaño; el ascenso está limitado por la altura disponible.
- const h=Math.max(170,stage.clientHeight||300),w=Math.max(250,stage.clientWidth||380);
- const units=data.additions.reduce((n,i)=>n+i.qty,0);
- const rise=Math.min(h*.205,67),step=rise/Math.max(2,units+1);
- const layerWidth=Math.min(w*.91,h*.71*250/145);
- stack.style.setProperty('--photo-width',Math.round(layerWidth)+'px');
- stack.style.setProperty('--base-gap',Math.round(h*.042)+'px');
- const slot=(number,layerClass,index,id)=>{
-  const row=Math.floor(number/5),column=number%5;
-  const el=element('div','photo-layer '+layerClass);
-  el.style.backgroundPosition=(column*25)+'% '+(row*100)+'%';
-  el.style.setProperty('--layer-offset',(index*step).toFixed(2)+'px');
-  el.style.zIndex=String(index+1);
-  if(id==='cheddar')el.classList.add('cheddar-tint');
-  if(mode==='sandwich')el.classList.add('sandwich-shape');
-  return el;
- };
- stack.append(slot(1,'bottom',0,'base'));
- const priorities=['mayonesa','ketchup','mostaza','salsagolf','carne','pollo','paleta','bacon','queso','cheddar','huevo','pepino','cebolla','tomate','lechuga'];
- const photoApproximations={pollo:2,bacon:2,pepino:3,cebolla:4,ketchup:9,mostaza:9,salsagolf:9};
- let index=0;
- for(const id of priorities){
-   const n=selected[id]||0;if(!n)continue;
-   const photo=photographicSlots[id]??photoApproximations[id];
-   if(photo===undefined)continue;
-   for(let q=0;q<n;q++){index++;const layer=slot(photo,'ingredient',index,id);layer.title=id;stack.append(layer);}
- }
- // El pan superior siempre se agrega último, pero no puede superar el marco.
- stack.append(slot(0,'top',index+1,'top'));
- const missing=data.additions.filter(item=>!Object.hasOwn(photographicSlots,item.id));
- const indicator=$('photo-pending');
- if(indicator){indicator.hidden=true;indicator.textContent='';}
- let annotations=$('photo-notes');
- if(!annotations){annotations=element('div','photo-notes');annotations.id='photo-notes';stage.append(annotations);}
- annotations.replaceChildren();
- const selectedTitle=element('span','photo-caption','INGREDIENTES DEL PEDIDO');
- annotations.append(selectedTitle);
- const strip=element('div','photo-tags');
+ loadAtlas();
+ let canvas=$('photo-canvas');
+ if(!canvas){canvas=element('canvas','photo-canvas');canvas.id='photo-canvas';}
+ stack.append(canvas);
+ const W=Math.max(stage.clientWidth||400,240),H=Math.max(stage.clientHeight||330,180);
+ const scale=Math.min(window.devicePixelRatio||1,2);
+ canvas.width=Math.round(W*scale);canvas.height=Math.round(H*scale);
+ canvas.style.width='100%';canvas.style.height='100%';
+ const ctx=canvas.getContext('2d');
+ ctx.scale(scale,scale);ctx.clearRect(0,0,W,H);
+ const chips=$('photo-notes')||element('div','photo-notes');
+ chips.id='photo-notes';chips.replaceChildren();
+ chips.append(element('span','photo-caption','AGREGADOS DEL PEDIDO'));
+ const tags=element('div','photo-tags');
  for(const item of data.additions){
-  const chip=element('span','photo-tag');
-  chip.append(photoThumb(item.id,item.emoji,'photo-tag-thumb food-thumb'),element('span','',item.name+(item.qty>1?' ×'+item.qty:'')));
-  strip.append(chip);
+   const chip=element('span','photo-tag');
+   chip.append(photoThumb(item.id,item.emoji,'photo-tag-thumb food-thumb'),element('span','',item.name+(item.qty>1?' ×'+item.qty:'')));
+   tags.append(chip);
  }
- annotations.append(strip);
- annotations.hidden=!data.additions.length;
- stack.setAttribute('aria-label',(mode==='burger'?'Hamburguesa':'Sándwich')+' con '+data.additions.map(a=>a.name+' × '+a.qty).join(', '));
- stack.classList.toggle('has-many',units>7);
+ chips.append(tags);stage.append(chips);
+ chips.hidden=!data.additions.length;
+ if(!atlasBounds||!atlas.complete||!atlas.naturalWidth){
+   ctx.font='700 14px Outfit, sans-serif';ctx.textAlign='center';ctx.fillStyle='#d9ecbc';
+   ctx.fillText('Preparando ingredientes fotográficos…',W/2,H*.54);
+   return;
+ }
+ const selected=orders[mode].ingredients;
+ const priorities=['mayonesa','carne','paleta','queso','cheddar','huevo','tomate','lechuga'];
+ const photos=priorities.flatMap(id=>Array.from({length:selected[id]||0},()=>({id,slot:realPhotoSlot[id]})));
+ const others=data.additions.filter(item=>!Object.hasOwn(realPhotoSlot,item.id));
+ // Maintain space for title and selected ingredient labels at every screen height.
+ const upper=H*.24,lower=H*(data.additions.length?.77:.88);
+ const available=Math.max(90,lower-upper);
+ const breadH=mode==='burger'?Math.min(available*.40,90):Math.min(available*.24,53);
+ const baseH=mode==='burger'?Math.min(available*.20,42):Math.min(available*.15,28);
+ const layerBudget=Math.max(26,available-breadH-baseH-12);
+ const depth=Math.min(24,layerBudget/Math.max(1,photos.length));
+ const width=Math.min(W*.87,(mode==='sandwich'?470:370),available*(mode==='sandwich'?2.5:2.1));
+ const dx=(W-width)/2;
+ const yBottom=lower-baseH-4;
+ function photo(slot,x,y,w,h,alpha=1){
+   const b=atlasBounds[slot];if(!b)return;
+   ctx.globalAlpha=alpha;
+   ctx.drawImage(atlas,b.x,b.y,b.w,b.h,x,y,w,h);
+   ctx.globalAlpha=1;
+ }
+ // Open-stack product: top bread is lifted above visible layers, never covers the fillings.
+ photo(1,dx,yBottom,width,baseH);
+ let level=yBottom;
+ for(const item of photos){
+   level-=depth;
+   const h=Math.max(depth*1.55,11);
+   // Cheese, meats and vegetables have consistent depth and no opaque rectangles.
+   photo(item.slot,dx+width*.015,level,width*.97,h);
+ }
+ const capY=Math.max(upper,level-breadH*.84-4);
+ photo(0,dx-(mode==='sandwich'?width*.06:0),capY,width*(mode==='sandwich'?1.12:1),breadH);
+ ctx.strokeStyle='#ffffff10';ctx.lineWidth=1;
+ stack.setAttribute('aria-label',(mode==='burger'?'Hamburguesa':'Sándwich')+' con '+data.additions.map(i=>i.name+' por '+i.qty).join(', '));
+ // Do not misrepresent a missing photo as another ingredient.
+ const pending=$('photo-pending');
+ if(pending){pending.hidden=true;pending.textContent='';}
 }
 function renderFood(){
  const pizzaStage=$('pizza-photo-stage');
