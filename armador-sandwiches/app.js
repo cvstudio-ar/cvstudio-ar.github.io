@@ -170,12 +170,37 @@ function renderPizza(){
    photo=element('div','pizza-photo-stage');photo.id='pizza-photo-stage';
    photo.append(element('img','pizza-base-photo'));
    photo.append(element('div','pizza-photo-toppings'));
+   photo.append(element('div','pizza-photo-ingredients'));
    pizzaStage.append(photo);
  }
  const photoImg=photo.querySelector('img');
  if(!photoImg.src){photoImg.src='https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=900&q=80';photoImg.alt='Pizza horneada, fotografía';}
  const extras=photo.querySelector('.pizza-photo-toppings');
  extras.replaceChildren();
+ const toppingsLayer=photo.querySelector('.pizza-photo-ingredients');
+ toppingsLayer.replaceChildren();
+ let toppingIndex=0;
+ for(const extra of details.additions){
+   // Render a piece directly over the pizza when a suitable real photograph exists.
+   const photoId=photographicSlots[extra.id]??({muzzextra:6,roqueextra:6,jamon:8,albahaca:3,morronextra:4}[extra.id]);
+   for(let qty=0;qty<extra.qty;qty++){
+     const idx=toppingIndex++;
+     const angle=(idx*137.5+40)*Math.PI/180;
+     const radius=12+((idx*31)%31);
+     const x=50+Math.cos(angle)*radius,y=49+Math.sin(angle)*radius*.73;
+     const top=element('span','pizza-placed-topping');
+     top.style.left=x.toFixed(2)+'%';top.style.top=y.toFixed(2)+'%';
+     if(photoId!==undefined){
+       top.classList.add('food-thumb','pizza-real-topping');
+       top.style.backgroundPosition=((photoId%5)*25)+'% '+(Math.floor(photoId/5)*100)+'%';
+     }else{
+       top.classList.add('pizza-pending-topping');
+       top.textContent=extra.emoji||'✦';
+       top.title=extra.name+' (sin fotografía propia)';
+     }
+     toppingsLayer.append(top);
+   }
+ }
  const details=bill();
  details.additions.forEach(i=>{
    const item=element('span','pizza-topping');
