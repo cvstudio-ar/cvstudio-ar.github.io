@@ -102,8 +102,8 @@ function drawIngredients(){
  Object.entries(grouped).filter(([group])=>selectedGroup[mode]===group).forEach(([group,items])=>{
   const box=element('section','ingredient-group'),head=element('div','group-head');head.append(element('h3','',group),element('small','',group==='Aderezos'?'ELEGÍ LOS QUE QUIERAS':'HASTA 2 POR INGREDIENTE'));box.append(head);
   items.forEach(item=>{
-   const q=orders[mode].ingredients[item.id]||0,row=element('div','ingredient-row');
-   row.append(element('span','ingredient-icon',item.emoji));
+   const q=orders[mode].ingredients[item.id]||0,row=element('div','ingredient-row'+(q?' chosen':''));
+   row.append(photoThumb(item.id,item.emoji,'ingredient-icon food-thumb'));
    const info=element('div','ingredient-info');info.append(element('strong','',item.name),element('small','',fmt(prices[mode][item.id])+' c/u'));row.append(info);
    const ctl=element('div','qty-control');const minus=element('button','', '−'),qty=element('output','',String(q)),plus=element('button','', '+');
    minus.type=plus.type='button';minus.setAttribute('aria-label','Quitar '+item.name);plus.setAttribute('aria-label','Agregar '+item.name);
@@ -125,11 +125,16 @@ function bill(){
 }
 function summary(){
  const d=bill();$('total').textContent=fmt(d.total);$('summary-total').textContent=fmt(d.total);
- $('item-count').textContent=d.count+' adicional'+(d.count===1?'':'es');
+ $('item-count').textContent=d.count+' agregado'+(d.count===1?'':'s');
  const lines=$('order-summary');lines.replaceChildren();
- const row=(label,value)=>{const line=element('div','summary-row');line.append(element('span','',label),element('b','',fmt(value)));lines.append(line);};
- row(mode==='pizza'?'Pizza '+d.bread.name:'Base de '+catalog[mode].label,prices[mode][d.bread.id]);
- d.additions.forEach(i=>row(i.name+(i.qty>1?' × '+i.qty:''),i.unit*i.qty));
+ const row=(label,value,id,qty)=>{const line=element('div','summary-row');
+  line.append(photoThumb(id,id==='base'?'🍞':id==='pizza'?'🍕':'✦','summary-thumb food-thumb'));
+  const labelNode=element('span','summary-name',label);line.append(labelNode);
+  if(qty){const quantity=element('span','summary-qty','×'+qty);line.append(quantity);}
+  line.append(element('b','',fmt(value)));lines.append(line);
+ };
+ row(mode==='pizza'?'Pizza '+d.bread.name:'Base incluida',prices[mode][d.bread.id],mode==='pizza'?'pizza':'base',0);
+ d.additions.forEach(i=>row(i.name,i.unit*i.qty,i.id,i.qty));
  if(!d.additions.length)lines.append(element('p','helper','Todavía no elegiste adicionales.'));
 }
 function createLayer(id,y,h,idx){
@@ -194,9 +199,20 @@ function renderPizza(){
 }
 
 const photographicSlots={carne:2,lechuga:3,tomate:4,huevo:5,queso:6,cheddar:7,paleta:8,mayonesa:9};
+const fallbackPhoto={pollo:2,bacon:2,cebolla:4,pepino:3,jamon:8,muzzextra:6,roqueextra:6,morronextra:4,albahaca:3,aceitunas:3,cebollacaramelizada:4};
+function photoThumb(id,emoji,className='food-thumb'){
+ const slot=photographicSlots[id]??fallbackPhoto[id];
+ if(slot===undefined)return element('span',className+' thumb-fallback',emoji||'✦');
+ const pic=element('span',className);
+ const row=Math.floor(slot/5),col=slot%5;
+ pic.style.backgroundPosition=(col*25)+'% '+(row*100)+'%';
+ pic.setAttribute('aria-hidden','true');
+ return pic;
+}
 function renderPhotographicFood(){
  const svg=$('food-svg'),stack=$('photo-stack'),data=bill(),selected=orders[mode].ingredients;
  svg.hidden=true;stack.hidden=false;stack.replaceChildren();
+ $('visual-label').textContent=mode==='burger'?'TU HAMBURGUESA':'TU SÁNDWICH';
  const slot=(number,layerClass,index)=>{
   const row=Math.floor(number/5),column=number%5;
   const el=element('div','photo-layer '+layerClass);
@@ -217,7 +233,7 @@ function renderPhotographicFood(){
  stack.setAttribute('aria-label',(mode==='burger'?'Hamburguesa':'Sándwich')+' con '+data.additions.map(a=>a.name).join(', '));
  stack.classList.toggle('has-many',i>7);
  const indicator=$('photo-pending');
- if(indicator){indicator.textContent=missing.length?'Agregados en el precio (foto pendiente): '+data.additions.filter(a=>missing.includes(a.id)).map(a=>a.name).join(', '):'';indicator.hidden=!missing.length;}
+ if(indicator){indicator.hidden=true;}
 }
 
 function renderFood(){
