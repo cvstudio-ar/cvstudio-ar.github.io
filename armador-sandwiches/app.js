@@ -163,7 +163,29 @@ function burgerTop(y,seeded){let seeds='';
  if(seeded){for(let i=0;i<25;i++){const x=155+(i%9)*26+(Math.floor(i/9)%2)*9;const yy=y+20+Math.floor(i/9)*13+((i*13)%7);seeds+=`<ellipse cx="${x}" cy="${yy}" rx="5" ry="2.2" transform="rotate(-28 ${x} ${yy})" fill="#fff4cf" stroke="#c88e52" stroke-width=".7"/>`;}}
  return `<path d="M103 ${y+73} C104 ${y-2} 150 ${y-21} 260 ${y-21} C366 ${y-21} 414 ${y+7} 417 ${y+73} Q263 ${y+90} 103 ${y+73}Z" fill="url(#bun)" stroke="#af6329" stroke-width="4"/><path d="M127 ${y+25} Q265 ${y-28} 393 ${y+26}" fill="none" stroke="#fff0c4" stroke-width="10" opacity=".4"/>${seeds}<path d="M107 ${y+71} Q264 ${y+84} 414 ${y+71}" stroke="#e7b264" stroke-width="8" fill="none"/>`;}
 function renderPizza(){
- const svg=$('food-svg'),order=orders.pizza,kind=order.bread,details=bill();
+ const pizzaStage=document.querySelector('.food-stage');
+ let photo=$('pizza-photo-stage');
+ if(!photo){
+   photo=element('div','pizza-photo-stage');photo.id='pizza-photo-stage';
+   photo.append(element('img','pizza-base-photo'));
+   photo.append(element('div','pizza-photo-toppings'));
+   pizzaStage.append(photo);
+ }
+ const photoImg=photo.querySelector('img');
+ if(!photoImg.src){photoImg.src='https://cdn.rawpng.com/1095023891.webp';photoImg.alt='Pizza horneada, fotografía';}
+ const extras=photo.querySelector('.pizza-photo-toppings');
+ extras.replaceChildren();
+ const details=bill();
+ details.additions.forEach(i=>{
+   const item=element('span','pizza-topping');
+   item.append(photoThumb(i.id,i.emoji,'pizza-topping-photo food-thumb'));
+   item.append(element('span','',i.name+(i.qty>1?' ×'+i.qty:'')));
+   extras.append(item);
+ });
+ photo.hidden=false;
+ photoImg.onerror=()=>{photo.hidden=true;$('food-svg').hidden=false;};
+ $('visual-label').textContent='TU PIZZA · '+catalog.pizza.breads.find(x=>x.id===orders.pizza.bread).name.toUpperCase();
+ const svg=$('food-svg'),order=orders.pizza,kind=order.bread;
  const variety=catalog.pizza.breads.find(x=>x.id===kind);
  $('visual-label').textContent='TU PIZZA · '+variety.name.toUpperCase();
  const parts=[];
@@ -237,7 +259,9 @@ function renderPhotographicFood(){
 }
 
 function renderFood(){
- if(mode==='pizza'){$('food-svg').hidden=false;$('photo-stack').hidden=true;const note=$('photo-pending');if(note)note.hidden=true;renderPizza();return;}
+ const pizzaStage=$('pizza-photo-stage');
+ if(pizzaStage)pizzaStage.hidden=mode!=='pizza';
+ if(mode==='pizza'){$('food-svg').hidden=true;$('photo-stack').hidden=true;const note=$('photo-pending');if(note)note.hidden=true;renderPizza();return;}
  renderPhotographicFood();return;
  const svg=$('food-svg'),data=bill(),burger=mode==='burger',bread=orders[mode].bread;
  $('visual-label').textContent=burger?'TU HAMBURGUESA':'TU SÁNDWICH';
