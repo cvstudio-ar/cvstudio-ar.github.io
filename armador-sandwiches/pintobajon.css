@@ -160,3 +160,56 @@ footer{background:#0e1913;border-top:1px solid #334439}
  .footer-inner{padding:15px 0}
  .price-tabs button{padding:8px}
 }
+
+/* Selector de categorías: evita listas interminables en pantalla única. */
+.ingredient-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px}
+.ingredient-tab{border:1px solid #445744;background:#26382b;color:#cbd9c6;border-radius:8px;padding:7px 10px;font:800 10px/1.2 'DM Sans',sans-serif;min-height:32px}
+.ingredient-tab.active{border-color:#d1b975;background:#526440;color:#fff1c8}
+.tab-count{display:inline-grid;place-items:center;margin-left:6px;min-width:17px;height:17px;background:#d7ba72;color:#1a281c;border-radius:50%;font-size:10px}
+.ingredient-groups{grid-template-columns:1fr}
+.ingredient-group{max-width:none}
+@media(min-width:900px) and (min-height:460px) and (max-width:1099px){
+ html,body{height:100%;overflow:hidden}
+ body{height:100dvh;display:flex;flex-direction:column}
+ .shell{width:calc(100% - 34px)}
+ .site-header{flex:0 0 auto}.header{min-height:50px}
+ .brand{font-size:18px}.brand-mark{height:34px;width:34px}.brand-copy small{font-size:8px}
+ .header-actions .btn{min-height:32px;padding:5px 10px}
+ main{min-height:0;flex:1;display:flex;flex-direction:column;overflow:hidden}
+ .hero-intro{flex:0 0 auto;padding:6px 0 4px}
+ .hero-intro h1{font-size:29px;margin:0}
+ .hero-intro p{font-size:11px}
+ .intro-note{padding:5px 8px;min-width:190px}
+ .builder{flex:1;min-height:0;padding:0 0 7px;display:grid;grid-template-columns:minmax(340px,1.18fr) minmax(260px,1fr) minmax(230px,.79fr);gap:10px}
+ .config{grid-row:auto;grid-column:1;min-height:0;overflow-y:auto;padding:6px 6px 3px 0;scrollbar-width:thin;scrollbar-color:#72826a transparent}
+ .preview-col,.sticky{display:contents}
+ .preview-card{grid-column:2;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+ .preview-head{flex:0 0 auto;padding:12px 11px 3px}
+ .preview-head h2{font-size:18px}
+ .live-pill{padding:5px 6px}
+ .food-stage{flex:1;min-height:165px;height:auto}
+ .preview-footer{flex:0 0 auto;padding:7px 12px}
+ .total-label strong{font-size:25px}
+ .summary-card{grid-column:3;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:12px 10px}
+ .summary-top h3{font-size:16px}
+ .summary-lines{overflow-y:auto;min-height:0;flex:1;scrollbar-width:thin;margin:8px 0}
+ .summary-row{font-size:11px}
+ .summary-final{flex:0 0 auto;padding:8px 0}
+ .summary-card .btn{flex:0 0 auto;padding:8px 6px;font-size:10px}
+ .disclaimer{display:none}
+ footer{flex:0 0 auto}
+ .section-top{margin-bottom:4px;gap:5px}
+ .section-top h2{font-size:15px}
+ .step{height:28px;width:28px}
+ .top-space{margin-top:7px}
+ .mode{min-height:42px;padding:4px}
+ .mode-icon{font-size:20px}
+ .mode b{font-size:10px}
+ .mode small{display:none}
+ .bread{min-height:49px;padding:4px}
+ .bread .bread-emoji{font-size:14px}
+ .bread strong{font-size:9px}
+ .ingredient-tabs{margin:3px 0 5px}
+ .ingredient-tab{padding:5px 7px;min-height:27px}
+ .ingredient-row{min-height:28px}
+}
