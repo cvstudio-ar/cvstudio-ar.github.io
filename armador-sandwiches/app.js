@@ -72,6 +72,7 @@ function loadPrices(){
 let prices=loadPrices();
 const orders={sandwich:{bread:'miga',ingredients:{paleta:1,queso:1,lechuga:1,tomate:1}},burger:{bread:'sesamo',ingredients:{carne:1,cheddar:1,lechuga:1,tomate:1}},pizza:{bread:'muzzarella',ingredients:{aceitunas:1}}};
 let mode='sandwich',editing='sandwich';
+const selectedGroup={sandwich:'Proteínas',burger:'Proteínas',pizza:'Clásicos'};
 const $=id=>document.getElementById(id);
 const element=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;};
 function drawBread(){
@@ -86,7 +87,17 @@ function drawBread(){
 }
 function drawIngredients(){
  const root=$('ingredients');root.replaceChildren();const grouped=Object.groupBy?Object.groupBy(catalog[mode].ingredients,i=>i.group):catalog[mode].ingredients.reduce((a,i)=>(a[i.group]??=[]).push(i),{});
- Object.entries(grouped).forEach(([group,items])=>{
+ const tabs=$('ingredient-tabs');tabs.replaceChildren();
+ const groups=Object.keys(grouped);if(!groups.includes(selectedGroup[mode]))selectedGroup[mode]=groups[0];
+ groups.forEach(group=>{
+  const tab=element('button','ingredient-tab'+(selectedGroup[mode]===group?' active':''),group);
+  tab.type='button';tab.setAttribute('aria-pressed',String(selectedGroup[mode]===group));
+  const n=grouped[group].reduce((sum,item)=>sum+(orders[mode].ingredients[item.id]||0),0);
+  if(n)tab.append(element('span','tab-count',String(n)));
+  tab.addEventListener('click',()=>{selectedGroup[mode]=group;drawIngredients();});
+  tabs.append(tab);
+ });
+ Object.entries(grouped).filter(([group])=>selectedGroup[mode]===group).forEach(([group,items])=>{
   const box=element('section','ingredient-group'),head=element('div','group-head');head.append(element('h3','',group),element('small','',group==='Aderezos'?'ELEGÍ LOS QUE QUIERAS':'HASTA 2 POR INGREDIENTE'));box.append(head);
   items.forEach(item=>{
    const q=orders[mode].ingredients[item.id]||0,row=element('div','ingredient-row');
