@@ -190,3 +190,10 @@ body{font-family:'Outfit',sans-serif;letter-spacing:0}
  .photo-tag{font-size:9px;padding:2px 5px}
  .photo-tag-thumb{height:15px;width:20px}
 }
+
+/* Pizza: fotografías recortadas distribuidas encima de la variedad elegida. */
+.pizza-photo-ingredients{position:absolute;z-index:6;pointer-events:none;left:15%;right:15%;top:18%;bottom:25%;overflow:hidden;border-radius:45%}
+.pizza-placed-topping{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;flex:none;width:clamp(22px,3.2vw,44px);height:clamp(18px,2.8vw,35px);font-size:19px;filter:drop-shadow(0 2px 3px #0008)}
+.pizza-real-topping{background-image:url('./ingredientes-foto.webp');background-repeat:no-repeat;background-size:500% 200%}
+.pizza-pending-topping{color:#fff3c7;text-shadow:0 2px 4px #000;background:#25331a88;border-radius:100%}
+.pizza-photo-toppings{z-index:9;pointer-events:none}
