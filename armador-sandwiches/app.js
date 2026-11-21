@@ -126,6 +126,7 @@ function bill(){
 function summary(){
  const d=bill();$('total').textContent=fmt(d.total);$('summary-total').textContent=fmt(d.total);
  $('item-count').textContent=d.count+' agregado'+(d.count===1?'':'s');
+ const card=document.querySelector('.summary-card');if(card){card.classList.toggle('summary-tight',d.additions.length>6);card.classList.toggle('summary-very-tight',d.additions.length>10);}
  const lines=$('order-summary');lines.replaceChildren();
  const row=(label,value,id,qty)=>{const line=element('div','summary-row');
   line.append(photoThumb(id,id==='base'?'🍞':id==='pizza'?'🍕':'✦','summary-thumb food-thumb'));
@@ -172,7 +173,7 @@ function renderPizza(){
    pizzaStage.append(photo);
  }
  const photoImg=photo.querySelector('img');
- if(!photoImg.src){photoImg.src='https://cdn.rawpng.com/1095023891.webp';photoImg.alt='Pizza horneada, fotografía';}
+ if(!photoImg.src){photoImg.src='https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=900&q=80';photoImg.alt='Pizza horneada, fotografía';}
  const extras=photo.querySelector('.pizza-photo-toppings');
  extras.replaceChildren();
  const details=bill();
@@ -288,6 +289,7 @@ function renderPhotographicFood(){
 function renderFood(){
  const pizzaStage=$('pizza-photo-stage');
  if(pizzaStage)pizzaStage.hidden=mode!=='pizza';
+ const photoNotes=$('photo-notes');if(photoNotes&&mode==='pizza')photoNotes.hidden=true;
  if(mode==='pizza'){$('food-svg').hidden=true;$('photo-stack').hidden=true;const note=$('photo-pending');if(note)note.hidden=true;renderPizza();return;}
  renderPhotographicFood();return;
  const svg=$('food-svg'),data=bill(),burger=mode==='burger',bread=orders[mode].bread;
