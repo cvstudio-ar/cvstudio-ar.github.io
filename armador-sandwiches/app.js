@@ -42,7 +42,26 @@ const catalog={
    {id:'ketchup',name:'Ketchup',emoji:'🍅',group:'Aderezos',price:300},
    {id:'mostaza',name:'Mostaza',emoji:'🟡',group:'Aderezos',price:300},
    {id:'salsagolf',name:'Salsa golf',emoji:'🥣',group:'Aderezos',price:350}
-  ]}
+  ]},
+ pizza:{label:'Pizza',emoji:'🍕',breads:[
+{id:'muzzarella',name:'Muzzarella',emoji:'🧀',price:10500},
+{id:'napolitana',name:'Napolitana',emoji:'🍅',price:12500},
+{id:'roquefort',name:'Roquefort',emoji:'🧀',price:14800},
+{id:'morrones',name:'Especial de morrones',emoji:'🫑',price:13900}],
+ingredients:[
+{id:'aceitunas',name:'Aceitunas',emoji:'🫒',group:'Clásicos',price:650},
+{id:'huevo',name:'Huevo',emoji:'🍳',group:'Clásicos',price:1250},
+{id:'cebollacaramelizada',name:'Cebolla caramelizada',emoji:'🧅',group:'Clásicos',price:1100},
+{id:'morronextra',name:'Morrones extra',emoji:'🫑',group:'Clásicos',price:1050},
+{id:'jamon',name:'Jamón / paleta',emoji:'🥓',group:'Más sabor',price:1700},
+{id:'muzzextra',name:'Muzzarella extra',emoji:'🧀',group:'Más sabor',price:1750},
+{id:'roqueextra',name:'Roquefort extra',emoji:'🧀',group:'Más sabor',price:2300},
+{id:'tomate',name:'Tomate fresco',emoji:'🍅',group:'Más sabor',price:750},
+{id:'albahaca',name:'Albahaca',emoji:'🌿',group:'Más sabor',price:550},
+{id:'champi',name:'Champiñones',emoji:'🍄',group:'Más sabor',price:1700},
+{id:'oregano',name:'Orégano extra',emoji:'🌱',group:'Aderezos',price:250},
+{id:'aji',name:'Ají molido',emoji:'🌶️',group:'Aderezos',price:250},
+{id:'salsapicante',name:'Salsa picante',emoji:'🌶️',group:'Aderezos',price:450}]}
 };
 const basePrices=Object.fromEntries(Object.entries(catalog).map(([key,mode])=>[key,Object.fromEntries([...mode.breads,...mode.ingredients].map(item=>[item.id,item.price]))]));
 function loadPrices(){
@@ -51,11 +70,13 @@ function loadPrices(){
  }catch{return structuredClone(basePrices);}
 }
 let prices=loadPrices();
-const orders={sandwich:{bread:'miga',ingredients:{paleta:1,queso:1,lechuga:1,tomate:1}},burger:{bread:'sesamo',ingredients:{carne:1,cheddar:1,lechuga:1,tomate:1}}};
+const orders={sandwich:{bread:'miga',ingredients:{paleta:1,queso:1,lechuga:1,tomate:1}},burger:{bread:'sesamo',ingredients:{carne:1,cheddar:1,lechuga:1,tomate:1}},pizza:{bread:'muzzarella',ingredients:{aceitunas:1}}};
 let mode='sandwich',editing='sandwich';
 const $=id=>document.getElementById(id);
 const element=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=text;return el;};
 function drawBread(){
+ $('base-title').textContent=mode==='pizza'?'Elegí tu pizza':'Primero, el pan';
+ $('bread-options').setAttribute('aria-label',mode==='pizza'?'Elegí una variedad de pizza':'Elegí el pan');
  const root=$('bread-options');root.replaceChildren();
  catalog[mode].breads.forEach(b=>{
   const btn=element('button','bread'+(orders[mode].bread===b.id?' active':''));btn.type='button';btn.setAttribute('role','radio');btn.setAttribute('aria-checked',String(orders[mode].bread===b.id));
@@ -94,7 +115,7 @@ function summary(){
  $('item-count').textContent=d.count+' adicional'+(d.count===1?'':'es');
  const lines=$('order-summary');lines.replaceChildren();
  const row=(label,value)=>{const line=element('div','summary-row');line.append(element('span','',label),element('b','',fmt(value)));lines.append(line);};
- row(d.bread.name,prices[mode][d.bread.id]);
+ row((mode==='pizza'?'Pizza ':'Pan ')+d.bread.name,prices[mode][d.bread.id]);
  d.additions.forEach(i=>row(i.name+(i.qty>1?' × '+i.qty:''),i.unit*i.qty));
  if(!d.additions.length)lines.append(element('p','helper','Todavía no elegiste adicionales.'));
 }
@@ -123,7 +144,43 @@ function sandwichTop(y){return `<path d="M100 ${y+28} Q108 ${y+10} 154 ${y+6} L3
 function burgerTop(y,seeded){let seeds='';
  if(seeded){for(let i=0;i<25;i++){const x=155+(i%9)*26+(Math.floor(i/9)%2)*9;const yy=y+20+Math.floor(i/9)*13+((i*13)%7);seeds+=`<ellipse cx="${x}" cy="${yy}" rx="5" ry="2.2" transform="rotate(-28 ${x} ${yy})" fill="#fff4cf" stroke="#c88e52" stroke-width=".7"/>`;}}
  return `<path d="M103 ${y+73} C104 ${y-2} 150 ${y-21} 260 ${y-21} C366 ${y-21} 414 ${y+7} 417 ${y+73} Q263 ${y+90} 103 ${y+73}Z" fill="url(#bun)" stroke="#af6329" stroke-width="4"/><path d="M127 ${y+25} Q265 ${y-28} 393 ${y+26}" fill="none" stroke="#fff0c4" stroke-width="10" opacity=".4"/>${seeds}<path d="M107 ${y+71} Q264 ${y+84} 414 ${y+71}" stroke="#e7b264" stroke-width="8" fill="none"/>`;}
+function renderPizza(){
+ const svg=$('food-svg'),order=orders.pizza,kind=order.bread,details=bill();
+ const variety=catalog.pizza.breads.find(x=>x.id===kind);
+ $('visual-label').textContent='TU PIZZA · '+variety.name.toUpperCase();
+ const parts=[];
+ const ellipse=(x,y,rx,ry,fill,stroke='#ffffff55')=>'<ellipse cx="'+x+'" cy="'+y+'" rx="'+rx+'" ry="'+ry+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="2"/>';
+ const circle=(x,y,r,fill,stroke='#ffffff55')=>'<circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.8"/>';
+ const scatter=(id,n,fn)=>{for(let i=0;i<n;i++){
+ const a=(i*137.5+19+id.length*11)*Math.PI/180,r=37+((i*47+id.length*17)%109);
+ const x=260+Math.cos(a)*r,y=211+Math.sin(a)*r*.76;
+ parts.push(fn(Number(x.toFixed(1)),Number(y.toFixed(1)),i));
+ }};
+ if(kind==='napolitana'){scatter('tomate',8,(x,y)=>ellipse(x,y,20,12,'#d94e3b','#eb9f84'));scatter('albahaca',7,(x,y)=>ellipse(x,y,10,5,'#448e45','#2b713c'));}
+ if(kind==='roquefort')scatter('roque',18,(x,y)=>circle(x,y,9,'#e7f0df','#a4ad82'));
+ if(kind==='morrones'){scatter('morron',12,(x,y)=>ellipse(x,y,17,7,'#e34a35','#ff9a60'));scatter('jamon',9,(x,y)=>ellipse(x,y,18,9,'#e89a9a','#ffcebe'));}
+ const toppings={
+ aceitunas:(x,y)=>circle(x,y,10,'#35462e','#8c9a57')+circle(x,y,3.5,'#e9d7a7'),
+ huevo:(x,y)=>circle(x,y,22,'#fff6e4','#e5d8b4')+circle(x,y,10,'#efb827','#f8d769'),
+ cebollacaramelizada:(x,y)=>'<path d="M '+(x-18)+' '+(y+4)+' Q '+x+' '+(y-15)+' '+(x+18)+' '+(y+4)+'" stroke="#bc7134" stroke-width="8" fill="none" stroke-linecap="round"/>',
+ morronextra:(x,y)=>ellipse(x,y,19,7,'#d44930','#f3a16c'),
+ jamon:(x,y)=>ellipse(x,y,22,12,'#e9948b','#ffd3c2'),
+ muzzextra:(x,y)=>ellipse(x,y,18,12,'#fff1b9','#e0bd7a'),
+ roqueextra:(x,y)=>circle(x,y,13,'#dfe9db','#98a77d'),
+ tomate:(x,y)=>ellipse(x,y,20,12,'#d94438','#f7b09a'),
+ albahaca:(x,y)=>ellipse(x,y,13,6,'#367a44','#6ebc60'),
+ champi:(x,y)=>ellipse(x,y,16,10,'#e8c8a2','#ae8b68'),
+ oregano:(x,y)=>circle(x,y,3,'#477b37','#88ab58'),
+ aji:(x,y)=>circle(x,y,4,'#b73d24','#ff8e4c'),
+ salsapicante:(x,y)=>circle(x,y,7,'#b92d1d','#f87246')
+ };
+ Object.entries(order.ingredients).forEach(([id,qty])=>{if(toppings[id])scatter(id,(id==='oregano'||id==='aji'?23:5)*qty,toppings[id]);});
+ let herbs='';for(let i=0;i<38;i++){const a=i*2.3999,d=42+(i*19%132),x=(260+Math.cos(a)*d).toFixed(1),y=(210+Math.sin(a)*d*.76).toFixed(1);herbs+=circle(x,y,2.1,'#51773d','#ffffff20');}
+ svg.innerHTML='<defs><radialGradient id="pizzaDough"><stop stop-color="#f0b66b"/><stop offset=".85" stop-color="#e8a057"/><stop offset="1" stop-color="#b67738"/></radialGradient><radialGradient id="pizzaCheese"><stop stop-color="#ffecc0"/><stop offset=".7" stop-color="#f5d788"/><stop offset="1" stop-color="#e0a748"/></radialGradient></defs><ellipse cx="260" cy="377" rx="206" ry="26" fill="#00000020"/><ellipse cx="260" cy="218" rx="221" ry="177" fill="#eae5dc" stroke="#faf6e9" stroke-width="7"/><ellipse cx="260" cy="211" rx="204" ry="160" fill="url(#pizzaDough)" stroke="#a86d32" stroke-width="6"/><ellipse cx="260" cy="211" rx="180" ry="140" fill="#bc4d2b"/><ellipse cx="260" cy="209" rx="174" ry="134" fill="url(#pizzaCheese)"/>'+herbs+parts.join('')+'<ellipse cx="260" cy="211" rx="176" ry="137" fill="none" stroke="#b9613377" stroke-width="4"/>';
+ svg.setAttribute('aria-label','Pizza '+variety.name+' con '+details.additions.map(i=>i.name).join(', '));
+}
 function renderFood(){
+ if(mode==='pizza'){renderPizza();return;}
  const svg=$('food-svg'),data=bill(),burger=mode==='burger',bread=orders[mode].bread;
  $('visual-label').textContent=burger?'TU HAMBURGUESA':'TU SÁNDWICH';
  const choices=[...catalog[mode].ingredients.filter(i=>(orders[mode].ingredients[i.id]||0)>0)].sort((a,b)=>['mayonesa','ketchup','mostaza','salsagolf','carne','pollo','paleta','bacon','queso','cheddar','huevo','pepino','cebolla','tomate','lechuga'].indexOf(a.id)-['mayonesa','ketchup','mostaza','salsagolf','carne','pollo','paleta','bacon','queso','cheddar','huevo','pepino','cebolla','tomate','lechuga'].indexOf(b.id));
@@ -143,7 +200,7 @@ function render(){
 document.querySelectorAll('[data-mode]').forEach(btn=>btn.addEventListener('click',()=>{mode=btn.dataset.mode;$('copy-status').textContent='';render();}));
 $('clear-order').addEventListener('click',()=>{orders[mode].ingredients={};render();$('copy-status').textContent='Pedido reiniciado.';});
 $('copy-order').addEventListener('click',async()=>{
- const d=bill(),text='Pedido de '+catalog[mode].label+'\nPan: '+d.bread.name+'\n'+d.additions.map(i=>i.qty+' × '+i.name+' ('+fmt(i.qty*i.unit)+')').join('\n')+'\nTotal estimado: '+fmt(d.total)+'\nDemo CVStudio · precios referenciales';
+ const d=bill(),text='Pedido de '+catalog[mode].label+'\n'+(mode==='pizza'?'Variedad: ':'Pan: ')+d.bread.name+'\n'+d.additions.map(i=>i.qty+' × '+i.name+' ('+fmt(i.qty*i.unit)+')').join('\n')+'\nTotal estimado: '+fmt(d.total)+'\nDemo CVStudio · precios referenciales';
  try{await navigator.clipboard.writeText(text);$('copy-status').textContent='✓ Pedido copiado. Ya podés pegarlo.';}
  catch{const area=element('textarea');area.value=text;area.style.cssText='position:fixed;top:0;left:0;opacity:0';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();$('copy-status').textContent=ok?'✓ Pedido copiado.':'No se pudo copiar automáticamente.';}
 });
@@ -158,7 +215,7 @@ function drawPricing(){
  const root=$('pricing-fields');root.replaceChildren();$('pricing-status').textContent='';
  [...catalog[editing].breads,...catalog[editing].ingredients].forEach(item=>{
   const field=element('label','price-field'),txt=element('span','',item.name),input=element('input');input.type='number';input.name=item.id;input.min='0';input.max='1000000';input.step='50';input.value=prices[editing][item.id];input.required=true;input.setAttribute('aria-label','Precio de '+item.name);
-  txt.append(element('small','',catalog[editing].breads.some(x=>x.id===item.id)?'PAN':item.group.toUpperCase()));
+  txt.append(element('small','',catalog[editing].breads.some(x=>x.id===item.id)?(editing==='pizza'?'VARIEDAD':'PAN'):item.group.toUpperCase()));
   field.append(txt,input);root.append(field);
  });
 }
