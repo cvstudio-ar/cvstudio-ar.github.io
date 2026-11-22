@@ -1222,7 +1222,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
           phone,
           email:'',
           city:'',
-          responsible:'pablexe',
+          responsible:window.CVStudioAccess?.level==='Aprendiz'?(window.CVStudioAccess?.collaborator?.name||'Colaborador CVStudio'):'pablexe',
           createdAt:new Date().toISOString(),
           source:'WhatsApp'
         };
