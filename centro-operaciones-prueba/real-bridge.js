@@ -93,6 +93,7 @@
     return data;
   }
   const canvaStatus=()=>api('canva-status');
+  const canvaTemplates=()=>api('canva-template-library');
   const integrationAudit=()=>api('integration-audit');
   const disconnectCanva=()=>api('canva-disconnect',{confirmation:'DESVINCULAR CANVA'});
   const metaStatus=()=>api('meta-status');
@@ -358,7 +359,7 @@
   }
   window.CVStudioRetryPriceSync=async()=>{const prices=pendingPrices();if(Object.keys(prices).length)try{await updatePrices(prices);}catch(error){console.error(error);}};
 
-  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, integrationAudit, connectCanva, disconnectCanva, metaStatus, metaCampaigns};
+  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, canvaTemplates, integrationAudit, connectCanva, disconnectCanva, metaStatus, metaCampaigns};
 
   function waitForStageReady(timeout = 8000) {
     if (window.CVStudioStageReady) return Promise.resolve();
