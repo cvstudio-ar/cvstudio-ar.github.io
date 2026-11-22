@@ -856,6 +856,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   }
   renderers.inicio = dashboardRenderer;
   renderers.clientes = clientsRenderer;
+  renderers['asistente-ia'] = () => window.CVStudioCVAI?.render?.() || '<section class="panel"><h2>Asistente CV no disponible</h2><p>Actualizá la página para cargar el módulo.</p></section>';
   renderers.administracion = adminRenderer;
   renderers.marketing = marketingOperationalRenderer;
   renderers.calendario = calendarOperationalRenderer;
@@ -868,6 +869,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   const originalBind = bindModuleActions;
   bindModuleActions = function(id) {
     originalBind(id);
+    if(id==='asistente-ia')window.CVStudioCVAI?.bind?.(document.getElementById('appMain'));
     if(id==='colaboradores'){
       const btn=document.querySelector('[data-action="new-collaborator"]');
       if(btn) btn.onclick=modalCreateCollaboratorOperational;
@@ -1271,22 +1273,9 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   function openClientAIAssistant(){
     const client=currentClientOperational();
     if(!client){toast('Seleccioná un cliente primero.');return;}
-    const brief=buildClientCopySheet(client);
-    openModal(`<h2 id="modalTitle">Asistente de CV · ${esc(client.name)}</h2>
-      <p class="muted">Revisá esta ficha antes de enviarla a ChatGPT. No se transmite ningún dato automáticamente. Podés eliminar teléfono, correo u otros datos personales que no hagan falta.</p>
-      <label class="cv-ai-label">Instrucciones listas para copiar
-        <textarea id="cvAIBrief" rows="13" spellcheck="false">${esc(brief)}</textarea>
-      </label>
-      <div class="modal-actions">
-        <button class="button secondary" data-close-modal>Cerrar</button>
-        <button class="button primary" id="copyCvAIBrief">Copiar instrucciones</button>
-        <button class="button secondary" id="openCVChatGPT">Abrir ChatGPT</button>
-      </div>`);
-    document.getElementById('copyCvAIBrief')?.addEventListener('click',async()=>{
-      try{await navigator.clipboard.writeText(document.getElementById('cvAIBrief')?.value||brief);toast('Instrucciones copiadas para evaluar y redactar el CV.');}
-      catch(error){toast('Seleccioná el texto y copialo manualmente.');}
-    });
-    document.getElementById('openCVChatGPT')?.addEventListener('click',()=>window.open('https://chatgpt.com/','_blank','noopener'));
+    if(!window.CVStudioCVAI?.setClient){toast('El módulo de redacción no está disponible. Actualizá el panel.');return;}
+    window.CVStudioCVAI.setClient(client);
+    openModule('asistente-ia');
   }
 
   function openClientWhatsApp(){
