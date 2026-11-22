@@ -102,6 +102,7 @@
   const selectedFileIds = new Set();
   let integrationHealth = null;
   let integrationAuditRunning = false;
+  let integrationAuditLoadedInSession = false;
   const FORM_ALERTS_START_AT = '2026-09-12T19:00:00Z';
   const FORM_ALERTS_SEEN_KEY = 'cvstudio_ops_seen_form_requests_v1';
   let lastFormAlertCount = 0;
@@ -621,7 +622,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       saveState();openModule('integraciones');
       toast(audit?.ok?'Conexiones auditadas: revisá cuentas y servicios pendientes.':'Canva comprobado. Para auditar todas las cuentas, publicá el Worker de Integraciones v2.17.2.');
     }catch(error){console.error('[CVStudio integrations audit]',error);openModule('integraciones');toast('No se pudo completar el diagnóstico: '+error.message);}
-    finally{integrationAuditRunning=false;const control=document.querySelector('[data-integrations-test]');if(control)control.disabled=false;}
+    finally{integrationAuditLoadedInSession=true;integrationAuditRunning=false;const control=document.querySelector('[data-integrations-test]');if(control)control.disabled=false;}
   }
 
   function financeChartData(payments, expenses, now = new Date(), example = false) {
@@ -940,7 +941,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(id==='integraciones'){
       document.querySelector('[data-integrations-test]')?.addEventListener('click',testIntegrations);
       document.querySelectorAll('[data-integration-test]').forEach(btn=>btn.onclick=()=>openIntegrationManager(btn.dataset.integrationTest));
-      if(!state._integrationAudit && !integrationAuditRunning && !state._integrationStatus?.lastCheckedAt)window.setTimeout(()=>testIntegrations(),0);
+      if(!integrationAuditLoadedInSession && !integrationAuditRunning)window.setTimeout(()=>testIntegrations(),0);
     }
     if(id==='generador-url') {
       const refreshSelection=(slug)=>{selectedUrlSpace=slug;openModule('generador-url');};
