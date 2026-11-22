@@ -100,6 +100,7 @@
   let filesFilter = 'todos';
   let filesQuery = '';
   const selectedFileIds = new Set();
+  let showFinanceExample = false;
   let integrationHealth = null;
   let integrationAuditRunning = false;
   let integrationAuditLoadedInSession = false;
