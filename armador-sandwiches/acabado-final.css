@@ -1,0 +1,83 @@
+/* Pintobajon 420 · acabado limpio y composición final */
+:root{--lime:#bef827;--gold:#e3c67f}
+html,body{background:#0b130c!important}
+body{background:radial-gradient(circle at 50% 43%,#20341a 0,transparent 58%),linear-gradient(120deg,#081008,#101a10 52%,#080f08)!important}
+body::before{background:none!important}
+.site-header{background:#091208f5!important;box-shadow:none!important;border-bottom:1px solid #607e3866!important}
+.hero-intro{padding:9px 0 11px!important}
+.hero-intro h1{font-weight:900;letter-spacing:-.045em;line-height:1.13}
+.hero-intro p{color:#d5ddcb}
+.builder{align-items:stretch!important;grid-template-rows:minmax(0,1fr)!important}
+.config,.preview-card,.summary-card{height:100%;min-height:0!important;background:linear-gradient(160deg,#152016,#0e180e)!important;border:1px solid #84985283;box-shadow:0 12px 30px #0006,inset 0 1px #ffffff12}
+.preview-card{display:flex;flex-direction:column}
+.food-stage{position:relative;flex:1;min-height:0!important;background:radial-gradient(ellipse at 50% 62%,#1e301e,transparent 72%),linear-gradient(180deg,#111e11,#091108)!important;overflow:hidden!important;border-radius:14px}
+.food-stage::before,.food-stage::after{display:none!important}
+.photo-stack{isolation:isolate}
+.photo-canvas{display:block;height:100%!important;width:100%!important}
+.stage-orbit,.stage-ground{display:none!important}
+.photo-notes{bottom:8px;background:#0d1c10e8;border:1px solid #61883980;border-radius:11px;box-shadow:0 5px 14px #0008;max-height:27%}
+.photo-tags{gap:5px}
+.photo-tag{max-width:100%;white-space:nowrap;background:#223a1ea8;border-color:#6c914954}
+.photo-tag.not-yet-photographed{border-style:dashed}
+.photo-tag .food-thumb{background-image:url('./ingredientes-v2.webp');background-size:400% 400%}
+.food-thumb:not(.thumb-fallback){background-image:url('./ingredientes-v2.webp')!important;background-size:400% 400%!important}
+.pizza-real-topping{background-image:url('./ingredientes-v2.webp')!important;background-size:400% 400%!important}
+.photo-layer{display:none!important}
+.ingredient-row{background:#1c291a;border-color:#667a4470;border-radius:12px}
+.ingredient-row.chosen{border-color:var(--lime);box-shadow:0 0 0 1px #baff2538}
+.ingredient-icon{background-color:transparent!important;box-shadow:none!important}
+.ingredient-row .ingredient-info strong{font-size:clamp(11px,1vw,13px)}
+.ingredient-row .ingredient-info small{font-size:11px}
+.ingredient-tabs{gap:7px}
+.ingredient-tab{padding:7px 12px;min-height:30px}
+.ingredient-tab.active{background:var(--lime);color:#15230a}
+.summary-card{display:flex;flex-direction:column;overflow:hidden}
+.summary-lines{flex:1 1 0;min-height:0!important;max-height:100%;overflow:auto}
+.summary-final,#copy-order{flex-shrink:0}
+.preview-footer{flex-shrink:0}
+#copy-order{background:linear-gradient(175deg,#d1ff53,#9ddb0d);color:#0d1c0a;font-weight:900}
+.price-panel{background:#162318}
+.pizza-photo-stage{isolation:isolate}
+.pizza-photo-stage .pizza-base-photo{width:min(92%,540px);height:80%;max-height:80%;object-fit:cover;clip-path:ellipse(46% 47% at 50% 51%);filter:drop-shadow(0 15px 14px #0008)}
+.pizza-photo-ingredients{border-radius:46%;left:14%;right:14%;top:16%;bottom:22%}
+.pizza-photo-toppings{max-height:25%;overflow:auto;scrollbar-width:thin}
+@media(min-width:900px){
+ html,body{height:100%;overflow:hidden}
+ body{height:100dvh;display:flex;flex-direction:column}
+ main{min-height:0;flex:1;display:flex;flex-direction:column;overflow:hidden}
+ .header{min-height:54px!important}
+ .hero-intro{flex:0 0 auto}
+ .builder{flex:1;min-height:0;padding-bottom:7px;gap:11px}
+ .config{overflow-y:auto;padding-bottom:6px}
+ .preview-col,.sticky{display:contents}
+ .summary-card{padding:13px}
+ .photo-notes{max-height:25%}
+ .summary-row{min-height:37px}
+ .footer-inner{padding:5px 0}
+ .disclaimer{display:none}
+}
+@media(min-width:900px) and (max-height:690px){
+ .hero-intro{padding:3px 0 5px!important}
+ .hero-intro h1{font-size:28px}
+ .hero-intro p{font-size:11px}
+ .config{padding:9px}
+ .summary-card{padding:9px}
+ .preview-head{padding:8px 9px 2px}
+ .food-stage{margin:3px 6px 5px}
+ .summary-row{min-height:29px}
+ .photo-notes{max-height:29%;bottom:5px;padding:5px}
+ .photo-tags{max-height:34px}
+ .summary-final{padding:7px 0 8px}
+ #copy-order{min-height:37px;font-size:12px}
+}
+@media(max-width:899px){
+ html,body{height:auto;overflow:auto}
+ .builder{display:grid;grid-template-columns:1fr;align-items:stretch}
+ .config,.preview-col,.summary-card,.preview-card{height:auto}
+ .preview-col{grid-row:1}
+ .config{grid-row:2}
+ .sticky{display:grid;grid-template-columns:1fr;gap:16px}
+ .food-stage{height:370px;min-height:260px!important}
+ .summary-card{min-height:280px!important}
+ .ingredient-group{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
