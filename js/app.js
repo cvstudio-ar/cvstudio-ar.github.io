@@ -744,12 +744,14 @@
   const closeButton = modal.querySelector('.portfolio-premium-close');
   let lastTrigger = null;
 
-  const whatsappNumber = '5492964652318';
+  const cvWhatsappNumber = '5492964654938';
+  const webWhatsappNumber = '5492964652318';
   const paymentWorkerUrl = 'https://cvstudio-contacto.cvpro-duccionesar.workers.dev';
   const list = (items) => `<ul>${items.map((item) => `<li>${item}</li>`).join('')}</ul>`;
   const section = (heading, body) => `<section class="service-detail-section"><h3>${heading}</h3>${body}</section>`;
   const whatsappLink = (message, label = 'Consultar por WhatsApp') => {
-    const href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    const number = /\b(web|sitio|página|pagina|landing|ecommerce|e-commerce)\b/i.test(message) ? webWhatsappNumber : cvWhatsappNumber;
+    const href = `https://wa.me/${number}?text=${encodeURIComponent(message)}`;
     return `<a class="service-whatsapp-button" href="${href}" target="_blank" rel="noopener noreferrer" data-cro-event="service_whatsapp_click"><span aria-hidden="true">W</span>${label}</a>`;
   };
 
