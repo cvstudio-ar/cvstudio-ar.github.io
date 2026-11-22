@@ -938,17 +938,59 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const canManage=window.CVStudioAccess?.level==='Director';
     const stats=collaboratorStats(c);
     const history=(c.roleHistory||[]).slice().reverse().map(h=>`<div class="history-row"><span>${esc(h.from||'Ingreso')} → <b>${esc(h.to)}</b></span><small>${esc((h.at||'').slice(0,10))} · ${esc(h.by||'Director')} · ${Number(h.commission||0)}%</small></div>`).join('')||'<p class="auth-note">Sin cambios de nivel registrados.</p>';
-    const training=CAPABILITIES.map(cap=>{const status=c.training?.[cap]||((c.capabilities||[]).includes(cap)?'Habilitado':'Pendiente');return `<div class="training-row"><span>${esc(cap)}</span><b class="training-${status.toLowerCase()}">${esc(status)}</b></div>`}).join('');
+    const courseDescriptions={
+      'CV Profesional':'Analizar un CV, mejorar su redacción y aplicar el diseño y control ATS de CVStudio.',
+      'LinkedIn':'Preparar una propuesta de titular, acerca de y experiencia profesional.',
+      'Cartas':'Redactar una carta personalizada que respete la información del CV.',
+      'Portfolio':'Organizar una presentación profesional de proyectos y trabajos.',
+      'Atención al cliente':'Resolver consultas simuladas con un tono claro, cordial y comercial.',
+      'Diseño gráfico':'Revisar legibilidad, márgenes, imágenes y coherencia visual.',
+      'Marketing':'Crear una propuesta de publicación y un mensaje de presentación de servicios.',
+      'Revisión':'Detectar y corregir errores de contenido, estilo y ortografía.'
+    };
+    const progress=CAPABILITIES.filter(cap=>['Aprobado','Habilitado'].includes(c.training?.[cap])).length;
+    const training=CAPABILITIES.map((cap,i)=>{
+      const detail=c.trainingDetails?.[cap]||{};
+      const raw=c.training?.[cap]||'Pendiente';
+      const status=raw==='En progreso'?'En curso':raw==='Habilitado'?'Aprobado':raw;
+      return `<article class="training-track-card"><div class="training-track-title"><strong>${i+1}. ${esc(cap)}</strong><span class="status">${esc(status)}</span></div><p>${esc(courseDescriptions[cap]||'Actividad práctica supervisada.')}</p>
+        <label>Estado<select data-training-status="${esc(cap)}" ${!canManage?'disabled':''}>${['Pendiente','En curso','En revisión','Aprobado','Requiere corrección'].map(opt=>`<option value="${opt}" ${status===opt?'selected':''}>${opt}</option>`).join('')}</select></label>
+        <label>Fecha de inicio<input type="date" data-training-start="${esc(cap)}" value="${esc(detail.startDate||'')}" ${!canManage?'disabled':''}></label>
+        <label>Fecha de aprobación<input type="date" data-training-done="${esc(cap)}" value="${esc(detail.completedAt||'')}" ${!canManage?'disabled':''}></label>
+        <label>Enlace a ejercicio o evidencia<input type="url" placeholder="https://..." data-training-evidence="${esc(cap)}" value="${esc(detail.evidence||'')}" ${!canManage?'disabled':''}></label>
+        <label class="training-notes-label">Observaciones del supervisor<textarea rows="2" data-training-notes="${esc(cap)}" ${!canManage?'disabled':''}>${esc(detail.notes||'')}</textarea></label>
+      </article>`;
+    }).join('');
     const granted=(c.permissions||permissionsForRole(c.role));
     openModal(`<h2 id="modalTitle">${esc(c.name)}</h2><p style="color:var(--muted)">${esc(c.email)}</p><div class="career-track">${LEVELS.map(l=>`<span class="${l===c.role?'current':''} ${window.CVSTUDIO_LEVELS[l].rank<window.CVSTUDIO_LEVELS[c.role]?.rank?'done':''}">${esc(l)}</span>`).join('')}</div>
       <div class="collab-manager-tabs"><button class="is-active" data-collab-tab="resumen">Resumen</button><button data-collab-tab="permisos">Permisos</button><button data-collab-tab="formacion">Capacitación</button><button data-collab-tab="trayectoria">Trayectoria</button></div>
       <section data-collab-pane="resumen"><div class="funds"><div class="fund-row"><span>Nivel</span><b>${esc(c.role)}</b></div><div class="fund-row"><span>Comisión</span><b>${c.commission}%</b></div><div class="fund-row"><span>Ingreso</span><b>${esc(c.startDate||'—')}</b></div><div class="fund-row"><span>Cumpleaños</span><b>${esc(c.birthDate||'—')}</b></div><div class="fund-row"><span>Acceso</span><b>${esc(c.authStatus||'Pendiente')}</b></div></div><div class="collab-stat-grid"><div><span>Trabajos asignados</span><b>${stats.jobs}</b></div><div><span>Entregados</span><b>${stats.completed}</b></div><div><span>Ejecuciones</span><b>${stats.executions}</b></div><div><span>Comisiones</span><b>${money(stats.commission)}</b></div></div></section>
       <section data-collab-pane="permisos" hidden><p class="auth-note">${granted.length} permisos asignados. Se aplican al guardar la edición del colaborador.</p><div class="permission-summary">${PERMISSION_MODULES.map(module=>{const count=granted.filter(p=>p.startsWith(module+':')).length;return `<span><b>${esc(module)}</b><small>${count?count+' acciones':'Sin acceso'}</small></span>`}).join('')}</div></section>
-      <section data-collab-pane="formacion" hidden><div class="training-list">${training}</div></section>
+      <section data-collab-pane="formacion" hidden><div class="training-summary"><strong>Progreso: ${progress} de ${CAPABILITIES.length} módulos aprobados</strong><div class="training-progress"><span style="width:${Math.round(progress/CAPABILITIES.length*100)}%"></span></div><small>Material inicial enviado: ${esc(c.trainingMaterialSentAt||"Sin registrar")}</small></div>${canManage?`<div class="training-material"><label>Fecha de envío del programa PDF <input type="date" id="trainingMaterialSentAt" value="${esc(c.trainingMaterialSentAt||"")}"></label><button type="button" class="button primary small" id="saveCollaboratorTraining">Guardar seguimiento</button></div>`:""}<div class="training-track-grid">${training}</div></section>
       <section data-collab-pane="trayectoria" hidden><div class="role-history">${history}</div></section>
       <div class="modal-actions">${canManage?`<button class="button primary" id="editCollaborator">Editar</button><button class="button secondary" id="toggleCollaborator">${c.status==='Activo'?'Suspender':'Reactivar'} acceso</button><button class="button danger" id="archiveCollaborator">Archivar</button><button class="button danger ghost" id="deleteCollaborator">Eliminar definitivamente</button>`:''}<button class="button secondary" data-close-modal>Cerrar</button></div>`);
     document.querySelectorAll('[data-collab-tab]').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('[data-collab-tab]').forEach(x=>x.classList.toggle('is-active',x===btn));document.querySelectorAll('[data-collab-pane]').forEach(p=>p.hidden=p.dataset.collabPane!==btn.dataset.collabTab)});
     if(!canManage)return;
+    document.getElementById('saveCollaboratorTraining')?.addEventListener('click',async()=>{
+      const details={...(c.trainingDetails||{})};
+      const next={...(c.training||{})};
+      for(const cap of CAPABILITIES){
+        const find=attr=>document.querySelector('[data-'+attr+'="'+cap+'"]');
+        const status=find('training-status')?.value||'Pendiente';
+        const evidence=(find('training-evidence')?.value||'').trim();
+        if(evidence){try{const url=new URL(evidence);if(!['http:','https:'].includes(url.protocol))throw Error('invalid')}catch(_){toast('Revisá el enlace de evidencia de '+cap);return}}
+        next[cap]=status;
+        details[cap]={startDate:find('training-start')?.value||'',completedAt:find('training-done')?.value||'',evidence,notes:find('training-notes')?.value||'',updatedAt:new Date().toISOString()};
+      }
+      c.training=next;c.trainingDetails=details;
+      c.trainingMaterialSentAt=document.getElementById('trainingMaterialSentAt')?.value||'';
+      saveState();
+      try{if(window.CVStudioRealBridge?.updateCollaboratorAuth)await window.CVStudioRealBridge.updateCollaboratorAuth(c)}
+      catch(e){toast('Guardado en este navegador; sincronización remota pendiente: '+(e?.message||'Error'));return}
+      openCollaboratorManager(c);
+      document.querySelector('[data-collab-tab="formacion"]')?.click();
+      toast('Seguimiento de capacitación guardado.');
+    });
     document.getElementById('editCollaborator').onclick=()=>modalEditCollaborator(c);
     document.getElementById('toggleCollaborator').onclick=async()=>{c.status=c.status==='Activo'?'Suspendido':'Activo';c.authStatus=c.status;saveState();await window.CVStudioRealBridge?.updateCollaboratorAuth?.(c).catch(console.error);closeModal();openModule('colaboradores');};
     document.getElementById('archiveCollaborator').onclick=()=>{if(confirm(`¿Archivar a ${c.name}? Se conserva todo su historial.`)){c.status='Archivado';c.authStatus='Inactivo';c.archivedAt=new Date().toISOString();saveState();window.CVStudioRealBridge?.updateCollaboratorAuth?.(c).catch(console.error);closeModal();openModule('colaboradores');}};
