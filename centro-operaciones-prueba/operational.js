@@ -47,7 +47,7 @@
 
   const PERMISSION_MODULES = ['Inicio','Clientes','Administración','Marketing','Calendario','Plantillas','Archivos','Integraciones','Colaboradores','Espacios de clientes','Configuración'];
   const ROLE_PERMISSION_MAP = {
-    Aprendiz: ['Inicio:ver','Plantillas:ver','Archivos:ver'],
+    Aprendiz: ['Inicio:ver','Clientes:ver','Clientes:editar','Plantillas:ver','Archivos:ver','Archivos:subir'],
     Operario: ['Inicio:ver','Clientes:ver','Clientes:editar','Plantillas:ver','Archivos:ver','Archivos:subir'],
     Líder: ['Inicio:ver','Clientes:ver','Clientes:editar','Calendario:ver','Calendario:editar','Plantillas:ver','Archivos:ver','Archivos:subir','Espacios de clientes:ver','Espacios de clientes:editar'],
     Supervisor: ['Inicio:ver','Clientes:ver','Clientes:editar','Administración:ver','Marketing:ver','Marketing:editar','Calendario:ver','Calendario:editar','Plantillas:ver','Plantillas:editar','Archivos:ver','Archivos:subir','Integraciones:ver','Espacios de clientes:ver','Espacios de clientes:editar'],
@@ -293,7 +293,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const flowIndex = c.status==='Entregado'?5:payment?.status==='Confirmado'?(job?4:3):c.status==='Esperando pago'?3:2;
     const flow = ['Consulta','Formulario','Pago','Trabajo','Entrega'];
     return `<section class="panel client-summary clients-ui-compact-v1425"><div class="client-header"><span class="client-avatar" style="background:${c.color}">${esc(c.initials)}</span><div style="flex:1"><div class="client-name-line"><h2>${esc(c.name)}</h2><span class="status" style="--c:${statusColor(c.status)}">${esc(c.status)}</span></div><div class="meta"><span>${brand('whatsapp')} ${esc(c.phone)}</span><span>${icon('message')} ${esc(c.email)}</span><span>${icon('link')} ${esc(c.city||'Localidad no cargada')}</span><span>${icon('users')} Responsable: ${esc(c.responsible||'pablexe')}</span></div></div><button class="button secondary" data-action="edit-client">Editar datos</button></div><div class="flow">${flow.map((name,i)=>`<div class="flow-step ${i+1<flowIndex?'done':i+1===flowIndex?'active':''}">${i+1}. ${name}</div>`).join('')}</div></section>
-    <section class="grid action-grid client-actions-single-row" aria-label="Acciones del cliente"><button class="action-card" data-action="open-whatsapp"><span>${brand('whatsapp')}</span>WhatsApp</button><button class="action-card" data-action="send-form"><span>${icon('file')}</span>Formulario</button><button class="action-card" data-action="signature-request"><span>${icon('file')}</span>Firma</button><button class="action-card" data-action="register-payment"><span>${icon('dollar')}</span>Pago</button><button class="action-card" data-action="change-status"><span>${icon('refresh')}</span>Estado</button><button class="action-card" data-action="deliver-work"><span>${icon('upload')}</span>Entregar</button><button class="action-card" data-action="copy-client-sheet"><span>${icon('file')}</span>Copiar ficha</button><button class="action-card" data-action="more-actions"><span>${icon('settings')}</span>Más</button></section>
+    <section class="grid action-grid client-actions-single-row" aria-label="Acciones del cliente"><button class="action-card" data-action="ai-cv"><span>${icon('file')}</span>Asistente CV</button><button class="action-card" data-action="open-whatsapp"><span>${brand('whatsapp')}</span>WhatsApp</button><button class="action-card" data-action="send-form"><span>${icon('file')}</span>Formulario</button><button class="action-card" data-action="signature-request"><span>${icon('file')}</span>Firma</button><button class="action-card" data-action="register-payment"><span>${icon('dollar')}</span>Pago</button><button class="action-card" data-action="change-status"><span>${icon('refresh')}</span>Estado</button><button class="action-card" data-action="deliver-work"><span>${icon('upload')}</span>Entregar</button><button class="action-card" data-action="copy-client-sheet"><span>${icon('file')}</span>Copiar ficha</button><button class="action-card" data-action="more-actions"><span>${icon('settings')}</span>Más</button></section>
     <section class="grid client-detail-grid"><section class="panel conversation"><div class="panel-head"><h2>Seguimiento</h2><span class="status" style="--c:${payment?.status==='Confirmado'?'#35d07f':'#ffb800'}">${payment?`Pago ${payment.status}`:'Sin pago'}</span></div><div class="messages">${clientTimelineHtml(c, payment, job)}</div><div class="composer"><input id="clientMessageInput" aria-label="Escribir nota" placeholder="Escribir mensaje de WhatsApp..."><button class="composer-send" data-action="send-message" aria-label="Guardar nota">${icon('upload')}</button></div></section>
     <section class="panel service-files"><div class="panel-head"><h2>Servicio y pago</h2></div><h3>${esc(c.service)}</h3><p class="muted-label">Precio configurado</p><h2>${money(price)}</h2><hr><div class="funds"><div class="fund-row"><span>Estado</span><b>${esc(payment?.status||'Sin registrar')}</b></div><div class="fund-row"><span>Importe</span><b>${payment?money(payment.amount):'—'}</b></div><div class="fund-row"><span>Origen</span><b>${esc(payment?.source||'—')}</b></div></div></section>
     <section class="panel client-form-panel client-form-third-column"><div class="panel-head"><div><h2>Formulario recibido</h2><p>Datos listos para revisar y copiar.</p></div><button class="button primary small" data-action="copy-client-sheet">Copiar ficha</button></div>${clientFormSummaryHtml(c)}</section></section>`;
@@ -1268,6 +1268,27 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       addActivity('client','Datos del cliente actualizados',`${client.name} · ${client.service}`,client.id); saveState(); closeModal(); toast('Datos guardados.'); openModule('clientes');
     });
   }
+  function openClientAIAssistant(){
+    const client=currentClientOperational();
+    if(!client){toast('Seleccioná un cliente primero.');return;}
+    const brief=buildClientCopySheet(client);
+    openModal(`<h2 id="modalTitle">Asistente de CV · ${esc(client.name)}</h2>
+      <p class="muted">Revisá esta ficha antes de enviarla a ChatGPT. No se transmite ningún dato automáticamente. Podés eliminar teléfono, correo u otros datos personales que no hagan falta.</p>
+      <label class="cv-ai-label">Instrucciones listas para copiar
+        <textarea id="cvAIBrief" rows="13" spellcheck="false">${esc(brief)}</textarea>
+      </label>
+      <div class="modal-actions">
+        <button class="button secondary" data-close-modal>Cerrar</button>
+        <button class="button primary" id="copyCvAIBrief">Copiar instrucciones</button>
+        <button class="button secondary" id="openCVChatGPT">Abrir ChatGPT</button>
+      </div>`);
+    document.getElementById('copyCvAIBrief')?.addEventListener('click',async()=>{
+      try{await navigator.clipboard.writeText(document.getElementById('cvAIBrief')?.value||brief);toast('Instrucciones copiadas para evaluar y redactar el CV.');}
+      catch(error){toast('Seleccioná el texto y copialo manualmente.');}
+    });
+    document.getElementById('openCVChatGPT')?.addEventListener('click',()=>window.open('https://chatgpt.com/','_blank','noopener'));
+  }
+
   function openClientWhatsApp(){
     const client=currentClientOperational(); if(!client){toast('No hay un cliente seleccionado.');return;}
     const number=normalizeWhatsApp(client.phone); if(!number){toast('Este cliente no tiene un número de WhatsApp válido.');return;}
@@ -1455,6 +1476,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(action==='upload-file') return uploadClientFile();
     if(action==='register-payment') return modalPayment();
     if(action==='new-job') return modalCreateJob();
+    if(action==='ai-cv')return openClientAIAssistant();
     if(action==='copy-client-sheet'){const client=currentClientOperational();if(!client)return;const sheet=buildClientCopySheet(client);navigator.clipboard.writeText(sheet).then(()=>toast('Ficha copiada y lista para pegar en ChatGPT.')).catch(()=>toast('No se pudo copiar la ficha.'));return;}
     if(action==='more-actions') return modalClientMoreActions();
     if(action==='job-detail') return modalEditJob(el.closest('[data-job-id]')?.dataset.jobId);
