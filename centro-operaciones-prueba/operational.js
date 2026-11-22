@@ -662,6 +662,15 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     (state.executions||[]).forEach(e=>{
       const key=e.responsible;
       if(!collaboratorRows[key]) collaboratorRows[key]={jobs:0,generated:0,commission:0};
+      if(e.type==='cv-production'){
+        if(e.status!=='Aprobado')return;
+        const payment=state.payments.find(p=>p.status==='Confirmado'&&String(p.clientId)===String(e.clientId)&&canonicalServiceName(p.service)===canonicalServiceName(e.service));
+        const amount=Number(payment?.amount||0);
+        collaboratorRows[key].jobs+=Math.max(1,Math.min(2,Number(e.quantity)||1));
+        collaboratorRows[key].generated+=amount;
+        collaboratorRows[key].commission+=amount*Math.max(0,Math.min(100,Number(e.commissionRate)||0))/100;
+        return;
+      }
       collaboratorRows[key].jobs++;
       collaboratorRows[key].generated+=Number(e.baseAmount||0);
       collaboratorRows[key].commission+=Number(e.commissionAmount||0);
@@ -1375,7 +1384,9 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   function registerExecution(job, client) {
     if (!Array.isArray(state.executions)) state.executions=[];
     if (state.executions.some(e=>e.jobId===job.id)) return;
-    const rate=Number(state.rules.colab||0), base=servicePrice(job.service);
+    if (state.executions.some(e=>e.type==='cv-production'&&e.status!=='Rechazado'&&String(e.clientId)===String(job.clientId)&&canonicalServiceName(e.service)===canonicalServiceName(job.service))) return;
+    const collaborator=state.collaborators.find(c=>c.name===job.responsible);
+    const rate=Number(collaborator?.commission ?? state.rules.colab ?? 0), base=servicePrice(job.service);
     state.executions.push({id:nextId(state.executions),jobId:job.id,clientId:client?.id||job.clientId,client:client?.name||job.client,service:job.service,responsible:job.responsible,baseAmount:base,commissionRate:rate,commissionAmount:base*rate/100,completedAt:job.completedAt||new Date().toISOString(),status:'Pendiente'});
   }
 
