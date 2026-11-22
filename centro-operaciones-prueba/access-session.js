@@ -23,7 +23,10 @@ async function ownCollaborator(){
 }
 async function updatePresence(status){
   const row=await ownCollaborator(); if(!row)return;
-  row.payload={...row.payload,presenceStatus:status,lastSeen:new Date().toISOString()};
+  // Si Auth confirma que la contraseña ya fue cambiada, jamás reinstaurar el aviso
+  // desde datos atrasados del perfil al registrar presencia.
+  const completed=session?.user?.user_metadata?.must_change_password===false;
+  row.payload={...row.payload,presenceStatus:status,lastSeen:new Date().toISOString(),...(completed?{mustChangePassword:false}:{})};
   await db().from(TABLE).update({payload:row.payload,updated_at:new Date().toISOString()}).eq('workspace_id',WORKSPACE).eq('id',row.id);
 }
 async function logout(reason='manual'){
@@ -60,9 +63,18 @@ async function forcePasswordChange(){
     const metadata={...(session.user.user_metadata||{}),must_change_password:false};
     const {data,error}=await db().auth.updateUser({password:p,data:metadata});
     if(error){alert(error.message);btn.disabled=false;btn.textContent='Guardar y continuar';return;}
+    // Refrescamos el usuario actual sin confiar en el metadata cacheado por getSession.
+    const verified=await db().auth.getUser();
     session=(await db().auth.getSession()).data.session;
-    const row=await ownCollaborator();if(row){row.payload={...row.payload,mustChangePassword:false,authStatus:'Activo'};await db().from(TABLE).update({payload:row.payload,updated_at:new Date().toISOString()}).eq('workspace_id',WORKSPACE).eq('id',row.id);}
-    const host=document.getElementById('appModal');host.dataset.locked='false';host.hidden=true;document.body.style.overflow='';updatePresence('online').catch(()=>{});
+    if(session?.user)session.user={...session.user,...(verified.data?.user||data.user||{}),user_metadata:{...(session.user.user_metadata||{}),must_change_password:false}};
+    const row=await ownCollaborator();
+    if(row){
+      row.payload={...row.payload,mustChangePassword:false,authStatus:'Activo'};
+      const saved=await db().from(TABLE).update({payload:row.payload,updated_at:new Date().toISOString()}).eq('workspace_id',WORKSPACE).eq('id',row.id);
+      if(saved.error)console.warn('[CVStudio] Contraseña actualizada en Auth, pendiente sincronizar estado de perfil',saved.error.message);
+    }
+    const host=document.getElementById('appModal');host.dataset.locked='false';host.hidden=true;document.body.style.overflow='';
+    updatePresence('online').catch(()=>{});
   };
 }
 async function bootstrapSession(){
@@ -70,6 +82,10 @@ async function bootstrapSession(){
   session=(await client.auth.getSession()).data.session;
   if(!session?.user){location.href='/?access=collaborator';return;}
   const profile=document.getElementById('profileMenu');
+  // getSession puede conservar el metadata antiguo en el navegador.
+  // getUser consulta el servidor de Auth y evita volver a pedir contraseñas ya cambiadas.
+  const verified=await client.auth.getUser();
+  if(verified.data?.user)session.user=verified.data.user;
   const row=await ownCollaborator(); const collab=row?.payload;
   const email=session.user.email||'colaborador@cvstudio.com.ar'; const name=collab?.name||session.user.user_metadata?.full_name||email.split('@')[0];
   const normalizedEmail=String(email).toLowerCase();
@@ -89,7 +105,12 @@ async function bootstrapSession(){
   await updatePresence('online').catch(()=>{});
   ['pointerdown','keydown','touchstart','scroll'].forEach(type=>window.addEventListener(type,()=>registerActivity(),{passive:true,capture:true}));
   armTimers(); presenceTimer=setInterval(()=>updatePresence(away?'away':'online').catch(()=>{}),60000);
-  if(session.user.user_metadata?.must_change_password===true||collab?.mustChangePassword===true)await forcePasswordChange();
+  // Solo solicitar cambio de contraseña si NO hay confirmación explícita de que se
+  // realizó en Auth o en el perfil. Las banderas antiguas no deben vencer a un false.
+  const authFlag=session.user.user_metadata?.must_change_password;
+  const profileFlag=collab?.mustChangePassword;
+  const passwordComplete=authFlag===false||profileFlag===false;
+  if(!passwordComplete&&(authFlag===true||profileFlag===true))await forcePasswordChange();
   document.body.classList.remove('auth-pending');
 }
 window.CVStudioAuthReady=bootstrapSession().catch(error=>{
