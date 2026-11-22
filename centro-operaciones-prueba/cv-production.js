@@ -17,6 +17,9 @@
   const cvService=x=>/(^|[^a-z])cv([^a-z]|$)|curriculum/.test(normalize(x));
   // Conservar los ceros iniciales: las referencias bancarias se tratan como texto.
   const transferKey=x=>normalize(x).replace(/[^a-z0-9]/g,'');
+  const arDateTime=iso=>{try{return new Intl.DateTimeFormat('es-AR',{timeZone:'America/Argentina/Buenos_Aires',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(iso));}catch{return 'Fecha no disponible';}};
+  const arMonth=iso=>{try{return new Intl.DateTimeFormat('en-CA',{timeZone:'America/Argentina/Buenos_Aires',year:'numeric',month:'2-digit'}).format(new Date(iso));}catch{return '';}};
+
   const transferRefs=p=>[p?.transferNumber,p?.operationNumber,p?.bankReference,p?.receiptNumber,p?.transactionId].filter(Boolean);
   const bankMatched=(s,reference,amount,clientId,service)=>{
     const p=(s.payments||[]).find(x=>x.status==='Confirmado'&&String(x.clientId)===String(clientId)&&normalize(x.service)===normalize(service)&&Number(x.amount)===Number(amount));
@@ -36,14 +39,14 @@
     const c=actor();if(!c)return '';
     const all=reports(s).filter(r=>String(r.collaboratorId)===String(c.id));
     const active=all.filter(r=>r.status!=='Rechazado');
-    const currentMonth=new Date().toLocaleDateString('sv-SE',{timeZone:'America/Argentina/Buenos_Aires'}).slice(0,7);
-    const monthly=active.filter(r=>String(r.completedAt||'').slice(0,7)===currentMonth);
+    const currentMonth=arMonth(new Date());
+    const monthly=active.filter(r=>arMonth(r.completedAt)===currentMonth);
     const pending=active.filter(r=>r.status==='Pendiente de revisión');
     const approved=active.filter(r=>r.status==='Aprobado');
     let html=header('Mis CV realizados','Cargá el número de transferencia y el importe del comprobante del cliente. Cada referencia se registra una sola vez.');
     html+='<button type="button" class="button primary" data-cv-action="report">+ Registrar CV realizado</button></div>';
     html+='<div class="cv-production-stats"><div><small>CV registrados</small><b>'+units(active)+'</b></div><div><small>Este mes</small><b>'+units(monthly)+'</b></div><div><small>Por validar</small><b>'+units(pending)+'</b></div><div><small>Aprobados</small><b>'+units(approved)+'</b></div></div>';
-    html+='<div class="cv-production-history">'+all.slice().reverse().slice(0,10).map(r=>'<div><strong>'+esc(r.client)+' · '+esc(r.service)+'</strong><small>'+qty(r)+' CV · '+esc(String(r.completedAt||'').slice(0,10))+(r.transferNumber?' · Operación '+esc(r.transferNumber)+' · '+money(Number(r.transferAmount||0)):' · Sin comprobante registrado')+'</small><span class="status">'+esc(r.status)+'</span></div>').join('')+'</div>';
+    html+='<div class="cv-production-history">'+all.slice().reverse().slice(0,10).map(r=>'<div><strong>'+esc(r.client)+' · '+esc(r.service)+'</strong><small>'+qty(r)+' CV · '+esc(arDateTime(r.completedAt))+(r.transferNumber?' · Operación '+esc(r.transferNumber)+' · '+money(Number(r.transferAmount||0)):' · Sin comprobante registrado')+'</small><span class="status">'+esc(r.status)+'</span></div>').join('')+'</div>';
     return html+(all.length?'':'<p class="empty-state">Todavía no registraste CV terminados.</p>')+'</section>';
   }
   function renderAdmin(s){
@@ -52,7 +55,7 @@
     let html=header('Contador de CV · colaboradores','Cada CV se vincula a su número de transferencia e importe. Comisiones según el porcentaje configurado por colaborador.')+'</div>';
     html+='<div class="cv-production-stats"><div><small>CV registrados</small><b>'+units(active)+'</b></div><div><small>Por validar</small><b>'+units(pending)+'</b></div><div><small>Aprobados</small><b>'+units(approved)+'</b></div><div><small>Comisiones habilitadas</small><b>'+money(approved.reduce((n,r)=>n+due(s,r),0))+'</b></div></div>';
     html+='<div class="cv-production-history">'+all.slice(0,30).map(r=>{
-      let entry='<div><strong>'+esc(r.responsible)+' · '+esc(r.client)+'</strong><small>'+esc(r.service)+' · '+qty(r)+' CV · '+rate(s,r)+'% · Operación: '+esc(r.transferNumber||'Sin registrar')+' · Importe informado: '+(r.transferAmount?money(r.transferAmount):'—')+' · '+(pay(s,r)?'Pago registrado':'Pago sin confirmar')+'</small><span class="status">'+esc(r.status)+(r.status==='Aprobado'?' · '+money(due(s,r)):'')+'</span>';
+      let entry='<div><strong>'+esc(r.responsible)+' · '+esc(r.client)+'</strong><small>'+esc(arDateTime(r.completedAt))+' · '+esc(r.service)+' · '+qty(r)+' CV · '+rate(s,r)+'% · Operación: '+esc(r.transferNumber||'Sin registrar')+' · Importe informado: '+(r.transferAmount?money(r.transferAmount):'—')+' · '+(pay(s,r)?'Pago registrado':'Pago sin confirmar')+'</small><span class="status">'+esc(r.status)+(r.status==='Aprobado'?' · '+money(due(s,r)):'')+'</span>';
       if(r.status==='Pendiente de revisión')entry+='<button type="button" class="button primary small" data-cv-action="review" data-id="'+Number(r.id)+'" data-decision="Aprobado">Aprobar</button><button type="button" class="button secondary small" data-cv-action="review" data-id="'+Number(r.id)+'" data-decision="Rechazado">Rechazar</button>';
       return entry+'</div>';
     }).join('')+'</div><p class="auth-note">El número de transferencia evita registros repetidos, pero no demuestra por sí solo que el dinero ingresó. Los CV se cuentan como declarados hasta que el pago quede confirmado por CVStudio. No se realizan transferencias automáticas.</p>';
