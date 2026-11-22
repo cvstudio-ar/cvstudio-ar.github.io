@@ -478,10 +478,90 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       {id:'linkedin',name:'LinkedIn',type:'Perfiles profesionales',detail:'OAuth pendiente',status:real.linkedin||'pending',brand:'linkedin',setup:'https://www.linkedin.com/developers/apps'}
     ];
   }
-  const integrationMeta=status=>({connected:['Conectado','#35d07f'],configured:['Configurado','#3b82f6'],pending:['Pendiente','#ffd23f'],error:['Error','#ff5d73'],checking:['Verificando…','#28c2d8']})[status]||['Pendiente','#ffd23f'];
+  const integrationMeta=status=>({connected:['Verificado','#35d07f'],configured:['Configurado','#3b82f6'],pending:['Pendiente','#ffd23f'],error:['Error','#ff5d73'],checking:['Sin verificar','#28c2d8'],reported:['Por comprobar','#e5b54b']})[status]||['Sin verificar','#8da2bd'];
+  const integrationManagementUrls={
+    supabase:'https://supabase.com/dashboard/projects',storage:'https://supabase.com/dashboard/projects',
+    mercadopago:'https://www.mercadopago.com.ar/developers/panel',
+    whatsapp:'https://business.facebook.com/settings/whatsapp-business-accounts',
+    resend:'https://resend.com/overview',portfolio:'https://dash.cloudflare.com/',
+    facebook:'https://business.facebook.com/settings/',instagram:'https://business.facebook.com/settings/',
+    canva:'https://www.canva.com/settings/your-account',
+    mercadolibre:'https://developers.mercadolibre.com.ar/',analytics:'https://analytics.google.com/',
+    chatgpt:'https://platform.openai.com/',linkedin:'https://www.linkedin.com/developers/apps'
+  };
+  function integrationVerification(item){
+    // Only API-validated connections should be described as verified.
+    const verified=['supabase','storage','mercadopago','portfolio','facebook','canva'].includes(item.id);
+    if(!verified&&item.status==='connected')return 'reported';
+    if(item.id==='canva'&&item.status==='connected'&&!state._integrationStatus?.canvaAccount?.userId)return 'reported';
+    return item.status;
+  }
   function integrationsRenderer(){
-    const items=integrationDefinitions(),connected=items.filter(x=>x.status==='connected').length,pending=items.filter(x=>x.status==='pending'||x.status==='configured'||x.status==='checking').length,errors=items.filter(x=>x.status==='error').length;
-    return `<section class="panel integrations-compact"><div class="panel-head"><div><h2>Integraciones reales</h2></div><button class="button primary" data-integrations-test>${icon('refresh')} Verificar todas</button></div><div class="integration-summary"><span><b>${connected}</b> conectadas</span><span><b>${pending}</b> por verificar/configurar</span><span class="${errors?'has-errors':''}"><b>${errors}</b> errores</span><small>Última lectura: ${state._realSync?.at?formatDateTime(state._realSync.at):'sin registro'}</small></div><div class="integration-grid-real">${items.map(item=>{const [label,color]=integrationMeta(item.status),action=item.id==='canva'?(item.status==='connected'?'Cambiar cuenta':'Vincular'):item.status==='pending'?'Vincular':item.status==='configured'?'Revisar':'Probar';return `<article class="integration-card-real"><span class="integration-brand">${brand(item.brand)}</span><div><strong>${esc(item.name)}</strong><small>${esc(item.type)}</small><p>${esc(item.detail)}</p></div><span class="status" style="--c:${color}">${label}</span><button class="button secondary small" data-integration-test="${item.id}">${action}</button></article>`;}).join('')}</div></section>`;
+    const items=integrationDefinitions().map(item=>({...item,uiStatus:integrationVerification(item)}));
+    const verified=items.filter(x=>x.uiStatus==='connected').length;
+    const toReview=items.filter(x=>x.uiStatus!=='connected'&&x.uiStatus!=='error').length;
+    const errors=items.filter(x=>x.uiStatus==='error').length;
+    const last=state._integrationStatus?.lastCheckedAt||state._realSync?.at;
+    return `<section class="panel integrations-compact integration-hub">
+      <div class="panel-head integration-hub-head">
+        <div><h2>Centro de integraciones</h2><p>Identidad, estado real, configuración y control de cada servicio. No se consideran conectadas las cuentas sin validación.</p></div>
+        <button class="button primary" data-integrations-test>${icon('refresh')} Verificar conexiones</button>
+      </div>
+      <div class="integration-summary"><span><b>${verified}</b> verificadas</span><span><b>${toReview}</b> por comprobar o conectar</span><span class="${errors?'has-errors':''}"><b>${errors}</b> con error</span><small>Comprobación: ${last?esc(formatDateTime(last)):'Pendiente'}</small></div>
+      <div class="integration-help"><strong>Canva · Biblioteca CVStudio</strong><span>${esc(state._integrationStatus?.canvaAccount?.displayName||'Cuenta no identificada o sin autorizar')} · ${state._integrationStatus?.canvaTemplateFound?'Pack de 16 modelos localizado':'Pack de 16 modelos sin verificar'}. Abrí Administrar para cambiar o desvincular la cuenta.</span><button class="button secondary small" data-integration-test="canva">Administrar Canva</button></div>
+      <div class="integration-grid-real">${items.map(item=>{const [label,color]=integrationMeta(item.uiStatus);
+        return `<article class="integration-card-real" data-integration-id="${esc(item.id)}">
+          <span class="integration-brand">${brand(item.brand)}</span>
+          <div class="integration-card-info"><strong>${esc(item.name)}</strong><small>${esc(item.type)}</small><p title="${esc(item.detail)}">${esc(item.detail)}</p></div>
+          <span class="status" style="--c:${color}">${label}</span>
+          <button class="button secondary small" data-integration-test="${esc(item.id)}">Administrar</button>
+        </article>`;
+      }).join('')}</div>
+    </section>`;
+  }
+  async function openIntegrationManager(id){
+    const item=integrationDefinitions().find(x=>x.id===id);if(!item)return;
+    const [label]=integrationMeta(integrationVerification(item));
+    if(id==='canva'){
+      let status;
+      try{status=await window.CVStudioRealBridge?.canvaStatus?.();}catch(error){
+        openModal(`<h2 id="modalTitle">Canva · Diagnóstico</h2><p>No se pudo comprobar la autorización: ${esc(error.message)}</p><p>No se realizó ningún cambio en la cuenta ni en las plantillas.</p><div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button></div>`);
+        return;
+      }
+      const name=status?.account?.displayName||'Identidad sin confirmar';
+      const userId=status?.account?.userId||'No disponible';
+      const content=`<div class="integration-management">
+        <div class="integration-modal-head"><span class="integration-brand">${brand('canva')}</span><div><h2 id="modalTitle">Canva · Administración</h2><small>${status?.connected?'Autorización vigente':'Sin autorización activa'}</small></div></div>
+        <div class="integration-management-facts">
+          <div><small>Cuenta</small><strong>${esc(name)}</strong></div>
+          <div><small>Identificador de Canva</small><code>${esc(userId)}</code></div>
+          <div><small>Biblioteca de 16 plantillas</small><strong>${status?.templateFound?'Localizada':'No confirmada'}</strong></div>
+          <div><small>Comprobación</small><span>${esc(status?.checkedAt?formatDateTime(status.checkedAt):'Pendiente')}</span></div>
+        </div>
+        <p class="integration-manager-note">Cambiar cuenta inicia una nueva autorización; desvincular quita el acceso guardado por CVStudio, pero nunca borra diseños en Canva. La revocación dentro de Canva se gestiona por separado.</p>
+        <div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button><a class="button secondary" href="https://www.canva.com/settings/your-account" target="_blank" rel="noopener">Abrir Canva</a><button class="button primary" id="integrationCanvaChange">${status?.connected?'Cambiar cuenta':'Conectar Canva'}</button>${status?.connected?'<button class="button danger" id="integrationCanvaDisconnect">Desvincular</button>':''}</div>
+      </div>`;
+      openModal(content);
+      document.getElementById('integrationCanvaChange')?.addEventListener('click',async()=>{try{await window.CVStudioRealBridge?.connectCanva?.();}catch(error){toast(error.message);}});
+      document.getElementById('integrationCanvaDisconnect')?.addEventListener('click',async()=>{
+        if(!confirm('¿Desvincular Canva de CVStudio? Se quitará la autorización del Centro de Operaciones. No se borrarán las 16 plantillas ni los archivos originales.'))return;
+        const button=document.getElementById('integrationCanvaDisconnect');if(button)button.disabled=true;
+        try{
+          await window.CVStudioRealBridge.disconnectCanva();
+          state._integrationStatus={...(state._integrationStatus||{}),canva:'pending',canvaDetail:'Sin autorización',canvaAccount:null,canvaTemplateFound:false,canvaCheckedAt:new Date().toISOString()};
+          saveState();closeModal();openModule('integraciones');toast('Canva desvinculado del Centro de Operaciones.');
+        }catch(error){toast(error.message);if(button)button.disabled=false;}
+      });
+      return;
+    }
+    const url=integrationManagementUrls[id];
+    const managed=['supabase','storage','mercadopago','portfolio','facebook'].includes(id);
+    openModal(`<div class="integration-management"><div class="integration-modal-head"><span class="integration-brand">${brand(item.brand)}</span><div><h2 id="modalTitle">${esc(item.name)}</h2><small>${esc(item.type)}</small></div></div>
+      <div class="integration-management-facts"><div><small>Estado del panel</small><strong>${esc(label)}</strong></div><div><small>Último control general</small><strong>${esc(state._integrationStatus?.lastCheckedAt?formatDateTime(state._integrationStatus.lastCheckedAt):'No verificado')}</strong></div></div>
+      <p class="integration-manager-note">${esc(item.detail)}</p>
+      <p class="integration-manager-note">${managed?'La prueba disponible es de lectura o consulta. No se desconectan credenciales críticas sin un procedimiento seguro.':'Este servicio todavía no tiene un flujo completo de alta y revocación en el Centro de Operaciones. El estado configurado no confirma una autorización activa.'}</p>
+      <div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button>${url?`<a class="button primary" href="${esc(url)}" target="_blank" rel="noopener">Administrar en ${esc(item.name)}</a>`:''}<button class="button secondary" id="integrationRefreshSingle">Volver a comprobar</button></div></div>`);
+    document.getElementById('integrationRefreshSingle')?.addEventListener('click',()=>{closeModal();testIntegrations();});
   }
   async function testIntegrations(){
     integrationHealth={supabase:'checking',storage:'checking'};openModule('integraciones');
@@ -495,6 +575,10 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       const meta=await window.CVStudioRealBridge?.metaStatus?.();
       state._integrationStatus=state._integrationStatus||{};
       state._integrationStatus.canva=canva?.connected?'connected':canva?.configured?'pending':'configured';
+      state._integrationStatus.canvaAccount=canva?.account||null;
+      state._integrationStatus.canvaTemplateFound=Boolean(canva?.templateFound);
+      state._integrationStatus.canvaCheckedAt=canva?.checkedAt||null;
+      state._integrationStatus.lastCheckedAt=new Date().toISOString();
       state._integrationStatus.canvaDetail=canva?.connected?(canva?.account?.displayName?'Autorizada: '+canva.account.displayName+(canva?.templateFound?' · PACK 16 plantillas identificado':' · verificar biblioteca de 16 plantillas'):'Autorización anterior sin identidad confirmada'):canva?.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare';
       state._integrationStatus.facebook=meta?.connected?'connected':meta?.configured?'error':'pending';
       state._integrationStatus.facebookDetail=meta?.connected?`${meta.account?.name||'Cuenta publicitaria'} verificada`:(meta?.message||'Meta Marketing pendiente');
@@ -821,27 +905,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     }
     if(id==='integraciones'){
       document.querySelector('[data-integrations-test]')?.addEventListener('click',testIntegrations);
-      document.querySelectorAll('[data-integration-test]').forEach(btn=>btn.onclick=async()=>{
-        const id=btn.dataset.integrationTest;
-        if(['supabase','storage','mercadopago','portfolio'].includes(id))return testIntegrations();
-        if(id==='canva'){
-          btn.disabled=true;
-          try{
-            const status=await window.CVStudioRealBridge?.canvaStatus?.();
-            if(status?.connected){
-              btn.disabled=false;
-              const account=status.account?.displayName||'Cuenta anterior (identidad no verificada)';
-              openModal(`<h2 id="modalTitle">Canva · Cambiar cuenta</h2><p>Conexión actual: <strong>${esc(account)}</strong></p><p>Para usar el nuevo Canva Negocios de CVStudio, iniciá una nueva autorización. El acceso anterior se reemplazará <strong>solo al completar la autorización</strong>. No se borran plantillas ni diseños de ninguna cuenta.</p><div class="modal-actions"><button class="button secondary" data-close-modal>Cancelar</button><button class="button primary" id="confirmCanvaReconnect">Autorizar otra cuenta</button></div>`);
-              document.getElementById('confirmCanvaReconnect')?.addEventListener('click',async()=>{try{await window.CVStudioRealBridge?.connectCanva?.();}catch(error){toast(error.message);}});
-              return;
-            }
-            await window.CVStudioRealBridge?.connectCanva?.();
-          }catch(error){toast(error.message);btn.disabled=false;}
-          return;
-        }
-        const item=integrationDefinitions().find(x=>x.id===id),external=item.setup?`<a class="button primary" href="${esc(item.setup)}" target="_blank" rel="noopener">Abrir configuración oficial</a>`:'';
-        openModal(`<div class="integration-modal-head"><span class="integration-brand">${brand(item.brand)}</span><div><h2 id="modalTitle">${esc(item.name)}</h2><small>${esc(item.type)}</small></div></div><div class="integration-test-note"><b>${integrationMeta(item.status)[0]}</b><span>${esc(item.detail)}</span></div><div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button>${external}</div>`);
-      });
+      document.querySelectorAll('[data-integration-test]').forEach(btn=>btn.onclick=()=>openIntegrationManager(btn.dataset.integrationTest));
     }
     if(id==='generador-url') {
       const refreshSelection=(slug)=>{selectedUrlSpace=slug;openModule('generador-url');};
