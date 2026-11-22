@@ -275,6 +275,7 @@ document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key=
 document.getElementById('quickActions').onclick=()=>openModal(`<h2 id="modalTitle">Acciones rápidas</h2><p style="color:var(--muted)">Elegí una acción frecuente.</p><div class="grid" style="grid-template-columns:1fr 1fr"><button class="action-card" data-modal-submit>+ Nuevo cliente</button><button class="action-card" data-modal-submit>+ Registrar pago</button><button class="action-card" data-modal-submit>+ Nuevo trabajo</button><button class="action-card" data-modal-submit>+ Generar URL</button></div>`);
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.getElementById('globalSearch').focus()}if(e.key==='Escape')closeModal()});
 
+renderers['asistente-ia']=()=>window.CVStudioCVAI?.render?.() || '<section class="panel"><h2>Asistente CV</h2><p>Recargá para abrir el módulo.</p></section>';
 document.addEventListener('cvstudio:access-ready',()=>{nav();if(!window.CVStudioAccess.canModule(currentModule))currentModule='inicio';openModule(currentModule);});
 nav();openModule(location.hash.slice(1)&&modules.some(x=>x[0]===location.hash.slice(1))?location.hash.slice(1):'inicio');
 
