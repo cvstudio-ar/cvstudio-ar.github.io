@@ -1041,3 +1041,8 @@
   .main-content[data-module="clientes"] .client-actions-single-row .action-card{font-size:11px!important;padding:7px 5px!important}
   .main-content[data-module="clientes"] .client-summary .flow-step{font-size:9px!important}
 }
+
+/* Enlaces Canva: navegación directa sin popup ni confirmación */
+.canva-real-card-actions .canva-direct-link{display:flex!important;align-items:center;justify-content:center;min-width:0;min-height:32px;text-decoration:none;line-height:1.25;text-align:center;white-space:normal!important}
+.canva-real-card-actions a.canva-direct-link:hover{filter:brightness(1.07)}
+.modal-actions>a.button{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
