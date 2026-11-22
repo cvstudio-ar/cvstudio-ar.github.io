@@ -259,7 +259,7 @@ const photoRefs={
 };
 function paintSprite(el,ref){
  const rowCount=ref.sheet==='extras'?3:4;
- el.style.setProperty('--food-sheet',"url('./"+(ref.sheet==='extras'?'extras-foto.webp':'ingredientes-v2.webp')+"')");
+ el.style.setProperty('--food-sheet',"url('./"+(ref.sheet==='extras'?'extras-foto-v2.webp':'ingredientes-v2.webp')+"')");
  el.style.setProperty('--food-bg-size','400% '+(rowCount*100)+'%');
  el.style.backgroundPosition=(ref.slot%4*100/3)+'% '+(Math.floor(ref.slot/4)*100/(rowCount-1))+'%';
 }
@@ -296,7 +296,7 @@ function loadAtlas(){
    if(mode!=='pizza')renderPhotographicFood();
   };
   image.onerror=()=>{atlases[sheet]=null;};
-  image.src=sheet==='main'?'./ingredientes-v2.webp':'./extras-foto.webp';
+  image.src=sheet==='main'?'./ingredientes-v2.webp':'./extras-foto-v2.webp';
  }
 }
 function renderPhotographicFood(){
