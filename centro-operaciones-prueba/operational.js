@@ -859,7 +859,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   renderers.administracion = adminRenderer;
   renderers.marketing = marketingOperationalRenderer;
   renderers.calendario = calendarOperationalRenderer;
-  renderers.plantillas = templatesRenderer;
+  renderers.plantillas = () => window.CVStudioCanvaLibrary?.render?.() || templatesRenderer();
   renderers.archivos = filesRenderer;
   renderers.integraciones = integrationsRenderer;
   renderers.colaboradores = collaboratorsOperationalRenderer;
@@ -917,6 +917,10 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
         catch(error){console.error('[CVStudio archivo recibido]',error);toast(`No se pudo descargar el archivo: ${error.message}`);}
       });
       scrollConversationToLatest();
+    }
+    if(id==='plantillas' && window.CVStudioCanvaLibrary){
+      window.CVStudioCanvaLibrary.bind();
+      return;
     }
     if(id==='plantillas'){
       document.querySelectorAll('[data-template-filter]').forEach(btn=>btn.onclick=()=>{templateFilter=btn.dataset.templateFilter;openModule('plantillas');});
