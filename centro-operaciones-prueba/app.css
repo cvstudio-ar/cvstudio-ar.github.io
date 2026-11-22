@@ -908,3 +908,11 @@
 .integration-manager-note{font-size:12px;line-height:1.6;color:var(--muted);margin:0}
 .integration-management .modal-actions{display:flex;flex-wrap:wrap;gap:8px}
 @media(max-width:900px){.main-content[data-module="integraciones"] .integration-hub .integration-grid-real{grid-template-columns:1fr}.integration-hub .integration-help{grid-template-columns:1fr}.integration-management-facts{grid-template-columns:1fr}}
+
+/* Integraciones auditadas · detalles visibles sin recortes ni datos inventados */
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real{min-height:98px!important;align-items:center!important}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real p{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-height:1.35}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real strong{font-size:12.2px}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real>.status{white-space:nowrap;font-size:10px}
+.main-content[data-module="integraciones"] .integration-hub .integration-grid-real{gap:9px 13px}
+.main-content[data-module="integraciones"] .integration-hub .integration-summary small{white-space:normal}
