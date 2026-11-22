@@ -101,6 +101,7 @@
   let filesQuery = '';
   const selectedFileIds = new Set();
   let integrationHealth = null;
+  let integrationAuditRunning = false;
   const FORM_ALERTS_START_AT = '2026-09-12T19:00:00Z';
   const FORM_ALERTS_SEEN_KEY = 'cvstudio_ops_seen_form_requests_v1';
   let lastFormAlertCount = 0;
@@ -475,10 +476,12 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       {id:'mercadolibre',name:'Mercado Libre',type:'Marketplace',detail:'OAuth pendiente',status:real.mercadolibre||'pending',brand:'mercadolibre',setup:'https://developers.mercadolibre.com.ar/'},
       {id:'analytics',name:'Google Analytics 4',type:'Analítica web',detail:'Configuración del sitio',status:real.analytics||'configured',brand:'googleanalytics'},
       {id:'chatgpt',name:'ChatGPT',type:'Redacción asistida',detail:'API de OpenAI pendiente',status:real.chatgpt||'pending',brand:'openai',setup:'https://platform.openai.com/api-keys'},
-      {id:'linkedin',name:'LinkedIn',type:'Perfiles profesionales',detail:'OAuth pendiente',status:real.linkedin||'pending',brand:'linkedin',setup:'https://www.linkedin.com/developers/apps'}
+      {id:'linkedin',name:'LinkedIn',type:'Perfiles profesionales',detail:'OAuth pendiente',status:real.linkedin||'pending',brand:'linkedin',setup:'https://www.linkedin.com/developers/apps'},
+      {id:'github',name:'GitHub',type:'Repositorio y despliegues',detail:'Repositorio cvstudio-ar/cvstudio-ar.github.io',status:'checking',brand:'github'},
+      {id:'tiendanube',name:'Tiendanube',type:'Tienda y comercio',detail:'Credenciales de tienda por verificar',status:'checking',brand:'tiendanube'}
     ];
   }
-  const integrationMeta=status=>({connected:['Verificado','#35d07f'],configured:['Configurado','#3b82f6'],pending:['Pendiente','#ffd23f'],error:['Error','#ff5d73'],checking:['Sin verificar','#28c2d8'],reported:['Por comprobar','#e5b54b']})[status]||['Sin verificar','#8da2bd'];
+  const integrationMeta=status=>({connected:['Verificado','#35d07f'],configured:['Configurado','#3b82f6'],pending:['Pendiente','#ffd23f'],error:['Error','#ff5d73'],checking:['Sin verificar','#28c2d8'],reported:['Acceso parcial','#e5b54b']})[status]||['Sin verificar','#8da2bd'];
   const integrationManagementUrls={
     supabase:'https://supabase.com/dashboard/projects',storage:'https://supabase.com/dashboard/projects',
     mercadopago:'https://www.mercadopago.com.ar/developers/panel',
@@ -487,32 +490,43 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     facebook:'https://business.facebook.com/settings/',instagram:'https://business.facebook.com/settings/',
     canva:'https://www.canva.com/settings/your-account',
     mercadolibre:'https://developers.mercadolibre.com.ar/',analytics:'https://analytics.google.com/',
-    chatgpt:'https://platform.openai.com/',linkedin:'https://www.linkedin.com/developers/apps'
+    chatgpt:'https://platform.openai.com/',linkedin:'https://www.linkedin.com/developers/apps',
+    github:'https://github.com/cvstudio-ar/cvstudio-ar.github.io',tiendanube:'https://www.tiendanube.com/'
   };
+  function integrationAuditFor(id){return (state._integrationAudit?.results||[]).find(item=>item.id===id)||null;}
   function integrationVerification(item){
-    // Only API-validated connections should be described as verified.
-    const verified=['supabase','storage','mercadopago','portfolio','facebook','canva'].includes(item.id);
-    if(!verified&&item.status==='connected')return 'reported';
-    if(item.id==='canva'&&item.status==='connected'&&!state._integrationStatus?.canvaAccount?.userId)return 'reported';
-    return item.status;
+    const audit=integrationAuditFor(item.id);
+    if(audit)return ({verified:'connected',limited:'reported',pending:'pending',configured:'configured',error:'error'})[audit.status]||'checking';
+    // Mientras no exista una auditoría general, no se inventan verificaciones.
+    if(item.id==='canva'&&state._integrationStatus?.canva==='connected'){
+      return state._integrationStatus?.canvaVerified===true?'connected':'checking';
+    }
+    return item.status==='error'?'error':'checking';
+  }
+  function integrationVisibleDetail(item){
+    const audit=integrationAuditFor(item.id);
+    if(audit)return [audit.account,audit.detail].filter(Boolean).join(' · ');
+    return item.id==='canva'&&state._integrationStatus?.canvaAccount?.displayName
+      ? 'Cuenta: '+state._integrationStatus.canvaAccount.displayName+' · '+(state._integrationStatus.canvaTemplateFound?'Pack 16 plantillas localizado':'Pack no verificado')
+      : 'Pendiente de comprobar desde el servidor';
   }
   function integrationsRenderer(){
     const items=integrationDefinitions().map(item=>({...item,uiStatus:integrationVerification(item)}));
     const verified=items.filter(x=>x.uiStatus==='connected').length;
     const toReview=items.filter(x=>x.uiStatus!=='connected'&&x.uiStatus!=='error').length;
     const errors=items.filter(x=>x.uiStatus==='error').length;
-    const last=state._integrationStatus?.lastCheckedAt||state._realSync?.at;
+    const last=state._integrationAudit?.checkedAt||state._integrationStatus?.lastCheckedAt||null;
     return `<section class="panel integrations-compact integration-hub">
       <div class="panel-head integration-hub-head">
         <div><h2>Centro de integraciones</h2><p>Identidad, estado real, configuración y control de cada servicio. No se consideran conectadas las cuentas sin validación.</p></div>
         <button class="button primary" data-integrations-test>${icon('refresh')} Verificar conexiones</button>
       </div>
-      <div class="integration-summary"><span><b>${verified}</b> verificadas</span><span><b>${toReview}</b> por comprobar o conectar</span><span class="${errors?'has-errors':''}"><b>${errors}</b> con error</span><small>Comprobación: ${last?esc(formatDateTime(last)):'Pendiente'}</small></div>
-      <div class="integration-help"><strong>Canva · Biblioteca CVStudio</strong><span>${esc(state._integrationStatus?.canvaAccount?.displayName||'Cuenta no identificada o sin autorizar')} · ${state._integrationStatus?.canvaTemplateFound?'Pack de 16 modelos localizado':'Pack de 16 modelos sin verificar'}. Abrí Administrar para cambiar o desvincular la cuenta.</span><button class="button secondary small" data-integration-test="canva">Administrar Canva</button></div>
+      <div class="integration-summary"><span><b>${verified}</b> verificadas</span><span><b>${toReview}</b> sin verificar / pendientes</span><span class="${errors?'has-errors':''}"><b>${errors}</b> con error</span><small>Comprobación del servidor: ${last?esc(formatDateTime(last)):'No ejecutada'}</small></div>
+      <div class="integration-help"><strong>Canva · Biblioteca CVStudio</strong><span>${esc(integrationAuditFor('canva')?.account||state._integrationStatus?.canvaAccount?.displayName||'Cuenta no identificada')} · ${state._integrationStatus?.canvaTemplateFound||integrationAuditFor('canva')?.detail?.includes('16 plantillas')?'Pack de 16 modelos localizado':'Pack por validar'}. Administrá la cuenta o comprobá su autorización.</span><button class="button secondary small" data-integration-test="canva">Administrar Canva</button></div>
       <div class="integration-grid-real">${items.map(item=>{const [label,color]=integrationMeta(item.uiStatus);
         return `<article class="integration-card-real" data-integration-id="${esc(item.id)}">
           <span class="integration-brand">${brand(item.brand)}</span>
-          <div class="integration-card-info"><strong>${esc(item.name)}</strong><small>${esc(item.type)}</small><p title="${esc(item.detail)}">${esc(item.detail)}</p></div>
+          <div class="integration-card-info"><strong>${esc(item.name)}</strong><small>${esc(item.type)}</small><p title="${esc(integrationVisibleDetail(item))}">${esc(integrationVisibleDetail(item))}</p></div>
           <span class="status" style="--c:${color}">${label}</span>
           <button class="button secondary small" data-integration-test="${esc(item.id)}">Administrar</button>
         </article>`;
@@ -522,6 +536,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   async function openIntegrationManager(id){
     const item=integrationDefinitions().find(x=>x.id===id);if(!item)return;
     const [label]=integrationMeta(integrationVerification(item));
+    const audited=integrationAuditFor(id);
     if(id==='canva'){
       let status;
       try{status=await window.CVStudioRealBridge?.canvaStatus?.();}catch(error){
@@ -548,7 +563,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
         const button=document.getElementById('integrationCanvaDisconnect');if(button)button.disabled=true;
         try{
           await window.CVStudioRealBridge.disconnectCanva();
-          state._integrationStatus={...(state._integrationStatus||{}),canva:'pending',canvaDetail:'Sin autorización',canvaAccount:null,canvaTemplateFound:false,canvaCheckedAt:new Date().toISOString()};
+          state._integrationStatus={...(state._integrationStatus||{}),canva:'pending',canvaVerified:false,canvaDetail:'Sin autorización',canvaAccount:null,canvaTemplateFound:false,canvaCheckedAt:new Date().toISOString()};
+          state._integrationAudit=null;
           saveState();closeModal();openModule('integraciones');toast('Canva desvinculado del Centro de Operaciones.');
         }catch(error){toast(error.message);if(button)button.disabled=false;}
       });
@@ -557,39 +573,57 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     const url=integrationManagementUrls[id];
     const managed=['supabase','storage','mercadopago','portfolio','facebook'].includes(id);
     openModal(`<div class="integration-management"><div class="integration-modal-head"><span class="integration-brand">${brand(item.brand)}</span><div><h2 id="modalTitle">${esc(item.name)}</h2><small>${esc(item.type)}</small></div></div>
-      <div class="integration-management-facts"><div><small>Estado del panel</small><strong>${esc(label)}</strong></div><div><small>Último control general</small><strong>${esc(state._integrationStatus?.lastCheckedAt?formatDateTime(state._integrationStatus.lastCheckedAt):'No verificado')}</strong></div></div>
-      <p class="integration-manager-note">${esc(item.detail)}</p>
-      <p class="integration-manager-note">${managed?'La prueba disponible es de lectura o consulta. No se desconectan credenciales críticas sin un procedimiento seguro.':'Este servicio todavía no tiene un flujo completo de alta y revocación en el Centro de Operaciones. El estado configurado no confirma una autorización activa.'}</p>
+      <div class="integration-management-facts">
+        <div><small>Estado comprobado</small><strong>${esc(label)}</strong></div>
+        <div><small>Cuenta o recurso</small><strong>${esc(audited?.account||'Sin identificación verificada')}</strong></div>
+        <div><small>Último control</small><strong>${esc(audited?.checkedAt?formatDateTime(audited.checkedAt):'No verificado')}</strong></div>
+        <div><small>Método</small><strong>${esc(audited?.evidence||'Aún sin diagnóstico API')}</strong></div>
+      </div>
+      <p class="integration-manager-note">${esc(audited?.detail||'La conexión todavía no se ha probado desde el Worker. Presioná Volver a comprobar para obtener el diagnóstico.')}</p>
+      <p class="integration-manager-note">${managed?'La comprobación es de lectura. Para cambiar o revocar credenciales críticas, usá la administración oficial con revisión de impacto; este panel no realizará cortes de producción.':'El acceso a este servicio requiere autorización propia. No se compartirán contraseñas ni se marcará conectado sin validación externa.'}</p>
       <div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button>${url?`<a class="button primary" href="${esc(url)}" target="_blank" rel="noopener">Administrar en ${esc(item.name)}</a>`:''}<button class="button secondary" id="integrationRefreshSingle">Volver a comprobar</button></div></div>`);
     document.getElementById('integrationRefreshSingle')?.addEventListener('click',()=>{closeModal();testIntegrations();});
   }
   async function testIntegrations(){
-    integrationHealth={supabase:'checking',storage:'checking'};openModule('integraciones');
-    const db=window.cvstudioSupabase;
-    if(!db){integrationHealth={supabase:'error',storage:'error'};openModule('integraciones');return;}
-    const [database,storage]=await Promise.all([db.from('cvstudio_ops_stage_meta').select('id').limit(1),db.storage.from(FILE_BUCKET).list('',{limit:1})]);
-    integrationHealth={supabase:database.error?'error':'connected',storage:storage.error?'error':'connected'};
+    if(integrationAuditRunning)return;
+    integrationAuditRunning=true;
+    const button=document.querySelector('[data-integrations-test]');if(button){button.disabled=true;button.textContent='Comprobando...';}
     try{
-      await window.CVStudioRealBridge?.loadReal?.();state=loadState();
-      const canva=await window.CVStudioRealBridge?.canvaStatus?.();
-      const meta=await window.CVStudioRealBridge?.metaStatus?.();
+      const db=window.cvstudioSupabase;
+      if(db){
+        const [database,storage]=await Promise.all([
+          db.from('cvstudio_ops_stage_meta').select('id').limit(1),
+          db.storage.from(FILE_BUCKET).list('',{limit:1})
+        ]);
+        integrationHealth={supabase:database.error?'error':'connected',storage:storage.error?'error':'connected'};
+      }
+      const bridge=window.CVStudioRealBridge;
+      const checks=await Promise.allSettled([
+        bridge?.integrationAudit?.(),
+        bridge?.canvaStatus?.(),
+        bridge?.metaStatus?.()
+      ]);
+      const audit=checks[0].status==='fulfilled'?checks[0].value:null;
+      const canva=checks[1].status==='fulfilled'?checks[1].value:null;
+      const meta=checks[2].status==='fulfilled'?checks[2].value:null;
       state._integrationStatus=state._integrationStatus||{};
-      state._integrationStatus.canva=canva?.connected?'connected':canva?.configured?'pending':'configured';
-      state._integrationStatus.canvaAccount=canva?.account||null;
-      state._integrationStatus.canvaTemplateFound=Boolean(canva?.templateFound);
-      state._integrationStatus.canvaCheckedAt=canva?.checkedAt||null;
+      if(canva){
+        state._integrationStatus.canva=canva.connected?'connected':canva.configured?'pending':'configured';
+        state._integrationStatus.canvaVerified=Boolean(canva.connected&&canva.verified);
+        state._integrationStatus.canvaAccount=canva.account||null;
+        state._integrationStatus.canvaTemplateFound=Boolean(canva.templateFound);
+        state._integrationStatus.canvaCheckedAt=canva.checkedAt||null;
+      }
+      if(meta){state._integrationStatus.facebook=meta.connected?'connected':meta.configured?'error':'pending';}
+      if(audit?.ok&&Array.isArray(audit.results))state._integrationAudit={checkedAt:audit.checkedAt,results:audit.results};
+      else state._integrationAudit=null;
       state._integrationStatus.lastCheckedAt=new Date().toISOString();
-      state._integrationStatus.canvaDetail=canva?.connected?(canva?.account?.displayName?'Autorizada: '+canva.account.displayName+(canva?.templateFound?' · PACK 16 plantillas identificado':' · verificar biblioteca de 16 plantillas'):'Autorización anterior sin identidad confirmada'):canva?.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare';
-      state._integrationStatus.facebook=meta?.connected?'connected':meta?.configured?'error':'pending';
-      state._integrationStatus.facebookDetail=meta?.connected?`${meta.account?.name||'Cuenta publicitaria'} verificada`:(meta?.message||'Meta Marketing pendiente');
-      saveState();
-    }catch(error){console.error('[CVStudio integrations]',error);}
-    openModule('integraciones');toast(database.error||storage.error?'La verificación detectó puntos pendientes.':'Integraciones principales verificadas.');
+      saveState();openModule('integraciones');
+      toast(audit?.ok?'Conexiones auditadas: revisá cuentas y servicios pendientes.':'Canva comprobado. Para auditar todas las cuentas, publicá el Worker de Integraciones v2.17.2.');
+    }catch(error){console.error('[CVStudio integrations audit]',error);openModule('integraciones');toast('No se pudo completar el diagnóstico: '+error.message);}
+    finally{integrationAuditRunning=false;const control=document.querySelector('[data-integrations-test]');if(control)control.disabled=false;}
   }
 
-
-
-  let showFinanceExample = true;
   function financeChartData(payments, expenses, now = new Date(), example = false) {
     const today=argentinaDateKey(now);
     const end=new Date(`${today}T12:00:00-03:00`);
@@ -906,6 +940,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(id==='integraciones'){
       document.querySelector('[data-integrations-test]')?.addEventListener('click',testIntegrations);
       document.querySelectorAll('[data-integration-test]').forEach(btn=>btn.onclick=()=>openIntegrationManager(btn.dataset.integrationTest));
+      if(!state._integrationAudit && !integrationAuditRunning && !state._integrationStatus?.lastCheckedAt)window.setTimeout(()=>testIntegrations(),0);
     }
     if(id==='generador-url') {
       const refreshSelection=(slug)=>{selectedUrlSpace=slug;openModule('generador-url');};
