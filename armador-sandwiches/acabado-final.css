@@ -20,7 +20,7 @@ body::before{background:none!important}
 .photo-tag{max-width:100%;white-space:nowrap;background:#223a1ea8;border-color:#6c914954}
 .photo-tag.not-yet-photographed{border-style:dashed}
 .photo-tag .food-thumb{background-image:url('./ingredientes-v2.webp');background-size:400% 400%}
-.food-thumb:not(.thumb-fallback){background-image:url('./ingredientes-v2.webp')!important;background-size:400% 400%!important}
+.food-thumb:not(.thumb-fallback){background-image:var(--food-sheet,url('./ingredientes-v2.webp'))!important;background-size:var(--food-bg-size,400% 400%)!important}
 .pizza-real-topping{background-image:url('./ingredientes-v2.webp')!important;background-size:400% 400%!important}
 .photo-layer{display:none!important}
 .ingredient-row{background:#1c291a;border-color:#667a4470;border-radius:12px}
@@ -81,3 +81,8 @@ body::before{background:none!important}
  .summary-card{min-height:280px!important}
  .ingredient-group{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+/* Fotos originales de ingredientes en atlas independientes. */
+.food-thumb.pizza-real-topping{background-image:var(--food-sheet,url('./ingredientes-v2.webp'))!important;background-size:var(--food-bg-size,400% 400%)!important}
+.food-thumb.ingredient-icon,.food-thumb.summary-thumb,.food-thumb.photo-tag-thumb{background-color:transparent!important;border:0!important}
+.ingredient-row .food-thumb{filter:drop-shadow(0 3px 4px #0005)}
