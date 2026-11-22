@@ -882,3 +882,29 @@
 .training-track-card input,.training-track-card select,.training-track-card textarea{width:100%;min-width:0;max-width:100%;box-sizing:border-box}
 .training-track-card textarea{resize:vertical}
 @media(max-width:600px){.training-material{align-items:stretch}.training-material button{width:100%}.training-track-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Integraciones v2 · gestión realista, diagnóstico y panel de cuentas */
+.main-content[data-module="integraciones"] .integrations-compact.integration-hub{height:100%;min-height:0;overflow-y:auto!important;scrollbar-width:thin;padding:16px!important;display:block}
+.integration-hub .integration-hub-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}
+.integration-hub-head h2{font-size:17px;margin:0 0 5px}
+.integration-hub-head p{font-size:11px;line-height:1.5;color:var(--muted);margin:0;max-width:650px}
+.integration-hub .integration-summary{padding:11px 14px;margin-bottom:12px;gap:18px;flex-wrap:wrap}
+.integration-hub .integration-summary b{font-size:17px}
+.integration-hub .integration-help{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border:1px solid rgba(255,210,77,.3);background:linear-gradient(120deg,rgba(255,210,77,.08),rgba(22,43,76,.24));border-radius:12px;margin-bottom:14px;font-size:11px}
+.integration-help strong{color:#f8d77e}.integration-help span{color:#bacbe1;line-height:1.4}
+.main-content[data-module="integraciones"] .integration-hub .integration-grid-real{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;min-height:0;overflow:visible}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real{min-height:82px;border:1px solid var(--line);border-radius:11px;padding:11px;gap:9px;background:rgba(255,255,255,.025);grid-template-columns:40px minmax(0,1fr) auto;grid-template-areas:"brand info status" "brand info action"}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real:hover{border-color:#426082;background:rgba(255,255,255,.045)}
+.main-content[data-module="integraciones"] .integration-hub .integration-brand{width:37px;height:37px}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real>div{min-width:0}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real strong{font-size:12px}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real small{font-size:10px}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real p{font-size:10px;line-height:1.4;margin-top:4px;text-overflow:ellipsis}
+.main-content[data-module="integraciones"] .integration-hub .integration-card-real>.button{font-size:10px;min-height:27px;padding:5px 11px}
+.integration-management{display:grid;gap:10px;max-width:660px}
+.integration-management-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.integration-management-facts>div{min-width:0;display:flex;flex-direction:column;gap:5px;padding:11px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.025)}
+.integration-management-facts small{font-size:11px;color:var(--muted)}.integration-management-facts strong,.integration-management-facts code{font-size:12px;overflow-wrap:anywhere}
+.integration-manager-note{font-size:12px;line-height:1.6;color:var(--muted);margin:0}
+.integration-management .modal-actions{display:flex;flex-wrap:wrap;gap:8px}
+@media(max-width:900px){.main-content[data-module="integraciones"] .integration-hub .integration-grid-real{grid-template-columns:1fr}.integration-hub .integration-help{grid-template-columns:1fr}.integration-management-facts{grid-template-columns:1fr}}
