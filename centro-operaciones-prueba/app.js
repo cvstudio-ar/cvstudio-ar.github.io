@@ -43,10 +43,10 @@ function replaceIconTokens(html){for(const [t,n] of Object.entries(TOKEN_ICONS))
 
 
 const CVSTUDIO_LEVELS={
-  Aprendiz:{rank:1,commission:10,modules:['inicio','clientes','plantillas','archivos','calendario'],actions:['new-client','edit-client','send-form','copy-client-sheet','open-whatsapp','ai-cv','send-message','job-detail','upload-file']},
-  Operario:{rank:2,commission:15,modules:['inicio','clientes','plantillas','archivos','calendario'],actions:['send-message','new-job','job-detail','change-status','upload-file']},
-  Líder:{rank:3,commission:18,modules:['inicio','clientes','calendario','plantillas','archivos','colaboradores'],actions:['send-message','new-client','new-job','job-detail','change-status','deliver-work','upload-file']},
-  Supervisor:{rank:4,commission:20,modules:['inicio','clientes','administracion','marketing','calendario','plantillas','archivos','colaboradores','generador-url'],actions:['*']},
+  Aprendiz:{rank:1,commission:10,modules:['inicio','clientes','asistente-ia','plantillas','archivos','calendario'],actions:['new-client','edit-client','send-form','copy-client-sheet','open-whatsapp','ai-cv','send-message','job-detail','upload-file']},
+  Operario:{rank:2,commission:15,modules:['inicio','clientes','asistente-ia','plantillas','archivos','calendario'],actions:['send-message','new-job','job-detail','change-status','upload-file']},
+  Líder:{rank:3,commission:18,modules:['inicio','clientes','asistente-ia','calendario','plantillas','archivos','colaboradores'],actions:['send-message','new-client','new-job','job-detail','change-status','deliver-work','upload-file']},
+  Supervisor:{rank:4,commission:20,modules:['inicio','clientes','asistente-ia','administracion','marketing','calendario','plantillas','archivos','colaboradores','generador-url'],actions:['*']},
   Director:{rank:5,commission:20,modules:['*'],actions:['*']}
 };
 window.CVSTUDIO_LEVELS=CVSTUDIO_LEVELS;
@@ -55,6 +55,7 @@ window.CVStudioAccess={level:'Aprendiz',collaborator:null,ready:false,canModule(
 const modules = [
   ['inicio','home','Inicio','Resumen general de la actividad de CVStudio.'],
   ['clientes','users','Clientes','Gestioná consultas, formularios, pagos y trabajos desde una sola pantalla.'],
+  ['asistente-ia','message','Asistente CV','Prepará consultas y redacciones desde el Centro de Operaciones, sin cargos adicionales.'],
   ['evaluaciones','check','Entrevistas y simulacros','Creá enlaces cronometrados, seguí intentos y analizá resultados.'],
   ['administracion','wallet','Administración','Controlá ingresos, fondos, precios, colaboradores y liquidaciones.'],
   ['marketing','megaphone','Marketing','Gestioná campañas, presupuesto y resultados en todos los canales.'],
