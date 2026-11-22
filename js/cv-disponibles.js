@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const whatsapp = '5492964652318';
+  const whatsapp = '5492964654938';
   const priceApi='https://eqepkoegzyqklpxkrkhm.supabase.co/functions/v1/cvstudio-prices';
   const priceProductIds={express:'cv-express',basico:'cv-basico',estandar:'cv-estandar',avanzado:'cv-avanzado',profesional:'cv-profesional'};
 
