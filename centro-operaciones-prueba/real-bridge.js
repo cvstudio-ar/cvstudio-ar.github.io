@@ -93,6 +93,7 @@
     return data;
   }
   const canvaStatus=()=>api('canva-status');
+  const disconnectCanva=()=>api('canva-disconnect',{confirmation:'DESVINCULAR CANVA'});
   const metaStatus=()=>api('meta-status');
   const metaCampaigns=()=>api('meta-campaigns');
   const connectCanva=async()=>{
@@ -244,7 +245,10 @@
       whatsapp:'configured',
       resend:'configured',
       analytics:'configured',
-      canva:canvaData.connected?'connected':canvaData.configured?'pending':'configured',
+      canva:canvaData._error?'error':canvaData.connected?'connected':canvaData.configured?'pending':'configured',
+      canvaAccount:canvaData.account||null,
+      canvaCheckedAt:canvaData.checkedAt||null,
+      canvaTemplateFound:Boolean(canvaData.templateFound),
       canvaDetail:canvaData.connected?(canvaData.account?.displayName?'Autorizada: '+canvaData.account.displayName+(canvaData.templateFound?' · PACK 16 plantillas identificado':' · revisar pack de plantillas'):'Autorización activa, identidad no comprobada'):(canvaData._error||(canvaData.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare')),
       facebook:metaData.connected?'connected':metaData._error?'error':'pending',
       facebookDetail:metaData.connected?`${state.metaCampaigns.length} campañas sincronizadas`:(metaData._error||'Meta Marketing pendiente')
@@ -353,7 +357,7 @@
   }
   window.CVStudioRetryPriceSync=async()=>{const prices=pendingPrices();if(Object.keys(prices).length)try{await updatePrices(prices);}catch(error){console.error(error);}};
 
-  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, connectCanva, metaStatus, metaCampaigns};
+  window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, connectCanva, disconnectCanva, metaStatus, metaCampaigns};
 
   function waitForStageReady(timeout = 8000) {
     if (window.CVStudioStageReady) return Promise.resolve();
