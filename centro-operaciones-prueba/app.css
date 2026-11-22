@@ -865,3 +865,20 @@
 .finance-chart .chart-premium-body{grid-template-columns:78px minmax(0,1fr)}
 .finance-chart .chart-y-axis{font-size:10px}
 .finance-chart .chart-premium-legend{flex-wrap:wrap;gap:8px 16px}
+
+/* Seguimiento de capacitaciones - Centro de Operaciones */
+.training-summary{padding:14px 16px;background:rgba(59,130,246,.08);border:1px solid rgba(148,163,184,.2);border-radius:12px;display:grid;gap:8px;margin-bottom:14px}
+.training-summary small{color:var(--muted)}
+.training-progress{height:8px;background:rgba(148,163,184,.2);border-radius:99px;overflow:hidden}
+.training-progress span{height:100%;display:block;background:#35d07f;border-radius:99px;transition:width .2s}
+.training-material{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:12px 0 18px;flex-wrap:wrap}
+.training-material label{font-size:12px;color:var(--muted);display:grid;gap:6px}
+.training-material input{min-width:170px}
+.training-track-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px}
+.training-track-card{border:1px solid rgba(148,163,184,.2);background:rgba(15,23,42,.45);border-radius:12px;padding:14px;display:grid;gap:10px;min-width:0}
+.training-track-title{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.training-track-card p{font-size:12px;line-height:1.5;color:var(--muted);margin:0}
+.training-track-card label{display:grid;gap:5px;font-size:12px;color:var(--muted);min-width:0}
+.training-track-card input,.training-track-card select,.training-track-card textarea{width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+.training-track-card textarea{resize:vertical}
+@media(max-width:600px){.training-material{align-items:stretch}.training-material button{width:100%}.training-track-grid{grid-template-columns:minmax(0,1fr)}}
