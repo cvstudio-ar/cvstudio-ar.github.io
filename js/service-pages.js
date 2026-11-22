@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const whatsapp = '5492964652318';
+  const whatsapp = '5492964654938';
   const services = {
     'cv-profesional': {
       kicker:'Currículum desarrollado a medida', title:'Tu experiencia merece un <span>CV profesional.</span>', price:'$12.500',
