@@ -245,7 +245,7 @@
       resend:'configured',
       analytics:'configured',
       canva:canvaData.connected?'connected':canvaData.configured?'pending':'configured',
-      canvaDetail:canvaData.connected?'Cuenta y tokens verificados':(canvaData._error||(canvaData.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare')),
+      canvaDetail:canvaData.connected?(canvaData.account?.displayName?'Autorizada: '+canvaData.account.displayName+(canvaData.templateFound?' · PACK 16 plantillas identificado':' · revisar pack de plantillas'):'Autorización activa, identidad no comprobada'):(canvaData._error||(canvaData.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare')),
       facebook:metaData.connected?'connected':metaData._error?'error':'pending',
       facebookDetail:metaData.connected?`${state.metaCampaigns.length} campañas sincronizadas`:(metaData._error||'Meta Marketing pendiente')
     };
