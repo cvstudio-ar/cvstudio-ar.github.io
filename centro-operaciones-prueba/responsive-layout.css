@@ -223,3 +223,15 @@
 #appMain[data-module="marketing"] .marketing-reading b{display:block;font-size:20px;margin-top:7px;overflow-wrap:anywhere}
 @media(max-width:1100px){#appMain[data-module="marketing"] .marketing-growth-layout{grid-template-columns:1fr}}
 @media(max-width:650px){#appMain[data-module="marketing"] .marketing-growth-layout>.panel{padding:15px!important;min-height:0!important}#appMain[data-module="marketing"] .marketing-reading{grid-template-columns:1fr}}
+
+/* Ficha de clientes: cinco acciones útiles, sin casilleros vacíos ni scroll horizontal. */
+#appMain[data-module="clientes"] .client-actions-single-row{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(min(130px,100%),1fr))!important;
+  gap:9px!important;
+  overflow:visible!important;
+}
+#appMain[data-module="clientes"] .client-actions-single-row .action-card{
+  min-width:0!important;
+  min-height:44px!important;
+}
