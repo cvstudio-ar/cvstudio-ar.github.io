@@ -64,6 +64,19 @@
     catch (_) { return null; }
   }
 
+  function normalizeCollaboratorPermissions(item) {
+    if(!item||typeof item!=='object')return item;
+    // Migración única de los tres permisos antiguos del colaborador CV.
+    // Un cambio posterior del Director no se vuelve a sobrescribir.
+    const name=String(item.name||'').trim().toLowerCase();
+    const current=Array.isArray(item.permissions)?item.permissions:[];
+    const legacy=['Inicio:ver','Plantillas:ver','Archivos:ver'];
+    const isLegacy=current.length===legacy.length&&legacy.every(permission=>current.includes(permission));
+    if(name==='matias hernandez'&&item.role==='Aprendiz'&&!item.permissionsMigratedV2&&isLegacy){
+      return {...item,permissions:['Inicio:ver','Clientes:ver','Clientes:editar','Plantillas:ver','Archivos:ver','Archivos:subir'],permissionsMigratedV2:true};
+    }
+    return item;
+  }
   function normalizeState(state) {
     if (!state || typeof state !== 'object') return null;
     return {
@@ -78,7 +91,7 @@
       expenses: Array.isArray(state.expenses) ? state.expenses : [],
       activities: Array.isArray(state.activities) ? state.activities : [],
       calendarItems: Array.isArray(state.calendarItems) ? state.calendarItems : [],
-      collaborators: Array.isArray(state.collaborators) ? state.collaborators : [],
+      collaborators: Array.isArray(state.collaborators) ? state.collaborators.map(normalizeCollaboratorPermissions) : [],
       urlSpaces: Array.isArray(state.urlSpaces) ? state.urlSpaces : [],
       templates: Array.isArray(state.templates) ? state.templates : []
       ,hiddenClientRefs: Array.isArray(state.hiddenClientRefs) ? state.hiddenClientRefs : []
