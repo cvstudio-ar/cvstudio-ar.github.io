@@ -916,3 +916,35 @@
 .main-content[data-module="integraciones"] .integration-hub .integration-card-real>.status{white-space:nowrap;font-size:10px}
 .main-content[data-module="integraciones"] .integration-hub .integration-grid-real{gap:9px 13px}
 .main-content[data-module="integraciones"] .integration-hub .integration-summary small{white-space:normal}
+
+/* Canva biblioteca real · 16 páginas maestras · adaptación notebook */
+.main-content[data-module="plantillas"] .canva-real-hub{padding:20px;min-width:0;overflow:auto;max-height:100%;background:linear-gradient(150deg,rgba(14,30,53,.94),rgba(7,19,36,.94))}
+.canva-real-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:15px}
+.canva-real-head h2{margin:0 0 6px;font-size:19px}
+.canva-real-head p{margin:0;max-width:580px;color:#abc0d7;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.canva-real-status{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.canva-real-status span{font-size:11px;color:#8ee5b4;font-weight:700}
+.canva-real-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.canva-real-summary>div{border:1px solid rgba(160,184,212,.15);border-radius:12px;padding:10px 13px;display:flex;flex-direction:column;gap:3px;background:rgba(255,255,255,.02)}
+.canva-real-summary b{font-size:21px;color:#ffdb75}
+.canva-real-summary span{font-size:11px;color:#b7c4d5}
+.canva-real-guidance{border:1px solid rgba(255,206,82,.27);background:rgba(255,206,82,.07);padding:11px 14px;border-radius:11px;margin-bottom:16px;font-size:12px;line-height:1.6;color:#e5e7eb}
+.canva-real-guidance strong{color:#ffe294}
+.canva-real-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,175px),1fr));gap:13px;align-items:stretch}
+.canva-real-card{padding:9px!important;display:flex;flex-direction:column;gap:8px;min-width:0;border-radius:13px;overflow:hidden}
+.canva-real-image{position:relative;aspect-ratio:0.73;display:grid;place-items:center;background:#182c49;border-radius:9px;overflow:hidden}
+.canva-real-image img{display:block;width:100%;height:100%;object-fit:contain;background:#e9eef5}
+.canva-real-number{position:absolute;top:7px;right:7px;padding:4px 7px;background:#081528e8;border-radius:7px;font-size:10px;color:#f4f7ff}
+.canva-real-no-image{font-size:11px;text-align:center;max-width:140px;color:#abc0d7}
+.canva-real-card-body{display:flex;flex-direction:column;gap:5px;flex:1}
+.canva-real-card-body strong{font-size:12px;line-height:1.4;color:#eef4ff}
+.canva-real-card-body small{font-size:10px;color:#94a7c1}
+.canva-real-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:auto;padding-top:7px}
+.canva-real-card-actions button{min-width:0;white-space:normal!important;min-height:32px;font-size:10px!important;padding:5px 4px!important;line-height:1.2}
+.canva-real-warning{color:#ffcbce;background:rgba(188,45,63,.12);border:1px solid rgba(255,111,130,.36);padding:14px;border-radius:11px;margin-bottom:14px;font-size:12px;line-height:1.6}
+.canva-real-foot{display:block;color:#96aac1;margin-top:14px;font-size:10px}
+.canva-real-modal-preview{margin:12px auto;display:grid;place-items:center;max-height:55vh;overflow:auto}
+.canva-real-modal-preview img{display:block;max-height:52vh;max-width:100%;object-fit:contain;background:white;border-radius:6px}
+.canva-real-modal-note{font-size:12px;line-height:1.5;color:#c3d1e1}
+@media(max-width:850px){.canva-real-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.canva-real-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,155px),1fr))}}
+@media(max-width:540px){.main-content[data-module="plantillas"] .canva-real-hub{padding:12px}.canva-real-summary{grid-template-columns:1fr 1fr}.canva-real-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.canva-real-card{padding:6px!important}.canva-real-card-actions{grid-template-columns:1fr}}
