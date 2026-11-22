@@ -251,9 +251,20 @@ async function handleCanvaStatus(request,env,origin){
     const designs=designsResponse.ok?await designsResponse.json():{};
     const displayName=String(profile?.profile?.display_name||'').slice(0,120);
     const templateFound=(designs?.items||[]).some(item=>String(item.title||'').toLowerCase().includes('16 plantillas cv'));
-    return jsonResponse({ok:true,configured:true,connected:true,account:{displayName,userId:identity?.user?.id||null,teamId:identity?.team?.id||null},templateFound,expiresAt:connection.expires_at},200,origin);
+    return jsonResponse({ok:true,configured:true,connected:true,verified:true,checkedAt:new Date().toISOString(),account:{displayName,userId:identity?.user?.id||null,teamId:identity?.team?.id||null},templateFound,authorizedAt:connection.updated_at||null,expiresAt:connection.expires_at},200,origin);
   }
   catch(error){return jsonResponse({ok:false,configured:true,connected:false,message:error.message},502,origin)}
+}
+
+async function handleCanvaDisconnect(request,env,origin,body){
+  const admin=await verifyAdmin(request);
+  if(!admin)return jsonResponse({ok:false,message:'Solo la dirección de CVStudio puede desvincular Canva.'},403,origin);
+  if(body?.confirmation!=='DESVINCULAR CANVA')return jsonResponse({ok:false,message:'Confirmación incorrecta.'},400,origin);
+  const path=`canva_integraciones?user_id=eq.${encodeURIComponent(admin.id)}`;
+  const existing=await getCanvaConnection(env,admin.id,{refresh:false});
+  if(!existing)return jsonResponse({ok:true,connected:false,message:'No había una autorización de Canva registrada.'},200,origin);
+  await supabaseService(env,path,{method:'DELETE'});
+  return jsonResponse({ok:true,connected:false,message:'Se eliminó la autorización de Canva guardada en CVStudio. Los diseños no se modificaron. Podés revocar también el acceso desde las aplicaciones autorizadas de Canva.'},200,origin);
 }
 
 const SIGNATURE_BUCKET='firmas-clientes';
@@ -948,6 +959,7 @@ if(body?.action==='payments-admin-products-update')return handlePaymentProductsB
 if(body?.action==='payments-admin-product-update')return handlePaymentProductUpdate(request,env,origin,body);
 if(body?.action==='canva-oauth-start')return handleCanvaOAuthStart(request,env,origin);
 if(body?.action==='canva-status')return handleCanvaStatus(request,env,origin);
+if(body?.action==='canva-disconnect')return handleCanvaDisconnect(request,env,origin,body);
 if(body?.action==='meta-status')return handleMetaStatus(request,env,origin);
 if(body?.action==='meta-campaigns')return handleMetaCampaigns(request,env,origin);
 if(!env.RESEND_API_KEY)return jsonResponse({ok:false,message:'Configuración incompleta.'},500,origin);
