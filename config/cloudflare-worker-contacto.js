@@ -235,7 +235,24 @@ async function handleCanvaOAuthCallback(request,env){
 async function handleCanvaStatus(request,env,origin){
   const admin=await verifyAdmin(request);if(!admin)return jsonResponse({ok:false,message:'Sesión administrativa inválida o vencida.'},401,origin);
   if(!canvaConfigured(env))return jsonResponse({ok:true,configured:false,connected:false},200,origin);
-  try{const connection=await getCanvaConnection(env,admin.id);return jsonResponse({ok:true,configured:true,connected:Boolean(connection),expiresAt:connection?.expires_at||null},200,origin)}
+  try{
+    const connection=await getCanvaConnection(env,admin.id);
+    if(!connection)return jsonResponse({ok:true,configured:true,connected:false},200,origin);
+    // Never expose OAuth credentials in client responses. Confirm identity with Canva itself.
+    const headers={Authorization:`Bearer ${connection.access_token}`};
+    const [identityResponse,profileResponse,designsResponse]=await Promise.all([
+      fetch('https://api.canva.com/rest/v1/users/me',{headers}),
+      fetch('https://api.canva.com/rest/v1/users/me/profile',{headers}),
+      fetch('https://api.canva.com/rest/v1/designs?query='+encodeURIComponent('PACK CVStudio - 16 Plantillas CV - Maestra')+'&limit=30',{headers})
+    ]);
+    if(!identityResponse.ok)throw new Error('Canva no validó la autorización. Volvé a vincular la cuenta.');
+    const identity=await identityResponse.json();
+    const profile=profileResponse.ok?await profileResponse.json():{};
+    const designs=designsResponse.ok?await designsResponse.json():{};
+    const displayName=String(profile?.profile?.display_name||'').slice(0,120);
+    const templateFound=(designs?.items||[]).some(item=>String(item.title||'').toLowerCase().includes('16 plantillas cv'));
+    return jsonResponse({ok:true,configured:true,connected:true,account:{displayName,userId:identity?.user?.id||null,teamId:identity?.team?.id||null},templateFound,expiresAt:connection.expires_at},200,origin);
+  }
   catch(error){return jsonResponse({ok:false,configured:true,connected:false,message:error.message},502,origin)}
 }
 
