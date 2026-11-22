@@ -175,6 +175,7 @@ function renderPizza(){
  }
  const photoImg=photo.querySelector('img');
  if(!photoImg.src){photoImg.src='https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=900&q=80';photoImg.alt='Pizza horneada, fotografía';}
+ const details=bill();
  const extras=photo.querySelector('.pizza-photo-toppings');
  extras.replaceChildren();
  const toppingsLayer=photo.querySelector('.pizza-photo-ingredients');
@@ -182,7 +183,7 @@ function renderPizza(){
  let toppingIndex=0;
  for(const extra of details.additions){
    // Render a piece directly over the pizza when a suitable real photograph exists.
-   const photoId=photographicSlots[extra.id]??({muzzextra:6,roqueextra:6,jamon:8,albahaca:3,morronextra:4}[extra.id]);
+   const photoId=photographicSlots[extra.id]??({muzzextra:10,roqueextra:10,jamon:5,albahaca:15,morronextra:9}[extra.id]);
    for(let qty=0;qty<extra.qty;qty++){
      const idx=toppingIndex++;
      const angle=(idx*137.5+40)*Math.PI/180;
@@ -192,7 +193,7 @@ function renderPizza(){
      top.style.left=x.toFixed(2)+'%';top.style.top=y.toFixed(2)+'%';
      if(photoId!==undefined){
        top.classList.add('food-thumb','pizza-real-topping');
-       top.style.backgroundPosition=((photoId%5)*25)+'% '+(Math.floor(photoId/5)*100)+'%';
+       top.style.backgroundPosition=((photoId%4)*100/3)+'% '+(Math.floor(photoId/4)*100/3)+'%';
      }else{
        top.classList.add('pizza-pending-topping');
        top.textContent=extra.emoji||'✦';
@@ -201,7 +202,6 @@ function renderPizza(){
      toppingsLayer.append(top);
    }
  }
- const details=bill();
  details.additions.forEach(i=>{
    const item=element('span','pizza-topping');
    item.append(photoThumb(i.id,i.emoji,'pizza-topping-photo food-thumb'));
@@ -246,35 +246,35 @@ function renderPizza(){
  svg.setAttribute('aria-label','Pizza '+variety.name+' con '+details.additions.map(i=>i.name).join(', '));
 }
 
-const photographicSlots={carne:2,lechuga:3,tomate:4,huevo:5,queso:6,cheddar:6,paleta:8,mayonesa:9};
+const photographicSlots={carne:4,lechuga:15,tomate:9,huevo:7,queso:10,cheddar:6,paleta:5,mayonesa:13};
 const fallbackPhoto={}; // Sin fotos equivocadas: los ingredientes pendientes conservan su icono y nombre.
 function photoThumb(id,emoji,className='food-thumb'){
  const slot=photographicSlots[id];
  if(slot===undefined)return element('span',className+' thumb-fallback',emoji||'✦');
  const pic=element('span',className);
- const row=Math.floor(slot/5),col=slot%5;
- pic.style.backgroundPosition=(col*25)+'% '+(row*100)+'%';
+ const row=Math.floor(slot/4),col=slot%4;
+ pic.style.backgroundPosition=(col*100/3)+'% '+(row*100/3)+'%';
  if(id==='cheddar')pic.classList.add('cheddar-tint');
  pic.setAttribute('aria-hidden','true');
  return pic;
 }
 // Photographic compositor: crops real transparent sprites from atlas into a responsive canvas.
 // No substitute photos: an ingredient without a suitable photo stays in the named ingredient strip.
-const realPhotoSlot={carne:2,lechuga:3,tomate:4,huevo:5,queso:6,cheddar:6,paleta:8,mayonesa:9};
+const realPhotoSlot={carne:4,lechuga:15,tomate:9,huevo:7,queso:10,cheddar:6,paleta:5,mayonesa:13};
 let atlas=null,atlasBounds=null;
 function loadAtlas(){
  if(atlas)return;
  atlas=new Image();
  atlas.onload=()=>{
-  const cv=document.createElement('canvas');cv.width=1250;cv.height=290;
+  const cv=document.createElement('canvas');cv.width=800;cv.height=500;
   const context=cv.getContext('2d',{willReadFrequently:true});
   if(!context)return;
   context.drawImage(atlas,0,0);
-  const pixels=context.getImageData(0,0,1250,290).data;
-  atlasBounds=Array.from({length:10},(_,i)=>{
-   const px=(i%5)*250,py=Math.floor(i/5)*145;let minx=250,miny=145,maxx=0,maxy=0;
-   for(let y=0;y<145;y+=1)for(let x=0;x<250;x+=1){
-    if(pixels[((py+y)*1250+px+x)*4+3]>65){
+  const pixels=context.getImageData(0,0,800,500).data;
+  atlasBounds=Array.from({length:16},(_,i)=>{
+   const px=(i%4)*200,py=Math.floor(i/4)*125;let minx=200,miny=125,maxx=0,maxy=0;
+   for(let y=0;y<125;y+=1)for(let x=0;x<200;x+=1){
+    if(pixels[((py+y)*800+px+x)*4+3]>65){
      minx=Math.min(minx,x);maxx=Math.max(maxx,x);miny=Math.min(miny,y);maxy=Math.max(maxy,y);
     }
    }
@@ -283,7 +283,7 @@ function loadAtlas(){
   if(mode!=='pizza')renderPhotographicFood();
  };
  atlas.onerror=()=>{atlasBounds=null;};
- atlas.src='./ingredientes-foto.webp';
+ atlas.src='./ingredientes-v2.webp';
 }
 function renderPhotographicFood(){
  const svg=$('food-svg'),stack=$('photo-stack'),data=bill(),stage=document.querySelector('.food-stage');
@@ -317,7 +317,7 @@ function renderPhotographicFood(){
    return;
  }
  const selected=orders[mode].ingredients;
- const priorities=['mayonesa','carne','paleta','queso','cheddar','huevo','tomate','lechuga'];
+ const priorities=['mayonesa','lechuga','tomate','carne','paleta','queso','cheddar','huevo'];
  const photos=priorities.flatMap(id=>Array.from({length:selected[id]||0},()=>({id,slot:realPhotoSlot[id]})));
  const others=data.additions.filter(item=>!Object.hasOwn(realPhotoSlot,item.id));
  chips.classList.toggle('contains-pending',others.length>0);
@@ -338,7 +338,7 @@ function renderPhotographicFood(){
    ctx.globalAlpha=1;
  }
  // Open-stack product: top bread is lifted above visible layers, never covers the fillings.
- photo(1,dx,yBottom,width,baseH);
+ photo(mode==='burger'?3:1,dx,yBottom,width,baseH);
  let level=yBottom;
  for(const item of photos){
    level-=depth;
@@ -347,7 +347,7 @@ function renderPhotographicFood(){
    photo(item.slot,dx+width*.015,level,width*.97,h);
  }
  const capY=Math.max(upper,level-breadH*.84-4);
- photo(0,dx-(mode==='sandwich'?width*.06:0),capY,width*(mode==='sandwich'?1.12:1),breadH);
+ photo(mode==='burger'?2:0,dx-(mode==='sandwich'?width*.03:0),capY,width*(mode==='sandwich'?1.06:1),breadH);
  ctx.strokeStyle='#ffffff10';ctx.lineWidth=1;
  stack.setAttribute('aria-label',(mode==='burger'?'Hamburguesa':'Sándwich')+' con '+data.additions.map(i=>i.name+' por '+i.qty).join(', '));
  // Do not misrepresent a missing photo as another ingredient.
