@@ -5,7 +5,7 @@ const fmt=v=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maxi
 const catalog={
  sandwich:{
   label:'Sándwich',emoji:'🥪',
-  breads:[{id:'miga',name:'Pan de miga',emoji:'🍞',price:1800},{id:'frances',name:'Pan francés',emoji:'🥖',price:2300},{id:'artesanal',name:'Pan artesanal',emoji:'🍞',price:2700}],
+  breads:[{id:'base',name:'Sándwich personalizado',emoji:'🥪',price:1800}],
   ingredients:[
    {id:'carne',name:'Carne',emoji:'🥩',group:'Proteínas',price:2800},
    {id:'pollo',name:'Pollo',emoji:'🍗',group:'Proteínas',price:2400},
@@ -25,7 +25,7 @@ const catalog={
   ]},
  burger:{
   label:'Hamburguesa',emoji:'🍔',
-  breads:[{id:'clasico',name:'Pan clásico',emoji:'🍞',price:2300},{id:'brioche',name:'Pan brioche',emoji:'🥯',price:2900},{id:'sesamo',name:'Pan con sésamo',emoji:'🍔',price:2700}],
+  breads:[{id:'base',name:'Hamburguesa personalizada',emoji:'🍔',price:2700}],
   ingredients:[
    {id:'carne',name:'Medallón de carne',emoji:'🥩',group:'Proteínas',price:3400},
    {id:'pollo',name:'Medallón de pollo',emoji:'🍗',group:'Proteínas',price:3000},
@@ -70,7 +70,7 @@ function loadPrices(){
  }catch{return structuredClone(basePrices);}
 }
 let prices=loadPrices();
-const orders={sandwich:{bread:'miga',ingredients:{paleta:1,queso:1,lechuga:1,tomate:1}},burger:{bread:'sesamo',ingredients:{carne:1,cheddar:1,lechuga:1,tomate:1}},pizza:{bread:'muzzarella',ingredients:{aceitunas:1}}};
+const orders={sandwich:{bread:'base',ingredients:{paleta:1,queso:1,lechuga:1,tomate:1}},burger:{bread:'base',ingredients:{carne:1,cheddar:1,lechuga:1,tomate:1}},pizza:{bread:'muzzarella',ingredients:{aceitunas:1}}};
 let mode='sandwich',editing='sandwich';
 const selectedGroup={sandwich:'Proteínas',burger:'Proteínas',pizza:'Clásicos'};
 const $=id=>document.getElementById(id);
