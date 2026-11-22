@@ -74,7 +74,10 @@
       body: JSON.stringify({action, ...payload})
     });
     let response=await call(session.access_token);
-    if (response.status===401) {
+    // El Worker antiguo responde 403 ante una sesión caducada al consultar
+    // Canva, aunque el colaborador esté activo. Forzamos un refresh real y
+    // repetimos una sola vez; nunca evitamos ni relajamos la autorización.
+    if (response.status===401 || (response.status===403 && action==='canva-template-library')) {
       session=await currentSession(true);
       if (session?.access_token) response=await call(session.access_token);
     }
