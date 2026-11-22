@@ -481,7 +481,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   const integrationMeta=status=>({connected:['Conectado','#35d07f'],configured:['Configurado','#3b82f6'],pending:['Pendiente','#ffd23f'],error:['Error','#ff5d73'],checking:['Verificando…','#28c2d8']})[status]||['Pendiente','#ffd23f'];
   function integrationsRenderer(){
     const items=integrationDefinitions(),connected=items.filter(x=>x.status==='connected').length,pending=items.filter(x=>x.status==='pending'||x.status==='configured'||x.status==='checking').length,errors=items.filter(x=>x.status==='error').length;
-    return `<section class="panel integrations-compact"><div class="panel-head"><div><h2>Integraciones reales</h2></div><button class="button primary" data-integrations-test>${icon('refresh')} Verificar todas</button></div><div class="integration-summary"><span><b>${connected}</b> conectadas</span><span><b>${pending}</b> por verificar/configurar</span><span class="${errors?'has-errors':''}"><b>${errors}</b> errores</span><small>Última lectura: ${state._realSync?.at?formatDateTime(state._realSync.at):'sin registro'}</small></div><div class="integration-grid-real">${items.map(item=>{const [label,color]=integrationMeta(item.status),action=item.status==='pending'?'Vincular':item.status==='configured'?'Revisar':'Probar';return `<article class="integration-card-real"><span class="integration-brand">${brand(item.brand)}</span><div><strong>${esc(item.name)}</strong><small>${esc(item.type)}</small><p>${esc(item.detail)}</p></div><span class="status" style="--c:${color}">${label}</span><button class="button secondary small" data-integration-test="${item.id}">${action}</button></article>`;}).join('')}</div></section>`;
+    return `<section class="panel integrations-compact"><div class="panel-head"><div><h2>Integraciones reales</h2></div><button class="button primary" data-integrations-test>${icon('refresh')} Verificar todas</button></div><div class="integration-summary"><span><b>${connected}</b> conectadas</span><span><b>${pending}</b> por verificar/configurar</span><span class="${errors?'has-errors':''}"><b>${errors}</b> errores</span><small>Última lectura: ${state._realSync?.at?formatDateTime(state._realSync.at):'sin registro'}</small></div><div class="integration-grid-real">${items.map(item=>{const [label,color]=integrationMeta(item.status),action=item.id==='canva'?(item.status==='connected'?'Cambiar cuenta':'Vincular'):item.status==='pending'?'Vincular':item.status==='configured'?'Revisar':'Probar';return `<article class="integration-card-real"><span class="integration-brand">${brand(item.brand)}</span><div><strong>${esc(item.name)}</strong><small>${esc(item.type)}</small><p>${esc(item.detail)}</p></div><span class="status" style="--c:${color}">${label}</span><button class="button secondary small" data-integration-test="${item.id}">${action}</button></article>`;}).join('')}</div></section>`;
   }
   async function testIntegrations(){
     integrationHealth={supabase:'checking',storage:'checking'};openModule('integraciones');
@@ -495,7 +495,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       const meta=await window.CVStudioRealBridge?.metaStatus?.();
       state._integrationStatus=state._integrationStatus||{};
       state._integrationStatus.canva=canva?.connected?'connected':canva?.configured?'pending':'configured';
-      state._integrationStatus.canvaDetail=canva?.connected?'Cuenta y tokens verificados':canva?.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare';
+      state._integrationStatus.canvaDetail=canva?.connected?(canva?.account?.displayName?'Autorizada: '+canva.account.displayName+(canva?.templateFound?' · PACK 16 plantillas identificado':' · verificar biblioteca de 16 plantillas'):'Autorización anterior sin identidad confirmada'):canva?.configured?'Lista para autorizar':'Faltan credenciales en Cloudflare';
       state._integrationStatus.facebook=meta?.connected?'connected':meta?.configured?'error':'pending';
       state._integrationStatus.facebookDetail=meta?.connected?`${meta.account?.name||'Cuenta publicitaria'} verificada`:(meta?.message||'Meta Marketing pendiente');
       saveState();
@@ -828,7 +828,13 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
           btn.disabled=true;
           try{
             const status=await window.CVStudioRealBridge?.canvaStatus?.();
-            if(status?.connected){toast('Canva está conectado correctamente.');return testIntegrations();}
+            if(status?.connected){
+              btn.disabled=false;
+              const account=status.account?.displayName||'Cuenta anterior (identidad no verificada)';
+              openModal(`<h2 id="modalTitle">Canva · Cambiar cuenta</h2><p>Conexión actual: <strong>${esc(account)}</strong></p><p>Para usar el nuevo Canva Negocios de CVStudio, iniciá una nueva autorización. El acceso anterior se reemplazará <strong>solo al completar la autorización</strong>. No se borran plantillas ni diseños de ninguna cuenta.</p><div class="modal-actions"><button class="button secondary" data-close-modal>Cancelar</button><button class="button primary" id="confirmCanvaReconnect">Autorizar otra cuenta</button></div>`);
+              document.getElementById('confirmCanvaReconnect')?.addEventListener('click',async()=>{try{await window.CVStudioRealBridge?.connectCanva?.();}catch(error){toast(error.message);}});
+              return;
+            }
             await window.CVStudioRealBridge?.connectCanva?.();
           }catch(error){toast(error.message);btn.disabled=false;}
           return;
