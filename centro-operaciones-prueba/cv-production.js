@@ -15,10 +15,17 @@
   const qty=r=>Math.max(1,Math.min(2,Number(r.quantity)||1));
   const normalize=x=>String(x||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   const cvService=x=>/(^|[^a-z])cv([^a-z]|$)|curriculum/.test(normalize(x));
+  // Conservar los ceros iniciales: las referencias bancarias se tratan como texto.
+  const transferKey=x=>normalize(x).replace(/[^a-z0-9]/g,'');
+  const transferRefs=p=>[p?.transferNumber,p?.operationNumber,p?.bankReference,p?.receiptNumber,p?.transactionId].filter(Boolean);
+  const bankMatched=(s,reference,amount,clientId,service)=>{
+    const p=(s.payments||[]).find(x=>x.status==='Confirmado'&&String(x.clientId)===String(clientId)&&normalize(x.service)===normalize(service)&&Number(x.amount)===Number(amount));
+    return Boolean(p&&transferRefs(p).some(ref=>transferKey(ref)===transferKey(reference)));
+  };
   const person=(s,r)=>(s.collaborators||[]).find(c=>String(c.id)===String(r.collaboratorId));
   const rate=(s,r)=>Math.max(0,Math.min(100,Number(r.reviewedAt?r.commissionRate:person(s,r)?.commission)||0));
   const pay=(s,r)=>(s.payments||[]).find(p=>p.status==='Confirmado'&&String(p.clientId)===String(r.clientId)&&normalize(p.service)===normalize(r.service));
-  const due=(s,r)=>r.status==='Aprobado'&&pay(s,r)?Number(pay(s,r).amount||0)*rate(s,r)/100:0;
+  const due=(s,r)=>r.status==='Aprobado'&&pay(s,r)&&(!r.transferAmount||Number(pay(s,r).amount)===Number(r.transferAmount))?Number(pay(s,r).amount||0)*rate(s,r)/100:0;
   function save(s){
     localStorage.setItem(KEY,JSON.stringify(s));
     window.dispatchEvent(new CustomEvent('cvstudio:state-updated',{detail:{source:'cv-production'}}));
@@ -33,22 +40,22 @@
     const monthly=active.filter(r=>String(r.completedAt||'').slice(0,7)===currentMonth);
     const pending=active.filter(r=>r.status==='Pendiente de revisión');
     const approved=active.filter(r=>r.status==='Aprobado');
-    let html=header('Mis CV realizados','Registrá tus trabajos terminados y consultá el estado de revisión.');
+    let html=header('Mis CV realizados','Cargá el número de transferencia y el importe del comprobante del cliente. Cada referencia se registra una sola vez.');
     html+='<button type="button" class="button primary" data-cv-action="report">+ Registrar CV realizado</button></div>';
     html+='<div class="cv-production-stats"><div><small>CV registrados</small><b>'+units(active)+'</b></div><div><small>Este mes</small><b>'+units(monthly)+'</b></div><div><small>Por validar</small><b>'+units(pending)+'</b></div><div><small>Aprobados</small><b>'+units(approved)+'</b></div></div>';
-    html+='<div class="cv-production-history">'+all.slice().reverse().slice(0,10).map(r=>'<div><strong>'+esc(r.client)+' · '+esc(r.service)+'</strong><small>'+qty(r)+' CV · '+esc(String(r.completedAt||'').slice(0,10))+'</small><span class="status">'+esc(r.status)+'</span></div>').join('')+'</div>';
+    html+='<div class="cv-production-history">'+all.slice().reverse().slice(0,10).map(r=>'<div><strong>'+esc(r.client)+' · '+esc(r.service)+'</strong><small>'+qty(r)+' CV · '+esc(String(r.completedAt||'').slice(0,10))+(r.transferNumber?' · Operación '+esc(r.transferNumber)+' · '+money(Number(r.transferAmount||0)):' · Sin comprobante registrado')+'</small><span class="status">'+esc(r.status)+'</span></div>').join('')+'</div>';
     return html+(all.length?'':'<p class="empty-state">Todavía no registraste CV terminados.</p>')+'</section>';
   }
   function renderAdmin(s){
     const all=reports(s).slice().reverse(),active=all.filter(r=>r.status!=='Rechazado');
     const pending=active.filter(r=>r.status==='Pendiente de revisión'),approved=active.filter(r=>r.status==='Aprobado');
-    let html=header('Contador de CV · colaboradores','Registro verificado por Dirección y comisiones calculadas según el porcentaje de cada colaborador.')+'</div>';
+    let html=header('Contador de CV · colaboradores','Cada CV se vincula a su número de transferencia e importe. Comisiones según el porcentaje configurado por colaborador.')+'</div>';
     html+='<div class="cv-production-stats"><div><small>CV registrados</small><b>'+units(active)+'</b></div><div><small>Por validar</small><b>'+units(pending)+'</b></div><div><small>Aprobados</small><b>'+units(approved)+'</b></div><div><small>Comisiones habilitadas</small><b>'+money(approved.reduce((n,r)=>n+due(s,r),0))+'</b></div></div>';
     html+='<div class="cv-production-history">'+all.slice(0,30).map(r=>{
-      let entry='<div><strong>'+esc(r.responsible)+' · '+esc(r.client)+'</strong><small>'+esc(r.service)+' · '+qty(r)+' CV · '+rate(s,r)+'% · '+(pay(s,r)?'Cobrado':'Pago pendiente')+'</small><span class="status">'+esc(r.status)+(r.status==='Aprobado'?' · '+money(due(s,r)):'')+'</span>';
+      let entry='<div><strong>'+esc(r.responsible)+' · '+esc(r.client)+'</strong><small>'+esc(r.service)+' · '+qty(r)+' CV · '+rate(s,r)+'% · Operación: '+esc(r.transferNumber||'Sin registrar')+' · Importe informado: '+(r.transferAmount?money(r.transferAmount):'—')+' · '+(pay(s,r)?'Pago registrado':'Pago sin confirmar')+'</small><span class="status">'+esc(r.status)+(r.status==='Aprobado'?' · '+money(due(s,r)):'')+'</span>';
       if(r.status==='Pendiente de revisión')entry+='<button type="button" class="button primary small" data-cv-action="review" data-id="'+Number(r.id)+'" data-decision="Aprobado">Aprobar</button><button type="button" class="button secondary small" data-cv-action="review" data-id="'+Number(r.id)+'" data-decision="Rechazado">Rechazar</button>';
       return entry+'</div>';
-    }).join('')+'</div><p class="auth-note">Sólo los registros aprobados con pago confirmado generan una comisión calculada. No se realizan transferencias automáticas.</p>';
+    }).join('')+'</div><p class="auth-note">El número de transferencia evita registros repetidos, pero no demuestra por sí solo que el dinero ingresó. Los CV se cuentan como declarados hasta que el pago quede confirmado por CVStudio. No se realizan transferencias automáticas.</p>';
     return html+(all.length?'':'<p class="empty-state">Sin trabajos registrados por colaboradores.</p>')+'</section>';
   }
   function render(){
@@ -65,11 +72,17 @@
     if(!customers.length){alert('Todavía no hay clientes con servicio de CV. Solicitá que registren el trabajo.');return;}
     const options=customers.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+' · '+esc(x.service)+'</option>').join('');
     if(typeof window.openModal!=='function')return alert('El formulario no está disponible.');
-    window.openModal('<h2 id="modalTitle">Registrar CV realizado</h2><p>El trabajo quedará pendiente de revisión por Dirección.</p><form id="cvProductionForm" class="form-grid"><label>Cliente<select name="clientId" required>'+options+'</select></label><label>Cantidad de CV<input name="quantity" type="number" min="1" max="2" value="1" required></label><p class="auth-note span-2">Sólo los combos de dos CV permiten registrar dos unidades. El registro no marca el pedido como entregado.</p><div class="modal-actions span-2"><button class="button secondary" type="button" data-close-modal>Cancelar</button><button class="button primary" type="submit">Guardar registro</button></div></form>');
+    window.openModal('<h2 id="modalTitle">Registrar CV realizado</h2><p>Copiá los datos que figuran en el comprobante de pago enviado a CVStudio.</p><form id="cvProductionForm" class="form-grid"><label>Cliente<select name="clientId" required>'+options+'</select></label><label>Cantidad de CV<input name="quantity" type="number" min="1" max="2" value="1" required></label><label>Número de transferencia u operación<input name="transferNumber" type="text" minlength="4" maxlength="80" autocomplete="off" spellcheck="false" placeholder="Ej.: 000123456789" required></label><label>Monto de la transferencia (ARS)<input name="transferAmount" type="number" min="1" max="100000000" step="0.01" placeholder="Ej.: 12500" required></label><p class="auth-note span-2">Cada comprobante se utiliza una sola vez. El contador registra el CV presentado; la comisión se habilita solamente con el pago confirmado.</p><div class="modal-actions span-2"><button class="button secondary" type="button" data-close-modal>Cancelar</button><button class="button primary" type="submit">Registrar CV</button></div></form>');
     document.getElementById('cvProductionForm').onsubmit=ev=>{
       ev.preventDefault();
       const form=ev.currentTarget,live=state(),client=(live.clients||[]).find(x=>String(x.id)===String(form.elements.clientId.value));
       const amount=Number(form.elements.quantity.value);
+      const transferNumber=String(form.elements.transferNumber.value||'').trim();
+      const transferAmount=Number(form.elements.transferAmount.value);
+      const key=transferKey(transferNumber);
+      if(key.length<4||transferNumber.length>80)return alert('Ingresá el número completo de transferencia (mínimo 4 caracteres).');
+      if(!Number.isFinite(transferAmount)||transferAmount<=0||transferAmount>100000000)return alert('Ingresá un monto válido y positivo en pesos argentinos.');
+      if(reports(live).some(r=>r.transferNumber&&transferKey(r.transferNumber)===key))return alert('Ese número de transferencia ya fue usado para registrar un CV. Revisá el historial.');
       if(!client||!cvService(client.service))return alert('Seleccioná un servicio de CV válido.');
       const max=normalize(client.service).includes('2 cv')?2:1;
       if(!Number.isInteger(amount)||amount<1||amount>max)return alert('Cantidad inválida para el servicio seleccionado.');
@@ -77,9 +90,19 @@
       const job=(live.jobs||[]).find(j=>String(j.clientId)===String(client.id));
       const id=Math.max(0,...(live.executions||[]).map(r=>Number(r.id)||0))+1;
       live.executions=live.executions||[];
-      live.executions.push({id,type:'cv-production',clientId:client.id,client:client.name,service:client.service,jobId:job?.id||null,responsible:c.name,collaboratorId:c.id,
-        quantity:amount,completedAt:new Date().toISOString(),createdAt:new Date().toISOString(),status:'Pendiente de revisión',commissionRate:null,commissionAmount:0,baseAmount:0});
-      save(live);close();alert('CV registrado. Dirección lo verá pendiente de revisión.');
+      // Sólo una coincidencia exacta con una referencia guardada en un pago confirmado
+      // habilita la aprobación automática; el número escrito no verifica un pago.
+      const verified=bankMatched(live,transferNumber,transferAmount,client.id,client.service);
+      const commissionRate=Number(person(live,{collaboratorId:c.id})?.commission||0);
+      const createdAt=new Date().toISOString();
+      const record={id,type:'cv-production',clientId:client.id,client:client.name,service:client.service,jobId:job?.id||null,
+        responsible:c.name,collaboratorId:c.id,transferNumber,transferAmount,quantity:amount,completedAt:createdAt,createdAt,
+        status:verified?'Aprobado':'Pendiente de revisión',reviewedAt:verified?createdAt:null,reviewedBy:verified?'Coincidencia con pago confirmado':null,
+        commissionRate:verified?commissionRate:null,commissionAmount:0,baseAmount:0};
+      if(verified){record.baseAmount=transferAmount;record.commissionAmount=due(live,record);}
+      live.executions.push(record);
+      save(live);close();
+      alert(verified?'CV registrado y transferencia coincidente con pago confirmado.':'CV registrado con número de transferencia e importe. Queda pendiente confirmar el ingreso del pago.');
     };
   }
   function review(button){
