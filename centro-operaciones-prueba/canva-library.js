@@ -1,7 +1,7 @@
 /* CVStudio · biblioteca real de páginas del pack Canva. Sin modelos inventados. */
 (()=>{
 'use strict';
-let phase='idle',models=[],error='',packName='',hasPreviews=false,lastChecked='';
+let phase='idle',models=[],error='',packName='',hasPreviews=false,lastChecked='',lastLoadedAt=0;
 const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const validImage=value=>{try{const u=new URL(value);return u.protocol==='https:'&&(u.hostname==='canva.com'||u.hostname.endsWith('.canva.com'))?u.toString():'';}catch{return ''}};
 const validEdit=value=>{try{const u=new URL(value);return u.protocol==='https:'&&u.hostname==='www.canva.com'?u.toString():'';}catch{return ''}};
@@ -50,7 +50,7 @@ async function refresh(){
    hasPreviews=Boolean(data.previewAvailable);
    packName=String(data.designTitle||'PACK CVStudio - 16 Plantillas CV - Maestra');
    lastChecked=new Intl.DateTimeFormat('es-AR',{dateStyle:'short',timeStyle:'short'}).format(new Date());
-   phase='ready';
+   phase='ready';lastLoadedAt=Date.now();
  }catch(e){models=[];phase='error';error=e?.message||'No se pudo consultar Canva.';}
  repaint();
 }
@@ -76,7 +76,7 @@ function bind(){
  main.querySelector('[data-canva-reload]')?.addEventListener('click',refresh);
  main.querySelectorAll('[data-canva-preview]').forEach(btn=>btn.addEventListener('click',()=>preview(getModel(btn.dataset.canvaPreview))));
  main.querySelectorAll('[data-canva-open]').forEach(btn=>btn.addEventListener('click',()=>openPage(getModel(btn.dataset.canvaOpen))));
- if(phase==='idle')setTimeout(refresh,0);
+ if(phase==='idle'||(phase==='ready'&&Date.now()-lastLoadedAt>10*60*1000))setTimeout(refresh,0);
 }
 window.CVStudioCanvaLibrary={render,bind,refresh};
 })();
