@@ -100,7 +100,17 @@ function openModule(id){
   document.getElementById('pageSubtitle').textContent=meta[3];
   const main=document.getElementById('appMain');
   main.dataset.module=id;
-  main.innerHTML=replaceIconTokens(renderers[id]());main.focus();bindModuleActions(id);
+  try {
+    const renderer=renderers[id];
+    if(typeof renderer!=='function')throw new Error('Módulo no disponible: '+id);
+    main.innerHTML=replaceIconTokens(renderer());
+    main.focus();
+    bindModuleActions(id);
+  } catch(error) {
+    console.error('[CVStudio navegación]',id,error);
+    main.innerHTML='<section class="panel access-denied" role="alert"><h2>No se pudo abrir esta sección</h2><p>Se produjo un error en la interfaz de '+(meta?.[2]||'este módulo')+'. Los demás módulos siguen disponibles.</p><p>Recargá la página y, si persiste, informá a administración.</p></section>';
+    window.toast?.('No se pudo mostrar '+(meta?.[2]||'la sección')+'. Revisá el error de consola.');
+  }
   document.getElementById('sidebar').classList.remove('is-open');
   history.replaceState(null,'',`#${id}`);
 }
