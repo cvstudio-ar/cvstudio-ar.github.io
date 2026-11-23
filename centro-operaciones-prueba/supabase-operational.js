@@ -484,6 +484,13 @@
     window.dispatchEvent(new CustomEvent('cvstudio:stage-ready'));
   }
 
+  // Sólo Dirección puede forzar la lectura de movimientos contables.
+  window.CVStudioFinanceRefresh=async()=>{
+    if(!window.CVStudioAccess?.ready||window.CVStudioAccess.owner!==true)
+      throw new Error('Acceso restringido.');
+    await pullRemote();
+  };
+
   window.CVStudioRetryOperationalSync = async () => {
     if(window.CVStudioAccess?.ready&&!window.CVStudioAccess.owner){await pullCollaborator();return;}
     const raw = localStorage.getItem(PENDING_KEY) || localStorage.getItem(STORE_KEY);
