@@ -208,7 +208,11 @@
         syncTable(TABLES.executions, state.executions, removedIds(previousState, state, 'executions')),
         syncTable(TABLES.expenses, state.expenses, removedIds(previousState, state, 'expenses')),
         syncTable(TABLES.activities, state.activities, removedIds(previousState, state, 'activities')),
-        syncTable(TABLES.collaborators, state.collaborators, removedIds(previousState, state, 'collaborators')),
+        // No reescribir permisos de colaboradores desde un guardado no relacionado.
+        // Sólo sincronizar fichas si Dirección modificó realmente esa colección.
+        JSON.stringify(previousState?.collaborators||[])!==JSON.stringify(state.collaborators||[])
+          ? syncTable(TABLES.collaborators, state.collaborators, removedIds(previousState, state, 'collaborators'))
+          : Promise.resolve(),
         syncServices(state.prices)
       ]);
 
