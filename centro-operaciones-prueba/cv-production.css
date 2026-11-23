@@ -15,3 +15,32 @@
 .cv-production-panel .auth-note{margin:14px 0 0;line-height:1.5}
 @media(max-width:950px){.cv-production-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.cv-production-panel>.panel-head .button{width:100%}.cv-production-stats{gap:9px}.cv-production-stats>div{padding:13px 12px}.cv-production-history>div{align-items:flex-start}.cv-production-history .status{margin-left:0}}
+
+
+/* Formularios de producción: campos libres y selector accesibles en todas las pantallas. */
+#cvProductionForm{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;min-width:0}
+#cvProductionForm>label{display:flex!important;flex-direction:column!important;gap:8px!important;min-width:0!important}
+#cvProductionForm input[name="clientFullName"],
+#cvProductionForm input[name="transferNumber"]{
+  display:block!important;width:100%!important;min-width:0!important;
+  min-height:44px!important;pointer-events:auto!important;user-select:text!important;
+  cursor:text!important;opacity:1!important;
+}
+#cvProductionForm select[name="service"]{
+  display:block!important;width:100%!important;min-width:0!important;
+  min-height:44px!important;appearance:auto!important;
+}
+#cvProductionForm select[name="service"]:not(:disabled){
+  pointer-events:auto!important;cursor:pointer!important;opacity:1!important;
+}
+#cvProductionForm input[name="serviceAmount"]{
+  display:block!important;width:100%!important;min-width:0!important;
+  min-height:44px!important;opacity:1!important;cursor:default!important;
+}
+#cvProductionForm input[name="clientFullName"]:focus,
+#cvProductionForm input[name="transferNumber"]:focus,
+#cvProductionForm select[name="service"]:focus{
+  outline:2px solid rgba(255,204,55,.55)!important;outline-offset:2px!important;
+}
+#cvProductionForm #cvPriceStatus{white-space:normal;overflow-wrap:anywhere}
+@media(max-width:620px){#cvProductionForm{grid-template-columns:minmax(0,1fr)!important}}
