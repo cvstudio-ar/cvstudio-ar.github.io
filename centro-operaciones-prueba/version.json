@@ -1,6 +1,6 @@
 {
-  "version": "1.8.8",
-  "build": "20261121-capacitaciones-v192",
-  "date": "2026-11-21",
-  "description": "Seguimiento de capacitaciones por colaborador"
+  "version": "1.9.5",
+  "build": "20261123-matias-cv-form-v195",
+  "date": "2026-11-23",
+  "description": "Formulario de CV de Matías: servicios y precios en vivo, nombre editable y recarga automática"
 }
