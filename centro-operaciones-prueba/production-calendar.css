@@ -79,3 +79,5 @@
 #appMain[data-module="inicio"] .staff-home-notice small{font-size:12px;color:#a9c1dd}
 #appMain[data-module="inicio"] .staff-home-notice strong{font-size:15px;line-height:1.5;overflow-wrap:anywhere}
 @media(max-width:680px){#appMain[data-module="inicio"] .staff-home-stats,#appMain[data-module="inicio"] .staff-home-aside{grid-template-columns:1fr}#appMain[data-module="inicio"] .staff-home-links .button{width:100%}}
+
+#appMain[data-module="inicio"]:has(.staff-home){display:block!important;grid-template-rows:none!important;overflow-y:auto!important;overflow-x:hidden!important;height:auto!important;max-width:none!important;padding-bottom:35px!important}
