@@ -90,6 +90,7 @@
   let state = loadState();
   let clientFilter = 'Todos';
   let clientQuery = '';
+  let clientDetailsOpen = false;
   let clientSelectionMode = false;
   const selectedClientIds = new Set();
   let templateFilter = 'Todas';
@@ -207,32 +208,26 @@
     </section>`;
   }
 
-  function visibleClients(){
-    return state.clients.filter(c=>{
-      const matchesFilter=clientFilter==='Todos'||c.status===clientFilter;
-      const haystack=`${c.name} ${c.service} ${c.status} ${c.phone||''}`.toLowerCase();
-      return matchesFilter&&(!clientQuery||haystack.includes(clientQuery));
-    });
-  }
-  function clientRowsOperational(list=visibleClients()) {
-    return list.map(c=>`<div class="client-row ${selectedClient?.id===c.id?'is-selected':''} ${selectedClientIds.has(c.id)?'is-checked':''}" data-client-id="${c.id}">${clientSelectionMode?`<label class="client-check" title="Seleccionar chat"><input type="checkbox" data-client-check="${c.id}" ${selectedClientIds.has(c.id)?'checked':''}><span></span></label>`:''}<span class="client-avatar" style="background:${c.color}">${esc(c.initials)}</span><div><strong>${esc(c.name)}</strong><small>${esc(c.service)}</small></div><div class="client-row-status"><span class="status" style="--c:${statusColor(c.status)}">${esc(c.status)}</span><small>${esc(c.time||'')}</small></div></div>`).join('') || '<div class="empty-state">No se encontraron clientes.</div>';
-  }
+  function clientPayment(c){return state.payments.find(p=>String(p.clientId)===String(c.id)&&p.status==='Confirmado')||state.payments.find(p=>String(p.clientId)===String(c.id))}
 
-  function clientTimelineHtml(c, payment, job) {
-    const entries = [];
-    entries.push({at:null,who:c.name,text:`Consulta por ${c.service}.`,kind:'in'});
-    state.activities.filter(a=>a.clientId===c.id).forEach(a=>entries.push({at:a.at,who:'CVStudio',text:`${a.title}: ${a.detail}`,kind:'out'}));
-    if (payment && !entries.some(e=>e.text.includes('Pago'))) entries.push({at:payment.createdAt,who:'Administración',text:`Pago ${payment.status.toLowerCase()} · ${money(payment.amount)} · Mercado Pago (${payment.source||'canal no indicado'})`,kind:'out'});
-    if (job && !entries.some(e=>e.text.includes('Trabajo'))) entries.push({at:job.completedAt||null,who:'Equipo CVStudio',text:`${job.stage} · ${job.progress}% · ${job.responsible}`,kind:'out'});
-    return entries.sort((a,b)=>String(a.at||'').localeCompare(String(b.at||''))).map(e=>`<div class="message ${e.kind==='out'?'out':''}"><b>${esc(e.who)}</b><p>${esc(e.text)}</p><small>${e.at?formatDateTime(e.at):'Registro inicial'}</small></div>`).join('');
-  }
+  function clientJob(c){return state.jobs.find(j=>String(j.clientId)===String(c.id)&&j.stage!=='Entregado')||state.jobs.find(j=>String(j.clientId)===String(c.id))}
 
-  function scrollConversationToLatest() {
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      const messages=document.querySelector('.main-content[data-module="clientes"] .conversation .messages');
-      if(messages) messages.scrollTop=messages.scrollHeight;
-    }));
-  }
+  function readableDay(v){const d=new Date(v);return v&&Number.isFinite(d.getTime())?new Intl.DateTimeFormat('es-AR',{timeZone:'America/Argentina/Buenos_Aires',day:'2-digit',month:'2-digit',year:'numeric'}).format(d):'—'}
+
+  function visibleClients(){return state.clients.filter(c=>{const p=clientPayment(c),j=clientJob(c);const filters={'Todos':true,'Pago confirmado':p?.status==='Confirmado','Pago pendiente':p?.status!=='Confirmado'&&c.status!=='Archivado','Con trabajo':!!j,'Archivado':c.status==='Archivado'};const match=Object.hasOwn(filters,clientFilter)?filters[clientFilter]:c.status===clientFilter;return match&&(!clientQuery||[c.name,c.service,c.status,c.phone,c.email,c.city,c.code].join(' ').toLowerCase().includes(clientQuery))})}
+
+  function clientRowsOperational(list=visibleClients()){
+ if(!list.length)return '<div class="client-reg-empty">No hay clientes con esos filtros. Probá otra búsqueda.</div>';
+ const tr=list.map(c=>{const p=clientPayment(c),j=clientJob(c),st=p?.status==='Confirmado'?'Confirmado':p?.status==='Pendiente'?'Pendiente':'Sin pago confirmado';
+ return `<tr data-client-id="${esc(c.id)}" class="${selectedClient?.id===c.id&&clientDetailsOpen?'is-selected':''}">
+ <td data-label="Cliente"><strong>${esc(c.name||'Sin nombre')}</strong><small>${esc(c.email||c.city||'')}</small></td><td data-label="Servicio">${esc(c.service||'Sin definir')}</td>
+ <td data-label="Estado"><span class="status" style="--c:${statusColor(c.status)}">${esc(c.status||'Sin estado')}</span></td>
+ <td data-label="Pago"><span class="client-reg-payment ${p?.status==='Confirmado'?'is-paid':'is-pending'}">${esc(st)}</span></td>
+ <td data-label="Trabajo">${esc(j?.stage||'Sin asignar')}</td>
+ <td data-label="Fecha">${esc(readableDay(c.createdAt||c.fecha_creacion))}</td>
+ <td class="client-reg-action"><button type="button" class="button secondary small">Ver ficha</button></td></tr>`}).join('');
+ return `<table class="client-reg-table"><thead><tr><th>Cliente</th><th>Servicio</th><th>Estado</th><th>Pago</th><th>Trabajo</th><th>Fecha</th><th>Detalle</th></tr></thead><tbody>${tr}</tbody></table>`;
+}
 
   function formDataEntries(client){
     const data=client?.formData&&typeof client.formData==='object'?client.formData:{};
@@ -284,26 +279,39 @@
 INSTRUCCIÓN PARA CHATGPT
 Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, convincente y compatible con ATS para el puesto objetivo. Priorizá las experiencias más relevantes, mejorá la redacción sin inventar información y entregá: Sobre mí, experiencias laborales optimizadas, formación, cursos, licencias, habilidades técnicas, competencias profesionales, palabras clave ATS y cierre.`;
   }
-  function clientWorkspaceOperational() {
-    const c = state.clients.find(x=>x.id===selectedClient?.id) || state.clients[0];
-    if (!c) return '<section class="panel empty-client-workspace"><div class="empty-state empty-state-large"><strong>No hay clientes cargados</strong><span>Creá el primer cliente desde el botón “+ Nuevo cliente”.</span><button class="button primary" data-action="new-client">+ Nuevo cliente</button></div></section>';
-    const price = servicePrice(c.service);
-    const payment = state.payments.find(p=>p.clientId===c.id);
-    const job = state.jobs.find(j=>j.clientId===c.id && j.stage!=='Entregado') || state.jobs.find(j=>j.clientId===c.id);
-    const flowIndex = c.status==='Entregado'?5:payment?.status==='Confirmado'?(job?4:3):c.status==='Esperando pago'?3:2;
-    const flow = ['Consulta','Formulario','Pago','Trabajo','Entrega'];
-    return `<section class="panel client-summary clients-ui-compact-v1425"><div class="client-header"><span class="client-avatar" style="background:${c.color}">${esc(c.initials)}</span><div style="flex:1"><div class="client-name-line"><h2>${esc(c.name)}</h2><span class="status" style="--c:${statusColor(c.status)}">${esc(c.status)}</span></div><div class="meta"><span>${brand('whatsapp')} ${esc(c.phone)}</span><span>${icon('message')} ${esc(c.email)}</span><span>${icon('link')} ${esc(c.city||'Localidad no cargada')}</span><span>${icon('users')} Responsable: ${esc(c.responsible||'pablexe')}</span></div></div><button class="button secondary" data-action="edit-client">Editar datos</button></div><div class="flow">${flow.map((name,i)=>`<div class="flow-step ${i+1<flowIndex?'done':i+1===flowIndex?'active':''}">${i+1}. ${name}</div>`).join('')}</div></section>
-    <section class="grid action-grid client-actions-single-row" aria-label="Acciones del cliente"><button class="action-card" data-action="ai-cv"><span>${icon('file')}</span>Asistente CV</button><button class="action-card" data-action="send-form"><span>${icon('file')}</span>Formulario</button><button class="action-card" data-action="signature-request"><span>${icon('file')}</span>Firma</button><button class="action-card" data-action="register-payment"><span>${icon('dollar')}</span>Pago</button><button class="action-card" data-action="copy-client-sheet"><span>${icon('file')}</span>Copiar ficha</button></section>
-    <section class="grid client-detail-grid"><section class="panel conversation"><div class="panel-head"><div><h2>Historial operativo</h2><p>Movimientos del pedido registrados en CVStudio.</p></div><span class="status" style="--c:${payment?.status==='Confirmado'?'#35d07f':'#ffb800'}">${payment?`Pago ${payment.status}`:'Sin pago'}</span></div><div class="messages">${clientTimelineHtml(c, payment, job)}</div></section>
-    <section class="panel service-files"><div class="panel-head"><h2>Servicio y pago</h2></div><h3>${esc(c.service)}</h3><p class="muted-label">Precio configurado</p><h2>${money(price)}</h2><hr><div class="funds"><div class="fund-row"><span>Estado</span><b>${esc(payment?.status||'Sin registrar')}</b></div><div class="fund-row"><span>Importe</span><b>${payment?money(payment.amount):'—'}</b></div><div class="fund-row"><span>Origen</span><b>${esc(payment?.source||'—')}</b></div></div></section>
-    <section class="panel client-form-panel client-form-third-column"><div class="panel-head"><div><h2>Formulario recibido</h2><p>Datos listos para revisar y copiar.</p></div><button class="button primary small" data-action="copy-client-sheet">Copiar ficha</button></div>${clientFormSummaryHtml(c)}</section></section>`;
-  }
+  function clientWorkspaceOperational(){
+ if(!clientDetailsOpen)return '';
+ const c=state.clients.find(x=>String(x.id)===String(selectedClient?.id));if(!c)return '';
+ const p=clientPayment(c),j=clientJob(c),canEdit=!window.CVStudioAccess?.ready||window.CVStudioAccess.canAction('edit-client');
+ const allowed=a=>!window.CVStudioAccess?.ready||window.CVStudioAccess.canAction(a);
+ const actionButtons=[['ai-cv','file','Asistente CV'],['send-form','file','Formulario / enlace'],['signature-request','file','Firma'],['register-payment','dollar','Registrar pago'],['copy-client-sheet','file','Copiar ficha']]
+ .filter(([a])=>allowed(a)).map(([a,i,label])=>`<button class="client-reg-action-button" type="button" data-action="${a}">${icon(i)} ${label}</button>`).join('');
+ const field=(name,v)=>`<div class="client-reg-field"><span>${name}</span><strong>${esc(v||'—')}</strong></div>`;
+ const ref=p?.transferNumber||p?.operationNumber||p?.bankReference||p?.receiptNumber||'';
+ return `<section class="client-reg-detail" aria-label="Ficha administrativa">
+ <header class="client-reg-detail-head"><div><small>FICHA DE CLIENTE</small><h2>${esc(c.name||'Sin nombre')}</h2><p>${esc(c.service||'Servicio sin definir')} · ${esc(c.status||'Sin estado')}</p></div>
+ <div class="client-reg-head-buttons">${canEdit?'<button class="button secondary" data-action="edit-client">Editar datos</button>':''}<button type="button" class="button secondary" data-client-close>Volver al listado</button></div></header>
+ <div class="client-reg-quick"><div><small>Servicio</small><strong>${esc(c.service||'No definido')}</strong></div><div><small>Pago</small><strong>${esc(p?.status||'Sin registrar')}</strong></div><div><small>Trabajo</small><strong>${esc(j?.stage||'Sin asignar')}</strong></div><div><small>Responsable</small><strong>${esc(j?.responsible||c.responsible||'Sin asignar')}</strong></div></div>
+ <div class="client-reg-action-buttons">${actionButtons}</div>
+ <div class="client-reg-detail-grid">
+ <section class="client-reg-section"><h3>Datos de contacto</h3><p>WhatsApp se utiliza fuera del Centro de Operaciones.</p><div class="client-reg-fields">${field('Teléfono',c.phone)}${field('Correo',c.email)}${field('Localidad',c.city)}${field('Fecha de alta',readableDay(c.createdAt))}</div></section>
+ <section class="client-reg-section"><h3>Pago y trabajo</h3><p>Información registrada; no representa una conversación ni un cobro simulado.</p><div class="client-reg-fields">${field('Importe',p?money(Number(p.amount||0)):'Sin registrar')}${field('Pago',p?.status||'Sin registrar')}${field('N.º de operación',ref)}${field('Trabajo',j?.stage||'Sin asignar')}${field('Entrega prevista',j?.due||'Sin fecha')}${field('Responsable',j?.responsible||c.responsible||'Sin asignar')}</div></section>
+ <section class="client-reg-section client-reg-form"><h3>Formulario y archivos recibidos</h3><p>Datos que ingresó el cliente y documentos asociados.</p><div class="client-reg-form-body">${clientFormSummaryHtml(c)}</div></section>
+ </div></section>`;
+}
 
-  function clientsRenderer() {
-    const counts = status => state.clients.filter(c=>c.status===status).length;
-    const bulk=clientSelectionMode?`<div class="client-bulk-bar"><label><input type="checkbox" data-client-select-all ${visibleClients().length&&visibleClients().every(c=>selectedClientIds.has(c.id))?'checked':''}> Todos</label><strong>${selectedClientIds.size} seleccionados</strong><button class="button secondary small" data-client-bulk="archive" ${selectedClientIds.size?'':'disabled'}>Archivar</button><button class="button danger small" data-client-bulk="delete" ${selectedClientIds.size?'':'disabled'}>Eliminar</button><button class="icon-action" data-client-selection-close title="Cerrar selección">×</button></div>`:'';
-    return `<section class="grid clients-layout"><section class="panel client-list"><div class="client-list-head"><div class="panel-head"><h2>Clientes</h2><div class="client-head-actions"><button class="button secondary small" data-client-selection-toggle>${clientSelectionMode?'Cancelar':'Seleccionar'}</button><button class="button primary" data-action="new-client">+ Nuevo cliente</button></div></div>${bulk}<div class="search-box" style="width:100%"><span>${icon('search')}</span><input id="clientSearch" value="${esc(clientQuery)}" placeholder="Buscar cliente..."></div><div class="filters-row"><button class="filter-chip ${clientFilter==='Todos'?'is-active':''}" data-client-filter="Todos">Todos ${state.clients.length}</button><button class="filter-chip ${clientFilter==='En proceso'?'is-active':''}" data-client-filter="En proceso">En proceso ${counts('En proceso')}</button><button class="filter-chip ${clientFilter==='Esperando pago'?'is-active':''}" data-client-filter="Esperando pago">Esperando pago ${counts('Esperando pago')}</button><button class="filter-chip ${clientFilter==='Entregado'?'is-active':''}" data-client-filter="Entregado">Entregados ${counts('Entregado')}</button><button class="filter-chip ${clientFilter==='Archivado'?'is-active':''}" data-client-filter="Archivado">Archivados ${counts('Archivado')}</button></div></div><div class="client-rows" id="clientRows">${clientRowsOperational()}</div></section><section class="client-workspace" id="clientWorkspace">${clientWorkspaceOperational()}</section></section>`;
-  }
+  function clientsRenderer(){
+ const active=state.clients.filter(c=>c.status!=='Archivado'),paid=active.filter(c=>clientPayment(c)?.status==='Confirmado').length;
+ const pending=active.length-paid,open=state.jobs.filter(j=>!['Entregado','Pausado'].includes(j.stage)).length;
+ const filters=[['Todos',state.clients.length],['Pago confirmado',paid],['Pago pendiente',pending],['Con trabajo',state.clients.filter(c=>!!clientJob(c)).length],['Archivado',state.clients.filter(c=>c.status==='Archivado').length]];
+ return `<section class="client-register">
+ <header class="client-reg-top"><div><small>GESTIÓN DE PEDIDOS</small><h2>Clientes y trabajos</h2><p>Registro administrativo de solicitudes, pagos y documentos. No es una bandeja de WhatsApp.</p></div><button type="button" class="button primary" data-action="new-client">+ Nuevo cliente</button></header>
+ <div class="client-reg-kpis"><div><small>Clientes activos</small><strong>${active.length}</strong></div><div><small>Pago confirmado</small><strong>${paid}</strong></div><div><small>Sin pago confirmado</small><strong>${pending}</strong></div><div><small>Trabajos abiertos</small><strong>${open}</strong></div></div>
+ <section class="client-reg-list"><div class="client-reg-list-head"><div><h3>Listado de clientes</h3><p>Elegí Ver ficha únicamente cuando necesites consultar un pedido.</p></div><label class="client-reg-search">${icon('search')}<input type="search" id="clientSearch" value="${esc(clientQuery)}" placeholder="Buscar cliente, correo o servicio…" aria-label="Buscar clientes"></label></div>
+ <div class="client-reg-filters">${filters.map(([name,n])=>`<button type="button" class="client-reg-chip ${clientFilter===name?'is-active':''}" data-client-filter="${esc(name)}">${esc(name)} <b>${n}</b></button>`).join('')}</div>
+ <div class="client-reg-table-wrap" id="clientRows">${clientRowsOperational()}</div></section>
+ <div id="clientWorkspace">${clientWorkspaceOperational()}</div></section>`;
+}
 
   const baseTemplates=[['base-elegante','Elegante Minimalista','CV Profesional'],['base-azul','Moderno Azul','CV Profesional'],['base-beige','Profesional Beige','CV Profesional'],['base-claro','Creativo Claro','CV Profesional'],['base-dark','Premium Dark','CV Profesional'],['base-linkedin','LinkedIn Ejecutivo','LinkedIn'],['base-combo','Combo CV + LinkedIn','Combo'],['base-portfolio','Portfolio Fotografía','Portfolio']];
   const allTemplates=()=>[...baseTemplates.map(([id,name,category])=>({id,name,category,base:true,active:true})),...(state.templates||[])];
@@ -894,7 +902,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
         if(event.target.closest('.client-check'))return;
         const found = state.clients.find(c=>c.id===Number(row.dataset.clientId));
         if(clientSelectionMode&&found){selectedClientIds.has(found.id)?selectedClientIds.delete(found.id):selectedClientIds.add(found.id);return rerenderClients();}
-        if(found){ selectedClient = clients.find(c=>c.id===found.id) || found; document.getElementById('clientRows').innerHTML=clientRowsOperational(); document.getElementById('clientWorkspace').innerHTML=clientWorkspaceOperational(); bindModuleActions('clientes'); }
+        if(found){selectedClient=clients.find(c=>c.id===found.id)||found;clientDetailsOpen=true;rerenderClients();document.getElementById('clientWorkspace')?.scrollIntoView({behavior:'smooth',block:'start'});}
       });
       document.querySelectorAll('[data-client-check]').forEach(input=>input.onchange=()=>{const id=Number(input.dataset.clientCheck);input.checked?selectedClientIds.add(id):selectedClientIds.delete(id);rerenderClients();});
       document.querySelector('[data-client-selection-toggle]')?.addEventListener('click',()=>{clientSelectionMode=!clientSelectionMode;if(!clientSelectionMode)selectedClientIds.clear();rerenderClients();});
@@ -903,15 +911,15 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       document.querySelectorAll('[data-client-bulk]').forEach(button=>button.onclick=()=>{
         const ids=new Set(selectedClientIds),chosen=state.clients.filter(c=>ids.has(c.id));if(!chosen.length)return;
         if(button.dataset.clientBulk==='archive'){
-          if(!confirm(`¿Archivar ${chosen.length} chats seleccionados?`))return;
-          chosen.forEach(c=>{c.status='Archivado';c.time='Ahora';});addActivity('client','Chats archivados',`${chosen.length} clientes`);saveState();selectedClientIds.clear();clientSelectionMode=false;rerenderClients();toast('Chats archivados.');return;
+          if(!confirm(`¿Archivar ${chosen.length} clientes seleccionados?`))return;
+          chosen.forEach(c=>{c.status='Archivado';c.time='Ahora';});addActivity('client','Clientes archivados',`${chosen.length} clientes`);saveState();selectedClientIds.clear();clientSelectionMode=false;rerenderClients();toast('Clientes archivados.');return;
         }
-        if(!confirm(`¿Eliminar ${chosen.length} chats de la bandeja? Se quitarán también sus datos operativos asociados. Esta acción no se puede deshacer.`))return;
+        if(!confirm(`¿Eliminar ${chosen.length} clientes? Se quitarán también sus datos operativos asociados. Esta acción no se puede deshacer.`))return;
         const refs=chosen.map(c=>c.realRequestId||c.realOrderId).filter(Boolean).map(String);state.hiddenClientRefs=[...new Set([...(state.hiddenClientRefs||[]),...refs])];
-        state.clients=state.clients.filter(c=>!ids.has(c.id));state.jobs=state.jobs.filter(j=>!ids.has(j.clientId));state.payments=state.payments.filter(p=>!ids.has(p.clientId));state.executions=state.executions.filter(x=>!ids.has(x.clientId));state.activities=state.activities.filter(a=>!ids.has(a.clientId));selectedClientIds.clear();clientSelectionMode=false;selectedClient=state.clients[0]||null;saveState();rerenderClients();toast('Chats eliminados de la bandeja.');
+        state.clients=state.clients.filter(c=>!ids.has(c.id));state.jobs=state.jobs.filter(j=>!ids.has(j.clientId));state.payments=state.payments.filter(p=>!ids.has(p.clientId));state.executions=state.executions.filter(x=>!ids.has(x.clientId));state.activities=state.activities.filter(a=>!ids.has(a.clientId));selectedClientIds.clear();clientSelectionMode=false;selectedClient=state.clients[0]||null;saveState();rerenderClients();toast('Clientes eliminados.');
       });
       document.querySelectorAll('[data-client-filter]').forEach(btn => btn.onclick = () => {
-        clientFilter=btn.dataset.clientFilter;rerenderClients();
+        clientFilter=btn.dataset.clientFilter;clientDetailsOpen=false;rerenderClients();
       });
       const search=document.getElementById('clientSearch');
       if(search) search.oninput=()=>{
@@ -927,7 +935,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
         try{await downloadClientInboundFile(client,button.dataset.clientFileDownload);toast('Archivo del cliente descargado.');}
         catch(error){console.error('[CVStudio archivo recibido]',error);toast(`No se pudo descargar el archivo: ${error.message}`);}
       });
-      scrollConversationToLatest();
+      document.querySelector('[data-client-close]')?.addEventListener('click',()=>{clientDetailsOpen=false;rerenderClients();});
     }
     if(id==='plantillas' && window.CVStudioCanvaLibrary){
       window.CVStudioCanvaLibrary.bind();
@@ -1498,39 +1506,6 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       if(!paid){toast('Entrega bloqueada: todavía no hay pago confirmado.');return;}
       job.stage='Entregado';job.progress=100;job.completedAt=new Date().toISOString();client.status='Esperando confirmación';registerExecution(job,client);addActivity('delivery','Trabajo entregado',`${client.name} · ${job.service}`,client.id);saveState();toast('Trabajo entregado y comisión registrada.');openModule('clientes');if(client.realRequestId)window.CVStudioRealBridge?.updateRequestStatus(client.realRequestId,'Entregado').catch(console.error);const rp=state.payments.find(p=>p.clientId===client.id&&p.realOrderId);if(rp)window.CVStudioRealBridge?.updateOrderStatus(rp.realOrderId,'Entregado').catch(console.error);return;
     }
-    if(action==='send-message') {
-      const field=document.getElementById('clientMessageInput');
-      const sendButton=document.querySelector('[data-action="send-message"]');
-      const message=field?.value.trim()||'';
-      if(!message){toast('Escribí un mensaje antes de enviarlo.');return;}
-      if(!selectedClient?.phone){toast('Este cliente no tiene un número de WhatsApp cargado.');return;}
-      if(!window.CVStudioRealBridge?.sendWhatsApp){toast('La conexión de WhatsApp todavía no está disponible.');return;}
-
-      field.disabled=true;
-      if(sendButton)sendButton.disabled=true;
-      toast('Enviando mensaje por WhatsApp...');
-
-      window.CVStudioRealBridge.sendWhatsApp({
-        to:selectedClient.phone,
-        message,
-        requestId:selectedClient.realRequestId||''
-      }).then(result=>{
-        addActivity('client','WhatsApp enviado',message,selectedClient.id);
-        saveState();
-        field.value='';
-        openModule('clientes');
-        toast(result?.id?'Mensaje enviado por WhatsApp.':'Mensaje aceptado por WhatsApp.');
-      }).catch(error=>{
-        console.error('[CVStudio WhatsApp] Error de envío:',error);
-        toast(error?.message||'No se pudo enviar el mensaje por WhatsApp.');
-      }).finally(()=>{
-        const currentField=document.getElementById('clientMessageInput');
-        if(currentField)currentField.disabled=false;
-        const currentButton=document.querySelector('[data-action="send-message"]');
-        if(currentButton)currentButton.disabled=false;
-      });
-      return;
-    }
     if(action==='reset-demo') return resetState();
     return oldHandleAction(action,el);
   };
@@ -1538,17 +1513,6 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   // Reemplaza acciones rápidas genéricas por acciones funcionales.
   const quick=document.getElementById('quickActions');
   quick.onclick=()=>openModal(`<h2 id="modalTitle">Acciones rápidas</h2><p style="color:var(--muted)">Accesos directos a las operaciones más utilizadas.</p><div class="grid quick-functional" style="grid-template-columns:1fr 1fr"><button class="action-card" data-quick="client">+ Nuevo cliente</button><button class="action-card" data-quick="payment">+ Registrar pago</button><button class="action-card" data-quick="job">+ Nuevo trabajo</button><button class="action-card" data-quick="sync">Sincronizar datos</button></div>`);
-  // Envío inmediato desde Seguimiento: Enter envía; Shift+Enter conserva salto de línea.
-  // Se ejecuta en captura para evitar que otros listeners del panel intercepten la tecla.
-  document.addEventListener('keydown',event=>{
-    if(event.key!=='Enter' || event.shiftKey || event.isComposing)return;
-    const input=event.target?.closest?.('#clientMessageInput');
-    if(!input)return;
-    event.preventDefault();
-    event.stopPropagation();
-    handleAction('send-message', document.querySelector('[data-action="send-message"]'));
-  }, true);
-
   document.addEventListener('click',event=>{
     const btn=event.target.closest('[data-quick]');if(!btn)return;
     closeModal();
