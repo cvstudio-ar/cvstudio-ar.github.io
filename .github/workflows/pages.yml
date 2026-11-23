@@ -45,6 +45,15 @@ jobs:
             --exclude '.github/' \
             --exclude '_site/' \
             --exclude 'docs/' \
+            --exclude '/tienda-de-concreto/' \
+            --exclude '/cesar-laciar/' \
+            --exclude '/eugenia-ibanez/' \
+            --exclude '/demo/escobrar-online-shop/' \
+            --exclude '/demo/autosoluciones/' \
+            --exclude '/demo/petshop-grilli/' \
+            --exclude '/luxzen/' \
+            --exclude '/alma-market/' \
+            --exclude '/altapinta/' \
             --exclude 'tests/' \
             --exclude 'supabase/' \
             --exclude 'config/' \
