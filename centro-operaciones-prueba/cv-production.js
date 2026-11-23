@@ -29,6 +29,7 @@
   const rate=(s,r)=>Math.max(0,Math.min(100,Number(r.reviewedAt?r.commissionRate:person(s,r)?.commission)||0));
   const pay=(s,r)=>(s.payments||[]).find(p=>p.status==='Confirmado'&&String(p.clientId)===String(r.clientId)&&normalize(p.service)===normalize(r.service));
   const due=(s,r)=>r.status==='Aprobado'&&pay(s,r)&&(!r.transferAmount||Number(pay(s,r).amount)===Number(r.transferAmount))?Number(pay(s,r).amount||0)*rate(s,r)/100:0;
+  const estimated=(s,r)=>Math.max(0,Number(r.transferAmount||0))*rate(s,r)/100;
   function save(s){
     localStorage.setItem(KEY,JSON.stringify(s));
     window.dispatchEvent(new CustomEvent('cvstudio:state-updated',{detail:{source:'cv-production'}}));
@@ -54,8 +55,9 @@
     const pending=active.filter(r=>r.status==='Pendiente de revisión'),approved=active.filter(r=>r.status==='Aprobado');
     let html=header('Contador de CV · colaboradores','Cada CV se vincula a su número de transferencia e importe. Comisiones según el porcentaje configurado por colaborador.')+'</div>';
     html+='<div class="cv-production-stats"><div><small>CV registrados</small><b>'+units(active)+'</b></div><div><small>Por validar</small><b>'+units(pending)+'</b></div><div><small>Aprobados</small><b>'+units(approved)+'</b></div><div><small>Comisiones habilitadas</small><b>'+money(approved.reduce((n,r)=>n+due(s,r),0))+'</b></div></div>';
+    html+='<p class="auth-note">Comisiones estimadas sobre importes declarados: <strong>'+money(active.reduce((n,r)=>n+estimated(s,r),0))+'</strong>. Este total es informativo y no constituye un pago confirmado.</p>';
     html+='<div class="cv-production-history">'+all.slice(0,30).map(r=>{
-      let entry='<div><strong>'+esc(r.responsible)+' · '+esc(r.client)+'</strong><small>'+esc(arDateTime(r.completedAt))+' · '+esc(r.service)+' · '+qty(r)+' CV · '+rate(s,r)+'% · Operación: '+esc(r.transferNumber||'Sin registrar')+' · Importe informado: '+(r.transferAmount?money(r.transferAmount):'—')+' · '+(pay(s,r)?'Pago registrado':'Pago sin confirmar')+'</small><span class="status">'+esc(r.status)+(r.status==='Aprobado'?' · '+money(due(s,r)):'')+'</span>';
+      let entry='<div><strong>'+esc(r.responsible)+' · '+esc(r.client)+'</strong><small>'+esc(arDateTime(r.completedAt))+' · '+esc(r.service)+' · '+qty(r)+' CV · '+rate(s,r)+'% · Operación: '+esc(r.transferNumber||'Sin registrar')+' · Importe informado: '+(r.transferAmount?money(r.transferAmount):'—')+' · Comisión estimada: '+money(estimated(s,r))+' · '+(pay(s,r)?'Pago registrado':'Pago sin confirmar')+'</small><span class="status">'+esc(r.status)+(r.status==='Aprobado'?' · '+money(due(s,r)):'')+'</span>';
       if(r.status==='Pendiente de revisión')entry+='<button type="button" class="button primary small" data-cv-action="review" data-id="'+Number(r.id)+'" data-decision="Aprobado">Aprobar</button><button type="button" class="button secondary small" data-cv-action="review" data-id="'+Number(r.id)+'" data-decision="Rechazado">Rechazar</button>';
       return entry+'</div>';
     }).join('')+'</div><p class="auth-note">El número de transferencia evita registros repetidos, pero no demuestra por sí solo que el dinero ingresó. Los CV se cuentan como declarados hasta que el pago quede confirmado por CVStudio. No se realizan transferencias automáticas.</p>';
@@ -69,46 +71,52 @@
     if(module==='administracion'&&director())root.insertAdjacentHTML('afterbegin',renderAdmin(state()));
   }
   const close=()=>{if(typeof window.closeModal==='function')window.closeModal();else{const m=document.getElementById('appModal');if(m)m.hidden=true;}};
+  function findMatchingClient(state,fullName){
+  const matches=(state.clients||[]).filter(x=>cvService(x.service)&&x.status!=='Archivado'&&normalize(x.name).replace(/\s+/g,' ').trim()===normalize(fullName).replace(/\s+/g,' ').trim());
+  return matches.length===1?matches[0]:null;
+}
   function report(){
-    const c=actor();if(!c||director())return;
-    const s=state(),customers=(s.clients||[]).filter(x=>cvService(x.service)&&x.status!=='Archivado');
-    if(!customers.length){alert('Todavía no hay clientes con servicio de CV. Solicitá que registren el trabajo.');return;}
-    const options=customers.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+' · '+esc(x.service)+'</option>').join('');
-    if(typeof window.openModal!=='function')return alert('El formulario no está disponible.');
-    window.openModal('<h2 id="modalTitle">Registrar CV realizado</h2><p>Copiá los datos que figuran en el comprobante de pago enviado a CVStudio.</p><form id="cvProductionForm" class="form-grid"><label>Cliente<select name="clientId" required>'+options+'</select></label><label>Cantidad de CV<input name="quantity" type="number" min="1" max="2" value="1" required></label><label>Número de transferencia u operación<input name="transferNumber" type="text" minlength="4" maxlength="80" autocomplete="off" spellcheck="false" placeholder="Ej.: 000123456789" required></label><label>Monto de la transferencia (ARS)<input name="transferAmount" type="number" min="1" max="100000000" step="0.01" placeholder="Ej.: 12500" required></label><p class="auth-note span-2">Cada comprobante se utiliza una sola vez. El contador registra el CV presentado; la comisión se habilita solamente con el pago confirmado.</p><div class="modal-actions span-2"><button class="button secondary" type="button" data-close-modal>Cancelar</button><button class="button primary" type="submit">Registrar CV</button></div></form>');
-    document.getElementById('cvProductionForm').onsubmit=ev=>{
-      ev.preventDefault();
-      const form=ev.currentTarget,live=state(),client=(live.clients||[]).find(x=>String(x.id)===String(form.elements.clientId.value));
-      const amount=Number(form.elements.quantity.value);
-      const transferNumber=String(form.elements.transferNumber.value||'').trim();
-      const transferAmount=Number(form.elements.transferAmount.value);
-      const key=transferKey(transferNumber);
-      if(key.length<4||transferNumber.length>80)return alert('Ingresá el número completo de transferencia (mínimo 4 caracteres).');
-      if(!Number.isFinite(transferAmount)||transferAmount<=0||transferAmount>100000000)return alert('Ingresá un monto válido y positivo en pesos argentinos.');
-      if(reports(live).some(r=>r.transferNumber&&transferKey(r.transferNumber)===key))return alert('Ese número de transferencia ya fue usado para registrar un CV. Revisá el historial.');
-      if(!client||!cvService(client.service))return alert('Seleccioná un servicio de CV válido.');
-      const max=normalize(client.service).includes('2 cv')?2:1;
-      if(!Number.isInteger(amount)||amount<1||amount>max)return alert('Cantidad inválida para el servicio seleccionado.');
-      if(reports(live).some(r=>r.status!=='Rechazado'&&String(r.clientId)===String(client.id)&&String(r.collaboratorId)===String(c.id)))return alert('Ese cliente ya tiene un registro de CV a tu nombre.');
-      const job=(live.jobs||[]).find(j=>String(j.clientId)===String(client.id));
-      const id=Math.max(0,...(live.executions||[]).map(r=>Number(r.id)||0))+1;
-      live.executions=live.executions||[];
-      // Sólo una coincidencia exacta con una referencia guardada en un pago confirmado
-      // habilita la aprobación automática; el número escrito no verifica un pago.
-      const verified=bankMatched(live,transferNumber,transferAmount,client.id,client.service);
-      const commissionRate=Number(person(live,{collaboratorId:c.id})?.commission||0);
-      const createdAt=new Date().toISOString();
-      const record={id,type:'cv-production',clientId:client.id,client:client.name,service:client.service,jobId:job?.id||null,
-        responsible:c.name,collaboratorId:c.id,transferNumber,transferAmount,quantity:amount,completedAt:createdAt,createdAt,
-        status:verified?'Aprobado':'Pendiente de revisión',reviewedAt:verified?createdAt:null,reviewedBy:verified?'Coincidencia con pago confirmado':null,
-        commissionRate:verified?commissionRate:null,commissionAmount:0,baseAmount:0};
-      if(verified){record.baseAmount=transferAmount;record.commissionAmount=due(live,record);}
-      live.executions.push(record);
-      save(live);close();
-      alert(verified?'CV registrado y transferencia coincidente con pago confirmado.':'CV registrado con número de transferencia e importe. Queda pendiente confirmar el ingreso del pago.');
+  const collaborator=actor();
+  if(!collaborator||director())return;
+  if(typeof window.openModal!=='function')return alert('El formulario no está disponible.');
+  window.openModal('<h2 id="modalTitle">Registrar CV realizado</h2><p>Ingresá el nombre y apellido del cliente, el número de transferencia y el importe del comprobante. No es necesario que el cliente esté cargado en CVStudio.</p><form id="cvProductionForm" class="form-grid"><label>Nombre y apellido del cliente<input name="clientFullName" type="text" minlength="3" maxlength="120" autocomplete="off" placeholder="Ej.: Juan Pérez" required></label><label>Cantidad de CV<input name="quantity" type="number" min="1" max="2" step="1" value="1" required></label><label>Número de transferencia u operación<input name="transferNumber" type="text" minlength="4" maxlength="80" autocomplete="off" spellcheck="false" placeholder="Ej.: 000123456789" required></label><label>Monto de la transferencia (ARS)<input name="transferAmount" type="number" min="1" max="100000000" step="0.01" placeholder="Ej.: 12500" required></label><p class="auth-note span-2">El comprobante se registra una sola vez. Los CV se suman al contador de trabajos declarados y la comisión queda pendiente hasta confirmar el pago.</p><div class="modal-actions span-2"><button class="button secondary" type="button" data-close-modal>Cancelar</button><button class="button primary" type="submit">Registrar CV</button></div></form>');
+  document.getElementById('cvProductionForm').onsubmit=event=>{
+    event.preventDefault();
+    const form=event.currentTarget,live=state();
+    const fullName=String(form.elements.clientFullName.value||'').replace(/\s+/g,' ').trim();
+    const quantity=Number(form.elements.quantity.value);
+    const transferNumber=String(form.elements.transferNumber.value||'').trim();
+    const transferAmount=Number(form.elements.transferAmount.value);
+    const key=transferKey(transferNumber);
+    if(fullName.length<3||fullName.length>120||fullName.split(' ').length<2)return alert('Ingresá el nombre y apellido completos del cliente.');
+    if(!Number.isInteger(quantity)||quantity<1||quantity>2)return alert('Indicá una cantidad válida de 1 o 2 CV.');
+    if(key.length<4||transferNumber.length>80)return alert('Ingresá el número completo de transferencia (mínimo 4 caracteres).');
+    if(!Number.isFinite(transferAmount)||transferAmount<=0||transferAmount>100000000)return alert('Ingresá un monto válido y positivo en pesos argentinos.');
+    if(reports(live).some(record=>record.transferNumber&&transferKey(record.transferNumber)===key))return alert('Ese número de transferencia ya fue registrado. Revisá el historial.');
+    // La vinculación con un cliente ya cargado es opcional, nunca bloquea el registro manual.
+    const existing=findMatchingClient(live,fullName);
+    const service=existing?.service||(quantity===2?'Combo 2 CV Profesionales':'CV Profesional');
+    const job=existing?(live.jobs||[]).find(j=>String(j.clientId)===String(existing.id)):null;
+    const id=Math.max(0,...(live.executions||[]).map(r=>Number(r.id)||0))+1;
+    const verified=Boolean(existing&&(quantity===1||normalize(existing.service).includes('2 cv'))&&bankMatched(live,transferNumber,transferAmount,existing.id,service));
+    const commissionRate=Number(person(live,{collaboratorId:collaborator.id})?.commission||0);
+    const createdAt=new Date().toISOString();
+    const record={
+      id,type:'cv-production',clientId:existing?.id??null,client:fullName,service,jobId:job?.id||null,
+      responsible:collaborator.name,collaboratorId:collaborator.id,
+      transferNumber,transferAmount,quantity,completedAt:createdAt,createdAt,
+      status:verified?'Aprobado':'Pendiente de revisión',reviewedAt:verified?createdAt:null,
+      reviewedBy:verified?'Coincidencia con pago confirmado':null,commissionRate:verified?commissionRate:null,
+      commissionAmount:0,baseAmount:0
     };
-  }
-  function review(button){
+    if(verified){record.baseAmount=transferAmount;record.commissionAmount=due(live,record);}
+    live.executions=live.executions||[];
+    live.executions.push(record);
+    save(live);close();
+    alert(verified?'CV registrado y transferencia coincidente con un pago confirmado.':'CV registrado a nombre de '+fullName+'. Queda pendiente confirmar el ingreso del pago.');
+  };
+}
+    function review(button){
     if(!director())return;
     const s=state(),r=reports(s).find(x=>String(x.id)===String(button.dataset.id)),decision=button.dataset.decision;
     if(!r||r.status!=='Pendiente de revisión'||!['Aprobado','Rechazado'].includes(decision))return;
