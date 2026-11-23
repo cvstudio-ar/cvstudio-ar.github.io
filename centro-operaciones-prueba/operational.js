@@ -1577,7 +1577,10 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   };
   const dateChip=document.getElementById('dateChip');
   if(dateChip)dateChip.innerHTML=`<span class="date-glyph"></span>${new Intl.DateTimeFormat('es-AR',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}`;
-  if(dateChip) dateChip.onclick=()=>openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('calendar')}</span><h2 id="modalTitle">Calendario</h2></div><small>Campañas, cumpleaños, feriados y tareas</small></div>${miniCalendarHtml()}<div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button><button class="button primary" id="openFullCalendar">Abrir calendario completo</button></div>`);
+  if(dateChip) dateChip.onclick=()=>{
+    if(window.CVStudioAccess?.ready&&!window.CVStudioAccess.owner){openModule('calendario');return;}
+    openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('calendar')}</span><h2 id="modalTitle">Calendario</h2></div><small>Campañas, cumpleaños, feriados y tareas</small></div>${miniCalendarHtml()}<div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button><button class="button primary" id="openFullCalendar">Abrir calendario completo</button></div>`);}
+
   document.addEventListener('click',event=>{if(event.target.closest('#openFullCalendar')){closeModal();openModule('calendario');}});
 
   // Actualiza la interfaz en la misma página cuando Supabase o el puente real cambian el estado.
