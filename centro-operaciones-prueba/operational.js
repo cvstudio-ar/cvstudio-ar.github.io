@@ -881,7 +881,17 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     userInput?.addEventListener('input',()=>userInput.dataset.manual='1');
     if(slugInput) slugInput.addEventListener('input',()=>{slugInput.dataset.manual='1';slugInput.value=normalizeSlug(slugInput.value);});
   }
-  renderers.inicio = dashboardRenderer;
+  renderers.inicio = function staffHome(){
+  if(window.CVStudioAccess?.owner)return dashboardRenderer();
+  const user=window.CVStudioAccess?.collaborator;
+  const works=(state.executions||[]).filter(r=>r.type==='cv-production'&&String(r.collaboratorId)===String(user?.id));
+  const units=records=>records.reduce((n,r)=>n+Math.max(1,Math.min(2,Number(r.quantity)||1)),0);
+  const active=works.filter(r=>r.status!=='Rechazado'),pending=works.filter(r=>r.status==='Pendiente de revisión'),approved=works.filter(r=>r.status==='Aprobado');
+  return `<section class="staff-home"><header class="staff-calendar-hero"><span>MI ESPACIO CVSTUDIO</span><h2>Bienvenido, ${esc(String(user?.name||'colaborador').split(' ')[0])}</h2><p>Consultá tus trabajos de CV, las campañas activas del equipo y tu calendario personal.</p></header>
+    <div class="staff-home-stats"><article><small>CV registrados</small><strong>${units(active)}</strong></article><article><small>Por verificar</small><strong>${units(pending)}</strong></article><article><small>CV aprobados</small><strong>${units(approved)}</strong></article></div>
+    <div class="staff-home-links"><button class="button primary" data-module-jump="clientes">${icon('file')} Ver mi producción CV</button><button class="button secondary" data-module-jump="calendario">${icon('calendar')} Abrir mi calendario</button></div>
+    ${window.CVStudioStaffCalendar?.preview?.()||'<p class="staff-calendar-muted">Cargando fechas importantes…</p>'}</section>`;
+};
   renderers.clientes = () => window.CVStudioCVProduction?.dashboard?.() || '<section class="panel"><h2>Producción de CV</h2><p>Cargando registros…</p></section>';
   renderers['asistente-ia'] = () => window.CVStudioCVAI?.render?.() || '<section class="panel"><h2>Asistente CV no disponible</h2><p>Actualizá la página para cargar el módulo.</p></section>';
   renderers.administracion = adminRenderer;
