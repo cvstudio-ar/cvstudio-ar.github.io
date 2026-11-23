@@ -116,6 +116,7 @@
     return [...map.values()];
   }
   async function loadReal() {
+    if(!window.CVStudioAccess?.ready||window.CVStudioAccess.owner!==true)return false;
     const client = db();
     if (!client) throw new Error('Supabase no está disponible.');
     const { data: { session } } = await client.auth.getSession();
@@ -360,7 +361,7 @@
       throw error;
     }
   }
-  window.CVStudioRetryPriceSync=async()=>{const prices=pendingPrices();if(Object.keys(prices).length)try{await updatePrices(prices);}catch(error){console.error(error);}};
+  window.CVStudioRetryPriceSync=async()=>{if(window.CVStudioAccess?.owner!==true)return;const prices=pendingPrices();if(Object.keys(prices).length)try{await updatePrices(prices);}catch(error){console.error(error);}};
 
   window.CVStudioRealBridge = {loadReal, updateRequestStatus, createRealClient, addNote, sendWhatsApp, createSignatureRequest, listSignatureRequests, downloadSignature, updateOrderStatus, updatePrices, createCollaboratorAuth, updateCollaboratorAuth, deleteCollaboratorAuth, createPortfolioClient, updatePortfolioClient, resetPortfolioPassword, deletePortfolioClient, canvaStatus, canvaTemplates, integrationAudit, connectCanva, disconnectCanva, metaStatus, metaCampaigns};
 
@@ -374,6 +375,7 @@
 
   let liveSyncRunning=false;
   async function refreshReal(source='manual'){
+    if(!window.CVStudioAccess?.ready||window.CVStudioAccess.owner!==true)return false;
     if(liveSyncRunning)return false;
     liveSyncRunning=true;
     try{

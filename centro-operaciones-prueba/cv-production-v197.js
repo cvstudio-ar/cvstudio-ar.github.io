@@ -4,7 +4,7 @@
  */
 (() => {
   'use strict';
-  window.CVStudioCvProductionBuild='1.9.7';
+  window.CVStudioCvProductionBuild='1.9.8';
   const KEY='cvstudio_ops_operational_v2';
   const money=n=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(n);
   const esc=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -36,7 +36,23 @@
   const pay=(s,r)=>(s.payments||[]).find(p=>p.status==='Confirmado'&&String(p.clientId)===String(r.clientId)&&normalize(p.service)===normalize(r.service));
   const due=(s,r)=>r.status==='Aprobado'&&pay(s,r)&&(!r.transferAmount||Number(pay(s,r).amount)===Number(r.transferAmount))?Number(pay(s,r).amount||0)*rate(s,r)/100:0;
   const estimated=(s,r)=>Math.max(0,Number(r.transferAmount||0))*rate(s,r)/100;
-  function save(s){
+  async function save(s,record=null){
+    if(window.CVStudioAccess?.owner!==true){
+      if(!record||record.type!=='cv-production'||record.status!=='Pendiente de revisión')
+        throw new Error('Los colaboradores sólo pueden registrar trabajos pendientes de revisión.');
+      const db=window.cvstudioSupabase;
+      if(!db)throw new Error('No hay conexión segura con Supabase.');
+      const user=await db.auth.getUser();
+      if(user.error||user.data?.user?.id!==window.CVStudioAccess?.collaborator?.authUserId)
+        throw new Error('No se pudo validar la identidad del colaborador.');
+      const result=await db.from('cvstudio_ops_stage_executions').insert({
+        id:record.id,
+        workspace_id:'centro-operaciones-prueba',
+        payload:record,
+        updated_at:new Date().toISOString()
+      });
+      if(result.error)throw new Error('No se pudo confirmar el registro en Supabase: '+result.error.message);
+    }
     localStorage.setItem(KEY,JSON.stringify(s));
     window.dispatchEvent(new CustomEvent('cvstudio:state-updated',{detail:{source:'cv-production'}}));
   }
@@ -123,7 +139,7 @@
       '<p class="auth-note span-2">El nombre es libre y el precio es automático. Si Administración cambia el importe, se comprueba antes de guardar. No se aceptan números de transferencia repetidos.</p>'+
       '<div class="modal-actions span-2"><button class="button secondary" type="button" data-close-modal>Cancelar</button>'+
       '<button class="button primary" type="submit" disabled>Registrar CV</button></div>'+
-      '<small class="span-2" style="color:var(--muted)">Formulario CVStudio · versión 1.9.7</small></form>');
+      '<small class="span-2" style="color:var(--muted)">Formulario CVStudio · versión 1.9.8</small></form>');
 
     const form=document.getElementById('cvProductionForm');
     if(!form)return;
@@ -217,9 +233,10 @@
         }
         const client=findMatchingClient(live,fullName,service);
         const job=client?(live.jobs||[]).find(j=>String(j.clientId)===String(client.id)):null;
-        const id=Math.max(0,...(live.executions||[]).map(record=>Number(record.id)||0))+1;
+        const id=Date.now()*1000+(crypto.getRandomValues(new Uint32Array(1))[0]%1000);
         const amount=latest.price;
-        const verified=Boolean(client&&bankMatched(live,transferNumber,amount,client.id,service));
+        // Un colaborador nunca puede autoaprobar un trabajo ni confirmar pagos.
+        const verified=false;
         const commissionRate=Number(person(live,{collaboratorId:collaborator.id})?.commission||0);
         const now=new Date().toISOString();
         const record={id,type:'cv-production',clientId:client?.id??null,client:fullName,
@@ -232,7 +249,7 @@
         if(verified){record.baseAmount=amount;record.commissionAmount=due(live,record);}
         live.executions=live.executions||[];
         live.executions.push(record);
-        save(live);close();
+        await save(live,record);close();
         alert(verified
           ? 'CV registrado con precio vigente y pago confirmado.'
           : 'CV registrado a nombre de '+fullName+' por '+money(amount)+
@@ -256,7 +273,7 @@
     r.status=decision;r.reviewedAt=new Date().toISOString();r.reviewedBy=actor()?.name||'Dirección';
     r.commissionRate=Number(person(s,r)?.commission||0);
     r.baseAmount=Number(pay(s,r)?.amount||0);r.commissionAmount=due(s,r);
-    save(s);
+    save(s).catch(error=>alert(error.message));
   }
   document.addEventListener('click',event=>{
     const button=event.target.closest('[data-cv-action]');if(!button)return;
