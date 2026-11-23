@@ -21,6 +21,7 @@
   let previousState = null;
   let retryAttempt = 0;
   let realtimeChannel = null;
+  let ownerPollingTimer = null;
   const MAX_SYNC_RETRIES = 3;
   const WRITER_ID = (() => {
     const key = 'cvstudio_ops_writer_id';
@@ -208,7 +209,11 @@
         syncTable(TABLES.executions, state.executions, removedIds(previousState, state, 'executions')),
         syncTable(TABLES.expenses, state.expenses, removedIds(previousState, state, 'expenses')),
         syncTable(TABLES.activities, state.activities, removedIds(previousState, state, 'activities')),
-        syncTable(TABLES.collaborators, state.collaborators, removedIds(previousState, state, 'collaborators')),
+        // No reescribir permisos de colaboradores desde un guardado no relacionado.
+        // Sólo sincronizar fichas si Dirección modificó realmente esa colección.
+        JSON.stringify(previousState?.collaborators||[])!==JSON.stringify(state.collaborators||[])
+          ? syncTable(TABLES.collaborators, state.collaborators, removedIds(previousState, state, 'collaborators'))
+          : Promise.resolve(),
         syncServices(state.prices)
       ]);
 
@@ -453,6 +458,14 @@
       if (pending) { initialized = true; await pushState(pending); }
       await pullRemote();
       startRealtime();
+      // Las inserciones de CV por colaboradores no emiten eventos de Realtime
+      // si la tabla no pertenece a la publicación. Sondeos de sólo lectura
+      // mantienen el contador de Dirección actualizado sin tocar la carga.
+      if(window.CVStudioAccess?.owner===true&&!ownerPollingTimer){
+        ownerPollingTimer=setInterval(()=>{
+          if(document.visibilityState==='visible')pullRemote().catch(error=>console.warn('[CVStudio Producción] Error de lectura',error));
+        },60000);
+      }
     } catch (error) {
       console.error('[CVStudio RC5] No se pudo iniciar Supabase:', error);
       initialized = true;
@@ -480,5 +493,8 @@
 
   window.addEventListener('online', () => { status('Reconectando Supabase…', 'syncing'); boot(); });
   window.addEventListener('offline', () => status('Sin conexión · modo local', 'warning'));
+  window.addEventListener('focus',()=>{
+    if(initialized&&window.CVStudioAccess?.owner===true)pullRemote().catch(error=>console.warn('[CVStudio Producción] Error al actualizar',error));
+  });
   window.addEventListener('DOMContentLoaded', boot, { once: true });
 })();

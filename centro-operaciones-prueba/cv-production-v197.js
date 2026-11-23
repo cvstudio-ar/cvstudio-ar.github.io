@@ -58,6 +58,71 @@
   }
   const units=arr=>arr.reduce((n,r)=>n+qty(r),0);
   function header(title,description){return '<section class="panel cv-production-panel" data-cv-panel><div class="panel-head"><div><h2>'+title+'</h2><p>'+description+'</p></div>';}
+
+  function renderLedger(){
+    const owner=director();
+    const c=actor();
+    const s=state();
+    const rows=reports(s).filter(r=>owner||(c&&String(r.collaboratorId)===String(c.id))).slice()
+      .sort((a,b)=>String(b.completedAt||b.createdAt||'').localeCompare(String(a.completedAt||a.createdAt||'')));
+    const valid=rows.filter(r=>r.status!=='Rechazado');
+    const approved=valid.filter(r=>r.status==='Aprobado');
+    const pending=valid.filter(r=>r.status==='Pendiente de revisión');
+    const month=arMonth(new Date());
+    const current=valid.filter(r=>arMonth(r.completedAt||r.createdAt)===month);
+    const total=items=>items.reduce((n,r)=>n+qty(r),0);
+    const values=items=>items.reduce((n,r)=>n+Number(r.priceSnapshot||r.transferAmount||0),0);
+    const estimate=items=>items.reduce((n,r)=>n+estimated(s,r),0);
+    const paid=items=>items.reduce((n,r)=>n+due(s,r),0);
+    const stats=[
+      ['CV registrados',total(valid),'Unidades declaradas'],
+      ['Este mes',total(current),'Período actual'],
+      ['Por verificar',total(pending),'Pendientes de Dirección'],
+      ['Importe registrado',money(values(valid)),'No equivale a dinero cobrado'],
+      [owner?'Comisiones estimadas':'Mi comisión estimada',money(estimate(valid)),'Sujetas a validación'],
+      ['Comisiones habilitadas',money(paid(approved)),'Aprobadas y con pago confirmado']
+    ];
+    const summary=stats.map(([name,value,subtitle])=>'<article class="cv-ledger-stat"><small>'+esc(name)+'</small><strong>'+esc(value)+'</strong><span>'+esc(subtitle)+'</span></article>').join('');
+    let teams='';
+    if(owner){
+      const groups=new Map();
+      valid.forEach(r=>{
+        const name=String(r.responsible||'Sin responsable');
+        const items=groups.get(name)||[];
+        items.push(r);groups.set(name,items);
+      });
+      teams='<section class="cv-ledger-panel"><div class="cv-ledger-section-head"><div><h3>Producción por colaborador</h3><p>Trabajos registrados y sus importes, sin confundirlos con cobros confirmados.</p></div></div><div class="cv-ledger-teams">'+
+        ([...groups.entries()].map(([name,items])=>
+          '<div class="cv-ledger-team"><strong>'+esc(name)+'</strong><span>'+total(items)+' CV</span><span>'+money(values(items))+' registrados</span><span>'+money(estimate(items))+' estimados</span></div>'
+        ).join('')||'<p class="cv-ledger-empty">Todavía no hay registros de producción por colaboradores.</p>')+
+        '</div></section>';
+    }
+    const tableRows=rows.slice(0,100).map(r=>{
+      const ref=String(r.transferNumber||'');
+      const moneyValue=Number(r.priceSnapshot||r.transferAmount||0);
+      const detail=r.status==='Aprobado'?'Aprobado':r.status==='Rechazado'?'Rechazado':'Por verificar';
+      const actions=owner&&r.status==='Pendiente de revisión'
+        ?'<div class="cv-ledger-review"><button type="button" class="button primary small" data-cv-action="review" data-id="'+Number(r.id)+'" data-decision="Aprobado">Aprobar</button><button type="button" class="button secondary small" data-cv-action="review" data-id="'+Number(r.id)+'" data-decision="Rechazado">Rechazar</button></div>'
+        :'<span class="cv-ledger-status '+(r.status==='Aprobado'?'is-approved':r.status==='Rechazado'?'is-rejected':'is-pending')+'">'+esc(detail)+'</span>';
+      return '<tr><td>'+esc(arDateTime(r.completedAt||r.createdAt))+'</td>'+
+        (owner?'<td><strong>'+esc(r.responsible||'—')+'</strong></td>':'')+
+        '<td><strong>'+esc(r.client||'Sin cliente')+'</strong></td><td>'+esc(r.service||'—')+'</td>'+
+        '<td class="cv-ledger-ref">'+esc(ref||'—')+'</td>'+
+        '<td class="cv-ledger-numeric">'+money(moneyValue)+'</td>'+
+        '<td class="cv-ledger-numeric">'+money(estimated(s,r))+'</td>'+
+        '<td>'+actions+'</td></tr>';
+    }).join('');
+    const head='<tr><th>Fecha</th>'+(owner?'<th>Colaborador</th>':'')+'<th>Cliente</th><th>Servicio</th><th>N.º transferencia</th><th>Precio registrado</th><th>Comisión estimada</th><th>Estado</th></tr>';
+    return '<div class="cv-ledger">'+
+      '<header class="cv-ledger-hero"><div><span class="cv-ledger-eyebrow">CENTRO DE OPERACIONES</span><h2>'+ (owner?'Producción y contabilidad de CV':'Mi producción de CV') +'</h2><p>'+ (owner?'Control de los CV realizados por cada colaborador, importes y revisiones.':'Registrá los CV que realizás y consultá tus comprobantes y el estado de revisión.') +'</p></div>'+
+      (!owner?'<button type="button" class="button primary" data-cv-action="report">+ Registrar CV realizado</button>':'')+
+      '</header><div class="cv-ledger-stats">'+summary+'</div>'+teams+
+      '<section class="cv-ledger-panel"><div class="cv-ledger-section-head"><div><h3>Registro de trabajos</h3><p>El precio queda guardado al momento del registro. Una transferencia declarada no acredita automáticamente un pago.</p></div><span class="cv-ledger-count">'+rows.length+' registros</span></div>'+
+      '<div class="cv-ledger-table-wrap"><table class="cv-ledger-table"><thead>'+head+'</thead><tbody>'+(
+        tableRows||'<tr><td colspan="'+(owner?8:7)+'" class="cv-ledger-empty">No hay trabajos de CV registrados todavía.</td></tr>'
+      )+'</tbody></table></div></section></div>';
+  }
+
   function renderPersonal(s){
     const c=actor();if(!c)return '';
     const all=reports(s).filter(r=>String(r.collaboratorId)===String(c.id));
@@ -89,7 +154,7 @@
     const root=document.getElementById('appMain');
     if(!root||!access()?.ready||root.querySelector('[data-cv-panel]'))return;
     const module=root.dataset.module;
-    if(module==='clientes'&&!director()&&actor())root.insertAdjacentHTML('afterbegin',renderPersonal(state()));
+    // El módulo Producción CV se renderiza directamente; no añadir paneles duplicados.
     if(module==='administracion'&&director())root.insertAdjacentHTML('afterbegin',renderAdmin(state()));
   }
   const close=()=>{if(typeof window.closeModal==='function')window.closeModal();else{const m=document.getElementById('appModal');if(m)m.hidden=true;}};
@@ -281,6 +346,10 @@
     if(button.dataset.cvAction==='report')report();
     if(button.dataset.cvAction==='review')review(button);
   },true);
+  window.CVStudioCVProduction={dashboard:renderLedger};
+  if(document.getElementById('appMain')?.dataset.module==='clientes'&&window.CVStudioAccess?.ready){
+    queueMicrotask(()=>window.openModule?.('clientes'));
+  }
   function boot(){
     const root=document.getElementById('appMain');if(!root)return;
     new MutationObserver(render).observe(root,{childList:true});

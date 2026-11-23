@@ -769,6 +769,9 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     return `<div class="calendar calendar-functional">${['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(name=>`<div class="day-name">${name}</div>`).join('')}${cells.join('')}</div>`;
   }
   function calendarOperationalRenderer() {
+    if(window.CVStudioAccess?.ready && !window.CVStudioAccess.owner){
+      return window.CVStudioStaffCalendar?.render?.() || '<section class="panel"><h2>Mi calendario</h2><p>Cargando campañas y cumpleaños…</p></section>';
+    }
     const year=calendarCursor.getFullYear(),month=calendarCursor.getMonth(),events=calendarMonthEvents(year,month),manual=events.filter(e=>e.source==='manual');
     const campaigns=manual.filter(e=>e.type==='campaign'&&e.status==='Activa'),pending=manual.filter(e=>!['Completada','Cancelada'].includes(e.status)),completed=manual.filter(e=>e.status==='Completada');
     const investment=manual.filter(e=>e.type==='campaign').reduce((sum,e)=>sum+itemTotal(e),0);
@@ -878,8 +881,18 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     userInput?.addEventListener('input',()=>userInput.dataset.manual='1');
     if(slugInput) slugInput.addEventListener('input',()=>{slugInput.dataset.manual='1';slugInput.value=normalizeSlug(slugInput.value);});
   }
-  renderers.inicio = dashboardRenderer;
-  renderers.clientes = clientsRenderer;
+  renderers.inicio = function staffHome(){
+  if(window.CVStudioAccess?.owner)return dashboardRenderer();
+  const user=window.CVStudioAccess?.collaborator;
+  const works=(state.executions||[]).filter(r=>r.type==='cv-production'&&String(r.collaboratorId)===String(user?.id));
+  const units=records=>records.reduce((n,r)=>n+Math.max(1,Math.min(2,Number(r.quantity)||1)),0);
+  const active=works.filter(r=>r.status!=='Rechazado'),pending=works.filter(r=>r.status==='Pendiente de revisión'),approved=works.filter(r=>r.status==='Aprobado');
+  return `<section class="staff-home"><header class="staff-calendar-hero"><span>MI ESPACIO CVSTUDIO</span><h2>Bienvenido, ${esc(String(user?.name||'colaborador').split(' ')[0])}</h2><p>Consultá tus trabajos de CV, las campañas activas del equipo y tu calendario personal.</p></header>
+    <div class="staff-home-stats"><article><small>CV registrados</small><strong>${units(active)}</strong></article><article><small>Por verificar</small><strong>${units(pending)}</strong></article><article><small>CV aprobados</small><strong>${units(approved)}</strong></article></div>
+    <div class="staff-home-links"><button class="button primary" data-module-jump="clientes">${icon('file')} Ver mi producción CV</button><button class="button secondary" data-module-jump="calendario">${icon('calendar')} Abrir mi calendario</button></div>
+    ${window.CVStudioStaffCalendar?.preview?.()||'<p class="staff-calendar-muted">Cargando fechas importantes…</p>'}</section>`;
+};
+  renderers.clientes = () => window.CVStudioCVProduction?.dashboard?.() || '<section class="panel"><h2>Producción de CV</h2><p>Cargando registros…</p></section>';
   renderers['asistente-ia'] = () => window.CVStudioCVAI?.render?.() || '<section class="panel"><h2>Asistente CV no disponible</h2><p>Actualizá la página para cargar el módulo.</p></section>';
   renderers.administracion = adminRenderer;
   renderers.marketing = marketingOperationalRenderer;
@@ -1574,7 +1587,10 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
   };
   const dateChip=document.getElementById('dateChip');
   if(dateChip)dateChip.innerHTML=`<span class="date-glyph"></span>${new Intl.DateTimeFormat('es-AR',{day:'numeric',month:'long',year:'numeric'}).format(new Date())}`;
-  if(dateChip) dateChip.onclick=()=>openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('calendar')}</span><h2 id="modalTitle">Calendario</h2></div><small>Campañas, cumpleaños, feriados y tareas</small></div>${miniCalendarHtml()}<div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button><button class="button primary" id="openFullCalendar">Abrir calendario completo</button></div>`);
+  if(dateChip) dateChip.onclick=()=>{
+    if(window.CVStudioAccess?.ready&&!window.CVStudioAccess.owner){openModule('calendario');return;}
+    openModal(`<div class="header-modal-title"><div><span class="header-modal-icon">${icon('calendar')}</span><h2 id="modalTitle">Calendario</h2></div><small>Campañas, cumpleaños, feriados y tareas</small></div>${miniCalendarHtml()}<div class="modal-actions"><button class="button secondary" data-close-modal>Cerrar</button><button class="button primary" id="openFullCalendar">Abrir calendario completo</button></div>`);}
+
   document.addEventListener('click',event=>{if(event.target.closest('#openFullCalendar')){closeModal();openModule('calendario');}});
 
   // Actualiza la interfaz en la misma página cuando Supabase o el puente real cambian el estado.
