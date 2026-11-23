@@ -65,7 +65,7 @@ window.CVStudioAccess={
     if(!this.ready)return false;
     if(this.owner&&this.level==='Director')return true;
     const permitted=(CVSTUDIO_LEVELS[this.level]||CVSTUDIO_LEVELS.Aprendiz).modules;
-    const required=CVSTUDIO_MODULE_PERMISSIONS[id];
+    const required=id==='clientes'&&this.level==='Aprendiz'?'Producción CV:registrar':CVSTUDIO_MODULE_PERMISSIONS[id];
     return Boolean(required&&permitted.includes(id)&&Array.isArray(this.collaborator?.permissions)&&this.collaborator.permissions.includes(required));
   },
   canAction(action){
