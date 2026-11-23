@@ -312,7 +312,7 @@
     if(act==='confirm-income')confirmIncome(node);
     if(act==='settle')settleForm();
     if(act==='save-rules')saveRules();
-    if(act==='prices')window.handleAction?.('edit-prices',node);
+    if(act==='prices')window.CVStudioFinancePrices?.();
   },true);
   document.addEventListener('input',event=>{
     if(!event.target.matches('.finance-v2 [data-fund]'))return;
