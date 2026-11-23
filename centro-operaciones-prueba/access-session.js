@@ -22,6 +22,10 @@ async function ownCollaborator(){
   return (data||[]).find(r=>r.payload?.authUserId===session.user.id||String(r.payload?.email||'').toLowerCase()===email)||null;
 }
 async function updatePresence(status){
+  // Sólo Dirección modifica fichas del personal. La presencia del colaborador
+  // no puede reescribir su propio rol ni permisos desde el navegador.
+  const ownerEmail=String(session?.user?.email||'').toLowerCase()==='pablexe@cvstudio.com.ar';
+  if(!ownerEmail)return;
   const row=await ownCollaborator(); if(!row)return;
   // Si Auth confirma que la contraseña ya fue cambiada, jamás reinstaurar el aviso
   // desde datos atrasados del perfil al registrar presencia.
@@ -69,9 +73,11 @@ async function forcePasswordChange(){
     if(session?.user)session.user={...session.user,...(verified.data?.user||data.user||{}),user_metadata:{...(session.user.user_metadata||{}),must_change_password:false}};
     const row=await ownCollaborator();
     if(row){
-      row.payload={...row.payload,mustChangePassword:false,authStatus:'Activo'};
-      const saved=await db().from(TABLE).update({payload:row.payload,updated_at:new Date().toISOString()}).eq('workspace_id',WORKSPACE).eq('id',row.id);
-      if(saved.error)console.warn('[CVStudio] Contraseña actualizada en Auth, pendiente sincronizar estado de perfil',saved.error.message);
+      if(String(session?.user?.email||'').toLowerCase()==='pablexe@cvstudio.com.ar'){
+        row.payload={...row.payload,mustChangePassword:false,authStatus:'Activo'};
+        const saved=await db().from(TABLE).update({payload:row.payload,updated_at:new Date().toISOString()}).eq('workspace_id',WORKSPACE).eq('id',row.id);
+        if(saved.error)console.warn('[CVStudio] Perfil pendiente de sincronizar',saved.error.message);
+      }
     }
     const host=document.getElementById('appModal');host.dataset.locked='false';host.hidden=true;document.body.style.overflow='';
     updatePresence('online').catch(()=>{});
@@ -87,6 +93,7 @@ async function bootstrapSession(){
   const verified=await client.auth.getUser();
   if(verified.data?.user)session.user=verified.data.user;
   const row=await ownCollaborator(); const collab=row?.payload;
+  const blocked=collab&&(['suspendido','archivado','inactivo'].includes(String(collab.status||'').toLowerCase())||['suspendido','archivado','inactivo'].includes(String(collab.authStatus||'').toLowerCase()));
   const email=session.user.email||'colaborador@cvstudio.com.ar'; const name=collab?.name||session.user.user_metadata?.full_name||email.split('@')[0];
   const normalizedEmail=String(email).toLowerCase();
   const ownerEmails=['pablexe@cvstudio.com.ar'];
@@ -94,13 +101,13 @@ async function bootstrapSession(){
   const roleMap={'Administrador':'Director','Coordinador':'Líder','Producción':'Operario','Diseñador':'Operario','Redactor':'Operario','Corrector':'Operario','Editor LinkedIn':'Operario','Portfolio':'Operario','Marketing':'Operario','Atención al cliente':'Operario'};
   // Salvaguarda del propietario: evita que una ficha heredada vuelva a degradar al Director.
   const accessLevel=ownerEmails.includes(normalizedEmail)?'Director':(roleMap[rawRole]||rawRole);
-  if(!collab&&!ownerEmails.includes(normalizedEmail)){
+  if((!collab&&!ownerEmails.includes(normalizedEmail))||blocked){
     await client.auth.signOut();
     sessionStorage.setItem('cvstudio_logout_reason','profile_missing');
     location.href='/?access=collaborator&error=profile_missing';
     return;
   }
-  window.CVStudioAccess?.set(accessLevel,collab);
+  window.CVStudioAccess?.set(accessLevel,collab,ownerEmails.includes(normalizedEmail));
   if(profile){profile.querySelector('strong').textContent=name;profile.querySelector('.avatar').textContent=name.charAt(0).toUpperCase();profile.querySelector('small').textContent=accessLevel==='Director'?'Administrador':accessLevel;profile.onclick=()=>{if(confirm('¿Cerrar sesión del Centro de Operaciones?'))logout('manual');};}
   await updatePresence('online').catch(()=>{});
   ['pointerdown','keydown','touchstart','scroll'].forEach(type=>window.addEventListener(type,()=>registerActivity(),{passive:true,capture:true}));
