@@ -1,6 +1,6 @@
 {
-  "version": "1.9.5",
-  "build": "20261123-matias-cv-form-v195",
+  "version": "1.9.6",
+  "build": "20261123-matias-registro-v196",
   "date": "2026-11-23",
-  "description": "Formulario de CV de Matías: servicios y precios en vivo, nombre editable y recarga automática"
+  "description": "Nueva ruta de formulario Matías y carga de servicios CV sin caché"
 }
