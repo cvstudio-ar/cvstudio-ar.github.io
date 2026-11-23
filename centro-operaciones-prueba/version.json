@@ -1,6 +1,6 @@
 {
-  "version": "1.9.8",
-  "build": "20261123-accesos-seguros-v198",
+  "version": "1.9.9",
+  "build": "20261123-cv-produccion-calendario-v199",
   "date": "2026-11-23",
-  "description": "Permisos limitados de colaboradores y acceso exclusivo a operaciones autorizadas"
+  "description": "Producción CV contable sin listado de clientes y calendario limitado del colaborador"
 }
