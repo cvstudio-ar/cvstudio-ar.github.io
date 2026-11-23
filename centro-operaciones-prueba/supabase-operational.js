@@ -255,7 +255,7 @@
 
   Storage.prototype.setItem = function(key, value) {
     originalSetItem.call(this, key, value);
-    if (this === localStorage && key === STORE_KEY && initialized && !applyingRemote) {
+    if (this === localStorage && key === STORE_KEY && initialized && !applyingRemote && window.CVStudioAccess?.owner === true) {
       schedulePush(value);
     }
   };
@@ -267,6 +267,44 @@
       .order('id', { ascending: true });
     if (error) throw error;
     return (data || []).map(item => item.payload).filter(Boolean);
+  }
+
+
+  async function pullCollaborator() {
+    // Una sesión de colaborador nunca debe descargar ni sincronizar la cartera
+    // financiera, los roles ajenos ni la configuración administrativa.
+    const current=window.CVStudioAccess?.collaborator;
+    if(!window.CVStudioAccess?.ready||!current||window.CVStudioAccess.owner)throw new Error('Perfil de colaborador no verificado.');
+    const [clients,jobs,executions,servicesResponse] = await Promise.all([
+      selectPayload(TABLES.clients),
+      selectPayload(TABLES.jobs),
+      selectPayload(TABLES.executions),
+      client.from(TABLES.services).select('name,price').eq('workspace_id',META_ID).eq('active',true).order('name')
+    ]);
+    if(servicesResponse.error)throw servicesResponse.error;
+    const prices=Object.fromEntries((servicesResponse.data||[]).map(item=>[item.name,Number(item.price)]));
+    const allowed={
+      version:12,rules:{},prices,clients,jobs,executions,
+      payments:[],expenses:[],activities:[],calendarItems:[],
+      urlSpaces:[],templates:[],hiddenClientRefs:[],collaborators:[current],
+      _sync:{source:'supabase-colaborador',updatedAt:new Date().toISOString()}
+    };
+    // Un pendiente heredado del antiguo sincronizador no debe reintroducir
+    // por accidente documentos de administración con esta sesión.
+    const pending=localStorage.getItem(PENDING_KEY);
+    if(pending){
+      originalSetItem.call(localStorage,'cvstudio_ops_old_pending_backup_v197',pending);
+      localStorage.removeItem(PENDING_KEY);
+    }
+    applyingRemote=true;
+    originalSetItem.call(localStorage,STORE_KEY,JSON.stringify(allowed));
+    applyingRemote=false;
+    previousState=allowed;
+    lastSerialized=JSON.stringify(allowed);
+    initialized=true;
+    status('Sesión limitada · colaborador','connected');
+    window.dispatchEvent(new CustomEvent('cvstudio:state-updated',{detail:{source:'supabase-colaborador'}}));
+    return allowed;
   }
 
   async function pullRemote() {
@@ -384,10 +422,15 @@
           status('Error de actualización', 'warning');
         }), 250);
       })
+      .on('postgres_changes',{
+        event:'INSERT',schema:'public',table:TABLES.executions,filter:`workspace_id=eq.${META_ID}`
+      },()=>{if(window.CVStudioAccess?.owner)setTimeout(()=>pullRemote().catch(console.error),250);})
       .subscribe();
   }
 
   async function boot() {
+    await Promise.resolve(window.CVStudioAuthReady);
+    if(!window.CVStudioAccess?.ready){markReady();return;}
     if ((!window.supabase && !window.cvstudioSupabase) || !window.CVSTUDIO_SUPABASE_URL || !window.CVSTUDIO_SUPABASE_PUBLISHABLE_KEY) {
       initialized = true;
       status('Modo local · configuración ausente', 'warning');
@@ -401,6 +444,10 @@
         { auth: { persistSession: true, autoRefreshToken: true } }
       );
       status('Verificando Supabase…', 'syncing');
+      if(!window.CVStudioAccess.owner){
+        await pullCollaborator();
+        return;
+      }
       await verifySchema();
       const pending = localStorage.getItem(PENDING_KEY);
       if (pending) { initialized = true; await pushState(pending); }
@@ -425,6 +472,7 @@
   }
 
   window.CVStudioRetryOperationalSync = async () => {
+    if(window.CVStudioAccess?.ready&&!window.CVStudioAccess.owner){await pullCollaborator();return;}
     const raw = localStorage.getItem(PENDING_KEY) || localStorage.getItem(STORE_KEY);
     if (client && raw) { originalSetItem.call(localStorage, PENDING_KEY, raw); await pushState(raw); }
     else await boot();
