@@ -65,3 +65,17 @@
 .staff-calendar-birthday small{font-size:12px;color:#a8bad0}
 @media(max-width:1100px){.cv-ledger-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.staff-calendar-layout{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){.cv-ledger-stats{grid-template-columns:minmax(0,1fr)}.cv-ledger-hero,.staff-calendar-hero{padding:16px}.cv-ledger-hero>.button{width:100%}.cv-ledger-panel{padding:13px}.staff-calendar-panel{padding:14px}.staff-calendar-grid{gap:3px}.staff-calendar-day{min-height:47px;padding:5px;font-size:11px}}
+
+
+/* Inicio personal, sin cifras financieras globales. */
+#appMain[data-module="inicio"] .staff-home{display:flex;flex-direction:column;gap:16px;min-width:0}
+#appMain[data-module="inicio"] .staff-home-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#appMain[data-module="inicio"] .staff-home-stats article{padding:18px;border:1px solid rgba(142,173,213,.2);background:#102238;border-radius:14px;display:flex;flex-direction:column;gap:10px}
+#appMain[data-module="inicio"] .staff-home-stats small{font-size:12px;color:#abc2d8}
+#appMain[data-module="inicio"] .staff-home-stats strong{font-size:clamp(24px,2vw,32px);font-variant-numeric:tabular-nums}
+#appMain[data-module="inicio"] .staff-home-links{display:flex;flex-wrap:wrap;gap:10px}
+#appMain[data-module="inicio"] .staff-home-aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#appMain[data-module="inicio"] .staff-home-notice{padding:19px;border-radius:14px;border:1px solid rgba(135,169,205,.2);background:#0d2239;display:flex;flex-direction:column;gap:12px;min-width:0}
+#appMain[data-module="inicio"] .staff-home-notice small{font-size:12px;color:#a9c1dd}
+#appMain[data-module="inicio"] .staff-home-notice strong{font-size:15px;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:680px){#appMain[data-module="inicio"] .staff-home-stats,#appMain[data-module="inicio"] .staff-home-aside{grid-template-columns:1fr}#appMain[data-module="inicio"] .staff-home-links .button{width:100%}}
