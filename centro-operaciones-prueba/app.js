@@ -54,7 +54,7 @@ window.CVStudioAccess={level:'Aprendiz',collaborator:null,ready:false,canModule(
 
 const modules = [
   ['inicio','home','Inicio','Resumen general de la actividad de CVStudio.'],
-  ['clientes','users','Clientes','Gestioná consultas, formularios, pagos y trabajos desde una sola pantalla.'],
+  ['clientes','users','Clientes','Registro de clientes, pedidos, formularios y pagos, sin conversaciones simuladas.'],
   ['asistente-ia','message','Asistente CV','Prepará consultas y redacciones desde el Centro de Operaciones, sin cargos adicionales.'],
   ['evaluaciones','check','Entrevistas y simulacros','Creá enlaces cronometrados, seguí intentos y analizá resultados.'],
   ['administracion','wallet','Administración','Controlá ingresos, fondos, precios, colaboradores y liquidaciones.'],
