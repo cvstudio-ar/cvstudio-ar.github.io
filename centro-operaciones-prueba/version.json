@@ -1,6 +1,6 @@
 {
-  "version": "1.9.7",
-  "build": "20261123-matias-catalogo-limpio-v197",
+  "version": "1.9.8",
+  "build": "20261123-accesos-seguros-v198",
   "date": "2026-11-23",
-  "description": "Catálogo de servicios CV sin duplicados para Matías; precios vigentes desde Administración"
+  "description": "Permisos limitados de colaboradores y acceso exclusivo a operaciones autorizadas"
 }
