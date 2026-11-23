@@ -15,13 +15,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    # Prevent direct production deployments from non-owner accounts and non-main refs.
-    # Branch protection must be enabled separately to prevent this guard being edited.
+  build:
+    # Publicar sólo cambios de main iniciados por la cuenta propietaria.
     if: github.actor == 'cvstudio-ar' && github.ref == 'refs/heads/main'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -101,10 +97,17 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: "_site"
-          name: github-pages-${{ github.run_attempt }}
 
+  deploy:
+    # Separar ambos jobs: GitHub Pages tiene que poder indexar el artefacto
+    # antes de solicitar la publicación. Usar el nombre estándar github-pages.
+    needs: build
+    if: github.actor == 'cvstudio-ar' && github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-${{ github.run_attempt }}
