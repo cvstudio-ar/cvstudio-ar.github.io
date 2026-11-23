@@ -71,52 +71,112 @@
     if(module==='administracion'&&director())root.insertAdjacentHTML('afterbegin',renderAdmin(state()));
   }
   const close=()=>{if(typeof window.closeModal==='function')window.closeModal();else{const m=document.getElementById('appModal');if(m)m.hidden=true;}};
-  function findMatchingClient(state,fullName){
-  const matches=(state.clients||[]).filter(x=>cvService(x.service)&&x.status!=='Archivado'&&normalize(x.name).replace(/\s+/g,' ').trim()===normalize(fullName).replace(/\s+/g,' ').trim());
+  async function loadCvCatalog(){
+  const client=window.cvstudioSupabase;
+  if(!client)throw new Error('No se pudo consultar Administración. Verificá la conexión con Supabase.');
+  const {data,error}=await client.from('cvstudio_ops_stage_services')
+    .select('name,price,active').eq('workspace_id','centro-operaciones-prueba').eq('active',true).order('name');
+  if(error)throw new Error('No se pudo obtener el catálogo de Administración: '+error.message);
+  const services=(data||[]).filter(item=>cvService(item.name)&&Number.isFinite(Number(item.price))&&Number(item.price)>0)
+    .map(item=>({name:String(item.name),price:Number(item.price)}));
+  if(!services.length)throw new Error('No hay servicios de CV activos con precio válido en Administración.');
+  return services;
+}
+  const cvCount=service=>/(^|\s)2\s*cv(\s|$)/.test(normalize(service))?2:1;
+  function findMatchingClient(state,fullName,service){
+  const matches=(state.clients||[]).filter(x=>cvService(x.service)&&x.status!=='Archivado'
+    &&normalize(x.name).replace(/\s+/g,' ').trim()===normalize(fullName).replace(/\s+/g,' ').trim()
+    &&normalize(x.service)===normalize(service));
   return matches.length===1?matches[0]:null;
 }
-  function report(){
+  async function report(){
   const collaborator=actor();
   if(!collaborator||director())return;
   if(typeof window.openModal!=='function')return alert('El formulario no está disponible.');
-  window.openModal('<h2 id="modalTitle">Registrar CV realizado</h2><p>Ingresá el nombre y apellido del cliente, el número de transferencia y el importe del comprobante. No es necesario que el cliente esté cargado en CVStudio.</p><form id="cvProductionForm" class="form-grid"><label>Nombre y apellido del cliente<input name="clientFullName" type="text" minlength="3" maxlength="120" autocomplete="off" placeholder="Ej.: Juan Pérez" required></label><label>Cantidad de CV<input name="quantity" type="number" min="1" max="2" step="1" value="1" required></label><label>Número de transferencia u operación<input name="transferNumber" type="text" minlength="4" maxlength="80" autocomplete="off" spellcheck="false" placeholder="Ej.: 000123456789" required></label><label>Monto de la transferencia (ARS)<input name="transferAmount" type="number" min="1" max="100000000" step="0.01" placeholder="Ej.: 12500" required></label><p class="auth-note span-2">El comprobante se registra una sola vez. Los CV se suman al contador de trabajos declarados y la comisión queda pendiente hasta confirmar el pago.</p><div class="modal-actions span-2"><button class="button secondary" type="button" data-close-modal>Cancelar</button><button class="button primary" type="submit">Registrar CV</button></div></form>');
-  document.getElementById('cvProductionForm').onsubmit=event=>{
+  window.openModal('<h2 id="modalTitle">Registrar CV realizado</h2><p>Ingresá el nombre del cliente, seleccioná el servicio y copiá el número de transferencia del comprobante. El precio se completa desde Administración.</p><form id="cvProductionForm" class="form-grid"><label>Nombre y apellido del cliente<input name="clientFullName" type="text" minlength="3" maxlength="120" autocomplete="off" placeholder="Ej.: Juan Pérez" required></label><label>Servicio contratado<select name="service" required disabled><option value="">Cargando catálogo…</option></select></label><label>Importe del servicio (ARS)<input name="serviceAmount" type="text" value="Consultando…" readonly aria-readonly="true"></label><label>Número de transferencia u operación<input name="transferNumber" type="text" minlength="4" maxlength="80" autocomplete="off" spellcheck="false" placeholder="Ej.: 000123456789" required></label><p id="cvPriceStatus" class="auth-note span-2" aria-live="polite">Consultando los precios actuales de Administración…</p><p class="auth-note span-2">El importe no se edita aquí. Si Administración cambia el precio, se utilizará el vigente al registrar. Un comprobante sólo se puede usar una vez.</p><div class="modal-actions span-2"><button class="button secondary" type="button" data-close-modal>Cancelar</button><button class="button primary" type="submit" disabled>Registrar CV</button></div></form>');
+  const form=document.getElementById('cvProductionForm');
+  if(!form)return;
+  const serviceSelect=form.elements.service;
+  const priceField=form.elements.serviceAmount;
+  const submit=form.querySelector('button[type="submit"]');
+  const status=form.querySelector('#cvPriceStatus');
+  const setStatus=value=>{if(status)status.textContent=value;};
+  let prices=new Map();
+  const updatePrice=()=>{
+    const entry=prices.get(serviceSelect.value);
+    priceField.value=entry?money(entry.price):'Sin precio disponible';
+    submit.disabled=!entry;
+    if(entry)setStatus('Precio vigente en Administración: '+money(entry.price)+'.');
+  };
+  serviceSelect.addEventListener('change',updatePrice);
+  try{
+    const list=await loadCvCatalog();
+    if(document.getElementById('cvProductionForm')!==form)return;
+    prices=new Map(list.map(item=>[item.name,item]));
+    serviceSelect.innerHTML=list.map(item=>'<option value="'+esc(item.name)+'">'+esc(item.name)+'</option>').join('');
+    serviceSelect.disabled=false;
+    serviceSelect.value=list[0].name;
+    updatePrice();
+  }catch(error){
+    if(document.getElementById('cvProductionForm')!==form)return;
+    priceField.value='No disponible';submit.disabled=true;setStatus(error.message||'No se pudo leer el catálogo.');
+    return;
+  }
+  form.onsubmit=async event=>{
     event.preventDefault();
-    const form=event.currentTarget,live=state();
+    if(submit.disabled)return;
     const fullName=String(form.elements.clientFullName.value||'').replace(/\s+/g,' ').trim();
-    const quantity=Number(form.elements.quantity.value);
+    const service=String(serviceSelect.value||'');
     const transferNumber=String(form.elements.transferNumber.value||'').trim();
-    const transferAmount=Number(form.elements.transferAmount.value);
     const key=transferKey(transferNumber);
     if(fullName.length<3||fullName.length>120||fullName.split(' ').length<2)return alert('Ingresá el nombre y apellido completos del cliente.');
-    if(!Number.isInteger(quantity)||quantity<1||quantity>2)return alert('Indicá una cantidad válida de 1 o 2 CV.');
+    if(!service||!prices.has(service))return alert('Seleccioná un servicio del catálogo.');
     if(key.length<4||transferNumber.length>80)return alert('Ingresá el número completo de transferencia (mínimo 4 caracteres).');
-    if(!Number.isFinite(transferAmount)||transferAmount<=0||transferAmount>100000000)return alert('Ingresá un monto válido y positivo en pesos argentinos.');
-    if(reports(live).some(record=>record.transferNumber&&transferKey(record.transferNumber)===key))return alert('Ese número de transferencia ya fue registrado. Revisá el historial.');
-    // La vinculación con un cliente ya cargado es opcional, nunca bloquea el registro manual.
-    const existing=findMatchingClient(live,fullName);
-    const service=existing?.service||(quantity===2?'Combo 2 CV Profesionales':'CV Profesional');
-    const job=existing?(live.jobs||[]).find(j=>String(j.clientId)===String(existing.id)):null;
-    const id=Math.max(0,...(live.executions||[]).map(r=>Number(r.id)||0))+1;
-    const verified=Boolean(existing&&(quantity===1||normalize(existing.service).includes('2 cv'))&&bankMatched(live,transferNumber,transferAmount,existing.id,service));
-    const commissionRate=Number(person(live,{collaboratorId:collaborator.id})?.commission||0);
-    const createdAt=new Date().toISOString();
-    const record={
-      id,type:'cv-production',clientId:existing?.id??null,client:fullName,service,jobId:job?.id||null,
-      responsible:collaborator.name,collaboratorId:collaborator.id,
-      transferNumber,transferAmount,quantity,completedAt:createdAt,createdAt,
-      status:verified?'Aprobado':'Pendiente de revisión',reviewedAt:verified?createdAt:null,
-      reviewedBy:verified?'Coincidencia con pago confirmado':null,commissionRate:verified?commissionRate:null,
-      commissionAmount:0,baseAmount:0
-    };
-    if(verified){record.baseAmount=transferAmount;record.commissionAmount=due(live,record);}
-    live.executions=live.executions||[];
-    live.executions.push(record);
-    save(live);close();
-    alert(verified?'CV registrado y transferencia coincidente con un pago confirmado.':'CV registrado a nombre de '+fullName+'. Queda pendiente confirmar el ingreso del pago.');
+    submit.disabled=true;
+    try{
+      // Consulta nuevamente la base: nunca se acepta un precio guardado en el navegador.
+      const latest=await loadCvCatalog();
+      if(document.getElementById('cvProductionForm')!==form)return;
+      const valid=latest.find(item=>item.name===service);
+      if(!valid){setStatus('El servicio seleccionado ya no está disponible en Administración. Cerrá y abrí el formulario.');return;}
+      const previous=prices.get(service);
+      if(!previous||Number(previous.price)!==Number(valid.price)){
+        prices=new Map(latest.map(item=>[item.name,item]));
+        updatePrice();
+        setStatus('El precio fue actualizado en Administración a '+money(valid.price)+'. Revisá el nuevo importe y presioná Registrar CV otra vez.');
+        return;
+      }
+      const live=state();
+      if(reports(live).some(record=>record.transferNumber&&transferKey(record.transferNumber)===key))return alert('Ese número de transferencia ya fue registrado. Revisá el historial.');
+      const existing=findMatchingClient(live,fullName,service);
+      const job=existing?(live.jobs||[]).find(j=>String(j.clientId)===String(existing.id)):null;
+      const id=Math.max(0,...(live.executions||[]).map(r=>Number(r.id)||0))+1;
+      const amount=valid.price;
+      const verified=Boolean(existing&&bankMatched(live,transferNumber,amount,existing.id,service));
+      const commissionRate=Number(person(live,{collaboratorId:collaborator.id})?.commission||0);
+      const createdAt=new Date().toISOString();
+      const record={
+        id,type:'cv-production',clientId:existing?.id??null,client:fullName,service,jobId:job?.id||null,
+        responsible:collaborator.name,collaboratorId:collaborator.id,
+        transferNumber,transferAmount:amount,priceSnapshot:amount,priceSource:'admin-catalog',quantity:cvCount(service),
+        completedAt:createdAt,createdAt,
+        status:verified?'Aprobado':'Pendiente de revisión',reviewedAt:verified?createdAt:null,
+        reviewedBy:verified?'Coincidencia con pago confirmado':null,commissionRate:verified?commissionRate:null,
+        commissionAmount:0,baseAmount:0
+      };
+      if(verified){record.baseAmount=amount;record.commissionAmount=due(live,record);}
+      live.executions=live.executions||[];
+      live.executions.push(record);
+      save(live);close();
+      alert(verified?'CV registrado con el precio vigente y pago verificado.':'CV registrado a nombre de '+fullName+' con el precio vigente de '+money(amount)+'. La transferencia queda pendiente de confirmar.');
+    }catch(error){
+      if(document.getElementById('cvProductionForm')===form)setStatus('No se pudo validar el precio vigente. No se guardó el trabajo. '+(error?.message||''));
+    }finally{
+      if(document.getElementById('cvProductionForm')===form)submit.disabled=!prices.has(serviceSelect.value);
+    }
   };
 }
-    function review(button){
+      function review(button){
     if(!director())return;
     const s=state(),r=reports(s).find(x=>String(x.id)===String(button.dataset.id)),decision=button.dataset.decision;
     if(!r||r.status!=='Pendiente de revisión'||!['Aprobado','Rechazado'].includes(decision))return;
