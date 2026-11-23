@@ -43,14 +43,46 @@ function replaceIconTokens(html){for(const [t,n] of Object.entries(TOKEN_ICONS))
 
 
 const CVSTUDIO_LEVELS={
-  Aprendiz:{rank:1,commission:10,modules:['inicio','clientes','asistente-ia','plantillas','archivos','calendario'],actions:['new-client','edit-client','send-form','copy-client-sheet','open-whatsapp','ai-cv','send-message','job-detail','upload-file']},
+  Aprendiz:{rank:1,commission:10,modules:['inicio','clientes','plantillas','archivos'],actions:['copy-client-sheet','upload-file']},
   Operario:{rank:2,commission:15,modules:['inicio','clientes','asistente-ia','plantillas','archivos','calendario'],actions:['send-message','new-job','job-detail','change-status','upload-file']},
   Líder:{rank:3,commission:18,modules:['inicio','clientes','asistente-ia','calendario','plantillas','archivos','colaboradores'],actions:['send-message','new-client','new-job','job-detail','change-status','deliver-work','upload-file']},
   Supervisor:{rank:4,commission:20,modules:['inicio','clientes','asistente-ia','administracion','marketing','calendario','plantillas','archivos','colaboradores','generador-url'],actions:['*']},
   Director:{rank:5,commission:20,modules:['*'],actions:['*']}
 };
 window.CVSTUDIO_LEVELS=CVSTUDIO_LEVELS;
-window.CVStudioAccess={level:'Aprendiz',collaborator:null,ready:false,canModule(id){const p=CVSTUDIO_LEVELS[this.level]||CVSTUDIO_LEVELS.Aprendiz;return p.modules.includes('*')||p.modules.includes(id)},canAction(action){const p=CVSTUDIO_LEVELS[this.level]||CVSTUDIO_LEVELS.Aprendiz;return p.actions.includes('*')||p.actions.includes(action)},set(level,collab){this.level=CVSTUDIO_LEVELS[level]?level:'Aprendiz';this.collaborator=collab||null;this.ready=true;document.dispatchEvent(new CustomEvent('cvstudio:access-ready',{detail:{level:this.level}}));}};
+const CVSTUDIO_MODULE_PERMISSIONS={
+  inicio:'Inicio:ver',clientes:'Clientes:ver',plantillas:'Plantillas:ver',archivos:'Archivos:ver',
+  administracion:'Administración:ver',marketing:'Marketing:ver',calendario:'Calendario:ver',
+  colaboradores:'Colaboradores:ver',integraciones:'Integraciones:ver',configuracion:'Configuración:ver',
+  'generador-url':'Espacios de clientes:ver'
+};
+const CVSTUDIO_ACTION_PERMISSIONS={
+  'copy-client-sheet':'Clientes:ver','upload-file':'Archivos:subir'
+};
+window.CVStudioAccess={
+  level:'Aprendiz',collaborator:null,ready:false,owner:false,
+  canModule(id){
+    if(!this.ready)return false;
+    if(this.owner&&this.level==='Director')return true;
+    const permitted=(CVSTUDIO_LEVELS[this.level]||CVSTUDIO_LEVELS.Aprendiz).modules;
+    const required=CVSTUDIO_MODULE_PERMISSIONS[id];
+    return Boolean(required&&permitted.includes(id)&&Array.isArray(this.collaborator?.permissions)&&this.collaborator.permissions.includes(required));
+  },
+  canAction(action){
+    if(!this.ready)return false;
+    if(this.owner&&this.level==='Director')return true;
+    const permitted=(CVSTUDIO_LEVELS[this.level]||CVSTUDIO_LEVELS.Aprendiz).actions;
+    const required=CVSTUDIO_ACTION_PERMISSIONS[action];
+    return Boolean(required&&permitted.includes(action)&&Array.isArray(this.collaborator?.permissions)&&this.collaborator.permissions.includes(required));
+  },
+  set(level,collab,isOwner=false){
+    this.owner=Boolean(isOwner);
+    this.level=this.owner&&level==='Director'?'Director':(CVSTUDIO_LEVELS[level]&&level!=='Director'?level:'Aprendiz');
+    this.collaborator=collab||null;
+    this.ready=true;
+    document.dispatchEvent(new CustomEvent('cvstudio:access-ready',{detail:{level:this.level}}));
+  }
+};
 
 const modules = [
   ['inicio','home','Inicio','Resumen general de la actividad de CVStudio.'],
@@ -87,14 +119,15 @@ const panel = (title,body,extra='') => `<section class="panel"><div class="panel
 
 function nav(){
   const n=document.getElementById('mainNav');
-  const visibleModules=modules.filter(([id])=>!window.CVStudioAccess?.ready||window.CVStudioAccess.canModule(id));
+  const visibleModules=modules.filter(([id])=>window.CVStudioAccess?.canModule(id));
   n.innerHTML=visibleModules.map(([id,ic,name])=>`<button class="nav-item ${id===currentModule?'is-active':''}" data-module="${id}"><span class="nav-icon">${icon(ic)}</span><span>${name}</span></button>`).join('');
   n.querySelectorAll('[data-module]').forEach(b=>b.onclick=()=>openModule(b.dataset.module));
 }
 function openModule(id){
   // Compatibilidad con enlaces antiguos: Producción ahora vive dentro de Clientes.
   if(id==='produccion') id='clientes';
-  if(window.CVStudioAccess?.ready&&!window.CVStudioAccess.canModule(id)){const fallback='inicio';currentModule=fallback;nav();document.getElementById('pageTitle').textContent='Acceso restringido';document.getElementById('pageSubtitle').textContent='Tu nivel no permite acceder a este módulo.';document.getElementById('appMain').innerHTML='<section class="panel access-denied"><h2>Acceso denegado</h2><p>No tenés permisos para acceder a este módulo.</p><button class="button primary" data-module="inicio">Volver al Inicio</button></section>';document.querySelector('[data-module="inicio"]')?.addEventListener('click',()=>openModule('inicio'));history.replaceState(null,'','#inicio');return;}
+  if(!window.CVStudioAccess?.ready){document.getElementById('mainNav').innerHTML='';document.getElementById('appMain').innerHTML='<section class="panel"><h2>Verificando permisos…</h2></section>';return;}
+  if(!window.CVStudioAccess.canModule(id)){const fallback='inicio';currentModule=fallback;nav();document.getElementById('pageTitle').textContent='Acceso restringido';document.getElementById('pageSubtitle').textContent='Tu nivel no permite acceder a este módulo.';document.getElementById('appMain').innerHTML='<section class="panel access-denied"><h2>Acceso denegado</h2><p>No tenés permisos para acceder a este módulo.</p><button class="button primary" data-module="inicio">Volver al Inicio</button></section>';document.querySelector('[data-module="inicio"]')?.addEventListener('click',()=>openModule('inicio'));history.replaceState(null,'','#inicio');return;}
   currentModule=id;nav();
   const meta=modules.find(x=>x[0]===id);
   document.getElementById('pageTitle').textContent=meta[2];
@@ -242,6 +275,7 @@ function bindModuleActions(id){
 }
 
 function handleAction(action,el){
+ if(!window.CVStudioAccess?.canAction(action)){toast('No tenés permisos para esta acción.');return;}
  const simple={
   'save-funds':'Distribución guardada en el prototipo.','save-url':'Configuración del espacio guardada.','send-message':'Mensaje simulado enviado.','copy-url':'URL copiada al portapapeles.','deliver-work':'Trabajo marcado para entrega.','change-status':'Estado actualizado en modo prueba.','register-payment':'Pago registrado en modo prueba.','upload-file':'Selector de archivos preparado para la siguiente etapa.','audit':'Auditoría simulada completada: todos los servicios operativos.','preview-template':'Vista previa de plantilla abierta.','open-whatsapp':'En producción abrirá WhatsApp Business.','settlement':'Liquidación de prueba generada.'};
  if(simple[action]){toast(simple[action]);return}
@@ -272,11 +306,11 @@ function toast(msg){const t=document.createElement('div');t.className='toast';t.
 document.addEventListener('click',e=>{if(e.target.matches('[data-close-modal]'))closeModal()});
 document.getElementById('menuToggle').onclick=()=>document.getElementById('sidebar').classList.toggle('is-open');
 document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){toast(`Búsqueda de prueba: ${e.target.value||'sin término'}`)}});
-document.getElementById('quickActions').onclick=()=>openModal(`<h2 id="modalTitle">Acciones rápidas</h2><p style="color:var(--muted)">Elegí una acción frecuente.</p><div class="grid" style="grid-template-columns:1fr 1fr"><button class="action-card" data-modal-submit>+ Nuevo cliente</button><button class="action-card" data-modal-submit>+ Registrar pago</button><button class="action-card" data-modal-submit>+ Nuevo trabajo</button><button class="action-card" data-modal-submit>+ Generar URL</button></div>`);
+document.getElementById('quickActions').onclick=()=>{if(!window.CVStudioAccess?.owner)return;openModal(`<h2 id="modalTitle">Acciones rápidas</h2><p style="color:var(--muted)">Elegí una acción frecuente.</p><div class="grid" style="grid-template-columns:1fr 1fr"><button class="action-card" data-modal-submit>+ Nuevo cliente</button><button class="action-card" data-modal-submit>+ Registrar pago</button><button class="action-card" data-modal-submit>+ Nuevo trabajo</button><button class="action-card" data-modal-submit>+ Generar URL</button></div>`);}
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.getElementById('globalSearch').focus()}if(e.key==='Escape')closeModal()});
 
 renderers['asistente-ia']=()=>window.CVStudioCVAI?.render?.() || '<section class="panel"><h2>Asistente CV</h2><p>Recargá para abrir el módulo.</p></section>';
-document.addEventListener('cvstudio:access-ready',()=>{nav();if(!window.CVStudioAccess.canModule(currentModule))currentModule='inicio';openModule(currentModule);});
+document.addEventListener('cvstudio:access-ready',()=>{const quick=document.getElementById('quickActions');if(quick)quick.hidden=!window.CVStudioAccess.owner;nav();if(!window.CVStudioAccess.canModule(currentModule))currentModule=window.CVStudioAccess.canModule('inicio')?'inicio':(modules.find(([id])=>window.CVStudioAccess.canModule(id))?.[0]||'inicio');openModule(currentModule);});
 nav();openModule(location.hash.slice(1)&&modules.some(x=>x[0]===location.hash.slice(1))?location.hash.slice(1):'inicio');
 
 window.openModal=openModal;window.closeModal=closeModal;window.openModule=openModule;window.toast=toast;
