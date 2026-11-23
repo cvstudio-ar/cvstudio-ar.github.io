@@ -20,7 +20,7 @@
   // importe. Se ocultan SOLO en la selección del colaborador: no se eliminan
   // precios, órdenes, pagos ni registros históricos de Administración.
   const legacyCvAliases=new Set(['cv + linkedin','cv freelance profesional']);
-  const cvCatalogService=name=>cvService(name)&&!legacyCvAliases.has(normalize(name).replace(/\\s+/g,' ').trim());
+  const cvCatalogService=name=>cvService(name)&&!legacyCvAliases.has(normalize(name).trim().split(' ').filter(Boolean).join(' '));
   // Conservar los ceros iniciales: las referencias bancarias se tratan como texto.
   const transferKey=x=>normalize(x).replace(/[^a-z0-9]/g,'');
   const arDateTime=iso=>{try{return new Intl.DateTimeFormat('es-AR',{timeZone:'America/Argentina/Buenos_Aires',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(iso));}catch{return 'Fecha no disponible';}};
