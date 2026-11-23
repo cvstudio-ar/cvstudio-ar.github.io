@@ -1,6 +1,6 @@
 {
-  "version": "1.9.9",
-  "build": "20261123-cv-produccion-calendario-v199",
+  "version": "2.0.0",
+  "build": "20261123-administracion-financiera-v200",
   "date": "2026-11-23",
-  "description": "Producción CV contable sin listado de clientes y calendario limitado del colaborador"
+  "description": "Administración financiera: ingresos CV a verificar, webs, egresos y liquidación dominical"
 }
