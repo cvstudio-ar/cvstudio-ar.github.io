@@ -301,6 +301,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
 }
 
   function clientsRenderer(){
+ if(clientDetailsOpen)return `<section class="client-register"><div id="clientWorkspace">${clientWorkspaceOperational()}</div></section>`;
  const active=state.clients.filter(c=>c.status!=='Archivado'),paid=active.filter(c=>clientPayment(c)?.status==='Confirmado').length;
  const pending=active.length-paid,open=state.jobs.filter(j=>!['Entregado','Pausado'].includes(j.stage)).length;
  const filters=[['Todos',state.clients.length],['Pago confirmado',paid],['Pago pendiente',pending],['Con trabajo',state.clients.filter(c=>!!clientJob(c)).length],['Archivado',state.clients.filter(c=>c.status==='Archivado').length]];
@@ -310,7 +311,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
  <section class="client-reg-list"><div class="client-reg-list-head"><div><h3>Listado de clientes</h3><p>Elegí Ver ficha únicamente cuando necesites consultar un pedido.</p></div><label class="client-reg-search">${icon('search')}<input type="search" id="clientSearch" value="${esc(clientQuery)}" placeholder="Buscar cliente, correo o servicio…" aria-label="Buscar clientes"></label></div>
  <div class="client-reg-filters">${filters.map(([name,n])=>`<button type="button" class="client-reg-chip ${clientFilter===name?'is-active':''}" data-client-filter="${esc(name)}">${esc(name)} <b>${n}</b></button>`).join('')}</div>
  <div class="client-reg-table-wrap" id="clientRows">${clientRowsOperational()}</div></section>
- <div id="clientWorkspace">${clientWorkspaceOperational()}</div></section>`;
+ </section>`;
 }
 
   const baseTemplates=[['base-elegante','Elegante Minimalista','CV Profesional'],['base-azul','Moderno Azul','CV Profesional'],['base-beige','Profesional Beige','CV Profesional'],['base-claro','Creativo Claro','CV Profesional'],['base-dark','Premium Dark','CV Profesional'],['base-linkedin','LinkedIn Ejecutivo','LinkedIn'],['base-combo','Combo CV + LinkedIn','Combo'],['base-portfolio','Portfolio Fotografía','Portfolio']];
