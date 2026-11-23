@@ -97,6 +97,8 @@
     const expenseRows=d.expenses.slice().sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,18).map(e=>
       '<tr><td>'+esc(dateTime(e.createdAt))+'</td><td><b>'+esc(e.description||'—')+'</b><small>'+esc(e.category||'—')+'</small></td><td class="finance-num finance-out">−'+money(e.amount)+'</td><td class="finance-mono">'+esc(e.transferNumber||'—')+'</td></tr>').join('');
     const allocation=s.rules||{}, allocationSum=Number(allocation.company||0)+Number(allocation.growth||0)+Number(allocation.colab||0)+Number(allocation.reserve||0);
+    const allocatedFunds=[['Empresa','company'],['Colaboradores','colab'],['Crecimiento','growth'],['Reserva','reserve']]
+      .map(([name,key])=>'<div><small>'+name+'</small><strong>'+money(d.collected*Number(allocation[key]||0)/100)+'</strong></div>').join('');
     const ranges=[['Empresa','company',60],['Colaboradores','colab',20],['Crecimiento','growth',15],['Reserva','reserve',5]]
       .map(([name,key,defaultValue])=>'<label class="finance-rule"><span>'+name+'</span><input type="range" min="0" max="100" step="1" data-fund="'+key+'" value="'+Number(allocation[key]??defaultValue)+'"><b id="'+key+'Value">'+Number(allocation[key]??defaultValue)+'%</b></label>').join('');
     const movement=[
@@ -106,7 +108,7 @@
     const movementRows=movement.map(m=>'<tr><td>'+esc(dateTime(m.date))+'</td><td>'+esc(m.label)+'</td><td>'+esc(m.kind)+'</td><td class="finance-num '+(m.value<0?'finance-out':'finance-in')+'">'+(m.value<0?'−':'+')+money(Math.abs(m.value))+'</td></tr>').join('');
     return '<div class="finance-v2">'+
       '<header class="finance-header"><div><small>CVSTUDIO · ADMINISTRACIÓN</small><h2>Control financiero</h2><p>Producción CV, trabajos web, gastos y liquidaciones. Sólo los cobros confirmados integran la caja real.</p></div>'+
-      '<div class="finance-head-actions"><button class="button primary" data-fin-action="income"><span>+</span> Registrar ingreso</button><button class="button secondary" data-fin-action="expense"><span>−</span> Registrar gasto</button><button class="button secondary" data-fin-action="settle">Liquidar colaborador</button></div></header>'+
+      '<div class="finance-head-actions"><button class="button secondary" data-fin-action="refresh">Actualizar datos</button><button class="button primary" data-fin-action="income"><span>+</span> Registrar ingreso</button><button class="button secondary" data-fin-action="expense"><span>−</span> Registrar gasto</button><button class="button secondary" data-fin-action="settle">Liquidar colaborador</button></div></header>'+
       '<div class="finance-kpis">'+[
         ['Cobros confirmados',money(d.collected),'Dinero ingresado a CVStudio'],
         ['CV informados sin cobro',money(d.pendingValue),d.declared.length+' trabajos declarados'],
@@ -130,7 +132,7 @@
         '<p class="finance-note">Trabajos aprobados y cobros confirmados; se excluyen automáticamente los CV ya liquidados. Los CV de esta semana se incorporan en el próximo cierre dominical.</p>'+
         '<button class="button primary" data-fin-action="settle" '+(!eligibleWeek.length||dueWeek<=0?'disabled':'')+'>Registrar transferencia semanal</button>')+
       section('Distribución de fondos','Ajustá los porcentajes generales. Las comisiones reales de cada colaborador se calculan por separado.',
-        '<div class="finance-rules">'+ranges+'</div><div class="finance-rule-footer"><span>Total: <strong id="rulesTotal">'+allocationSum+'%</strong></span><button class="button primary" data-fin-action="save-rules">Guardar porcentajes</button></div>'+
+        '<div class="finance-fund-grid">'+allocatedFunds+'</div><p class="finance-note">Asignaciones teóricas calculadas sobre cobros confirmados; no son saldos bancarios ni descuentan automáticamente los egresos.</p><div class="finance-rules">'+ranges+'</div><div class="finance-rule-footer"><span>Total: <strong id="rulesTotal">'+allocationSum+'%</strong></span><button class="button primary" data-fin-action="save-rules">Guardar porcentajes</button></div>'+
         '<p class="finance-note">Esta distribución es una referencia de asignación de fondos, no un descuento automático de la comisión del 40% de Matías.</p>')+
       '</div>'+
       section('Movimientos de caja','Historial de cobros confirmados y egresos registrados; no incluye los CV todavía sin verificar.',
@@ -313,6 +315,7 @@
     if(act==='settle')settleForm();
     if(act==='save-rules')saveRules();
     if(act==='prices')window.CVStudioFinancePrices?.();
+    if(act==='refresh')window.CVStudioFinanceRefresh?.().catch(error=>alert(error.message||'No fue posible actualizar Supabase.'));
   },true);
   document.addEventListener('input',event=>{
     if(!event.target.matches('.finance-v2 [data-fund]'))return;
