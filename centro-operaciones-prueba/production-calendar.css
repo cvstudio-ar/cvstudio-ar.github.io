@@ -1,0 +1,67 @@
+/* CVStudio · Producción CV y calendario de colaboradores · v1.9.9 */
+#appMain[data-module="clientes"]{display:block!important;overflow-x:hidden!important;overflow-y:auto!important;max-width:none!important;height:auto!important;min-height:0!important;padding:clamp(12px,1.5vw,24px)!important}
+.cv-ledger{display:flex;flex-direction:column;gap:17px;width:100%;max-width:none;min-width:0}
+.cv-ledger-hero,.staff-calendar-hero{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;padding:23px 25px;border:1px solid rgba(143,170,209,.2);border-radius:17px;background:linear-gradient(125deg,#142c49,#0a1b31)}
+.cv-ledger-eyebrow,.staff-calendar-hero>span{font-size:10px;font-weight:800;letter-spacing:.12em;color:#9bbce0}
+.cv-ledger-hero h2,.staff-calendar-hero h2{font-size:clamp(22px,2vw,30px);font-weight:800;letter-spacing:-.025em;line-height:1.2;margin:7px 0 5px}
+.cv-ledger-hero p,.staff-calendar-hero p{margin:0;color:#afc1d4;font-size:13px;line-height:1.6;max-width:760px}
+.cv-ledger-hero>.button{min-height:43px;flex-shrink:0}
+.cv-ledger-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.cv-ledger-stat{display:flex;flex-direction:column;gap:8px;min-width:0;padding:17px 19px;border-radius:14px;border:1px solid rgba(127,161,205,.18);background:#101f35}
+.cv-ledger-stat small{font-size:12px;color:#b5c8da;font-weight:600}
+.cv-ledger-stat strong{font-size:clamp(21px,1.7vw,30px);font-weight:800;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.cv-ledger-stat span{font-size:11px;line-height:1.5;color:#8fa8c1}
+.cv-ledger-panel{min-width:0;padding:20px;border-radius:15px;border:1px solid rgba(130,168,207,.18);background:#0c1e33}
+.cv-ledger-section-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;margin-bottom:17px}
+.cv-ledger-section-head h3{font-size:17px;margin:0 0 4px}
+.cv-ledger-section-head p{font-size:12px;line-height:1.6;color:#9eb5cd;margin:0}
+.cv-ledger-count{background:#19324f;color:#c5d7ec;border:1px solid #314e72;border-radius:999px;padding:6px 11px;font-size:11px}
+.cv-ledger-teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.cv-ledger-team{display:grid;gap:7px;padding:13px;border-radius:12px;background:#142b46;border:1px solid rgba(128,163,205,.16)}
+.cv-ledger-team strong{font-size:13px}
+.cv-ledger-team span{font-size:12px;color:#b6cadf}
+.cv-ledger-table-wrap{width:100%;max-width:100%;overflow:auto;scrollbar-width:thin}
+.cv-ledger-table{width:100%;min-width:850px;border-spacing:0;border-collapse:collapse;text-align:left}
+.cv-ledger-table th{padding:12px 9px;color:#a7bfd6;font-size:11px;letter-spacing:.03em;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid rgba(146,183,217,.2)}
+.cv-ledger-table td{padding:13px 9px;border-bottom:1px solid rgba(145,180,216,.11);font-size:12px;line-height:1.5;vertical-align:middle;overflow-wrap:anywhere}
+.cv-ledger-table td strong{font-weight:700}
+.cv-ledger-ref{font-family:ui-monospace,Consolas,monospace;font-size:11px;word-break:break-all}
+.cv-ledger-numeric{white-space:nowrap;font-variant-numeric:tabular-nums}
+.cv-ledger-review{display:flex;flex-wrap:wrap;gap:5px}
+.cv-ledger-status{font-size:11px;display:inline-block;padding:5px 8px;border-radius:7px;white-space:nowrap}
+.cv-ledger-status.is-approved{color:#76e6a4;background:rgba(44,165,99,.14)}
+.cv-ledger-status.is-pending{color:#f3c575;background:rgba(194,137,33,.14)}
+.cv-ledger-status.is-rejected{color:#ff9eaa;background:rgba(210,68,87,.12)}
+.cv-ledger-empty{color:#aabfd6;font-size:12px;padding:18px 6px;line-height:1.6}
+.staff-calendar-dashboard{display:flex;flex-direction:column;gap:16px;min-width:0}
+.staff-calendar-hero{display:block}
+.staff-calendar-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.85fr);gap:14px;align-items:start}
+.staff-calendar-panel{padding:20px;border-radius:15px;background:#0e2138;border:1px solid rgba(138,167,204,.2);min-width:0}
+.staff-calendar-panel h3{margin:0 0 10px;font-size:17px}
+.staff-calendar-panel>p{margin:0 0 17px;color:#a6bed7;font-size:12px;line-height:1.6}
+.staff-calendar-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+.staff-calendar-head h3{margin:0;font-size:18px}
+.staff-calendar-head>div{display:flex;gap:7px;align-items:center}
+.staff-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.staff-calendar-week{text-align:center;font-size:11px;color:#91a9c2;font-weight:700;padding:7px 0}
+.staff-calendar-day{display:flex;align-items:center;justify-content:space-between;flex-direction:column;gap:5px;min-height:64px;padding:8px;border-radius:10px;border:1px solid rgba(134,164,204,.13);background:#11263f;font-size:13px}
+.staff-calendar-day b{font-weight:650}
+.staff-calendar-day i{font-size:16px;font-style:normal}
+.staff-calendar-day.is-empty{background:transparent;border-color:transparent}
+.staff-calendar-day.is-today{outline:1.5px solid #ffcf5b}
+.staff-calendar-day.is-birthday{background:rgba(151,98,223,.16);border-color:#8061b4}
+.staff-calendar-legend{display:flex;flex-wrap:wrap;gap:15px;margin-top:14px;color:#9eb4d0;font-size:11px}
+.staff-calendar-legend i{display:inline-block;width:10px;height:10px;border:1px solid #ffcf5b;border-radius:3px;margin-right:5px}
+.staff-calendar-aside{display:grid;gap:14px;min-width:0}
+.staff-calendar-campaign{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid rgba(135,167,205,.14);min-width:0}
+.staff-calendar-campaign strong{flex:1;font-size:13px;min-width:0;overflow-wrap:anywhere}
+.staff-calendar-campaign>span:last-child{color:#8ce5ae;font-size:11px}
+.staff-active-dot{width:8px;height:8px;border-radius:50%;background:#45d69b;flex:none}
+.staff-calendar-muted{padding:10px 0;color:#adc3da;font-size:12px;line-height:1.6}
+.staff-calendar-birthday{display:flex;align-items:center;gap:15px;padding:12px 0}
+.staff-calendar-birthday>span{font-size:28px}
+.staff-calendar-birthday>div{display:flex;flex-direction:column;gap:5px}
+.staff-calendar-birthday strong{font-size:17px}
+.staff-calendar-birthday small{font-size:12px;color:#a8bad0}
+@media(max-width:1100px){.cv-ledger-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.staff-calendar-layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.cv-ledger-stats{grid-template-columns:minmax(0,1fr)}.cv-ledger-hero,.staff-calendar-hero{padding:16px}.cv-ledger-hero>.button{width:100%}.cv-ledger-panel{padding:13px}.staff-calendar-panel{padding:14px}.staff-calendar-grid{gap:3px}.staff-calendar-day{min-height:47px;padding:5px;font-size:11px}}
