@@ -43,7 +43,7 @@ function replaceIconTokens(html){for(const [t,n] of Object.entries(TOKEN_ICONS))
 
 
 const CVSTUDIO_LEVELS={
-  Aprendiz:{rank:1,commission:10,modules:['inicio','clientes','plantillas','archivos'],actions:['copy-client-sheet','upload-file']},
+  Aprendiz:{rank:1,commission:10,modules:['inicio','clientes','calendario','plantillas','archivos'],actions:['copy-client-sheet','upload-file']},
   Operario:{rank:2,commission:15,modules:['inicio','clientes','asistente-ia','plantillas','archivos','calendario'],actions:['send-message','new-job','job-detail','change-status','upload-file']},
   Líder:{rank:3,commission:18,modules:['inicio','clientes','asistente-ia','calendario','plantillas','archivos','colaboradores'],actions:['send-message','new-client','new-job','job-detail','change-status','deliver-work','upload-file']},
   Supervisor:{rank:4,commission:20,modules:['inicio','clientes','asistente-ia','administracion','marketing','calendario','plantillas','archivos','colaboradores','generador-url'],actions:['*']},
@@ -86,7 +86,7 @@ window.CVStudioAccess={
 
 const modules = [
   ['inicio','home','Inicio','Resumen general de la actividad de CVStudio.'],
-  ['clientes','users','Clientes','Registro de clientes, pedidos, formularios y pagos, sin conversaciones simuladas.'],
+  ['clientes','file','Producción CV','Contador, importes registrados y comisiones de trabajos realizados.'],
   ['asistente-ia','message','Asistente CV','Prepará consultas y redacciones desde el Centro de Operaciones, sin cargos adicionales.'],
   ['evaluaciones','check','Entrevistas y simulacros','Creá enlaces cronometrados, seguí intentos y analizá resultados.'],
   ['administracion','wallet','Administración','Controlá ingresos, fondos, precios, colaboradores y liquidaciones.'],
