@@ -347,6 +347,9 @@
     if(button.dataset.cvAction==='review')review(button);
   },true);
   window.CVStudioCVProduction={dashboard:renderLedger};
+  if(document.getElementById('appMain')?.dataset.module==='clientes'&&window.CVStudioAccess?.ready){
+    queueMicrotask(()=>window.openModule?.('clientes'));
+  }
   function boot(){
     const root=document.getElementById('appMain');if(!root)return;
     new MutationObserver(render).observe(root,{childList:true});
