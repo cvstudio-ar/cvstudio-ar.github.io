@@ -14,6 +14,7 @@
   let loading=false;
   let message='';
   let lastFetched=0;
+  let attempted=false;
   const owner=()=>window.CVStudioAccess?.owner===true;
   const current=()=>window.CVStudioAccess?.collaborator;
   const allowed=()=>Boolean(window.CVStudioAccess?.ready&&!owner()&&window.CVStudioAccess?.canModule('calendario'));
@@ -21,6 +22,7 @@
   async function refresh(){
     if(!allowed()||loading)return;
     loading=true;
+    attempted=true;
     message='';
     try{
       const client=window.cvstudioSupabase;
@@ -36,13 +38,13 @@
     }finally{
       loading=false;
       const root=document.getElementById('appMain');
-      if(root?.dataset.module==='calendario'&&allowed())window.openModule?.('calendario');
+      if(['calendario','inicio'].includes(root?.dataset.module)&&allowed())window.openModule?.(root.dataset.module);
     }
   }
 
   function render(){
     if(!allowed())return '<section class="panel"><h2>Calendario restringido</h2></section>';
-    if(campaigns===null&&!loading)queueMicrotask(refresh);
+    if(campaigns===null&&!loading&&!attempted)queueMicrotask(refresh);
     const person=current()||{};
     const birth=String(person.birthDate||'').match(/^\d{4}-(\d{2})-(\d{2})/);
     const birthday=birth?{month:Number(birth[1])-1,day:Number(birth[2])}:null;
@@ -76,6 +78,25 @@
       (validBirthday?'<div class="staff-calendar-birthday"><span>🎂</span><div><strong>'+birthday.day+' de '+names[birthday.month]+'</strong><small>Próximo: '+new Intl.DateTimeFormat('es-AR',{day:'numeric',month:'long',year:'numeric',timeZone:'America/Argentina/Buenos_Aires'}).format(upcoming)+'</small></div></div>':'<p class="staff-calendar-muted">Todavía no hay una fecha de cumpleaños en tu ficha de colaborador.</p>')+
       '</section></div></div></div>';
   }
+
+  function preview(){
+    if(!allowed())return '';
+    const birth=String(current()?.birthDate||'').match(/^\d{4}-(\d{2})-(\d{2})/);
+    const birthMonth=birth?Number(birth[1])-1:-1;
+    const birthDay=birth?Number(birth[2]):0;
+    const birthText=birthMonth>=0&&birthMonth<12&&birthDay>0&&birthDay<=31
+      ?birthDay+' de '+names[birthMonth]
+      :'Sin fecha registrada';
+    const campaignsText=loading?'Consultando campañas…'
+      :campaigns===null?message||'Campañas sin consultar'
+      :campaigns.length?campaigns.map(x=>esc(x.title)).join(' · ')
+      :'No hay campañas vigentes registradas';
+    return '<div class="staff-home-aside">'+
+      '<div class="staff-home-notice"><small>Campañas activas</small><strong>'+campaignsText+'</strong></div>'+
+      '<div class="staff-home-notice"><small>Mi cumpleaños</small><strong>🎂 '+esc(birthText)+'</strong></div>'+
+      '</div>';
+  }
+
   document.addEventListener('click',event=>{
     const nav=event.target.closest('[data-staff-cal-nav]');
     if(nav){
@@ -89,5 +110,5 @@
   document.addEventListener('cvstudio:access-ready',()=>{if(allowed())refresh();});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{if(allowed())refresh();},{once:true});
   else if(allowed())refresh();
-  window.CVStudioStaffCalendar={render,refresh};
+  window.CVStudioStaffCalendar={render,refresh,preview};
 })();
