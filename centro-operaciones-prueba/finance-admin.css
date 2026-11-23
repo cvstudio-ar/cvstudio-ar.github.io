@@ -1,0 +1,149 @@
+/* CVStudio · Administración financiera v2.0.0
+   Reorganización legible con scroll de página, sin paneles superpuestos ni controles ocultos. */
+#appMain[data-module="administracion"]{
+  display:block!important;
+  width:100%!important;max-width:none!important;min-width:0!important;
+  height:auto!important;min-height:0!important;max-height:none!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  grid-template-rows:none!important;grid-template-columns:none!important;
+  padding:clamp(13px,1.55vw,25px) clamp(12px,1.6vw,26px) 56px!important;
+  scrollbar-width:thin;
+}
+#appMain[data-module="administracion"] .finance-v2{
+  display:flex;flex-direction:column;gap:17px;min-width:0;width:100%;
+  max-width:none;margin:0;align-items:stretch;align-content:start;
+}
+#appMain[data-module="administracion"] .finance-header{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:22px;
+  min-width:0;padding:23px 25px;border:1px solid rgba(124,170,214,.24);border-radius:17px;
+  background:linear-gradient(120deg,#132b49,#0b1f36);
+}
+#appMain[data-module="administracion"] .finance-header>div:first-child{flex:1 1 260px;min-width:0}
+#appMain[data-module="administracion"] .finance-header small{font-size:10px;font-weight:800;letter-spacing:.13em;color:#94b8db}
+#appMain[data-module="administracion"] .finance-header h2{font-size:clamp(22px,2vw,31px)!important;margin:7px 0;font-weight:780;line-height:1.24}
+#appMain[data-module="administracion"] .finance-header p{font-size:13px;line-height:1.6;color:#b2c8df;margin:0;max-width:680px}
+#appMain[data-module="administracion"] .finance-head-actions{
+  display:flex;gap:9px;flex-wrap:wrap;align-items:center;justify-content:flex-end;
+  flex:0 1 auto;min-width:0
+}
+#appMain[data-module="administracion"] .finance-head-actions .button{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:41px;white-space:normal;text-align:center;font-size:12px
+}
+#appMain[data-module="administracion"] .finance-kpis{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(225px,100%),1fr));gap:12px;
+  min-width:0;width:100%
+}
+#appMain[data-module="administracion"] .finance-kpi{
+  min-width:0;min-height:112px;display:flex;flex-direction:column;gap:7px;justify-content:space-between;
+  padding:18px;border:1px solid rgba(140,174,212,.18);border-radius:14px;
+  background:linear-gradient(160deg,#10263e,#0c1c31)
+}
+#appMain[data-module="administracion"] .finance-kpi small{font-size:12px;line-height:1.4;color:#b3c8db;font-weight:600}
+#appMain[data-module="administracion"] .finance-kpi strong{
+  font-size:clamp(20px,1.8vw,29px);line-height:1.2;letter-spacing:-.025em;
+  font-weight:760;font-variant-numeric:tabular-nums;overflow-wrap:anywhere
+}
+#appMain[data-module="administracion"] .finance-kpi span{color:#91a9c5;font-size:11px;line-height:1.45}
+#appMain[data-module="administracion"] .finance-section{
+  display:flex;flex-direction:column;min-width:0;width:100%;gap:14px;
+  padding:clamp(14px,1.45vw,23px);border-radius:15px;
+  border:1px solid rgba(136,168,210,.17);background:#0d2036;
+  overflow:visible!important;height:auto!important;min-height:0!important;max-height:none!important
+}
+#appMain[data-module="administracion"] .finance-section-head{
+  display:flex;align-items:center;justify-content:space-between;gap:13px 19px;flex-wrap:wrap;
+  min-width:0
+}
+#appMain[data-module="administracion"] .finance-section-head>div:first-child{min-width:0;flex:1 1 200px}
+#appMain[data-module="administracion"] .finance-section-head h3{font-size:clamp(15px,1.15vw,19px);margin:0 0 5px;line-height:1.4}
+#appMain[data-module="administracion"] .finance-section-head p{font-size:12px;line-height:1.55;margin:0;color:#a6bbd3}
+#appMain[data-module="administracion"] .finance-section-head>.button{min-height:35px;font-size:11px}
+#appMain[data-module="administracion"] .finance-table-wrap{
+  width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:visible;
+  border-radius:11px;scrollbar-width:thin;border:1px solid rgba(131,160,201,.1)
+}
+#appMain[data-module="administracion"] .finance-table{
+  width:100%;min-width:650px;border-collapse:collapse;text-align:left;
+  font-size:12px;line-height:1.55;table-layout:auto;background:rgba(10,24,42,.4)
+}
+#appMain[data-module="administracion"] .finance-table th{
+  color:#99b1cb;font-size:10px;text-transform:uppercase;font-weight:750;
+  letter-spacing:.04em;white-space:nowrap;padding:11px 10px;
+  border-bottom:1px solid rgba(130,166,201,.23);background:#102841;
+}
+#appMain[data-module="administracion"] .finance-table td{
+  padding:12px 10px;vertical-align:middle;min-width:0;
+  border-bottom:1px solid rgba(146,170,205,.11);overflow-wrap:anywhere
+}
+#appMain[data-module="administracion"] .finance-table tr:last-child td{border-bottom:0}
+#appMain[data-module="administracion"] .finance-table tbody tr:hover{background:rgba(77,127,179,.07)}
+#appMain[data-module="administracion"] .finance-table td>b{font-size:12px}
+#appMain[data-module="administracion"] .finance-table td small{display:block;color:#9bb5d0;font-size:11px;margin-top:2px}
+#appMain[data-module="administracion"] .finance-num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+#appMain[data-module="administracion"] .finance-in{color:#7adfa7}
+#appMain[data-module="administracion"] .finance-out{color:#ff9bab}
+#appMain[data-module="administracion"] .finance-mono{font-family:ui-monospace,Consolas,monospace;font-size:11px;max-width:230px;word-break:break-all}
+#appMain[data-module="administracion"] .finance-actions-cell{min-width:152px}
+#appMain[data-module="administracion"] .finance-actions-cell .button{margin:2px;min-height:29px}
+#appMain[data-module="administracion"] .finance-state{
+  display:inline-flex;padding:5px 8px;border-radius:8px;
+  border:1px solid rgba(132,159,202,.23);color:#bdcce2;
+  font-size:11px;font-weight:700;white-space:normal
+}
+#appMain[data-module="administracion"] .finance-state.is-ok{color:#84ecb0;border-color:rgba(110,225,155,.28);background:rgba(70,180,123,.09)}
+#appMain[data-module="administracion"] .finance-state.is-wait{color:#f5ce8c;border-color:rgba(237,185,104,.23);background:rgba(195,126,58,.08)}
+#appMain[data-module="administracion"] .finance-empty{
+  text-align:center!important;font-size:12px;padding:25px!important;color:#b8c9dc
+}
+#appMain[data-module="administracion"] .finance-split{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));
+  align-items:start;gap:16px;min-width:0;width:100%
+}
+#appMain[data-module="administracion"] .finance-split>.finance-section{min-width:0}
+#appMain[data-module="administracion"] .finance-settlement{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr));gap:10px
+}
+#appMain[data-module="administracion"] .finance-settlement>div{
+  padding:13px;border:1px solid rgba(147,173,211,.16);border-radius:11px;
+  background:#112b45;display:flex;flex-direction:column;gap:9px;min-width:0
+}
+#appMain[data-module="administracion"] .finance-settlement small{font-size:11px;color:#a7bfd8;line-height:1.5}
+#appMain[data-module="administracion"] .finance-settlement strong{font-size:clamp(17px,1.5vw,24px);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#appMain[data-module="administracion"] .finance-note{font-size:11.5px;line-height:1.65;color:#adc5db;margin:0}
+#appMain[data-module="administracion"] .finance-section>.button{align-self:start}
+#appMain[data-module="administracion"] .finance-rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+#appMain[data-module="administracion"] .finance-rule{
+  display:grid;grid-template-columns:1fr auto;gap:6px 13px;min-width:0;
+  padding:11px 12px;border:1px solid rgba(137,165,205,.15);border-radius:10px
+}
+#appMain[data-module="administracion"] .finance-rule span{font-size:12px;color:#bfd3e6}
+#appMain[data-module="administracion"] .finance-rule b{text-align:right;font-variant-numeric:tabular-nums;font-size:12px}
+#appMain[data-module="administracion"] .finance-rule input{grid-column:1/-1;width:100%;max-width:100%;min-width:0}
+#appMain[data-module="administracion"] .finance-rule-footer{
+  display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;
+  border-top:1px solid rgba(152,178,205,.15);padding-top:13px;font-size:12px
+}
+#appMain[data-module="administracion"] .finance-service-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+#appMain[data-module="administracion"] .finance-service-bottom span{color:#bbd0e6;font-size:13px}
+.modal-panel:has(#financeEntryForm){width:min(760px,94vw)!important;max-height:92dvh!important;overflow-y:auto!important}
+#financeEntryForm.finance-modal{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+#financeEntryForm.finance-modal>label{min-width:0;display:flex!important;flex-direction:column!important;gap:7px}
+#financeEntryForm.finance-modal input,
+#financeEntryForm.finance-modal select{min-width:0!important;width:100%!important;min-height:42px!important}
+#financeEntryForm .finance-check-summary{border:1px solid rgba(133,173,222,.22);border-radius:11px;padding:13px;background:#0c2038;line-height:1.6}
+@media(max-width:840px){
+ #appMain[data-module="administracion"] .finance-header{padding:17px}
+ #appMain[data-module="administracion"] .finance-head-actions{width:100%;justify-content:stretch}
+ #appMain[data-module="administracion"] .finance-head-actions>.button{flex:1 1 165px}
+ #appMain[data-module="administracion"] .finance-rules{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:570px){
+ #appMain[data-module="administracion"]{padding:10px 9px 34px!important}
+ #appMain[data-module="administracion"] .finance-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #appMain[data-module="administracion"] .finance-kpi{padding:12px;min-height:98px}
+ #appMain[data-module="administracion"] .finance-kpi strong{font-size:19px}
+ #appMain[data-module="administracion"] .finance-section{padding:13px}
+ #financeEntryForm.finance-modal{grid-template-columns:minmax(0,1fr)!important}
+ #financeEntryForm.finance-modal .span-2{grid-column:1!important}
+}
