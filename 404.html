@@ -24,6 +24,12 @@
   const root=document.getElementById('root');
   const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
   const unavailable=(message='Esta página todavía no fue publicada o la dirección no es correcta.')=>{root.innerHTML=`<div class="empty"><div class="brand" style="justify-content:center"><span class="logo">CV</span> CVStudio</div><h2 style="margin-top:50px">Portfolio no disponible</h2><p class="lead" style="margin-inline:auto">${esc(message)}</p><div class="actions"><a class="button primary" href="/">Volver a CVStudio</a></div></div>`};
+  const retiredPaths=new Set(['tienda-de-concreto','cesar-laciar','eugenia-ibanez','demo/escobrar-online-shop','demo/autosoluciones','demo/petshop-grilli','luxzen','alma-market','altapinta']);
+  if(retiredPaths.has(path)){
+    document.title='Espacio dado de baja | CVStudio';
+    root.innerHTML='<div class="empty"><div class="brand" style="justify-content:center"><span class="logo">CV</span> CVStudio</div><h2 style="margin-top:50px">Espacio dado de baja</h2><p class="lead" style="margin-inline:auto">Este espacio ya no se encuentra disponible.<br>Para más información, visitá <a href="https://www.cvstudio.com.ar" style="color:var(--secondary);font-weight:700">www.cvstudio.com.ar</a></p><div class="actions"><a class="button primary" href="https://www.cvstudio.com.ar">Ir a CVStudio</a></div></div>';
+    return;
+  }
   const isCleanPortfolioSlug=path&&!path.includes('/')&&!/\.[a-z0-9]{1,8}$/i.test(path);
   if(isCleanPortfolioSlug){location.replace(`/portfolio/?slug=${encodeURIComponent(path)}`+location.hash);return;}
   unavailable();
