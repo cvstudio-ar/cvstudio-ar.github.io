@@ -78,6 +78,10 @@
   function render(){
     if(!owner())return '<section class="panel"><h2>Acceso restringido</h2></section>';
     const s=state(),d=ledger(s),paidIds=settledIds(s);
+    const campaignSpent=total(d.expenses.filter(e=>['Fondo de Crecimiento','Campañas publicitarias'].includes(e.category)));
+    const collaboratorsPaid=total(d.expenses.filter(e=>e.category==='Pago colaborador'));
+    const payoutHistory=d.expenses.filter(e=>e.category==='Pago colaborador').slice()
+      .sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,6);
     const eligibleWeek=d.available.filter(r=>dateKey(r.completedAt||r.createdAt)<=lastSunday());
     const dueWeek=total(eligibleWeek,r=>commission(s,r));
     const upcoming=nextSunday(),period=lastSunday();
@@ -124,12 +128,17 @@
         '<div class="finance-table-wrap"><table class="finance-table"><thead><tr><th>Fecha</th><th>Cliente / servicio</th><th>Origen</th><th>Importe</th><th>Estado</th><th></th></tr></thead><tbody>'+(incomeRows||'<tr><td colspan="6" class="finance-empty">Sin registros manuales de ingresos.</td></tr>')+'</tbody></table></div>',
         '<button class="button secondary small" data-fin-action="income">+ Agregar ingreso</button>')+
       section('Egresos y gastos adicionales','Incluye las campañas ya registradas, nuevos gastos y pagos semanales a colaboradores.',
-        '<div class="finance-table-wrap"><table class="finance-table"><thead><tr><th>Fecha</th><th>Concepto</th><th>Importe</th><th>Comprobante</th></tr></thead><tbody>'+(expenseRows||'<tr><td colspan="4" class="finance-empty">Sin egresos registrados.</td></tr>')+'</tbody></table></div>',
+        '<div class="finance-expense-breakdown"><div><small>Campañas registradas</small><strong>'+money(campaignSpent)+'</strong></div><div><small>Pagos a colaboradores</small><strong>'+money(collaboratorsPaid)+'</strong></div></div><div class="finance-table-wrap"><table class="finance-table"><thead><tr><th>Fecha</th><th>Concepto</th><th>Importe</th><th>Comprobante</th></tr></thead><tbody>'+(expenseRows||'<tr><td colspan="4" class="finance-empty">Sin egresos registrados.</td></tr>')+'</tbody></table></div>',
         '<button class="button secondary small" data-fin-action="expense">+ Agregar gasto</button>')+
       '</div><div class="finance-split">'+
       section('Liquidación semanal · domingos','El pago a Matías se registra como egreso sólo después de hacer la transferencia. No se envía dinero automáticamente.',
         '<div class="finance-settlement"><div><small>Próximo domingo</small><strong>'+dateLabel(upcoming)+'</strong></div><div><small>Disponible hasta domingo '+dateLabel(period)+'</small><strong>'+money(dueWeek)+'</strong></div><div><small>Comisiones habilitadas, pendientes</small><strong>'+money(d.availableCommission)+'</strong></div></div>'+
         '<p class="finance-note">Trabajos aprobados y cobros confirmados; se excluyen automáticamente los CV ya liquidados. Los CV de esta semana se incorporan en el próximo cierre dominical.</p>'+
+        '<div class="finance-weekly-history"><strong>Últimas liquidaciones registradas</strong>'+
+          (payoutHistory.length?payoutHistory.map(e=>
+            '<div><span>Domingo '+esc(dateLabel(e.settlementSunday||dateKey(e.createdAt)))+'</span><b>'+money(e.amount)+'</b><small>Comprobante: '+esc(e.transferNumber||'—')+'</small></div>'
+          ).join(''):'<p class="finance-note">Sin pagos semanales registrados todavía.</p>')+
+        '</div>'+
         '<button class="button primary" data-fin-action="settle" '+(!eligibleWeek.length||dueWeek<=0?'disabled':'')+'>Registrar transferencia semanal</button>')+
       section('Distribución de fondos','Ajustá los porcentajes generales. Las comisiones reales de cada colaborador se calculan por separado.',
         '<div class="finance-fund-grid">'+allocatedFunds+'</div><p class="finance-note">Asignaciones teóricas calculadas sobre cobros confirmados; no son saldos bancarios ni descuentan automáticamente los egresos.</p><div class="finance-rules">'+ranges+'</div><div class="finance-rule-footer"><span>Total: <strong id="rulesTotal">'+allocationSum+'%</strong></span><button class="button primary" data-fin-action="save-rules">Guardar porcentajes</button></div>'+
