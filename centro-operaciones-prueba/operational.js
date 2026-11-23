@@ -894,7 +894,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
 };
   renderers.clientes = () => window.CVStudioCVProduction?.dashboard?.() || '<section class="panel"><h2>Producción de CV</h2><p>Cargando registros…</p></section>';
   renderers['asistente-ia'] = () => window.CVStudioCVAI?.render?.() || '<section class="panel"><h2>Asistente CV no disponible</h2><p>Actualizá la página para cargar el módulo.</p></section>';
-  renderers.administracion = adminRenderer;
+  renderers.administracion = () => window.CVStudioFinanceAdmin?.render?.() || '<section class="panel"><h2>Cargando Administración financiera…</h2></section>';
   renderers.marketing = marketingOperationalRenderer;
   renderers.calendario = calendarOperationalRenderer;
   renderers.plantillas = () => window.CVStudioCanvaLibrary?.render?.() || templatesRenderer();
@@ -1489,6 +1489,8 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
       }finally{button.disabled=false;button.textContent='Guardar precios';}
     });
   }
+  window.CVStudioFinancePrices = modalPricesOperational;
+
   function modalExpense() {
     showForm('Registrar gasto publicitario','Se descontará de la Caja Publicidad / Fondo de Crecimiento.',input('description','Descripción')+input('amount','Importe','number','5000')+select('category','Fondo',['Fondo de Crecimiento'],'Fondo de Crecimiento'),'Registrar gasto',data=>{state.expenses.push({id:nextId(state.expenses),category:data.get('category'),description:data.get('description'),amount:Number(data.get('amount')),createdAt:new Date().toISOString()});addActivity('settings','Gasto publicitario registrado',`${data.get('description')} · ${money(Number(data.get('amount')))}`);saveState();closeModal();openModule('administracion');});
   }

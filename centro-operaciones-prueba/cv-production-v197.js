@@ -33,7 +33,16 @@
   };
   const person=(s,r)=>(s.collaborators||[]).find(c=>String(c.id)===String(r.collaboratorId));
   const rate=(s,r)=>Math.max(0,Math.min(100,Number(r.reviewedAt?r.commissionRate:person(s,r)?.commission)||0));
-  const pay=(s,r)=>(s.payments||[]).find(p=>p.status==='Confirmado'&&String(p.clientId)===String(r.clientId)&&normalize(p.service)===normalize(r.service));
+  const pay=(s,r)=>(s.payments||[]).find(p=>{
+    if(p.status!=='Confirmado')return false;
+    if(p.sourceExecutionId!=null)return String(p.sourceExecutionId)===String(r.id);
+    // Compatibilidad con pagos antiguos sólo si había un cliente y
+    // una referencia real coincidente; nunca asociar null con null.
+    if(r.clientId==null||p.clientId==null||String(p.clientId)!==String(r.clientId))return false;
+    if(normalize(p.service)!==normalize(r.service)||Number(p.amount)!==Number(r.priceSnapshot||r.transferAmount||0))return false;
+    const keys=[p.transferNumber,p.operationNumber,p.bankReference,p.receiptNumber,p.transactionId].filter(Boolean);
+    return keys.some(value=>transferKey(value)===transferKey(r.transferNumber));
+  });
   const due=(s,r)=>r.status==='Aprobado'&&pay(s,r)&&(!r.transferAmount||Number(pay(s,r).amount)===Number(r.transferAmount))?Number(pay(s,r).amount||0)*rate(s,r)/100:0;
   const estimated=(s,r)=>Math.max(0,Number(r.transferAmount||0))*rate(s,r)/100;
   async function save(s,record=null){
