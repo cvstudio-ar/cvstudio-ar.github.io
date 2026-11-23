@@ -769,6 +769,9 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     return `<div class="calendar calendar-functional">${['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(name=>`<div class="day-name">${name}</div>`).join('')}${cells.join('')}</div>`;
   }
   function calendarOperationalRenderer() {
+    if(window.CVStudioAccess?.ready && !window.CVStudioAccess.owner){
+      return window.CVStudioStaffCalendar?.render?.() || '<section class="panel"><h2>Mi calendario</h2><p>Cargando campañas y cumpleaños…</p></section>';
+    }
     const year=calendarCursor.getFullYear(),month=calendarCursor.getMonth(),events=calendarMonthEvents(year,month),manual=events.filter(e=>e.source==='manual');
     const campaigns=manual.filter(e=>e.type==='campaign'&&e.status==='Activa'),pending=manual.filter(e=>!['Completada','Cancelada'].includes(e.status)),completed=manual.filter(e=>e.status==='Completada');
     const investment=manual.filter(e=>e.type==='campaign').reduce((sum,e)=>sum+itemTotal(e),0);
@@ -879,7 +882,7 @@ Analizá integralmente el perfil del cliente. Redactá un CV profesional claro, 
     if(slugInput) slugInput.addEventListener('input',()=>{slugInput.dataset.manual='1';slugInput.value=normalizeSlug(slugInput.value);});
   }
   renderers.inicio = dashboardRenderer;
-  renderers.clientes = clientsRenderer;
+  renderers.clientes = () => window.CVStudioCVProduction?.dashboard?.() || '<section class="panel"><h2>Producción de CV</h2><p>Cargando registros…</p></section>';
   renderers['asistente-ia'] = () => window.CVStudioCVAI?.render?.() || '<section class="panel"><h2>Asistente CV no disponible</h2><p>Actualizá la página para cargar el módulo.</p></section>';
   renderers.administracion = adminRenderer;
   renderers.marketing = marketingOperationalRenderer;
