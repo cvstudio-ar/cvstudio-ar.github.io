@@ -1,6 +1,6 @@
 {
-  "version": "1.9.6",
-  "build": "20261123-matias-registro-v196",
+  "version": "1.9.7",
+  "build": "20261123-matias-catalogo-limpio-v197",
   "date": "2026-11-23",
-  "description": "Nueva ruta de formulario Matías y carga de servicios CV sin caché"
+  "description": "Catálogo de servicios CV sin duplicados para Matías; precios vigentes desde Administración"
 }
