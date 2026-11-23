@@ -90,10 +90,10 @@
         ?'<button type="button" class="button secondary small" data-cv-action="review" data-id="'+esc(r.id)+'" data-decision="Aprobado">Aprobar CV</button>':'<span class="finance-state '+(r.status==='Aprobado'?'is-ok':'')+'">'+esc(r.status)+'</span>';
       return '<tr><td>'+esc(dateTime(r.completedAt||r.createdAt))+'</td><td><b>'+esc(r.responsible||'—')+'</b><small>'+esc(r.client||'—')+'</small></td><td>'+esc(r.service)+'</td><td class="finance-mono">'+esc(r.transferNumber||'—')+'</td><td class="finance-num">'+money(amount(r))+'</td><td><span class="finance-state '+(received?'is-ok':'is-wait')+'">'+status+'</span></td><td class="finance-actions-cell">'+pendingButton+review+'</td></tr>';
     }).join('');
-    const incomes=d.payments.filter(p=>p.source==='manual-income'||p.sourceExecutionId!=null).slice()
-      .sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,15);
+    const incomes=(s.payments||[]).filter(p=>p.source==='manual-income'||p.sourceExecutionId!=null||p.source==='Web').slice()
+      .sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,20);
     const incomeRows=incomes.map(p=>
-      '<tr><td>'+esc(dateTime(p.createdAt))+'</td><td>'+esc(p.client||'—')+'<small>'+esc(p.service||'—')+'</small></td><td>'+esc(p.incomeType||'CV')+'</td><td class="finance-num">'+money(p.amount)+'</td><td>'+esc(p.status)+'</td><td>'+(p.status==='Pendiente'?'<button class="button primary small" data-fin-action="confirm-income" data-id="'+esc(p.id)+'">Confirmar</button>':'<span class="finance-state is-ok">Registrado</span>')+'</td></tr>').join('');
+      '<tr><td>'+esc(dateTime(p.createdAt))+'</td><td>'+esc(p.client||'—')+'<small>'+esc(p.service||'—')+'</small></td><td>'+esc(p.incomeType||'CV')+'</td><td class="finance-num">'+money(p.amount)+'</td><td>'+esc(p.status)+'</td><td>'+(p.status==='Pendiente'&&p.source==='manual-income'?'<button class="button primary small" data-fin-action="confirm-income" data-id="'+esc(p.id)+'">Confirmar</button>':p.status==='Pendiente'?'<span class="finance-state is-wait">Pendiente externo</span>':'<span class="finance-state is-ok">Registrado</span>')+'</td></tr>').join('');
     const expenseRows=d.expenses.slice().sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).slice(0,18).map(e=>
       '<tr><td>'+esc(dateTime(e.createdAt))+'</td><td><b>'+esc(e.description||'—')+'</b><small>'+esc(e.category||'—')+'</small></td><td class="finance-num finance-out">−'+money(e.amount)+'</td><td class="finance-mono">'+esc(e.transferNumber||'—')+'</td></tr>').join('');
     const allocation=s.rules||{}, allocationSum=Number(allocation.company||0)+Number(allocation.growth||0)+Number(allocation.colab||0)+Number(allocation.reserve||0);
