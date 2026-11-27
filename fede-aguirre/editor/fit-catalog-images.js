@@ -852,5 +852,75 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false
     }
+  },
+  "meadows-row": {
+    "masculino": {
+      "file": "meadows-row--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "chest-supported-dumbbell-row": {
+    "masculino": {
+      "file": "chest-supported-dumbbell-row--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "seated-cable-row": {
+    "masculino": {
+      "file": "seated-cable-row--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "renegade-row": {
+    "masculino": {
+      "file": "renegade-row--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-row": {
+    "masculino": {
+      "file": "band-row--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-grip-barbell-row": {
+    "masculino": {
+      "file": "reverse-grip-barbell-row--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-hyperextension": {
+    "masculino": {
+      "file": "reverse-hyperextension--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-pec-deck": {
+    "masculino": {
+      "file": "reverse-pec-deck--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-snow-angels": {
+    "masculino": {
+      "file": "reverse-snow-angels--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-grip-lat-pulldown": {
+    "masculino": {
+      "file": "reverse-grip-lat-pulldown--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
   }
 };

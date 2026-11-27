@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "5b5d4888d9d125a596fd95df1933b028d8ddef27",
+  "updatedFrom": "1391e37fdd66d89a12a26ccdbfd90246457750d8",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -559,71 +559,71 @@
       "id": "meadows-row",
       "name": "Remo Meadows",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "meadows-row--masculino--back04.webp"
     },
     {
       "id": "chest-supported-dumbbell-row",
       "name": "Remo pecho apoyado",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "chest-supported-dumbbell-row--masculino--back04.webp"
     },
     {
       "id": "seated-cable-row",
       "name": "Remo sentado en polea",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-cable-row--masculino--back04.webp"
     },
     {
       "id": "renegade-row",
       "name": "Renegade Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "renegade-row--masculino--back04.webp"
     },
     {
       "id": "band-row",
       "name": "Resistance Band Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-row--masculino--back04.webp"
     },
     {
       "id": "reverse-grip-barbell-row",
       "name": "Reverse Grip Barbell Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-grip-barbell-row--masculino--back04.webp"
     },
     {
       "id": "reverse-hyperextension",
       "name": "Reverse Hyperextension (Bench)",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-hyperextension--masculino--back04.webp"
     },
     {
       "id": "reverse-pec-deck",
       "name": "Reverse Pec Deck",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-pec-deck--masculino--back04.webp"
     },
     {
       "id": "reverse-snow-angels",
       "name": "Reverse Snow Angels",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-snow-angels--masculino--back04.webp"
     },
     {
       "id": "reverse-grip-lat-pulldown",
       "name": "Reverse-Grip Lat Pulldown",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-grip-lat-pulldown--masculino--back04.webp"
     },
     {
       "id": "seal-row",
