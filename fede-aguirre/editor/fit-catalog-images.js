@@ -1,4 +1,4 @@
-/* Fede FIT: independent exercise photographs; provisional references are identified. */
+/* Fede FIT: individual exercise photographs; only approved-style references are enabled. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -62,38 +62,86 @@ window.FIT_CATALOG_IMAGES = {
   },
   "squat": {
     "masculino": {
-      "file": "squat--masculino.webp",
+      "file": "squat--masculino--v3.webp",
       "label": "POSTURA",
-      "provisional": true
+      "provisional": false
     },
     "femenino": {
-      "file": "squat--femenino.webp",
+      "file": "squat--femenino--v3.webp",
       "label": "POSTURA",
-      "provisional": true
+      "provisional": false
     }
   },
   "deadlift": {
     "masculino": {
-      "file": "deadlift--masculino.webp",
-      "label": "POSTURA",
-      "provisional": true
+      "file": "deadlift--masculino--v3.webp",
+      "label": "MOVIMIENTO",
+      "provisional": false
     },
     "femenino": {
-      "file": "deadlift--femenino.webp",
-      "label": "POSTURA",
-      "provisional": true
+      "file": "deadlift--femenino--v3.webp",
+      "label": "MOVIMIENTO",
+      "provisional": false
     }
   },
   "biceps-curl": {
     "masculino": {
-      "file": "biceps-curl--masculino.webp",
-      "label": "POSTURA",
-      "provisional": true
+      "file": "biceps-curl--masculino--v3.webp",
+      "label": "MOVIMIENTO",
+      "provisional": false
     },
     "femenino": {
-      "file": "biceps-curl--femenino.webp",
-      "label": "POSTURA",
-      "provisional": true
+      "file": "biceps-curl--femenino--v3.webp",
+      "label": "MOVIMIENTO",
+      "provisional": false
+    }
+  },
+  "bench-press": {
+    "masculino": {
+      "file": "bench-press--masculino--v3.webp",
+      "label": "FINAL",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "bench-press--femenino--v3.webp",
+      "label": "FINAL",
+      "provisional": false
+    }
+  },
+  "incline-dumbbell-press": {
+    "masculino": {
+      "file": "incline-dumbbell-press--masculino--v3.webp",
+      "label": "INICIO",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "incline-dumbbell-press--femenino--v3.webp",
+      "label": "INICIO",
+      "provisional": false
+    }
+  },
+  "lat-pulldown": {
+    "masculino": {
+      "file": "lat-pulldown--masculino--v3.webp",
+      "label": "FINAL",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "lat-pulldown--femenino--v3.webp",
+      "label": "FINAL",
+      "provisional": false
+    }
+  },
+  "barbell-curl": {
+    "masculino": {
+      "file": "barbell-curl--masculino--v3.webp",
+      "label": "MOVIMIENTO",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "barbell-curl--femenino--v3.webp",
+      "label": "MOVIMIENTO",
+      "provisional": false
     }
   }
 };
