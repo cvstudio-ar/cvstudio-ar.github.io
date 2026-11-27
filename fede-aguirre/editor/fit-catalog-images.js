@@ -687,5 +687,89 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false
     }
+  },
+  "doorway-row": {
+    "masculino": {
+      "file": "doorway-row--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-shrug": {
+    "masculino": {
+      "file": "dumbbell-shrug--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-upright-row": {
+    "masculino": {
+      "file": "dumbbell-upright-row--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "face-pulls": {
+    "masculino": {
+      "file": "face-pulls--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "farmers-walk": {
+    "masculino": {
+      "file": "farmers-walk--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "feet-elevated-inverted-row": {
+    "masculino": {
+      "file": "feet-elevated-inverted-row--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "close-grip-lat-pulldown": {
+    "masculino": {
+      "file": "close-grip-lat-pulldown--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "kettlebell-row": {
+    "masculino": {
+      "file": "kettlebell-row--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "machine-high-row": {
+    "masculino": {
+      "file": "machine-high-row--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "machine-pullover": {
+    "masculino": {
+      "file": "machine-pullover--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "muscle-up": {
+    "masculino": {
+      "file": "muscle-up--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "negative-pull-up": {
+    "masculino": {
+      "file": "negative-pull-up--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
   }
 };
