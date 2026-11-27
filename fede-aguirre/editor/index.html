@@ -127,7 +127,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
  <div id="rowList" class="row-list"></div>
  <div class="actions"><button class="btn" id="addRow">+ Agregar</button><button class="btn" id="deleteRow">Eliminar seleccionado</button></div>
  <h2>03 · Editá la ficha seleccionada</h2>
- <label class="field"><span>Buscar en los 415 ejercicios ilustrados</span><input id="search" placeholder="Ej.: sentadilla, remo, press..." /></label>
+ <label class="field"><span>Buscar en los 415 ejercicios</span><input id="search" placeholder="Ej.: sentadilla, remo, press..." /></label>
+ <label class="field" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="fitReadyOnly" style="width:auto;accent-color:#adff19"><span style="margin:0">Solo ejercicios con fotografía FIT</span></label>
  <label class="field"><span>Grupo del catálogo</span><select id="category"></select></label>
  <label class="field"><span>Ejercicio / ilustración</span><select id="exerciseSelect"></select></label>
  <label class="field"><span>Nombre editable (también podés escribir uno propio)</span><input id="name" maxlength="58" /></label>
@@ -197,20 +198,7 @@ function retryExerciseImage(image){
  image.onerror=null;image.style.display='none';
  const warning=image.nextElementSibling;if(warning)warning.hidden=false;
 }
-function scene(item){
-  if(item.customImage)return `<div class="pose-pair custom">${pictureHTML(null,item.name,item.customImage)}</div>`;
-  const fallback=fallbackPhoto(item);
-  // Modo catálogo: la imagen pertenece al ejercicio, no se usan fotografías genéricas.
-  const id=remoteId(item),frames=id?CATALOG_IMAGES[id]:null;
-  if(!frames?.length)return `<div class="missing-exercise-image"><b>ILUSTRACIÓN NO DISPONIBLE</b><span>Podés subir una imagen propia.</span></div>`;
-  const labels={start:'INICIO',mid:'MOVIMIENTO',end:'FINAL',hold:'POSTURA'};
-  const pics=frames.map(({label,path})=>{
-  const primary='https://cdn.jsdelivr.net/gh/MarvinNazari/exercise-images@main/'+path;
-  const alternate=IMG_BASE+path;
-  return `<div class="pose-frame"><img src="${primary}" data-alt-src="${alternate}" loading="eager" decoding="async" alt="${safe(item.name||'EJERCICIO')} · ${labels[label]}" onerror="retryExerciseImage(this)"/><span class="image-error" hidden><b>ILUSTRACIÓN NO DISPONIBLE</b><small>Revisá tu conexión o cargá una imagen propia</small></span><small>${labels[label]||label.toUpperCase()}</small></div>`;
- }).join('');
-  return `<div class="pose-pair ${frames.length===1?'pose-single':''} ${frames.length===3?'pose-triple':''}">${pics}</div>`;
-}
+function scene(item){return '<div class="missing-exercise-image"><b>FOTOGRAFÍA FIT</b><span>Cargando catálogo…</span></div>';}
 function targetSVG(muscle){return `<div class="muscle-tag"><span class="orb">●</span><strong>${MUSCLE_LABELS[muscle]||muscle.toUpperCase()}</strong><small>MÚSCULO OBJETIVO</small></div>`;}
 
 const CATEGORIES = ["PECTORAL","ESPALDA","HOMBROS","BÍCEPS","TRÍCEPS","ANTEBRAZOS","PIERNAS · CUÁDRICEPS","GLÚTEOS · FEMORALES","GEMELOS · PANTORRILLAS","ABDOMEN · CORE","CARDIO · MOVILIDAD"];
@@ -245,7 +233,7 @@ function refreshEditors(){const o=routine.items[active];if(!o)return;
 function selectRow(i){active=Math.max(0,Math.min(i,routine.items.length-1));updatePoster();refreshEditors()}
 function fillExerciseSelect(selected=''){
  const query=byId('search').value.trim().toLocaleLowerCase('es');const cat=byId('category').value;
- const filtered=EXERCISES.filter(e=>(cat==='TODAS'||e.category===cat)&&(!query||`${e.name} ${e.englishName||''} ${e.category} ${e.equipment} ${(e.aliases||[]).join(' ')}`.toLocaleLowerCase('es').includes(query)));
+ const filtered=EXERCISES.filter(e=>(!byId('fitReadyOnly')?.checked||window.FitVisual?.isReady(e.sourceId,routine.modelSex==='femenino'?'femenino':'masculino'))&&(cat==='TODAS'||e.category===cat)&&(!query||`${e.name} ${e.englishName||''} ${e.category} ${e.equipment} ${(e.aliases||[]).join(' ')}`.toLocaleLowerCase('es').includes(query)));
  byId('exerciseSelect').innerHTML='<option value="">— Seleccioná un ejercicio —</option>'+filtered.map(e=>`<option value="${e.id}">${safe(e.name)} · ${safe(e.equipment)}</option>`).join('');
  byId('exerciseSelect').value=selected;
 }
@@ -257,12 +245,13 @@ routine.visualMode='3d';byId('visualMode').value='3d';
 byId('visualMode').addEventListener('change',()=>{routine.visualMode='3d';save();updatePoster()});
 byId('category').innerHTML='<option value="TODAS">Todas las categorías</option>'+CATEGORIES.map(c=>`<option value="${safe(c)}">${safe(c)}</option>`).join('');
 byId('category').addEventListener('change',()=>fillExerciseSelect());
+byId('fitReadyOnly').addEventListener('change',()=>fillExerciseSelect());
 byId('search').addEventListener('input',()=>{byId('category').value='TODAS';fillExerciseSelect()});
 byId('exerciseSelect').addEventListener('change',e=>{
  const ex=EXERCISES.find(x=>x.id===e.target.value);if(!ex)return;
  Object.assign(routine.items[active],{name:ex.name.toUpperCase(),pose:ex.pose,muscle:ex.muscle,id:ex.id,customImage:null});
  routine.visualMode='3d';byId('visualMode').value='3d';
- byId('name').value=routine.items[active].name;save();updatePoster();toast('Ilustración 3D de '+ex.name+' seleccionada');
+ byId('name').value=routine.items[active].name;save();updatePoster();toast(ex.name+' seleccionado');
 });
 for(const key of ['name','series','reps','rest'])byId(key).addEventListener('input',e=>{if(!routine.items[active])return;routine.items[active][key]=e.target.value;save();updatePoster()});
 
@@ -354,6 +343,8 @@ async function pdfExportA4(){
   try {
     const items=routine.items.slice(0,6);if(!items.length)throw Error('No hay ejercicios para exportar');
     const frames=await Promise.all(items.map(pdfFramesForExercise));
+    const missing=items.filter((it,i)=>!frames[i].length||frames[i].some(f=>!f.image));
+    if(missing.length&&!confirm('Hay '+missing.length+' ejercicios sin fotografía FIT disponible. El PDF no incluirá maniquíes ni imágenes de otro modelo. ¿Descargar igualmente?'))return;
     const W=1600,H=2263,c=document.createElement('canvas');c.width=W;c.height=H;
     const g=c.getContext('2d',{alpha:false});if(!g)throw Error('El navegador no admite Canvas');
     g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';
@@ -399,7 +390,7 @@ async function pdfExportA4(){
           pdfText(g,q.label,xx+12,y+h-26,14,white,'Arial, sans-serif',Math.max(1,Math.min(146,iw-24)));
         }
       }else{
-        failed++;pdfText(g,'ILUSTRACIÓN NO DISPONIBLE',imageX+30,y+h/2,22,muted,'Arial, sans-serif',imageW-60);
+        failed++;pdfText(g,'FOTOGRAFÍA FIT PENDIENTE',imageX+136,y+h/2,22,muted,'Arial, sans-serif',imageW-155);
       }
       g.restore();
       g.save();g.translate(imageX+13,y+16);g.transform(1,0,-0.10,1,0,0);g.fillStyle=accent;g.fillRect(0,0,100,60);g.restore();
@@ -449,6 +440,6 @@ byId('blank').addEventListener('click',()=>{routine={...routine,day:'__',group:'
 updatePoster();refreshEditors();
 </script>
 <script src="./fit-catalog-images.js?v=20261127-3"></script>
-<script src="./fit-visuals.js?v=20261127-2"></script>
-<script src="./fit-suite.js?v=20261127-2"></script>
+<script src="./fit-visuals.js?v=20261127-4"></script>
+<script src="./fit-suite.js?v=20261127-4"></script>
 </body></html>
