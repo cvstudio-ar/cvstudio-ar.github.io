@@ -105,7 +105,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .muscle-tag .orb{font-size:18px;line-height:1;color:var(--accent);text-shadow:0 0 14px #aaff22}
 
 </style>
-<link rel="stylesheet" href="./fit-suite.css?v=20261127-1">
+<link rel="stylesheet" href="./fit-suite.css?v=20261127-2">
 </head>
 <body>
 <div class="app">
@@ -446,6 +446,7 @@ byId('example').addEventListener('click',()=>{routine=defaultData();active=0;for
 byId('blank').addEventListener('click',()=>{routine={...routine,day:'__',group:'GRUPO MUSCULAR',student:'',date:'',items:Array.from({length:6},defaultItem)};byId('day').value=routine.day;byId('group').value=routine.group;byId('student').value='';byId('date').value='';active=0;save();selectRow(0);toast('Hoja en blanco lista para editar')});
 updatePoster();refreshEditors();
 </script>
-<script src="./fit-visuals.js?v=20261127-1"></script>
-<script src="./fit-suite.js?v=20261127-1"></script>
+<script src="./fit-catalog-images.js?v=20261127-2"></script>
+<script src="./fit-visuals.js?v=20261127-2"></script>
+<script src="./fit-suite.js?v=20261127-2"></script>
 </body></html>
