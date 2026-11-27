@@ -1,4 +1,4 @@
-/* Fede FIT: exercise photographs. References awaiting technical review are not shown in routines. */
+/* Fede FIT exercise photograph catalog. Only non-provisional entries are displayed. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -286,10 +286,10 @@ window.FIT_CATALOG_IMAGES = {
   },
   "dumbbell-fly": {
     "masculino": {
-      "file": "dumbbell-fly--masculino--v8.webp",
+      "file": "dumbbell-fly--masculino--v9.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "El banco parece inclinado y los codos están muy flexionados; confirmar apertura plana."
+      "reviewNote": "El respaldo parece inclinado; codos demasiado flexionados para una apertura plana."
     }
   },
   "barbell-pullover": {
@@ -301,18 +301,18 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-fly-low-to-high": {
     "masculino": {
-      "file": "cable-fly-low-to-high--masculino--v8.webp",
+      "file": "cable-fly-low-to-high--masculino--v9.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "Los cables descienden desde arriba; no representa un cruce de abajo hacia arriba."
+      "reviewNote": "Los cables descienden desde los laterales; no queda claro que salgan de poleas a ras del piso."
     }
   },
   "dumbbell-decline-press": {
     "masculino": {
-      "file": "dumbbell-decline-press--masculino--v8.webp",
+      "file": "dumbbell-decline-press--masculino--v9.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "No se confirma que la cabeza quede por debajo de las caderas."
+      "reviewNote": "No se confirma que la cabeza esté por debajo de la cadera."
     }
   },
   "archer-push-up": {
@@ -331,10 +331,10 @@ window.FIT_CATALOG_IMAGES = {
   },
   "incline-dumbbell-fly": {
     "masculino": {
-      "file": "incline-dumbbell-fly--masculino--v8.webp",
+      "file": "incline-dumbbell-fly--masculino--v9.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "Flexión de codos cercana a un press; requiere una apertura más clara."
+      "reviewNote": "La flexión de codos se asemeja a un press; revisar la apertura."
     }
   },
   "kettlebell-press": {
@@ -353,26 +353,25 @@ window.FIT_CATALOG_IMAGES = {
   },
   "smith-machine-bench-press": {
     "masculino": {
-      "file": "smith-machine-bench-press--masculino--v8.webp",
+      "file": "smith-machine-bench-press--masculino--v9.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "No se confirma el respaldo plano; parece inclinado."
+      "reviewNote": "El respaldo parece inclinado; no queda confirmada la variante plana."
     }
   },
   "band-chest-press": {
     "masculino": {
-      "file": "band-chest-press--masculino--v8.webp",
+      "file": "band-chest-press--masculino--v9.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Se ven bandas adicionales hacia los pies; revisar el anclaje y la trayectoria."
+      "provisional": false
     }
   },
   "decline-bench-press": {
     "masculino": {
-      "file": "decline-bench-press--masculino--v8.webp",
+      "file": "decline-bench-press--masculino--v9.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "El respaldo parece inclinado y no declinado."
+      "reviewNote": "El respaldo parece inclinado en dirección contraria a la requerida."
     }
   },
   "smith-machine-incline-press": {
@@ -412,10 +411,10 @@ window.FIT_CATALOG_IMAGES = {
   },
   "wide-grip-bench-press": {
     "masculino": {
-      "file": "wide-grip-bench-press--masculino--v8.webp",
+      "file": "wide-grip-bench-press--masculino--v9.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "El agarre es amplio, pero el banco parece inclinado; confirmar variante plana."
+      "reviewNote": "El agarre es amplio pero el respaldo parece inclinado; falta confirmar el banco plano."
     }
   }
 };
