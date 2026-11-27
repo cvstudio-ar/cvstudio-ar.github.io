@@ -1,4 +1,4 @@
-/* Fede FIT: independent exercise references; provisional images remain hidden pending technical review. */
+/* Fede FIT: independent exercise photographs. Unapproved references stay pending. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -374,6 +374,20 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": true,
       "reviewNote": "El respaldo parece inclinado, no declinado."
+    }
+  },
+  "smith-machine-incline-press": {
+    "masculino": {
+      "file": "smith-machine-incline-press--masculino--v7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "standing-cable-chest-press": {
+    "masculino": {
+      "file": "standing-cable-chest-press--masculino--v7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   }
 };
