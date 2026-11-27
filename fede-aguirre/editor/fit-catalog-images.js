@@ -788,26 +788,23 @@ window.FIT_CATALOG_IMAGES = {
   },
   "prone-t-raise": {
     "masculino": {
-      "file": "prone-t-raise--masculino--back03.webp",
+      "file": "prone-t-raise--masculino--back06.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La fotografía usa mancuernas; el catálogo especifica peso corporal."
+      "provisional": false
     }
   },
   "prone-w-raise": {
     "masculino": {
-      "file": "prone-w-raise--masculino--back03.webp",
+      "file": "prone-w-raise--masculino--back06.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La fotografía usa mancuernas; el catálogo especifica peso corporal."
+      "provisional": false
     }
   },
   "prone-y-raise": {
     "masculino": {
-      "file": "prone-y-raise--masculino--back03.webp",
+      "file": "prone-y-raise--masculino--back06.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La fotografía usa mancuernas; el catálogo especifica peso corporal."
+      "provisional": false
     }
   },
   "straight-arm-pulldown": {
@@ -819,10 +816,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "rear-delt-fly": {
     "masculino": {
-      "file": "rear-delt-fly--masculino--back03.webp",
+      "file": "rear-delt-fly--masculino--back06.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La fotografía muestra una máquina; el catálogo especifica mancuernas."
+      "provisional": false
     }
   },
   "t-bar-row": {

@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "0c3c59945722599f486d058f78cee450a6366ec7",
+  "updatedFrom": "1c8ab43b96fad0d21d224c997663107543806b58",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -489,22 +489,22 @@
       "id": "prone-t-raise",
       "name": "Prone T-Raise",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "prone-t-raise--masculino--back03.webp"
+      "status": "ready",
+      "file": "prone-t-raise--masculino--back06.webp"
     },
     {
       "id": "prone-w-raise",
       "name": "Prone W-Raise",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "prone-w-raise--masculino--back03.webp"
+      "status": "ready",
+      "file": "prone-w-raise--masculino--back06.webp"
     },
     {
       "id": "prone-y-raise",
       "name": "Prone Y-Raise",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "prone-y-raise--masculino--back03.webp"
+      "status": "ready",
+      "file": "prone-y-raise--masculino--back06.webp"
     },
     {
       "id": "straight-arm-pulldown",
@@ -517,8 +517,8 @@
       "id": "rear-delt-fly",
       "name": "Rear Delt Fly",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "rear-delt-fly--masculino--back03.webp"
+      "status": "ready",
+      "file": "rear-delt-fly--masculino--back06.webp"
     },
     {
       "id": "bent-over-row",
