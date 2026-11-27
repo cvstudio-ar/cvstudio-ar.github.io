@@ -105,7 +105,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .muscle-tag .orb{font-size:18px;line-height:1;color:var(--accent);text-shadow:0 0 14px #aaff22}
 
 </style>
-<link rel="stylesheet" href="./fit-suite.css?v=20261127-2">
+<link rel="stylesheet" href="./fit-suite.css?v=20261127-3">
 </head>
 <body>
 <div class="app">
@@ -380,28 +380,30 @@ async function pdfExportA4(){
     for(let i=0;i<items.length;i++){
       const it=items[i],y=top+i*(ch+gap),x=29,w=W-58,h=ch;
       pdfRoundRect(g,x,y,w,h,8,'#080d08',accent,2);
-      const imageX=x+5,imageW=630,infoX=x+650,infoW=605;
-      g.save();g.beginPath();g.rect(imageX,y+4,imageW,h-8);g.clip();
-      g.fillStyle='#0a0d0c';g.fillRect(imageX,y+4,imageW,h-8);
+      const imageX=x+12,imageW=610,infoX=x+650,infoW=605;
+      // Safe drawing zone: keep the number, card border, caption and text physically separate.
+      const photoX=imageX+126,photoW=imageW-136,photoY=y+12,photoH=h-66;
+      g.save();g.beginPath();g.rect(imageX,y+8,imageW,h-16);g.clip();
+      g.fillStyle='#0a0d0c';g.fillRect(imageX,y+8,imageW,h-16);
       const pics=frames[i]||[];
       if(pics.length){
-        const iw=imageW/pics.length;
+        const iw=photoW/pics.length;
         for(let j=0;j<pics.length;j++){
-          const q=pics[j],xx=imageX+j*iw;
+          const q=pics[j],xx=photoX+j*iw;
           if(q.image){
-            pdfDrawImageContain(g,q.image,xx+4,y+5,iw-8,h-21);
+            pdfDrawImageContain(g,q.image,xx+6,photoY,Math.max(1,iw-12),Math.max(1,photoH));
           }else{
             failed++;pdfText(g,'IMAGEN NO DISPONIBLE',xx+12,y+h/2,16,muted,'Arial, sans-serif',iw-24);
           }
-          pdfRoundRect(g,xx+6,y+h-38,Math.min(160,iw-12),23,3,'#172018','#708857',1);
-          pdfText(g,q.label,xx+14,y+h-21,15,white,'Arial, sans-serif',Math.min(146,iw-24));
+          pdfRoundRect(g,xx+6,y+h-42,Math.min(160,iw-12),22,3,'#172018','#708857',1);
+          pdfText(g,q.label,xx+12,y+h-26,14,white,'Arial, sans-serif',Math.max(1,Math.min(146,iw-24)));
         }
       }else{
         failed++;pdfText(g,'ILUSTRACIÓN NO DISPONIBLE',imageX+30,y+h/2,22,muted,'Arial, sans-serif',imageW-60);
       }
       g.restore();
-      g.save();g.transform(1,0,-0.15,1,0,0);g.fillStyle=accent;g.fillRect(imageX+24,y+15,117,68);g.restore();
-      pdfText(g,String(i+1).padStart(2,'0'),imageX+26,y+68,55,'#0a0e07',titleFont,110);
+      g.save();g.translate(imageX+13,y+16);g.transform(1,0,-0.10,1,0,0);g.fillStyle=accent;g.fillRect(0,0,100,60);g.restore();
+      pdfText(g,String(i+1).padStart(2,'0'),imageX+20,y+64,48,'#0a0e07',titleFont,80);
       const nameLines=pdfWrap(g,it.name||'EJERCICIO',infoW-14,42,2);
       nameLines.forEach((s,j)=>pdfText(g,s,infoX,y+52+j*47,42,white,titleFont,infoW-12));
       for(let j=0;j<4;j++){g.fillStyle=accent;g.fillRect(infoX+j*30,y+123,22,9);}
@@ -446,7 +448,7 @@ byId('example').addEventListener('click',()=>{routine=defaultData();active=0;for
 byId('blank').addEventListener('click',()=>{routine={...routine,day:'__',group:'GRUPO MUSCULAR',student:'',date:'',items:Array.from({length:6},defaultItem)};byId('day').value=routine.day;byId('group').value=routine.group;byId('student').value='';byId('date').value='';active=0;save();selectRow(0);toast('Hoja en blanco lista para editar')});
 updatePoster();refreshEditors();
 </script>
-<script src="./fit-catalog-images.js?v=20261127-2"></script>
+<script src="./fit-catalog-images.js?v=20261127-3"></script>
 <script src="./fit-visuals.js?v=20261127-2"></script>
 <script src="./fit-suite.js?v=20261127-2"></script>
 </body></html>

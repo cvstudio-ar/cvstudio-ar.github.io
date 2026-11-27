@@ -1,4 +1,4 @@
-/* Fede FIT: independent exercise photographs. Add only exact exercise/model matches. */
+/* Fede FIT: independent exercise photographs; provisional references are identified. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -56,6 +56,42 @@ window.FIT_CATALOG_IMAGES = {
     },
     "femenino": {
       "file": "dumbbell-shoulder-press--femenino.webp",
+      "label": "POSTURA",
+      "provisional": true
+    }
+  },
+  "squat": {
+    "masculino": {
+      "file": "squat--masculino.webp",
+      "label": "POSTURA",
+      "provisional": true
+    },
+    "femenino": {
+      "file": "squat--femenino.webp",
+      "label": "POSTURA",
+      "provisional": true
+    }
+  },
+  "deadlift": {
+    "masculino": {
+      "file": "deadlift--masculino.webp",
+      "label": "POSTURA",
+      "provisional": true
+    },
+    "femenino": {
+      "file": "deadlift--femenino.webp",
+      "label": "POSTURA",
+      "provisional": true
+    }
+  },
+  "biceps-curl": {
+    "masculino": {
+      "file": "biceps-curl--masculino.webp",
+      "label": "POSTURA",
+      "provisional": true
+    },
+    "femenino": {
+      "file": "biceps-curl--femenino.webp",
       "label": "POSTURA",
       "provisional": true
     }

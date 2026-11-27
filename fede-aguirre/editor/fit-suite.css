@@ -30,3 +30,19 @@ body{background:var(--fit-bg);color:var(--fit-text);font-family:Inter,Arial,Helv
 
 /* Published exercise references: retain complete pose instead of cropping portrait assets. */
 .fit-published .pose-frame img{object-fit:contain!important;background:#0b0f0c}.fit-model-strip{background:#121b12;border:1px solid #394b29;border-radius:8px;padding:9px 10px;margin:0 0 13px}.fit-model-strip .field{margin:0 0 4px}.fit-model-strip select{width:100%}.fit-model-strip .fit-visual-status{margin:3px 0 5px;font-size:10px}.fit-model-progress{display:block;color:#a0b198;font-size:10px;line-height:1.4}
+
+/* FIT image safe area: photos and captions cannot touch the card edge, exercise number or text column. */
+.fit-editor-host .exercise-card{isolation:isolate;overflow:hidden;min-height:0}
+.fit-editor-host .img-col{box-sizing:border-box;position:relative;overflow:hidden;min-width:0;min-height:0;padding:8px 9px 9px 100px;align-items:stretch}
+.fit-editor-host .img-col:after{display:none}
+.fit-editor-host .img-col .num{left:14px;top:12px;min-width:68px;max-width:74px;z-index:3}
+.fit-editor-host .img-col .scene{padding:0;min-width:0;min-height:0;width:100%;height:100%;overflow:hidden;display:flex}
+.fit-editor-host .img-col .pose-pair{position:relative;display:flex;align-items:stretch;justify-content:center;gap:4px;padding:0;margin:0;min-height:0;width:100%;height:100%;overflow:hidden;background:transparent}
+.fit-editor-host .img-col .pose-frame{position:relative;flex:1 1 0;min-width:0;min-height:0;height:100%;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;overflow:hidden;border-radius:5px;background:#0b100d}
+.fit-editor-host .img-col .pose-frame img{display:block;width:100%;height:0;flex:1 1 0;min-height:0;max-width:100%;object-fit:contain!important;object-position:center}
+.fit-editor-host .img-col .pose-frame>small{position:static;flex:none;align-self:flex-start;max-width:100%;margin:3px 3px 2px;line-height:1.1;font-size:9px;letter-spacing:.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fit-editor-host .img-col .pose-frame .image-error{inset:3px;z-index:2;overflow:hidden}
+.fit-editor-host .img-col .fit-visual-note{display:none!important}
+.fit-editor-host .card-info{position:relative;min-width:0;overflow:hidden;padding-left:5px}
+.fit-editor-host .day-label{word-break:normal;overflow-wrap:normal;font-size:clamp(16px,2.2vw,25px);line-height:1.02;letter-spacing:-.35px;text-align:center}
+@media print{.fit-editor-host .img-col{padding:1.5mm 1.5mm 1.5mm 18mm!important}.fit-editor-host .img-col .num{left:2mm!important;top:2mm!important;min-width:13mm!important;max-width:15mm!important}.fit-editor-host .day-label{font-size:20px!important;overflow-wrap:normal!important}.fit-editor-host .img-col .pose-frame>small{font-size:7px!important;margin:1px 2px 2px!important}}
