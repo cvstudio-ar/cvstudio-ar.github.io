@@ -441,10 +441,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "archer-push-up--femenino--v17.webp",
+      "file": "archer-push-up--femenino--v18.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Ambos codos flexionados, no se aprecia el brazo lateral extendido."
+      "provisional": false
     }
   },
   "hindu-push-up": {
@@ -479,10 +478,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "kettlebell-press--femenino--v17.webp",
+      "file": "kettlebell-press--femenino--v18.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La postura es un press vertical de hombros, no la variante de pecho del catálogo."
+      "provisional": false
     }
   },
   "plate-loaded-incline-chest-press": {

@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "b825a040ea74158ebf698d142d18804316d76976",
+  "updatedFrom": "c38e13f38276e859833341482098f721c7a15b63",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3018,8 +3018,8 @@
       "id": "archer-push-up",
       "name": "Flexiones arquero",
       "group": "PECTORAL",
-      "status": "review",
-      "file": "archer-push-up--femenino--v17.webp"
+      "status": "ready",
+      "file": "archer-push-up--femenino--v18.webp"
     },
     {
       "id": "decline-push-up",
@@ -3067,8 +3067,8 @@
       "id": "kettlebell-press",
       "name": "Kettlebell Press",
       "group": "PECTORAL",
-      "status": "review",
-      "file": "kettlebell-press--femenino--v17.webp"
+      "status": "ready",
+      "file": "kettlebell-press--femenino--v18.webp"
     },
     {
       "id": "knee-push-up",
