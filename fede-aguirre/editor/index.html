@@ -131,7 +131,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
  <label class="field" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="fitReadyOnly" style="width:auto;accent-color:#adff19"><span style="margin:0">Solo ejercicios con fotografía FIT</span></label>
  <label class="field"><span>Grupo del catálogo</span><select id="category"></select></label>
  <label class="field"><span>Ejercicio / ilustración</span><select id="exerciseSelect"></select></label>
- <label class="field"><span>Nombre editable (también podés escribir uno propio)</span><input id="name" maxlength="58" /></label>
+ 
  <div class="formgrid">
  <label class="field"><span>Series</span><input id="series" maxlength="12" /></label>
  <label class="field"><span>Repeticiones</span><input id="reps" maxlength="32" /></label>
@@ -225,7 +225,7 @@ function updatePoster(){
  for(const el of byId('rowList').querySelectorAll('[data-index]'))el.addEventListener('click',()=>selectRow(Number(el.dataset.index)));
 }
 function refreshEditors(){const o=routine.items[active];if(!o)return;
- byId('name').value=o.name||'';byId('series').value=o.series||'';byId('reps').value=o.reps||'';byId('rest').value=o.rest||'';
+ byId('series').value=o.series||'';byId('reps').value=o.reps||'';byId('rest').value=o.rest||'';
  const matched=EXERCISES.find(e=>e.id===o.id)||EXERCISES.find(e=>e.pose===o.pose&&e.name.toUpperCase()===String(o.name).toUpperCase());
  byId('category').value=matched?.category || 'TODAS';
  fillExerciseSelect(matched?.id||'');
@@ -251,9 +251,9 @@ byId('exerciseSelect').addEventListener('change',e=>{
  const ex=EXERCISES.find(x=>x.id===e.target.value);if(!ex)return;
  Object.assign(routine.items[active],{name:ex.name.toUpperCase(),pose:ex.pose,muscle:ex.muscle,id:ex.id,customImage:null});
  routine.visualMode='3d';byId('visualMode').value='3d';
- byId('name').value=routine.items[active].name;save();updatePoster();toast(ex.name+' seleccionado');
+ save();updatePoster();toast(ex.name+' seleccionado');
 });
-for(const key of ['name','series','reps','rest'])byId(key).addEventListener('input',e=>{if(!routine.items[active])return;routine.items[active][key]=e.target.value;save();updatePoster()});
+for(const key of ['series','reps','rest'])byId(key).addEventListener('input',e=>{if(!routine.items[active])return;routine.items[active][key]=e.target.value;save();updatePoster()});
 
 byId('customPose').addEventListener('change',e=>{
  const f=e.target.files?.[0];if(!f)return;
