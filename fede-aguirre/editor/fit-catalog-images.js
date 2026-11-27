@@ -932,11 +932,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "straight-arm-pulldown--masculino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "straight-arm-pulldown--femenino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "rear-delt-fly": {
     "masculino": {
       "file": "rear-delt-fly--masculino--back06.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "rear-delt-fly--femenino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -946,6 +956,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "t-bar-row--masculino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "t-bar-row--femenino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-row": {
@@ -953,11 +968,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-row--masculino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "dumbbell-row--femenino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "machine-row": {
     "masculino": {
       "file": "machine-row--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "machine-row--femenino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

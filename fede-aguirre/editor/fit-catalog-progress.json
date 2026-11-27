@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "943f49ad0085b57e7889a57257531a1ead4dd6e0",
+  "updatedFrom": "823c51afa3a50a63b568b1e75c7ee8118895fd1d",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3417,15 +3417,15 @@
       "id": "straight-arm-pulldown",
       "name": "Pullover en polea",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "straight-arm-pulldown--femenino--back03.webp"
     },
     {
       "id": "rear-delt-fly",
       "name": "Rear Delt Fly",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "rear-delt-fly--femenino--back03.webp"
     },
     {
       "id": "bent-over-row",
@@ -3438,22 +3438,22 @@
       "id": "t-bar-row",
       "name": "Remo con barra T",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "t-bar-row--femenino--back03.webp"
     },
     {
       "id": "dumbbell-row",
       "name": "Remo con mancuerna",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-row--femenino--back03.webp"
     },
     {
       "id": "machine-row",
       "name": "Remo en máquina",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "machine-row--femenino--back03.webp"
     },
     {
       "id": "inverted-row",
