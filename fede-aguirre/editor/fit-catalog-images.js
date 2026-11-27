@@ -211,10 +211,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "cable-crossover--femenino--v17.webp",
+      "file": "cable-crossover--femenino--v19.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Poleas altas en vez de la variante a media altura; evitar duplicar el cruce alto."
+      "provisional": false
     }
   },
   "close-grip-bench-press": {

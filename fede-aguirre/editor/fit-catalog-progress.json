@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "c38e13f38276e859833341482098f721c7a15b63",
+  "updatedFrom": "ff36530162bdf12c483ba6452d145c0016706b22",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -2955,8 +2955,8 @@
       "id": "cable-crossover",
       "name": "Cruce de poleas",
       "group": "PECTORAL",
-      "status": "review",
-      "file": "cable-crossover--femenino--v17.webp"
+      "status": "ready",
+      "file": "cable-crossover--femenino--v19.webp"
     },
     {
       "id": "cable-fly-high-to-low",
