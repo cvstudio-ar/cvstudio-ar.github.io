@@ -198,6 +198,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "decline-push-up--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "decline-push-up--femenino--v12.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "diamond-push-up": {
@@ -205,11 +210,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "diamond-push-up--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "diamond-push-up--femenino--v12.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dips": {
     "masculino": {
       "file": "dips--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "dips--femenino--v12.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -224,6 +239,11 @@ window.FIT_CATALOG_IMAGES = {
   "dumbbell-pullover": {
     "masculino": {
       "file": "dumbbell-pullover--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "dumbbell-pullover--femenino--v12.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -247,11 +267,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "incline-push-up--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "incline-push-up--femenino--v12.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "knee-push-up": {
     "masculino": {
       "file": "knee-push-up--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "knee-push-up--femenino--v12.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -261,11 +291,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "pec-deck--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "pec-deck--femenino--v12.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "push-up": {
     "masculino": {
       "file": "push-up--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "push-up--femenino--v12.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -290,6 +330,11 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false,
       "reviewNote": "Referencia fotográfica del ejercicio; validar la técnica con el entrenador."
+    },
+    "femenino": {
+      "file": "dumbbell-fly--femenino--v12.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "barbell-pullover": {
@@ -325,6 +370,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "hindu-push-up--masculino--v6.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "hindu-push-up--femenino--v12.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "incline-dumbbell-fly": {
@@ -333,6 +383,11 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false,
       "reviewNote": "Referencia fotográfica del ejercicio; validar la técnica con el entrenador."
+    },
+    "femenino": {
+      "file": "incline-dumbbell-fly--femenino--v12.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "kettlebell-press": {
@@ -402,6 +457,11 @@ window.FIT_CATALOG_IMAGES = {
   "wall-push-up": {
     "masculino": {
       "file": "wall-push-up--masculino--v8.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "wall-push-up--femenino--v12.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

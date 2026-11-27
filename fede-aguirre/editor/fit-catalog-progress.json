@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "11eeb22f5ee5560a0247434aceff0354326b0d10",
+  "updatedFrom": "74c3eb25f9f3666ec5988d8d8c45ce940c3b7975",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1793,6 +1793,2913 @@
       "group": "GLÚTEOS · FEMORALES",
       "status": "ready",
       "file": "deadlift--masculino--v3.webp"
+    },
+    {
+      "id": "romanian-deadlift",
+      "name": "Peso muerto rumano",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-romanian-deadlift",
+      "name": "Peso muerto rumano con mancuernas",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "sumo-deadlift",
+      "name": "Peso muerto sumo",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "glute-bridge",
+      "name": "Puente de glúteos",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "single-leg-glute-bridge",
+      "name": "Puente de glúteos unilateral",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-pull-through",
+      "name": "Pull-through en polea",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "rack-pull",
+      "name": "Rack Pull",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-plank",
+      "name": "Reverse Plank",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "side-plank-leg-raise",
+      "name": "Side Plank Leg Raise",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "side-lying-leg-raise",
+      "name": "Side-Lying Leg Raise",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "sliding-hamstring-curl",
+      "name": "Sliding Hamstring Curl",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "smith-machine-hip-thrust",
+      "name": "Smith Machine Hip Thrust",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "smith-machine-romanian-deadlift",
+      "name": "Smith Machine Romanian Deadlift",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "stability-ball-hamstring-curl",
+      "name": "Stability Ball Hamstring Curl",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-cable-hip-abduction",
+      "name": "Standing Cable Hip Abduction",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "glute-squeeze",
+      "name": "Standing Glute Squeezes",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-hamstring-curl",
+      "name": "Standing Hamstring Curl",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-leg-curl-machine",
+      "name": "Standing Leg Curl Machine",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "suspension-hamstring-curl",
+      "name": "Suspension Hamstring Curl",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-ankle-dorsiflexion",
+      "name": "Band Ankle Dorsiflexion",
+      "group": "GEMELOS · PANTORRILLAS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "leg-press-calf-raise",
+      "name": "Leg Press Calf Raise",
+      "group": "GEMELOS · PANTORRILLAS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-calf-raise-machine",
+      "name": "Seated Calf Raise Machine",
+      "group": "GEMELOS · PANTORRILLAS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "tibialis-raise-machine",
+      "name": "Tibialis Raise Machine",
+      "group": "GEMELOS · PANTORRILLAS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wall-tibialis-raise",
+      "name": "Wall Tibialis Raise",
+      "group": "GEMELOS · PANTORRILLAS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bicycle-crunch",
+      "name": "Abdominal bicicleta",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-pallof-press",
+      "name": "Band Pallof Press",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bear-plank",
+      "name": "Bear Plank",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "captains-chair-knee-raise",
+      "name": "Captain's Chair Knee Raise",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "copenhagen-plank",
+      "name": "Copenhagen Plank",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "crunches",
+      "name": "Crunch abdominal",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-crunch",
+      "name": "Crunch en polea",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dead-bug",
+      "name": "Dead bug",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "decline-crunch",
+      "name": "Decline Crunch",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "decline-sit-up",
+      "name": "Decline Sit Up",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dragon-flag",
+      "name": "Dragon Flag",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-front-rack-carry",
+      "name": "Dumbbell Front Rack Carry",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-side-bend",
+      "name": "Dumbbell Side Bend",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "leg-raises",
+      "name": "Elevación de piernas",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hanging-leg-raise",
+      "name": "Elevación de piernas colgado",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hanging-knee-raise",
+      "name": "Elevación de rodillas colgado",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "flutter-kicks",
+      "name": "Flutter kicks",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "russian-twists",
+      "name": "Giros rusos",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "heel-taps",
+      "name": "Heel Taps",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hollow-body-hold",
+      "name": "Hollow Body Hold",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "horizontal-cable-twist",
+      "name": "Horizontal Cable Twist",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "inchworm",
+      "name": "Inchworm",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-windmill",
+      "name": "Kettlebell Windmill",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "knee-plank",
+      "name": "Knee Plank",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "knee-side-plank",
+      "name": "Knee Side Plank",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "l-sit",
+      "name": "L-Sit",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "landmine-rotation",
+      "name": "Landmine Rotation",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "machine-abdominal-crunch",
+      "name": "Machine Abdominal Crunch",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "oblique-crunch",
+      "name": "Oblique Crunch",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "pallof-press",
+      "name": "Pallof press",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "plank",
+      "name": "Plancha frontal",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "side-plank",
+      "name": "Plancha lateral",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "plank-shoulder-tap",
+      "name": "Plank Shoulder Tap",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "plank-up-down",
+      "name": "Plank Up-Down",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-crunch",
+      "name": "Reverse crunch",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "ab-wheel-rollout",
+      "name": "Rueda abdominal",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-knee-tuck",
+      "name": "Seated Knee Tuck",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "side-plank-hip-dip",
+      "name": "Side Plank Hip Dip",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "sit-up",
+      "name": "Sit-up",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "stability-ball-crunch",
+      "name": "Stability Ball Crunch",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "stability-ball-knee-tuck",
+      "name": "Stability Ball Knee Tuck",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "stability-ball-pike",
+      "name": "Stability Ball Pike",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "stability-ball-rollout",
+      "name": "Stability Ball Rollout",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-twister",
+      "name": "Standing Twister",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "suitcase-carry",
+      "name": "Suitcase carry",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "toe-touches",
+      "name": "Toe Touches",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "toes-to-bar",
+      "name": "Toes-to-Bar",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "v-up",
+      "name": "V-ups",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "windshield-wipers",
+      "name": "Windshield Wipers",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-woodchopper",
+      "name": "Woodchopper en polea",
+      "group": "ABDOMEN · CORE",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "ninety-ninety-hip-stretch",
+      "name": "90/90 Hip Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "adductor-rock-backs",
+      "name": "Adductor Rock-Backs",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "ankle-circles",
+      "name": "Ankle Circles",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "ankle-rocks",
+      "name": "Ankle Rocks",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "arm-crossovers",
+      "name": "Arm Crossovers",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-dislocates",
+      "name": "Band Dislocates",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-lateral-walk",
+      "name": "Band Lateral Walk",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bear-crawl",
+      "name": "Bear crawl",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "air-bike",
+      "name": "Bicicleta de aire",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "stationary-bike",
+      "name": "Bicicleta fija",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bodyweight-good-mornings",
+      "name": "Bodyweight Good Mornings",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "box-jump",
+      "name": "Box Jump",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "broad-jump",
+      "name": "Broad Jump",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "burpees",
+      "name": "Burpees",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "butterfly-stretch",
+      "name": "Butterfly Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "treadmill-incline-walk",
+      "name": "Caminata en cinta inclinada",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "treadmill-run",
+      "name": "Carrera en cinta",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cat-cow",
+      "name": "Cat-Cow",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "doorway-chest-stretch",
+      "name": "Chest Stretch on Post",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "childs-pose",
+      "name": "Child's Pose",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "clap-push-up",
+      "name": "Clap Push-Up",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cobra-stretch",
+      "name": "Cobra Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "crab-walk",
+      "name": "Crab Walk",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cross-body-shoulder-stretch",
+      "name": "Cross-Body Shoulder Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "downward-dog",
+      "name": "Downward Dog",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-calf-raise",
+      "name": "Dumbbell Calf Raise",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "calf-raises",
+      "name": "Elevación de gemelos",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "elliptical",
+      "name": "Elíptico",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "stair-climber",
+      "name": "Escaladora",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "pigeon-stretch",
+      "name": "Estiramiento de glúteo/piriforme",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "figure-four-stretch",
+      "name": "Figure-Four Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "foam-rolling-quads",
+      "name": "Foam Rolling — Quads",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "foam-rolling-upper-back",
+      "name": "Foam Rolling — Upper Back",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hollow-body-rock",
+      "name": "Hollow Body Rock",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "jump-lunge",
+      "name": "Jump Lunge",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "jump-squat",
+      "name": "Jump Squat",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "jumping-jacks",
+      "name": "Jumping jacks",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "knees-to-chest",
+      "name": "Knees-to-Chest Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "lateral-neck-raise",
+      "name": "Lateral Neck Raise",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "leg-swings",
+      "name": "Leg Swings",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "lying-spinal-twist",
+      "name": "Lying Spinal Twist",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "marching-in-place",
+      "name": "March in Place",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "medicine-ball-chest-pass",
+      "name": "Medicine Ball Chest Pass",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "medicine-ball-slam",
+      "name": "Medicine Ball Slam",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "mountain-climbers",
+      "name": "Mountain Climber",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kneeling-hip-flexor-stretch",
+      "name": "Movilidad de cadera",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "arm-circles",
+      "name": "Movilidad de hombros",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "neck-extension",
+      "name": "Neck Extension",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "neck-flexion",
+      "name": "Neck Flexion",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "neck-side-stretch",
+      "name": "Neck Side Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "battle-rope-double-waves",
+      "name": "Ondas con cuerdas",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "overhead-lat-side-bend",
+      "name": "Overhead Lat Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "overhead-triceps-stretch",
+      "name": "Overhead Triceps Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "plank-jack",
+      "name": "Plank Jack",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "rowing-machine",
+      "name": "Remo ergómetro",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "high-knees",
+      "name": "Rodillas altas",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "jump-rope",
+      "name": "Saltar la cuerda",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "scap-pulls",
+      "name": "Scap Pulls",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "scap-push-ups",
+      "name": "Scap Push-Ups",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-calf-raise",
+      "name": "Seated Calf Raise",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-hamstring-stretch",
+      "name": "Seated Hamstring Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-spinal-twist",
+      "name": "Seated Spinal Twist",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "shadow-boxing",
+      "name": "Shadow Boxing",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "shoulder-blade-squeezes",
+      "name": "Shoulder Blade Squeezes",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "side-lunge-adductor-stretch",
+      "name": "Side Lunge Adductor Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "single-leg-calf-raise",
+      "name": "Single-Leg Calf Raise",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "skater-jump",
+      "name": "Skater Jump",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "ski-machine",
+      "name": "Ski Machine",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "smith-machine-calf-raise",
+      "name": "Smith Machine Calf Raise",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "squat-thrust",
+      "name": "Squat Thrust (Step-Back)",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "squat-to-stand",
+      "name": "Squat to Stand",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-calf-raise-machine",
+      "name": "Standing Calf Raise Machine",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-hamstring-stretch",
+      "name": "Standing Hamstring Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-hip-abduction",
+      "name": "Standing Hip Abduction",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-knee-drive",
+      "name": "Standing Knee Drive",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-quad-stretch",
+      "name": "Standing Quad Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "step-jack",
+      "name": "Step Jack",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "butt-kicks",
+      "name": "Talones a glúteos",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "thoracic-extensions",
+      "name": "Thoracic Extensions",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "thoracic-rotations",
+      "name": "Thoracic Rotations",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "tuck-jump",
+      "name": "Tuck Jump",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wall-calf-stretch",
+      "name": "Wall Calf Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wall-slides",
+      "name": "Wall Slides",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wrist-extensor-stretch",
+      "name": "Wrist Extensor Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wrist-flexor-stretch",
+      "name": "Wrist Flexor Stretch",
+      "group": "CARDIO · MOVILIDAD",
+      "status": "pending",
+      "file": null
+    }
+  ],
+  "female": [
+    {
+      "id": "dumbbell-fly",
+      "name": "Aperturas con mancuernas",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "dumbbell-fly--femenino--v12.webp"
+    },
+    {
+      "id": "pec-deck",
+      "name": "Aperturas en máquina",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "pec-deck--femenino--v12.webp"
+    },
+    {
+      "id": "assisted-dip-machine",
+      "name": "Assisted Dip",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "barbell-floor-press",
+      "name": "Barbell Floor Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "barbell-pullover",
+      "name": "Barbell Pullover",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "close-grip-bench-press",
+      "name": "Close-Grip Bench Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-crossover",
+      "name": "Cruce de poleas",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-fly-high-to-low",
+      "name": "Cruce de poleas altas",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-fly-low-to-high",
+      "name": "Cruce de poleas bajas",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "deficit-push-up",
+      "name": "Deficit Push Up",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "diamond-push-up",
+      "name": "Diamond Push-Up",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "diamond-push-up--femenino--v12.webp"
+    },
+    {
+      "id": "dumbbell-decline-press",
+      "name": "Dumbbell Decline Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-floor-press",
+      "name": "Dumbbell Floor Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-squeeze-press",
+      "name": "Dumbbell Squeeze Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "push-up",
+      "name": "Flexiones",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "push-up--femenino--v12.webp"
+    },
+    {
+      "id": "archer-push-up",
+      "name": "Flexiones arquero",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "decline-push-up",
+      "name": "Flexiones declinadas",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "decline-push-up--femenino--v12.webp"
+    },
+    {
+      "id": "incline-push-up",
+      "name": "Flexiones inclinadas",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "incline-push-up--femenino--v12.webp"
+    },
+    {
+      "id": "bench-dip",
+      "name": "Fondos en banco",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dips",
+      "name": "Fondos en paralelas",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "dips--femenino--v12.webp"
+    },
+    {
+      "id": "hindu-push-up",
+      "name": "Hindu Push-Up",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "hindu-push-up--femenino--v12.webp"
+    },
+    {
+      "id": "incline-dumbbell-fly",
+      "name": "Incline Dumbbell Fly",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "incline-dumbbell-fly--femenino--v12.webp"
+    },
+    {
+      "id": "kettlebell-press",
+      "name": "Kettlebell Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "knee-push-up",
+      "name": "Knee Push-Up",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "knee-push-up--femenino--v12.webp"
+    },
+    {
+      "id": "plate-loaded-incline-chest-press",
+      "name": "Plate-Loaded Incline Chest Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-chest-press",
+      "name": "Press banca con mancuernas",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "dumbbell-chest-press--femenino.webp"
+    },
+    {
+      "id": "smith-machine-bench-press",
+      "name": "Press banca en Smith",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-chest-press",
+      "name": "Press con bandas elásticas",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bench-press",
+      "name": "Press de banca con barra",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "bench-press--femenino--v3.webp"
+    },
+    {
+      "id": "chest-press-machine",
+      "name": "Press de pecho en máquina",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "decline-bench-press",
+      "name": "Press declinado",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "incline-bench-press",
+      "name": "Press inclinado con barra",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "incline-dumbbell-press",
+      "name": "Press inclinado con mancuernas",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "incline-dumbbell-press--femenino--v3.webp"
+    },
+    {
+      "id": "dumbbell-pullover",
+      "name": "Pullover con mancuerna",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "dumbbell-pullover--femenino--v12.webp"
+    },
+    {
+      "id": "seated-dip-machine",
+      "name": "Seated Dip Machine",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "smith-machine-incline-press",
+      "name": "Smith Machine Incline Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "standing-cable-chest-press",
+      "name": "Standing Cable Chest Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "suspension-chest-press",
+      "name": "Suspension Chest Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wall-push-up",
+      "name": "Wall Push-Up",
+      "group": "PECTORAL",
+      "status": "ready",
+      "file": "wall-push-up--femenino--v12.webp"
+    },
+    {
+      "id": "wide-grip-bench-press",
+      "name": "Wide Grip Bench Press",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wide-push-up",
+      "name": "Wide Push-Up",
+      "group": "PECTORAL",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "back-extensions",
+      "name": "Back Extension",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "backpack-row",
+      "name": "Backpack Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-lat-pulldown",
+      "name": "Band Lat Pulldown",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-pull-apart",
+      "name": "Band Pull-Apart",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bird-dog",
+      "name": "Bird Dog",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-shrug",
+      "name": "Cable Shrug",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-upright-row",
+      "name": "Cable Upright Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-y-raise",
+      "name": "Cable Y-Raise",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "chest-supported-t-bar-row",
+      "name": "Chest-Supported T-Bar Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dead-hang",
+      "name": "Dead Hang",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "assisted-pull-up",
+      "name": "Dominadas asistidas",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "pull-up",
+      "name": "Dominadas pronas",
+      "group": "ESPALDA",
+      "status": "ready",
+      "file": "pull-up--femenino.webp"
+    },
+    {
+      "id": "chin-up",
+      "name": "Dominadas supinas",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "doorway-row",
+      "name": "Doorway Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-shrug",
+      "name": "Dumbbell Shrug",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-upright-row",
+      "name": "Dumbbell Upright Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "face-pulls",
+      "name": "Face pull",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "farmers-walk",
+      "name": "Farmer's Walk",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "feet-elevated-inverted-row",
+      "name": "Feet Elevated Inverted Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "lat-pulldown",
+      "name": "Jalón al pecho",
+      "group": "ESPALDA",
+      "status": "ready",
+      "file": "lat-pulldown--femenino--v3.webp"
+    },
+    {
+      "id": "close-grip-lat-pulldown",
+      "name": "Jalón con agarre neutro",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-row",
+      "name": "Kettlebell Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "machine-high-row",
+      "name": "Machine High Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "machine-pullover",
+      "name": "Machine Pullover",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "muscle-up",
+      "name": "Muscle-Up",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "negative-pull-up",
+      "name": "Negative Pull-Up",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "neutral-grip-pull-up",
+      "name": "Neutral Grip Pull Up",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "pendlay-row",
+      "name": "Pendlay Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "prone-t-raise",
+      "name": "Prone T-Raise",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "prone-w-raise",
+      "name": "Prone W-Raise",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "prone-y-raise",
+      "name": "Prone Y-Raise",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "straight-arm-pulldown",
+      "name": "Pullover en polea",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "rear-delt-fly",
+      "name": "Rear Delt Fly",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bent-over-row",
+      "name": "Remo con barra",
+      "group": "ESPALDA",
+      "status": "review",
+      "file": "bent-over-row--femenino.webp"
+    },
+    {
+      "id": "t-bar-row",
+      "name": "Remo con barra T",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-row",
+      "name": "Remo con mancuerna",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "machine-row",
+      "name": "Remo en máquina",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "inverted-row",
+      "name": "Remo invertido",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "meadows-row",
+      "name": "Remo Meadows",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "chest-supported-dumbbell-row",
+      "name": "Remo pecho apoyado",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-cable-row",
+      "name": "Remo sentado en polea",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "renegade-row",
+      "name": "Renegade Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-row",
+      "name": "Resistance Band Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-grip-barbell-row",
+      "name": "Reverse Grip Barbell Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-hyperextension",
+      "name": "Reverse Hyperextension (Bench)",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-pec-deck",
+      "name": "Reverse Pec Deck",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-snow-angels",
+      "name": "Reverse Snow Angels",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-grip-lat-pulldown",
+      "name": "Reverse-Grip Lat Pulldown",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seal-row",
+      "name": "Seal row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "shrugs",
+      "name": "Shrug",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "single-arm-cable-row",
+      "name": "Single-Arm Cable Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "smith-machine-bent-over-row",
+      "name": "Smith Machine Bent-Over Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "smith-machine-shrug",
+      "name": "Smith Machine Shrug",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "superman",
+      "name": "Superman",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "superman-pulldown",
+      "name": "Superman Pulldown",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "suspension-row",
+      "name": "Suspension Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "table-inverted-row",
+      "name": "Table Inverted Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "towel-row",
+      "name": "Towel Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "upright-row",
+      "name": "Upright Row",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wide-grip-pull-up",
+      "name": "Wide Grip Pull Up",
+      "group": "ESPALDA",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-internal-rotation",
+      "name": "Band Internal Rotation",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-lateral-raise",
+      "name": "Band Lateral Raise",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-overhead-press",
+      "name": "Band Overhead Press",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-external-rotation",
+      "name": "Cable External Rotation",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-front-raise",
+      "name": "Cable Front Raise",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-internal-rotation",
+      "name": "Cable Internal Rotation",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-push-press",
+      "name": "Dumbbell Push Press",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-scaption",
+      "name": "Dumbbell Scaption",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-thruster",
+      "name": "Dumbbell Thruster",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "plate-front-raise",
+      "name": "Elevación frontal con disco",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-lateral-raise",
+      "name": "Elevación lateral en polea",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "front-raises",
+      "name": "Elevaciones frontales",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "lateral-raises",
+      "name": "Elevaciones laterales",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "handstand-push-up",
+      "name": "Handstand Push-Up",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "machine-lateral-raise",
+      "name": "Machine Lateral Raise",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "overhead-carry",
+      "name": "Overhead Carry",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "pike-push-up",
+      "name": "Pike Push-Up",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "arnold-press",
+      "name": "Press Arnold",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-shoulder-press",
+      "name": "Press con mancuernas",
+      "group": "HOMBROS",
+      "status": "review",
+      "file": "dumbbell-shoulder-press--femenino.webp"
+    },
+    {
+      "id": "shoulder-press-machine",
+      "name": "Press de hombros en máquina",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "landmine-press",
+      "name": "Press landmine",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "overhead-press",
+      "name": "Press militar con barra",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "push-jerk",
+      "name": "Push Jerk",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "push-press",
+      "name": "Push press",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-external-rotation",
+      "name": "Rotación externa con banda",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "single-arm-overhead-press",
+      "name": "Single Arm Overhead Press",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "smith-machine-overhead-press",
+      "name": "Smith Machine Overhead Press",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "thruster",
+      "name": "Thruster",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "turkish-get-up",
+      "name": "Turkish Get-Up",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wall-handstand-hold",
+      "name": "Wall Handstand Hold",
+      "group": "HOMBROS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "backpack-biceps-curl",
+      "name": "Backpack Biceps Curl",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-bicep-curl",
+      "name": "Band Bicep Curl",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "biceps-curl",
+      "name": "Biceps Curl",
+      "group": "BÍCEPS",
+      "status": "ready",
+      "file": "biceps-curl--femenino--v3.webp"
+    },
+    {
+      "id": "alternating-dumbbell-curl",
+      "name": "Curl alterno con mancuernas",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "spider-curl",
+      "name": "Curl araña",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "barbell-curl",
+      "name": "Curl con barra recta",
+      "group": "BÍCEPS",
+      "status": "ready",
+      "file": "barbell-curl--femenino--v3.webp"
+    },
+    {
+      "id": "ez-bar-curl",
+      "name": "Curl con barra Z",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "concentration-curl",
+      "name": "Curl concentrado",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "incline-dumbbell-curl",
+      "name": "Curl en banco inclinado",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-curl",
+      "name": "Curl en polea baja",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-curl",
+      "name": "Curl inverso",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hammer-curls",
+      "name": "Curl martillo",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cross-body-hammer-curl",
+      "name": "Curl martillo cruzado",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "preacher-curl",
+      "name": "Curl predicador",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "machine-preacher-curl",
+      "name": "Curl Scott en máquina",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "single-arm-cable-curl",
+      "name": "Curl unilateral en polea",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "zottman-curl",
+      "name": "Curl Zottman",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-preacher-curl",
+      "name": "Dumbbell Preacher Curl",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "rope-hammer-curl",
+      "name": "Rope Hammer Curl",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-dumbbell-curl",
+      "name": "Seated Dumbbell Curl",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "suspension-biceps-curl",
+      "name": "Suspension Biceps Curl",
+      "group": "BÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-triceps-kickback",
+      "name": "Cable Triceps Kickback",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-skull-crusher",
+      "name": "Extensión acostado",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-tricep-pushdown",
+      "name": "Extensión con banda",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "tricep-pushdowns",
+      "name": "Extensión de tríceps en polea",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "overhead-triceps-extension",
+      "name": "Extensión sobre cabeza",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-overhead-triceps-extension",
+      "name": "Extensión unilateral en polea",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "machine-triceps-extension",
+      "name": "Machine Triceps Extension",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-kickback",
+      "name": "Patada de tríceps",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "skull-crushers",
+      "name": "Press francés",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "sphinx-push-up",
+      "name": "Sphinx Push-Up",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "suspension-triceps-extension",
+      "name": "Suspension Triceps Extension",
+      "group": "TRÍCEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-reverse-wrist-curl",
+      "name": "Dumbbell Reverse Wrist Curl",
+      "group": "ANTEBRAZOS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-wrist-curl",
+      "name": "Dumbbell Wrist Curl",
+      "group": "ANTEBRAZOS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "plate-pinch-hold",
+      "name": "Plate Pinch Hold",
+      "group": "ANTEBRAZOS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-wrist-curl",
+      "name": "Reverse Wrist Curl",
+      "group": "ANTEBRAZOS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "towel-wring",
+      "name": "Towel Wring",
+      "group": "ANTEBRAZOS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wrist-curl",
+      "name": "Wrist Curl",
+      "group": "ANTEBRAZOS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wrist-roller",
+      "name": "Wrist Roller",
+      "group": "ANTEBRAZOS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-leg-extension",
+      "name": "Band Leg Extension",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-squat",
+      "name": "Band Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "barbell-lunge",
+      "name": "Barbell Lunge",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "barbell-reverse-lunge",
+      "name": "Barbell Reverse Lunge",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "barbell-split-squat",
+      "name": "Barbell Split Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "barbell-step-up",
+      "name": "Barbell Step-Up",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "belt-squat",
+      "name": "Belt squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bodyweight-squat",
+      "name": "Bodyweight Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "ready",
+      "file": "bodyweight-squat--femenino.webp"
+    },
+    {
+      "id": "box-squat",
+      "name": "Box Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cossack-squat",
+      "name": "Cossack Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "curtsy-lunge",
+      "name": "Curtsy Lunge",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-reverse-lunge",
+      "name": "Dumbbell Reverse Lunge",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-squat",
+      "name": "Dumbbell Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "leg-extension",
+      "name": "Extensión de cuádriceps",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hang-clean",
+      "name": "Hang Clean",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hindu-squat",
+      "name": "Hindu Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-clean",
+      "name": "Kettlebell Clean",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-goblet-lunge",
+      "name": "Kettlebell Goblet Lunge",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-goblet-squat",
+      "name": "Kettlebell Goblet Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-snatch",
+      "name": "Kettlebell Snatch",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "landmine-squat",
+      "name": "Landmine squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "lateral-lunge",
+      "name": "Lateral Lunge",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "overhead-squat",
+      "name": "Overhead Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "pendulum-squat",
+      "name": "Pendulum Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "pistol-squat",
+      "name": "Pistol Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "power-clean",
+      "name": "Power Clean",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "leg-press",
+      "name": "Prensa de piernas",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-leg-press",
+      "name": "Prensa horizontal",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-nordic",
+      "name": "Reverse Nordic",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-knee-extension",
+      "name": "Seated Knee Extension",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "leg-press-moving-plate",
+      "name": "Seated Leg Press (Moving Plate)",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bulgarian-split-squat",
+      "name": "Sentadilla búlgara",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "squat",
+      "name": "Sentadilla con barra",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "ready",
+      "file": "squat--femenino--v3.webp"
+    },
+    {
+      "id": "smith-machine-squat",
+      "name": "Sentadilla en Smith",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "front-squat",
+      "name": "Sentadilla frontal",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "goblet-squat",
+      "name": "Sentadilla goblet",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hack-squat",
+      "name": "Sentadilla hack",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "sumo-squat",
+      "name": "Sentadilla sumo",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "single-leg-leg-press",
+      "name": "Single Leg Leg Press",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "sissy-squat",
+      "name": "Sissy squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "smith-machine-lunge",
+      "name": "Smith Machine Lunge",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "snatch",
+      "name": "Snatch",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "stability-ball-wall-squat",
+      "name": "Stability Ball Wall Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "step-down",
+      "name": "Step-Down",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "step-ups",
+      "name": "Step-Up",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-step-up",
+      "name": "Step-up al banco",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "lateral-step-up",
+      "name": "Step-up lateral",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "suspension-assisted-squat",
+      "name": "Suspension Assisted Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "trap-bar-deadlift",
+      "name": "Trap Bar Deadlift",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "v-squat",
+      "name": "V-Squat Machine",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "wall-sit",
+      "name": "Wall sit",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "reverse-lunge",
+      "name": "Zancada inversa",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-lunge",
+      "name": "Zancadas alternas",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "zercher-squat",
+      "name": "Zercher Squat",
+      "group": "PIERNAS · CUÁDRICEPS",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hip-abduction-machine",
+      "name": "Abducción en máquina",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-deadlift",
+      "name": "Band Deadlift",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-glute-kickback",
+      "name": "Band Glute Kickback",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "band-lying-leg-curl",
+      "name": "Band Lying Leg Curl",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "banded-glute-bridge",
+      "name": "Banded Glute Bridge",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "barbell-glute-bridge",
+      "name": "Barbell Glute Bridge",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "bodyweight-hip-thrust",
+      "name": "Bodyweight Hip Thrust",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "good-morning",
+      "name": "Buenos días con barra",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "clamshells",
+      "name": "Clamshells",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "leg-curl",
+      "name": "Curl femoral acostado",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "seated-leg-curl",
+      "name": "Curl femoral sentado",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "donkey-kicks",
+      "name": "Donkey Kicks",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-deadlift",
+      "name": "Dumbbell Deadlift",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "dumbbell-hip-thrust",
+      "name": "Dumbbell Hip Thrust",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "machine-glute-kickback",
+      "name": "Extensión de cadera",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "fire-hydrants",
+      "name": "Fire Hydrants",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "frog-pumps",
+      "name": "Frog Pumps",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "glute-bridge-march",
+      "name": "Glute Bridge March",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "glute-ham-raise",
+      "name": "Glute-Ham Raise",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hamstring-walkout",
+      "name": "Hamstring Walkout",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hip-adduction-machine",
+      "name": "Hip Adduction",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hip-thrusts",
+      "name": "Hip thrust con barra",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "hip-thrust-machine",
+      "name": "Hip Thrust Machine",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-deadlift",
+      "name": "Kettlebell Deadlift",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-romanian-deadlift",
+      "name": "Kettlebell Romanian Deadlift",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-sumo-deadlift",
+      "name": "Kettlebell Sumo Deadlift",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "kettlebell-swing",
+      "name": "Kettlebell swing",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "landmine-romanian-deadlift",
+      "name": "Landmine Romanian Deadlift",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "nordic-hamstring-curl",
+      "name": "Nordic Hamstring Curl",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "cable-kickback",
+      "name": "Patada de glúteo en polea",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "single-leg-romanian-deadlift",
+      "name": "Peso muerto a una pierna",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "pending",
+      "file": null
+    },
+    {
+      "id": "deadlift",
+      "name": "Peso muerto convencional",
+      "group": "GLÚTEOS · FEMORALES",
+      "status": "ready",
+      "file": "deadlift--femenino--v3.webp"
     },
     {
       "id": "romanian-deadlift",
