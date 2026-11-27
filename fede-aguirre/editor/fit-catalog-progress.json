@@ -1,13 +1,15 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "00921700b68fd14320b5c7c058647b3970e9463b",
+  "updatedFrom": "403df378a996c30ccf8358cd1d50b2df630983ef",
   "male": [
     {
       "id": "dumbbell-fly",
       "name": "Aperturas con mancuernas",
       "group": "PECTORAL",
       "status": "pending",
-      "file": null
+      "file": "dumbbell-fly--masculino--v6.webp",
+      "review": true,
+      "reviewNote": "Banco inclinado o flexión excesiva de codos."
     },
     {
       "id": "pec-deck",
@@ -34,8 +36,8 @@
       "id": "barbell-pullover",
       "name": "Barbell Pullover",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "barbell-pullover--masculino--v6.webp"
     },
     {
       "id": "close-grip-bench-press",
@@ -63,7 +65,9 @@
       "name": "Cruce de poleas bajas",
       "group": "PECTORAL",
       "status": "pending",
-      "file": null
+      "file": "cable-fly-low-to-high--masculino--v6.webp",
+      "review": true,
+      "reviewNote": "Los cables descienden desde poleas altas."
     },
     {
       "id": "deficit-push-up",
@@ -84,7 +88,9 @@
       "name": "Dumbbell Decline Press",
       "group": "PECTORAL",
       "status": "pending",
-      "file": null
+      "file": "dumbbell-decline-press--masculino--v6.webp",
+      "review": true,
+      "reviewNote": "No se confirma la inclinación declinada del banco."
     },
     {
       "id": "dumbbell-floor-press",
@@ -112,7 +118,9 @@
       "name": "Flexiones arquero",
       "group": "PECTORAL",
       "status": "pending",
-      "file": null
+      "file": "archer-push-up--masculino--v6.webp",
+      "review": true,
+      "reviewNote": "No se aprecia el brazo lateral extendido."
     },
     {
       "id": "decline-push-up",
@@ -146,22 +154,24 @@
       "id": "hindu-push-up",
       "name": "Hindu Push-Up",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hindu-push-up--masculino--v6.webp"
     },
     {
       "id": "incline-dumbbell-fly",
       "name": "Incline Dumbbell Fly",
       "group": "PECTORAL",
       "status": "pending",
-      "file": null
+      "file": "incline-dumbbell-fly--masculino--v6.webp",
+      "review": true,
+      "reviewNote": "La flexión de los codos parece un press."
     },
     {
       "id": "kettlebell-press",
       "name": "Kettlebell Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-press--masculino--v6.webp"
     },
     {
       "id": "knee-push-up",
@@ -174,8 +184,8 @@
       "id": "plate-loaded-incline-chest-press",
       "name": "Plate-Loaded Incline Chest Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "plate-loaded-incline-chest-press--masculino--v6.webp"
     },
     {
       "id": "dumbbell-chest-press",
@@ -189,14 +199,18 @@
       "name": "Press banca en Smith",
       "group": "PECTORAL",
       "status": "pending",
-      "file": null
+      "file": "smith-machine-bench-press--masculino--v6.webp",
+      "review": true,
+      "reviewNote": "No se confirma que el banco sea plano."
     },
     {
       "id": "band-chest-press",
       "name": "Press con bandas elásticas",
       "group": "PECTORAL",
       "status": "pending",
-      "file": null
+      "file": "band-chest-press--masculino--v6.webp",
+      "review": true,
+      "reviewNote": "Las bandas parecen ancladas bajo los pies."
     },
     {
       "id": "bench-press",
@@ -217,7 +231,9 @@
       "name": "Press declinado",
       "group": "PECTORAL",
       "status": "pending",
-      "file": null
+      "file": "decline-bench-press--masculino--v6.webp",
+      "review": true,
+      "reviewNote": "El respaldo parece inclinado, no declinado."
     },
     {
       "id": "incline-bench-press",
@@ -524,8 +540,9 @@
       "id": "bent-over-row",
       "name": "Remo con barra",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "bent-over-row--masculino.webp"
+      "status": "pending",
+      "file": "bent-over-row--masculino.webp",
+      "review": true
     },
     {
       "id": "t-bar-row",
@@ -839,8 +856,9 @@
       "id": "dumbbell-shoulder-press",
       "name": "Press con mancuernas",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "dumbbell-shoulder-press--masculino.webp"
+      "status": "pending",
+      "file": "dumbbell-shoulder-press--masculino.webp",
+      "review": true
     },
     {
       "id": "shoulder-press-machine",

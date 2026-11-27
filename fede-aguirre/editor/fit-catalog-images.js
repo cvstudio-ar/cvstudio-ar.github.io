@@ -1,4 +1,4 @@
-/* Fede FIT: exercise photos, matched by catalog ID and model. */
+/* Fede FIT: independent exercise references; provisional images remain hidden pending technical review. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -282,6 +282,98 @@ window.FIT_CATALOG_IMAGES = {
       "file": "wide-push-up--masculino--v5.webp",
       "label": "POSTURA",
       "provisional": false
+    }
+  },
+  "dumbbell-fly": {
+    "masculino": {
+      "file": "dumbbell-fly--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Banco inclinado o flexión excesiva de codos."
+    }
+  },
+  "barbell-pullover": {
+    "masculino": {
+      "file": "barbell-pullover--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-fly-low-to-high": {
+    "masculino": {
+      "file": "cable-fly-low-to-high--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Los cables descienden desde poleas altas."
+    }
+  },
+  "dumbbell-decline-press": {
+    "masculino": {
+      "file": "dumbbell-decline-press--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se confirma la inclinación declinada del banco."
+    }
+  },
+  "archer-push-up": {
+    "masculino": {
+      "file": "archer-push-up--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se aprecia el brazo lateral extendido."
+    }
+  },
+  "hindu-push-up": {
+    "masculino": {
+      "file": "hindu-push-up--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "incline-dumbbell-fly": {
+    "masculino": {
+      "file": "incline-dumbbell-fly--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La flexión de los codos parece un press."
+    }
+  },
+  "kettlebell-press": {
+    "masculino": {
+      "file": "kettlebell-press--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "plate-loaded-incline-chest-press": {
+    "masculino": {
+      "file": "plate-loaded-incline-chest-press--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "smith-machine-bench-press": {
+    "masculino": {
+      "file": "smith-machine-bench-press--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se confirma que el banco sea plano."
+    }
+  },
+  "band-chest-press": {
+    "masculino": {
+      "file": "band-chest-press--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Las bandas parecen ancladas bajo los pies."
+    }
+  },
+  "decline-bench-press": {
+    "masculino": {
+      "file": "decline-bench-press--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "El respaldo parece inclinado, no declinado."
     }
   }
 };
