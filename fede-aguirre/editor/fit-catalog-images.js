@@ -7,8 +7,8 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "pull-up--femenino.webp",
-      "label": "INICIO",
+      "file": "pull-up--femenino--back02.webp",
+      "label": "REFERENCIA",
       "provisional": false
     }
   },

@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "eed7eb3b0fd1a6915a41f0909573687ce8e5b980",
+  "updatedFrom": "fd3c8ad9a7960753b131c48865adf1c400f2a7e8",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3278,7 +3278,7 @@
       "name": "Dominadas pronas",
       "group": "ESPALDA",
       "status": "ready",
-      "file": "pull-up--femenino.webp"
+      "file": "pull-up--femenino--back02.webp"
     },
     {
       "id": "chin-up",
