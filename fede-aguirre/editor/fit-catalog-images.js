@@ -38,9 +38,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "bent-over-row": {
     "masculino": {
-      "file": "bent-over-row--masculino.webp",
-      "label": "POSTURA",
-      "provisional": true
+      "file": "bent-over-row--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     },
     "femenino": {
       "file": "bent-over-row--femenino.webp",
@@ -768,6 +768,87 @@ window.FIT_CATALOG_IMAGES = {
   "negative-pull-up": {
     "masculino": {
       "file": "negative-pull-up--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "neutral-grip-pull-up": {
+    "masculino": {
+      "file": "neutral-grip-pull-up--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "pendlay-row": {
+    "masculino": {
+      "file": "pendlay-row--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "prone-t-raise": {
+    "masculino": {
+      "file": "prone-t-raise--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía usa mancuernas; el catálogo especifica peso corporal."
+    }
+  },
+  "prone-w-raise": {
+    "masculino": {
+      "file": "prone-w-raise--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía usa mancuernas; el catálogo especifica peso corporal."
+    }
+  },
+  "prone-y-raise": {
+    "masculino": {
+      "file": "prone-y-raise--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía usa mancuernas; el catálogo especifica peso corporal."
+    }
+  },
+  "straight-arm-pulldown": {
+    "masculino": {
+      "file": "straight-arm-pulldown--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "rear-delt-fly": {
+    "masculino": {
+      "file": "rear-delt-fly--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía muestra una máquina; el catálogo especifica mancuernas."
+    }
+  },
+  "t-bar-row": {
+    "masculino": {
+      "file": "t-bar-row--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-row": {
+    "masculino": {
+      "file": "dumbbell-row--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "machine-row": {
+    "masculino": {
+      "file": "machine-row--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "inverted-row": {
+    "masculino": {
+      "file": "inverted-row--masculino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "9fe23d6c53fc8e8930ca1de3d09d8ce9bac1c217",
+  "updatedFrom": "5b5d4888d9d125a596fd95df1933b028d8ddef27",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -475,85 +475,85 @@
       "id": "neutral-grip-pull-up",
       "name": "Neutral Grip Pull Up",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "neutral-grip-pull-up--masculino--back03.webp"
     },
     {
       "id": "pendlay-row",
       "name": "Pendlay Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "pendlay-row--masculino--back03.webp"
     },
     {
       "id": "prone-t-raise",
       "name": "Prone T-Raise",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "prone-t-raise--masculino--back03.webp"
     },
     {
       "id": "prone-w-raise",
       "name": "Prone W-Raise",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "prone-w-raise--masculino--back03.webp"
     },
     {
       "id": "prone-y-raise",
       "name": "Prone Y-Raise",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "prone-y-raise--masculino--back03.webp"
     },
     {
       "id": "straight-arm-pulldown",
       "name": "Pullover en polea",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "straight-arm-pulldown--masculino--back03.webp"
     },
     {
       "id": "rear-delt-fly",
       "name": "Rear Delt Fly",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "rear-delt-fly--masculino--back03.webp"
     },
     {
       "id": "bent-over-row",
       "name": "Remo con barra",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "bent-over-row--masculino.webp"
+      "status": "ready",
+      "file": "bent-over-row--masculino--back03.webp"
     },
     {
       "id": "t-bar-row",
       "name": "Remo con barra T",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "t-bar-row--masculino--back03.webp"
     },
     {
       "id": "dumbbell-row",
       "name": "Remo con mancuerna",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-row--masculino--back03.webp"
     },
     {
       "id": "machine-row",
       "name": "Remo en máquina",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "machine-row--masculino--back03.webp"
     },
     {
       "id": "inverted-row",
       "name": "Remo invertido",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "inverted-row--masculino--back03.webp"
     },
     {
       "id": "meadows-row",
