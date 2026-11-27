@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "823c51afa3a50a63b568b1e75c7ee8118895fd1d",
+  "updatedFrom": "d8f0db04194c4b554a8fe613c281e7d700456d1e",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3382,36 +3382,36 @@
       "id": "neutral-grip-pull-up",
       "name": "Neutral Grip Pull Up",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "neutral-grip-pull-up--femenino--back03.webp"
     },
     {
       "id": "pendlay-row",
       "name": "Pendlay Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "pendlay-row--femenino--back03.webp"
     },
     {
       "id": "prone-t-raise",
       "name": "Prone T-Raise",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "prone-t-raise--femenino--back03.webp"
     },
     {
       "id": "prone-w-raise",
       "name": "Prone W-Raise",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "prone-w-raise--femenino--back03.webp"
     },
     {
       "id": "prone-y-raise",
       "name": "Prone Y-Raise",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "prone-y-raise--femenino--back03.webp"
     },
     {
       "id": "straight-arm-pulldown",
@@ -3459,15 +3459,15 @@
       "id": "inverted-row",
       "name": "Remo invertido",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "inverted-row--femenino--back03.webp"
     },
     {
       "id": "meadows-row",
       "name": "Remo Meadows",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "meadows-row--femenino--back03.webp"
     },
     {
       "id": "chest-supported-dumbbell-row",

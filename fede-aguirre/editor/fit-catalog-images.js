@@ -897,11 +897,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "neutral-grip-pull-up--masculino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "neutral-grip-pull-up--femenino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "pendlay-row": {
     "masculino": {
       "file": "pendlay-row--masculino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "pendlay-row--femenino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -911,6 +921,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "prone-t-raise--masculino--back06.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "prone-t-raise--femenino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "prone-w-raise": {
@@ -918,11 +933,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "prone-w-raise--masculino--back06.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "prone-w-raise--femenino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "prone-y-raise": {
     "masculino": {
       "file": "prone-y-raise--masculino--back06.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "prone-y-raise--femenino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -992,6 +1017,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "inverted-row--masculino--back03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "inverted-row--femenino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "meadows-row": {
@@ -999,6 +1029,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "meadows-row--masculino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "meadows-row--femenino--back03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La ilustración muestra ambas manos en la barra; el remo Meadows debe ser unilateral."
     }
   },
   "chest-supported-dumbbell-row": {
