@@ -1,4 +1,4 @@
-/* Fede FIT: independent exercise photographs; only approved references enabled. */
+/* Fede FIT: independent exercise photographs; provisional references are identified. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -148,6 +148,13 @@ window.FIT_CATALOG_IMAGES = {
     "masculino": {
       "file": "cable-fly-high-to-low--masculino--v4.webp",
       "label": "INICIO",
+      "provisional": false
+    }
+  },
+  "chest-press-machine": {
+    "masculino": {
+      "file": "chest-press-machine--masculino--v4.webp",
+      "label": "REFERENCIA",
       "provisional": false
     }
   }
