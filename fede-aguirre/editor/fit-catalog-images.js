@@ -609,11 +609,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "back-extensions--masculino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "back-extensions--femenino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "backpack-row": {
     "masculino": {
       "file": "backpack-row--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "backpack-row--femenino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -623,11 +633,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "band-lat-pulldown--masculino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "band-lat-pulldown--femenino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-pull-apart": {
     "masculino": {
       "file": "band-pull-apart--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "band-pull-apart--femenino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -637,11 +657,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "bird-dog--masculino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "bird-dog--femenino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "cable-shrug": {
     "masculino": {
       "file": "cable-shrug--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "cable-shrug--femenino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -651,11 +681,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "cable-upright-row--masculino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "cable-upright-row--femenino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "cable-y-raise": {
     "masculino": {
       "file": "cable-y-raise--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "cable-y-raise--femenino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -665,11 +705,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "chest-supported-t-bar-row--masculino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "chest-supported-t-bar-row--femenino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dead-hang": {
     "masculino": {
       "file": "dead-hang--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "dead-hang--femenino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -679,11 +729,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "assisted-pull-up--masculino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "assisted-pull-up--femenino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "chin-up": {
     "masculino": {
       "file": "chin-up--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "chin-up--femenino--back01.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
