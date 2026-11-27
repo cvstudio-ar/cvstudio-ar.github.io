@@ -2,8 +2,8 @@
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
-      "file": "pull-up--masculino.webp",
-      "label": "INICIO",
+      "file": "pull-up--masculino--back07.webp",
+      "label": "REFERENCIA",
       "provisional": false
     },
     "femenino": {
@@ -122,8 +122,8 @@ window.FIT_CATALOG_IMAGES = {
   },
   "lat-pulldown": {
     "masculino": {
-      "file": "lat-pulldown--masculino--v3.webp",
-      "label": "FINAL",
+      "file": "lat-pulldown--masculino--back07.webp",
+      "label": "REFERENCIA",
       "provisional": false
     },
     "femenino": {

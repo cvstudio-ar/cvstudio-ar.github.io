@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "1c8ab43b96fad0d21d224c997663107543806b58",
+  "updatedFrom": "94fd12d9ced6fef4b3e660a1d2ed555ac4cb3b75",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -371,7 +371,7 @@
       "name": "Dominadas pronas",
       "group": "ESPALDA",
       "status": "ready",
-      "file": "pull-up--masculino.webp"
+      "file": "pull-up--masculino--back07.webp"
     },
     {
       "id": "chin-up",
@@ -427,7 +427,7 @@
       "name": "Jalón al pecho",
       "group": "ESPALDA",
       "status": "ready",
-      "file": "lat-pulldown--masculino--v3.webp"
+      "file": "lat-pulldown--masculino--back07.webp"
     },
     {
       "id": "close-grip-lat-pulldown",
