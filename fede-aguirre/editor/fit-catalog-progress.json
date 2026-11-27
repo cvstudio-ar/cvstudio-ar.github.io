@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "fd3c8ad9a7960753b131c48865adf1c400f2a7e8",
+  "updatedFrom": "943f49ad0085b57e7889a57257531a1ead4dd6e0",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3291,43 +3291,43 @@
       "id": "doorway-row",
       "name": "Doorway Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "doorway-row--femenino--back02.webp"
     },
     {
       "id": "dumbbell-shrug",
       "name": "Dumbbell Shrug",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-shrug--femenino--back02.webp"
     },
     {
       "id": "dumbbell-upright-row",
       "name": "Dumbbell Upright Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-upright-row--femenino--back02.webp"
     },
     {
       "id": "face-pulls",
       "name": "Face pull",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "face-pulls--femenino--back02.webp"
     },
     {
       "id": "farmers-walk",
       "name": "Farmer's Walk",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "farmers-walk--femenino--back02.webp"
     },
     {
       "id": "feet-elevated-inverted-row",
       "name": "Feet Elevated Inverted Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "feet-elevated-inverted-row--femenino--back02.webp"
     },
     {
       "id": "lat-pulldown",
@@ -3340,43 +3340,43 @@
       "id": "close-grip-lat-pulldown",
       "name": "Jalón con agarre neutro",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "close-grip-lat-pulldown--femenino--back02.webp"
     },
     {
       "id": "kettlebell-row",
       "name": "Kettlebell Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-row--femenino--back02.webp"
     },
     {
       "id": "machine-high-row",
       "name": "Machine High Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "machine-high-row--femenino--back02.webp"
     },
     {
       "id": "machine-pullover",
       "name": "Machine Pullover",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "machine-pullover--femenino--back02.webp"
     },
     {
       "id": "muscle-up",
       "name": "Muscle-Up",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "muscle-up--femenino--back02.webp"
     },
     {
       "id": "negative-pull-up",
       "name": "Negative Pull-Up",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "negative-pull-up--femenino--back02.webp"
     },
     {
       "id": "neutral-grip-pull-up",

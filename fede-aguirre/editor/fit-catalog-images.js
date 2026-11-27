@@ -753,11 +753,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "doorway-row--masculino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "doorway-row--femenino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-shrug": {
     "masculino": {
       "file": "dumbbell-shrug--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "dumbbell-shrug--femenino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -767,11 +777,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-upright-row--masculino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "dumbbell-upright-row--femenino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "face-pulls": {
     "masculino": {
       "file": "face-pulls--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "face-pulls--femenino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -781,11 +801,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "farmers-walk--masculino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "farmers-walk--femenino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "feet-elevated-inverted-row": {
     "masculino": {
       "file": "feet-elevated-inverted-row--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "feet-elevated-inverted-row--femenino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -795,11 +825,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "close-grip-lat-pulldown--masculino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "close-grip-lat-pulldown--femenino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "kettlebell-row": {
     "masculino": {
       "file": "kettlebell-row--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "kettlebell-row--femenino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -809,11 +849,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "machine-high-row--masculino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "machine-high-row--femenino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "machine-pullover": {
     "masculino": {
       "file": "machine-pullover--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "machine-pullover--femenino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -823,11 +873,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "muscle-up--masculino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "muscle-up--femenino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "negative-pull-up": {
     "masculino": {
       "file": "negative-pull-up--masculino--back02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "negative-pull-up--femenino--back02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
