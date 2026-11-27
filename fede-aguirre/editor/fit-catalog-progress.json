@@ -1,13 +1,14 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "fd67b1a687bf0f8888e60b95570fa245ba2aaabe",
+  "updatedFrom": "e283ffefedb603209f0bca321f0205598c8a5068",
   "male": [
     {
       "id": "dumbbell-fly",
       "name": "Aperturas con mancuernas",
       "group": "PECTORAL",
       "status": "review",
-      "file": "dumbbell-fly--masculino--v6.webp"
+      "file": "dumbbell-fly--masculino--v8.webp",
+      "reviewNote": "El banco parece inclinado y los codos están muy flexionados; confirmar apertura plana."
     },
     {
       "id": "pec-deck",
@@ -63,7 +64,8 @@
       "name": "Cruce de poleas bajas",
       "group": "PECTORAL",
       "status": "review",
-      "file": "cable-fly-low-to-high--masculino--v6.webp"
+      "file": "cable-fly-low-to-high--masculino--v8.webp",
+      "reviewNote": "Los cables descienden desde arriba; no representa un cruce de abajo hacia arriba."
     },
     {
       "id": "deficit-push-up",
@@ -84,7 +86,8 @@
       "name": "Dumbbell Decline Press",
       "group": "PECTORAL",
       "status": "review",
-      "file": "dumbbell-decline-press--masculino--v6.webp"
+      "file": "dumbbell-decline-press--masculino--v8.webp",
+      "reviewNote": "No se confirma que la cabeza quede por debajo de las caderas."
     },
     {
       "id": "dumbbell-floor-press",
@@ -111,8 +114,8 @@
       "id": "archer-push-up",
       "name": "Flexiones arquero",
       "group": "PECTORAL",
-      "status": "review",
-      "file": "archer-push-up--masculino--v6.webp"
+      "status": "ready",
+      "file": "archer-push-up--masculino--v8.webp"
     },
     {
       "id": "decline-push-up",
@@ -154,7 +157,8 @@
       "name": "Incline Dumbbell Fly",
       "group": "PECTORAL",
       "status": "review",
-      "file": "incline-dumbbell-fly--masculino--v6.webp"
+      "file": "incline-dumbbell-fly--masculino--v8.webp",
+      "reviewNote": "Flexión de codos cercana a un press; requiere una apertura más clara."
     },
     {
       "id": "kettlebell-press",
@@ -189,14 +193,16 @@
       "name": "Press banca en Smith",
       "group": "PECTORAL",
       "status": "review",
-      "file": "smith-machine-bench-press--masculino--v6.webp"
+      "file": "smith-machine-bench-press--masculino--v8.webp",
+      "reviewNote": "No se confirma el respaldo plano; parece inclinado."
     },
     {
       "id": "band-chest-press",
       "name": "Press con bandas elásticas",
       "group": "PECTORAL",
       "status": "review",
-      "file": "band-chest-press--masculino--v6.webp"
+      "file": "band-chest-press--masculino--v8.webp",
+      "reviewNote": "Se ven bandas adicionales hacia los pies; revisar el anclaje y la trayectoria."
     },
     {
       "id": "bench-press",
@@ -217,7 +223,8 @@
       "name": "Press declinado",
       "group": "PECTORAL",
       "status": "review",
-      "file": "decline-bench-press--masculino--v6.webp"
+      "file": "decline-bench-press--masculino--v8.webp",
+      "reviewNote": "El respaldo parece inclinado y no declinado."
     },
     {
       "id": "incline-bench-press",
@@ -244,8 +251,8 @@
       "id": "seated-dip-machine",
       "name": "Seated Dip Machine",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-dip-machine--masculino--v8.webp"
     },
     {
       "id": "smith-machine-incline-press",
@@ -265,22 +272,23 @@
       "id": "suspension-chest-press",
       "name": "Suspension Chest Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-chest-press--masculino--v8.webp"
     },
     {
       "id": "wall-push-up",
       "name": "Wall Push-Up",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wall-push-up--masculino--v8.webp"
     },
     {
       "id": "wide-grip-bench-press",
       "name": "Wide Grip Bench Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "wide-grip-bench-press--masculino--v8.webp",
+      "reviewNote": "El agarre es amplio, pero el banco parece inclinado; confirmar variante plana."
     },
     {
       "id": "wide-push-up",
