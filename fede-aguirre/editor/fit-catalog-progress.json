@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "1391e37fdd66d89a12a26ccdbfd90246457750d8",
+  "updatedFrom": "0c3c59945722599f486d058f78cee450a6366ec7",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -629,85 +629,85 @@
       "id": "seal-row",
       "name": "Seal row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seal-row--masculino--back05.webp"
     },
     {
       "id": "shrugs",
       "name": "Shrug",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "shrugs--masculino--back05.webp"
     },
     {
       "id": "single-arm-cable-row",
       "name": "Single-Arm Cable Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "single-arm-cable-row--masculino--back05.webp"
     },
     {
       "id": "smith-machine-bent-over-row",
       "name": "Smith Machine Bent-Over Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-bent-over-row--masculino--back05.webp"
     },
     {
       "id": "smith-machine-shrug",
       "name": "Smith Machine Shrug",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-shrug--masculino--back05.webp"
     },
     {
       "id": "superman",
       "name": "Superman",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "superman--masculino--back05.webp"
     },
     {
       "id": "superman-pulldown",
       "name": "Superman Pulldown",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "superman-pulldown--masculino--back05.webp"
     },
     {
       "id": "suspension-row",
       "name": "Suspension Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-row--masculino--back05.webp"
     },
     {
       "id": "table-inverted-row",
       "name": "Table Inverted Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "table-inverted-row--masculino--back05.webp"
     },
     {
       "id": "towel-row",
       "name": "Towel Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "towel-row--masculino--back05.webp"
     },
     {
       "id": "upright-row",
       "name": "Upright Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "upright-row--masculino--back05.webp"
     },
     {
       "id": "wide-grip-pull-up",
       "name": "Wide Grip Pull Up",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wide-grip-pull-up--masculino--back05.webp"
     },
     {
       "id": "band-internal-rotation",

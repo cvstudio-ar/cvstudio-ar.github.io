@@ -922,5 +922,89 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false
     }
+  },
+  "seal-row": {
+    "masculino": {
+      "file": "seal-row--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "shrugs": {
+    "masculino": {
+      "file": "shrugs--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "single-arm-cable-row": {
+    "masculino": {
+      "file": "single-arm-cable-row--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "smith-machine-bent-over-row": {
+    "masculino": {
+      "file": "smith-machine-bent-over-row--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "smith-machine-shrug": {
+    "masculino": {
+      "file": "smith-machine-shrug--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "superman": {
+    "masculino": {
+      "file": "superman--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "superman-pulldown": {
+    "masculino": {
+      "file": "superman-pulldown--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "suspension-row": {
+    "masculino": {
+      "file": "suspension-row--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "table-inverted-row": {
+    "masculino": {
+      "file": "table-inverted-row--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "towel-row": {
+    "masculino": {
+      "file": "towel-row--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "upright-row": {
+    "masculino": {
+      "file": "upright-row--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "wide-grip-pull-up": {
+    "masculino": {
+      "file": "wide-grip-pull-up--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
   }
 };
