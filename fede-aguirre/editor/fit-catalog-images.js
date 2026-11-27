@@ -19,8 +19,8 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "dumbbell-chest-press--femenino.webp",
-      "label": "FINAL",
+      "file": "dumbbell-chest-press--femenino--v20.webp",
+      "label": "REFERENCIA",
       "provisional": false
     }
   },

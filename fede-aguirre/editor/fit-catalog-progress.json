@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "94fd12d9ced6fef4b3e660a1d2ed555ac4cb3b75",
+  "updatedFrom": "4702750979c669b32f6474713e52f60524994648",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3089,7 +3089,7 @@
       "name": "Press banca con mancuernas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "dumbbell-chest-press--femenino.webp"
+      "file": "dumbbell-chest-press--femenino--v20.webp"
     },
     {
       "id": "smith-machine-bench-press",
