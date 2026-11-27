@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "98cee2e6bb39ec536e651a2f2c35b8acdffb373b",
+  "updatedFrom": "00921700b68fd14320b5c7c058647b3970e9463b",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -69,8 +69,8 @@
       "id": "deficit-push-up",
       "name": "Deficit Push Up",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "deficit-push-up--masculino--v5.webp"
     },
     {
       "id": "diamond-push-up",
@@ -286,8 +286,8 @@
       "id": "wide-push-up",
       "name": "Wide Push-Up",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wide-push-up--masculino--v5.webp"
     },
     {
       "id": "back-extensions",

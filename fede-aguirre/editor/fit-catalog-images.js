@@ -269,5 +269,19 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false
     }
+  },
+  "deficit-push-up": {
+    "masculino": {
+      "file": "deficit-push-up--masculino--v5.webp",
+      "label": "POSTURA",
+      "provisional": false
+    }
+  },
+  "wide-push-up": {
+    "masculino": {
+      "file": "wide-push-up--masculino--v5.webp",
+      "label": "POSTURA",
+      "provisional": false
+    }
   }
 };
