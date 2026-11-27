@@ -14,8 +14,8 @@ window.FIT_CATALOG_IMAGES = {
   },
   "dumbbell-chest-press": {
     "masculino": {
-      "file": "dumbbell-chest-press--masculino.webp",
-      "label": "FINAL",
+      "file": "dumbbell-chest-press--masculino--card21.svg",
+      "label": "REFERENCIA",
       "provisional": false
     },
     "femenino": {
@@ -98,8 +98,8 @@ window.FIT_CATALOG_IMAGES = {
   },
   "bench-press": {
     "masculino": {
-      "file": "bench-press--masculino--v3.webp",
-      "label": "FINAL",
+      "file": "bench-press--masculino--card21.svg",
+      "label": "REFERENCIA",
       "provisional": false
     },
     "femenino": {
@@ -110,8 +110,8 @@ window.FIT_CATALOG_IMAGES = {
   },
   "incline-dumbbell-press": {
     "masculino": {
-      "file": "incline-dumbbell-press--masculino--v3.webp",
-      "label": "INICIO",
+      "file": "incline-dumbbell-press--masculino--card21.svg",
+      "label": "REFERENCIA",
       "provisional": false
     },
     "femenino": {
@@ -158,7 +158,7 @@ window.FIT_CATALOG_IMAGES = {
   },
   "chest-press-machine": {
     "masculino": {
-      "file": "chest-press-machine--masculino--v4.webp",
+      "file": "chest-press-machine--masculino--card21.svg",
       "label": "REFERENCIA",
       "provisional": false
     },

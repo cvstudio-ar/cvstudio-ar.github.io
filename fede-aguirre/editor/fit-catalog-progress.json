@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "4702750979c669b32f6474713e52f60524994648",
+  "updatedFrom": "5d122e7492f863fa62f6a6912000801a2044be0c",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -182,7 +182,7 @@
       "name": "Press banca con mancuernas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "dumbbell-chest-press--masculino.webp"
+      "file": "dumbbell-chest-press--masculino--card21.svg"
     },
     {
       "id": "smith-machine-bench-press",
@@ -203,14 +203,14 @@
       "name": "Press de banca con barra",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "bench-press--masculino--v3.webp"
+      "file": "bench-press--masculino--card21.svg"
     },
     {
       "id": "chest-press-machine",
       "name": "Press de pecho en máquina",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "chest-press-machine--masculino--v4.webp"
+      "file": "chest-press-machine--masculino--card21.svg"
     },
     {
       "id": "decline-bench-press",
@@ -231,7 +231,7 @@
       "name": "Press inclinado con mancuernas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "incline-dumbbell-press--masculino--v3.webp"
+      "file": "incline-dumbbell-press--masculino--card21.svg"
     },
     {
       "id": "dumbbell-pullover",
