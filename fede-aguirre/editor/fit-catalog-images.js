@@ -1,4 +1,4 @@
-/* Fede FIT: independent exercise photographs; provisional references are identified. */
+/* Fede FIT: exercise photos, matched by catalog ID and model. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -154,6 +154,118 @@ window.FIT_CATALOG_IMAGES = {
   "chest-press-machine": {
     "masculino": {
       "file": "chest-press-machine--masculino--v4.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "assisted-dip-machine": {
+    "masculino": {
+      "file": "assisted-dip-machine--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "barbell-floor-press": {
+    "masculino": {
+      "file": "barbell-floor-press--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "bench-dip": {
+    "masculino": {
+      "file": "bench-dip--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-crossover": {
+    "masculino": {
+      "file": "cable-crossover--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "close-grip-bench-press": {
+    "masculino": {
+      "file": "close-grip-bench-press--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "decline-push-up": {
+    "masculino": {
+      "file": "decline-push-up--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "diamond-push-up": {
+    "masculino": {
+      "file": "diamond-push-up--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dips": {
+    "masculino": {
+      "file": "dips--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-floor-press": {
+    "masculino": {
+      "file": "dumbbell-floor-press--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-pullover": {
+    "masculino": {
+      "file": "dumbbell-pullover--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-squeeze-press": {
+    "masculino": {
+      "file": "dumbbell-squeeze-press--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "incline-bench-press": {
+    "masculino": {
+      "file": "incline-bench-press--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "incline-push-up": {
+    "masculino": {
+      "file": "incline-push-up--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "knee-push-up": {
+    "masculino": {
+      "file": "knee-push-up--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "pec-deck": {
+    "masculino": {
+      "file": "pec-deck--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "push-up": {
+    "masculino": {
+      "file": "push-up--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
