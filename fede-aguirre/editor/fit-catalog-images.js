@@ -209,6 +209,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "cable-crossover--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "cable-crossover--femenino--v17.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Poleas altas en vez de la variante a media altura; evitar duplicar el cruce alto."
     }
   },
   "close-grip-bench-press": {
@@ -360,12 +366,22 @@ window.FIT_CATALOG_IMAGES = {
       "file": "deficit-push-up--masculino--v5.webp",
       "label": "POSTURA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "deficit-push-up--femenino--v17.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "wide-push-up": {
     "masculino": {
       "file": "wide-push-up--masculino--v5.webp",
       "label": "POSTURA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "wide-push-up--femenino--v17.webp",
+      "label": "REFERENCIA",
       "provisional": false
     }
   },
@@ -385,6 +401,11 @@ window.FIT_CATALOG_IMAGES = {
   "barbell-pullover": {
     "masculino": {
       "file": "barbell-pullover--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "barbell-pullover--femenino--v17.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -418,6 +439,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "archer-push-up--masculino--v8.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "archer-push-up--femenino--v17.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Ambos codos flexionados, no se aprecia el brazo lateral extendido."
     }
   },
   "hindu-push-up": {
@@ -450,11 +477,22 @@ window.FIT_CATALOG_IMAGES = {
       "file": "kettlebell-press--masculino--v6.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "kettlebell-press--femenino--v17.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La postura es un press vertical de hombros, no la variante de pecho del catálogo."
     }
   },
   "plate-loaded-incline-chest-press": {
     "masculino": {
       "file": "plate-loaded-incline-chest-press--masculino--v6.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "plate-loaded-incline-chest-press--femenino--v17.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -477,6 +515,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "band-chest-press--masculino--v9.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "band-chest-press--femenino--v17.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "decline-bench-press": {
@@ -496,11 +539,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "smith-machine-incline-press--masculino--v7.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "smith-machine-incline-press--femenino--v17.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "standing-cable-chest-press": {
     "masculino": {
       "file": "standing-cable-chest-press--masculino--v7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "standing-cable-chest-press--femenino--v17.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -510,11 +563,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "seated-dip-machine--masculino--v8.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "seated-dip-machine--femenino--v17.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "suspension-chest-press": {
     "masculino": {
       "file": "suspension-chest-press--masculino--v8.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "suspension-chest-press--femenino--v17.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

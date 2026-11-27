@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "925212679f6bfae5c7b31e986b110d0534c17093",
+  "updatedFrom": "b825a040ea74158ebf698d142d18804316d76976",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -2941,8 +2941,8 @@
       "id": "barbell-pullover",
       "name": "Barbell Pullover",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "barbell-pullover--femenino--v17.webp"
     },
     {
       "id": "close-grip-bench-press",
@@ -2955,8 +2955,8 @@
       "id": "cable-crossover",
       "name": "Cruce de poleas",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "cable-crossover--femenino--v17.webp"
     },
     {
       "id": "cable-fly-high-to-low",
@@ -2976,8 +2976,8 @@
       "id": "deficit-push-up",
       "name": "Deficit Push Up",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "deficit-push-up--femenino--v17.webp"
     },
     {
       "id": "diamond-push-up",
@@ -3018,8 +3018,8 @@
       "id": "archer-push-up",
       "name": "Flexiones arquero",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "archer-push-up--femenino--v17.webp"
     },
     {
       "id": "decline-push-up",
@@ -3067,8 +3067,8 @@
       "id": "kettlebell-press",
       "name": "Kettlebell Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "kettlebell-press--femenino--v17.webp"
     },
     {
       "id": "knee-push-up",
@@ -3081,8 +3081,8 @@
       "id": "plate-loaded-incline-chest-press",
       "name": "Plate-Loaded Incline Chest Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "plate-loaded-incline-chest-press--femenino--v17.webp"
     },
     {
       "id": "dumbbell-chest-press",
@@ -3102,8 +3102,8 @@
       "id": "band-chest-press",
       "name": "Press con bandas elásticas",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-chest-press--femenino--v17.webp"
     },
     {
       "id": "bench-press",
@@ -3151,29 +3151,29 @@
       "id": "seated-dip-machine",
       "name": "Seated Dip Machine",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-dip-machine--femenino--v17.webp"
     },
     {
       "id": "smith-machine-incline-press",
       "name": "Smith Machine Incline Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-incline-press--femenino--v17.webp"
     },
     {
       "id": "standing-cable-chest-press",
       "name": "Standing Cable Chest Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "standing-cable-chest-press--femenino--v17.webp"
     },
     {
       "id": "suspension-chest-press",
       "name": "Suspension Chest Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-chest-press--femenino--v17.webp"
     },
     {
       "id": "wall-push-up",
@@ -3193,8 +3193,8 @@
       "id": "wide-push-up",
       "name": "Wide Push-Up",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wide-push-up--femenino--v17.webp"
     },
     {
       "id": "back-extensions",
