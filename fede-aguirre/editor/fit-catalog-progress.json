@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "14fa0b4a6dc945611d054427f80a88bdf38338b0",
+  "updatedFrom": "925212679f6bfae5c7b31e986b110d0534c17093",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -2935,7 +2935,7 @@
       "name": "Barbell Floor Press",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "barbell-floor-press--femenino--v14.webp"
+      "file": "barbell-floor-press--femenino--v16.webp"
     },
     {
       "id": "barbell-pullover",
@@ -2963,14 +2963,14 @@
       "name": "Cruce de poleas altas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "cable-fly-high-to-low--femenino--v13.webp"
+      "file": "cable-fly-high-to-low--femenino--v16.webp"
     },
     {
       "id": "cable-fly-low-to-high",
       "name": "Cruce de poleas bajas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "cable-fly-low-to-high--femenino--v13.webp"
+      "file": "cable-fly-low-to-high--femenino--v16.webp"
     },
     {
       "id": "deficit-push-up",
@@ -2991,7 +2991,7 @@
       "name": "Dumbbell Decline Press",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "dumbbell-decline-press--femenino--v15.webp"
+      "file": "dumbbell-decline-press--femenino--v16.webp"
     },
     {
       "id": "dumbbell-floor-press",
@@ -3005,7 +3005,7 @@
       "name": "Dumbbell Squeeze Press",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "dumbbell-squeeze-press--femenino--v14.webp"
+      "file": "dumbbell-squeeze-press--femenino--v16.webp"
     },
     {
       "id": "push-up",
@@ -3096,7 +3096,7 @@
       "name": "Press banca en Smith",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "smith-machine-bench-press--femenino--v14.webp"
+      "file": "smith-machine-bench-press--femenino--v16.webp"
     },
     {
       "id": "band-chest-press",
@@ -3110,21 +3110,21 @@
       "name": "Press de banca con barra",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "bench-press--femenino--v13.webp"
+      "file": "bench-press--femenino--v16.webp"
     },
     {
       "id": "chest-press-machine",
       "name": "Press de pecho en máquina",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "chest-press-machine--femenino--v13.webp"
+      "file": "chest-press-machine--femenino--v16.webp"
     },
     {
       "id": "decline-bench-press",
       "name": "Press declinado",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "decline-bench-press--femenino--v13.webp"
+      "file": "decline-bench-press--femenino--v16.webp"
     },
     {
       "id": "incline-bench-press",
@@ -3138,7 +3138,7 @@
       "name": "Press inclinado con mancuernas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "incline-dumbbell-press--femenino--v13.webp"
+      "file": "incline-dumbbell-press--femenino--v16.webp"
     },
     {
       "id": "dumbbell-pullover",
@@ -3187,7 +3187,7 @@
       "name": "Wide Grip Bench Press",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "wide-grip-bench-press--femenino--v14.webp"
+      "file": "wide-grip-bench-press--femenino--v16.webp"
     },
     {
       "id": "wide-push-up",

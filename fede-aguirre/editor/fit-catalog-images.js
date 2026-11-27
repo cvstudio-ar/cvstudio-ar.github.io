@@ -103,7 +103,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "bench-press--femenino--v13.webp",
+      "file": "bench-press--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -115,7 +115,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "incline-dumbbell-press--femenino--v13.webp",
+      "file": "incline-dumbbell-press--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -151,7 +151,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "cable-fly-high-to-low--femenino--v13.webp",
+      "file": "cable-fly-high-to-low--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -163,7 +163,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "chest-press-machine--femenino--v13.webp",
+      "file": "chest-press-machine--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -187,7 +187,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "barbell-floor-press--femenino--v14.webp",
+      "file": "barbell-floor-press--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -290,7 +290,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "dumbbell-squeeze-press--femenino--v14.webp",
+      "file": "dumbbell-squeeze-press--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -396,7 +396,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "cable-fly-low-to-high--femenino--v13.webp",
+      "file": "cable-fly-low-to-high--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -408,7 +408,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "dumbbell-decline-press--femenino--v15.webp",
+      "file": "dumbbell-decline-press--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -467,7 +467,7 @@ window.FIT_CATALOG_IMAGES = {
       "reviewNote": "Referencia fotográfica del ejercicio; validar la técnica con el entrenador."
     },
     "femenino": {
-      "file": "smith-machine-bench-press--femenino--v14.webp",
+      "file": "smith-machine-bench-press--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -486,7 +486,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "decline-bench-press--femenino--v13.webp",
+      "file": "decline-bench-press--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -539,7 +539,7 @@ window.FIT_CATALOG_IMAGES = {
       "reviewNote": "Referencia fotográfica del ejercicio; validar la técnica con el entrenador."
     },
     "femenino": {
-      "file": "wide-grip-bench-press--femenino--v14.webp",
+      "file": "wide-grip-bench-press--femenino--v16.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
