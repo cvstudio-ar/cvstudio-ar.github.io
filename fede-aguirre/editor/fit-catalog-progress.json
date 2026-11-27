@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "74c3eb25f9f3666ec5988d8d8c45ce940c3b7975",
+  "updatedFrom": "c26db3a1c3494f330cfcd0d097641b3014926cff",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -2914,14 +2914,14 @@
       "name": "Aperturas con mancuernas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "dumbbell-fly--femenino--v12.webp"
+      "file": "dumbbell-fly--femenino--v13.webp"
     },
     {
       "id": "pec-deck",
       "name": "Aperturas en máquina",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "pec-deck--femenino--v12.webp"
+      "file": "pec-deck--femenino--v13.webp"
     },
     {
       "id": "assisted-dip-machine",
@@ -2962,15 +2962,15 @@
       "id": "cable-fly-high-to-low",
       "name": "Cruce de poleas altas",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-fly-high-to-low--femenino--v13.webp"
     },
     {
       "id": "cable-fly-low-to-high",
       "name": "Cruce de poleas bajas",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-fly-low-to-high--femenino--v13.webp"
     },
     {
       "id": "deficit-push-up",
@@ -3012,7 +3012,7 @@
       "name": "Flexiones",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "push-up--femenino--v12.webp"
+      "file": "push-up--femenino--v13.webp"
     },
     {
       "id": "archer-push-up",
@@ -3039,15 +3039,15 @@
       "id": "bench-dip",
       "name": "Fondos en banco",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "bench-dip--femenino--v13.webp"
     },
     {
       "id": "dips",
       "name": "Fondos en paralelas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "dips--femenino--v12.webp"
+      "file": "dips--femenino--v13.webp"
     },
     {
       "id": "hindu-push-up",
@@ -3110,21 +3110,21 @@
       "name": "Press de banca con barra",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "bench-press--femenino--v3.webp"
+      "file": "bench-press--femenino--v13.webp"
     },
     {
       "id": "chest-press-machine",
       "name": "Press de pecho en máquina",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "chest-press-machine--femenino--v13.webp"
     },
     {
       "id": "decline-bench-press",
       "name": "Press declinado",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "decline-bench-press--femenino--v13.webp"
     },
     {
       "id": "incline-bench-press",
@@ -3138,14 +3138,14 @@
       "name": "Press inclinado con mancuernas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "incline-dumbbell-press--femenino--v3.webp"
+      "file": "incline-dumbbell-press--femenino--v13.webp"
     },
     {
       "id": "dumbbell-pullover",
       "name": "Pullover con mancuerna",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "dumbbell-pullover--femenino--v12.webp"
+      "file": "dumbbell-pullover--femenino--v13.webp"
     },
     {
       "id": "seated-dip-machine",
@@ -3180,7 +3180,7 @@
       "name": "Wall Push-Up",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "wall-push-up--femenino--v12.webp"
+      "file": "wall-push-up--femenino--v13.webp"
     },
     {
       "id": "wide-grip-bench-press",
