@@ -46,3 +46,10 @@ body{background:var(--fit-bg);color:var(--fit-text);font-family:Inter,Arial,Helv
 .fit-editor-host .card-info{position:relative;min-width:0;overflow:hidden;padding-left:5px}
 .fit-editor-host .day-label{word-break:normal;overflow-wrap:normal;font-size:clamp(16px,2.2vw,25px);line-height:1.02;letter-spacing:-.35px;text-align:center}
 @media print{.fit-editor-host .img-col{padding:1.5mm 1.5mm 1.5mm 18mm!important}.fit-editor-host .img-col .num{left:2mm!important;top:2mm!important;min-width:13mm!important;max-width:15mm!important}.fit-editor-host .day-label{font-size:20px!important;overflow-wrap:normal!important}.fit-editor-host .img-col .pose-frame>small{font-size:7px!important;margin:1px 2px 2px!important}}
+
+/* Global reference cards: full-height photos, no duplicate caption, number rail retained. */
+.fit-editor-host .img-col{padding:3px 5px 3px 94px}
+.fit-editor-host .img-col .pose-frame{background:#0b100d}
+.fit-editor-host .img-col .pose-frame img{object-fit:contain!important;object-position:center}
+.fit-editor-host .img-col .pose-frame>small{display:none!important}
+@media print{.fit-editor-host .img-col{padding:.6mm .8mm .6mm 17mm!important}}
