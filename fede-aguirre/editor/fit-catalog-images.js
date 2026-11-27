@@ -603,5 +603,89 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false
     }
+  },
+  "back-extensions": {
+    "masculino": {
+      "file": "back-extensions--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "backpack-row": {
+    "masculino": {
+      "file": "backpack-row--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-lat-pulldown": {
+    "masculino": {
+      "file": "band-lat-pulldown--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-pull-apart": {
+    "masculino": {
+      "file": "band-pull-apart--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "bird-dog": {
+    "masculino": {
+      "file": "bird-dog--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-shrug": {
+    "masculino": {
+      "file": "cable-shrug--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-upright-row": {
+    "masculino": {
+      "file": "cable-upright-row--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-y-raise": {
+    "masculino": {
+      "file": "cable-y-raise--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "chest-supported-t-bar-row": {
+    "masculino": {
+      "file": "chest-supported-t-bar-row--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dead-hang": {
+    "masculino": {
+      "file": "dead-hang--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "assisted-pull-up": {
+    "masculino": {
+      "file": "assisted-pull-up--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "chin-up": {
+    "masculino": {
+      "file": "chin-up--masculino--back01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
   }
 };

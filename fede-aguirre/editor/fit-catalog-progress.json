@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "ff36530162bdf12c483ba6452d145c0016706b22",
+  "updatedFrom": "0cc20546e2f601cd427ebfd313b88f7b3b3b3252",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -293,78 +293,78 @@
       "id": "back-extensions",
       "name": "Back Extension",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "back-extensions--masculino--back01.webp"
     },
     {
       "id": "backpack-row",
       "name": "Backpack Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "backpack-row--masculino--back01.webp"
     },
     {
       "id": "band-lat-pulldown",
       "name": "Band Lat Pulldown",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-lat-pulldown--masculino--back01.webp"
     },
     {
       "id": "band-pull-apart",
       "name": "Band Pull-Apart",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-pull-apart--masculino--back01.webp"
     },
     {
       "id": "bird-dog",
       "name": "Bird Dog",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "bird-dog--masculino--back01.webp"
     },
     {
       "id": "cable-shrug",
       "name": "Cable Shrug",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-shrug--masculino--back01.webp"
     },
     {
       "id": "cable-upright-row",
       "name": "Cable Upright Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-upright-row--masculino--back01.webp"
     },
     {
       "id": "cable-y-raise",
       "name": "Cable Y-Raise",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-y-raise--masculino--back01.webp"
     },
     {
       "id": "chest-supported-t-bar-row",
       "name": "Chest-Supported T-Bar Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "chest-supported-t-bar-row--masculino--back01.webp"
     },
     {
       "id": "dead-hang",
       "name": "Dead Hang",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dead-hang--masculino--back01.webp"
     },
     {
       "id": "assisted-pull-up",
       "name": "Dominadas asistidas",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "assisted-pull-up--masculino--back01.webp"
     },
     {
       "id": "pull-up",
@@ -377,8 +377,8 @@
       "id": "chin-up",
       "name": "Dominadas supinas",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "chin-up--masculino--back01.webp"
     },
     {
       "id": "doorway-row",
