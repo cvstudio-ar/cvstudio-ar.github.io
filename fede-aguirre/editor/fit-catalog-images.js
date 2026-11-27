@@ -300,6 +300,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "incline-bench-press--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "incline-bench-press--femenino--v15.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "incline-push-up": {
@@ -399,6 +404,11 @@ window.FIT_CATALOG_IMAGES = {
   "dumbbell-decline-press": {
     "masculino": {
       "file": "dumbbell-decline-press--masculino--v11.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "dumbbell-decline-press--femenino--v15.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

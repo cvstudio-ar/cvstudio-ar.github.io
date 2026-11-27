@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "9e2a11966aaae24a4504c8677305da69b87f812d",
+  "updatedFrom": "14fa0b4a6dc945611d054427f80a88bdf38338b0",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -2990,8 +2990,8 @@
       "id": "dumbbell-decline-press",
       "name": "Dumbbell Decline Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-decline-press--femenino--v15.webp"
     },
     {
       "id": "dumbbell-floor-press",
@@ -3130,8 +3130,8 @@
       "id": "incline-bench-press",
       "name": "Press inclinado con barra",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "incline-bench-press--femenino--v15.webp"
     },
     {
       "id": "incline-dumbbell-press",
