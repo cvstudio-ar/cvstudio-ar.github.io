@@ -1,4 +1,4 @@
-/* Fede FIT — exercise-specific photos. Provisional references are not enabled. */
+/* Fede FIT: independent exercise photographs; provisional references are identified. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -301,18 +301,16 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-fly-low-to-high": {
     "masculino": {
-      "file": "cable-fly-low-to-high--masculino--v10.webp",
+      "file": "cable-fly-low-to-high--masculino--v11.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Los cables llegan desde arriba de las manos; falta una referencia de poleas bajas con trayectoria ascendente."
+      "provisional": false
     }
   },
   "dumbbell-decline-press": {
     "masculino": {
-      "file": "dumbbell-decline-press--masculino--v10.webp",
+      "file": "dumbbell-decline-press--masculino--v11.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La cabeza está por encima de la cadera; el respaldo está inclinado y no declinado."
+      "provisional": false
     }
   },
   "archer-push-up": {
@@ -368,10 +366,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "decline-bench-press": {
     "masculino": {
-      "file": "decline-bench-press--masculino--v10.webp",
+      "file": "decline-bench-press--masculino--v11.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La cabeza está por encima de la cadera; el respaldo está inclinado y no declinado."
+      "provisional": false
     }
   },
   "smith-machine-incline-press": {

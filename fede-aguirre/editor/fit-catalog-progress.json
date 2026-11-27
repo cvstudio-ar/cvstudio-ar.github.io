@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "c5ea421a14c87fe09684625eed35706d23351a25",
+  "updatedFrom": "11eeb22f5ee5560a0247434aceff0354326b0d10",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -62,9 +62,8 @@
       "id": "cable-fly-low-to-high",
       "name": "Cruce de poleas bajas",
       "group": "PECTORAL",
-      "status": "review",
-      "file": "cable-fly-low-to-high--masculino--v10.webp",
-      "reviewNote": "Los cables llegan desde arriba de las manos; falta una referencia de poleas bajas con trayectoria ascendente."
+      "status": "ready",
+      "file": "cable-fly-low-to-high--masculino--v11.webp"
     },
     {
       "id": "deficit-push-up",
@@ -84,9 +83,8 @@
       "id": "dumbbell-decline-press",
       "name": "Dumbbell Decline Press",
       "group": "PECTORAL",
-      "status": "review",
-      "file": "dumbbell-decline-press--masculino--v10.webp",
-      "reviewNote": "La cabeza está por encima de la cadera; el respaldo está inclinado y no declinado."
+      "status": "ready",
+      "file": "dumbbell-decline-press--masculino--v11.webp"
     },
     {
       "id": "dumbbell-floor-press",
@@ -218,9 +216,8 @@
       "id": "decline-bench-press",
       "name": "Press declinado",
       "group": "PECTORAL",
-      "status": "review",
-      "file": "decline-bench-press--masculino--v10.webp",
-      "reviewNote": "La cabeza está por encima de la cadera; el respaldo está inclinado y no declinado."
+      "status": "ready",
+      "file": "decline-bench-press--masculino--v11.webp"
     },
     {
       "id": "incline-bench-press",
@@ -528,8 +525,7 @@
       "name": "Remo con barra",
       "group": "ESPALDA",
       "status": "review",
-      "file": "bent-over-row--masculino.webp",
-      "reviewNote": "Pendiente de revisión"
+      "file": "bent-over-row--masculino.webp"
     },
     {
       "id": "t-bar-row",
@@ -844,8 +840,7 @@
       "name": "Press con mancuernas",
       "group": "HOMBROS",
       "status": "review",
-      "file": "dumbbell-shoulder-press--masculino.webp",
-      "reviewNote": "Pendiente de revisión"
+      "file": "dumbbell-shoulder-press--masculino.webp"
     },
     {
       "id": "shoulder-press-machine",
