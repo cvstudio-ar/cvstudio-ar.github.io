@@ -173,11 +173,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "assisted-dip-machine--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "assisted-dip-machine--femenino--v14.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "barbell-floor-press": {
     "masculino": {
       "file": "barbell-floor-press--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "barbell-floor-press--femenino--v14.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -189,7 +199,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "bench-dip--femenino--v13.webp",
+      "file": "bench-dip--femenino--v14.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -204,6 +214,11 @@ window.FIT_CATALOG_IMAGES = {
   "close-grip-bench-press": {
     "masculino": {
       "file": "close-grip-bench-press--masculino--v5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "close-grip-bench-press--femenino--v14.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -227,7 +242,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "diamond-push-up--femenino--v12.webp",
+      "file": "diamond-push-up--femenino--v14.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -249,6 +264,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-floor-press--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "dumbbell-floor-press--femenino--v14.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-pullover": {
@@ -268,6 +288,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-squeeze-press--masculino--v5.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "dumbbell-squeeze-press--femenino--v14.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "incline-bench-press": {
@@ -284,7 +309,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "incline-push-up--femenino--v12.webp",
+      "file": "incline-push-up--femenino--v14.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -296,7 +321,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "knee-push-up--femenino--v12.webp",
+      "file": "knee-push-up--femenino--v14.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -430,6 +455,11 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false,
       "reviewNote": "Referencia fotográfica del ejercicio; validar la técnica con el entrenador."
+    },
+    "femenino": {
+      "file": "smith-machine-bench-press--femenino--v14.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-chest-press": {
@@ -497,6 +527,11 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false,
       "reviewNote": "Referencia fotográfica del ejercicio; validar la técnica con el entrenador."
+    },
+    "femenino": {
+      "file": "wide-grip-bench-press--femenino--v14.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   }
 };

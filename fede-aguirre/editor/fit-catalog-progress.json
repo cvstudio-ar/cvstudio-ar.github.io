@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "c26db3a1c3494f330cfcd0d097641b3014926cff",
+  "updatedFrom": "9e2a11966aaae24a4504c8677305da69b87f812d",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -2927,15 +2927,15 @@
       "id": "assisted-dip-machine",
       "name": "Assisted Dip",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "assisted-dip-machine--femenino--v14.webp"
     },
     {
       "id": "barbell-floor-press",
       "name": "Barbell Floor Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "barbell-floor-press--femenino--v14.webp"
     },
     {
       "id": "barbell-pullover",
@@ -2948,8 +2948,8 @@
       "id": "close-grip-bench-press",
       "name": "Close-Grip Bench Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "close-grip-bench-press--femenino--v14.webp"
     },
     {
       "id": "cable-crossover",
@@ -2984,7 +2984,7 @@
       "name": "Diamond Push-Up",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "diamond-push-up--femenino--v12.webp"
+      "file": "diamond-push-up--femenino--v14.webp"
     },
     {
       "id": "dumbbell-decline-press",
@@ -2997,15 +2997,15 @@
       "id": "dumbbell-floor-press",
       "name": "Dumbbell Floor Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-floor-press--femenino--v14.webp"
     },
     {
       "id": "dumbbell-squeeze-press",
       "name": "Dumbbell Squeeze Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-squeeze-press--femenino--v14.webp"
     },
     {
       "id": "push-up",
@@ -3033,14 +3033,14 @@
       "name": "Flexiones inclinadas",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "incline-push-up--femenino--v12.webp"
+      "file": "incline-push-up--femenino--v14.webp"
     },
     {
       "id": "bench-dip",
       "name": "Fondos en banco",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "bench-dip--femenino--v13.webp"
+      "file": "bench-dip--femenino--v14.webp"
     },
     {
       "id": "dips",
@@ -3075,7 +3075,7 @@
       "name": "Knee Push-Up",
       "group": "PECTORAL",
       "status": "ready",
-      "file": "knee-push-up--femenino--v12.webp"
+      "file": "knee-push-up--femenino--v14.webp"
     },
     {
       "id": "plate-loaded-incline-chest-press",
@@ -3095,8 +3095,8 @@
       "id": "smith-machine-bench-press",
       "name": "Press banca en Smith",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-bench-press--femenino--v14.webp"
     },
     {
       "id": "band-chest-press",
@@ -3186,8 +3186,8 @@
       "id": "wide-grip-bench-press",
       "name": "Wide Grip Bench Press",
       "group": "PECTORAL",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wide-grip-bench-press--femenino--v14.webp"
     },
     {
       "id": "wide-push-up",
