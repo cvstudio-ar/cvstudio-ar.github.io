@@ -1,4 +1,4 @@
-/* Fede FIT: individual exercise photographs; only approved-style references are enabled. */
+/* Fede FIT: independent exercise photographs; only approved references enabled. */
 window.FIT_CATALOG_IMAGES = {
   "pull-up": {
     "masculino": {
@@ -141,6 +141,13 @@ window.FIT_CATALOG_IMAGES = {
     "femenino": {
       "file": "barbell-curl--femenino--v3.webp",
       "label": "MOVIMIENTO",
+      "provisional": false
+    }
+  },
+  "cable-fly-high-to-low": {
+    "masculino": {
+      "file": "cable-fly-high-to-low--masculino--v4.webp",
+      "label": "INICIO",
       "provisional": false
     }
   }
