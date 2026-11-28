@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "e0522293620705a163e6fd9a26a65d42980baf1c",
+  "updatedFrom": "fb42055607631482fe7f76e77243d9fd182a4aa0",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1287,43 +1287,43 @@
       "id": "leg-extension",
       "name": "Extensión de cuádriceps",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "leg-extension--masculino--auto-669ee96367a0.webp"
     },
     {
       "id": "hang-clean",
       "name": "Hang Clean",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hang-clean--masculino--auto-f072da5225a7.webp"
     },
     {
       "id": "hindu-squat",
       "name": "Hindu Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hindu-squat--masculino--auto-5b34db12eb54.webp"
     },
     {
       "id": "kettlebell-clean",
       "name": "Kettlebell Clean",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-clean--masculino--auto-04455a9a4d1c.webp"
     },
     {
       "id": "kettlebell-goblet-lunge",
       "name": "Kettlebell Goblet Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-goblet-lunge--masculino--auto-cdb82491c88d.webp"
     },
     {
       "id": "kettlebell-goblet-squat",
       "name": "Kettlebell Goblet Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-goblet-squat--masculino--auto-efda91821123.webp"
     },
     {
       "id": "kettlebell-snatch",
@@ -4607,22 +4607,22 @@
       "id": "glute-ham-raise",
       "name": "Glute-Ham Raise",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "glute-ham-raise--femenino--auto-d306ec3a1fc1.webp"
     },
     {
       "id": "hamstring-walkout",
       "name": "Hamstring Walkout",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hamstring-walkout--femenino--auto-b6ea8394a994.webp"
     },
     {
       "id": "hip-adduction-machine",
       "name": "Hip Adduction",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "review",
-      "file": "hip-adduction-machine--femenino--chatgpt02.webp"
+      "status": "ready",
+      "file": "hip-adduction-machine--femenino--auto-0c74e8e1479f.webp"
     },
     {
       "id": "hip-thrusts",
@@ -4635,22 +4635,22 @@
       "id": "hip-thrust-machine",
       "name": "Hip Thrust Machine",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hip-thrust-machine--femenino--auto-554537773acb.webp"
     },
     {
       "id": "kettlebell-deadlift",
       "name": "Kettlebell Deadlift",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-deadlift--femenino--auto-09bba9fbbaf0.webp"
     },
     {
       "id": "kettlebell-romanian-deadlift",
       "name": "Kettlebell Romanian Deadlift",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-romanian-deadlift--femenino--auto-afa5081993af.webp"
     },
     {
       "id": "kettlebell-sumo-deadlift",

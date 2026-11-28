@@ -2237,10 +2237,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "hip-adduction-machine": {
     "femenino": {
-      "file": "hip-adduction-machine--femenino--chatgpt02.webp",
+      "file": "hip-adduction-machine--femenino--auto-0c74e8e1479f.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "No se distingue con certeza el apoyo interior de las almohadillas requerido para la aducción."
+      "provisional": false
     }
   },
   "leg-curl": {
@@ -2253,6 +2252,11 @@ window.FIT_CATALOG_IMAGES = {
   "leg-extension": {
     "femenino": {
       "file": "leg-extension--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "leg-extension--masculino--auto-669ee96367a0.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2322,11 +2326,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "hang-clean--femenino--auto-aee3167f6c50.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "hang-clean--masculino--auto-f072da5225a7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "hindu-squat": {
     "femenino": {
       "file": "hindu-squat--femenino--auto-8b8ef375160e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "hindu-squat--masculino--auto-5b34db12eb54.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2336,6 +2350,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "kettlebell-clean--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "kettlebell-clean--masculino--auto-04455a9a4d1c.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "kettlebell-goblet-lunge": {
@@ -2343,11 +2362,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "kettlebell-goblet-lunge--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "kettlebell-goblet-lunge--masculino--auto-cdb82491c88d.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "kettlebell-goblet-squat": {
     "femenino": {
       "file": "kettlebell-goblet-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "kettlebell-goblet-squat--masculino--auto-efda91821123.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2663,6 +2692,41 @@ window.FIT_CATALOG_IMAGES = {
   "glute-bridge-march": {
     "femenino": {
       "file": "glute-bridge-march--femenino--auto-067d20a42c81.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "glute-ham-raise": {
+    "femenino": {
+      "file": "glute-ham-raise--femenino--auto-d306ec3a1fc1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "hamstring-walkout": {
+    "femenino": {
+      "file": "hamstring-walkout--femenino--auto-b6ea8394a994.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "hip-thrust-machine": {
+    "femenino": {
+      "file": "hip-thrust-machine--femenino--auto-554537773acb.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "kettlebell-deadlift": {
+    "femenino": {
+      "file": "kettlebell-deadlift--femenino--auto-09bba9fbbaf0.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "kettlebell-romanian-deadlift": {
+    "femenino": {
+      "file": "kettlebell-romanian-deadlift--femenino--auto-afa5081993af.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
