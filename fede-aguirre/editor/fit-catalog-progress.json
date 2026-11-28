@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "4c178492fc4ec3e6f98bd42e43a981949b0ae3af",
+  "updatedFrom": "f04917ac474c356e30f13f8a1db07c5e51a68d21",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -811,36 +811,36 @@
       "id": "machine-lateral-raise",
       "name": "Machine Lateral Raise",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "machine-lateral-raise--masculino--auto-b92c885fc9db.webp"
     },
     {
       "id": "overhead-carry",
       "name": "Overhead Carry",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "overhead-carry--masculino--auto-c0e4cec4f4d0.webp"
     },
     {
       "id": "pike-push-up",
       "name": "Pike Push-Up",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "pike-push-up--masculino--auto-edf28bcb5a4b.webp"
     },
     {
       "id": "arnold-press",
       "name": "Press Arnold",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "arnold-press--masculino--auto-ba53f034cb47.webp"
     },
     {
       "id": "dumbbell-shoulder-press",
       "name": "Press con mancuernas",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "dumbbell-shoulder-press--masculino.webp"
+      "status": "ready",
+      "file": "dumbbell-shoulder-press--masculino--auto-21196e95381a.webp"
     },
     {
       "id": "shoulder-press-machine",
@@ -3641,22 +3641,22 @@
       "id": "cable-external-rotation",
       "name": "Cable External Rotation",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "cable-external-rotation--femenino--runway04.webp"
+      "status": "ready",
+      "file": "cable-external-rotation--femenino--auto-c818019695a4.webp"
     },
     {
       "id": "cable-front-raise",
       "name": "Cable Front Raise",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "cable-front-raise--femenino--runway04.webp"
+      "status": "ready",
+      "file": "cable-front-raise--femenino--auto-849c9c195e8e.webp"
     },
     {
       "id": "cable-internal-rotation",
       "name": "Cable Internal Rotation",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "cable-internal-rotation--femenino--runway04.webp"
+      "status": "ready",
+      "file": "cable-internal-rotation--femenino--auto-024dde9be04e.webp"
     },
     {
       "id": "dumbbell-push-press",
@@ -3711,8 +3711,8 @@
       "id": "handstand-push-up",
       "name": "Handstand Push-Up",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "handstand-push-up--femenino--runway04.webp"
+      "status": "ready",
+      "file": "handstand-push-up--femenino--auto-dbc00a5528eb.webp"
     },
     {
       "id": "machine-lateral-raise",
@@ -3900,8 +3900,8 @@
       "id": "reverse-curl",
       "name": "Curl inverso",
       "group": "BÍCEPS",
-      "status": "review",
-      "file": "reverse-curl--femenino--runway04.webp"
+      "status": "ready",
+      "file": "reverse-curl--femenino--auto-613bd7a84731.webp"
     },
     {
       "id": "hammer-curls",
@@ -3914,15 +3914,15 @@
       "id": "cross-body-hammer-curl",
       "name": "Curl martillo cruzado",
       "group": "BÍCEPS",
-      "status": "review",
-      "file": "cross-body-hammer-curl--femenino--runway04.webp"
+      "status": "ready",
+      "file": "cross-body-hammer-curl--femenino--auto-b644f4813f22.webp"
     },
     {
       "id": "preacher-curl",
       "name": "Curl predicador",
       "group": "BÍCEPS",
-      "status": "review",
-      "file": "preacher-curl--femenino--runway04.webp"
+      "status": "ready",
+      "file": "preacher-curl--femenino--auto-58d83888e1be.webp"
     },
     {
       "id": "machine-preacher-curl",

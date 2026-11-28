@@ -50,9 +50,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "dumbbell-shoulder-press": {
     "masculino": {
-      "file": "dumbbell-shoulder-press--masculino.webp",
-      "label": "POSTURA",
-      "provisional": true
+      "file": "dumbbell-shoulder-press--masculino--auto-21196e95381a.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     },
     "femenino": {
       "file": "dumbbell-shoulder-press--femenino--runway03.webp",
@@ -1290,10 +1290,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-external-rotation": {
     "femenino": {
-      "file": "cable-external-rotation--femenino--runway04.webp",
+      "file": "cable-external-rotation--femenino--auto-c818019695a4.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Sujeta una barra con ambas manos, no un maneral unilateral."
+      "provisional": false
     },
     "masculino": {
       "file": "cable-external-rotation--masculino--auto-e8faa96a6ae1.webp",
@@ -1303,10 +1302,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-internal-rotation": {
     "femenino": {
-      "file": "cable-internal-rotation--femenino--runway04.webp",
+      "file": "cable-internal-rotation--femenino--auto-024dde9be04e.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Polea alta y conexión de cable incoherente."
+      "provisional": false
     },
     "masculino": {
       "file": "cable-internal-rotation--masculino--auto-4fe07e22081f.webp",
@@ -1340,10 +1338,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-front-raise": {
     "femenino": {
-      "file": "cable-front-raise--femenino--runway04.webp",
+      "file": "cable-front-raise--femenino--auto-849c9c195e8e.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Vista posterior no permite distinguir elevación frontal de lateral; polea delante."
+      "provisional": false
     },
     "masculino": {
       "file": "cable-front-raise--masculino--auto-2b7aa3a2ec1c.webp",
@@ -1449,10 +1446,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "handstand-push-up": {
     "femenino": {
-      "file": "handstand-push-up--femenino--runway04.webp",
+      "file": "handstand-push-up--femenino--auto-dbc00a5528eb.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Cuerpo inclinado y codos extendidos; falta fase flexionada de la vertical."
+      "provisional": false
     },
     "masculino": {
       "file": "handstand-push-up--masculino--auto-0b8e50d1cf11.webp",
@@ -1465,11 +1461,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "machine-lateral-raise--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "machine-lateral-raise--masculino--auto-b92c885fc9db.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "overhead-carry": {
     "femenino": {
       "file": "overhead-carry--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "overhead-carry--masculino--auto-c0e4cec4f4d0.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1479,11 +1485,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "pike-push-up--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "pike-push-up--masculino--auto-edf28bcb5a4b.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "arnold-press": {
     "femenino": {
       "file": "arnold-press--femenino--auto-606380c3df63.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "arnold-press--masculino--auto-ba53f034cb47.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1623,10 +1639,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "reverse-curl": {
     "femenino": {
-      "file": "reverse-curl--femenino--runway04.webp",
+      "file": "reverse-curl--femenino--auto-613bd7a84731.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Agarre mixto de la barra, no prono bilateral."
+      "provisional": false
     }
   },
   "hammer-curls": {
@@ -1638,18 +1653,16 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cross-body-hammer-curl": {
     "femenino": {
-      "file": "cross-body-hammer-curl--femenino--runway04.webp",
+      "file": "cross-body-hammer-curl--femenino--auto-b644f4813f22.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La mancuerna se eleva hacia el hombro del mismo lado."
+      "provisional": false
     }
   },
   "preacher-curl": {
     "femenino": {
-      "file": "preacher-curl--femenino--runway04.webp",
+      "file": "preacher-curl--femenino--auto-58d83888e1be.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "No hay apoyo claro de ambos brazos sobre el banco predicador."
+      "provisional": false
     }
   },
   "machine-preacher-curl": {

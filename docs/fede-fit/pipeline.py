@@ -224,6 +224,7 @@ def collect_cards(args, editor, pending):
 
 
 def apply_batch(args, editor, prefix, catalog, progress, pending):
+    journal = args.work / "publication.json"
     relative_paths = [str((editor / path).relative_to(args.root)) for path in CATALOG_FILES]
     if run("git", "status", "--porcelain", "--", *relative_paths, cwd=args.root):
         raise SystemExit("Hay cambios locales en los archivos del catálogo")
@@ -233,9 +234,7 @@ def apply_batch(args, editor, prefix, catalog, progress, pending):
     html, count = re.subn(r"""(fit-catalog-images\.js\?v=)[^"']+""", lambda match: match[1] + version, html)
     if count != 1:
         raise SystemExit("Se esperaba una versión del catálogo en index.html")
-    changes = {
-        CATALOG_FILES[2]: html.encode(),
-    }
+    changes = {}
     published = {}
     for item, (row, entry, data, name) in accepted.items():
         catalog.setdefault(row["id"], {})[row["sex"]] = {
@@ -245,16 +244,43 @@ def apply_batch(args, editor, prefix, catalog, progress, pending):
         progress_row.update(file=name, status="ready")
         changes[f"exercise-assets/{name}"] = data
         published[item] = {"file": name, "sha256": entry["sha256"], "photo": entry["photo"]}
-    progress["updatedFrom"] = run("git", "rev-parse", "HEAD", cwd=args.root)
+    head = run("git", "rev-parse", "HEAD", cwd=args.root)
+    progress["updatedFrom"] = head
     changes[CATALOG_FILES[0]] = (prefix + json.dumps(catalog, ensure_ascii=False, indent=2) + ";\n").encode()
     changes[CATALOG_FILES[1]] = (json.dumps(progress, ensure_ascii=False, indent=2) + "\n").encode()
+    changes[CATALOG_FILES[2]] = html.encode()
+    previous = {}
+    files = {}
     for path, data in changes.items():
-        write_file(editor / path, data)
-    write_json(args.work / "publication.json", {
-        "version": version, "images": published,
-        "files": {(editor / path).relative_to(args.root).as_posix(): digest(data)
-                  for path, data in changes.items()},
-    })
+        target = editor / path
+        name = target.relative_to(args.root).as_posix()
+        previous[name] = digest(target.read_bytes()) if target.is_file() else None
+        files[name] = digest(data)
+        write_file(args.work / "publication-files" / name, data)
+    publication = {"version": version, "base": head, "images": published,
+                   "files": files, "previous": previous}
+    write_json(journal, publication)
+    finish_batch(args, publication)
+
+
+def finish_batch(args, publication):
+    updates = []
+    version = publication["version"]
+    for name, expected in publication["files"].items():
+        target = args.root / name
+        current = digest(target.read_bytes()) if target.is_file() else None
+        if current == expected:
+            continue
+        previous = publication.get("previous", {})
+        if name not in previous or current != previous[name]:
+            raise SystemExit(f"Cambió un archivo de la tanda {version}: {name}")
+        data = (args.work / "publication-files" / name).read_bytes()
+        if digest(data) != expected:
+            raise SystemExit(f"Cambió la copia de publicación de {name}")
+        updates.append((target, data))
+    for target, data in updates:
+        write_file(target, data)
+    published = publication["images"]
     print(f"Catálogo actualizado con {len(published)} referencias. Versión {version}.")
 
 
@@ -267,12 +293,19 @@ def deploy(args):
     if any(digest((args.root / name).read_bytes()) != sha for name, sha in files.items()):
         raise SystemExit("El contenido de la tanda cambió")
     if not publication.get("commit"):
-        docs = ["docs/fede-fit/pipeline.py", "docs/fede-fit/README.md"] if args.include_pipeline else []
-        paths = [*files, *docs]
-        run("git", "add", "--", *paths, cwd=args.root)
-        run("git", "commit", "--only", "-m",
-            f"Fede FIT: publicar {len(publication['images'])} referencias ({publication['version']})",
-            "--", *paths, cwd=args.root)
+        subject = f"Fede FIT: publicar {len(publication['images'])} referencias ({publication['version']})"
+        head = run("git", "rev-parse", "HEAD", cwd=args.root)
+        base = publication.get("base", head)
+        if head == base:
+            docs = ["docs/fede-fit/pipeline.py", "docs/fede-fit/README.md"] if args.include_pipeline else []
+            paths = [*files, *docs]
+            run("git", "add", "--", *paths, cwd=args.root)
+            run("git", "commit", "--only", "-m", subject, "--", *paths, cwd=args.root)
+        elif (run("git", "show", "-s", "--format=%P", "HEAD", cwd=args.root) != base
+              or run("git", "show", "-s", "--format=%s", "HEAD", cwd=args.root) != subject
+              or any(digest(subprocess.check_output(["git", "show", f"HEAD:{name}"], cwd=args.root)) != sha
+                     for name, sha in files.items())):
+            raise SystemExit("main cambió desde que se preparó la tanda")
         publication["commit"] = run("git", "rev-parse", "HEAD", cwd=args.root)
         write_json(path, publication)
     if run("git", "rev-parse", "HEAD", cwd=args.root) != publication["commit"]:
@@ -325,6 +358,15 @@ def main():
         private_root = args.root / "private" / "fede-fit"
         if args.work.is_relative_to(args.root) and not args.work.is_relative_to(private_root):
             parser.error("--work debe quedar en private/fede-fit o fuera del repositorio")
+    if args.command == "deploy":
+        deploy(args)
+        return
+    if args.command == "verify":
+        verify(args)
+        return
+    if args.command == "publish" and (journal := args.work / "publication.json").exists():
+        finish_batch(args, json.loads(journal.read_text(encoding="utf-8")))
+        return
     editor, prefix, catalog, progress, pending = load(args.root)
     if args.command == "status":
         for sex, field in SEX_FIELDS.items():
@@ -335,12 +377,8 @@ def main():
         plan(args, pending, editor)
     elif args.command == "prepare":
         prepare(args, editor, progress)
-    elif args.command == "publish":
-        apply_batch(args, editor, prefix, catalog, progress, pending)
-    elif args.command == "deploy":
-        deploy(args)
     else:
-        verify(args)
+        apply_batch(args, editor, prefix, catalog, progress, pending)
 
 
 if __name__ == "__main__":

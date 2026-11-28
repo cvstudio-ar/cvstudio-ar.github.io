@@ -12,7 +12,8 @@ indumentaria. El pipeline aplica la tipografía y la categoría muscular al
 convertirlas a WebP de 340 × 320 px.
 
 1. Ejecutar `pipeline.py status` y `pipeline.py plan --work private/fede-fit/001`.
-   Se puede indicar el orden con `--select femenino/id,masculino/id`.
+   Se puede indicar el orden con `--select femenino/id,masculino/id`. El plan
+   incluye el nombre en inglés y el equipamiento del catálogo.
 2. Guardar las fotos en `sources/<personaje>/<id>.png` dentro de la tanda.
    Conservar los prompts y usar `pipeline.py prepare --work private/fede-fit/001`.
    `crops.json` admite un recorte individual en píxeles `[izquierda, arriba,
@@ -24,8 +25,10 @@ convertirlas a WebP de 340 × 320 px.
    para regenerarlos con una corrección específica.
 4. Ejecutar `pipeline.py publish --work private/fede-fit/001`. El comando valida
    los hashes y el catálogo actual y escribe `publication.json` con las rutas
-   exactas para el commit y la versión pública. `pipeline.py deploy --work
-   private/fede-fit/001` crea el commit y lo envía a `main`.
+   exactas para el commit y la versión pública. Si se interrumpe la escritura,
+   repetir `publish` para retomar la tanda con el registro existente.
+   `pipeline.py deploy --work private/fede-fit/001` crea el commit y lo envía a
+   `main`.
 5. Ejecutar `pipeline.py verify --work private/fede-fit/001` después del push.
    Comprueba la versión del editor y los bytes de los catálogos y cada foto.
 
