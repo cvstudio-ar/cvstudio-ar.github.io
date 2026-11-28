@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "ff3ff8e2c328fc49d496078cf072140489f33ea8",
+  "updatedFrom": "9eb80c3f26a9520ffdcb7a770dd36e3d75ac35dc",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1028,43 +1028,43 @@
       "id": "single-arm-cable-curl",
       "name": "Curl unilateral en polea",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "single-arm-cable-curl--masculino--auto-fad835229bf2.webp"
     },
     {
       "id": "zottman-curl",
       "name": "Curl Zottman",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "zottman-curl--masculino--auto-fa5d5d39234b.webp"
     },
     {
       "id": "dumbbell-preacher-curl",
       "name": "Dumbbell Preacher Curl",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-preacher-curl--masculino--auto-562353a89898.webp"
     },
     {
       "id": "rope-hammer-curl",
       "name": "Rope Hammer Curl",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "rope-hammer-curl--masculino--auto-eb3623b50951.webp"
     },
     {
       "id": "seated-dumbbell-curl",
       "name": "Seated Dumbbell Curl",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-dumbbell-curl--masculino--auto-fa059ad0b642.webp"
     },
     {
       "id": "suspension-biceps-curl",
       "name": "Suspension Biceps Curl",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-biceps-curl--masculino--auto-77c9653c54e4.webp"
     },
     {
       "id": "cable-triceps-kickback",
@@ -4320,8 +4320,8 @@
       "id": "bulgarian-split-squat",
       "name": "Sentadilla búlgara",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "review",
-      "file": "bulgarian-split-squat--femenino--chatgpt02.webp"
+      "status": "ready",
+      "file": "bulgarian-split-squat--femenino--auto-008b47cfd08b.webp"
     },
     {
       "id": "squat",
@@ -4334,8 +4334,8 @@
       "id": "smith-machine-squat",
       "name": "Sentadilla en Smith",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-squat--femenino--auto-e4e78f5fa43f.webp"
     },
     {
       "id": "front-squat",
@@ -4348,29 +4348,29 @@
       "id": "goblet-squat",
       "name": "Sentadilla goblet",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "goblet-squat--femenino--auto-fa9a2a280446.webp"
     },
     {
       "id": "hack-squat",
       "name": "Sentadilla hack",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hack-squat--femenino--auto-373f2dc66c05.webp"
     },
     {
       "id": "sumo-squat",
       "name": "Sentadilla sumo",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "sumo-squat--femenino--auto-e5622e4f7d4d.webp"
     },
     {
       "id": "single-leg-leg-press",
       "name": "Single Leg Leg Press",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "single-leg-leg-press--femenino--auto-a1dbad0a0f1c.webp"
     },
     {
       "id": "sissy-squat",

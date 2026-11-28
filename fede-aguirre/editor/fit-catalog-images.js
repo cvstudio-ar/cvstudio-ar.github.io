@@ -1797,11 +1797,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "single-arm-cable-curl--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "single-arm-cable-curl--masculino--auto-fad835229bf2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "zottman-curl": {
     "femenino": {
       "file": "zottman-curl--femenino--auto-ba95dd298b98.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "zottman-curl--masculino--auto-fa5d5d39234b.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1811,11 +1821,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-preacher-curl--femenino--auto-656da1777b89.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-preacher-curl--masculino--auto-562353a89898.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "rope-hammer-curl": {
     "femenino": {
       "file": "rope-hammer-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "rope-hammer-curl--masculino--auto-eb3623b50951.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1825,11 +1845,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "seated-dumbbell-curl--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "seated-dumbbell-curl--masculino--auto-fa059ad0b642.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "suspension-biceps-curl": {
     "femenino": {
       "file": "suspension-biceps-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "suspension-biceps-curl--masculino--auto-77c9653c54e4.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2046,10 +2076,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "bulgarian-split-squat": {
     "femenino": {
-      "file": "bulgarian-split-squat--femenino--chatgpt02.webp",
+      "file": "bulgarian-split-squat--femenino--auto-008b47cfd08b.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La postura corresponde a la variante sin carga; el catálogo especifica mancuernas y banco."
+      "provisional": false
     }
   },
   "step-ups": {
@@ -2247,6 +2276,41 @@ window.FIT_CATALOG_IMAGES = {
   "leg-press-moving-plate": {
     "femenino": {
       "file": "leg-press-moving-plate--femenino--auto-bba5818df560.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "smith-machine-squat": {
+    "femenino": {
+      "file": "smith-machine-squat--femenino--auto-e4e78f5fa43f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "goblet-squat": {
+    "femenino": {
+      "file": "goblet-squat--femenino--auto-fa9a2a280446.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "hack-squat": {
+    "femenino": {
+      "file": "hack-squat--femenino--auto-373f2dc66c05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "sumo-squat": {
+    "femenino": {
+      "file": "sumo-squat--femenino--auto-e5622e4f7d4d.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "single-leg-leg-press": {
+    "femenino": {
+      "file": "single-leg-leg-press--femenino--auto-a1dbad0a0f1c.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
