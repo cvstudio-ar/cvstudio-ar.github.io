@@ -1941,11 +1941,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "machine-triceps-extension--femenino--runway04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "machine-triceps-extension--masculino--auto-c361aef2b1f5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-kickback": {
     "femenino": {
       "file": "dumbbell-kickback--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-kickback--masculino--auto-8c8814f9b9a8.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1955,11 +1965,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "skull-crushers--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "skull-crushers--masculino--auto-fa79920aaa81.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "sphinx-push-up": {
     "femenino": {
       "file": "sphinx-push-up--femenino--auto-95ebd0934721.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "sphinx-push-up--masculino--auto-dadb4f50da20.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1969,11 +1989,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "suspension-triceps-extension--femenino--runway04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "suspension-triceps-extension--masculino--auto-6657a1d680a1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-reverse-wrist-curl": {
     "femenino": {
       "file": "dumbbell-reverse-wrist-curl--femenino--auto-8350904c50da.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-reverse-wrist-curl--masculino--auto-72c2f6bc0160.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2383,6 +2413,48 @@ window.FIT_CATALOG_IMAGES = {
   "dumbbell-step-up": {
     "femenino": {
       "file": "dumbbell-step-up--femenino--auto-e3b8fc73b2b2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "lateral-step-up": {
+    "femenino": {
+      "file": "lateral-step-up--femenino--auto-d86d1b0507c2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "suspension-assisted-squat": {
+    "femenino": {
+      "file": "suspension-assisted-squat--femenino--auto-d3cdb75c009f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "trap-bar-deadlift": {
+    "femenino": {
+      "file": "trap-bar-deadlift--femenino--auto-7bfb0443ff36.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "v-squat": {
+    "femenino": {
+      "file": "v-squat--femenino--auto-671a437a5ff7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "wall-sit": {
+    "femenino": {
+      "file": "wall-sit--femenino--auto-0da5f3afdbd1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-lunge": {
+    "femenino": {
+      "file": "reverse-lunge--femenino--auto-c4f717938ca5.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

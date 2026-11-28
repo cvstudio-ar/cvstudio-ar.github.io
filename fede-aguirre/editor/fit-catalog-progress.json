@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "3b997cda3050075a6ccc517abcef78cb9784c863",
+  "updatedFrom": "666beaeadebda87b939795f7b15824a110b3f575",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1112,43 +1112,43 @@
       "id": "machine-triceps-extension",
       "name": "Machine Triceps Extension",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "machine-triceps-extension--masculino--auto-c361aef2b1f5.webp"
     },
     {
       "id": "dumbbell-kickback",
       "name": "Patada de tríceps",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-kickback--masculino--auto-8c8814f9b9a8.webp"
     },
     {
       "id": "skull-crushers",
       "name": "Press francés",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "skull-crushers--masculino--auto-fa79920aaa81.webp"
     },
     {
       "id": "sphinx-push-up",
       "name": "Sphinx Push-Up",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "sphinx-push-up--masculino--auto-dadb4f50da20.webp"
     },
     {
       "id": "suspension-triceps-extension",
       "name": "Suspension Triceps Extension",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-triceps-extension--masculino--auto-6657a1d680a1.webp"
     },
     {
       "id": "dumbbell-reverse-wrist-curl",
       "name": "Dumbbell Reverse Wrist Curl",
       "group": "ANTEBRAZOS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-reverse-wrist-curl--masculino--auto-72c2f6bc0160.webp"
     },
     {
       "id": "dumbbell-wrist-curl",
@@ -4425,43 +4425,43 @@
       "id": "lateral-step-up",
       "name": "Step-up lateral",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "lateral-step-up--femenino--auto-d86d1b0507c2.webp"
     },
     {
       "id": "suspension-assisted-squat",
       "name": "Suspension Assisted Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-assisted-squat--femenino--auto-d3cdb75c009f.webp"
     },
     {
       "id": "trap-bar-deadlift",
       "name": "Trap Bar Deadlift",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "trap-bar-deadlift--femenino--auto-7bfb0443ff36.webp"
     },
     {
       "id": "v-squat",
       "name": "V-Squat Machine",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "v-squat--femenino--auto-671a437a5ff7.webp"
     },
     {
       "id": "wall-sit",
       "name": "Wall sit",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wall-sit--femenino--auto-0da5f3afdbd1.webp"
     },
     {
       "id": "reverse-lunge",
       "name": "Zancada inversa",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-lunge--femenino--auto-c4f717938ca5.webp"
     },
     {
       "id": "dumbbell-lunge",
