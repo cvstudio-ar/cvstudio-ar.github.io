@@ -2013,11 +2013,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-wrist-curl--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-wrist-curl--masculino--auto-66e518940d5d.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "plate-pinch-hold": {
     "femenino": {
       "file": "plate-pinch-hold--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "plate-pinch-hold--masculino--auto-5280757a85dc.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2027,11 +2037,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "reverse-wrist-curl--femenino--auto-2f41a1db647a.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "reverse-wrist-curl--masculino--auto-3cd69672c293.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "towel-wring": {
     "femenino": {
       "file": "towel-wring--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "towel-wring--masculino--auto-9be0f5ca73f8.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2041,11 +2061,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "wrist-curl--femenino--auto-e2ea4579606b.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "wrist-curl--masculino--auto-cefe212b5e51.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "wrist-roller": {
     "femenino": {
       "file": "wrist-roller--femenino--runway04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "wrist-roller--masculino--auto-0dd58a83bae6.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2455,6 +2485,48 @@ window.FIT_CATALOG_IMAGES = {
   "reverse-lunge": {
     "femenino": {
       "file": "reverse-lunge--femenino--auto-c4f717938ca5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "zercher-squat": {
+    "femenino": {
+      "file": "zercher-squat--femenino--auto-b8ff51ba42ec.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-deadlift": {
+    "femenino": {
+      "file": "band-deadlift--femenino--auto-8d0c2a9c86b1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-glute-kickback": {
+    "femenino": {
+      "file": "band-glute-kickback--femenino--auto-2da8bae5ec71.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-lying-leg-curl": {
+    "femenino": {
+      "file": "band-lying-leg-curl--femenino--auto-05c30ddca946.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "banded-glute-bridge": {
+    "femenino": {
+      "file": "banded-glute-bridge--femenino--auto-7e0cab4333c4.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "barbell-glute-bridge": {
+    "femenino": {
+      "file": "barbell-glute-bridge--femenino--auto-fc384128e057.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "666beaeadebda87b939795f7b15824a110b3f575",
+  "updatedFrom": "55c3279f4dbb530c9c9e8e55041c4ca0f3466996",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1154,43 +1154,43 @@
       "id": "dumbbell-wrist-curl",
       "name": "Dumbbell Wrist Curl",
       "group": "ANTEBRAZOS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-wrist-curl--masculino--auto-66e518940d5d.webp"
     },
     {
       "id": "plate-pinch-hold",
       "name": "Plate Pinch Hold",
       "group": "ANTEBRAZOS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "plate-pinch-hold--masculino--auto-5280757a85dc.webp"
     },
     {
       "id": "reverse-wrist-curl",
       "name": "Reverse Wrist Curl",
       "group": "ANTEBRAZOS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-wrist-curl--masculino--auto-3cd69672c293.webp"
     },
     {
       "id": "towel-wring",
       "name": "Towel Wring",
       "group": "ANTEBRAZOS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "towel-wring--masculino--auto-9be0f5ca73f8.webp"
     },
     {
       "id": "wrist-curl",
       "name": "Wrist Curl",
       "group": "ANTEBRAZOS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wrist-curl--masculino--auto-cefe212b5e51.webp"
     },
     {
       "id": "wrist-roller",
       "name": "Wrist Roller",
       "group": "ANTEBRAZOS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wrist-roller--masculino--auto-0dd58a83bae6.webp"
     },
     {
       "id": "band-leg-extension",
@@ -4474,8 +4474,8 @@
       "id": "zercher-squat",
       "name": "Zercher Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "zercher-squat--femenino--auto-b8ff51ba42ec.webp"
     },
     {
       "id": "hip-abduction-machine",
@@ -4488,36 +4488,36 @@
       "id": "band-deadlift",
       "name": "Band Deadlift",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-deadlift--femenino--auto-8d0c2a9c86b1.webp"
     },
     {
       "id": "band-glute-kickback",
       "name": "Band Glute Kickback",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-glute-kickback--femenino--auto-2da8bae5ec71.webp"
     },
     {
       "id": "band-lying-leg-curl",
       "name": "Band Lying Leg Curl",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-lying-leg-curl--femenino--auto-05c30ddca946.webp"
     },
     {
       "id": "banded-glute-bridge",
       "name": "Banded Glute Bridge",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "banded-glute-bridge--femenino--auto-7e0cab4333c4.webp"
     },
     {
       "id": "barbell-glute-bridge",
       "name": "Barbell Glute Bridge",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "barbell-glute-bridge--femenino--auto-fc384128e057.webp"
     },
     {
       "id": "bodyweight-hip-thrust",
