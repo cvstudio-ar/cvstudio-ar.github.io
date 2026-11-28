@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "819e463b8b1197dea91c719887e58cd6694d4809",
+  "updatedFrom": "7f782c40b82ae96772b81ee9f658489261c3c812",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3467,7 +3467,7 @@
       "name": "Remo Meadows",
       "group": "ESPALDA",
       "status": "review",
-      "file": "meadows-row--femenino--back03.webp"
+      "file": "meadows-row--femenino--runway02.webp"
     },
     {
       "id": "chest-supported-dumbbell-row",
@@ -3501,15 +3501,15 @@
       "id": "reverse-grip-barbell-row",
       "name": "Reverse Grip Barbell Row",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "reverse-grip-barbell-row--femenino--back04.webp"
+      "status": "ready",
+      "file": "reverse-grip-barbell-row--femenino--runway02.webp"
     },
     {
       "id": "reverse-hyperextension",
       "name": "Reverse Hyperextension (Bench)",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "reverse-hyperextension--femenino--runway02.webp"
     },
     {
       "id": "reverse-pec-deck",
@@ -3522,29 +3522,29 @@
       "id": "reverse-snow-angels",
       "name": "Reverse Snow Angels",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "reverse-snow-angels--femenino--runway02.webp"
     },
     {
       "id": "reverse-grip-lat-pulldown",
       "name": "Reverse-Grip Lat Pulldown",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "reverse-grip-lat-pulldown--femenino--runway02.webp"
     },
     {
       "id": "seal-row",
       "name": "Seal row",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "seal-row--femenino--back06.webp"
+      "status": "ready",
+      "file": "seal-row--femenino--runway02.webp"
     },
     {
       "id": "shrugs",
       "name": "Shrug",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "shrugs--femenino--runway02.webp"
     },
     {
       "id": "single-arm-cable-row",
@@ -3557,15 +3557,15 @@
       "id": "smith-machine-bent-over-row",
       "name": "Smith Machine Bent-Over Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-bent-over-row--femenino--runway02.webp"
     },
     {
       "id": "smith-machine-shrug",
       "name": "Smith Machine Shrug",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-shrug--femenino--runway02.webp"
     },
     {
       "id": "superman",
@@ -3585,22 +3585,22 @@
       "id": "suspension-row",
       "name": "Suspension Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-row--femenino--runway02.webp"
     },
     {
       "id": "table-inverted-row",
       "name": "Table Inverted Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "table-inverted-row--femenino--runway02.webp"
     },
     {
       "id": "towel-row",
       "name": "Towel Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "towel-row--femenino--runway02.webp"
     },
     {
       "id": "upright-row",
@@ -3613,71 +3613,71 @@
       "id": "wide-grip-pull-up",
       "name": "Wide Grip Pull Up",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wide-grip-pull-up--femenino--runway02.webp"
     },
     {
       "id": "band-internal-rotation",
       "name": "Band Internal Rotation",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-internal-rotation--femenino--runway02.webp"
     },
     {
       "id": "band-lateral-raise",
       "name": "Band Lateral Raise",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-lateral-raise--femenino--runway02.webp"
     },
     {
       "id": "band-overhead-press",
       "name": "Band Overhead Press",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-overhead-press--femenino--runway02.webp"
     },
     {
       "id": "cable-external-rotation",
       "name": "Cable External Rotation",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "cable-external-rotation--femenino--runway02.webp"
     },
     {
       "id": "cable-front-raise",
       "name": "Cable Front Raise",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "cable-front-raise--femenino--runway02.webp"
     },
     {
       "id": "cable-internal-rotation",
       "name": "Cable Internal Rotation",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "cable-internal-rotation--femenino--runway02.webp"
     },
     {
       "id": "dumbbell-push-press",
       "name": "Dumbbell Push Press",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-push-press--femenino--runway02.webp"
     },
     {
       "id": "dumbbell-scaption",
       "name": "Dumbbell Scaption",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-scaption--femenino--runway02.webp"
     },
     {
       "id": "dumbbell-thruster",
       "name": "Dumbbell Thruster",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-thruster--femenino--runway02.webp"
     },
     {
       "id": "plate-front-raise",

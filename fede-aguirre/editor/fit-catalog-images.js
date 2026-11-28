@@ -1031,10 +1031,10 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "meadows-row--femenino--back03.webp",
+      "file": "meadows-row--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "La ilustración muestra ambas manos en la barra; el remo Meadows debe ser unilateral."
+      "reviewNote": "La barra no muestra un extremo anclado y la mano sujeta un mango elevado, no el extremo libre de la barra landmine."
     }
   },
   "chest-supported-dumbbell-row": {
@@ -1092,10 +1092,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "reverse-grip-barbell-row--femenino--back04.webp",
+      "file": "reverse-grip-barbell-row--femenino--runway02.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Validar que ambas manos muestren inequívocamente el agarre supino antes de habilitar."
+      "provisional": false
     }
   },
   "reverse-hyperextension": {
@@ -1103,6 +1102,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "reverse-hyperextension--masculino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "reverse-hyperextension--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Las piernas aparecen apoyadas sobre el banco en vez de sobresalir del borde; no se identifica la extensión inversa de cadera."
     }
   },
   "reverse-pec-deck": {
@@ -1122,6 +1127,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "reverse-snow-angels--masculino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "reverse-snow-angels--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía incluye un rastro blanco artificial sobre el suelo que no respeta el diseño limpio aprobado."
     }
   },
   "reverse-grip-lat-pulldown": {
@@ -1129,6 +1140,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "reverse-grip-lat-pulldown--masculino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "reverse-grip-lat-pulldown--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "El agarre supino no se distingue con suficiente claridad; la barra se sostiene con las manos bastante separadas."
     }
   },
   "seal-row": {
@@ -1138,15 +1155,19 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "seal-row--femenino--back06.webp",
+      "file": "seal-row--femenino--runway02.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La fotografía muestra Seal Row con barra; el catálogo especifica mancuernas y banco. Requiere reemplazo."
+      "provisional": false
     }
   },
   "shrugs": {
     "masculino": {
       "file": "shrugs--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "shrugs--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1168,11 +1189,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "smith-machine-bent-over-row--masculino--back05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "smith-machine-bent-over-row--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "smith-machine-shrug": {
     "masculino": {
       "file": "smith-machine-shrug--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "smith-machine-shrug--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1196,6 +1227,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "suspension-row--masculino--back05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "suspension-row--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "table-inverted-row": {
@@ -1203,11 +1239,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "table-inverted-row--masculino--back05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "table-inverted-row--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "towel-row": {
     "masculino": {
       "file": "towel-row--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "towel-row--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1222,6 +1268,77 @@ window.FIT_CATALOG_IMAGES = {
   "wide-grip-pull-up": {
     "masculino": {
       "file": "wide-grip-pull-up--masculino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "wide-grip-pull-up--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-external-rotation": {
+    "femenino": {
+      "file": "cable-external-rotation--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La polea está alta y no permite distinguir la rotación externa con el codo fijo a 90 grados."
+    }
+  },
+  "cable-internal-rotation": {
+    "femenino": {
+      "file": "cable-internal-rotation--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La polea está alta y la trayectoria no permite distinguir la rotación interna con el codo fijo a 90 grados."
+    }
+  },
+  "dumbbell-scaption": {
+    "femenino": {
+      "file": "dumbbell-scaption--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-lateral-raise": {
+    "femenino": {
+      "file": "band-lateral-raise--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-front-raise": {
+    "femenino": {
+      "file": "cable-front-raise--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La modelo mira hacia la máquina, tiene los codos flexionados y no demuestra una elevación frontal clara."
+    }
+  },
+  "dumbbell-push-press": {
+    "femenino": {
+      "file": "dumbbell-push-press--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-thruster": {
+    "femenino": {
+      "file": "dumbbell-thruster--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-overhead-press": {
+    "femenino": {
+      "file": "band-overhead-press--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-internal-rotation": {
+    "femenino": {
+      "file": "band-internal-rotation--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
