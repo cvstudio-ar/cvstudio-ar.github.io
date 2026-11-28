@@ -2157,6 +2157,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "belt-squat--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "belt-squat--masculino--auto-0cda46edc4d1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "hip-thrusts": {
@@ -2257,11 +2262,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "box-squat--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "box-squat--masculino--auto-beeab085dd9a.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "cossack-squat": {
     "femenino": {
       "file": "cossack-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "cossack-squat--masculino--auto-275ef6d3d0e3.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2271,6 +2286,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "curtsy-lunge--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "curtsy-lunge--masculino--auto-582abff54a64.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-reverse-lunge": {
@@ -2278,11 +2298,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-reverse-lunge--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-reverse-lunge--masculino--auto-be10c5e7d6dd.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-squat": {
     "femenino": {
       "file": "dumbbell-squat--femenino--auto-054fa8f6d4a2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-squat--masculino--auto-52a5e57784d8.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2591,6 +2621,48 @@ window.FIT_CATALOG_IMAGES = {
   "donkey-kicks": {
     "femenino": {
       "file": "donkey-kicks--femenino--auto-0e527bab5ab6.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-deadlift": {
+    "femenino": {
+      "file": "dumbbell-deadlift--femenino--auto-d0dfaa09869e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-hip-thrust": {
+    "femenino": {
+      "file": "dumbbell-hip-thrust--femenino--auto-b4d4e2aa0bf2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "machine-glute-kickback": {
+    "femenino": {
+      "file": "machine-glute-kickback--femenino--auto-0aa04556fbae.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "fire-hydrants": {
+    "femenino": {
+      "file": "fire-hydrants--femenino--auto-7a7e616d285b.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "frog-pumps": {
+    "femenino": {
+      "file": "frog-pumps--femenino--auto-7bb1e18ffa88.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "glute-bridge-march": {
+    "femenino": {
+      "file": "glute-bridge-march--femenino--auto-067d20a42c81.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

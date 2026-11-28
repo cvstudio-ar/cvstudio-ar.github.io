@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "5abe9bf2382d2a185444a4621fd50c5dd217bbd6",
+  "updatedFrom": "e0522293620705a163e6fd9a26a65d42980baf1c",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1238,8 +1238,8 @@
       "id": "belt-squat",
       "name": "Belt squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "belt-squat--masculino--auto-0cda46edc4d1.webp"
     },
     {
       "id": "bodyweight-squat",
@@ -1252,36 +1252,36 @@
       "id": "box-squat",
       "name": "Box Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "box-squat--masculino--auto-beeab085dd9a.webp"
     },
     {
       "id": "cossack-squat",
       "name": "Cossack Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cossack-squat--masculino--auto-275ef6d3d0e3.webp"
     },
     {
       "id": "curtsy-lunge",
       "name": "Curtsy Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "curtsy-lunge--masculino--auto-582abff54a64.webp"
     },
     {
       "id": "dumbbell-reverse-lunge",
       "name": "Dumbbell Reverse Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-reverse-lunge--masculino--auto-be10c5e7d6dd.webp"
     },
     {
       "id": "dumbbell-squat",
       "name": "Dumbbell Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-squat--masculino--auto-52a5e57784d8.webp"
     },
     {
       "id": "leg-extension",
@@ -4565,43 +4565,43 @@
       "id": "dumbbell-deadlift",
       "name": "Dumbbell Deadlift",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-deadlift--femenino--auto-d0dfaa09869e.webp"
     },
     {
       "id": "dumbbell-hip-thrust",
       "name": "Dumbbell Hip Thrust",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-hip-thrust--femenino--auto-b4d4e2aa0bf2.webp"
     },
     {
       "id": "machine-glute-kickback",
       "name": "Extensión de cadera",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "machine-glute-kickback--femenino--auto-0aa04556fbae.webp"
     },
     {
       "id": "fire-hydrants",
       "name": "Fire Hydrants",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "fire-hydrants--femenino--auto-7a7e616d285b.webp"
     },
     {
       "id": "frog-pumps",
       "name": "Frog Pumps",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "frog-pumps--femenino--auto-7bb1e18ffa88.webp"
     },
     {
       "id": "glute-bridge-march",
       "name": "Glute Bridge March",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "glute-bridge-march--femenino--auto-067d20a42c81.webp"
     },
     {
       "id": "glute-ham-raise",
