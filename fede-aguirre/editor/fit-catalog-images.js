@@ -1922,5 +1922,92 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false
     }
+  },
+  "box-squat": {
+    "femenino": {
+      "file": "box-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cossack-squat": {
+    "femenino": {
+      "file": "cossack-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "curtsy-lunge": {
+    "femenino": {
+      "file": "curtsy-lunge--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-reverse-lunge": {
+    "femenino": {
+      "file": "dumbbell-reverse-lunge--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-squat": {
+    "femenino": {
+      "file": "dumbbell-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Las mancuernas están entre las piernas, no a los lados; se puede confundir con sentadilla sumo."
+    }
+  },
+  "hang-clean": {
+    "femenino": {
+      "file": "hang-clean--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La recepción es indistinguible de una sentadilla frontal; no se ve la fase desde suspensión."
+    }
+  },
+  "hindu-squat": {
+    "femenino": {
+      "file": "hindu-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Talones y posición de brazos no permiten identificar con certeza la variante hindú."
+    }
+  },
+  "kettlebell-clean": {
+    "femenino": {
+      "file": "kettlebell-clean--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "kettlebell-goblet-lunge": {
+    "femenino": {
+      "file": "kettlebell-goblet-lunge--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "kettlebell-goblet-squat": {
+    "femenino": {
+      "file": "kettlebell-goblet-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "kettlebell-snatch": {
+    "femenino": {
+      "file": "kettlebell-snatch--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "landmine-squat": {
+    "femenino": {
+      "file": "landmine-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
   }
 };

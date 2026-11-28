@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "eac36b2a8575a2e3000c1d62cd5f8c04953c104f",
+  "updatedFrom": "40da88872de45f5d2862260889a0f39fad626aa2",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -4159,36 +4159,36 @@
       "id": "box-squat",
       "name": "Box Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "box-squat--femenino--chatgpt03.webp"
     },
     {
       "id": "cossack-squat",
       "name": "Cossack Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cossack-squat--femenino--chatgpt03.webp"
     },
     {
       "id": "curtsy-lunge",
       "name": "Curtsy Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "curtsy-lunge--femenino--chatgpt03.webp"
     },
     {
       "id": "dumbbell-reverse-lunge",
       "name": "Dumbbell Reverse Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-reverse-lunge--femenino--chatgpt03.webp"
     },
     {
       "id": "dumbbell-squat",
       "name": "Dumbbell Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "dumbbell-squat--femenino--chatgpt03.webp"
     },
     {
       "id": "leg-extension",
@@ -4201,50 +4201,50 @@
       "id": "hang-clean",
       "name": "Hang Clean",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "hang-clean--femenino--chatgpt03.webp"
     },
     {
       "id": "hindu-squat",
       "name": "Hindu Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "hindu-squat--femenino--chatgpt03.webp"
     },
     {
       "id": "kettlebell-clean",
       "name": "Kettlebell Clean",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-clean--femenino--chatgpt03.webp"
     },
     {
       "id": "kettlebell-goblet-lunge",
       "name": "Kettlebell Goblet Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-goblet-lunge--femenino--chatgpt03.webp"
     },
     {
       "id": "kettlebell-goblet-squat",
       "name": "Kettlebell Goblet Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-goblet-squat--femenino--chatgpt03.webp"
     },
     {
       "id": "kettlebell-snatch",
       "name": "Kettlebell Snatch",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-snatch--femenino--chatgpt03.webp"
     },
     {
       "id": "landmine-squat",
       "name": "Landmine squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "landmine-squat--femenino--chatgpt03.webp"
     },
     {
       "id": "lateral-lunge",
