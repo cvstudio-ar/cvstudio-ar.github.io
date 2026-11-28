@@ -1319,6 +1319,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-scaption--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-scaption--masculino--auto-736387873654.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-lateral-raise": {
@@ -1363,6 +1368,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-thruster--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-thruster--masculino--auto-7680cbc9e9d2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-overhead-press": {
@@ -1391,18 +1401,26 @@ window.FIT_CATALOG_IMAGES = {
   },
   "plate-front-raise": {
     "femenino": {
-      "file": "plate-front-raise--femenino--runway04.webp",
+      "file": "plate-front-raise--femenino--auto-9821921a9c61.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Aparecen dos discos separados y brazos hacia lados distintos, no un disco sujeto con ambas manos."
+      "provisional": false
+    },
+    "masculino": {
+      "file": "plate-front-raise--masculino--auto-89e230b0252e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "cable-lateral-raise": {
     "femenino": {
-      "file": "cable-lateral-raise--femenino--runway04.webp",
+      "file": "cable-lateral-raise--femenino--auto-4609df6cbcc3.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La mano elevada no sostiene el cable."
+      "provisional": false
+    },
+    "masculino": {
+      "file": "cable-lateral-raise--masculino--auto-14c26cf4e651.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "front-raises": {
@@ -1410,11 +1428,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "front-raises--femenino--runway04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "front-raises--masculino--auto-3f0fefbfe79e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "lateral-raises": {
     "femenino": {
       "file": "lateral-raises--femenino--runway04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "lateral-raises--masculino--auto-d8f62fa04038.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1425,6 +1453,11 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": true,
       "reviewNote": "Cuerpo inclinado y codos extendidos; falta fase flexionada de la vertical."
+    },
+    "masculino": {
+      "file": "handstand-push-up--masculino--auto-0b8e50d1cf11.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "machine-lateral-raise": {
@@ -1450,10 +1483,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "arnold-press": {
     "femenino": {
-      "file": "arnold-press--femenino--runway04.webp",
+      "file": "arnold-press--femenino--auto-606380c3df63.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Agarre hacia delante y codos laterales, no se identifica fase de rotación Arnold."
+      "provisional": false
     }
   },
   "shoulder-press-machine": {
@@ -1465,10 +1497,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "landmine-press": {
     "femenino": {
-      "file": "landmine-press--femenino--runway04.webp",
+      "file": "landmine-press--femenino--auto-44ced2f8ac5e.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Barra horizontal adicional intersecta la landmine; equipo inconsistente."
+      "provisional": false
     }
   },
   "overhead-press": {
@@ -1494,10 +1525,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "band-external-rotation": {
     "femenino": {
-      "file": "band-external-rotation--femenino--runway04.webp",
+      "file": "band-external-rotation--femenino--auto-5b24dae53c89.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "No se distingue la rotación externa ni el anclaje lateral de la banda."
+      "provisional": false
     }
   },
   "single-arm-overhead-press": {

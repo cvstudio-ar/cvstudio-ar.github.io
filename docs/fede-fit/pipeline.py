@@ -2,6 +2,7 @@
 """Fede FIT: deterministic cards, resumable generation and guarded catalog updates."""
 import argparse, hashlib, json, re, subprocess, sys
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 POSES = {
@@ -111,7 +112,7 @@ def key(row):
     return f"{row['sex']}/{row['id']}"
 
 
-def plan(args, pending):
+def plan(args, pending, editor):
     rows = [row for row in pending if (not args.sex or row["sex"] == args.sex)
             and (not args.group or row["group"] == args.group)]
     if args.select:
@@ -120,8 +121,15 @@ def plan(args, pending):
         if len(selected) > args.limit or any(item not in by_key for item in selected):
             raise SystemExit("La selección excede el límite o contiene ejercicios no pendientes")
         rows = [by_key[item] for item in selected]
-    rows = [{**row, "reference": f"references/{row['sex']}.png",
-             "pose": POSES.get(row["id"])} for row in rows[:args.limit]]
+    html = (editor / "index.html").read_text(encoding="utf-8")
+    match = re.search(r"\bconst EXERCISES\s*=\s*(?=\[)", html)
+    if not match:
+        raise SystemExit("No se encontró la lista de ejercicios en index.html")
+    exercises, _ = json.JSONDecoder().raw_decode(html[match.end():])
+    details = {item["sourceId"]: item for item in exercises}
+    rows = [{**row, "reference": f"references/{row['sex']}.png", "pose": POSES.get(row["id"]),
+             "englishName": details[row["id"]]["englishName"], "equipment": details[row["id"]]["equipment"]}
+            for row in rows[:args.limit]]
     path = args.work / "plan.json"
     if path.exists():
         raise SystemExit(f"La tanda ya tiene un plan: {path}")
@@ -274,25 +282,27 @@ def deploy(args):
 
 
 def verify(args):
-    publication = json.loads((args.work / "publication.json").read_text(encoding="utf-8"))
-
-    def fetch(resource):
-        return subprocess.check_output(["curl.exe" if sys.platform == "win32" else "curl",
-                                        "--fail", "--silent", "--show-error", "--location",
-                                        "--max-time", "25", PUBLIC_URL + resource])
-
+    path = args.work / "publication.json"
+    publication = json.loads(path.read_text(encoding="utf-8"))
     version = publication["version"]
-    if f"fit-catalog-images.js?v={version}".encode() not in fetch(f"?v={version}"):
+    curl = ["curl.exe" if sys.platform == "win32" else "curl", "--fail", "--silent",
+            "--show-error", "--location", "--max-time", "20"]
+    html = subprocess.check_output([*curl, f"{PUBLIC_URL}?v={version}"])
+    if f"fit-catalog-images.js?v={version}".encode() not in html:
         raise SystemExit(f"Tanda todavía no publicada: {version}")
-    resources = [(f"{filename}?v={version}", publication["files"][f"fede-aguirre/editor/{filename}"])
-                 for filename in CATALOG_FILES[:2]]
-    resources.extend((f"exercise-assets/{entry['file']}", entry["sha256"])
-                     for entry in publication["images"].values())
-    for resource, expected in resources:
-        if digest(fetch(resource)) != expected:
-            raise SystemExit(f"Contenido distinto en producción: {resource}")
+    resources = {name.removeprefix("fede-aguirre/editor/"): sha for name, sha in publication["files"].items()
+                 if name != "fede-aguirre/editor/index.html"}
+    with TemporaryDirectory(dir=args.work) as directory:
+        files = {name: Path(directory) / str(i) for i, name in enumerate(resources)}
+        command = [*curl, "--parallel", "--parallel-max", "8", "--fail-early"]
+        for name, target in files.items():
+            command.extend(("--output", str(target), f"{PUBLIC_URL}{name}?v={version}"))
+        subprocess.run(command, check=True)
+        for name, target in files.items():
+            if digest(target.read_bytes()) != resources[name]:
+                raise SystemExit(f"Contenido distinto en producción: {name}")
     publication["verified"] = True
-    write_json(args.work / "publication.json", publication)
+    write_json(path, publication)
     print(f"Despliegue verificado: {version}, {len(publication['images'])} imágenes")
 
 
@@ -322,7 +332,7 @@ def main():
             print(sex, {status: sum(row["status"] == status for row in rows)
                         for status in ("ready", "pending", "review")})
     elif args.command == "plan":
-        plan(args, pending)
+        plan(args, pending, editor)
     elif args.command == "prepare":
         prepare(args, editor, progress)
     elif args.command == "publish":

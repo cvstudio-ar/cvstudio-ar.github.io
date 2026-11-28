@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "d0baee4ac8b1975e799d94bae855010423983abf",
+  "updatedFrom": "4c178492fc4ec3e6f98bd42e43a981949b0ae3af",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -762,50 +762,50 @@
       "id": "dumbbell-scaption",
       "name": "Dumbbell Scaption",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-scaption--masculino--auto-736387873654.webp"
     },
     {
       "id": "dumbbell-thruster",
       "name": "Dumbbell Thruster",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-thruster--masculino--auto-7680cbc9e9d2.webp"
     },
     {
       "id": "plate-front-raise",
       "name": "Elevación frontal con disco",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "plate-front-raise--masculino--auto-89e230b0252e.webp"
     },
     {
       "id": "cable-lateral-raise",
       "name": "Elevación lateral en polea",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-lateral-raise--masculino--auto-14c26cf4e651.webp"
     },
     {
       "id": "front-raises",
       "name": "Elevaciones frontales",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "front-raises--masculino--auto-3f0fefbfe79e.webp"
     },
     {
       "id": "lateral-raises",
       "name": "Elevaciones laterales",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "lateral-raises--masculino--auto-d8f62fa04038.webp"
     },
     {
       "id": "handstand-push-up",
       "name": "Handstand Push-Up",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "handstand-push-up--masculino--auto-0b8e50d1cf11.webp"
     },
     {
       "id": "machine-lateral-raise",
@@ -3683,15 +3683,15 @@
       "id": "plate-front-raise",
       "name": "Elevación frontal con disco",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "plate-front-raise--femenino--runway04.webp"
+      "status": "ready",
+      "file": "plate-front-raise--femenino--auto-9821921a9c61.webp"
     },
     {
       "id": "cable-lateral-raise",
       "name": "Elevación lateral en polea",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "cable-lateral-raise--femenino--runway04.webp"
+      "status": "ready",
+      "file": "cable-lateral-raise--femenino--auto-4609df6cbcc3.webp"
     },
     {
       "id": "front-raises",
@@ -3739,8 +3739,8 @@
       "id": "arnold-press",
       "name": "Press Arnold",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "arnold-press--femenino--runway04.webp"
+      "status": "ready",
+      "file": "arnold-press--femenino--auto-606380c3df63.webp"
     },
     {
       "id": "dumbbell-shoulder-press",
@@ -3760,8 +3760,8 @@
       "id": "landmine-press",
       "name": "Press landmine",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "landmine-press--femenino--runway04.webp"
+      "status": "ready",
+      "file": "landmine-press--femenino--auto-44ced2f8ac5e.webp"
     },
     {
       "id": "overhead-press",
@@ -3788,8 +3788,8 @@
       "id": "band-external-rotation",
       "name": "Rotación externa con banda",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "band-external-rotation--femenino--runway04.webp"
+      "status": "ready",
+      "file": "band-external-rotation--femenino--auto-5b24dae53c89.webp"
     },
     {
       "id": "single-arm-overhead-press",

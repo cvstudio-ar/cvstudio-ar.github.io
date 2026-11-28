@@ -29,5 +29,5 @@ convertirlas a WebP de 340 × 320 px.
 5. Ejecutar `pipeline.py verify --work private/fede-fit/001` después del push.
    Comprueba la versión del editor y los bytes de los catálogos y cada foto.
 
-Se requiere Python 3.10+, Pillow y Git. Reutilizar la carpeta de una tanda
+Se requiere Python 3.10+, Pillow, Git y curl. Reutilizar la carpeta de una tanda
 durante sus reintentos y crear el plan siguiente a partir del catálogo actualizado.
