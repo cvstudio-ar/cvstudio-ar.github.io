@@ -43,7 +43,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "bent-over-row--femenino--back04.webp",
+      "file": "bent-over-row--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -959,7 +959,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "straight-arm-pulldown--femenino--back03.webp",
+      "file": "straight-arm-pulldown--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -995,7 +995,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "dumbbell-row--femenino--back03.webp",
+      "file": "dumbbell-row--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1056,7 +1056,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "seated-cable-row--femenino--back04.webp",
+      "file": "seated-cable-row--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
