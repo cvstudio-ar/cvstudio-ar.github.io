@@ -1,30 +1,33 @@
-# Fede FIT — producción de fotografías de ejercicios
+# Producción de imágenes de FEDE AGUIRRE FIT
 
-Herramienta aislada del sitio público (el despliegue excluye `docs/`). No altera rutinas ni otras categorías. Lee el catálogo existente en cada ejecución y no vuelve a generar ejercicios habilitados. No se guardan credenciales en Git.
+El catálogo contiene 415 ejercicios para cada personaje. El estado en
+`fit-catalog-progress.json` permite retomar el trabajo. Cada plan incluye
+hasta 12 entradas pendientes o en revisión. Las entradas habilitadas quedan
+excluidas.
 
-## Uso
+La generación usa ImageGen integrado en Codex, una fotografía por ejercicio.
+Las referencias se conservan en `private/fede-fit/references/`, excluido de
+Git y de GitHub Pages. Las fotos llevan únicamente las iniciales FA de la
+indumentaria. El pipeline aplica la tipografía y la categoría muscular al
+convertirlas a WebP de 340 × 320 px.
 
-En un clon actualizado del repositorio, con Python 3.10+ y Git configurado con el acceso de la cuenta propietaria:
+1. Ejecutar `pipeline.py status` y `pipeline.py plan --work private/fede-fit/001`.
+   Se puede indicar el orden con `--select femenino/id,masculino/id`.
+2. Guardar las fotos en `sources/<personaje>/<id>.png` dentro de la tanda.
+   Conservar los prompts y usar `pipeline.py prepare --work private/fede-fit/001`.
+   `crops.json` admite un recorte individual en píxeles `[izquierda, arriba,
+   derecha, abajo]` por `personaje/id`.
+   El pipeline registra huellas y señala fotos similares de tandas anteriores.
+3. Revisar visualmente postura, equipamiento, personaje, encuadre y tarjeta.
+   Guardar la decisión en `review.json`, identificada por `personaje/id`,
+   con `approved`, `sha256` de la tarjeta y una nota. Conservar los rechazos
+   para regenerarlos con una corrección específica.
+4. Ejecutar `pipeline.py publish --work private/fede-fit/001`. El comando valida
+   los hashes y el catálogo actual y escribe `publication.json` con las rutas
+   exactas para el commit y la versión pública. `pipeline.py deploy --work
+   private/fede-fit/001` crea el commit y lo envía a `main`.
+5. Ejecutar `pipeline.py verify --work private/fede-fit/001` después del push.
+   Comprueba la versión del editor y los bytes de los catálogos y cada foto.
 
-```sh
-python -m pip install Pillow
-python docs/fede-fit/pipeline.py plan
-```
-
-El modo `prepare` usa fotografías sin texto ya disponibles, nombradas `<id>.png` dentro de `sources/` de la carpeta de trabajo. No consume créditos. El modo `generate` solicita una fotografía individual por ejercicio; requiere `pip install runwayml` y una clave de la API de Runway configurada como variable de entorno `RUNWAYML_API_SECRET`. Los créditos API son independientes de los créditos de la aplicación Runway. No hay reintentos automáticos de generación. Usar un máximo de 12 por ejecución, empezando por los pendientes reales. Los 18 pendientes/revisiones de ESPALDA FEMENINO tienen instrucciones técnicas específicas; otras posturas requieren ampliar el diccionario POSES antes de usar generación automática. La generación no certifica técnica deportiva.
-
-```sh
-python docs/fede-fit/pipeline.py generate --limit 12
-# O, para imágenes generadas por otra vía:
-python docs/fede-fit/pipeline.py prepare --limit 12
-```
-
-La carpeta predeterminada es `~/fede-fit-candidates/femenino/espalda/`. Se conservan los originales en `sources/`, las tarjetas WebP 340×320 en `cards/`, un `manifest.json` de integridad y una cuadrícula `preview.png`. Se pueden seleccionar otras carpetas externas al repositorio con `--work`. Cada modelo/categoría usa su propia carpeta.
-
-Revisar visualmente la cuadrícula y seleccionar los identificadores válidos (no solo el nombre). El comando de publicación verifica que la imagen no cambió, que el ejercicio no esté habilitado previamente y que el catálogo siga coincidiendo con la referencia inicial. Genera un único commit para toda la tanda. `--push` actualiza `main` con las credenciales Git de la cuenta propietaria y activa el despliegue existente de GitHub Pages. Sin `--push` crea únicamente un commit local. No se habilitan candidatos no revisados. Comprobar que el despliegue finaliza y que la web muestra la versión nueva.
-
-```sh
-python docs/fede-fit/pipeline.py publish --approve renegade-row,band-row --push
-```
-
-No guardar una clave API en la línea de comandos, archivos versionados ni en el sitio. El modo de generación requiere activación y saldo de API; no se ha activado ningún trabajo de pago ni programado ejecuciones recurrentes.
+Se requiere Python 3.10+, Pillow y Git. Reutilizar la carpeta de una tanda
+durante sus reintentos y crear el plan siguiente a partir del catálogo actualizado.

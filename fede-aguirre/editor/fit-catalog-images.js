@@ -1031,10 +1031,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "meadows-row--femenino--runway04.webp",
+      "file": "meadows-row--femenino--auto-c6a3ef30007e.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Sujeta la parte alta de la barra; no se ve agarre del manguito libre ni anclaje correcto."
+      "provisional": false
     }
   },
   "chest-supported-dumbbell-row": {
@@ -1140,10 +1139,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "reverse-grip-lat-pulldown--femenino--runway04.webp",
+      "file": "reverse-grip-lat-pulldown--femenino--auto-d760313a4be2.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Manos abiertas sin agarre efectivo de la barra."
+      "provisional": false
     }
   },
   "seal-row": {
@@ -1213,10 +1211,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "superman--femenino--runway04.webp",
+      "file": "superman--femenino--auto-f60f62f9dcf0.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Brazos hacia atrás en vez de extendidos hacia delante."
+      "provisional": false
     }
   },
   "superman-pulldown": {
@@ -1226,10 +1223,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "superman-pulldown--femenino--runway04.webp",
+      "file": "superman-pulldown--femenino--auto-ba1bf4a05083.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Rodillas flexionadas y codos alejados de las costillas; falta posición inequívoca."
+      "provisional": false
     }
   },
   "suspension-row": {
@@ -1275,10 +1271,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "upright-row--femenino--runway04.webp",
+      "file": "upright-row--femenino--auto-d62384ae0010.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Barra a la altura de muslos; falta la fase de remo vertical con codos elevados."
+      "provisional": false
     }
   },
   "wide-grip-pull-up": {
@@ -1299,6 +1294,11 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": true,
       "reviewNote": "Sujeta una barra con ambas manos, no un maneral unilateral."
+    },
+    "masculino": {
+      "file": "cable-external-rotation--masculino--auto-e8faa96a6ae1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "cable-internal-rotation": {
@@ -1307,6 +1307,11 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": true,
       "reviewNote": "Polea alta y conexión de cable incoherente."
+    },
+    "masculino": {
+      "file": "cable-internal-rotation--masculino--auto-4fe07e22081f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-scaption": {
@@ -1321,6 +1326,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "band-lateral-raise--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "band-lateral-raise--masculino--auto-90ab7145ea2a.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "cable-front-raise": {
@@ -1329,11 +1339,21 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": true,
       "reviewNote": "Vista posterior no permite distinguir elevación frontal de lateral; polea delante."
+    },
+    "masculino": {
+      "file": "cable-front-raise--masculino--auto-2b7aa3a2ec1c.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-push-press": {
     "femenino": {
       "file": "dumbbell-push-press--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-push-press--masculino--auto-15da46ec4f6b.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1350,11 +1370,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "band-overhead-press--femenino--runway02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "band-overhead-press--masculino--auto-62d35097f93e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-internal-rotation": {
     "femenino": {
       "file": "band-internal-rotation--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "band-internal-rotation--masculino--auto-7a1a4f40139a.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

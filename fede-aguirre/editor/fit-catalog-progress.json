@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "40da88872de45f5d2862260889a0f39fad626aa2",
+  "updatedFrom": "d0baee4ac8b1975e799d94bae855010423983abf",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -713,50 +713,50 @@
       "id": "band-internal-rotation",
       "name": "Band Internal Rotation",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-internal-rotation--masculino--auto-7a1a4f40139a.webp"
     },
     {
       "id": "band-lateral-raise",
       "name": "Band Lateral Raise",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-lateral-raise--masculino--auto-90ab7145ea2a.webp"
     },
     {
       "id": "band-overhead-press",
       "name": "Band Overhead Press",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-overhead-press--masculino--auto-62d35097f93e.webp"
     },
     {
       "id": "cable-external-rotation",
       "name": "Cable External Rotation",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-external-rotation--masculino--auto-e8faa96a6ae1.webp"
     },
     {
       "id": "cable-front-raise",
       "name": "Cable Front Raise",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-front-raise--masculino--auto-2b7aa3a2ec1c.webp"
     },
     {
       "id": "cable-internal-rotation",
       "name": "Cable Internal Rotation",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-internal-rotation--masculino--auto-4fe07e22081f.webp"
     },
     {
       "id": "dumbbell-push-press",
       "name": "Dumbbell Push Press",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-push-press--masculino--auto-15da46ec4f6b.webp"
     },
     {
       "id": "dumbbell-scaption",
@@ -3466,8 +3466,8 @@
       "id": "meadows-row",
       "name": "Remo Meadows",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "meadows-row--femenino--runway04.webp"
+      "status": "ready",
+      "file": "meadows-row--femenino--auto-c6a3ef30007e.webp"
     },
     {
       "id": "chest-supported-dumbbell-row",
@@ -3529,8 +3529,8 @@
       "id": "reverse-grip-lat-pulldown",
       "name": "Reverse-Grip Lat Pulldown",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "reverse-grip-lat-pulldown--femenino--runway04.webp"
+      "status": "ready",
+      "file": "reverse-grip-lat-pulldown--femenino--auto-d760313a4be2.webp"
     },
     {
       "id": "seal-row",
@@ -3571,15 +3571,15 @@
       "id": "superman",
       "name": "Superman",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "superman--femenino--runway04.webp"
+      "status": "ready",
+      "file": "superman--femenino--auto-f60f62f9dcf0.webp"
     },
     {
       "id": "superman-pulldown",
       "name": "Superman Pulldown",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "superman-pulldown--femenino--runway04.webp"
+      "status": "ready",
+      "file": "superman-pulldown--femenino--auto-ba1bf4a05083.webp"
     },
     {
       "id": "suspension-row",
@@ -3606,8 +3606,8 @@
       "id": "upright-row",
       "name": "Upright Row",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "upright-row--femenino--runway04.webp"
+      "status": "ready",
+      "file": "upright-row--femenino--auto-d62384ae0010.webp"
     },
     {
       "id": "wide-grip-pull-up",

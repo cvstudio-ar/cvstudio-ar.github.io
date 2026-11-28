@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Fede FIT: deterministic cards, resumable generation and guarded catalog updates."""
-import argparse, hashlib, io, json, os, re, subprocess, sys
+import argparse, hashlib, json, re, subprocess, sys
 from pathlib import Path
-from urllib.request import urlopen
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 POSES = {
@@ -49,15 +48,19 @@ def wrap(draw,text,size,width):
         return wrap(draw,text,size-1,width) if size>10 else (f,[text])
     return f,lines
 
-def render(source, name, group, target):
+def render(source, name, group, target, crop=None):
     with Image.open(source) as im:
         im=ImageOps.exif_transpose(im).convert('RGB')
-        # No stretching, no cropped hands or equipment. Fill empty side margins dark.
+        if crop is not None:
+            left, top, right, bottom = crop
+            if not (0 <= left < right <= im.width and 0 <= top < bottom <= im.height):
+                raise ValueError(f"Recorte fuera de la fotografía: {source}")
+            im = im.crop((left, top, right, bottom))
         photo=ImageOps.contain(im,(340,247),Image.Resampling.LANCZOS)
     canvas=Image.new('RGB',(340,320),'#090d0a'); canvas.paste(photo,((340-photo.width)//2,(247-photo.height)//2))
     d=ImageDraw.Draw(canvas); d.rectangle((17,251,22,290),fill='#adff00')
     f,lines=wrap(d,name.upper(),24,299)
-    lineheight=max(12,min(23,f.size+1)); top=250 if len(lines)>1 else 261
+    lineheight=max(12,min(22,f.size+1)); top=248 if len(lines)>1 else 260
     for i,line in enumerate(lines): d.text((32,top+i*lineheight),line,font=f,fill='white')
     badge=group.upper(); bf=font(18)
     while d.textlength(badge,font=bf)>278: bf=font(bf.size-1)
@@ -66,97 +69,269 @@ def render(source, name, group, target):
     d.text((32+bw/2,306.5),badge,font=bf,fill='#090d0a',anchor='mm')
     canvas.save(target,'WEBP',quality=92,method=6)
 
-def load(root,sex,group):
-    editor=root/'fede-aguirre/editor'; progress=json.loads((editor/'fit-catalog-progress.json').read_text(encoding='utf-8'))
-    key='female' if sex=='femenino' else 'male'; rows=[r for r in progress[key] if r['group']==group]
-    if not rows: raise SystemExit('Categoría no encontrada')
-    prefix,cat=read_catalog(editor/'fit-catalog-images.js')
-    return editor,progress,rows,prefix,cat
+CATALOG_FILES = ("fit-catalog-images.js", "fit-catalog-progress.json", "index.html")
+PUBLIC_URL = "https://cvstudio.com.ar/fede-aguirre/editor/"
+SEX_FIELDS = {"masculino": "male", "femenino": "female"}
 
-def prompt_for(row,sex):
-    person='an adult athletic woman' if sex=='femenino' else 'an adult athletic man'
-    pose=POSES.get(row['id'])
-    if not pose: raise ValueError('Falta descripción técnica para '+row['id'])
-    return ('One photorealistic exercise demonstration photograph, '+person+', wearing black training clothes with a small white FA logo, dark gym with subtle lime lighting. '+pose+' Show whole pose and relevant equipment, centered, no other people. No words, graphics, numbers, diagrams, collage or borders. Horizontal composition.')
 
-def generate(row,sex,source,model):
-    from runwayml import RunwayML
-    if not os.environ.get('RUNWAYML_API_SECRET'): raise SystemExit('Falta RUNWAYML_API_SECRET en el entorno; no se inició ninguna generación.')
-    client=RunwayML(max_retries=0)
-    task=client.text_to_image.create(model=model,ratio='1360:768',prompt_text=prompt_for(row,sex)).wait_for_task_output(timeout=600)
-    url=task.output[0]
-    if not url.startswith('https://'): raise ValueError('URL inválida')
-    with urlopen(url,timeout=60) as response: raw=response.read(15_000_001)
-    if len(raw)>15_000_000: raise ValueError('Archivo demasiado grande')
-    with Image.open(io.BytesIO(raw)) as im: im.verify()
-    source.write_bytes(raw)
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
 
-def prepare(args,rows):
-    args.work.mkdir(parents=True,exist_ok=True); cards=args.work/'cards'; cards.mkdir(exist_ok=True)
-    sources=args.work/'sources'; sources.mkdir(exist_ok=True)
-    manifest_path=args.work/'manifest.json'; old=json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
-    if any(m['sex']!=args.sex or m['group']!=args.group for m in old.values()): raise SystemExit('Usar una carpeta de trabajo distinta por modelo y categoría.')
-    queue=[r for r in rows if r['status']!='ready' and r['id'] not in old and (args.command=='generate' or (sources/(r['id']+'.png')).exists())][:args.limit]
-    for row in queue:
-        id=row['id']; src=sources/(id+'.png')
-        if not src.exists():
-            if args.command!='generate': continue
-            if id not in POSES: print('Sin descripción:',id); continue
-            try: generate(row,args.sex,src,args.model)
-            except Exception as e: print(f'No generada {id}: {type(e).__name__}',file=sys.stderr); continue
-        out=cards/(id+'.webp'); render(src,row['name'],row['group'],out)
-        old[id]={'sex':args.sex,'group':row['group'],'name':row['name'],'previous_file':row['file'],'previous_status':row['status'],'sha256':hashlib.sha256(out.read_bytes()).hexdigest()}
-        manifest_path.write_text(json.dumps(old,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    selected=[id for id,entry in old.items() if entry['sex']==args.sex and entry['group']==args.group and (cards/(id+'.webp')).exists()]
-    if selected:
-        sheet=Image.new('RGB',(4*340,((len(selected)+3)//4)*320),'#090d0a')
-        for i,id in enumerate(selected):
-            with Image.open(cards/(id+'.webp')) as im: sheet.paste(im,(i%4*340,i//4*320))
-        sheet.save(args.work/'preview.png')
-    print('Candidatas preparadas:',', '.join(selected)); print('No se modificó el catálogo ni la web.')
 
-def publish(args,editor,progress,rows,prefix,cat):
-    if not args.approve: raise SystemExit('Indicar IDs revisados con --approve. No se publican automáticamente posturas no verificadas.')
-    if run('git','status','--porcelain',cwd=args.root): raise SystemExit('Repositorio con cambios locales: no se modifica.')
-    if args.push and run('git','branch','--show-current',cwd=args.root)!='main': raise SystemExit('La publicación requiere main')
-    ids=list(dict.fromkeys(args.approve.split(','))); manifest=json.loads((args.work/'manifest.json').read_text()); staged=[]
-    for id in ids:
-        row=next((r for r in rows if r['id']==id),None); m=manifest.get(id); f=args.work/'cards'/(id+'.webp')
-        if not row or not m or not f.is_file() or row['status']=='ready': raise SystemExit('No pendiente o no preparado: '+id)
-        if m['sex']!=args.sex or m['group']!=args.group or m['previous_file']!=row['file'] or m['previous_status']!=row['status']: raise SystemExit('Catálogo cambió: '+id)
-        previous=cat.get(id,{}).get(args.sex)
-        if (previous or {}).get('file')!=row['file']: raise SystemExit('Vinculación inconsistente: '+id)
-        data=f.read_bytes(); digest=hashlib.sha256(data).hexdigest()
-        if digest!=m['sha256']: raise SystemExit('Hash cambiado: '+id)
-        with Image.open(f) as im:
-            if im.size!=(340,320) or im.format!='WEBP': raise SystemExit('Formato inválido: '+id)
-            im.verify()
-        name=f'{id}--{args.sex}--auto-{digest[:12]}.webp'; dest=editor/'exercise-assets'/name
-        if dest.exists() and dest.read_bytes()!=data: raise SystemExit('Colisión de archivo: '+id)
-        staged.append((row,id,name,dest,data))
-    index=editor/'index.html'; html=index.read_text(encoding='utf-8')
-    version=hashlib.sha256(''.join(x[2] for x in staged).encode()).hexdigest()[:12]
-    updated,n=re.subn(r'(fit-catalog-images\.js\?v=)[^"\']+',lambda m:m[1]+version,html,count=1)
-    if n!=1: raise SystemExit('No se encontró la versión del catálogo')
-    files=[]
-    for row,id,name,dest,data in staged:
-        dest.write_bytes(data); files.append(dest); row.update(status='ready',file=name); cat.setdefault(id,{})[args.sex]={'file':name,'label':'REFERENCIA','provisional':False}
-    progress['updatedFrom']=run('git','rev-parse','HEAD',cwd=args.root)
-    for f,content in [(editor/'fit-catalog-images.js',prefix+json.dumps(cat,ensure_ascii=False,indent=2)+';\n'),(editor/'fit-catalog-progress.json',json.dumps(progress,ensure_ascii=False,indent=2)+'\n'),(index,updated)]: f.write_text(content,encoding='utf-8'); files.append(f)
-    run('git','add','--',*[str(f.relative_to(args.root)) for f in files],cwd=args.root)
-    run('git','commit','-m',f'Fede FIT: {len(ids)} referencias {args.group} {args.sex}',cwd=args.root)
-    if args.push: print(run('git','push','origin','main',cwd=args.root))
-    print('Commit:',run('git','rev-parse','HEAD',cwd=args.root)); print('Habilitadas:',sum(r['status']=='ready' for r in rows),'/',len(rows)); print('Verificar despliegue público por separado.')
+def write_json(path, value):
+    write_file(path, (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode())
+
+
+def write_file(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_bytes(data)
+    temporary.replace(path)
+
+
+def load(root):
+    editor = root / "fede-aguirre/editor"
+    prefix, catalog = read_catalog(editor / CATALOG_FILES[0])
+    progress = json.loads((editor / CATALOG_FILES[1]).read_text(encoding="utf-8"))
+    pending = []
+    for sex, field in SEX_FIELDS.items():
+        rows = progress[field]
+        if len(rows) != progress["catalogSize"] or len({row["id"] for row in rows}) != len(rows):
+            raise SystemExit(f"Tamaño o IDs inconsistentes en {sex}")
+        for row in rows:
+            entry = catalog.get(row["id"], {}).get(sex, {})
+            if entry.get("file") != row["file"]:
+                raise SystemExit(f"Vinculación inconsistente: {sex}/{row['id']}")
+            if row["status"] != "ready":
+                pending.append({**row, "sex": sex})
+    return editor, prefix, catalog, progress, pending
+
+
+def key(row):
+    return f"{row['sex']}/{row['id']}"
+
+
+def plan(args, pending):
+    rows = [row for row in pending if (not args.sex or row["sex"] == args.sex)
+            and (not args.group or row["group"] == args.group)]
+    if args.select:
+        by_key = {key(row): row for row in rows}
+        selected = list(dict.fromkeys(args.select.split(",")))
+        if len(selected) > args.limit or any(item not in by_key for item in selected):
+            raise SystemExit("La selección excede el límite o contiene ejercicios no pendientes")
+        rows = [by_key[item] for item in selected]
+    rows = [{**row, "reference": f"references/{row['sex']}.png",
+             "pose": POSES.get(row["id"])} for row in rows[:args.limit]]
+    path = args.work / "plan.json"
+    if path.exists():
+        raise SystemExit(f"La tanda ya tiene un plan: {path}")
+    write_json(path, rows)
+    print(json.dumps(rows, ensure_ascii=False, indent=2))
+
+
+def source_fingerprint(path):
+    with Image.open(path) as source:
+        photo = ImageOps.exif_transpose(source).convert("L")
+        pixels = photo.resize((9, 8), Image.Resampling.LANCZOS).tobytes()
+    bits = (pixels[y * 9 + x] > pixels[y * 9 + x + 1] for y in range(8) for x in range(8))
+    return int("".join("1" if bit else "0" for bit in bits), 2)
+
+
+def prepare(args, editor, progress):
+    manifest = {}
+    prior = {}
+    crop_file = args.work / "crops.json"
+    crops = json.loads(crop_file.read_text(encoding="utf-8")) if crop_file.exists() else {}
+    ready_assets = {row["file"] for field in SEX_FIELDS.values() for row in progress[field]
+                    if row["status"] == "ready"}
+    ready_hashes = {digest((editor / "exercise-assets" / name).read_bytes()): name for name in ready_assets}
+    entries = sorted(args.work.parent.glob("*/publication.json"))
+    for path in entries:
+        for item, entry in json.loads(path.read_text(encoding="utf-8"))["images"].items():
+            prior[item] = entry["photo"]
+    for row in json.loads((args.work / "plan.json").read_text(encoding="utf-8")):
+        item = key(row)
+        source = args.work / "sources" / (item + ".png")
+        if not source.is_file():
+            continue
+        source_hash = digest(source.read_bytes())
+        if source_hash in ready_hashes:
+            print(f"Original ya habilitado: {item} / {ready_hashes[source_hash]}", file=sys.stderr)
+            continue
+        fingerprint = source_fingerprint(source)
+        duplicate = next((other for other, value in prior.items()
+                          if other != item and (fingerprint ^ int(value, 16)).bit_count() <= 4), None)
+        if duplicate:
+            print(f"Revisar posible duplicado: {item} / {duplicate}", file=sys.stderr)
+            continue
+        prior[item] = f"{fingerprint:016x}"
+        card = args.work / "cards" / (item + ".webp")
+        card.parent.mkdir(parents=True, exist_ok=True)
+        render(source, row["name"], row["group"], card, crops.get(item))
+        card_hash = digest(card.read_bytes())
+        if card_hash in ready_hashes:
+            print(f"Tarjeta ya habilitada: {item} / {ready_hashes[card_hash]}", file=sys.stderr)
+            continue
+        manifest[item] = {**row, "sha256": card_hash,
+                          "sourceSha256": source_hash, "photo": prior[item]}
+    write_json(args.work / "manifest.json", manifest)
+    if manifest:
+        preview = Image.new("RGB", (340 * 3, 320 * ((len(manifest) + 2) // 3)))
+        for index, item in enumerate(manifest):
+            with Image.open(args.work / "cards" / (item + ".webp")) as card:
+                preview.paste(card, (340 * (index % 3), 320 * (index // 3)))
+        preview.save(args.work / "preview.png")
+    print(f"Tarjetas preparadas: {len(manifest)}")
+
+
+def collect_cards(args, editor, pending):
+    manifest = json.loads((args.work / "manifest.json").read_text(encoding="utf-8"))
+    review = json.loads((args.work / "review.json").read_text(encoding="utf-8"))
+    by_key = {key(row): row for row in pending}
+    approved = {item: verdict for item, verdict in review.items() if verdict["approved"]}
+    if not 1 <= len(approved) <= args.limit:
+        raise SystemExit("La tanda requiere entre 1 y 12 fotografías verificadas")
+    accepted = {}
+    for item, verdict in approved.items():
+        row = by_key.get(item)
+        entry = manifest.get(item)
+        if not row or not entry or any(entry[field] != row[field] for field in row):
+            raise SystemExit(f"El catálogo cambió o el ejercicio no está preparado: {item}")
+        card = args.work / "cards" / (item + ".webp")
+        source = args.work / "sources" / (item + ".png")
+        data = card.read_bytes()
+        if (digest(data) != entry["sha256"] or verdict["sha256"] != entry["sha256"]
+                or digest(source.read_bytes()) != entry["sourceSha256"]):
+            raise SystemExit(f"El archivo revisado cambió: {item}")
+        with Image.open(card) as image:
+            if image.size != (340, 320) or image.format != "WEBP":
+                raise SystemExit(f"Formato inválido: {item}")
+            image.load()
+        name = f"{row['id']}--{row['sex']}--auto-{entry['sha256'][:12]}.webp"
+        target = editor / "exercise-assets" / name
+        if target.exists():
+            raise SystemExit(f"El destino ya existe: {target}")
+        accepted[item] = (row, entry, data, name)
+    return accepted
+
+
+def apply_batch(args, editor, prefix, catalog, progress, pending):
+    relative_paths = [str((editor / path).relative_to(args.root)) for path in CATALOG_FILES]
+    if run("git", "status", "--porcelain", "--", *relative_paths, cwd=args.root):
+        raise SystemExit("Hay cambios locales en los archivos del catálogo")
+    accepted = collect_cards(args, editor, pending)
+    html = (editor / "index.html").read_text(encoding="utf-8")
+    version = digest("".join(entry["sha256"] for _, entry, _, _ in accepted.values()).encode())[:12]
+    html, count = re.subn(r"""(fit-catalog-images\.js\?v=)[^"']+""", lambda match: match[1] + version, html)
+    if count != 1:
+        raise SystemExit("Se esperaba una versión del catálogo en index.html")
+    changes = {
+        CATALOG_FILES[2]: html.encode(),
+    }
+    published = {}
+    for item, (row, entry, data, name) in accepted.items():
+        catalog.setdefault(row["id"], {})[row["sex"]] = {
+            "file": name, "label": "REFERENCIA", "provisional": False,
+        }
+        progress_row = next(value for value in progress[SEX_FIELDS[row["sex"]]] if value["id"] == row["id"])
+        progress_row.update(file=name, status="ready")
+        changes[f"exercise-assets/{name}"] = data
+        published[item] = {"file": name, "sha256": entry["sha256"], "photo": entry["photo"]}
+    progress["updatedFrom"] = run("git", "rev-parse", "HEAD", cwd=args.root)
+    changes[CATALOG_FILES[0]] = (prefix + json.dumps(catalog, ensure_ascii=False, indent=2) + ";\n").encode()
+    changes[CATALOG_FILES[1]] = (json.dumps(progress, ensure_ascii=False, indent=2) + "\n").encode()
+    for path, data in changes.items():
+        write_file(editor / path, data)
+    write_json(args.work / "publication.json", {
+        "version": version, "images": published,
+        "files": {(editor / path).relative_to(args.root).as_posix(): digest(data)
+                  for path, data in changes.items()},
+    })
+    print(f"Catálogo actualizado con {len(published)} referencias. Versión {version}.")
+
+
+def deploy(args):
+    path = args.work / "publication.json"
+    publication = json.loads(path.read_text(encoding="utf-8"))
+    if run("git", "branch", "--show-current", cwd=args.root) != "main":
+        raise SystemExit("El despliegue requiere main")
+    files = publication["files"]
+    if any(digest((args.root / name).read_bytes()) != sha for name, sha in files.items()):
+        raise SystemExit("El contenido de la tanda cambió")
+    if not publication.get("commit"):
+        docs = ["docs/fede-fit/pipeline.py", "docs/fede-fit/README.md"] if args.include_pipeline else []
+        paths = [*files, *docs]
+        run("git", "add", "--", *paths, cwd=args.root)
+        run("git", "commit", "--only", "-m",
+            f"Fede FIT: publicar {len(publication['images'])} referencias ({publication['version']})",
+            "--", *paths, cwd=args.root)
+        publication["commit"] = run("git", "rev-parse", "HEAD", cwd=args.root)
+        write_json(path, publication)
+    if run("git", "rev-parse", "HEAD", cwd=args.root) != publication["commit"]:
+        raise SystemExit("La tanda dejó de ser el último commit de main")
+    print(run("git", "push", "origin", "HEAD:refs/heads/main", cwd=args.root))
+    print(f"Commit publicado: {publication['commit']}")
+
+
+def verify(args):
+    publication = json.loads((args.work / "publication.json").read_text(encoding="utf-8"))
+
+    def fetch(resource):
+        return subprocess.check_output(["curl.exe" if sys.platform == "win32" else "curl",
+                                        "--fail", "--silent", "--show-error", "--location",
+                                        "--max-time", "25", PUBLIC_URL + resource])
+
+    version = publication["version"]
+    if f"fit-catalog-images.js?v={version}".encode() not in fetch(f"?v={version}"):
+        raise SystemExit(f"Tanda todavía no publicada: {version}")
+    resources = [(f"{filename}?v={version}", publication["files"][f"fede-aguirre/editor/{filename}"])
+                 for filename in CATALOG_FILES[:2]]
+    resources.extend((f"exercise-assets/{entry['file']}", entry["sha256"])
+                     for entry in publication["images"].values())
+    for resource, expected in resources:
+        if digest(fetch(resource)) != expected:
+            raise SystemExit(f"Contenido distinto en producción: {resource}")
+    publication["verified"] = True
+    write_json(args.work / "publication.json", publication)
+    print(f"Despliegue verificado: {version}, {len(publication['images'])} imágenes")
+
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('command',choices=['plan','prepare','generate','publish']); ap.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[2]); ap.add_argument('--work',type=Path); ap.add_argument('--sex',choices=['masculino','femenino'],default='femenino'); ap.add_argument('--group',default='ESPALDA'); ap.add_argument('--limit',type=int,choices=range(1,13),default=12); ap.add_argument('--model',choices=['gen4_image'],default='gen4_image'); ap.add_argument('--approve'); ap.add_argument('--push',action='store_true'); args=ap.parse_args(); args.root=args.root.resolve(); args.work=(args.work or Path.home()/'fede-fit-candidates'/args.sex/re.sub(r'[^a-zA-Z0-9]+','-',args.group.lower())).resolve()
-    if args.command!='plan' and args.work.is_relative_to(args.root): raise SystemExit('La carpeta de trabajo debe estar fuera del repositorio.')
-    editor,progress,rows,prefix,cat=load(args.root,args.sex,args.group)
-    if args.command=='plan':
-        for row in rows:
-            if row['status']!='ready': print(row['id'],row['name'],row['status'],sep=' | ')
-        print('Listas:',sum(r['status']=='ready' for r in rows),'/',len(rows)); return
-    if args.command in ('prepare','generate'): prepare(args,rows)
-    else: publish(args,editor,progress,rows,prefix,cat)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("command", choices=["status", "plan", "prepare", "publish", "deploy", "verify"])
+    parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[2])
+    parser.add_argument("--work", type=Path)
+    parser.add_argument("--sex", choices=SEX_FIELDS)
+    parser.add_argument("--group")
+    parser.add_argument("--select")
+    parser.add_argument("--include-pipeline", action="store_true")
+    parser.add_argument("--limit", type=int, choices=range(1, 13), default=12)
+    args = parser.parse_args()
+    args.root = args.root.resolve()
+    if args.command != "status":
+        if not args.work:
+            parser.error("--work es obligatorio para una tanda")
+        args.work = args.work.resolve()
+        private_root = args.root / "private" / "fede-fit"
+        if args.work.is_relative_to(args.root) and not args.work.is_relative_to(private_root):
+            parser.error("--work debe quedar en private/fede-fit o fuera del repositorio")
+    editor, prefix, catalog, progress, pending = load(args.root)
+    if args.command == "status":
+        for sex, field in SEX_FIELDS.items():
+            rows = progress[field]
+            print(sex, {status: sum(row["status"] == status for row in rows)
+                        for status in ("ready", "pending", "review")})
+    elif args.command == "plan":
+        plan(args, pending)
+    elif args.command == "prepare":
+        prepare(args, editor, progress)
+    elif args.command == "publish":
+        apply_batch(args, editor, prefix, catalog, progress, pending)
+    elif args.command == "deploy":
+        deploy(args)
+    else:
+        verify(args)
 
-if __name__=='__main__': main()
+
+if __name__ == "__main__":
+    main()
