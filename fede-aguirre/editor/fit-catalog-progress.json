@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "b23f874f584be3904c43ea4c0fd1d7bf57fc658c",
+  "updatedFrom": "609b978bf66a2f5ed7cf2cc28f9c0517f72ebe8a",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -4194,8 +4194,8 @@
       "id": "leg-extension",
       "name": "Extensión de cuádriceps",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "leg-extension--femenino--chatgpt02.webp"
     },
     {
       "id": "hang-clean",
@@ -4320,8 +4320,8 @@
       "id": "bulgarian-split-squat",
       "name": "Sentadilla búlgara",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "bulgarian-split-squat--femenino--chatgpt02.webp"
     },
     {
       "id": "squat",
@@ -4341,8 +4341,8 @@
       "id": "front-squat",
       "name": "Sentadilla frontal",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "front-squat--femenino--chatgpt02.webp"
     },
     {
       "id": "goblet-squat",
@@ -4411,8 +4411,8 @@
       "id": "step-ups",
       "name": "Step-Up",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "step-ups--femenino--chatgpt02.webp"
     },
     {
       "id": "dumbbell-step-up",
@@ -4481,8 +4481,8 @@
       "id": "hip-abduction-machine",
       "name": "Abducción en máquina",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hip-abduction-machine--femenino--chatgpt02.webp"
     },
     {
       "id": "band-deadlift",
@@ -4544,8 +4544,8 @@
       "id": "leg-curl",
       "name": "Curl femoral acostado",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "leg-curl--femenino--chatgpt02.webp"
     },
     {
       "id": "seated-leg-curl",
@@ -4621,8 +4621,8 @@
       "id": "hip-adduction-machine",
       "name": "Hip Adduction",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "hip-adduction-machine--femenino--chatgpt02.webp"
     },
     {
       "id": "hip-thrusts",
@@ -4684,8 +4684,8 @@
       "id": "cable-kickback",
       "name": "Patada de glúteo en polea",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "cable-kickback--femenino--chatgpt02.webp"
     },
     {
       "id": "single-leg-romanian-deadlift",
@@ -4719,8 +4719,8 @@
       "id": "sumo-deadlift",
       "name": "Peso muerto sumo",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "sumo-deadlift--femenino--chatgpt02.webp"
     },
     {
       "id": "glute-bridge",

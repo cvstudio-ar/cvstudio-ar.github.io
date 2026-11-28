@@ -1855,5 +1855,72 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false
     }
+  },
+  "front-squat": {
+    "femenino": {
+      "file": "front-squat--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "bulgarian-split-squat": {
+    "femenino": {
+      "file": "bulgarian-split-squat--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La postura corresponde a la variante sin carga; el catálogo especifica mancuernas y banco."
+    }
+  },
+  "step-ups": {
+    "femenino": {
+      "file": "step-ups--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "sumo-deadlift": {
+    "femenino": {
+      "file": "sumo-deadlift--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-kickback": {
+    "femenino": {
+      "file": "cable-kickback--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La conexión del cable al tobillo no se distingue con suficiente claridad."
+    }
+  },
+  "hip-abduction-machine": {
+    "femenino": {
+      "file": "hip-abduction-machine--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "hip-adduction-machine": {
+    "femenino": {
+      "file": "hip-adduction-machine--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se distingue con certeza el apoyo interior de las almohadillas requerido para la aducción."
+    }
+  },
+  "leg-curl": {
+    "femenino": {
+      "file": "leg-curl--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía muestra una mancuerna entre los pies, no la máquina de curl femoral especificada."
+    }
+  },
+  "leg-extension": {
+    "femenino": {
+      "file": "leg-extension--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
   }
 };
