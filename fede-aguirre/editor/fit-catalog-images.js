@@ -2202,11 +2202,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "front-squat--femenino--chatgpt02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "front-squat--masculino--auto-ea1551de9c5f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "bulgarian-split-squat": {
     "femenino": {
       "file": "bulgarian-split-squat--femenino--auto-008b47cfd08b.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "bulgarian-split-squat--masculino--auto-ea957357862f.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2522,11 +2532,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "smith-machine-squat--femenino--auto-e4e78f5fa43f.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "smith-machine-squat--masculino--auto-cb3a9233f8bf.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "goblet-squat": {
     "femenino": {
       "file": "goblet-squat--femenino--auto-fa9a2a280446.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "goblet-squat--masculino--auto-f1421e38df76.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2536,11 +2556,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "hack-squat--femenino--auto-373f2dc66c05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "hack-squat--masculino--auto-ed096f268960.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "sumo-squat": {
     "femenino": {
       "file": "sumo-squat--femenino--auto-e5622e4f7d4d.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "sumo-squat--masculino--auto-5b474f038f79.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2863,6 +2893,48 @@ window.FIT_CATALOG_IMAGES = {
   "reverse-plank": {
     "femenino": {
       "file": "reverse-plank--femenino--auto-6572350be1cf.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "side-plank-leg-raise": {
+    "femenino": {
+      "file": "side-plank-leg-raise--femenino--auto-cc6c6bb81bb8.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "side-lying-leg-raise": {
+    "femenino": {
+      "file": "side-lying-leg-raise--femenino--auto-8e926492f912.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "sliding-hamstring-curl": {
+    "femenino": {
+      "file": "sliding-hamstring-curl--femenino--auto-d5a0b85e3238.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "smith-machine-hip-thrust": {
+    "femenino": {
+      "file": "smith-machine-hip-thrust--femenino--auto-ebe9341f9a6f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "smith-machine-romanian-deadlift": {
+    "femenino": {
+      "file": "smith-machine-romanian-deadlift--femenino--auto-a8a1f15dc71f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "stability-ball-hamstring-curl": {
+    "femenino": {
+      "file": "stability-ball-hamstring-curl--femenino--auto-e356dd9eb3d4.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

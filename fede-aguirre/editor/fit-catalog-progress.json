@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "f3a1409a3745cca82ef6b87dd7b565c6df5220bb",
+  "updatedFrom": "cb82b639a0886816212b7760798989124b29736e",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1413,8 +1413,8 @@
       "id": "bulgarian-split-squat",
       "name": "Sentadilla búlgara",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "bulgarian-split-squat--masculino--auto-ea957357862f.webp"
     },
     {
       "id": "squat",
@@ -1427,36 +1427,36 @@
       "id": "smith-machine-squat",
       "name": "Sentadilla en Smith",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-squat--masculino--auto-cb3a9233f8bf.webp"
     },
     {
       "id": "front-squat",
       "name": "Sentadilla frontal",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "front-squat--masculino--auto-ea1551de9c5f.webp"
     },
     {
       "id": "goblet-squat",
       "name": "Sentadilla goblet",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "goblet-squat--masculino--auto-f1421e38df76.webp"
     },
     {
       "id": "hack-squat",
       "name": "Sentadilla hack",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hack-squat--masculino--auto-ed096f268960.webp"
     },
     {
       "id": "sumo-squat",
       "name": "Sentadilla sumo",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "sumo-squat--masculino--auto-5b474f038f79.webp"
     },
     {
       "id": "single-leg-leg-press",
@@ -4761,43 +4761,43 @@
       "id": "side-plank-leg-raise",
       "name": "Side Plank Leg Raise",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "side-plank-leg-raise--femenino--auto-cc6c6bb81bb8.webp"
     },
     {
       "id": "side-lying-leg-raise",
       "name": "Side-Lying Leg Raise",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "side-lying-leg-raise--femenino--auto-8e926492f912.webp"
     },
     {
       "id": "sliding-hamstring-curl",
       "name": "Sliding Hamstring Curl",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "sliding-hamstring-curl--femenino--auto-d5a0b85e3238.webp"
     },
     {
       "id": "smith-machine-hip-thrust",
       "name": "Smith Machine Hip Thrust",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-hip-thrust--femenino--auto-ebe9341f9a6f.webp"
     },
     {
       "id": "smith-machine-romanian-deadlift",
       "name": "Smith Machine Romanian Deadlift",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-romanian-deadlift--femenino--auto-a8a1f15dc71f.webp"
     },
     {
       "id": "stability-ball-hamstring-curl",
       "name": "Stability Ball Hamstring Curl",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "stability-ball-hamstring-curl--femenino--auto-e356dd9eb3d4.webp"
     },
     {
       "id": "standing-cable-hip-abduction",
