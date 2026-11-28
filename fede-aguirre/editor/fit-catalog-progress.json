@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "7d5a38a1c6efb6c5e98994274f2931827bec0f55",
+  "updatedFrom": "3c8fd3897d73b9f9f5b193af44352cc1e0cb09b2",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1546,43 +1546,43 @@
       "id": "wall-sit",
       "name": "Wall sit",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wall-sit--masculino--auto-2504c977534f.webp"
     },
     {
       "id": "reverse-lunge",
       "name": "Zancada inversa",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-lunge--masculino--auto-feec39909c4a.webp"
     },
     {
       "id": "dumbbell-lunge",
       "name": "Zancadas alternas",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-lunge--masculino--auto-4d593d5c9879.webp"
     },
     {
       "id": "zercher-squat",
       "name": "Zercher Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "zercher-squat--masculino--auto-a8e2eac4a769.webp"
     },
     {
       "id": "hip-abduction-machine",
       "name": "Abducción en máquina",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hip-abduction-machine--masculino--auto-1246c3eb97cf.webp"
     },
     {
       "id": "band-deadlift",
       "name": "Band Deadlift",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-deadlift--masculino--auto-65da22091c6a.webp"
     },
     {
       "id": "band-glute-kickback",
@@ -4887,43 +4887,43 @@
       "id": "bear-plank",
       "name": "Bear Plank",
       "group": "ABDOMEN · CORE",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "bear-plank--femenino--auto-f796143d7172.webp"
     },
     {
       "id": "captains-chair-knee-raise",
       "name": "Captain's Chair Knee Raise",
       "group": "ABDOMEN · CORE",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "captains-chair-knee-raise--femenino--auto-51fb36638b26.webp"
     },
     {
       "id": "copenhagen-plank",
       "name": "Copenhagen Plank",
       "group": "ABDOMEN · CORE",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "copenhagen-plank--femenino--auto-01f7907d88c1.webp"
     },
     {
       "id": "crunches",
       "name": "Crunch abdominal",
       "group": "ABDOMEN · CORE",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "crunches--femenino--auto-1cfc5483fcc5.webp"
     },
     {
       "id": "cable-crunch",
       "name": "Crunch en polea",
       "group": "ABDOMEN · CORE",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-crunch--femenino--auto-6b2c4449adcf.webp"
     },
     {
       "id": "dead-bug",
       "name": "Dead bug",
       "group": "ABDOMEN · CORE",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dead-bug--femenino--auto-61ee7ba4d4f1.webp"
     },
     {
       "id": "decline-crunch",

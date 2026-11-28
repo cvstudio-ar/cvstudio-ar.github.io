@@ -2183,6 +2183,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-lunge--femenino--chatgpt01.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-lunge--masculino--auto-4d593d5c9879.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "leg-press": {
@@ -2250,6 +2255,11 @@ window.FIT_CATALOG_IMAGES = {
   "hip-abduction-machine": {
     "femenino": {
       "file": "hip-abduction-machine--femenino--chatgpt02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "hip-abduction-machine--masculino--auto-1246c3eb97cf.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2717,11 +2727,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "wall-sit--femenino--auto-0da5f3afdbd1.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "wall-sit--masculino--auto-2504c977534f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "reverse-lunge": {
     "femenino": {
       "file": "reverse-lunge--femenino--auto-c4f717938ca5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "reverse-lunge--masculino--auto-feec39909c4a.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2731,11 +2751,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "zercher-squat--femenino--auto-b8ff51ba42ec.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "zercher-squat--masculino--auto-a8e2eac4a769.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-deadlift": {
     "femenino": {
       "file": "band-deadlift--femenino--auto-8d0c2a9c86b1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "band-deadlift--masculino--auto-65da22091c6a.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -3079,6 +3109,48 @@ window.FIT_CATALOG_IMAGES = {
   "band-pallof-press": {
     "femenino": {
       "file": "band-pallof-press--femenino--auto-7e258c6bfbfa.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "bear-plank": {
+    "femenino": {
+      "file": "bear-plank--femenino--auto-f796143d7172.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "captains-chair-knee-raise": {
+    "femenino": {
+      "file": "captains-chair-knee-raise--femenino--auto-51fb36638b26.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "copenhagen-plank": {
+    "femenino": {
+      "file": "copenhagen-plank--femenino--auto-01f7907d88c1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "crunches": {
+    "femenino": {
+      "file": "crunches--femenino--auto-1cfc5483fcc5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-crunch": {
+    "femenino": {
+      "file": "cable-crunch--femenino--auto-6b2c4449adcf.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dead-bug": {
+    "femenino": {
+      "file": "dead-bug--femenino--auto-61ee7ba4d4f1.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
