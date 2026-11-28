@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "f04917ac474c356e30f13f8a1db07c5e51a68d21",
+  "updatedFrom": "9a2d4cf1b5e83b05c994e135db96dec4738be6af",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -846,43 +846,43 @@
       "id": "shoulder-press-machine",
       "name": "Press de hombros en máquina",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "shoulder-press-machine--masculino--auto-62c1179e24c3.webp"
     },
     {
       "id": "landmine-press",
       "name": "Press landmine",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "landmine-press--masculino--auto-69009704342d.webp"
     },
     {
       "id": "overhead-press",
       "name": "Press militar con barra",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "overhead-press--masculino--auto-62ea57f28a6b.webp"
     },
     {
       "id": "push-jerk",
       "name": "Push Jerk",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "push-jerk--masculino--auto-93bc88c9aa7a.webp"
     },
     {
       "id": "push-press",
       "name": "Push press",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "push-press--masculino--auto-63cd03683122.webp"
     },
     {
       "id": "band-external-rotation",
       "name": "Rotación externa con banda",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-external-rotation--masculino--auto-6da6d5f0dd70.webp"
     },
     {
       "id": "single-arm-overhead-press",
@@ -3942,15 +3942,15 @@
       "id": "zottman-curl",
       "name": "Curl Zottman",
       "group": "BÍCEPS",
-      "status": "review",
-      "file": "zottman-curl--femenino--runway04.webp"
+      "status": "ready",
+      "file": "zottman-curl--femenino--auto-ba95dd298b98.webp"
     },
     {
       "id": "dumbbell-preacher-curl",
       "name": "Dumbbell Preacher Curl",
       "group": "BÍCEPS",
-      "status": "review",
-      "file": "dumbbell-preacher-curl--femenino--runway04.webp"
+      "status": "ready",
+      "file": "dumbbell-preacher-curl--femenino--auto-656da1777b89.webp"
     },
     {
       "id": "rope-hammer-curl",
@@ -3977,8 +3977,8 @@
       "id": "cable-triceps-kickback",
       "name": "Cable Triceps Kickback",
       "group": "TRÍCEPS",
-      "status": "review",
-      "file": "cable-triceps-kickback--femenino--runway04.webp"
+      "status": "ready",
+      "file": "cable-triceps-kickback--femenino--auto-8347bc49b56d.webp"
     },
     {
       "id": "dumbbell-skull-crusher",
@@ -3991,8 +3991,8 @@
       "id": "band-tricep-pushdown",
       "name": "Extensión con banda",
       "group": "TRÍCEPS",
-      "status": "review",
-      "file": "band-tricep-pushdown--femenino--runway04.webp"
+      "status": "ready",
+      "file": "band-tricep-pushdown--femenino--auto-6551e84c1d3e.webp"
     },
     {
       "id": "tricep-pushdowns",
@@ -4005,15 +4005,15 @@
       "id": "overhead-triceps-extension",
       "name": "Extensión sobre cabeza",
       "group": "TRÍCEPS",
-      "status": "review",
-      "file": "overhead-triceps-extension--femenino--runway04.webp"
+      "status": "ready",
+      "file": "overhead-triceps-extension--femenino--auto-5971910ae679.webp"
     },
     {
       "id": "cable-overhead-triceps-extension",
       "name": "Extensión unilateral en polea",
       "group": "TRÍCEPS",
-      "status": "review",
-      "file": "cable-overhead-triceps-extension--femenino--runway04.webp"
+      "status": "ready",
+      "file": "cable-overhead-triceps-extension--femenino--auto-40d081902ae5.webp"
     },
     {
       "id": "machine-triceps-extension",

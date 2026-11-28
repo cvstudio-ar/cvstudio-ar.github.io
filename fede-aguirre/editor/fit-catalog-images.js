@@ -1509,11 +1509,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "shoulder-press-machine--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "shoulder-press-machine--masculino--auto-62c1179e24c3.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "landmine-press": {
     "femenino": {
       "file": "landmine-press--femenino--auto-44ced2f8ac5e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "landmine-press--masculino--auto-69009704342d.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1523,11 +1533,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "overhead-press--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "overhead-press--masculino--auto-62ea57f28a6b.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "push-jerk": {
     "femenino": {
       "file": "push-jerk--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "push-jerk--masculino--auto-93bc88c9aa7a.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1537,11 +1557,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "push-press--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "push-press--masculino--auto-63cd03683122.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-external-rotation": {
     "femenino": {
       "file": "band-external-rotation--femenino--auto-5b24dae53c89.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "band-external-rotation--masculino--auto-6da6d5f0dd70.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1681,18 +1711,16 @@ window.FIT_CATALOG_IMAGES = {
   },
   "zottman-curl": {
     "femenino": {
-      "file": "zottman-curl--femenino--runway04.webp",
+      "file": "zottman-curl--femenino--auto-ba95dd298b98.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Mancuernas abajo; la fase de pronación no se distingue."
+      "provisional": false
     }
   },
   "dumbbell-preacher-curl": {
     "femenino": {
-      "file": "dumbbell-preacher-curl--femenino--runway04.webp",
+      "file": "dumbbell-preacher-curl--femenino--auto-656da1777b89.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Banco inclinado sin apoyo del brazo que realiza el curl."
+      "provisional": false
     }
   },
   "rope-hammer-curl": {
@@ -1718,10 +1746,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-triceps-kickback": {
     "femenino": {
-      "file": "cable-triceps-kickback--femenino--runway04.webp",
+      "file": "cable-triceps-kickback--femenino--auto-8347bc49b56d.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "No se distingue el maneral en la mano extendida ni su conexión con el cable."
+      "provisional": false
     }
   },
   "dumbbell-skull-crusher": {
@@ -1733,10 +1760,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "band-tricep-pushdown": {
     "femenino": {
-      "file": "band-tricep-pushdown--femenino--runway04.webp",
+      "file": "band-tricep-pushdown--femenino--auto-6551e84c1d3e.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Banda sujeta bajo ambos pies y conexión superior incoherente."
+      "provisional": false
     }
   },
   "tricep-pushdowns": {
@@ -1748,18 +1774,16 @@ window.FIT_CATALOG_IMAGES = {
   },
   "overhead-triceps-extension": {
     "femenino": {
-      "file": "overhead-triceps-extension--femenino--runway04.webp",
+      "file": "overhead-triceps-extension--femenino--auto-5971910ae679.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "No se distingue con claridad una única mancuerna sostenida por ambas manos detrás de la cabeza."
+      "provisional": false
     }
   },
   "cable-overhead-triceps-extension": {
     "femenino": {
-      "file": "cable-overhead-triceps-extension--femenino--runway04.webp",
+      "file": "cable-overhead-triceps-extension--femenino--auto-40d081902ae5.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Brazo orientado lateralmente; no se distingue la extensión sobre la cabeza."
+      "provisional": false
     }
   },
   "machine-triceps-extension": {
