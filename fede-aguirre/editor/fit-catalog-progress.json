@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "eaf9ef68a06a66a76ab6dc50d4f4f655285663f1",
+  "updatedFrom": "819e463b8b1197dea91c719887e58cd6694d4809",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3487,15 +3487,15 @@
       "id": "renegade-row",
       "name": "Renegade Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "renegade-row--femenino--runway01.webp"
     },
     {
       "id": "band-row",
       "name": "Resistance Band Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-row--femenino--runway01.webp"
     },
     {
       "id": "reverse-grip-barbell-row",

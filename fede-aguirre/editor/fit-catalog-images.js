@@ -1066,11 +1066,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "renegade-row--masculino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "renegade-row--femenino--runway01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-row": {
     "masculino": {
       "file": "band-row--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "band-row--femenino--runway01.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
