@@ -55,9 +55,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": true
     },
     "femenino": {
-      "file": "dumbbell-shoulder-press--femenino.webp",
-      "label": "POSTURA",
-      "provisional": true
+      "file": "dumbbell-shoulder-press--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "squat": {
@@ -1031,10 +1031,10 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "meadows-row--femenino--runway02.webp",
+      "file": "meadows-row--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "La barra no muestra un extremo anclado y la mano sujeta un mango elevado, no el extremo libre de la barra landmine."
+      "reviewNote": "No se aprecia con claridad el extremo anclado de la barra ni el agarre del manguito."
     }
   },
   "chest-supported-dumbbell-row": {
@@ -1104,10 +1104,10 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "reverse-hyperextension--femenino--runway02.webp",
+      "file": "reverse-hyperextension--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "Las piernas aparecen apoyadas sobre el banco en vez de sobresalir del borde; no se identifica la extensión inversa de cadera."
+      "reviewNote": "La elevación de piernas es excesiva y el apoyo de cadera en el borde no se distingue."
     }
   },
   "reverse-pec-deck": {
@@ -1129,10 +1129,10 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "reverse-snow-angels--femenino--runway02.webp",
+      "file": "reverse-snow-angels--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "La fotografía incluye un rastro blanco artificial sobre el suelo que no respeta el diseño limpio aprobado."
+      "reviewNote": "Los brazos aparecen flexionados y apoyados delante, no en barrido lateral."
     }
   },
   "reverse-grip-lat-pulldown": {
@@ -1142,10 +1142,10 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "reverse-grip-lat-pulldown--femenino--runway02.webp",
+      "file": "reverse-grip-lat-pulldown--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "El agarre supino no se distingue con suficiente claridad; la barra se sostiene con las manos bastante separadas."
+      "reviewNote": "El agarre supino no se distingue con certeza."
     }
   },
   "seal-row": {
@@ -1213,6 +1213,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "superman--masculino--back05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "superman--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Las manos aparecen apoyadas en el suelo; no se muestra la elevación simultánea de brazos y piernas."
     }
   },
   "superman-pulldown": {
@@ -1220,6 +1226,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "superman-pulldown--masculino--back05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "superman-pulldown--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La modelo descansa sobre los antebrazos; no muestra la tracción de brazos en el aire."
     }
   },
   "suspension-row": {
@@ -1263,6 +1275,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "upright-row--masculino--back05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "upright-row--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Los codos quedan por debajo de la barra, en posición de press, no de remo vertical."
     }
   },
   "wide-grip-pull-up": {
@@ -1279,18 +1297,18 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-external-rotation": {
     "femenino": {
-      "file": "cable-external-rotation--femenino--runway02.webp",
+      "file": "cable-external-rotation--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "La polea está alta y no permite distinguir la rotación externa con el codo fijo a 90 grados."
+      "reviewNote": "La polea está elevada; no se distingue la rotación externa con codo fijo."
     }
   },
   "cable-internal-rotation": {
     "femenino": {
-      "file": "cable-internal-rotation--femenino--runway02.webp",
+      "file": "cable-internal-rotation--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "La polea está alta y la trayectoria no permite distinguir la rotación interna con el codo fijo a 90 grados."
+      "reviewNote": "Polea alta y codo flexionado; no se identifica claramente la rotación interna."
     }
   },
   "dumbbell-scaption": {
@@ -1309,10 +1327,10 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-front-raise": {
     "femenino": {
-      "file": "cable-front-raise--femenino--runway02.webp",
+      "file": "cable-front-raise--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": true,
-      "reviewNote": "La modelo mira hacia la máquina, tiene los codos flexionados y no demuestra una elevación frontal clara."
+      "reviewNote": "El codo está flexionado y la trayectoria del cable no corresponde a una elevación frontal."
     }
   },
   "dumbbell-push-press": {
@@ -1339,6 +1357,483 @@ window.FIT_CATALOG_IMAGES = {
   "band-internal-rotation": {
     "femenino": {
       "file": "band-internal-rotation--femenino--runway02.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "plate-front-raise": {
+    "femenino": {
+      "file": "plate-front-raise--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "El disco se sostiene cerca del rostro con los codos muy flexionados; falta elevación frontal de brazos."
+    }
+  },
+  "cable-lateral-raise": {
+    "femenino": {
+      "file": "cable-lateral-raise--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se distingue un cable conectado a la mano ni la elevación lateral."
+    }
+  },
+  "front-raises": {
+    "femenino": {
+      "file": "front-raises--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía muestra mancuernas junto a los hombros en vez de elevarlas al frente."
+    }
+  },
+  "lateral-raises": {
+    "femenino": {
+      "file": "lateral-raises--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía muestra una posición de press, no una elevación lateral."
+    }
+  },
+  "handstand-push-up": {
+    "femenino": {
+      "file": "handstand-push-up--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La imagen muestra el sostén estático con brazos extendidos; falta la fase de flexión de codos solicitada."
+    }
+  },
+  "machine-lateral-raise": {
+    "femenino": {
+      "file": "machine-lateral-raise--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "overhead-carry": {
+    "femenino": {
+      "file": "overhead-carry--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "pike-push-up": {
+    "femenino": {
+      "file": "pike-push-up--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "arnold-press": {
+    "femenino": {
+      "file": "arnold-press--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se distingue la rotación de las mancuernas del press Arnold ni el apoyo sentado previsto."
+    }
+  },
+  "shoulder-press-machine": {
+    "femenino": {
+      "file": "shoulder-press-machine--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "landmine-press": {
+    "femenino": {
+      "file": "landmine-press--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se distingue la presión unilateral de la barra anclada; ambas manos parecen intervenir."
+    }
+  },
+  "overhead-press": {
+    "femenino": {
+      "file": "overhead-press--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "push-jerk": {
+    "femenino": {
+      "file": "push-jerk--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "push-press": {
+    "femenino": {
+      "file": "push-press--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-external-rotation": {
+    "femenino": {
+      "file": "band-external-rotation--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La banda parece rodear el brazo y no muestra la rotación externa con la mano."
+    }
+  },
+  "single-arm-overhead-press": {
+    "femenino": {
+      "file": "single-arm-overhead-press--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "smith-machine-overhead-press": {
+    "femenino": {
+      "file": "smith-machine-overhead-press--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "thruster": {
+    "femenino": {
+      "file": "thruster--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "turkish-get-up": {
+    "femenino": {
+      "file": "turkish-get-up--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "wall-handstand-hold": {
+    "femenino": {
+      "file": "wall-handstand-hold--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "backpack-biceps-curl": {
+    "femenino": {
+      "file": "backpack-biceps-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La mochila parece apoyada sobre el hombro; falta el curl sosteniendo el asa."
+    }
+  },
+  "band-bicep-curl": {
+    "femenino": {
+      "file": "band-bicep-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "alternating-dumbbell-curl": {
+    "femenino": {
+      "file": "alternating-dumbbell-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "spider-curl": {
+    "femenino": {
+      "file": "spider-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "ez-bar-curl": {
+    "femenino": {
+      "file": "ez-bar-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "concentration-curl": {
+    "femenino": {
+      "file": "concentration-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "incline-dumbbell-curl": {
+    "femenino": {
+      "file": "incline-dumbbell-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-curl": {
+    "femenino": {
+      "file": "cable-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-curl": {
+    "femenino": {
+      "file": "reverse-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "El agarre prono de la barra no se distingue con certeza."
+    }
+  },
+  "hammer-curls": {
+    "femenino": {
+      "file": "hammer-curls--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cross-body-hammer-curl": {
+    "femenino": {
+      "file": "cross-body-hammer-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La trayectoria no es cruzada hacia el hombro opuesto; aparece un elemento verde ajeno."
+    }
+  },
+  "preacher-curl": {
+    "femenino": {
+      "file": "preacher-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No aparece el apoyo de brazos característico del banco predicador."
+    }
+  },
+  "machine-preacher-curl": {
+    "femenino": {
+      "file": "machine-preacher-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "El equipo y el agarre no se distinguen como una máquina Scott dedicada."
+    }
+  },
+  "single-arm-cable-curl": {
+    "femenino": {
+      "file": "single-arm-cable-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "zottman-curl": {
+    "femenino": {
+      "file": "zottman-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se distingue con certeza la pronación del curl Zottman."
+    }
+  },
+  "dumbbell-preacher-curl": {
+    "femenino": {
+      "file": "dumbbell-preacher-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se aprecia apoyo del brazo en banco predicador."
+    }
+  },
+  "rope-hammer-curl": {
+    "femenino": {
+      "file": "rope-hammer-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "seated-dumbbell-curl": {
+    "femenino": {
+      "file": "seated-dumbbell-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "suspension-biceps-curl": {
+    "femenino": {
+      "file": "suspension-biceps-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-triceps-kickback": {
+    "femenino": {
+      "file": "cable-triceps-kickback--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "El cable parece venir de arriba; no corresponde claramente a la patada con polea baja."
+    }
+  },
+  "dumbbell-skull-crusher": {
+    "femenino": {
+      "file": "dumbbell-skull-crusher--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-tricep-pushdown": {
+    "femenino": {
+      "file": "band-tricep-pushdown--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La banda parece pasar por los hombros; no se ve el agarre de manos presionando hacia abajo."
+    }
+  },
+  "tricep-pushdowns": {
+    "femenino": {
+      "file": "tricep-pushdowns--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se distingue con claridad la conexión de la barra a la polea superior."
+    }
+  },
+  "overhead-triceps-extension": {
+    "femenino": {
+      "file": "overhead-triceps-extension--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Muestra dos mancuernas en posición de press, no una extensión detrás de la cabeza."
+    }
+  },
+  "cable-overhead-triceps-extension": {
+    "femenino": {
+      "file": "cable-overhead-triceps-extension--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "El brazo y la conexión de polea no muestran claramente la extensión unilateral por encima de la cabeza."
+    }
+  },
+  "machine-triceps-extension": {
+    "femenino": {
+      "file": "machine-triceps-extension--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La máquina parece de fondos/press; no se observa apoyo de brazos ni extensión aislada."
+    }
+  },
+  "dumbbell-kickback": {
+    "femenino": {
+      "file": "dumbbell-kickback--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "skull-crushers": {
+    "femenino": {
+      "file": "skull-crushers--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "sphinx-push-up": {
+    "femenino": {
+      "file": "sphinx-push-up--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "El apoyo unilateral no corresponde al sphinx push-up."
+    }
+  },
+  "suspension-triceps-extension": {
+    "femenino": {
+      "file": "suspension-triceps-extension--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "No se aprecia el cuerpo alineado ni la extensión de tríceps con las correas."
+    }
+  },
+  "dumbbell-reverse-wrist-curl": {
+    "femenino": {
+      "file": "dumbbell-reverse-wrist-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La postura es un curl de bíceps, sin antebrazo apoyado ni muñeca en extensión."
+    }
+  },
+  "dumbbell-wrist-curl": {
+    "femenino": {
+      "file": "dumbbell-wrist-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "plate-pinch-hold": {
+    "femenino": {
+      "file": "plate-pinch-hold--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-wrist-curl": {
+    "femenino": {
+      "file": "reverse-wrist-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Muestra una barra sobre la cabeza, no un curl inverso de muñeca."
+    }
+  },
+  "towel-wring": {
+    "femenino": {
+      "file": "towel-wring--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "wrist-curl": {
+    "femenino": {
+      "file": "wrist-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Muestra un curl de codo sin apoyo de antebrazos."
+    }
+  },
+  "wrist-roller": {
+    "femenino": {
+      "file": "wrist-roller--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La barra no parece un rodillo de muñeca; no se distingue el agarre y cuerda correctos."
+    }
+  },
+  "band-leg-extension": {
+    "femenino": {
+      "file": "band-leg-extension--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La banda está en manos y pies, no anclada detrás para extensión unilateral de rodilla."
+    }
+  },
+  "band-squat": {
+    "femenino": {
+      "file": "band-squat--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "barbell-lunge": {
+    "femenino": {
+      "file": "barbell-lunge--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "barbell-reverse-lunge": {
+    "femenino": {
+      "file": "barbell-reverse-lunge--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "barbell-split-squat": {
+    "femenino": {
+      "file": "barbell-split-squat--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Se muestra una sentadilla bilateral, no una posición de zancada fija."
+    }
+  },
+  "barbell-step-up": {
+    "femenino": {
+      "file": "barbell-step-up--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "belt-squat": {
+    "femenino": {
+      "file": "belt-squat--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
