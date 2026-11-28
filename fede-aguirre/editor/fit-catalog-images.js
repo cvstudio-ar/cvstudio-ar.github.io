@@ -2226,6 +2226,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "step-ups--femenino--chatgpt02.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "step-ups--masculino--auto-22740e89c213.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "sumo-deadlift": {
@@ -2652,11 +2657,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "dumbbell-step-up--femenino--auto-e3b8fc73b2b2.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-step-up--masculino--auto-5f10be4d06f9.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "lateral-step-up": {
     "femenino": {
       "file": "lateral-step-up--femenino--auto-d86d1b0507c2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "lateral-step-up--masculino--auto-252b2ca529d3.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2666,6 +2681,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "suspension-assisted-squat--femenino--auto-d3cdb75c009f.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "suspension-assisted-squat--masculino--auto-70eb602a6768.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "trap-bar-deadlift": {
@@ -2673,11 +2693,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "trap-bar-deadlift--femenino--auto-7bfb0443ff36.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "trap-bar-deadlift--masculino--auto-d3fee21a17fb.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "v-squat": {
     "femenino": {
       "file": "v-squat--femenino--auto-671a437a5ff7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "v-squat--masculino--auto-6f8a97073642.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -3007,6 +3037,48 @@ window.FIT_CATALOG_IMAGES = {
   "band-ankle-dorsiflexion": {
     "femenino": {
       "file": "band-ankle-dorsiflexion--femenino--auto-04c4abe121fe.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "leg-press-calf-raise": {
+    "femenino": {
+      "file": "leg-press-calf-raise--femenino--auto-f0cd3a8ee6e1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "seated-calf-raise-machine": {
+    "femenino": {
+      "file": "seated-calf-raise-machine--femenino--auto-1cd9743235a7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "tibialis-raise-machine": {
+    "femenino": {
+      "file": "tibialis-raise-machine--femenino--auto-7e62114673e1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "wall-tibialis-raise": {
+    "femenino": {
+      "file": "wall-tibialis-raise--femenino--auto-40910130f6fd.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "bicycle-crunch": {
+    "femenino": {
+      "file": "bicycle-crunch--femenino--auto-c9a3604c69e2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-pallof-press": {
+    "femenino": {
+      "file": "band-pallof-press--femenino--auto-7e258c6bfbfa.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

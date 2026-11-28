@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "b61af23054eb0dbc6b1c5e5ab7b36dba04a9eb42",
+  "updatedFrom": "7d5a38a1c6efb6c5e98994274f2931827bec0f55",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1504,43 +1504,43 @@
       "id": "step-ups",
       "name": "Step-Up",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "step-ups--masculino--auto-22740e89c213.webp"
     },
     {
       "id": "dumbbell-step-up",
       "name": "Step-up al banco",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-step-up--masculino--auto-5f10be4d06f9.webp"
     },
     {
       "id": "lateral-step-up",
       "name": "Step-up lateral",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "lateral-step-up--masculino--auto-252b2ca529d3.webp"
     },
     {
       "id": "suspension-assisted-squat",
       "name": "Suspension Assisted Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-assisted-squat--masculino--auto-70eb602a6768.webp"
     },
     {
       "id": "trap-bar-deadlift",
       "name": "Trap Bar Deadlift",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "trap-bar-deadlift--masculino--auto-d3fee21a17fb.webp"
     },
     {
       "id": "v-squat",
       "name": "V-Squat Machine",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "v-squat--masculino--auto-6f8a97073642.webp"
     },
     {
       "id": "wall-sit",
@@ -4845,43 +4845,43 @@
       "id": "leg-press-calf-raise",
       "name": "Leg Press Calf Raise",
       "group": "GEMELOS · PANTORRILLAS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "leg-press-calf-raise--femenino--auto-f0cd3a8ee6e1.webp"
     },
     {
       "id": "seated-calf-raise-machine",
       "name": "Seated Calf Raise Machine",
       "group": "GEMELOS · PANTORRILLAS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-calf-raise-machine--femenino--auto-1cd9743235a7.webp"
     },
     {
       "id": "tibialis-raise-machine",
       "name": "Tibialis Raise Machine",
       "group": "GEMELOS · PANTORRILLAS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "tibialis-raise-machine--femenino--auto-7e62114673e1.webp"
     },
     {
       "id": "wall-tibialis-raise",
       "name": "Wall Tibialis Raise",
       "group": "GEMELOS · PANTORRILLAS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wall-tibialis-raise--femenino--auto-40910130f6fd.webp"
     },
     {
       "id": "bicycle-crunch",
       "name": "Abdominal bicicleta",
       "group": "ABDOMEN · CORE",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "bicycle-crunch--femenino--auto-c9a3604c69e2.webp"
     },
     {
       "id": "band-pallof-press",
       "name": "Band Pallof Press",
       "group": "ABDOMEN · CORE",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-pallof-press--femenino--auto-7e258c6bfbfa.webp"
     },
     {
       "id": "bear-plank",
