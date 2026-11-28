@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "eded16129dadc8f5c1e29a4f1bfcf46f6273ddb7",
+  "updatedFrom": "ff3ff8e2c328fc49d496078cf072140489f33ea8",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -986,43 +986,43 @@
       "id": "cable-curl",
       "name": "Curl en polea baja",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-curl--masculino--auto-2b64c1f69639.webp"
     },
     {
       "id": "reverse-curl",
       "name": "Curl inverso",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-curl--masculino--auto-88bd1493facb.webp"
     },
     {
       "id": "hammer-curls",
       "name": "Curl martillo",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hammer-curls--masculino--auto-cd04b58bb34a.webp"
     },
     {
       "id": "cross-body-hammer-curl",
       "name": "Curl martillo cruzado",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cross-body-hammer-curl--masculino--auto-ae09947e8631.webp"
     },
     {
       "id": "preacher-curl",
       "name": "Curl predicador",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "preacher-curl--masculino--auto-26253e95d219.webp"
     },
     {
       "id": "machine-preacher-curl",
       "name": "Curl Scott en máquina",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "machine-preacher-curl--masculino--auto-bda1732982e9.webp"
     },
     {
       "id": "single-arm-cable-curl",
@@ -4271,15 +4271,15 @@
       "id": "pistol-squat",
       "name": "Pistol Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "pistol-squat--femenino--auto-f0875a53d63b.webp"
     },
     {
       "id": "power-clean",
       "name": "Power Clean",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "power-clean--femenino--auto-9306eceb4bb4.webp"
     },
     {
       "id": "leg-press",
@@ -4292,29 +4292,29 @@
       "id": "seated-leg-press",
       "name": "Prensa horizontal",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-leg-press--femenino--auto-ba8f31d17925.webp"
     },
     {
       "id": "reverse-nordic",
       "name": "Reverse Nordic",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-nordic--femenino--auto-2be466e76aba.webp"
     },
     {
       "id": "seated-knee-extension",
       "name": "Seated Knee Extension",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-knee-extension--femenino--auto-93258065b289.webp"
     },
     {
       "id": "leg-press-moving-plate",
       "name": "Seated Leg Press (Moving Plate)",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "leg-press-moving-plate--femenino--auto-bba5818df560.webp"
     },
     {
       "id": "bulgarian-split-squat",

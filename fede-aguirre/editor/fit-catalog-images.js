@@ -1725,11 +1725,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "cable-curl--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "cable-curl--masculino--auto-2b64c1f69639.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "reverse-curl": {
     "femenino": {
       "file": "reverse-curl--femenino--auto-613bd7a84731.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "reverse-curl--masculino--auto-88bd1493facb.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1739,11 +1749,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "hammer-curls--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "hammer-curls--masculino--auto-cd04b58bb34a.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "cross-body-hammer-curl": {
     "femenino": {
       "file": "cross-body-hammer-curl--femenino--auto-b644f4813f22.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "cross-body-hammer-curl--masculino--auto-ae09947e8631.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1753,11 +1773,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "preacher-curl--femenino--auto-58d83888e1be.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "preacher-curl--masculino--auto-26253e95d219.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "machine-preacher-curl": {
     "femenino": {
       "file": "machine-preacher-curl--femenino--runway04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "machine-preacher-curl--masculino--auto-bda1732982e9.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2175,6 +2205,48 @@ window.FIT_CATALOG_IMAGES = {
   "pendulum-squat": {
     "femenino": {
       "file": "pendulum-squat--femenino--auto-f2e86beeaef9.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "pistol-squat": {
+    "femenino": {
+      "file": "pistol-squat--femenino--auto-f0875a53d63b.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "power-clean": {
+    "femenino": {
+      "file": "power-clean--femenino--auto-9306eceb4bb4.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "seated-leg-press": {
+    "femenino": {
+      "file": "seated-leg-press--femenino--auto-ba8f31d17925.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-nordic": {
+    "femenino": {
+      "file": "reverse-nordic--femenino--auto-2be466e76aba.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "seated-knee-extension": {
+    "femenino": {
+      "file": "seated-knee-extension--femenino--auto-93258065b289.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "leg-press-moving-plate": {
+    "femenino": {
+      "file": "leg-press-moving-plate--femenino--auto-bba5818df560.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
