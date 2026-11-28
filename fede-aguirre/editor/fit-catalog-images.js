@@ -2085,11 +2085,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "band-leg-extension--femenino--auto-8d0a8fb671c9.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "band-leg-extension--masculino--auto-2810dc88584b.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "band-squat": {
     "femenino": {
       "file": "band-squat--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "band-squat--masculino--auto-9712642b2a12.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2099,11 +2109,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "barbell-lunge--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "barbell-lunge--masculino--auto-c5ed0c0d6344.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "barbell-reverse-lunge": {
     "femenino": {
       "file": "barbell-reverse-lunge--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "barbell-reverse-lunge--masculino--auto-542c09744120.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2113,11 +2133,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "barbell-split-squat--femenino--auto-1b9ef8d9a870.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "barbell-split-squat--masculino--auto-4c22b2d3048a.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "barbell-step-up": {
     "femenino": {
       "file": "barbell-step-up--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "barbell-step-up--masculino--auto-5d3c33de1421.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2210,10 +2240,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "leg-curl": {
     "femenino": {
-      "file": "leg-curl--femenino--chatgpt02.webp",
+      "file": "leg-curl--femenino--auto-424d05af130d.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La fotografía muestra una mancuerna entre los pies, no la máquina de curl femoral especificada."
+      "provisional": false
     }
   },
   "leg-extension": {
@@ -2527,6 +2556,41 @@ window.FIT_CATALOG_IMAGES = {
   "barbell-glute-bridge": {
     "femenino": {
       "file": "barbell-glute-bridge--femenino--auto-fc384128e057.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "bodyweight-hip-thrust": {
+    "femenino": {
+      "file": "bodyweight-hip-thrust--femenino--auto-3f286975a3a3.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "good-morning": {
+    "femenino": {
+      "file": "good-morning--femenino--auto-235d5427b3cf.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "clamshells": {
+    "femenino": {
+      "file": "clamshells--femenino--auto-b022b8a2fbc3.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "seated-leg-curl": {
+    "femenino": {
+      "file": "seated-leg-curl--femenino--auto-28bb3f0204d7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "donkey-kicks": {
+    "femenino": {
+      "file": "donkey-kicks--femenino--auto-0e527bab5ab6.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

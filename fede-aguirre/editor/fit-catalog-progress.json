@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "55c3279f4dbb530c9c9e8e55041c4ca0f3466996",
+  "updatedFrom": "5abe9bf2382d2a185444a4621fd50c5dd217bbd6",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1196,43 +1196,43 @@
       "id": "band-leg-extension",
       "name": "Band Leg Extension",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-leg-extension--masculino--auto-2810dc88584b.webp"
     },
     {
       "id": "band-squat",
       "name": "Band Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-squat--masculino--auto-9712642b2a12.webp"
     },
     {
       "id": "barbell-lunge",
       "name": "Barbell Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "barbell-lunge--masculino--auto-c5ed0c0d6344.webp"
     },
     {
       "id": "barbell-reverse-lunge",
       "name": "Barbell Reverse Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "barbell-reverse-lunge--masculino--auto-542c09744120.webp"
     },
     {
       "id": "barbell-split-squat",
       "name": "Barbell Split Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "barbell-split-squat--masculino--auto-4c22b2d3048a.webp"
     },
     {
       "id": "barbell-step-up",
       "name": "Barbell Step-Up",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "barbell-step-up--masculino--auto-5d3c33de1421.webp"
     },
     {
       "id": "belt-squat",
@@ -4523,43 +4523,43 @@
       "id": "bodyweight-hip-thrust",
       "name": "Bodyweight Hip Thrust",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "bodyweight-hip-thrust--femenino--auto-3f286975a3a3.webp"
     },
     {
       "id": "good-morning",
       "name": "Buenos días con barra",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "good-morning--femenino--auto-235d5427b3cf.webp"
     },
     {
       "id": "clamshells",
       "name": "Clamshells",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "clamshells--femenino--auto-b022b8a2fbc3.webp"
     },
     {
       "id": "leg-curl",
       "name": "Curl femoral acostado",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "review",
-      "file": "leg-curl--femenino--chatgpt02.webp"
+      "status": "ready",
+      "file": "leg-curl--femenino--auto-424d05af130d.webp"
     },
     {
       "id": "seated-leg-curl",
       "name": "Curl femoral sentado",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-leg-curl--femenino--auto-28bb3f0204d7.webp"
     },
     {
       "id": "donkey-kicks",
       "name": "Donkey Kicks",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "donkey-kicks--femenino--auto-0e527bab5ab6.webp"
     },
     {
       "id": "dumbbell-deadlift",
