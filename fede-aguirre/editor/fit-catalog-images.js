@@ -2222,10 +2222,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "cable-kickback": {
     "femenino": {
-      "file": "cable-kickback--femenino--chatgpt02.webp",
+      "file": "cable-kickback--femenino--auto-78ed48c63be8.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La conexión del cable al tobillo no se distingue con suficiente claridad."
+      "provisional": false
     }
   },
   "hip-abduction-machine": {
@@ -2386,11 +2385,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "kettlebell-snatch--femenino--chatgpt03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "kettlebell-snatch--masculino--auto-6607f2e5ee6b.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "landmine-squat": {
     "femenino": {
       "file": "landmine-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "landmine-squat--masculino--auto-d23248b28816.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2400,11 +2409,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "lateral-lunge--femenino--auto-8260ab714de0.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "lateral-lunge--masculino--auto-48dd17093447.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "overhead-squat": {
     "femenino": {
       "file": "overhead-squat--femenino--auto-0d707a37a6a1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "overhead-squat--masculino--auto-e1a1f02a8f63.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2414,11 +2433,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "pendulum-squat--femenino--auto-f2e86beeaef9.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "pendulum-squat--masculino--auto-057082595df6.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "pistol-squat": {
     "femenino": {
       "file": "pistol-squat--femenino--auto-f0875a53d63b.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "pistol-squat--masculino--auto-b451545b915c.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2727,6 +2756,41 @@ window.FIT_CATALOG_IMAGES = {
   "kettlebell-romanian-deadlift": {
     "femenino": {
       "file": "kettlebell-romanian-deadlift--femenino--auto-afa5081993af.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "kettlebell-sumo-deadlift": {
+    "femenino": {
+      "file": "kettlebell-sumo-deadlift--femenino--auto-b19a7cd1ea56.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "kettlebell-swing": {
+    "femenino": {
+      "file": "kettlebell-swing--femenino--auto-b437c102771a.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "landmine-romanian-deadlift": {
+    "femenino": {
+      "file": "landmine-romanian-deadlift--femenino--auto-246fc471068e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "nordic-hamstring-curl": {
+    "femenino": {
+      "file": "nordic-hamstring-curl--femenino--auto-c3c186d1a7a3.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "single-leg-romanian-deadlift": {
+    "femenino": {
+      "file": "single-leg-romanian-deadlift--femenino--auto-c6f921937548.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

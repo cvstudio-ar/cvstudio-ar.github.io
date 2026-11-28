@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "fb42055607631482fe7f76e77243d9fd182a4aa0",
+  "updatedFrom": "7cab96ea4385dd00bd43af669aa20e11ec0e982a",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1329,43 +1329,43 @@
       "id": "kettlebell-snatch",
       "name": "Kettlebell Snatch",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-snatch--masculino--auto-6607f2e5ee6b.webp"
     },
     {
       "id": "landmine-squat",
       "name": "Landmine squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "landmine-squat--masculino--auto-d23248b28816.webp"
     },
     {
       "id": "lateral-lunge",
       "name": "Lateral Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "lateral-lunge--masculino--auto-48dd17093447.webp"
     },
     {
       "id": "overhead-squat",
       "name": "Overhead Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "overhead-squat--masculino--auto-e1a1f02a8f63.webp"
     },
     {
       "id": "pendulum-squat",
       "name": "Pendulum Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "pendulum-squat--masculino--auto-057082595df6.webp"
     },
     {
       "id": "pistol-squat",
       "name": "Pistol Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "pistol-squat--masculino--auto-b451545b915c.webp"
     },
     {
       "id": "power-clean",
@@ -4656,43 +4656,43 @@
       "id": "kettlebell-sumo-deadlift",
       "name": "Kettlebell Sumo Deadlift",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-sumo-deadlift--femenino--auto-b19a7cd1ea56.webp"
     },
     {
       "id": "kettlebell-swing",
       "name": "Kettlebell swing",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "kettlebell-swing--femenino--auto-b437c102771a.webp"
     },
     {
       "id": "landmine-romanian-deadlift",
       "name": "Landmine Romanian Deadlift",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "landmine-romanian-deadlift--femenino--auto-246fc471068e.webp"
     },
     {
       "id": "nordic-hamstring-curl",
       "name": "Nordic Hamstring Curl",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "nordic-hamstring-curl--femenino--auto-c3c186d1a7a3.webp"
     },
     {
       "id": "cable-kickback",
       "name": "Patada de glúteo en polea",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "review",
-      "file": "cable-kickback--femenino--chatgpt02.webp"
+      "status": "ready",
+      "file": "cable-kickback--femenino--auto-78ed48c63be8.webp"
     },
     {
       "id": "single-leg-romanian-deadlift",
       "name": "Peso muerto a una pierna",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "single-leg-romanian-deadlift--femenino--auto-c6f921937548.webp"
     },
     {
       "id": "deadlift",
