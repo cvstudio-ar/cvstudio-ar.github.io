@@ -1581,11 +1581,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "single-arm-overhead-press--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "single-arm-overhead-press--masculino--auto-9a953292f626.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "smith-machine-overhead-press": {
     "femenino": {
       "file": "smith-machine-overhead-press--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "smith-machine-overhead-press--masculino--auto-3803684f1ec7.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1595,11 +1605,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "thruster--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "thruster--masculino--auto-d6cf9fa46bf4.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "turkish-get-up": {
     "femenino": {
       "file": "turkish-get-up--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "turkish-get-up--masculino--auto-32781b38ae58.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1609,11 +1629,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "wall-handstand-hold--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "wall-handstand-hold--masculino--auto-6d01c7c5caea.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "backpack-biceps-curl": {
     "femenino": {
       "file": "backpack-biceps-curl--femenino--runway04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "backpack-biceps-curl--masculino--auto-f7d58d57cb15.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1809,10 +1839,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "sphinx-push-up": {
     "femenino": {
-      "file": "sphinx-push-up--femenino--runway04.webp",
+      "file": "sphinx-push-up--femenino--auto-95ebd0934721.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Se ve plancha alta, no la fase con ambos antebrazos apoyados."
+      "provisional": false
     }
   },
   "suspension-triceps-extension": {
@@ -1824,10 +1853,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "dumbbell-reverse-wrist-curl": {
     "femenino": {
-      "file": "dumbbell-reverse-wrist-curl--femenino--runway04.webp",
+      "file": "dumbbell-reverse-wrist-curl--femenino--auto-8350904c50da.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Antebrazos sin apoyo completo; no se distingue extensión aislada de muñecas."
+      "provisional": false
     }
   },
   "dumbbell-wrist-curl": {
@@ -1846,10 +1874,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "reverse-wrist-curl": {
     "femenino": {
-      "file": "reverse-wrist-curl--femenino--runway04.webp",
+      "file": "reverse-wrist-curl--femenino--auto-2f41a1db647a.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Antebrazos no descansan sobre banco o muslos; extensión de muñeca poco clara."
+      "provisional": false
     }
   },
   "towel-wring": {
@@ -1861,10 +1888,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "wrist-curl": {
     "femenino": {
-      "file": "wrist-curl--femenino--runway04.webp",
+      "file": "wrist-curl--femenino--auto-e2ea4579606b.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Apoyo de antebrazos insuficiente para distinguir flexión aislada de muñecas."
+      "provisional": false
     }
   },
   "wrist-roller": {
@@ -1876,10 +1902,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "band-leg-extension": {
     "femenino": {
-      "file": "band-leg-extension--femenino--runway04.webp",
+      "file": "band-leg-extension--femenino--auto-8d0a8fb671c9.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La banda parece abarcar ambos tobillos; no se ve una extensión unilateral clara."
+      "provisional": false
     }
   },
   "band-squat": {
@@ -1905,10 +1930,9 @@ window.FIT_CATALOG_IMAGES = {
   },
   "barbell-split-squat": {
     "femenino": {
-      "file": "barbell-split-squat--femenino--runway04.webp",
+      "file": "barbell-split-squat--femenino--auto-1b9ef8d9a870.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Barra sobre hombros sin manos que la sujeten; equipamiento inseguro o incoherente."
+      "provisional": false
     }
   },
   "barbell-step-up": {

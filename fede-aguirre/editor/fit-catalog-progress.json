@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "9a2d4cf1b5e83b05c994e135db96dec4738be6af",
+  "updatedFrom": "8124af4310b2f70dfe10e528db24cce6d625016e",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -888,43 +888,43 @@
       "id": "single-arm-overhead-press",
       "name": "Single Arm Overhead Press",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "single-arm-overhead-press--masculino--auto-9a953292f626.webp"
     },
     {
       "id": "smith-machine-overhead-press",
       "name": "Smith Machine Overhead Press",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-overhead-press--masculino--auto-3803684f1ec7.webp"
     },
     {
       "id": "thruster",
       "name": "Thruster",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "thruster--masculino--auto-d6cf9fa46bf4.webp"
     },
     {
       "id": "turkish-get-up",
       "name": "Turkish Get-Up",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "turkish-get-up--masculino--auto-32781b38ae58.webp"
     },
     {
       "id": "wall-handstand-hold",
       "name": "Wall Handstand Hold",
       "group": "HOMBROS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "wall-handstand-hold--masculino--auto-6d01c7c5caea.webp"
     },
     {
       "id": "backpack-biceps-curl",
       "name": "Backpack Biceps Curl",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "backpack-biceps-curl--masculino--auto-f7d58d57cb15.webp"
     },
     {
       "id": "band-bicep-curl",
@@ -4040,8 +4040,8 @@
       "id": "sphinx-push-up",
       "name": "Sphinx Push-Up",
       "group": "TRÍCEPS",
-      "status": "review",
-      "file": "sphinx-push-up--femenino--runway04.webp"
+      "status": "ready",
+      "file": "sphinx-push-up--femenino--auto-95ebd0934721.webp"
     },
     {
       "id": "suspension-triceps-extension",
@@ -4054,8 +4054,8 @@
       "id": "dumbbell-reverse-wrist-curl",
       "name": "Dumbbell Reverse Wrist Curl",
       "group": "ANTEBRAZOS",
-      "status": "review",
-      "file": "dumbbell-reverse-wrist-curl--femenino--runway04.webp"
+      "status": "ready",
+      "file": "dumbbell-reverse-wrist-curl--femenino--auto-8350904c50da.webp"
     },
     {
       "id": "dumbbell-wrist-curl",
@@ -4075,8 +4075,8 @@
       "id": "reverse-wrist-curl",
       "name": "Reverse Wrist Curl",
       "group": "ANTEBRAZOS",
-      "status": "review",
-      "file": "reverse-wrist-curl--femenino--runway04.webp"
+      "status": "ready",
+      "file": "reverse-wrist-curl--femenino--auto-2f41a1db647a.webp"
     },
     {
       "id": "towel-wring",
@@ -4089,8 +4089,8 @@
       "id": "wrist-curl",
       "name": "Wrist Curl",
       "group": "ANTEBRAZOS",
-      "status": "review",
-      "file": "wrist-curl--femenino--runway04.webp"
+      "status": "ready",
+      "file": "wrist-curl--femenino--auto-e2ea4579606b.webp"
     },
     {
       "id": "wrist-roller",
@@ -4103,8 +4103,8 @@
       "id": "band-leg-extension",
       "name": "Band Leg Extension",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "review",
-      "file": "band-leg-extension--femenino--runway04.webp"
+      "status": "ready",
+      "file": "band-leg-extension--femenino--auto-8d0a8fb671c9.webp"
     },
     {
       "id": "band-squat",
@@ -4131,8 +4131,8 @@
       "id": "barbell-split-squat",
       "name": "Barbell Split Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "review",
-      "file": "barbell-split-squat--femenino--runway04.webp"
+      "status": "ready",
+      "file": "barbell-split-squat--femenino--auto-1b9ef8d9a870.webp"
     },
     {
       "id": "barbell-step-up",
