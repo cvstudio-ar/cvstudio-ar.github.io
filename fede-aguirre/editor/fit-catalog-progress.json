@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "3c9278b4822fb07f10f00920eb969d7815f4f6a3",
+  "updatedFrom": "1c45fa17e3d46cceb9d56cf05f0f8f70c47a614d",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3467,7 +3467,7 @@
       "name": "Remo Meadows",
       "group": "ESPALDA",
       "status": "review",
-      "file": "meadows-row--femenino--runway03.webp"
+      "file": "meadows-row--femenino--runway04.webp"
     },
     {
       "id": "chest-supported-dumbbell-row",
@@ -3508,8 +3508,8 @@
       "id": "reverse-hyperextension",
       "name": "Reverse Hyperextension (Bench)",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "reverse-hyperextension--femenino--runway03.webp"
+      "status": "ready",
+      "file": "reverse-hyperextension--femenino--runway04.webp"
     },
     {
       "id": "reverse-pec-deck",
@@ -3522,15 +3522,15 @@
       "id": "reverse-snow-angels",
       "name": "Reverse Snow Angels",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "reverse-snow-angels--femenino--runway03.webp"
+      "status": "ready",
+      "file": "reverse-snow-angels--femenino--runway04.webp"
     },
     {
       "id": "reverse-grip-lat-pulldown",
       "name": "Reverse-Grip Lat Pulldown",
       "group": "ESPALDA",
       "status": "review",
-      "file": "reverse-grip-lat-pulldown--femenino--runway03.webp"
+      "file": "reverse-grip-lat-pulldown--femenino--runway04.webp"
     },
     {
       "id": "seal-row",
@@ -3572,14 +3572,14 @@
       "name": "Superman",
       "group": "ESPALDA",
       "status": "review",
-      "file": "superman--femenino--runway03.webp"
+      "file": "superman--femenino--runway04.webp"
     },
     {
       "id": "superman-pulldown",
       "name": "Superman Pulldown",
       "group": "ESPALDA",
       "status": "review",
-      "file": "superman-pulldown--femenino--runway03.webp"
+      "file": "superman-pulldown--femenino--runway04.webp"
     },
     {
       "id": "suspension-row",
@@ -3607,7 +3607,7 @@
       "name": "Upright Row",
       "group": "ESPALDA",
       "status": "review",
-      "file": "upright-row--femenino--runway03.webp"
+      "file": "upright-row--femenino--runway04.webp"
     },
     {
       "id": "wide-grip-pull-up",
@@ -3642,21 +3642,21 @@
       "name": "Cable External Rotation",
       "group": "HOMBROS",
       "status": "review",
-      "file": "cable-external-rotation--femenino--runway03.webp"
+      "file": "cable-external-rotation--femenino--runway04.webp"
     },
     {
       "id": "cable-front-raise",
       "name": "Cable Front Raise",
       "group": "HOMBROS",
       "status": "review",
-      "file": "cable-front-raise--femenino--runway03.webp"
+      "file": "cable-front-raise--femenino--runway04.webp"
     },
     {
       "id": "cable-internal-rotation",
       "name": "Cable Internal Rotation",
       "group": "HOMBROS",
       "status": "review",
-      "file": "cable-internal-rotation--femenino--runway03.webp"
+      "file": "cable-internal-rotation--femenino--runway04.webp"
     },
     {
       "id": "dumbbell-push-press",
@@ -3684,35 +3684,35 @@
       "name": "Elevación frontal con disco",
       "group": "HOMBROS",
       "status": "review",
-      "file": "plate-front-raise--femenino--runway03.webp"
+      "file": "plate-front-raise--femenino--runway04.webp"
     },
     {
       "id": "cable-lateral-raise",
       "name": "Elevación lateral en polea",
       "group": "HOMBROS",
       "status": "review",
-      "file": "cable-lateral-raise--femenino--runway03.webp"
+      "file": "cable-lateral-raise--femenino--runway04.webp"
     },
     {
       "id": "front-raises",
       "name": "Elevaciones frontales",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "front-raises--femenino--runway03.webp"
+      "status": "ready",
+      "file": "front-raises--femenino--runway04.webp"
     },
     {
       "id": "lateral-raises",
       "name": "Elevaciones laterales",
       "group": "HOMBROS",
-      "status": "review",
-      "file": "lateral-raises--femenino--runway03.webp"
+      "status": "ready",
+      "file": "lateral-raises--femenino--runway04.webp"
     },
     {
       "id": "handstand-push-up",
       "name": "Handstand Push-Up",
       "group": "HOMBROS",
       "status": "review",
-      "file": "handstand-push-up--femenino--runway03.webp"
+      "file": "handstand-push-up--femenino--runway04.webp"
     },
     {
       "id": "machine-lateral-raise",
@@ -3740,7 +3740,7 @@
       "name": "Press Arnold",
       "group": "HOMBROS",
       "status": "review",
-      "file": "arnold-press--femenino--runway03.webp"
+      "file": "arnold-press--femenino--runway04.webp"
     },
     {
       "id": "dumbbell-shoulder-press",
@@ -3761,7 +3761,7 @@
       "name": "Press landmine",
       "group": "HOMBROS",
       "status": "review",
-      "file": "landmine-press--femenino--runway03.webp"
+      "file": "landmine-press--femenino--runway04.webp"
     },
     {
       "id": "overhead-press",
@@ -3789,7 +3789,7 @@
       "name": "Rotación externa con banda",
       "group": "HOMBROS",
       "status": "review",
-      "file": "band-external-rotation--femenino--runway03.webp"
+      "file": "band-external-rotation--femenino--runway04.webp"
     },
     {
       "id": "single-arm-overhead-press",
@@ -3830,8 +3830,8 @@
       "id": "backpack-biceps-curl",
       "name": "Backpack Biceps Curl",
       "group": "BÍCEPS",
-      "status": "review",
-      "file": "backpack-biceps-curl--femenino--runway03.webp"
+      "status": "ready",
+      "file": "backpack-biceps-curl--femenino--runway04.webp"
     },
     {
       "id": "band-bicep-curl",
@@ -3901,7 +3901,7 @@
       "name": "Curl inverso",
       "group": "BÍCEPS",
       "status": "review",
-      "file": "reverse-curl--femenino--runway03.webp"
+      "file": "reverse-curl--femenino--runway04.webp"
     },
     {
       "id": "hammer-curls",
@@ -3915,21 +3915,21 @@
       "name": "Curl martillo cruzado",
       "group": "BÍCEPS",
       "status": "review",
-      "file": "cross-body-hammer-curl--femenino--runway03.webp"
+      "file": "cross-body-hammer-curl--femenino--runway04.webp"
     },
     {
       "id": "preacher-curl",
       "name": "Curl predicador",
       "group": "BÍCEPS",
       "status": "review",
-      "file": "preacher-curl--femenino--runway03.webp"
+      "file": "preacher-curl--femenino--runway04.webp"
     },
     {
       "id": "machine-preacher-curl",
       "name": "Curl Scott en máquina",
       "group": "BÍCEPS",
-      "status": "review",
-      "file": "machine-preacher-curl--femenino--runway03.webp"
+      "status": "ready",
+      "file": "machine-preacher-curl--femenino--runway04.webp"
     },
     {
       "id": "single-arm-cable-curl",
@@ -3943,14 +3943,14 @@
       "name": "Curl Zottman",
       "group": "BÍCEPS",
       "status": "review",
-      "file": "zottman-curl--femenino--runway03.webp"
+      "file": "zottman-curl--femenino--runway04.webp"
     },
     {
       "id": "dumbbell-preacher-curl",
       "name": "Dumbbell Preacher Curl",
       "group": "BÍCEPS",
       "status": "review",
-      "file": "dumbbell-preacher-curl--femenino--runway03.webp"
+      "file": "dumbbell-preacher-curl--femenino--runway04.webp"
     },
     {
       "id": "rope-hammer-curl",
@@ -3978,7 +3978,7 @@
       "name": "Cable Triceps Kickback",
       "group": "TRÍCEPS",
       "status": "review",
-      "file": "cable-triceps-kickback--femenino--runway03.webp"
+      "file": "cable-triceps-kickback--femenino--runway04.webp"
     },
     {
       "id": "dumbbell-skull-crusher",
@@ -3992,35 +3992,35 @@
       "name": "Extensión con banda",
       "group": "TRÍCEPS",
       "status": "review",
-      "file": "band-tricep-pushdown--femenino--runway03.webp"
+      "file": "band-tricep-pushdown--femenino--runway04.webp"
     },
     {
       "id": "tricep-pushdowns",
       "name": "Extensión de tríceps en polea",
       "group": "TRÍCEPS",
-      "status": "review",
-      "file": "tricep-pushdowns--femenino--runway03.webp"
+      "status": "ready",
+      "file": "tricep-pushdowns--femenino--runway04.webp"
     },
     {
       "id": "overhead-triceps-extension",
       "name": "Extensión sobre cabeza",
       "group": "TRÍCEPS",
       "status": "review",
-      "file": "overhead-triceps-extension--femenino--runway03.webp"
+      "file": "overhead-triceps-extension--femenino--runway04.webp"
     },
     {
       "id": "cable-overhead-triceps-extension",
       "name": "Extensión unilateral en polea",
       "group": "TRÍCEPS",
       "status": "review",
-      "file": "cable-overhead-triceps-extension--femenino--runway03.webp"
+      "file": "cable-overhead-triceps-extension--femenino--runway04.webp"
     },
     {
       "id": "machine-triceps-extension",
       "name": "Machine Triceps Extension",
       "group": "TRÍCEPS",
-      "status": "review",
-      "file": "machine-triceps-extension--femenino--runway03.webp"
+      "status": "ready",
+      "file": "machine-triceps-extension--femenino--runway04.webp"
     },
     {
       "id": "dumbbell-kickback",
@@ -4041,21 +4041,21 @@
       "name": "Sphinx Push-Up",
       "group": "TRÍCEPS",
       "status": "review",
-      "file": "sphinx-push-up--femenino--runway03.webp"
+      "file": "sphinx-push-up--femenino--runway04.webp"
     },
     {
       "id": "suspension-triceps-extension",
       "name": "Suspension Triceps Extension",
       "group": "TRÍCEPS",
-      "status": "review",
-      "file": "suspension-triceps-extension--femenino--runway03.webp"
+      "status": "ready",
+      "file": "suspension-triceps-extension--femenino--runway04.webp"
     },
     {
       "id": "dumbbell-reverse-wrist-curl",
       "name": "Dumbbell Reverse Wrist Curl",
       "group": "ANTEBRAZOS",
       "status": "review",
-      "file": "dumbbell-reverse-wrist-curl--femenino--runway03.webp"
+      "file": "dumbbell-reverse-wrist-curl--femenino--runway04.webp"
     },
     {
       "id": "dumbbell-wrist-curl",
@@ -4076,7 +4076,7 @@
       "name": "Reverse Wrist Curl",
       "group": "ANTEBRAZOS",
       "status": "review",
-      "file": "reverse-wrist-curl--femenino--runway03.webp"
+      "file": "reverse-wrist-curl--femenino--runway04.webp"
     },
     {
       "id": "towel-wring",
@@ -4090,21 +4090,21 @@
       "name": "Wrist Curl",
       "group": "ANTEBRAZOS",
       "status": "review",
-      "file": "wrist-curl--femenino--runway03.webp"
+      "file": "wrist-curl--femenino--runway04.webp"
     },
     {
       "id": "wrist-roller",
       "name": "Wrist Roller",
       "group": "ANTEBRAZOS",
-      "status": "review",
-      "file": "wrist-roller--femenino--runway03.webp"
+      "status": "ready",
+      "file": "wrist-roller--femenino--runway04.webp"
     },
     {
       "id": "band-leg-extension",
       "name": "Band Leg Extension",
       "group": "PIERNAS · CUÁDRICEPS",
       "status": "review",
-      "file": "band-leg-extension--femenino--runway03.webp"
+      "file": "band-leg-extension--femenino--runway04.webp"
     },
     {
       "id": "band-squat",
@@ -4132,7 +4132,7 @@
       "name": "Barbell Split Squat",
       "group": "PIERNAS · CUÁDRICEPS",
       "status": "review",
-      "file": "barbell-split-squat--femenino--runway03.webp"
+      "file": "barbell-split-squat--femenino--runway04.webp"
     },
     {
       "id": "barbell-step-up",
