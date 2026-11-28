@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "cb82b639a0886816212b7760798989124b29736e",
+  "updatedFrom": "b61af23054eb0dbc6b1c5e5ab7b36dba04a9eb42",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1462,43 +1462,43 @@
       "id": "single-leg-leg-press",
       "name": "Single Leg Leg Press",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "single-leg-leg-press--masculino--auto-41afedece01c.webp"
     },
     {
       "id": "sissy-squat",
       "name": "Sissy squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "sissy-squat--masculino--auto-b2556c5b6ecd.webp"
     },
     {
       "id": "smith-machine-lunge",
       "name": "Smith Machine Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-lunge--masculino--auto-ed5239d4e386.webp"
     },
     {
       "id": "snatch",
       "name": "Snatch",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "snatch--masculino--auto-e4cc2f7da9ee.webp"
     },
     {
       "id": "stability-ball-wall-squat",
       "name": "Stability Ball Wall Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "stability-ball-wall-squat--masculino--auto-4128aa6809ed.webp"
     },
     {
       "id": "step-down",
       "name": "Step-Down",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "step-down--masculino--auto-6bd54bd0c6dd.webp"
     },
     {
       "id": "step-ups",
@@ -4803,43 +4803,43 @@
       "id": "standing-cable-hip-abduction",
       "name": "Standing Cable Hip Abduction",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "standing-cable-hip-abduction--femenino--auto-222ec4c14a65.webp"
     },
     {
       "id": "glute-squeeze",
       "name": "Standing Glute Squeezes",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "glute-squeeze--femenino--auto-479df049b6ba.webp"
     },
     {
       "id": "standing-hamstring-curl",
       "name": "Standing Hamstring Curl",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "standing-hamstring-curl--femenino--auto-e8fd744b92bb.webp"
     },
     {
       "id": "standing-leg-curl-machine",
       "name": "Standing Leg Curl Machine",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "standing-leg-curl-machine--femenino--auto-ab2dc60ad626.webp"
     },
     {
       "id": "suspension-hamstring-curl",
       "name": "Suspension Hamstring Curl",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "suspension-hamstring-curl--femenino--auto-105a149a8885.webp"
     },
     {
       "id": "band-ankle-dorsiflexion",
       "name": "Band Ankle Dorsiflexion",
       "group": "GEMELOS · PANTORRILLAS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-ankle-dorsiflexion--femenino--auto-04c4abe121fe.webp"
     },
     {
       "id": "leg-press-calf-raise",

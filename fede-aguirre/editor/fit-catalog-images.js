@@ -2580,11 +2580,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "single-leg-leg-press--femenino--auto-a1dbad0a0f1c.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "single-leg-leg-press--masculino--auto-41afedece01c.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "sissy-squat": {
     "femenino": {
       "file": "sissy-squat--femenino--auto-d72b8a6d5894.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "sissy-squat--masculino--auto-b2556c5b6ecd.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2594,11 +2604,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "smith-machine-lunge--femenino--auto-85dc20c3bb36.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "smith-machine-lunge--masculino--auto-ed5239d4e386.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "snatch": {
     "femenino": {
       "file": "snatch--femenino--auto-10999a3fdcd5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "snatch--masculino--auto-e4cc2f7da9ee.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2608,11 +2628,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "stability-ball-wall-squat--femenino--auto-77c4738f5ead.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "stability-ball-wall-squat--masculino--auto-4128aa6809ed.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "step-down": {
     "femenino": {
       "file": "step-down--femenino--auto-d139c0fa3791.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "step-down--masculino--auto-6bd54bd0c6dd.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2935,6 +2965,48 @@ window.FIT_CATALOG_IMAGES = {
   "stability-ball-hamstring-curl": {
     "femenino": {
       "file": "stability-ball-hamstring-curl--femenino--auto-e356dd9eb3d4.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "standing-cable-hip-abduction": {
+    "femenino": {
+      "file": "standing-cable-hip-abduction--femenino--auto-222ec4c14a65.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "glute-squeeze": {
+    "femenino": {
+      "file": "glute-squeeze--femenino--auto-479df049b6ba.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "standing-hamstring-curl": {
+    "femenino": {
+      "file": "standing-hamstring-curl--femenino--auto-e8fd744b92bb.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "standing-leg-curl-machine": {
+    "femenino": {
+      "file": "standing-leg-curl-machine--femenino--auto-ab2dc60ad626.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "suspension-hamstring-curl": {
+    "femenino": {
+      "file": "suspension-hamstring-curl--femenino--auto-105a149a8885.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "band-ankle-dorsiflexion": {
+    "femenino": {
+      "file": "band-ankle-dorsiflexion--femenino--auto-04c4abe121fe.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
