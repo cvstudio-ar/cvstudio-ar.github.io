@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "8124af4310b2f70dfe10e528db24cce6d625016e",
+  "updatedFrom": "eded16129dadc8f5c1e29a4f1bfcf46f6273ddb7",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -930,8 +930,8 @@
       "id": "band-bicep-curl",
       "name": "Band Bicep Curl",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-bicep-curl--masculino--auto-2f0b3c66e95e.webp"
     },
     {
       "id": "biceps-curl",
@@ -944,15 +944,15 @@
       "id": "alternating-dumbbell-curl",
       "name": "Curl alterno con mancuernas",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "alternating-dumbbell-curl--masculino--auto-12c8c325437c.webp"
     },
     {
       "id": "spider-curl",
       "name": "Curl araña",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "spider-curl--masculino--auto-9568c4e6b2df.webp"
     },
     {
       "id": "barbell-curl",
@@ -965,22 +965,22 @@
       "id": "ez-bar-curl",
       "name": "Curl con barra Z",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "ez-bar-curl--masculino--auto-842d22793216.webp"
     },
     {
       "id": "concentration-curl",
       "name": "Curl concentrado",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "concentration-curl--masculino--auto-c601f5ce0677.webp"
     },
     {
       "id": "incline-dumbbell-curl",
       "name": "Curl en banco inclinado",
       "group": "BÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "incline-dumbbell-curl--masculino--auto-261e635ac2f0.webp"
     },
     {
       "id": "cable-curl",
@@ -4187,8 +4187,8 @@
       "id": "dumbbell-squat",
       "name": "Dumbbell Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "review",
-      "file": "dumbbell-squat--femenino--chatgpt03.webp"
+      "status": "ready",
+      "file": "dumbbell-squat--femenino--auto-054fa8f6d4a2.webp"
     },
     {
       "id": "leg-extension",
@@ -4201,15 +4201,15 @@
       "id": "hang-clean",
       "name": "Hang Clean",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "review",
-      "file": "hang-clean--femenino--chatgpt03.webp"
+      "status": "ready",
+      "file": "hang-clean--femenino--auto-aee3167f6c50.webp"
     },
     {
       "id": "hindu-squat",
       "name": "Hindu Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "review",
-      "file": "hindu-squat--femenino--chatgpt03.webp"
+      "status": "ready",
+      "file": "hindu-squat--femenino--auto-8b8ef375160e.webp"
     },
     {
       "id": "kettlebell-clean",
@@ -4250,22 +4250,22 @@
       "id": "lateral-lunge",
       "name": "Lateral Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "lateral-lunge--femenino--auto-8260ab714de0.webp"
     },
     {
       "id": "overhead-squat",
       "name": "Overhead Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "overhead-squat--femenino--auto-0d707a37a6a1.webp"
     },
     {
       "id": "pendulum-squat",
       "name": "Pendulum Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "pendulum-squat--femenino--auto-f2e86beeaef9.webp"
     },
     {
       "id": "pistol-squat",

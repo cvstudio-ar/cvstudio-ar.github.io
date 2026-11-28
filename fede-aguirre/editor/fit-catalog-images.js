@@ -1653,11 +1653,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "band-bicep-curl--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "band-bicep-curl--masculino--auto-2f0b3c66e95e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "alternating-dumbbell-curl": {
     "femenino": {
       "file": "alternating-dumbbell-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "alternating-dumbbell-curl--masculino--auto-12c8c325437c.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1667,11 +1677,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "spider-curl--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "spider-curl--masculino--auto-9568c4e6b2df.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "ez-bar-curl": {
     "femenino": {
       "file": "ez-bar-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "ez-bar-curl--masculino--auto-842d22793216.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1681,11 +1701,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "concentration-curl--femenino--runway03.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "concentration-curl--masculino--auto-c601f5ce0677.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "incline-dumbbell-curl": {
     "femenino": {
       "file": "incline-dumbbell-curl--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "incline-dumbbell-curl--masculino--auto-261e635ac2f0.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2074,26 +2104,23 @@ window.FIT_CATALOG_IMAGES = {
   },
   "dumbbell-squat": {
     "femenino": {
-      "file": "dumbbell-squat--femenino--chatgpt03.webp",
+      "file": "dumbbell-squat--femenino--auto-054fa8f6d4a2.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Las mancuernas están entre las piernas, no a los lados; se puede confundir con sentadilla sumo."
+      "provisional": false
     }
   },
   "hang-clean": {
     "femenino": {
-      "file": "hang-clean--femenino--chatgpt03.webp",
+      "file": "hang-clean--femenino--auto-aee3167f6c50.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "La recepción es indistinguible de una sentadilla frontal; no se ve la fase desde suspensión."
+      "provisional": false
     }
   },
   "hindu-squat": {
     "femenino": {
-      "file": "hindu-squat--femenino--chatgpt03.webp",
+      "file": "hindu-squat--femenino--auto-8b8ef375160e.webp",
       "label": "REFERENCIA",
-      "provisional": true,
-      "reviewNote": "Talones y posición de brazos no permiten identificar con certeza la variante hindú."
+      "provisional": false
     }
   },
   "kettlebell-clean": {
@@ -2127,6 +2154,27 @@ window.FIT_CATALOG_IMAGES = {
   "landmine-squat": {
     "femenino": {
       "file": "landmine-squat--femenino--chatgpt03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "lateral-lunge": {
+    "femenino": {
+      "file": "lateral-lunge--femenino--auto-8260ab714de0.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "overhead-squat": {
+    "femenino": {
+      "file": "overhead-squat--femenino--auto-0d707a37a6a1.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "pendulum-squat": {
+    "femenino": {
+      "file": "pendulum-squat--femenino--auto-f2e86beeaef9.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
