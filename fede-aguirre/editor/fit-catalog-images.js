@@ -127,8 +127,8 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "lat-pulldown--femenino--v3.webp",
-      "label": "FINAL",
+      "file": "lat-pulldown--femenino--back05.webp",
+      "label": "REFERENCIA",
       "provisional": false
     }
   },

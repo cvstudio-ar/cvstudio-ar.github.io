@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "b265d6e74587c44a7b29aee97599f15130a14bf0",
+  "updatedFrom": "c24a822781ce5a3f1d15decbe1029ae748161edc",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3334,7 +3334,7 @@
       "name": "Jalón al pecho",
       "group": "ESPALDA",
       "status": "ready",
-      "file": "lat-pulldown--femenino--v3.webp"
+      "file": "lat-pulldown--femenino--back05.webp"
     },
     {
       "id": "close-grip-lat-pulldown",
