@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "e429cda0381861b12b9ef72f325a64296f5ce048",
+  "updatedFrom": "eaf9ef68a06a66a76ab6dc50d4f4f655285663f1",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3536,8 +3536,8 @@
       "id": "seal-row",
       "name": "Seal row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "seal-row--femenino--back06.webp"
     },
     {
       "id": "shrugs",

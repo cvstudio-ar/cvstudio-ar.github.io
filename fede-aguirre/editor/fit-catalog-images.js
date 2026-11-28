@@ -1126,6 +1126,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "seal-row--masculino--back05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "seal-row--femenino--back06.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "La fotografía muestra Seal Row con barra; el catálogo especifica mancuernas y banco. Requiere reemplazo."
     }
   },
   "shrugs": {
