@@ -43,9 +43,9 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "bent-over-row--femenino.webp",
-      "label": "POSTURA",
-      "provisional": true
+      "file": "bent-over-row--femenino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-shoulder-press": {
@@ -1042,11 +1042,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "chest-supported-dumbbell-row--masculino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "chest-supported-dumbbell-row--femenino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "seated-cable-row": {
     "masculino": {
       "file": "seated-cable-row--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "seated-cable-row--femenino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1070,6 +1080,12 @@ window.FIT_CATALOG_IMAGES = {
       "file": "reverse-grip-barbell-row--masculino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "reverse-grip-barbell-row--femenino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": true,
+      "reviewNote": "Validar que ambas manos muestren inequívocamente el agarre supino antes de habilitar."
     }
   },
   "reverse-hyperextension": {
@@ -1082,6 +1098,11 @@ window.FIT_CATALOG_IMAGES = {
   "reverse-pec-deck": {
     "masculino": {
       "file": "reverse-pec-deck--masculino--back04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "femenino": {
+      "file": "reverse-pec-deck--femenino--back04.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

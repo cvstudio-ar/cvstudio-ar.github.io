@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "d8f0db04194c4b554a8fe613c281e7d700456d1e",
+  "updatedFrom": "f942374e22d54a70c6ae08949ce1155a1331a982",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3431,8 +3431,8 @@
       "id": "bent-over-row",
       "name": "Remo con barra",
       "group": "ESPALDA",
-      "status": "review",
-      "file": "bent-over-row--femenino.webp"
+      "status": "ready",
+      "file": "bent-over-row--femenino--back04.webp"
     },
     {
       "id": "t-bar-row",
@@ -3473,15 +3473,15 @@
       "id": "chest-supported-dumbbell-row",
       "name": "Remo pecho apoyado",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "chest-supported-dumbbell-row--femenino--back04.webp"
     },
     {
       "id": "seated-cable-row",
       "name": "Remo sentado en polea",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-cable-row--femenino--back04.webp"
     },
     {
       "id": "renegade-row",
@@ -3501,8 +3501,8 @@
       "id": "reverse-grip-barbell-row",
       "name": "Reverse Grip Barbell Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "review",
+      "file": "reverse-grip-barbell-row--femenino--back04.webp"
     },
     {
       "id": "reverse-hyperextension",
@@ -3515,8 +3515,8 @@
       "id": "reverse-pec-deck",
       "name": "Reverse Pec Deck",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-pec-deck--femenino--back04.webp"
     },
     {
       "id": "reverse-snow-angels",
