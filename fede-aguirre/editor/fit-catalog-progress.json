@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "1c45fa17e3d46cceb9d56cf05f0f8f70c47a614d",
+  "updatedFrom": "b23f874f584be3904c43ea4c0fd1d7bf57fc658c",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -4285,8 +4285,8 @@
       "id": "leg-press",
       "name": "Prensa de piernas",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "leg-press--femenino--chatgpt01.webp"
     },
     {
       "id": "seated-leg-press",
@@ -4467,8 +4467,8 @@
       "id": "dumbbell-lunge",
       "name": "Zancadas alternas",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-lunge--femenino--chatgpt01.webp"
     },
     {
       "id": "zercher-squat",
@@ -4628,8 +4628,8 @@
       "id": "hip-thrusts",
       "name": "Hip thrust con barra",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "hip-thrusts--femenino--chatgpt01.webp"
     },
     {
       "id": "hip-thrust-machine",
@@ -4705,8 +4705,8 @@
       "id": "romanian-deadlift",
       "name": "Peso muerto rumano",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "romanian-deadlift--femenino--chatgpt01.webp"
     },
     {
       "id": "dumbbell-romanian-deadlift",

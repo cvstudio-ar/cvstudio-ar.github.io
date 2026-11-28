@@ -1827,5 +1827,33 @@ window.FIT_CATALOG_IMAGES = {
       "label": "REFERENCIA",
       "provisional": false
     }
+  },
+  "hip-thrusts": {
+    "femenino": {
+      "file": "hip-thrusts--femenino--chatgpt01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "romanian-deadlift": {
+    "femenino": {
+      "file": "romanian-deadlift--femenino--chatgpt01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-lunge": {
+    "femenino": {
+      "file": "dumbbell-lunge--femenino--chatgpt01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "leg-press": {
+    "femenino": {
+      "file": "leg-press--femenino--chatgpt01.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
   }
 };
