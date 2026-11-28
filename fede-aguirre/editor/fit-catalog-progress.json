@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "9eb80c3f26a9520ffdcb7a770dd36e3d75ac35dc",
+  "updatedFrom": "3b997cda3050075a6ccc517abcef78cb9784c863",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1070,43 +1070,43 @@
       "id": "cable-triceps-kickback",
       "name": "Cable Triceps Kickback",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-triceps-kickback--masculino--auto-8b3774139a6f.webp"
     },
     {
       "id": "dumbbell-skull-crusher",
       "name": "Extensión acostado",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-skull-crusher--masculino--auto-b0a700d3aa20.webp"
     },
     {
       "id": "band-tricep-pushdown",
       "name": "Extensión con banda",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "band-tricep-pushdown--masculino--auto-26ce8f322d4e.webp"
     },
     {
       "id": "tricep-pushdowns",
       "name": "Extensión de tríceps en polea",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "tricep-pushdowns--masculino--auto-19451d857e05.webp"
     },
     {
       "id": "overhead-triceps-extension",
       "name": "Extensión sobre cabeza",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "overhead-triceps-extension--masculino--auto-d52e8d3ada6f.webp"
     },
     {
       "id": "cable-overhead-triceps-extension",
       "name": "Extensión unilateral en polea",
       "group": "TRÍCEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-overhead-triceps-extension--masculino--auto-a212cae5cbeb.webp"
     },
     {
       "id": "machine-triceps-extension",
@@ -4376,36 +4376,36 @@
       "id": "sissy-squat",
       "name": "Sissy squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "sissy-squat--femenino--auto-d72b8a6d5894.webp"
     },
     {
       "id": "smith-machine-lunge",
       "name": "Smith Machine Lunge",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "smith-machine-lunge--femenino--auto-85dc20c3bb36.webp"
     },
     {
       "id": "snatch",
       "name": "Snatch",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "snatch--femenino--auto-10999a3fdcd5.webp"
     },
     {
       "id": "stability-ball-wall-squat",
       "name": "Stability Ball Wall Squat",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "stability-ball-wall-squat--femenino--auto-77c4738f5ead.webp"
     },
     {
       "id": "step-down",
       "name": "Step-Down",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "step-down--femenino--auto-d139c0fa3791.webp"
     },
     {
       "id": "step-ups",
@@ -4418,8 +4418,8 @@
       "id": "dumbbell-step-up",
       "name": "Step-up al banco",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-step-up--femenino--auto-e3b8fc73b2b2.webp"
     },
     {
       "id": "lateral-step-up",

@@ -1869,11 +1869,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "cable-triceps-kickback--femenino--auto-8347bc49b56d.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "cable-triceps-kickback--masculino--auto-8b3774139a6f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "dumbbell-skull-crusher": {
     "femenino": {
       "file": "dumbbell-skull-crusher--femenino--runway03.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "dumbbell-skull-crusher--masculino--auto-b0a700d3aa20.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1883,11 +1893,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "band-tricep-pushdown--femenino--auto-6551e84c1d3e.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "band-tricep-pushdown--masculino--auto-26ce8f322d4e.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "tricep-pushdowns": {
     "femenino": {
       "file": "tricep-pushdowns--femenino--runway04.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "tricep-pushdowns--masculino--auto-19451d857e05.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -1897,11 +1917,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "overhead-triceps-extension--femenino--auto-5971910ae679.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "overhead-triceps-extension--masculino--auto-d52e8d3ada6f.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "cable-overhead-triceps-extension": {
     "femenino": {
       "file": "cable-overhead-triceps-extension--femenino--auto-40d081902ae5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "cable-overhead-triceps-extension--masculino--auto-a212cae5cbeb.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2311,6 +2341,48 @@ window.FIT_CATALOG_IMAGES = {
   "single-leg-leg-press": {
     "femenino": {
       "file": "single-leg-leg-press--femenino--auto-a1dbad0a0f1c.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "sissy-squat": {
+    "femenino": {
+      "file": "sissy-squat--femenino--auto-d72b8a6d5894.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "smith-machine-lunge": {
+    "femenino": {
+      "file": "smith-machine-lunge--femenino--auto-85dc20c3bb36.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "snatch": {
+    "femenino": {
+      "file": "snatch--femenino--auto-10999a3fdcd5.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "stability-ball-wall-squat": {
+    "femenino": {
+      "file": "stability-ball-wall-squat--femenino--auto-77c4738f5ead.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "step-down": {
+    "femenino": {
+      "file": "step-down--femenino--auto-d139c0fa3791.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-step-up": {
+    "femenino": {
+      "file": "dumbbell-step-up--femenino--auto-e3b8fc73b2b2.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
