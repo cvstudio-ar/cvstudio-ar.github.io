@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "c24a822781ce5a3f1d15decbe1029ae748161edc",
+  "updatedFrom": "e429cda0381861b12b9ef72f325a64296f5ce048",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3313,7 +3313,7 @@
       "name": "Face pull",
       "group": "ESPALDA",
       "status": "ready",
-      "file": "face-pulls--femenino--back02.webp"
+      "file": "face-pulls--femenino--back06.webp"
     },
     {
       "id": "farmers-walk",
@@ -3439,7 +3439,7 @@
       "name": "Remo con barra T",
       "group": "ESPALDA",
       "status": "ready",
-      "file": "t-bar-row--femenino--back03.webp"
+      "file": "t-bar-row--femenino--back06.webp"
     },
     {
       "id": "dumbbell-row",

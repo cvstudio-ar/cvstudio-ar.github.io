@@ -791,7 +791,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "face-pulls--femenino--back02.webp",
+      "file": "face-pulls--femenino--back06.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -983,7 +983,7 @@ window.FIT_CATALOG_IMAGES = {
       "provisional": false
     },
     "femenino": {
-      "file": "t-bar-row--femenino--back03.webp",
+      "file": "t-bar-row--femenino--back06.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
