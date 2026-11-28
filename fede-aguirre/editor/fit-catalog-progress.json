@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "f942374e22d54a70c6ae08949ce1155a1331a982",
+  "updatedFrom": "b265d6e74587c44a7b29aee97599f15130a14bf0",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -3550,8 +3550,8 @@
       "id": "single-arm-cable-row",
       "name": "Single-Arm Cable Row",
       "group": "ESPALDA",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "single-arm-cable-row--femenino--back05.webp"
     },
     {
       "id": "smith-machine-bent-over-row",

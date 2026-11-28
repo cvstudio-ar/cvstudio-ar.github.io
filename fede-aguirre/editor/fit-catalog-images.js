@@ -1140,6 +1140,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "single-arm-cable-row--masculino--back05.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "femenino": {
+      "file": "single-arm-cable-row--femenino--back05.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "smith-machine-bent-over-row": {
