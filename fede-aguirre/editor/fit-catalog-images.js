@@ -2190,6 +2190,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "leg-press--femenino--chatgpt01.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "leg-press--masculino--auto-a653e398fe59.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "front-squat": {
@@ -2457,11 +2462,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "power-clean--femenino--auto-9306eceb4bb4.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "power-clean--masculino--auto-ed9b37625f24.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "seated-leg-press": {
     "femenino": {
       "file": "seated-leg-press--femenino--auto-ba8f31d17925.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "seated-leg-press--masculino--auto-bca1113701fa.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2471,6 +2486,11 @@ window.FIT_CATALOG_IMAGES = {
       "file": "reverse-nordic--femenino--auto-2be466e76aba.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "reverse-nordic--masculino--auto-7313a2d7d94d.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "seated-knee-extension": {
@@ -2478,11 +2498,21 @@ window.FIT_CATALOG_IMAGES = {
       "file": "seated-knee-extension--femenino--auto-93258065b289.webp",
       "label": "REFERENCIA",
       "provisional": false
+    },
+    "masculino": {
+      "file": "seated-knee-extension--masculino--auto-3dc58fa4dde7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
     }
   },
   "leg-press-moving-plate": {
     "femenino": {
       "file": "leg-press-moving-plate--femenino--auto-bba5818df560.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    },
+    "masculino": {
+      "file": "leg-press-moving-plate--masculino--auto-2436d0cc9d8f.webp",
       "label": "REFERENCIA",
       "provisional": false
     }
@@ -2791,6 +2821,48 @@ window.FIT_CATALOG_IMAGES = {
   "single-leg-romanian-deadlift": {
     "femenino": {
       "file": "single-leg-romanian-deadlift--femenino--auto-c6f921937548.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "dumbbell-romanian-deadlift": {
+    "femenino": {
+      "file": "dumbbell-romanian-deadlift--femenino--auto-43dbeed8161a.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "glute-bridge": {
+    "femenino": {
+      "file": "glute-bridge--femenino--auto-0b14b13dfdd2.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "single-leg-glute-bridge": {
+    "femenino": {
+      "file": "single-leg-glute-bridge--femenino--auto-f175d4250be7.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "cable-pull-through": {
+    "femenino": {
+      "file": "cable-pull-through--femenino--auto-a45d150293dc.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "rack-pull": {
+    "femenino": {
+      "file": "rack-pull--femenino--auto-1df8ffe0c022.webp",
+      "label": "REFERENCIA",
+      "provisional": false
+    }
+  },
+  "reverse-plank": {
+    "femenino": {
+      "file": "reverse-plank--femenino--auto-6572350be1cf.webp",
       "label": "REFERENCIA",
       "provisional": false
     }

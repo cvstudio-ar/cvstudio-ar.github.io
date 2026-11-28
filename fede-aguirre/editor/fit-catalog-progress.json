@@ -1,6 +1,6 @@
 {
   "catalogSize": 415,
-  "updatedFrom": "7cab96ea4385dd00bd43af669aa20e11ec0e982a",
+  "updatedFrom": "f3a1409a3745cca82ef6b87dd7b565c6df5220bb",
   "male": [
     {
       "id": "dumbbell-fly",
@@ -1371,43 +1371,43 @@
       "id": "power-clean",
       "name": "Power Clean",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "power-clean--masculino--auto-ed9b37625f24.webp"
     },
     {
       "id": "leg-press",
       "name": "Prensa de piernas",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "leg-press--masculino--auto-a653e398fe59.webp"
     },
     {
       "id": "seated-leg-press",
       "name": "Prensa horizontal",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-leg-press--masculino--auto-bca1113701fa.webp"
     },
     {
       "id": "reverse-nordic",
       "name": "Reverse Nordic",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-nordic--masculino--auto-7313a2d7d94d.webp"
     },
     {
       "id": "seated-knee-extension",
       "name": "Seated Knee Extension",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "seated-knee-extension--masculino--auto-3dc58fa4dde7.webp"
     },
     {
       "id": "leg-press-moving-plate",
       "name": "Seated Leg Press (Moving Plate)",
       "group": "PIERNAS · CUÁDRICEPS",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "leg-press-moving-plate--masculino--auto-2436d0cc9d8f.webp"
     },
     {
       "id": "bulgarian-split-squat",
@@ -4712,8 +4712,8 @@
       "id": "dumbbell-romanian-deadlift",
       "name": "Peso muerto rumano con mancuernas",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "dumbbell-romanian-deadlift--femenino--auto-43dbeed8161a.webp"
     },
     {
       "id": "sumo-deadlift",
@@ -4726,36 +4726,36 @@
       "id": "glute-bridge",
       "name": "Puente de glúteos",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "glute-bridge--femenino--auto-0b14b13dfdd2.webp"
     },
     {
       "id": "single-leg-glute-bridge",
       "name": "Puente de glúteos unilateral",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "single-leg-glute-bridge--femenino--auto-f175d4250be7.webp"
     },
     {
       "id": "cable-pull-through",
       "name": "Pull-through en polea",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "cable-pull-through--femenino--auto-a45d150293dc.webp"
     },
     {
       "id": "rack-pull",
       "name": "Rack Pull",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "rack-pull--femenino--auto-1df8ffe0c022.webp"
     },
     {
       "id": "reverse-plank",
       "name": "Reverse Plank",
       "group": "GLÚTEOS · FEMORALES",
-      "status": "pending",
-      "file": null
+      "status": "ready",
+      "file": "reverse-plank--femenino--auto-6572350be1cf.webp"
     },
     {
       "id": "side-plank-leg-raise",
